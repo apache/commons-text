@@ -80,8 +80,8 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
 
         final double jaro = score(left, right);
         final int cl = commonPrefixLength(left, right);
-        final double matchScore = Math.round(jaro + (DEFAULT_SCALING_FACTOR
-                * cl * (1.0 - jaro)) * 100.0) / 100.0;
+        final double matchScore = Math.round((jaro + (DEFAULT_SCALING_FACTOR
+                * cl * (1.0 - jaro))) *100.0)/100.0;
 
         return matchScore;
     }
