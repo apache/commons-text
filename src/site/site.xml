@@ -23,7 +23,7 @@
     </bannerRight>
 
     <body>
-        <menu name="Lang">
+        <menu name="Text">
             <item name="Overview"                 href="/index.html"/>
             <item name="Download"                 href="/download_commons-text.cgi"/>
             <item name="Users guide"              href="/userguide.html"/>
