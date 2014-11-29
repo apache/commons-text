@@ -24,7 +24,7 @@ import org.junit.Test;
 /**
  * Unit tests for {@link org.apache.commons.text.LevenshteinDistance}.
  */
-public class TestLevenshteinDistance {
+public class LevenshteinDistanceTest {
 
     private static LevenshteinDistance distance;
 

@@ -26,7 +26,7 @@ import org.junit.Test;
 /**
  * Unit tests for {@link org.apache.commons.text.FuzzyDistance}.
  */
-public class TestFuzzyDistance {
+public class FuzzyDistanceTest {
 
     private static FuzzyDistance distance;
 
