@@ -54,6 +54,11 @@
       <id>britter</id>
       <email>britter@apache.org</email>
     </developer>
+    <developer>
+      <name>Bruno P. Kinoshita</name>
+      <id>kinow</id>
+      <email>kinow@apache.org</email>
+    </developer>
   </developers>
   <contributors>
 
