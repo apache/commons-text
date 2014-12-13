@@ -49,20 +49,20 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
      * </p>
      *
      * <pre>
-     * StringUtils.getJaroWinklerDistance(null, null)          = IllegalArgumentException
-     * StringUtils.getJaroWinklerDistance("","")               = 0.0
-     * StringUtils.getJaroWinklerDistance("","a")              = 0.0
-     * StringUtils.getJaroWinklerDistance("aaapppp", "")       = 0.0
-     * StringUtils.getJaroWinklerDistance("frog", "fog")       = 0.93
-     * StringUtils.getJaroWinklerDistance("fly", "ant")        = 0.0
-     * StringUtils.getJaroWinklerDistance("elephant", "hippo") = 0.44
-     * StringUtils.getJaroWinklerDistance("hippo", "elephant") = 0.44
-     * StringUtils.getJaroWinklerDistance("hippo", "zzzzzzzz") = 0.0
-     * StringUtils.getJaroWinklerDistance("hello", "hallo")    = 0.88
-     * StringUtils.getJaroWinklerDistance("ABC Corporation", "ABC Corp") = 0.91
-     * StringUtils.getJaroWinklerDistance("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.93
-     * StringUtils.getJaroWinklerDistance("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.94
-     * StringUtils.getJaroWinklerDistance("PENNSYLVANIA", "PENNCISYLVNIA")    = 0.9
+     * distance.getJaroWinklerDistance(null, null)          = IllegalArgumentException
+     * distance.getJaroWinklerDistance("","")               = 0.0
+     * distance.getJaroWinklerDistance("","a")              = 0.0
+     * distance.getJaroWinklerDistance("aaapppp", "")       = 0.0
+     * distance.getJaroWinklerDistance("frog", "fog")       = 0.93
+     * distance.getJaroWinklerDistance("fly", "ant")        = 0.0
+     * distance.getJaroWinklerDistance("elephant", "hippo") = 0.44
+     * distance.getJaroWinklerDistance("hippo", "elephant") = 0.44
+     * distance.getJaroWinklerDistance("hippo", "zzzzzzzz") = 0.0
+     * distance.getJaroWinklerDistance("hello", "hallo")    = 0.88
+     * distance.getJaroWinklerDistance("ABC Corporation", "ABC Corp") = 0.91
+     * distance.getJaroWinklerDistance("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.93
+     * distance.getJaroWinklerDistance("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.94
+     * distance.getJaroWinklerDistance("PENNSYLVANIA", "PENNCISYLVNIA")    = 0.9
      * </pre>
      *
      * @param left the first String, must not be null
@@ -85,9 +85,6 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
 
         return matchScore;
     }
-
-    // TODO: we can move these methods to a Util class, keep them here,
-    // create a common abstract class, shade lang-3.3...
 
     /**
      * Calculates the number of characters from the beginning of the strings
@@ -118,30 +115,29 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
      * </p>
      *
      * <pre>
-     * StringUtils.getCommonPrefix(null) = ""
-     * StringUtils.getCommonPrefix(new String[] {}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"abc"}) = "abc"
-     * StringUtils.getCommonPrefix(new String[] {null, null}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"", ""}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"", null}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"abc", null, null}) = ""
-     * StringUtils.getCommonPrefix(new String[] {null, null, "abc"}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"", "abc"}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"abc", ""}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"abc", "abc"}) = "abc"
-     * StringUtils.getCommonPrefix(new String[] {"abc", "a"}) = "a"
-     * StringUtils.getCommonPrefix(new String[] {"ab", "abxyz"}) = "ab"
-     * StringUtils.getCommonPrefix(new String[] {"abcde", "abxyz"}) = "ab"
-     * StringUtils.getCommonPrefix(new String[] {"abcde", "xyz"}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"xyz", "abcde"}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"i am a machine", "i am a robot"}) = "i am a "
+     * getCommonPrefix(null) = ""
+     * getCommonPrefix(new String[] {}) = ""
+     * getCommonPrefix(new String[] {"abc"}) = "abc"
+     * getCommonPrefix(new String[] {null, null}) = ""
+     * getCommonPrefix(new String[] {"", ""}) = ""
+     * getCommonPrefix(new String[] {"", null}) = ""
+     * getCommonPrefix(new String[] {"abc", null, null}) = ""
+     * getCommonPrefix(new String[] {null, null, "abc"}) = ""
+     * getCommonPrefix(new String[] {"", "abc"}) = ""
+     * getCommonPrefix(new String[] {"abc", ""}) = ""
+     * getCommonPrefix(new String[] {"abc", "abc"}) = "abc"
+     * getCommonPrefix(new String[] {"abc", "a"}) = "a"
+     * getCommonPrefix(new String[] {"ab", "abxyz"}) = "ab"
+     * getCommonPrefix(new String[] {"abcde", "abxyz"}) = "ab"
+     * getCommonPrefix(new String[] {"abcde", "xyz"}) = ""
+     * getCommonPrefix(new String[] {"xyz", "abcde"}) = ""
+     * getCommonPrefix(new String[] {"i am a machine", "i am a robot"}) = "i am a "
      * </pre>
      *
      * @param strs array of String objects, entries may be null
      * @return the initial sequence of characters that are common to all Strings
      *         in the array; empty String if the array is null, the elements are
      *         all null or if there is no common prefix.
-     * @since 2.4
      */
     public static String getCommonPrefix(final String... strs) {
         if (strs == null || strs.length == 0) {
@@ -249,31 +245,28 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
      * </p>
      *
      * <pre>
-     * StringUtils.indexOfDifference(null) = -1
-     * StringUtils.indexOfDifference(new String[] {}) = -1
-     * StringUtils.indexOfDifference(new String[] {"abc"}) = -1
-     * StringUtils.indexOfDifference(new String[] {null, null}) = -1
-     * StringUtils.indexOfDifference(new String[] {"", ""}) = -1
-     * StringUtils.indexOfDifference(new String[] {"", null}) = 0
-     * StringUtils.indexOfDifference(new String[] {"abc", null, null}) = 0
-     * StringUtils.indexOfDifference(new String[] {null, null, "abc"}) = 0
-     * StringUtils.indexOfDifference(new String[] {"", "abc"}) = 0
-     * StringUtils.indexOfDifference(new String[] {"abc", ""}) = 0
-     * StringUtils.indexOfDifference(new String[] {"abc", "abc"}) = -1
-     * StringUtils.indexOfDifference(new String[] {"abc", "a"}) = 1
-     * StringUtils.indexOfDifference(new String[] {"ab", "abxyz"}) = 2
-     * StringUtils.indexOfDifference(new String[] {"abcde", "abxyz"}) = 2
-     * StringUtils.indexOfDifference(new String[] {"abcde", "xyz"}) = 0
-     * StringUtils.indexOfDifference(new String[] {"xyz", "abcde"}) = 0
-     * StringUtils.indexOfDifference(new String[] {"i am a machine", "i am a robot"}) = 7
+     * distance.indexOfDifference(null) = -1
+     * distance.indexOfDifference(new String[] {}) = -1
+     * distance.indexOfDifference(new String[] {"abc"}) = -1
+     * distance.indexOfDifference(new String[] {null, null}) = -1
+     * distance.indexOfDifference(new String[] {"", ""}) = -1
+     * distance.indexOfDifference(new String[] {"", null}) = 0
+     * distance.indexOfDifference(new String[] {"abc", null, null}) = 0
+     * distance.indexOfDifference(new String[] {null, null, "abc"}) = 0
+     * distance.indexOfDifference(new String[] {"", "abc"}) = 0
+     * distance.indexOfDifference(new String[] {"abc", ""}) = 0
+     * distance.indexOfDifference(new String[] {"abc", "abc"}) = -1
+     * distance.indexOfDifference(new String[] {"abc", "a"}) = 1
+     * distance.indexOfDifference(new String[] {"ab", "abxyz"}) = 2
+     * distance.indexOfDifference(new String[] {"abcde", "abxyz"}) = 2
+     * distance.indexOfDifference(new String[] {"abcde", "xyz"}) = 0
+     * distance.indexOfDifference(new String[] {"xyz", "abcde"}) = 0
+     * distance.indexOfDifference(new String[] {"i am a machine", "i am a robot"}) = 7
      * </pre>
      *
      * @param css array of CharSequences, entries may be null
      * @return the index where the strings begin to differ; -1 if they are all
      *         equal
-     * @since 2.4
-     * @since 3.0 Changed signature from indexOfDifference(String...) to
-     *        indexOfDifference(CharSequence...)
      */
     protected static int indexOfDifference(final CharSequence... css) {
         if (css == null || css.length <= 1) {

@@ -23,6 +23,7 @@
 
   <release version="1.0" date="tba" description="tba">
     <action issue="SANDBOX-485" type="add" dev="kinow">Add Hamming distance</action>
+    <action issue="SANDBOX-483" type="add" dev="kinow" due-to="britter">Incorporate String algorithms from Commons Lang</action>
   </release>
 
   </body>

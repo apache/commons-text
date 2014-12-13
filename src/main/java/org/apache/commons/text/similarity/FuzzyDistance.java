@@ -26,6 +26,10 @@ import java.util.Locale;
  * indicates a higher similarity.
  * </p>
  *
+ * <p>
+ * This code has been adapted from Apache Commons Lang 3.3.
+ * </p>
+ *
  * @since 1.0
  */
 public class FuzzyDistance implements StringMetric<Integer> {
@@ -54,14 +58,14 @@ public class FuzzyDistance implements StringMetric<Integer> {
      * </p>
      *
      * <pre>
-     * StringUtils.getFuzzyDistance(null, null, null)                                    = IllegalArgumentException
-     * StringUtils.getFuzzyDistance("", "", Locale.ENGLISH)                              = 0
-     * StringUtils.getFuzzyDistance("Workshop", "b", Locale.ENGLISH)                     = 0
-     * StringUtils.getFuzzyDistance("Room", "o", Locale.ENGLISH)                         = 1
-     * StringUtils.getFuzzyDistance("Workshop", "w", Locale.ENGLISH)                     = 1
-     * StringUtils.getFuzzyDistance("Workshop", "ws", Locale.ENGLISH)                    = 2
-     * StringUtils.getFuzzyDistance("Workshop", "wo", Locale.ENGLISH)                    = 4
-     * StringUtils.getFuzzyDistance("Apache Software Foundation", "asf", Locale.ENGLISH) = 3
+     * distance.getFuzzyDistance(null, null, null)                                    = IllegalArgumentException
+     * distance.getFuzzyDistance("", "", Locale.ENGLISH)                              = 0
+     * distance.getFuzzyDistance("Workshop", "b", Locale.ENGLISH)                     = 0
+     * distance.getFuzzyDistance("Room", "o", Locale.ENGLISH)                         = 1
+     * distance.getFuzzyDistance("Workshop", "w", Locale.ENGLISH)                     = 1
+     * distance.getFuzzyDistance("Workshop", "ws", Locale.ENGLISH)                    = 2
+     * distance.getFuzzyDistance("Workshop", "wo", Locale.ENGLISH)                    = 4
+     * distance.getFuzzyDistance("Apache Software Foundation", "asf", Locale.ENGLISH) = 3
      * </pre>
      *
      * @param term a full term that should be matched against, must not be null

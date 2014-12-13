@@ -59,17 +59,17 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * </p>
      *
      * <pre>
-     * StringUtils.getLevenshteinDistance(null, *)             = IllegalArgumentException
-     * StringUtils.getLevenshteinDistance(*, null)             = IllegalArgumentException
-     * StringUtils.getLevenshteinDistance("","")               = 0
-     * StringUtils.getLevenshteinDistance("","a")              = 1
-     * StringUtils.getLevenshteinDistance("aaapppp", "")       = 7
-     * StringUtils.getLevenshteinDistance("frog", "fog")       = 1
-     * StringUtils.getLevenshteinDistance("fly", "ant")        = 3
-     * StringUtils.getLevenshteinDistance("elephant", "hippo") = 7
-     * StringUtils.getLevenshteinDistance("hippo", "elephant") = 7
-     * StringUtils.getLevenshteinDistance("hippo", "zzzzzzzz") = 8
-     * StringUtils.getLevenshteinDistance("hello", "hallo")    = 1
+     * distance.getLevenshteinDistance(null, *)             = IllegalArgumentException
+     * distance.getLevenshteinDistance(*, null)             = IllegalArgumentException
+     * distance.getLevenshteinDistance("","")               = 0
+     * distance.getLevenshteinDistance("","a")              = 1
+     * distance.getLevenshteinDistance("aaapppp", "")       = 7
+     * distance.getLevenshteinDistance("frog", "fog")       = 1
+     * distance.getLevenshteinDistance("fly", "ant")        = 3
+     * distance.getLevenshteinDistance("elephant", "hippo") = 7
+     * distance.getLevenshteinDistance("hippo", "elephant") = 7
+     * distance.getLevenshteinDistance("hippo", "zzzzzzzz") = 8
+     * distance.getLevenshteinDistance("hello", "hallo")    = 1
      * </pre>
      *
      * @param left the first string, must not be null
@@ -103,17 +103,17 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * </p>
      *
      * <pre>
-     * StringUtils.getLevenshteinDistance(null, *, *)             = IllegalArgumentException
-     * StringUtils.getLevenshteinDistance(*, null, *)             = IllegalArgumentException
-     * StringUtils.getLevenshteinDistance(*, *, -1)               = IllegalArgumentException
-     * StringUtils.getLevenshteinDistance("","", 0)               = 0
-     * StringUtils.getLevenshteinDistance("aaapppp", "", 8)       = 7
-     * StringUtils.getLevenshteinDistance("aaapppp", "", 7)       = 7
-     * StringUtils.getLevenshteinDistance("aaapppp", "", 6))      = -1
-     * StringUtils.getLevenshteinDistance("elephant", "hippo", 7) = 7
-     * StringUtils.getLevenshteinDistance("elephant", "hippo", 6) = -1
-     * StringUtils.getLevenshteinDistance("hippo", "elephant", 7) = 7
-     * StringUtils.getLevenshteinDistance("hippo", "elephant", 6) = -1
+     * distance.getLevenshteinDistance(null, *, *)             = IllegalArgumentException
+     * distance.getLevenshteinDistance(*, null, *)             = IllegalArgumentException
+     * distance.getLevenshteinDistance(*, *, -1)               = IllegalArgumentException
+     * distance.getLevenshteinDistance("","", 0)               = 0
+     * distance.getLevenshteinDistance("aaapppp", "", 8)       = 7
+     * distance.getLevenshteinDistance("aaapppp", "", 7)       = 7
+     * distance.getLevenshteinDistance("aaapppp", "", 6))      = -1
+     * distance.getLevenshteinDistance("elephant", "hippo", 7) = 7
+     * distance.getLevenshteinDistance("elephant", "hippo", 6) = -1
+     * distance.getLevenshteinDistance("hippo", "elephant", 7) = 7
+     * distance.getLevenshteinDistance("hippo", "elephant", 6) = -1
      * </pre>
      *
      * @param left the first string, must not be null
