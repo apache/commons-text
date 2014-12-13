@@ -22,6 +22,7 @@
   <body>
 
   <release version="1.0" date="tba" description="tba">
+    <action issue="SANDBOX-485" type="add" dev="kinow">Add Hamming distance</action>
   </release>
 
   </body>
