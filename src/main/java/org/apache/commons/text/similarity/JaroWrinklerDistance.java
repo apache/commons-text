@@ -17,6 +17,8 @@
 package org.apache.commons.text.similarity;
 
 /**
+ * A similarity algorithm indicating the percentage of matched characters between two character sequences.
+ *
  * <p>
  * The Jaro measure is the weighted sum of percentage of matched characters
  * from each file and transposed characters. Winkler increased this measure
@@ -41,10 +43,8 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
     public static final int INDEX_NOT_FOUND = -1;
 
     /**
-     * <p>
      * Find the Jaro Winkler Distance which indicates the similarity score
-     * between two Strings.
-     * </p>
+     * between two CharSequences.
      *
      * <pre>
      * distance.getJaroWinklerDistance(null, null)          = IllegalArgumentException
@@ -102,10 +102,8 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
     }
 
     /**
-     * <p>
      * Compares all Strings in an array and returns the initial sequence of
      * characters that is common to all of them.
-     * </p>
      *
      * <p>
      * For example,
@@ -232,10 +230,8 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
     }
 
     /**
-     * <p>
      * Compares all CharSequences in an array and returns the index at which the
      * CharSequences begin to differ.
-     * </p>
      *
      * <p>
      * For example,
