@@ -27,7 +27,6 @@ package org.apache.commons.text.similarity;
  * </p>
  *
  * @param <R> return type of the edit distance
- * @since 1.0
  */
 public interface StringMetric<R> {
 

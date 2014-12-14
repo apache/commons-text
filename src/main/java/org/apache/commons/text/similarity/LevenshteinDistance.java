@@ -26,8 +26,6 @@ import java.util.Arrays;
  * <p>
  * This code has been adapted from Apache Commons Lang 3.3.
  * </p>
- *
- * @since 1.0
  */
 public class LevenshteinDistance implements StringMetric<Integer> {
 
