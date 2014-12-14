@@ -19,8 +19,12 @@ package org.apache.commons.text.similarity;
 import java.util.Arrays;
 
 /**
+ * An algorithm for measuring the difference between two character sequences.
+ *
  * <p>
- * A string metric for measuring the difference between two sequences.
+ * This is the number of changes needed to change one sequence into another,
+ * where each change is a single character modification (deletion, insertion
+ * or substitution).
  * </p>
  *
  * <p>
@@ -30,15 +34,9 @@ import java.util.Arrays;
 public class LevenshteinDistance implements StringMetric<Integer> {
 
     /**
-     * <p>
      * Find the Levenshtein distance between two Strings.
-     * </p>
      *
-     * <p>
-     * This is the number of changes needed to change one String into another,
-     * where each change is a single character modification (deletion, insertion
-     * or substitution).
-     * </p>
+     * <p>A higher score indicates a greater distance.</p>
      *
      * <p>
      * The previous implementation of the Levenshtein distance algorithm was
@@ -81,16 +79,8 @@ public class LevenshteinDistance implements StringMetric<Integer> {
     }
 
     /**
-     * <p>
-     * Find the Levenshtein distance between two Strings if it's less than or
+     * Find the Levenshtein distance between two CharSequences if it's less than or
      * equal to a given threshold.
-     * </p>
-     *
-     * <p>
-     * This is the number of changes needed to change one String into another,
-     * where each change is a single character modification (deletion, insertion
-     * or substitution).
-     * </p>
      *
      * <p>
      * This implementation follows from Algorithms on Strings, Trees and
