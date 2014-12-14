@@ -17,27 +17,26 @@
 package org.apache.commons.text.similarity;
 
 /**
- * <p>
  * The hamming distance between two strings of equal length is the number of
  * positions at which the corresponding symbols are different.
- * </p>
  *
  * <p>
- * For further explanation about the hamming distance, take a look at its
+ * For further explanation about the Hamming Distance, take a look at its
  * Wikipedia page at http://en.wikipedia.org/wiki/Hamming_distance.
  * </p>
- *
- * @since 1.0
  */
 public class HammingDistance implements StringMetric<Integer> {
 
     /**
-     * <p>Find the hamming distance between two strings with the same
-     * length.</p>
+     * Find the Hamming Distance between two strings with the same
+     * length.
      *
      * <p>The distance starts with zero, and for each occurrence of a
      * different character in either String, it increments the distance
      * by 1, and finally return its value.</p>
+     *
+     * <p>Since the Hamming Distance can only be calculated between strings of equal length, input of different lengths
+     * will throw IllegalArgumentException</p>
      *
      * <pre>
      * distance.compare("", "")               = 0
@@ -47,10 +46,10 @@ public class HammingDistance implements StringMetric<Integer> {
      * distance.compare("karolin", "kerstin"  = 3
      * </pre>
      *
-     * @param left the first string, must not be null
-     * @param right the second string, must not be null
+     * @param left the first CharSequence, must not be null
+     * @param right the second CharSequence, must not be null
      * @return distance
-     * @throws IllegalArgumentException if either String input {@code null} or
+     * @throws IllegalArgumentException if either input is {@code null} or
      *             if they do not have the same length
      */
     @Override

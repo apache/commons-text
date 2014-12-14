@@ -17,6 +17,8 @@
 package org.apache.commons.text.similarity;
 
 /**
+ * A similarity algorithm indicating the percentage of matched characters between two character sequences.
+ *
  * <p>
  * The Jaro measure is the weighted sum of percentage of matched characters
  * from each file and transposed characters. Winkler increased this measure
@@ -32,8 +34,6 @@ package org.apache.commons.text.similarity;
  * <p>
  * This code has been adapted from Apache Commons Lang 3.3.
  * </p>
- *
- * @since 1.0
  */
 public class JaroWrinklerDistance implements StringMetric<Double> {
 
@@ -43,26 +43,24 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
     public static final int INDEX_NOT_FOUND = -1;
 
     /**
-     * <p>
      * Find the Jaro Winkler Distance which indicates the similarity score
-     * between two Strings.
-     * </p>
+     * between two CharSequences.
      *
      * <pre>
-     * distance.getJaroWinklerDistance(null, null)          = IllegalArgumentException
-     * distance.getJaroWinklerDistance("","")               = 0.0
-     * distance.getJaroWinklerDistance("","a")              = 0.0
-     * distance.getJaroWinklerDistance("aaapppp", "")       = 0.0
-     * distance.getJaroWinklerDistance("frog", "fog")       = 0.93
-     * distance.getJaroWinklerDistance("fly", "ant")        = 0.0
-     * distance.getJaroWinklerDistance("elephant", "hippo") = 0.44
-     * distance.getJaroWinklerDistance("hippo", "elephant") = 0.44
-     * distance.getJaroWinklerDistance("hippo", "zzzzzzzz") = 0.0
-     * distance.getJaroWinklerDistance("hello", "hallo")    = 0.88
-     * distance.getJaroWinklerDistance("ABC Corporation", "ABC Corp") = 0.91
-     * distance.getJaroWinklerDistance("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.93
-     * distance.getJaroWinklerDistance("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.94
-     * distance.getJaroWinklerDistance("PENNSYLVANIA", "PENNCISYLVNIA")    = 0.9
+     * distance.compare(null, null)          = IllegalArgumentException
+     * distance.compare("","")               = 0.0
+     * distance.compare("","a")              = 0.0
+     * distance.compare("aaapppp", "")       = 0.0
+     * distance.compare("frog", "fog")       = 0.93
+     * distance.compare("fly", "ant")        = 0.0
+     * distance.compare("elephant", "hippo") = 0.44
+     * distance.compare("hippo", "elephant") = 0.44
+     * distance.compare("hippo", "zzzzzzzz") = 0.0
+     * distance.compare("hello", "hallo")    = 0.88
+     * distance.compare("ABC Corporation", "ABC Corp") = 0.91
+     * distance.compare("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.93
+     * distance.compare("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.94
+     * distance.compare("PENNSYLVANIA", "PENNCISYLVNIA")    = 0.9
      * </pre>
      *
      * @param left the first String, must not be null
@@ -104,10 +102,8 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
     }
 
     /**
-     * <p>
      * Compares all Strings in an array and returns the initial sequence of
      * characters that is common to all of them.
-     * </p>
      *
      * <p>
      * For example,
@@ -234,10 +230,8 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
     }
 
     /**
-     * <p>
      * Compares all CharSequences in an array and returns the index at which the
      * CharSequences begin to differ.
-     * </p>
      *
      * <p>
      * For example,

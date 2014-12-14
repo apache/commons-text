@@ -19,18 +19,17 @@ package org.apache.commons.text.similarity;
 import java.util.Locale;
 
 /**
+ * A matching algorithm that is similar to the searching algorithms implemented in editors such
+ * as Sublime Text, TextMate, Atom and others.
+ *
  * <p>
- * This string matching algorithm is similar to the algorithms of editors such
- * as Sublime Text, TextMate, Atom and others. One point is given for every
- * matched character. Subsequent matches yield two bonus points. A higher score
+ * One point is given for every matched character. Subsequent matches yield two bonus points. A higher score
  * indicates a higher similarity.
  * </p>
  *
  * <p>
  * This code has been adapted from Apache Commons Lang 3.3.
  * </p>
- *
- * @since 1.0
  */
 public class FuzzyDistance implements StringMetric<Integer> {
 
@@ -58,14 +57,14 @@ public class FuzzyDistance implements StringMetric<Integer> {
      * </p>
      *
      * <pre>
-     * distance.getFuzzyDistance(null, null, null)                                    = IllegalArgumentException
-     * distance.getFuzzyDistance("", "", Locale.ENGLISH)                              = 0
-     * distance.getFuzzyDistance("Workshop", "b", Locale.ENGLISH)                     = 0
-     * distance.getFuzzyDistance("Room", "o", Locale.ENGLISH)                         = 1
-     * distance.getFuzzyDistance("Workshop", "w", Locale.ENGLISH)                     = 1
-     * distance.getFuzzyDistance("Workshop", "ws", Locale.ENGLISH)                    = 2
-     * distance.getFuzzyDistance("Workshop", "wo", Locale.ENGLISH)                    = 4
-     * distance.getFuzzyDistance("Apache Software Foundation", "asf", Locale.ENGLISH) = 3
+     * distance.compare(null, null, null)                                    = IllegalArgumentException
+     * distance.compare("", "", Locale.ENGLISH)                              = 0
+     * distance.compare("Workshop", "b", Locale.ENGLISH)                     = 0
+     * distance.compare("Room", "o", Locale.ENGLISH)                         = 1
+     * distance.compare("Workshop", "w", Locale.ENGLISH)                     = 1
+     * distance.compare("Workshop", "ws", Locale.ENGLISH)                    = 2
+     * distance.compare("Workshop", "wo", Locale.ENGLISH)                    = 4
+     * distance.compare("Apache Software Foundation", "asf", Locale.ENGLISH) = 3
      * </pre>
      *
      * @param term a full term that should be matched against, must not be null

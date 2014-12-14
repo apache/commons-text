@@ -19,28 +19,24 @@ package org.apache.commons.text.similarity;
 import java.util.Arrays;
 
 /**
+ * An algorithm for measuring the difference between two character sequences.
+ *
  * <p>
- * A string metric for measuring the difference between two sequences.
+ * This is the number of changes needed to change one sequence into another,
+ * where each change is a single character modification (deletion, insertion
+ * or substitution).
  * </p>
  *
  * <p>
  * This code has been adapted from Apache Commons Lang 3.3.
  * </p>
- *
- * @since 1.0
  */
 public class LevenshteinDistance implements StringMetric<Integer> {
 
     /**
-     * <p>
      * Find the Levenshtein distance between two Strings.
-     * </p>
      *
-     * <p>
-     * This is the number of changes needed to change one String into another,
-     * where each change is a single character modification (deletion, insertion
-     * or substitution).
-     * </p>
+     * <p>A higher score indicates a greater distance.</p>
      *
      * <p>
      * The previous implementation of the Levenshtein distance algorithm was
@@ -59,17 +55,17 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * </p>
      *
      * <pre>
-     * distance.getLevenshteinDistance(null, *)             = IllegalArgumentException
-     * distance.getLevenshteinDistance(*, null)             = IllegalArgumentException
-     * distance.getLevenshteinDistance("","")               = 0
-     * distance.getLevenshteinDistance("","a")              = 1
-     * distance.getLevenshteinDistance("aaapppp", "")       = 7
-     * distance.getLevenshteinDistance("frog", "fog")       = 1
-     * distance.getLevenshteinDistance("fly", "ant")        = 3
-     * distance.getLevenshteinDistance("elephant", "hippo") = 7
-     * distance.getLevenshteinDistance("hippo", "elephant") = 7
-     * distance.getLevenshteinDistance("hippo", "zzzzzzzz") = 8
-     * distance.getLevenshteinDistance("hello", "hallo")    = 1
+     * distance.compare(null, *)             = IllegalArgumentException
+     * distance.compare(*, null)             = IllegalArgumentException
+     * distance.compare("","")               = 0
+     * distance.compare("","a")              = 1
+     * distance.compare("aaapppp", "")       = 7
+     * distance.compare("frog", "fog")       = 1
+     * distance.compare("fly", "ant")        = 3
+     * distance.compare("elephant", "hippo") = 7
+     * distance.compare("hippo", "elephant") = 7
+     * distance.compare("hippo", "zzzzzzzz") = 8
+     * distance.compare("hello", "hallo")    = 1
      * </pre>
      *
      * @param left the first string, must not be null
@@ -83,16 +79,8 @@ public class LevenshteinDistance implements StringMetric<Integer> {
     }
 
     /**
-     * <p>
-     * Find the Levenshtein distance between two Strings if it's less than or
+     * Find the Levenshtein distance between two CharSequences if it's less than or
      * equal to a given threshold.
-     * </p>
-     *
-     * <p>
-     * This is the number of changes needed to change one String into another,
-     * where each change is a single character modification (deletion, insertion
-     * or substitution).
-     * </p>
      *
      * <p>
      * This implementation follows from Algorithms on Strings, Trees and
@@ -103,17 +91,17 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * </p>
      *
      * <pre>
-     * distance.getLevenshteinDistance(null, *, *)             = IllegalArgumentException
-     * distance.getLevenshteinDistance(*, null, *)             = IllegalArgumentException
-     * distance.getLevenshteinDistance(*, *, -1)               = IllegalArgumentException
-     * distance.getLevenshteinDistance("","", 0)               = 0
-     * distance.getLevenshteinDistance("aaapppp", "", 8)       = 7
-     * distance.getLevenshteinDistance("aaapppp", "", 7)       = 7
-     * distance.getLevenshteinDistance("aaapppp", "", 6))      = -1
-     * distance.getLevenshteinDistance("elephant", "hippo", 7) = 7
-     * distance.getLevenshteinDistance("elephant", "hippo", 6) = -1
-     * distance.getLevenshteinDistance("hippo", "elephant", 7) = 7
-     * distance.getLevenshteinDistance("hippo", "elephant", 6) = -1
+     * distance.compare(null, *, *)             = IllegalArgumentException
+     * distance.compare(*, null, *)             = IllegalArgumentException
+     * distance.compare(*, *, -1)               = IllegalArgumentException
+     * distance.compare("","", 0)               = 0
+     * distance.compare("aaapppp", "", 8)       = 7
+     * distance.compare("aaapppp", "", 7)       = 7
+     * distance.compare("aaapppp", "", 6))      = -1
+     * distance.compare("elephant", "hippo", 7) = 7
+     * distance.compare("elephant", "hippo", 6) = -1
+     * distance.compare("hippo", "elephant", 7) = 7
+     * distance.compare("hippo", "elephant", 6) = -1
      * </pre>
      *
      * @param left the first string, must not be null
