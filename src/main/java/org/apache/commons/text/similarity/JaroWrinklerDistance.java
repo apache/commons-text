@@ -47,20 +47,20 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
      * between two CharSequences.
      *
      * <pre>
-     * distance.getJaroWinklerDistance(null, null)          = IllegalArgumentException
-     * distance.getJaroWinklerDistance("","")               = 0.0
-     * distance.getJaroWinklerDistance("","a")              = 0.0
-     * distance.getJaroWinklerDistance("aaapppp", "")       = 0.0
-     * distance.getJaroWinklerDistance("frog", "fog")       = 0.93
-     * distance.getJaroWinklerDistance("fly", "ant")        = 0.0
-     * distance.getJaroWinklerDistance("elephant", "hippo") = 0.44
-     * distance.getJaroWinklerDistance("hippo", "elephant") = 0.44
-     * distance.getJaroWinklerDistance("hippo", "zzzzzzzz") = 0.0
-     * distance.getJaroWinklerDistance("hello", "hallo")    = 0.88
-     * distance.getJaroWinklerDistance("ABC Corporation", "ABC Corp") = 0.91
-     * distance.getJaroWinklerDistance("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.93
-     * distance.getJaroWinklerDistance("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.94
-     * distance.getJaroWinklerDistance("PENNSYLVANIA", "PENNCISYLVNIA")    = 0.9
+     * distance.compare(null, null)          = IllegalArgumentException
+     * distance.compare("","")               = 0.0
+     * distance.compare("","a")              = 0.0
+     * distance.compare("aaapppp", "")       = 0.0
+     * distance.compare("frog", "fog")       = 0.93
+     * distance.compare("fly", "ant")        = 0.0
+     * distance.compare("elephant", "hippo") = 0.44
+     * distance.compare("hippo", "elephant") = 0.44
+     * distance.compare("hippo", "zzzzzzzz") = 0.0
+     * distance.compare("hello", "hallo")    = 0.88
+     * distance.compare("ABC Corporation", "ABC Corp") = 0.91
+     * distance.compare("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.93
+     * distance.compare("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.94
+     * distance.compare("PENNSYLVANIA", "PENNCISYLVNIA")    = 0.9
      * </pre>
      *
      * @param left the first String, must not be null

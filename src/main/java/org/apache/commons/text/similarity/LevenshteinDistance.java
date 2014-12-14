@@ -57,17 +57,17 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * </p>
      *
      * <pre>
-     * distance.getLevenshteinDistance(null, *)             = IllegalArgumentException
-     * distance.getLevenshteinDistance(*, null)             = IllegalArgumentException
-     * distance.getLevenshteinDistance("","")               = 0
-     * distance.getLevenshteinDistance("","a")              = 1
-     * distance.getLevenshteinDistance("aaapppp", "")       = 7
-     * distance.getLevenshteinDistance("frog", "fog")       = 1
-     * distance.getLevenshteinDistance("fly", "ant")        = 3
-     * distance.getLevenshteinDistance("elephant", "hippo") = 7
-     * distance.getLevenshteinDistance("hippo", "elephant") = 7
-     * distance.getLevenshteinDistance("hippo", "zzzzzzzz") = 8
-     * distance.getLevenshteinDistance("hello", "hallo")    = 1
+     * distance.compare(null, *)             = IllegalArgumentException
+     * distance.compare(*, null)             = IllegalArgumentException
+     * distance.compare("","")               = 0
+     * distance.compare("","a")              = 1
+     * distance.compare("aaapppp", "")       = 7
+     * distance.compare("frog", "fog")       = 1
+     * distance.compare("fly", "ant")        = 3
+     * distance.compare("elephant", "hippo") = 7
+     * distance.compare("hippo", "elephant") = 7
+     * distance.compare("hippo", "zzzzzzzz") = 8
+     * distance.compare("hello", "hallo")    = 1
      * </pre>
      *
      * @param left the first string, must not be null
@@ -101,17 +101,17 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * </p>
      *
      * <pre>
-     * distance.getLevenshteinDistance(null, *, *)             = IllegalArgumentException
-     * distance.getLevenshteinDistance(*, null, *)             = IllegalArgumentException
-     * distance.getLevenshteinDistance(*, *, -1)               = IllegalArgumentException
-     * distance.getLevenshteinDistance("","", 0)               = 0
-     * distance.getLevenshteinDistance("aaapppp", "", 8)       = 7
-     * distance.getLevenshteinDistance("aaapppp", "", 7)       = 7
-     * distance.getLevenshteinDistance("aaapppp", "", 6))      = -1
-     * distance.getLevenshteinDistance("elephant", "hippo", 7) = 7
-     * distance.getLevenshteinDistance("elephant", "hippo", 6) = -1
-     * distance.getLevenshteinDistance("hippo", "elephant", 7) = 7
-     * distance.getLevenshteinDistance("hippo", "elephant", 6) = -1
+     * distance.compare(null, *, *)             = IllegalArgumentException
+     * distance.compare(*, null, *)             = IllegalArgumentException
+     * distance.compare(*, *, -1)               = IllegalArgumentException
+     * distance.compare("","", 0)               = 0
+     * distance.compare("aaapppp", "", 8)       = 7
+     * distance.compare("aaapppp", "", 7)       = 7
+     * distance.compare("aaapppp", "", 6))      = -1
+     * distance.compare("elephant", "hippo", 7) = 7
+     * distance.compare("elephant", "hippo", 6) = -1
+     * distance.compare("hippo", "elephant", 7) = 7
+     * distance.compare("hippo", "elephant", 6) = -1
      * </pre>
      *
      * @param left the first string, must not be null
