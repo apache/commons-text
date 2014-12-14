@@ -1,17 +1,3 @@
-# Maven build files
-target
-*.log
-maven-eclipse.xml
-build.properties
+target/
 site-content
 
-# IntelliJ IDEA files
-.idea
-.iws
-*.iml
-*.ipr
-
-# Eclipse files
-.settings
-.classpath
-.project
