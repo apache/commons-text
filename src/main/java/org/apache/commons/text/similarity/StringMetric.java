@@ -17,27 +17,24 @@
 package org.apache.commons.text.similarity;
 
 /**
- * <p>
- * Marker interface for <a
- * href='http://en.wikipedia.org/wiki/String_metric'>String Metrics</a>
- * </p>
+ * Interface for <a
+ * href='http://en.wikipedia.org/wiki/String_metric'>String Metrics</a>.
  *
  * <p>
- * A string metric measures the distance between two text strings.
+ * A string metric measures the distance between two character sequences. The higher the distance, the lesser the
+ * similarity between the two character sequences.
  * </p>
  *
- * @param <R> return type of the edit distance
+ * @param <R> The type of score used by this StringMetric.
  */
 public interface StringMetric<R> {
 
     /**
-     * <p>
-     * Compares two strings.
-     * </p>
+     * Compares two CharSequences.
      *
-     * @param left the first string
-     * @param right the second string
-     * @return result distance
+     * @param left the first CharSequence
+     * @param right the second CharSequence
+     * @return the distance between to two CharSequences
      */
     R compare(CharSequence left, CharSequence right);
 
