@@ -19,10 +19,11 @@ package org.apache.commons.text.similarity;
 import java.util.Locale;
 
 /**
+ * A matching algorithm that is similar to the searching algorithms implemented in editors such
+ * as Sublime Text, TextMate, Atom and others.
+ *
  * <p>
- * This string matching algorithm is similar to the algorithms of editors such
- * as Sublime Text, TextMate, Atom and others. One point is given for every
- * matched character. Subsequent matches yield two bonus points. A higher score
+ * One point is given for every matched character. Subsequent matches yield two bonus points. A higher score
  * indicates a higher similarity.
  * </p>
  *
