@@ -1,3 +1,4 @@
+# Include only files generated during build, and avoid IDE specific files 
 target/
 site-content
 
