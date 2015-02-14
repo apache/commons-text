@@ -150,6 +150,10 @@
         <version>2.13</version>
         <configuration>
           <enableRulesSummary>false</enableRulesSummary>
+          <configLocation>${basedir}/src/main/resources/org/apache/commons/text/checkstyle.xml</configLocation>
+          <headerLocation>${basedir}/src/main/resources/org/apache/commons/text/license-header.txt</headerLocation>
+          <suppressionsLocation>${basedir}/src/main/resources/org/apache/commons/text/checkstyle-suppressions.xml</suppressionsLocation>
+          <suppressionsFileExpression>${basedir}/src/main/resources/org/apache/commons/text/checkstyle-suppressions.xml</suppressionsFileExpression>
         </configuration>
         <reportSets>
           <reportSet>
