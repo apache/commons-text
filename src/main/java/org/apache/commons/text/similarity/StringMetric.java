@@ -17,15 +17,14 @@
 package org.apache.commons.text.similarity;
 
 /**
- * Interface for <a
- * href='http://en.wikipedia.org/wiki/String_metric'>String Metrics</a>.
+ * Interface for <a href='http://en.wikipedia.org/wiki/String_metric'>String Metrics</a>.
  *
  * <p>
- * A string metric measures the distance between two character sequences. The higher the distance, the lesser the
- * similarity between the two character sequences.
+ * A string metric measures the similarity between two character sequences. Depending on
+ * the algorithm, higher values can mean closer strings, or more distant strings.
  * </p>
  *
- * @param <R> The type of score used by this StringMetric.
+ * @param <R> The type of similarity score unit used by this StringMetric.
  */
 public interface StringMetric<R> {
 
@@ -34,7 +33,7 @@ public interface StringMetric<R> {
      *
      * @param left the first CharSequence
      * @param right the second CharSequence
-     * @return the distance between to two CharSequences
+     * @return the similarity score between two CharSequences
      */
     R compare(CharSequence left, CharSequence right);
 
