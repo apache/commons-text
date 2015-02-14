@@ -24,52 +24,52 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.FuzzyDistance}.
+ * Unit tests for {@link org.apache.commons.text.FuzzyScore}.
  */
-public class FuzzyDistanceTest {
+public class FuzzyScoreTest {
 
-    private static FuzzyDistance distance;
+    private static FuzzyScore score;
 
     @BeforeClass
     public static void setUp() {
-        distance = new FuzzyDistance();
+        score = new FuzzyScore();
     }
 
     @Test
-    public void testGetFuzzyDistance() throws Exception {
-        assertEquals(0, (int) distance.compare("", "", Locale.ENGLISH));
+    public void testGetFuzzyScore() throws Exception {
+        assertEquals(0, (int) score.compare("", "", Locale.ENGLISH));
         assertEquals(0,
-                (int) distance.compare("Workshop", "b", Locale.ENGLISH));
+                (int) score.compare("Workshop", "b", Locale.ENGLISH));
         assertEquals(1,
-                (int) distance.compare("Room", "o", Locale.ENGLISH));
+                (int) score.compare("Room", "o", Locale.ENGLISH));
         assertEquals(1,
-                (int) distance.compare("Workshop", "w", Locale.ENGLISH));
+                (int) score.compare("Workshop", "w", Locale.ENGLISH));
         assertEquals(2,
-                (int) distance.compare("Workshop", "ws", Locale.ENGLISH));
+                (int) score.compare("Workshop", "ws", Locale.ENGLISH));
         assertEquals(4,
-                (int) distance.compare("Workshop", "wo", Locale.ENGLISH));
-        assertEquals(3, (int) distance.compare(
+                (int) score.compare("Workshop", "wo", Locale.ENGLISH));
+        assertEquals(3, (int) score.compare(
                 "Apache Software Foundation", "asf", Locale.ENGLISH));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetFuzzyDistance_NullNullNull() throws Exception {
-        distance.compare(null, null, null);
+    public void testGetFuzzyScore_NullNullNull() throws Exception {
+        score.compare(null, null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetFuzzyDistance_StringNullLoclae() throws Exception {
-        distance.compare(" ", null, Locale.ENGLISH);
+    public void testGetFuzzyScore_StringNullLoclae() throws Exception {
+        score.compare(" ", null, Locale.ENGLISH);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetFuzzyDistance_NullStringLocale() throws Exception {
-        distance.compare(null, "clear", Locale.ENGLISH);
+    public void testGetFuzzyScore_NullStringLocale() throws Exception {
+        score.compare(null, "clear", Locale.ENGLISH);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetFuzzyDistance_StringStringNull() throws Exception {
-        distance.compare(" ", "clear", null);
+    public void testGetFuzzyScore_StringStringNull() throws Exception {
+        score.compare(" ", "clear", null);
     }
 
 }

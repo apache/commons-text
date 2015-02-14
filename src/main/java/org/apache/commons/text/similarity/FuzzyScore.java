@@ -31,11 +31,11 @@ import java.util.Locale;
  * This code has been adapted from Apache Commons Lang 3.3.
  * </p>
  */
-public class FuzzyDistance implements StringMetric<Integer> {
+public class FuzzyScore implements StringMetric<Integer> {
 
     /**
      * <p>
-     * Find the Fuzzy Distance which indicates the similarity score between two
+     * Find the Fuzzy Score which indicates the similarity score between two
      * Strings. This method uses the default locale.
      * </p>
      *
@@ -52,19 +52,19 @@ public class FuzzyDistance implements StringMetric<Integer> {
 
     /**
      * <p>
-     * Find the Fuzzy Distance which indicates the similarity score between two
+     * Find the Fuzzy Score which indicates the similarity score between two
      * Strings.
      * </p>
      *
      * <pre>
-     * distance.compare(null, null, null)                                    = IllegalArgumentException
-     * distance.compare("", "", Locale.ENGLISH)                              = 0
-     * distance.compare("Workshop", "b", Locale.ENGLISH)                     = 0
-     * distance.compare("Room", "o", Locale.ENGLISH)                         = 1
-     * distance.compare("Workshop", "w", Locale.ENGLISH)                     = 1
-     * distance.compare("Workshop", "ws", Locale.ENGLISH)                    = 2
-     * distance.compare("Workshop", "wo", Locale.ENGLISH)                    = 4
-     * distance.compare("Apache Software Foundation", "asf", Locale.ENGLISH) = 3
+     * score.compare(null, null, null)                                    = IllegalArgumentException
+     * score.compare("", "", Locale.ENGLISH)                              = 0
+     * score.compare("Workshop", "b", Locale.ENGLISH)                     = 0
+     * score.compare("Room", "o", Locale.ENGLISH)                         = 1
+     * score.compare("Workshop", "w", Locale.ENGLISH)                     = 1
+     * score.compare("Workshop", "ws", Locale.ENGLISH)                    = 2
+     * score.compare("Workshop", "wo", Locale.ENGLISH)                    = 4
+     * score.compare("Apache Software Foundation", "asf", Locale.ENGLISH) = 3
      * </pre>
      *
      * @param term a full term that should be matched against, must not be null
