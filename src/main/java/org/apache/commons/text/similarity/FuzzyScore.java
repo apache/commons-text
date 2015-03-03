@@ -33,10 +33,35 @@ import java.util.Locale;
  */
 public class FuzzyScore implements StringMetric<Integer> {
 
+    public static final FuzzyScore DEFAULT_INSTANCE = new FuzzyScore();
+
+    private final Locale locale;
+
+    /*
+     * <p>
+     * This returns an instance that call {@link Locale#getLocale()}
+     * to get a {@link Locale} for each
+     * call to {@link #compare(CharSequence, CharSequence)}
+     * </p>
+     *
+     * @see {@link #getDefaultInstance()}
+     */
+    public FuzzyScore() {
+        this(null);
+    }
+
+    public FuzzyScore(final Locale locale) {
+        this.locale = locale;
+    }
+
     /**
      * <p>
      * Find the Fuzzy Score which indicates the similarity score between two
-     * Strings. This method uses the default locale.
+     * Strings.
+     * </p>
+     * <p>
+     * If this instance's {@link Locale} is null, the current default will be
+     * determined using {@link Locale#getDefault()}.
      * </p>
      *
      * @param term a full term that should be matched against, must not be null
@@ -47,7 +72,8 @@ public class FuzzyScore implements StringMetric<Integer> {
      */
     @Override
     public Integer compare(CharSequence term, CharSequence query) {
-        return compare(term, query, Locale.getDefault());
+        Locale locale = this.locale != null ? this.locale : Locale.getDefault();
+        return compare(term, query, locale);
     }
 
     /**
@@ -76,7 +102,7 @@ public class FuzzyScore implements StringMetric<Integer> {
      * @throws IllegalArgumentException if either String input {@code null} or
      *             Locale input {@code null}
      */
-    public Integer compare(CharSequence term, CharSequence query, Locale locale) {
+    private static int compare(CharSequence term, CharSequence query, Locale locale) {
         if (term == null || query == null) {
             throw new IllegalArgumentException("Strings must not be null");
         } else if (locale == null) {
@@ -128,6 +154,14 @@ public class FuzzyScore implements StringMetric<Integer> {
         }
 
         return score;
+    }
+
+    public static FuzzyScore getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Locale getLocale() {
+        return locale;
     }
 
 }

@@ -28,48 +28,44 @@ import org.junit.Test;
  */
 public class FuzzyScoreTest {
 
-    private static FuzzyScore score;
-
-    @BeforeClass
-    public static void setUp() {
-        score = new FuzzyScore();
-    }
-
     @Test
     public void testGetFuzzyScore() throws Exception {
-        assertEquals(0, (int) score.compare("", "", Locale.ENGLISH));
+        FuzzyScore score = new FuzzyScore(Locale.ENGLISH);
+
+        assertEquals(0, (int) score.compare("", ""));
         assertEquals(0,
-                (int) score.compare("Workshop", "b", Locale.ENGLISH));
+                (int) score.compare("Workshop", "b"));
         assertEquals(1,
-                (int) score.compare("Room", "o", Locale.ENGLISH));
+                (int) score.compare("Room", "o"));
         assertEquals(1,
-                (int) score.compare("Workshop", "w", Locale.ENGLISH));
+                (int) score.compare("Workshop", "w"));
         assertEquals(2,
-                (int) score.compare("Workshop", "ws", Locale.ENGLISH));
+                (int) score.compare("Workshop", "ws"));
         assertEquals(4,
-                (int) score.compare("Workshop", "wo", Locale.ENGLISH));
+                (int) score.compare("Workshop", "wo"));
         assertEquals(3, (int) score.compare(
-                "Apache Software Foundation", "asf", Locale.ENGLISH));
+                "Apache Software Foundation", "asf"));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetFuzzyScore_NullNullNull() throws Exception {
-        score.compare(null, null, null);
-    }
+    public void testGetFuzzyScore_StringNullLocale() throws Exception {
+        FuzzyScore score = new FuzzyScore(Locale.ENGLISH);
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetFuzzyScore_StringNullLoclae() throws Exception {
-        score.compare(" ", null, Locale.ENGLISH);
+        score.compare("not null", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetFuzzyScore_NullStringLocale() throws Exception {
-        score.compare(null, "clear", Locale.ENGLISH);
+        FuzzyScore score = new FuzzyScore(Locale.ENGLISH);
+
+        score.compare(null, "not null");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetFuzzyScore_StringStringNull() throws Exception {
-        score.compare(" ", "clear", null);
+    public void testGetFuzzyScore_NullNullLocale() throws Exception {
+        FuzzyScore score = new FuzzyScore(Locale.ENGLISH);
+
+        score.compare(null, null);
     }
 
 }
