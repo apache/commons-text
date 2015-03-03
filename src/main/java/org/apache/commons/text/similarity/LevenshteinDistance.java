@@ -93,16 +93,16 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * distance.compare("hello", "hallo")    = 1
      * </pre>
      *
-     * @param s  the first String, must not be null
-     * @param t  the second String, must not be null
+     * @param left the first string, must not be null
+     * @param right the second string, must not be null
      * @return result distance, or -1
      * @throws IllegalArgumentException if either String input {@code null}
      */
-    public Integer compare(CharSequence s, CharSequence t) {
+    public Integer compare(CharSequence left, CharSequence right) {
         if (threshold != null) {
-            return limitedCompare(s, t, threshold);
+            return limitedCompare(left, right, threshold);
         } else {
-            return unlimitedCompare(s, t);
+            return unlimitedCompare(left, right);
         }
     }
 
@@ -203,8 +203,8 @@ public class LevenshteinDistance implements StringMetric<Integer> {
          * some discussion.
          */
 
-        int n = left.length(); // length of s
-        int m = right.length(); // length of t
+        int n = left.length(); // length of left
+        int m = right.length(); // length of right
 
         // if one string is empty, the edit distance is necessarily the length
         // of the other
@@ -239,7 +239,7 @@ public class LevenshteinDistance implements StringMetric<Integer> {
 
         // iterates through t
         for (int j = 1; j <= m; j++) {
-            final char t_j = right.charAt(j - 1); // jth character of t
+            final char right_j = right.charAt(j - 1); // jth character of right
             d[0] = j;
 
             // compute stripe indices, constrain to array size
@@ -260,7 +260,7 @@ public class LevenshteinDistance implements StringMetric<Integer> {
 
             // iterates through [min, max] in s
             for (int i = min; i <= max; i++) {
-                if (left.charAt(i - 1) == t_j) {
+                if (left.charAt(i - 1) == right_j) {
                     // diagonally left and up
                     d[i] = p[i - 1];
                 } else {
@@ -312,13 +312,13 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * unlimitedCompare("hello", "hallo")    = 1
      * </pre>
      *
-     * @param s  the first String, must not be null
-     * @param t  the second String, must not be null
+     * @param left the first String, must not be null
+     * @param right the second String, must not be null
      * @return result distance, or -1
      * @throws IllegalArgumentException if either String input {@code null}
      */
-    private static int unlimitedCompare(CharSequence s, CharSequence t) {
-        if (s == null || t == null) {
+    private static int unlimitedCompare(CharSequence left, CharSequence right) {
+        if (left == null || right == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }
 
@@ -339,8 +339,8 @@ public class LevenshteinDistance implements StringMetric<Integer> {
            cause an out of memory condition when calculating the LD over two very large strings.
          */
 
-        int n = s.length(); // length of s
-        int m = t.length(); // length of t
+        int n = left.length(); // length of left
+        int m = right.length(); // length of right
 
         if (n == 0) {
             return m;
@@ -350,22 +350,22 @@ public class LevenshteinDistance implements StringMetric<Integer> {
 
         if (n > m) {
             // swap the input strings to consume less memory
-            final CharSequence tmp = s;
-            s = t;
-            t = tmp;
+            final CharSequence tmp = left;
+            left = right;
+            right = tmp;
             n = m;
-            m = t.length();
+            m = right.length();
         }
 
         int p[] = new int[n + 1]; //'previous' cost array, horizontally
         int d[] = new int[n + 1]; // cost array, horizontally
         int _d[]; //placeholder to assist in swapping p and d
 
-        // indexes into strings s and t
-        int i; // iterates through s
-        int j; // iterates through t
+        // indexes into strings left and right
+        int i; // iterates through left
+        int j; // iterates through right
 
-        char t_j; // jth character of t
+        char right_j; // jth character of right
 
         int cost; // cost
 
@@ -374,11 +374,11 @@ public class LevenshteinDistance implements StringMetric<Integer> {
         }
 
         for (j = 1; j <= m; j++) {
-            t_j = t.charAt(j - 1);
+            right_j = right.charAt(j - 1);
             d[0] = j;
 
             for (i = 1; i <= n; i++) {
-                cost = s.charAt(i - 1) == t_j ? 0 : 1;
+                cost = left.charAt(i - 1) == right_j ? 0 : 1;
                 // minimum of cell to the left+1, to the top+1, diagonally left and up +cost
                 d[i] = Math.min(Math.min(d[i - 1] + 1, p[i] + 1), p[i - 1] + cost);
             }
