@@ -33,47 +33,22 @@ import java.util.Locale;
  */
 public class FuzzyScore implements StringMetric<Integer> {
 
-    public static final FuzzyScore DEFAULT_INSTANCE = new FuzzyScore();
-
     private final Locale locale;
 
-    /*
-     * <p>
-     * This returns an instance that call {@link Locale#getLocale()}
-     * to get a {@link Locale} for each
-     * call to {@link #compare(CharSequence, CharSequence)}
-     * </p>
-     *
-     * @see {@link #getDefaultInstance()}
-     */
-    public FuzzyScore() {
-        this(null);
-    }
-
-    public FuzzyScore(final Locale locale) {
-        this.locale = locale;
-    }
 
     /**
-     * <p>
-     * Find the Fuzzy Score which indicates the similarity score between two
-     * Strings.
-     * </p>
-     * <p>
-     * If this instance's {@link Locale} is null, the current default will be
-     * determined using {@link Locale#getDefault()}.
-     * </p>
+     * <p>This returns a {@link Locale}-specific {@link FuzzyScore}.</p>
      *
-     * @param term a full term that should be matched against, must not be null
-     * @param query the query that will be matched against a term, must not be
-     *            null
-     * @return result score
-     * @throws IllegalArgumentException if either String input {@code null}
+     * @param locale The string matching logic is case insensitive.
+                     A {@link Locale} is necessary to normalize both Strings to lower case.
+     * @throws IllegalArgumentException
+     *         This is thrown if the {@link Locale} parameter is {@code null}.
      */
-    @Override
-    public Integer compare(CharSequence term, CharSequence query) {
-        Locale locale = this.locale != null ? this.locale : Locale.getDefault();
-        return compare(term, query, locale);
+    public FuzzyScore(final Locale locale) {
+        if (locale == null) {
+            throw new IllegalArgumentException("Locale must not be null");
+        }
+        this.locale = locale;
     }
 
     /**
@@ -96,17 +71,14 @@ public class FuzzyScore implements StringMetric<Integer> {
      * @param term a full term that should be matched against, must not be null
      * @param query the query that will be matched against a term, must not be
      *            null
-     * @param locale This string matching logic is case insensitive. A locale is
-     *            necessary to normalize both Strings to lower case.
      * @return result score
      * @throws IllegalArgumentException if either String input {@code null} or
      *             Locale input {@code null}
      */
-    private static int compare(CharSequence term, CharSequence query, Locale locale) {
+    @Override
+    public Integer compare(CharSequence term, CharSequence query) {
         if (term == null || query == null) {
             throw new IllegalArgumentException("Strings must not be null");
-        } else if (locale == null) {
-            throw new IllegalArgumentException("Locale must not be null");
         }
 
         // fuzzy logic is case insensitive. We normalize the Strings to lower
@@ -154,10 +126,6 @@ public class FuzzyScore implements StringMetric<Integer> {
         }
 
         return score;
-    }
-
-    public static FuzzyScore getDefaultInstance() {
-        return DEFAULT_INSTANCE;
     }
 
     public Locale getLocale() {

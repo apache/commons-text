@@ -67,4 +67,9 @@ public class FuzzyScoreTest {
         score.compare(null, null);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMissingLocale() throws Exception {
+        FuzzyScore score = new FuzzyScore((Locale) null);
+    }
+
 }
