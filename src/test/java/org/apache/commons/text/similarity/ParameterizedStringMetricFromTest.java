@@ -28,19 +28,21 @@ import org.junit.runners.Parameterized.Parameters;
 
 /**
  * Unit tests for {@link org.apache.commons.text.similarity.StringMetricFrom}.
+ *
+ * @param <R> The {@link StringMetric} return type.
  */
 @RunWith(Parameterized.class)
-public class ParameterizedStringMetricFromTest {
+public class ParameterizedStringMetricFromTest<R> {
 
-    private final StringMetric<Number> metric;
+    private final StringMetric<R> metric;
     private final CharSequence left;
     private final CharSequence right;
-    private final Number distance;
+    private final R distance;
 
     public ParameterizedStringMetricFromTest(
-        final StringMetric<Number> metric,
+        final StringMetric<R> metric,
         final CharSequence left, final CharSequence right,
-        final Number distance) {
+        final R distance) {
 
         this.metric = metric;
         this.left = left;
@@ -52,15 +54,38 @@ public class ParameterizedStringMetricFromTest {
     public static Iterable<Object[]> parameters() {
         return Arrays.asList( new Object[][] {
 
-            { new LevenshteinDistance(), "Apache", "a patchy", 4 }
-            /* TODO - add lots more! */
+            /* TODO: When SANDBOX-491 is ready, add a few FuzzyScore tests. */
+
+            { new HammingDistance(), "Sam I am.", "Ham I am.", 1 },
+            { new HammingDistance(), "Japtheth, Ham, Shem", "Japtheth, HAM, Shem", 2 },
+            { new HammingDistance(), "Hamming", "Hamming", 0 },
+
+            { new JaroWrinklerDistance(), "elephant", "hippo", 0.44 },
+            { new JaroWrinklerDistance(), "hippo", "elephant",  0.44 },
+            { new JaroWrinklerDistance(), "hippo", "zzzzzzzz", 0.0 },
+
+            /* TODO: When SANDBOX-491 is ready, add a few limited/threshold tests. */
+            { new LevenshteinDistance(), "Apache", "a patchy", 4 },
+            { new LevenshteinDistance(), "go", "no go", 3 },
+            { new LevenshteinDistance(), "go", "go", 0 },
+
+            {
+                new StringMetric<Boolean>() {
+                    public Boolean compare(CharSequence left, CharSequence right) {
+                        return left == right || (left != null && left.equals(right));
+                    }
+                },
+                "Bob's your uncle.",
+                "Every good boy does fine.",
+                false
+            }
 
         } );
     }
 
     @Test
     public void test() {
-        StringMetricFrom<Number> metricFrom = new StringMetricFrom<Number>(metric, left);
+        StringMetricFrom<R> metricFrom = new StringMetricFrom<R>(metric, left);
         assertThat(metricFrom.apply(right), equalTo(distance));
     }
 
