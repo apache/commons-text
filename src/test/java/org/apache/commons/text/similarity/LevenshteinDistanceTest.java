@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.LevenshteinDistance}.
+ * Unit tests for {@link org.apache.commons.text.similarity.LevenshteinDistance}.
  */
 public class LevenshteinDistanceTest {
 
