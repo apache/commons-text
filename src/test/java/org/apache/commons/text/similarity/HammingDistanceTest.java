@@ -35,24 +35,24 @@ public class HammingDistanceTest {
 
     @Test
     public void testHammingDistance() {
-        assertEquals(Integer.valueOf(0), distance.compare("", ""));
-        assertEquals(Integer.valueOf(0), distance.compare("pappa", "pappa"));
-        assertEquals(Integer.valueOf(1), distance.compare("papaa", "pappa"));
-        assertEquals(Integer.valueOf(3), distance.compare("karolin", "kathrin"));
-        assertEquals(Integer.valueOf(3), distance.compare("karolin", "kerstin"));
-        assertEquals(Integer.valueOf(2), distance.compare("1011101", "1001001"));
-        assertEquals(Integer.valueOf(3), distance.compare("2173896", "2233796"));
-        assertEquals(Integer.valueOf(2), distance.compare("ATCG", "ACCC"));
+        assertEquals(Integer.valueOf(0), distance.apply("", ""));
+        assertEquals(Integer.valueOf(0), distance.apply("pappa", "pappa"));
+        assertEquals(Integer.valueOf(1), distance.apply("papaa", "pappa"));
+        assertEquals(Integer.valueOf(3), distance.apply("karolin", "kathrin"));
+        assertEquals(Integer.valueOf(3), distance.apply("karolin", "kerstin"));
+        assertEquals(Integer.valueOf(2), distance.apply("1011101", "1001001"));
+        assertEquals(Integer.valueOf(3), distance.apply("2173896", "2233796"));
+        assertEquals(Integer.valueOf(2), distance.apply("ATCG", "ACCC"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testHammingDistance_nullLeftValue() {
-        distance.compare(null, "");
+        distance.apply(null, "");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testHammingDistance_nullRightValue() {
-        distance.compare("", null);
+        distance.apply("", null);
     }
 
 }

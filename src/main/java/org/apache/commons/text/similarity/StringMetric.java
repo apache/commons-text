@@ -24,6 +24,13 @@ package org.apache.commons.text.similarity;
  * the algorithm, higher values can mean closer strings, or more distant strings.
  * </p>
  *
+ * <p>
+ * This is a BiFunction&lt;CharSequence, CharSequence, R&gt;.
+ * The <code>apply</code> method
+ * accepts a pair of {@link CharSequence} parameters
+ * and returns an <code>R</code> type similarity score.
+ * </p>
+ *
  * @param <R> The type of similarity score unit used by this StringMetric.
  */
 public interface StringMetric<R> {
@@ -35,6 +42,6 @@ public interface StringMetric<R> {
      * @param right the second CharSequence
      * @return the similarity score between two CharSequences
      */
-    R compare(CharSequence left, CharSequence right);
+    R apply(CharSequence left, CharSequence right);
 
 }

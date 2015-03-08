@@ -55,17 +55,17 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * </p>
      *
      * <pre>
-     * distance.compare(null, *)             = IllegalArgumentException
-     * distance.compare(*, null)             = IllegalArgumentException
-     * distance.compare("","")               = 0
-     * distance.compare("","a")              = 1
-     * distance.compare("aaapppp", "")       = 7
-     * distance.compare("frog", "fog")       = 1
-     * distance.compare("fly", "ant")        = 3
-     * distance.compare("elephant", "hippo") = 7
-     * distance.compare("hippo", "elephant") = 7
-     * distance.compare("hippo", "zzzzzzzz") = 8
-     * distance.compare("hello", "hallo")    = 1
+     * distance.apply(null, *)             = IllegalArgumentException
+     * distance.apply(*, null)             = IllegalArgumentException
+     * distance.apply("","")               = 0
+     * distance.apply("","a")              = 1
+     * distance.apply("aaapppp", "")       = 7
+     * distance.apply("frog", "fog")       = 1
+     * distance.apply("fly", "ant")        = 3
+     * distance.apply("elephant", "hippo") = 7
+     * distance.apply("hippo", "elephant") = 7
+     * distance.apply("hippo", "zzzzzzzz") = 8
+     * distance.apply("hello", "hallo")    = 1
      * </pre>
      *
      * @param left the first string, must not be null
@@ -74,8 +74,8 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * @throws IllegalArgumentException if either String input {@code null}
      */
     @Override
-    public Integer compare(CharSequence left, CharSequence right) {
-        return compare(left, right, Integer.MAX_VALUE);
+    public Integer apply(CharSequence left, CharSequence right) {
+        return apply(left, right, Integer.MAX_VALUE);
     }
 
     /**
@@ -91,17 +91,17 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * </p>
      *
      * <pre>
-     * distance.compare(null, *, *)             = IllegalArgumentException
-     * distance.compare(*, null, *)             = IllegalArgumentException
-     * distance.compare(*, *, -1)               = IllegalArgumentException
-     * distance.compare("","", 0)               = 0
-     * distance.compare("aaapppp", "", 8)       = 7
-     * distance.compare("aaapppp", "", 7)       = 7
-     * distance.compare("aaapppp", "", 6))      = -1
-     * distance.compare("elephant", "hippo", 7) = 7
-     * distance.compare("elephant", "hippo", 6) = -1
-     * distance.compare("hippo", "elephant", 7) = 7
-     * distance.compare("hippo", "elephant", 6) = -1
+     * distance.apply(null, *, *)             = IllegalArgumentException
+     * distance.apply(*, null, *)             = IllegalArgumentException
+     * distance.apply(*, *, -1)               = IllegalArgumentException
+     * distance.apply("","", 0)               = 0
+     * distance.apply("aaapppp", "", 8)       = 7
+     * distance.apply("aaapppp", "", 7)       = 7
+     * distance.apply("aaapppp", "", 6))      = -1
+     * distance.apply("elephant", "hippo", 7) = 7
+     * distance.apply("elephant", "hippo", 6) = -1
+     * distance.apply("hippo", "elephant", 7) = 7
+     * distance.apply("hippo", "elephant", 6) = -1
      * </pre>
      *
      * @param left the first string, must not be null
@@ -111,7 +111,7 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * @throws IllegalArgumentException if either String input {@code null} or
      *             negative threshold
      */
-    public Integer compare(CharSequence left, CharSequence right, int threshold) {
+    public Integer apply(CharSequence left, CharSequence right, int threshold) {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }

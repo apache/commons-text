@@ -37,39 +37,39 @@ public class FuzzyScoreTest {
 
     @Test
     public void testGetFuzzyScore() throws Exception {
-        assertEquals(0, (int) score.compare("", "", Locale.ENGLISH));
+        assertEquals(0, (int) score.apply("", "", Locale.ENGLISH));
         assertEquals(0,
-                (int) score.compare("Workshop", "b", Locale.ENGLISH));
+                (int) score.apply("Workshop", "b", Locale.ENGLISH));
         assertEquals(1,
-                (int) score.compare("Room", "o", Locale.ENGLISH));
+                (int) score.apply("Room", "o", Locale.ENGLISH));
         assertEquals(1,
-                (int) score.compare("Workshop", "w", Locale.ENGLISH));
+                (int) score.apply("Workshop", "w", Locale.ENGLISH));
         assertEquals(2,
-                (int) score.compare("Workshop", "ws", Locale.ENGLISH));
+                (int) score.apply("Workshop", "ws", Locale.ENGLISH));
         assertEquals(4,
-                (int) score.compare("Workshop", "wo", Locale.ENGLISH));
-        assertEquals(3, (int) score.compare(
+                (int) score.apply("Workshop", "wo", Locale.ENGLISH));
+        assertEquals(3, (int) score.apply(
                 "Apache Software Foundation", "asf", Locale.ENGLISH));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetFuzzyScore_NullNullNull() throws Exception {
-        score.compare(null, null, null);
+        score.apply(null, null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetFuzzyScore_StringNullLoclae() throws Exception {
-        score.compare(" ", null, Locale.ENGLISH);
+        score.apply(" ", null, Locale.ENGLISH);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetFuzzyScore_NullStringLocale() throws Exception {
-        score.compare(null, "clear", Locale.ENGLISH);
+        score.apply(null, "clear", Locale.ENGLISH);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetFuzzyScore_StringStringNull() throws Exception {
-        score.compare(" ", "clear", null);
+        score.apply(" ", "clear", null);
     }
 
 }
