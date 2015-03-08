@@ -38,6 +38,31 @@ public class StringMetricFromTest {
         assertThat(metricFrom.apply(right), equalTo(metric.compare(left, right)));
     }
 
+    @Test
+    public void testJavadocExample() {
+        StringMetric<Integer> metric = new LevenshteinDistance();
+        String target = "Apache";
+        StringMetricFrom<Integer> metricFrom =
+            new StringMetricFrom<Integer>(metric, target);
+        String mostSimilar = null;
+        Integer shortestDistance = null;
+        
+        for (String test : new String[] { "Appaloosa", "a patchy", "apple" }) {
+            Integer distance = metricFrom.apply(test);
+            if (shortestDistance == null || distance < shortestDistance) {
+                shortestDistance = distance;
+                mostSimilar = test;
+            }
+        }
+       
+        System.out.println("The string most similar to \"" + target + "\" "
+            + "is \"" + mostSimilar + "\" because "
+            + "its distance is only " + shortestDistance + ".");
+
+        assertThat(mostSimilar, equalTo("a patchy"));
+        assertThat(shortestDistance, equalTo(4));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testMissingMetric() {
         new StringMetricFrom<Number>(null, "no go");
