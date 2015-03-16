@@ -39,11 +39,11 @@ public class HammingDistance implements StringMetric<Integer> {
      * will throw IllegalArgumentException</p>
      *
      * <pre>
-     * distance.compare("", "")               = 0
-     * distance.compare("pappa", "pappa")     = 0
-     * distance.compare("1011101", "1011111") = 1
-     * distance.compare("ATCG", "ACCC")       = 2
-     * distance.compare("karolin", "kerstin"  = 3
+     * distance.apply("", "")               = 0
+     * distance.apply("pappa", "pappa")     = 0
+     * distance.apply("1011101", "1011111") = 1
+     * distance.apply("ATCG", "ACCC")       = 2
+     * distance.apply("karolin", "kerstin"  = 3
      * </pre>
      *
      * @param left the first CharSequence, must not be null
@@ -53,7 +53,7 @@ public class HammingDistance implements StringMetric<Integer> {
      *             if they do not have the same length
      */
     @Override
-    public Integer compare(CharSequence left, CharSequence right) {
+    public Integer apply(CharSequence left, CharSequence right) {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }

@@ -35,28 +35,28 @@ public class JaroWrinklerDistanceTest {
     
     @Test
     public void testGetJaroWinklerDistance_StringString() {
-        assertEquals(0.93d, (double) distance.compare("frog", "fog"), 0.0d);
-        assertEquals(0.0d, (double) distance.compare("fly", "ant"), 0.0d);
-        assertEquals(0.44d, (double) distance.compare("elephant", "hippo"), 0.0d);
-        assertEquals(0.91d, (double) distance.compare("ABC Corporation", "ABC Corp"), 0.0d);
-        assertEquals(0.93d, (double) distance.compare("D N H Enterprises Inc", "D & H Enterprises, Inc."), 0.0d);
-        assertEquals(0.94d, (double) distance.compare("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"), 0.0d);
-        assertEquals(0.9d, (double) distance.compare("PENNSYLVANIA", "PENNCISYLVNIA"), 0.0d);
+        assertEquals(0.93d, (double) distance.apply("frog", "fog"), 0.0d);
+        assertEquals(0.0d, (double) distance.apply("fly", "ant"), 0.0d);
+        assertEquals(0.44d, (double) distance.apply("elephant", "hippo"), 0.0d);
+        assertEquals(0.91d, (double) distance.apply("ABC Corporation", "ABC Corp"), 0.0d);
+        assertEquals(0.93d, (double) distance.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."), 0.0d);
+        assertEquals(0.94d, (double) distance.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"), 0.0d);
+        assertEquals(0.9d, (double) distance.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.0d);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetJaroWinklerDistance_NullNull() throws Exception {
-        distance.compare(null, null);
+        distance.apply(null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetJaroWinklerDistance_StringNull() throws Exception {
-        distance.compare(" ", null);
+        distance.apply(" ", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetJaroWinklerDistance_NullString() throws Exception {
-        distance.compare(null, "clear");
+        distance.apply(null, "clear");
     }
     
 }
