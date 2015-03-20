@@ -47,20 +47,20 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
      * between two CharSequences.
      *
      * <pre>
-     * distance.compare(null, null)          = IllegalArgumentException
-     * distance.compare("","")               = 0.0
-     * distance.compare("","a")              = 0.0
-     * distance.compare("aaapppp", "")       = 0.0
-     * distance.compare("frog", "fog")       = 0.93
-     * distance.compare("fly", "ant")        = 0.0
-     * distance.compare("elephant", "hippo") = 0.44
-     * distance.compare("hippo", "elephant") = 0.44
-     * distance.compare("hippo", "zzzzzzzz") = 0.0
-     * distance.compare("hello", "hallo")    = 0.88
-     * distance.compare("ABC Corporation", "ABC Corp") = 0.91
-     * distance.compare("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.93
-     * distance.compare("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.94
-     * distance.compare("PENNSYLVANIA", "PENNCISYLVNIA")    = 0.9
+     * distance.apply(null, null)          = IllegalArgumentException
+     * distance.apply("","")               = 0.0
+     * distance.apply("","a")              = 0.0
+     * distance.apply("aaapppp", "")       = 0.0
+     * distance.apply("frog", "fog")       = 0.93
+     * distance.apply("fly", "ant")        = 0.0
+     * distance.apply("elephant", "hippo") = 0.44
+     * distance.apply("hippo", "elephant") = 0.44
+     * distance.apply("hippo", "zzzzzzzz") = 0.0
+     * distance.apply("hello", "hallo")    = 0.88
+     * distance.apply("ABC Corporation", "ABC Corp") = 0.91
+     * distance.apply("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.93
+     * distance.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.94
+     * distance.apply("PENNSYLVANIA", "PENNCISYLVNIA")    = 0.9
      * </pre>
      *
      * @param left the first String, must not be null
@@ -69,7 +69,7 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
      * @throws IllegalArgumentException if either String input {@code null}
      */
     @Override
-    public Double compare(CharSequence left, CharSequence right) {
+    public Double apply(CharSequence left, CharSequence right) {
         final double DEFAULT_SCALING_FACTOR = 0.1;
 
         if (left == null || right == null) {

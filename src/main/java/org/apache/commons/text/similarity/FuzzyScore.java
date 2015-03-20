@@ -58,14 +58,14 @@ public class FuzzyScore implements StringMetric<Integer> {
      * </p>
      *
      * <pre>
-     * score.compare(null, null, null)                                    = IllegalArgumentException
-     * score.compare("", "", Locale.ENGLISH)                              = 0
-     * score.compare("Workshop", "b", Locale.ENGLISH)                     = 0
-     * score.compare("Room", "o", Locale.ENGLISH)                         = 1
-     * score.compare("Workshop", "w", Locale.ENGLISH)                     = 1
-     * score.compare("Workshop", "ws", Locale.ENGLISH)                    = 2
-     * score.compare("Workshop", "wo", Locale.ENGLISH)                    = 4
-     * score.compare("Apache Software Foundation", "asf", Locale.ENGLISH) = 3
+     * score.apply(null, null, null)                                    = IllegalArgumentException
+     * score.apply("", "", Locale.ENGLISH)                              = 0
+     * score.apply("Workshop", "b", Locale.ENGLISH)                     = 0
+     * score.apply("Room", "o", Locale.ENGLISH)                         = 1
+     * score.apply("Workshop", "w", Locale.ENGLISH)                     = 1
+     * score.apply("Workshop", "ws", Locale.ENGLISH)                    = 2
+     * score.apply("Workshop", "wo", Locale.ENGLISH)                    = 4
+     * score.apply("Apache Software Foundation", "asf", Locale.ENGLISH) = 3
      * </pre>
      *
      * @param term a full term that should be matched against, must not be null
@@ -76,7 +76,7 @@ public class FuzzyScore implements StringMetric<Integer> {
      *             Locale input {@code null}
      */
     @Override
-    public Integer compare(CharSequence term, CharSequence query) {
+    public Integer apply(CharSequence term, CharSequence query) {
         if (term == null || query == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }

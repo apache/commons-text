@@ -80,17 +80,17 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * is from <a href="http://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a></p>
      *
      * <pre>
-     * distance.compare(null, *)             = IllegalArgumentException
-     * distance.compare(*, null)             = IllegalArgumentException
-     * distance.compare("","")               = 0
-     * distance.compare("","a")              = 1
-     * distance.compare("aaapppp", "")       = 7
-     * distance.compare("frog", "fog")       = 1
-     * distance.compare("fly", "ant")        = 3
-     * distance.compare("elephant", "hippo") = 7
-     * distance.compare("hippo", "elephant") = 7
-     * distance.compare("hippo", "zzzzzzzz") = 8
-     * distance.compare("hello", "hallo")    = 1
+     * distance.apply(null, *)             = IllegalArgumentException
+     * distance.apply(*, null)             = IllegalArgumentException
+     * distance.apply("","")               = 0
+     * distance.apply("","a")              = 1
+     * distance.apply("aaapppp", "")       = 7
+     * distance.apply("frog", "fog")       = 1
+     * distance.apply("fly", "ant")        = 3
+     * distance.apply("elephant", "hippo") = 7
+     * distance.apply("hippo", "elephant") = 7
+     * distance.apply("hippo", "zzzzzzzz") = 8
+     * distance.apply("hello", "hallo")    = 1
      * </pre>
      *
      * @param left the first string, must not be null
@@ -98,7 +98,7 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * @return result distance, or -1
      * @throws IllegalArgumentException if either String input {@code null}
      */
-    public Integer compare(CharSequence left, CharSequence right) {
+    public Integer apply(CharSequence left, CharSequence right) {
         if (threshold != null) {
             return limitedCompare(left, right, threshold);
         } else {

@@ -22,6 +22,7 @@
   <body>
 
   <release version="1.0" date="tba" description="tba">
+    <action issue="SANDBOX-493" type="fix" dev="kinow" due-to="Jonathan Baker">Change (R) StringMetric.compare(CS left, CS right) to "apply" so that it is consistent with BiFunction.</action>
     <action issue="SANDBOX-491" type="fix" dev="kinow" due-to="Jonathan Baker">Allow extra information (e.g. Levenshtein threshold) to be stored as (final) fields in the StringMetric instance.</action>
     <action issue="SANDBOX-486" type="add" dev="kinow">Port Myers algorithm from [collections]</action>
     <action issue="SANDBOX-485" type="add" dev="kinow">Add Hamming distance</action>
