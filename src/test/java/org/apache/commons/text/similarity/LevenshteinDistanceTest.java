@@ -18,129 +18,52 @@ package org.apache.commons.text.similarity;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.LevenshteinDistance}.
+ * Unit tests for {@link org.apache.commons.text.similarity.LevenshteinDistance}.
  */
 public class LevenshteinDistanceTest {
 
-    private static LevenshteinDistance distance;
-
-    @BeforeClass
-    public static void setUp() {
-        distance = new LevenshteinDistance();
-    }
+    private static final LevenshteinDistance UNLIMITED_DISTANCE = new LevenshteinDistance();
 
     @Test
     public void testGetLevenshteinDistance_StringString() {
-        assertEquals(0, (int) distance.compare("", ""));
-        assertEquals(1, (int) distance.compare("", "a"));
-        assertEquals(7, (int) distance.compare("aaapppp", ""));
-        assertEquals(1, (int) distance.compare("frog", "fog"));
-        assertEquals(3, (int) distance.compare("fly", "ant"));
-        assertEquals(7, (int) distance.compare("elephant", "hippo"));
-        assertEquals(7, (int) distance.compare("hippo", "elephant"));
-        assertEquals(8, (int) distance.compare("hippo", "zzzzzzzz"));
-        assertEquals(8, (int) distance.compare("zzzzzzzz", "hippo"));
-        assertEquals(1, (int) distance.compare("hello", "hallo"));
+        assertEquals(0, (int) UNLIMITED_DISTANCE.compare("", ""));
+        assertEquals(1, (int) UNLIMITED_DISTANCE.compare("", "a"));
+        assertEquals(7, (int) UNLIMITED_DISTANCE.compare("aaapppp", ""));
+        assertEquals(1, (int) UNLIMITED_DISTANCE.compare("frog", "fog"));
+        assertEquals(3, (int) UNLIMITED_DISTANCE.compare("fly", "ant"));
+        assertEquals(7, (int) UNLIMITED_DISTANCE.compare("elephant", "hippo"));
+        assertEquals(7, (int) UNLIMITED_DISTANCE.compare("hippo", "elephant"));
+        assertEquals(8, (int) UNLIMITED_DISTANCE.compare("hippo", "zzzzzzzz"));
+        assertEquals(8, (int) UNLIMITED_DISTANCE.compare("zzzzzzzz", "hippo"));
+        assertEquals(1, (int) UNLIMITED_DISTANCE.compare("hello", "hallo"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetLevenshteinDistance_NullString() throws Exception {
-        distance.compare("a", null);
+        UNLIMITED_DISTANCE.compare("a", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetLevenshteinDistance_StringNull() throws Exception {
-        distance.compare(null, "a");
-    }
-
-    @Test
-    public void testGetLevenshteinDistance_StringStringInt() {
-        // empty strings
-        assertEquals(0, (int) distance.compare("", "", 0));
-        assertEquals(7, (int) distance.compare("aaapppp", "", 8));
-        assertEquals(7, (int) distance.compare("aaapppp", "", 7));
-        assertEquals(-1, (int) distance.compare("aaapppp", "", 6));
-
-        // unequal strings, zero threshold
-        assertEquals(-1, (int) distance.compare("b", "a", 0));
-        assertEquals(-1, (int) distance.compare("a", "b", 0));
-
-        // equal strings
-        assertEquals(0, (int) distance.compare("aa", "aa", 0));
-        assertEquals(0, (int) distance.compare("aa", "aa", 2));
-
-        // same length
-        assertEquals(-1, (int) distance.compare("aaa", "bbb", 2));
-        assertEquals(3, (int) distance.compare("aaa", "bbb", 3));
-
-        // big stripe
-        assertEquals(6, (int) distance.compare("aaaaaa", "b", 10));
-
-        // distance less than threshold
-        assertEquals(7, (int) distance.compare("aaapppp", "b", 8));
-        assertEquals(3, (int) distance.compare("a", "bbb", 4));
-
-        // distance equal to threshold
-        assertEquals(7, (int) distance.compare("aaapppp", "b", 7));
-        assertEquals(3, (int) distance.compare("a", "bbb", 3));
-
-        // distance greater than threshold
-        assertEquals(-1, (int) distance.compare("a", "bbb", 2));
-        assertEquals(-1, (int) distance.compare("bbb", "a", 2));
-        assertEquals(-1, (int) distance.compare("aaapppp", "b", 6));
-
-        // stripe runs off array, strings not similar
-        assertEquals(-1, (int) distance.compare("a", "bbb", 1));
-        assertEquals(-1, (int) distance.compare("bbb", "a", 1));
-
-        // stripe runs off array, strings are similar
-        assertEquals(-1, (int) distance.compare("12345", "1234567", 1));
-        assertEquals(-1, (int) distance.compare("1234567", "12345", 1));
-
-        // old getLevenshteinDistance test cases
-        assertEquals(1, (int) distance.compare("frog", "fog", 1));
-        assertEquals(3, (int) distance.compare("fly", "ant", 3));
-        assertEquals(7, (int) distance.compare("elephant", "hippo", 7));
-        assertEquals(-1, (int) distance.compare("elephant", "hippo", 6));
-        assertEquals(7, (int) distance.compare("hippo", "elephant", 7));
-        assertEquals(-1, (int) distance.compare("hippo", "elephant", 6));
-        assertEquals(8, (int) distance.compare("hippo", "zzzzzzzz", 8));
-        assertEquals(8, (int) distance.compare("zzzzzzzz", "hippo", 8));
-        assertEquals(1, (int) distance.compare("hello", "hallo", 1));
-
-        assertEquals(1,
-                (int) distance.compare("frog", "fog", Integer.MAX_VALUE));
-        assertEquals(3, (int) distance.compare("fly", "ant", Integer.MAX_VALUE));
-        assertEquals(7,
-                (int) distance.compare("elephant", "hippo", Integer.MAX_VALUE));
-        assertEquals(7,
-                (int) distance.compare("hippo", "elephant", Integer.MAX_VALUE));
-        assertEquals(8,
-                (int) distance.compare("hippo", "zzzzzzzz", Integer.MAX_VALUE));
-        assertEquals(8,
-                (int) distance.compare("zzzzzzzz", "hippo", Integer.MAX_VALUE));
-        assertEquals(1,
-                (int) distance.compare("hello", "hallo", Integer.MAX_VALUE));
+        UNLIMITED_DISTANCE.compare(null, "a");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetLevenshteinDistance_NullStringInt() throws Exception {
-        distance.compare(null, "a", 0);
+        UNLIMITED_DISTANCE.compare(null, "a");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetLevenshteinDistance_StringNullInt() throws Exception {
-        distance.compare("a", null, 0);
+        UNLIMITED_DISTANCE.compare("a", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetLevenshteinDistance_StringStringNegativeInt()
-            throws Exception {
-        distance.compare("a", "a", -1);
+    public void testConstructorWithNegativeThreshold() throws Exception {
+        LevenshteinDistance distance = new LevenshteinDistance(-1);
     }
 
 }

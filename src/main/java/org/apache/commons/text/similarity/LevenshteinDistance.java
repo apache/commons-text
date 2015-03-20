@@ -33,26 +33,51 @@ import java.util.Arrays;
  */
 public class LevenshteinDistance implements StringMetric<Integer> {
 
+    private static final LevenshteinDistance DEFAULT_INSTANCE = new LevenshteinDistance();
+
+    private final Integer threshold;
+
     /**
-     * Find the Levenshtein distance between two Strings.
+     * <p>
+     * This returns the default instance that uses a version
+     * of the algorithm that does not use a threshold parameter.
+     * </p>
+     *
+     * @see {@link #getDefaultInstance()}
+     */
+    public LevenshteinDistance() {
+        this(null);
+    }
+
+    /**
+     * <p>
+     * If the threshold is not null, distance calculations will be limited to a maximum length.
+     * If the threshold is null, the unlimited version of the algorithm will be used.
+     * </p>
+     *
+     * @param threshold
+     *        If this is null then distances calculations will not be limited.
+     *        This may not be negative.
+     */
+    public LevenshteinDistance(final Integer threshold) {
+        if (threshold != null && threshold < 0) {
+            throw new IllegalArgumentException("Threshold must not be negative");
+        }
+        this.threshold = threshold;
+    }
+
+    /**
+     * <p>Find the Levenshtein distance between two Strings.</p>
      *
      * <p>A higher score indicates a greater distance.</p>
      *
-     * <p>
-     * The previous implementation of the Levenshtein distance algorithm was
-     * from <a
-     * href="http://www.merriampark.com/ld.htm">http://www.merriampark.com
-     * /ld.htm</a>
-     * </p>
+     * <p>The previous implementation of the Levenshtein distance algorithm
+     * was from <a href="http://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a></p>
      *
-     * <p>
-     * Chas Emerick has written an implementation in Java, which avoids an
-     * OutOfMemoryError which can occur when my Java implementation is used with
-     * very large strings.<br>
-     * This implementation of the Levenshtein distance algorithm is from <a
-     * href="http://www.merriampark.com/ldjava.htm">http://www.merriampark.com/
-     * ldjava.htm</a>
-     * </p>
+     * <p>Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError
+     * which can occur when my Java implementation is used with very large strings.<br>
+     * This implementation of the Levenshtein distance algorithm
+     * is from <a href="http://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a></p>
      *
      * <pre>
      * distance.compare(null, *)             = IllegalArgumentException
@@ -70,12 +95,23 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      *
      * @param left the first string, must not be null
      * @param right the second string, must not be null
-     * @return result distance
+     * @return result distance, or -1
      * @throws IllegalArgumentException if either String input {@code null}
      */
-    @Override
     public Integer compare(CharSequence left, CharSequence right) {
-        return compare(left, right, Integer.MAX_VALUE);
+        if (threshold != null) {
+            return limitedCompare(left, right, threshold);
+        } else {
+            return unlimitedCompare(left, right);
+        }
+    }
+
+    public static LevenshteinDistance getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Integer getThreshold() {
+        return threshold;
     }
 
     /**
@@ -91,27 +127,25 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * </p>
      *
      * <pre>
-     * distance.compare(null, *, *)             = IllegalArgumentException
-     * distance.compare(*, null, *)             = IllegalArgumentException
-     * distance.compare(*, *, -1)               = IllegalArgumentException
-     * distance.compare("","", 0)               = 0
-     * distance.compare("aaapppp", "", 8)       = 7
-     * distance.compare("aaapppp", "", 7)       = 7
-     * distance.compare("aaapppp", "", 6))      = -1
-     * distance.compare("elephant", "hippo", 7) = 7
-     * distance.compare("elephant", "hippo", 6) = -1
-     * distance.compare("hippo", "elephant", 7) = 7
-     * distance.compare("hippo", "elephant", 6) = -1
+     * limitedCompare(null, *, *)             = IllegalArgumentException
+     * limitedCompare(*, null, *)             = IllegalArgumentException
+     * limitedCompare(*, *, -1)               = IllegalArgumentException
+     * limitedCompare("","", 0)               = 0
+     * limitedCompare("aaapppp", "", 8)       = 7
+     * limitedCompare("aaapppp", "", 7)       = 7
+     * limitedCompare("aaapppp", "", 6))      = -1
+     * limitedCompare("elephant", "hippo", 7) = 7
+     * limitedCompare("elephant", "hippo", 6) = -1
+     * limitedCompare("hippo", "elephant", 7) = 7
+     * limitedCompare("hippo", "elephant", 6) = -1
      * </pre>
      *
      * @param left the first string, must not be null
      * @param right the second string, must not be null
      * @param threshold the target threshold, must not be negative
-     * @return result distance
-     * @throws IllegalArgumentException if either String input {@code null} or
-     *             negative threshold
+     * @return result distance, or -1
      */
-    public Integer compare(CharSequence left, CharSequence right, int threshold) {
+    private static int limitedCompare(CharSequence left, CharSequence right, int threshold) {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }
@@ -124,7 +158,7 @@ public class LevenshteinDistance implements StringMetric<Integer> {
          * equal to the threshold value, returning -1 if it's greater. The
          * advantage is performance: unbounded distance is O(nm), but a bound of
          * k allows us to reduce it to O(km) time by only computing a diagonal
-         * stripe of width 2k + 1 of the cost table. It is also possible to use
+         * stripe of width 2k + 1 of the cost table. It is also possible to use* this to compute the unbounded Levenshtein distance by starting the
          * this to compute the unbounded Levenshtein distance by starting the
          * threshold at 1 and doubling each time until the distance is found;
          * this is O(dm), where d is the distance.
@@ -143,8 +177,16 @@ public class LevenshteinDistance implements StringMetric<Integer> {
          * and our threshold is 1. In this case we're going to walk a stripe of
          * length 3. The matrix would look like so:
          *
-         * 1 2 3 4 5 1 |#|#| | | | 2 |#|#|#| | | 3 | |#|#|#| | 4 | | |#|#|#| 5 |
-         * | | |#|#| 6 | | | | |#| 7 | | | | | |
+         * <pre>
+         *    1 2 3 4 5
+         * 1 |#|#| | | |
+         * 2 |#|#|#| | |
+         * 3 | |#|#|#| |
+         * 4 | | |#|#|#|
+         * 5 | | | |#|#|
+         * 6 | | | | |#|
+         * 7 | | | | | |
+         * </pre>
          *
          * Note how the stripe leads off the table as there is no possible way
          * to turn a string of length 5 into one of length 7 in edit distance of
@@ -161,8 +203,8 @@ public class LevenshteinDistance implements StringMetric<Integer> {
          * some discussion.
          */
 
-        int n = left.length(); // length of s
-        int m = right.length(); // length of t
+        int n = left.length(); // length of left
+        int m = right.length(); // length of right
 
         // if one string is empty, the edit distance is necessarily the length
         // of the other
@@ -197,7 +239,7 @@ public class LevenshteinDistance implements StringMetric<Integer> {
 
         // iterates through t
         for (int j = 1; j <= m; j++) {
-            final char t_j = right.charAt(j - 1); // jth character of t
+            final char right_j = right.charAt(j - 1); // jth character of right
             d[0] = j;
 
             // compute stripe indices, constrain to array size
@@ -218,7 +260,7 @@ public class LevenshteinDistance implements StringMetric<Integer> {
 
             // iterates through [min, max] in s
             for (int i = min; i <= max; i++) {
-                if (left.charAt(i - 1) == t_j) {
+                if (left.charAt(i - 1) == right_j) {
                     // diagonally left and up
                     d[i] = p[i - 1];
                 } else {
@@ -241,6 +283,115 @@ public class LevenshteinDistance implements StringMetric<Integer> {
             return p[n];
         }
         return -1;
+    }
+
+    /**
+     * <p>Find the Levenshtein distance between two Strings.</p>
+     *
+     * <p>A higher score indicates a greater distance.</p>
+     *
+     * <p>The previous implementation of the Levenshtein distance algorithm
+     * was from <a href="http://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a></p>
+     *
+     * <p>Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError
+     * which can occur when my Java implementation is used with very large strings.<br>
+     * This implementation of the Levenshtein distance algorithm
+     * is from <a href="http://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a></p>
+     *
+     * <pre>
+     * unlimitedCompare(null, *)             = IllegalArgumentException
+     * unlimitedCompare(*, null)             = IllegalArgumentException
+     * unlimitedCompare("","")               = 0
+     * unlimitedCompare("","a")              = 1
+     * unlimitedCompare("aaapppp", "")       = 7
+     * unlimitedCompare("frog", "fog")       = 1
+     * unlimitedCompare("fly", "ant")        = 3
+     * unlimitedCompare("elephant", "hippo") = 7
+     * unlimitedCompare("hippo", "elephant") = 7
+     * unlimitedCompare("hippo", "zzzzzzzz") = 8
+     * unlimitedCompare("hello", "hallo")    = 1
+     * </pre>
+     *
+     * @param left the first String, must not be null
+     * @param right the second String, must not be null
+     * @return result distance, or -1
+     * @throws IllegalArgumentException if either String input {@code null}
+     */
+    private static int unlimitedCompare(CharSequence left, CharSequence right) {
+        if (left == null || right == null) {
+            throw new IllegalArgumentException("Strings must not be null");
+        }
+
+        /*
+           The difference between this impl. and the previous is that, rather
+           than creating and retaining a matrix of size s.length() + 1 by t.length() + 1,
+           we maintain two single-dimensional arrays of length s.length() + 1.  The first, d,
+           is the 'current working' distance array that maintains the newest distance cost
+           counts as we iterate through the characters of String s.  Each time we increment
+           the index of String t we are comparing, d is copied to p, the second int[].  Doing so
+           allows us to retain the previous cost counts as required by the algorithm (taking
+           the minimum of the cost count to the left, up one, and diagonally up and to the left
+           of the current cost count being calculated).  (Note that the arrays aren't really
+           copied anymore, just switched...this is clearly much better than cloning an array
+           or doing a System.arraycopy() each time  through the outer loop.)
+
+           Effectively, the difference between the two implementations is this one does not
+           cause an out of memory condition when calculating the LD over two very large strings.
+         */
+
+        int n = left.length(); // length of left
+        int m = right.length(); // length of right
+
+        if (n == 0) {
+            return m;
+        } else if (m == 0) {
+            return n;
+        }
+
+        if (n > m) {
+            // swap the input strings to consume less memory
+            final CharSequence tmp = left;
+            left = right;
+            right = tmp;
+            n = m;
+            m = right.length();
+        }
+
+        int p[] = new int[n + 1]; //'previous' cost array, horizontally
+        int d[] = new int[n + 1]; // cost array, horizontally
+        int _d[]; //placeholder to assist in swapping p and d
+
+        // indexes into strings left and right
+        int i; // iterates through left
+        int j; // iterates through right
+
+        char right_j; // jth character of right
+
+        int cost; // cost
+
+        for (i = 0; i <= n; i++) {
+            p[i] = i;
+        }
+
+        for (j = 1; j <= m; j++) {
+            right_j = right.charAt(j - 1);
+            d[0] = j;
+
+            for (i = 1; i <= n; i++) {
+                cost = left.charAt(i - 1) == right_j ? 0 : 1;
+                // minimum of cell to the left+1, to the top+1, diagonally left and up +cost
+                d[i] = Math.min(Math.min(d[i - 1] + 1, p[i] + 1), p[i - 1] + cost);
+            }
+
+            // copy current distance counts to 'previous row' distance counts
+            _d = p;
+            p = d;
+            d = _d;
+        }
+
+        // our last action in the above loop was to switch d and p, so p now
+        // actually has the most recent cost counts
+        return p[n];
     }
 
 }
