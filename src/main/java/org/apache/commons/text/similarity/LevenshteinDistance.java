@@ -43,7 +43,7 @@ public class LevenshteinDistance implements StringMetric<Integer> {
      * of the algorithm that does not use a threshold parameter.
      * </p>
      *
-     * @see {@link #getDefaultInstance()}
+     * @see LevenshteinDistance#getDefaultInstance()
      */
     public LevenshteinDistance() {
         this(null);
