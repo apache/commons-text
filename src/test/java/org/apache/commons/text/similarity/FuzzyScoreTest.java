@@ -20,56 +20,45 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Locale;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.FuzzyScore}.
+ * Unit tests for {@link org.apache.commons.text.similarity.FuzzyScore}.
  */
 public class FuzzyScoreTest {
 
-    private static FuzzyScore score;
-
-    @BeforeClass
-    public static void setUp() {
-        score = new FuzzyScore();
-    }
+    private static final FuzzyScore ENGLISH_SCORE = new FuzzyScore(Locale.ENGLISH);
 
     @Test
     public void testGetFuzzyScore() throws Exception {
-        assertEquals(0, (int) score.compare("", "", Locale.ENGLISH));
-        assertEquals(0,
-                (int) score.compare("Workshop", "b", Locale.ENGLISH));
-        assertEquals(1,
-                (int) score.compare("Room", "o", Locale.ENGLISH));
-        assertEquals(1,
-                (int) score.compare("Workshop", "w", Locale.ENGLISH));
-        assertEquals(2,
-                (int) score.compare("Workshop", "ws", Locale.ENGLISH));
-        assertEquals(4,
-                (int) score.compare("Workshop", "wo", Locale.ENGLISH));
-        assertEquals(3, (int) score.compare(
-                "Apache Software Foundation", "asf", Locale.ENGLISH));
+        assertEquals(0, (int) ENGLISH_SCORE.apply("", ""));
+        assertEquals(0, (int) ENGLISH_SCORE.apply("Workshop", "b"));
+        assertEquals(1, (int) ENGLISH_SCORE.apply("Room", "o"));
+        assertEquals(1, (int) ENGLISH_SCORE.apply("Workshop", "w"));
+        assertEquals(2, (int) ENGLISH_SCORE.apply("Workshop", "ws"));
+        assertEquals(4, (int) ENGLISH_SCORE.apply("Workshop", "wo"));
+        assertEquals(3, (int) ENGLISH_SCORE.apply(
+            "Apache Software Foundation", "asf"));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetFuzzyScore_NullNullNull() throws Exception {
-        score.compare(null, null, null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetFuzzyScore_StringNullLoclae() throws Exception {
-        score.compare(" ", null, Locale.ENGLISH);
+    public void testGetFuzzyScore_StringNullLocale() throws Exception {
+        ENGLISH_SCORE.apply("not null", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetFuzzyScore_NullStringLocale() throws Exception {
-        score.compare(null, "clear", Locale.ENGLISH);
+        ENGLISH_SCORE.apply(null, "not null");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetFuzzyScore_StringStringNull() throws Exception {
-        score.compare(" ", "clear", null);
+    public void testGetFuzzyScore_NullNullLocale() throws Exception {
+        ENGLISH_SCORE.apply(null, null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMissingLocale() throws Exception {
+        new FuzzyScore((Locale) null);
     }
 
 }
