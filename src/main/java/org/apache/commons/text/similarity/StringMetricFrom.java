@@ -25,6 +25,30 @@ package org.apache.commons.text.similarity;
  * invokes the comparison function for the pair of strings.
  * </p>
  *
+ * <p>
+ * The following is an example which finds the most similar string:
+ * <pre>
+ * StringMetric&lt;Integer&gt; metric = new LevenshteinDistance();
+ * String target = "Apache";
+ * StringMetricFrom&lt;Integer&gt; metricFrom =
+ *     new StringMetricFrom&lt;Integer&gt;(metric, target);
+ * String mostSimilar = null;
+ * Integer shortestDistance = null;
+ * 
+ * for (String test : new String[] { "Appaloosa", "a patchy", "apple" }) {
+ *     Integer distance = metricFrom.apply(test);
+ *     if (shortestDistance == null || distance &lt; shortestDistance) {
+ *         shortestDistance = distance;
+ *         mostSimilar = test;
+ *     }
+ * }
+ *
+ * System.out.println("The string most similar to \"" + target + "\" "
+ *     + "is \"" + mostSimilar + "\" because "
+ *     + "its distance is only " + shortestDistance + ".");
+ * </pre>
+ * </p>
+ *
  * @param <R> This is the type of similarity score
               used by the StringMetric function.
  */
