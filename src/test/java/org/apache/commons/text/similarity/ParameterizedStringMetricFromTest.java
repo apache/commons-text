@@ -71,7 +71,7 @@ public class ParameterizedStringMetricFromTest<R> {
 
             {
                 new StringMetric<Boolean>() {
-                    public Boolean compare(CharSequence left, CharSequence right) {
+                    public Boolean apply(CharSequence left, CharSequence right) {
                         return left == right || (left != null && left.equals(right));
                     }
                 },

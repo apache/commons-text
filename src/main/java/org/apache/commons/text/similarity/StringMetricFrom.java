@@ -17,14 +17,16 @@
 package org.apache.commons.text.similarity;
 
 /**
+ * Stores a {@link StringMetric} implementation
+ * and a {@link CharSequence} "left" string for future comparisons.
+ * 
  * <p>
- * This stores a {@link StringMetric} implementation
- * and a {@link CharSequence} "left" string.
- * The {@link #apply(CharSequence right)} method
- * accepts the "right" string and 
- * invokes the comparison function for the pair of strings.
+ * This is a Function&alt;CharSequence left, R&gt;
+ * The <code>apply</code> method
+ * accepts the "right" {@link CharSequence}
+ * and returns an <code>R</code> type similarity score.
  * </p>
- *
+ * 
  * <p>
  * The following is an example which finds the most similar string:
  * <pre>
@@ -84,10 +86,7 @@ public class StringMetricFrom<R> {
      * @return the similarity score between two CharSequences
      */
     public R apply(CharSequence right) {
-        // NOTE: This method name is inconsistent with StringMetric,
-        //       but StringMetric will be updated by SANDBOX-493
-        //       so that everything matches the Java 8 Function API.
-        return metric.compare(left, right);
+        return metric.apply(left, right);
     }
 
     public CharSequence getLeft() {

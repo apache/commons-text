@@ -35,7 +35,7 @@ public class StringMetricFromTest {
         StringMetricFrom<Integer> metricFrom = new StringMetricFrom<Integer>(metric, left);
 
         assertThat(metricFrom.apply(right), equalTo(distance));
-        assertThat(metricFrom.apply(right), equalTo(metric.compare(left, right)));
+        assertThat(metricFrom.apply(right), equalTo(metric.apply(left, right)));
     }
 
     @Test
