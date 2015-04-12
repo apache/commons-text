@@ -41,7 +41,7 @@ public class CosineDistance implements StringMetric<Double> {
     private final CosineSimilarity cosineSimilarity = new CosineSimilarity();
 
     @Override
-    public Double compare(CharSequence left, CharSequence right) {
+    public Double apply(CharSequence left, CharSequence right) {
         CharSequence[] leftTokens = tokenizer.tokenize(left);
         CharSequence[] rightTokens = tokenizer.tokenize(right);
 

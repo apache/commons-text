@@ -49,10 +49,10 @@ public class CosineDistanceTest {
      */
     @Test
     public void testCosineDistance() {
-        assertEquals(Double.valueOf(0.5d), roundValue(cosineDistance.compare("the house", "da house")));
-        assertEquals(Double.valueOf(0.0d), roundValue(cosineDistance.compare("AB", "AB")));
-        assertEquals(Double.valueOf(1.0d), roundValue(cosineDistance.compare("AB", "BA")));
-        assertEquals(Double.valueOf(0.08d), roundValue(cosineDistance.compare(
+        assertEquals(Double.valueOf(0.5d), roundValue(cosineDistance.apply("the house", "da house")));
+        assertEquals(Double.valueOf(0.0d), roundValue(cosineDistance.apply("AB", "AB")));
+        assertEquals(Double.valueOf(1.0d), roundValue(cosineDistance.apply("AB", "BA")));
+        assertEquals(Double.valueOf(0.08d), roundValue(cosineDistance.apply(
                 "the boy was from tamana shi, kumamoto ken, and the girl was from rio de janeiro, rio",
                 "the boy was from tamana shi, kumamoto, and the boy was from rio de janeiro, rio de janeiro")));
     }
