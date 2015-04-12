@@ -33,8 +33,14 @@ import java.util.Arrays;
  */
 public class LevenshteinDistance implements StringMetric<Integer> {
 
+    /**
+     * Default instance.
+     */
     private static final LevenshteinDistance DEFAULT_INSTANCE = new LevenshteinDistance();
 
+    /**
+     * Threshold.
+     */
     private final Integer threshold;
 
     /**
@@ -106,10 +112,20 @@ public class LevenshteinDistance implements StringMetric<Integer> {
         }
     }
 
+    /**
+     * Gets the default instance.
+     *
+     * @return the default instace
+     */
     public static LevenshteinDistance getDefaultInstance() {
         return DEFAULT_INSTANCE;
     }
 
+    /**
+     * Gets the distance threshold.
+     *
+     * @return the distance threshold
+     */
     public Integer getThreshold() {
         return threshold;
     }
@@ -158,7 +174,7 @@ public class LevenshteinDistance implements StringMetric<Integer> {
          * equal to the threshold value, returning -1 if it's greater. The
          * advantage is performance: unbounded distance is O(nm), but a bound of
          * k allows us to reduce it to O(km) time by only computing a diagonal
-         * stripe of width 2k + 1 of the cost table. It is also possible to use* this to compute the unbounded Levenshtein distance by starting the
+         * stripe of width 2k + 1 of the cost table. It is also possible to use
          * this to compute the unbounded Levenshtein distance by starting the
          * threshold at 1 and doubling each time until the distance is found;
          * this is O(dm), where d is the distance.
@@ -225,7 +241,7 @@ public class LevenshteinDistance implements StringMetric<Integer> {
 
         int[] p = new int[n + 1]; // 'previous' cost array, horizontally
         int[] d = new int[n + 1]; // cost array, horizontally
-        int[] _d; // placeholder to assist in swapping p and d
+        int[] tempD; // placeholder to assist in swapping p and d
 
         // fill in starting table values
         final int boundary = Math.min(n, threshold) + 1;
@@ -239,7 +255,7 @@ public class LevenshteinDistance implements StringMetric<Integer> {
 
         // iterates through t
         for (int j = 1; j <= m; j++) {
-            final char right_j = right.charAt(j - 1); // jth character of right
+            final char rightJ = right.charAt(j - 1); // jth character of right
             d[0] = j;
 
             // compute stripe indices, constrain to array size
@@ -260,7 +276,7 @@ public class LevenshteinDistance implements StringMetric<Integer> {
 
             // iterates through [min, max] in s
             for (int i = min; i <= max; i++) {
-                if (left.charAt(i - 1) == right_j) {
+                if (left.charAt(i - 1) == rightJ) {
                     // diagonally left and up
                     d[i] = p[i - 1];
                 } else {
@@ -271,9 +287,9 @@ public class LevenshteinDistance implements StringMetric<Integer> {
             }
 
             // copy current distance counts to 'previous row' distance counts
-            _d = p;
+            tempD = p;
             p = d;
-            d = _d;
+            d = tempD;
         }
 
         // if p[n] is greater than the threshold, there's no guarantee on it
@@ -357,15 +373,15 @@ public class LevenshteinDistance implements StringMetric<Integer> {
             m = right.length();
         }
 
-        int p[] = new int[n + 1]; //'previous' cost array, horizontally
-        int d[] = new int[n + 1]; // cost array, horizontally
-        int _d[]; //placeholder to assist in swapping p and d
+        int[] p = new int[n + 1]; //'previous' cost array, horizontally
+        int[] d = new int[n + 1]; // cost array, horizontally
+        int[] tempD; //placeholder to assist in swapping p and d
 
         // indexes into strings left and right
         int i; // iterates through left
         int j; // iterates through right
 
-        char right_j; // jth character of right
+        char rightJ; // jth character of right
 
         int cost; // cost
 
@@ -374,19 +390,19 @@ public class LevenshteinDistance implements StringMetric<Integer> {
         }
 
         for (j = 1; j <= m; j++) {
-            right_j = right.charAt(j - 1);
+            rightJ = right.charAt(j - 1);
             d[0] = j;
 
             for (i = 1; i <= n; i++) {
-                cost = left.charAt(i - 1) == right_j ? 0 : 1;
+                cost = left.charAt(i - 1) == rightJ ? 0 : 1;
                 // minimum of cell to the left+1, to the top+1, diagonally left and up +cost
                 d[i] = Math.min(Math.min(d[i - 1] + 1, p[i] + 1), p[i - 1] + cost);
             }
 
             // copy current distance counts to 'previous row' distance counts
-            _d = p;
+            tempD = p;
             p = d;
-            d = _d;
+            d = tempD;
         }
 
         // our last action in the above loop was to switch d and p, so p now

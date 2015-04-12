@@ -40,6 +40,7 @@ import java.util.List;
  * @see CommandVisitor
  * @see ReplacementsHandler
  *
+ * @param <T> object type
  * @since 1.0
  */
 public class EditScript<T> {

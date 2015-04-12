@@ -38,6 +38,10 @@ package org.apache.commons.text.similarity;
 public class JaroWrinklerDistance implements StringMetric<Double> {
 
     /**
+     * The default prefix length limit set to four.
+     */
+    private static final int PREFIX_LENGTH_LIMIT = 4;
+    /**
      * Represents a failed index search.
      */
     public static final int INDEX_NOT_FOUND = -1;
@@ -70,7 +74,8 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
      */
     @Override
     public Double apply(CharSequence left, CharSequence right) {
-        final double DEFAULT_SCALING_FACTOR = 0.1;
+        final double defaultScalingFactor = 0.1;
+        final double percentageRoundValue = 100.0;
 
         if (left == null || right == null) {
             throw new IllegalArgumentException("Strings must not be null");
@@ -78,8 +83,8 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
 
         final double jaro = score(left, right);
         final int cl = commonPrefixLength(left, right);
-        final double matchScore = Math.round((jaro + (DEFAULT_SCALING_FACTOR
-                * cl * (1.0 - jaro))) *100.0)/100.0;
+        final double matchScore = Math.round((jaro + (defaultScalingFactor
+                * cl * (1.0 - jaro))) * percentageRoundValue) / percentageRoundValue;
 
         return matchScore;
     }
@@ -98,7 +103,7 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
                 .length();
 
         // Limit the result to 4.
-        return result > 4 ? 4 : result;
+        return result > PREFIX_LENGTH_LIMIT ? PREFIX_LENGTH_LIMIT : result;
     }
 
     /**
@@ -204,10 +209,12 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
         // of common characters.
         final int transpositions = transpositions(m1, m2);
 
+        final double defaultDenominator = 3.0;
+
         // Calculate the distance.
         final double dist = (m1.length() / ((double) shorter.length())
                 + m2.length() / ((double) longer.length()) + (m1.length() - transpositions)
-                / ((double) m1.length())) / 3.0;
+                / ((double) m1.length())) / defaultDenominator;
         return dist;
     }
 

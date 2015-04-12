@@ -47,12 +47,22 @@ import java.util.List;
  * @see EditScript
  * @see StringsComparator
  *
+ * @param <T> object type
  * @since 1.0
  */
 public class ReplacementsFinder<T> implements CommandVisitor<T> {
 
+    /**
+     * List of pending insertions.
+     */
     private final List<T> pendingInsertions;
+    /**
+     * List of pending deletions.
+     */
     private final List<T> pendingDeletions;
+    /**
+     * Count of elements skipped.
+     */
     private int skipped;
 
     /** Handler to call when synchronized sequences are found. */

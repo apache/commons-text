@@ -21,6 +21,7 @@ import java.util.List;
 /**
  * This interface is devoted to handle synchronized replacement sequences.
  *
+ * @param <T> object type
  * @see ReplacementsFinder
  * @since 1.0
  */

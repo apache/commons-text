@@ -33,6 +33,9 @@ import java.util.Locale;
  */
 public class FuzzyScore implements StringMetric<Integer> {
 
+    /**
+     * Locale used to change the case of text.
+     */
     private final Locale locale;
 
 
@@ -128,6 +131,11 @@ public class FuzzyScore implements StringMetric<Integer> {
         return score;
     }
 
+    /**
+     * Gets the locale.
+     *
+     * @return the locale
+     */
     public Locale getLocale() {
         return locale;
     }
