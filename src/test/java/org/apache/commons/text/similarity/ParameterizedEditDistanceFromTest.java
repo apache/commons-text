@@ -27,24 +27,24 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.StringMetricFrom}.
+ * Unit tests for {@link org.apache.commons.text.similarity.EditDistanceFrom}.
  *
- * @param <R> The {@link StringMetric} return type.
+ * @param <R> The {@link EditDistance} return type.
  */
 @RunWith(Parameterized.class)
-public class ParameterizedStringMetricFromTest<R> {
+public class ParameterizedEditDistanceFromTest<R> {
 
-    private final StringMetric<R> metric;
+    private final EditDistance<R> editDistance;
     private final CharSequence left;
     private final CharSequence right;
     private final R distance;
 
-    public ParameterizedStringMetricFromTest(
-        final StringMetric<R> metric,
+    public ParameterizedEditDistanceFromTest(
+        final EditDistance<R> editDistance,
         final CharSequence left, final CharSequence right,
         final R distance) {
 
-        this.metric = metric;
+        this.editDistance = editDistance;
         this.left = left;
         this.right = right;
         this.distance = distance;
@@ -70,7 +70,7 @@ public class ParameterizedStringMetricFromTest<R> {
             { new LevenshteinDistance(), "go", "go", 0 },
 
             {
-                new StringMetric<Boolean>() {
+                new EditDistance<Boolean>() {
                     public Boolean apply(CharSequence left, CharSequence right) {
                         return left == right || (left != null && left.equals(right));
                     }
@@ -85,8 +85,8 @@ public class ParameterizedStringMetricFromTest<R> {
 
     @Test
     public void test() {
-        StringMetricFrom<R> metricFrom = new StringMetricFrom<R>(metric, left);
-        assertThat(metricFrom.apply(right), equalTo(distance));
+        EditDistanceFrom<R> editDistanceFrom = new EditDistanceFrom<R>(editDistance, left);
+        assertThat(editDistanceFrom.apply(right), equalTo(distance));
     }
 
 }

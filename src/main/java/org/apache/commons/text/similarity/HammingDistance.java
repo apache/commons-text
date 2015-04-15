@@ -24,8 +24,10 @@ package org.apache.commons.text.similarity;
  * For further explanation about the Hamming Distance, take a look at its
  * Wikipedia page at http://en.wikipedia.org/wiki/Hamming_distance.
  * </p>
+ *
+ * @since 1.0
  */
-public class HammingDistance implements StringMetric<Integer> {
+public class HammingDistance implements EditDistance<Integer> {
 
     /**
      * Find the Hamming Distance between two strings with the same

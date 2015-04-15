@@ -29,7 +29,7 @@ import java.util.Set;
  * http://en.wikipedia.org/wiki/Cosine_similarity.
  * </p>
  *
- * @since 0.1
+ * @since 1.0
  */
 public class CosineSimilarity {
 

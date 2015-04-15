@@ -34,8 +34,10 @@ package org.apache.commons.text.similarity;
  * <p>
  * This code has been adapted from Apache Commons Lang 3.3.
  * </p>
+ *
+ * @since 1.0
  */
-public class JaroWrinklerDistance implements StringMetric<Double> {
+public class JaroWrinklerDistance implements EditDistance<Double> {
 
     /**
      * The default prefix length limit set to four.
@@ -83,8 +85,8 @@ public class JaroWrinklerDistance implements StringMetric<Double> {
 
         final double jaro = score(left, right);
         final int cl = commonPrefixLength(left, right);
-        final double matchScore = Math.round((jaro + (defaultScalingFactor
-                * cl * (1.0 - jaro))) * percentageRoundValue) / percentageRoundValue;
+        final double matchScore = Math.round((jaro + defaultScalingFactor
+                * cl * (1.0 - jaro)) * percentageRoundValue) / percentageRoundValue;
 
         return matchScore;
     }

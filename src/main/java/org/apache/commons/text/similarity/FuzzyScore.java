@@ -30,8 +30,10 @@ import java.util.Locale;
  * <p>
  * This code has been adapted from Apache Commons Lang 3.3.
  * </p>
+ *
+ * @since 1.0
  */
-public class FuzzyScore implements StringMetric<Integer> {
+public class FuzzyScore {
 
     /**
      * Locale used to change the case of text.
@@ -61,14 +63,14 @@ public class FuzzyScore implements StringMetric<Integer> {
      * </p>
      *
      * <pre>
-     * score.apply(null, null, null)                                    = IllegalArgumentException
-     * score.apply("", "", Locale.ENGLISH)                              = 0
-     * score.apply("Workshop", "b", Locale.ENGLISH)                     = 0
-     * score.apply("Room", "o", Locale.ENGLISH)                         = 1
-     * score.apply("Workshop", "w", Locale.ENGLISH)                     = 1
-     * score.apply("Workshop", "ws", Locale.ENGLISH)                    = 2
-     * score.apply("Workshop", "wo", Locale.ENGLISH)                    = 4
-     * score.apply("Apache Software Foundation", "asf", Locale.ENGLISH) = 3
+     * score.fuzzyScore(null, null, null)                                    = IllegalArgumentException
+     * score.fuzzyScore("", "", Locale.ENGLISH)                              = 0
+     * score.fuzzyScore("Workshop", "b", Locale.ENGLISH)                     = 0
+     * score.fuzzyScore("Room", "o", Locale.ENGLISH)                         = 1
+     * score.fuzzyScore("Workshop", "w", Locale.ENGLISH)                     = 1
+     * score.fuzzyScore("Workshop", "ws", Locale.ENGLISH)                    = 2
+     * score.fuzzyScore("Workshop", "wo", Locale.ENGLISH)                    = 4
+     * score.fuzzyScore("Apache Software Foundation", "asf", Locale.ENGLISH) = 3
      * </pre>
      *
      * @param term a full term that should be matched against, must not be null
@@ -78,8 +80,7 @@ public class FuzzyScore implements StringMetric<Integer> {
      * @throws IllegalArgumentException if either String input {@code null} or
      *             Locale input {@code null}
      */
-    @Override
-    public Integer apply(CharSequence term, CharSequence query) {
+    public Integer fuzzyScore(CharSequence term, CharSequence query) {
         if (term == null || query == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }

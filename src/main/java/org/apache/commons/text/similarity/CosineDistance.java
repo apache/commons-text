@@ -28,9 +28,9 @@ import org.apache.commons.text.similarity.internal.Tokenizer;
  * <p>It utilizes the CosineSimilarity to compute the distance. Character sequences
  * are converted into vectors through a simple tokenizer that works with </p>
  *
- * @since 0.1
+ * @since 1.0
  */
-public class CosineDistance implements StringMetric<Double> {
+public class CosineDistance implements EditDistance<Double> {
     /**
      * Tokenizer used to convert the character sequence into a vector.
      */

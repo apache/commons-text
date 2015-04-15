@@ -22,17 +22,17 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.StringMetricFrom}.
+ * Unit tests for {@link org.apache.commons.text.similarity.EditDistanceFrom}.
  */
 public class StringMetricFromTest {
 
     @Test
     public void testEquivalence() {
-        StringMetric<Integer> metric = new LevenshteinDistance();
+        EditDistance<Integer> metric = new LevenshteinDistance();
         String left = "Apache";
         String right = "a patchy";
         Integer distance = 4;
-        StringMetricFrom<Integer> metricFrom = new StringMetricFrom<Integer>(metric, left);
+        EditDistanceFrom<Integer> metricFrom = new EditDistanceFrom<Integer>(metric, left);
 
         assertThat(metricFrom.apply(right), equalTo(distance));
         assertThat(metricFrom.apply(right), equalTo(metric.apply(left, right)));
@@ -40,10 +40,10 @@ public class StringMetricFromTest {
 
     @Test
     public void testJavadocExample() {
-        StringMetric<Integer> metric = new LevenshteinDistance();
+        EditDistance<Integer> metric = new LevenshteinDistance();
         String target = "Apache";
-        StringMetricFrom<Integer> metricFrom =
-            new StringMetricFrom<Integer>(metric, target);
+        EditDistanceFrom<Integer> metricFrom =
+            new EditDistanceFrom<Integer>(metric, target);
         String mostSimilar = null;
         Integer shortestDistance = null;
         
@@ -65,7 +65,7 @@ public class StringMetricFromTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testMissingMetric() {
-        new StringMetricFrom<Number>(null, "no go");
+        new EditDistanceFrom<Number>(null, "no go");
     }
 
 }

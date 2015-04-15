@@ -18,7 +18,7 @@ package org.apache.commons.text.similarity;
 
 /**
  * <p>
- * This stores a {@link StringMetric} implementation and a {@link CharSequence} "left" string.
+ * This stores a {@link EditDistance} implementation and a {@link CharSequence} "left" string.
  * The {@link #apply(CharSequence right)} method accepts the "right" string and invokes the
  * comparison function for the pair of strings.
  * </p>
@@ -27,15 +27,15 @@ package org.apache.commons.text.similarity;
  * The following is an example which finds the most similar string:
  * </p>
  * <pre>
- * StringMetric&lt;Integer&gt; metric = new LevenshteinDistance();
+ * EditDistance&lt;Integer&gt; editDistance = new LevenshteinDistance();
  * String target = "Apache";
- * StringMetricFrom&lt;Integer&gt; metricFrom =
- *     new StringMetricFrom&lt;Integer&gt;(metric, target);
+ * EditDistanceFrom&lt;Integer&gt; editDistanceFrom =
+ *     new EditDistanceFrom&lt;Integer&gt;(editDistance, target);
  * String mostSimilar = null;
  * Integer shortestDistance = null;
  *
  * for (String test : new String[] { "Appaloosa", "a patchy", "apple" }) {
- *     Integer distance = metricFrom.apply(test);
+ *     Integer distance = editDistanceFrom.apply(test);
  *     if (shortestDistance == null || distance &lt; shortestDistance) {
  *         shortestDistance = distance;
  *         mostSimilar = test;
@@ -47,47 +47,48 @@ package org.apache.commons.text.similarity;
  *     + "its distance is only " + shortestDistance + ".");
  * </pre>
  *
- * @param <R> This is the type of similarity score used by the StringMetric function.
+ * @param <R> This is the type of similarity score used by the EditDistance function.
+ * @since 1.0
  */
-public class StringMetricFrom<R> {
+public class EditDistanceFrom<R> {
 
     /**
-     * String metric.
+     * Edit distance.
      */
-    private final StringMetric<R> metric;
+    private final EditDistance<R> editDistance;
     /**
      * Left parameter used in distance function.
      */
     private final CharSequence left;
 
     /**
-     * <p>This accepts the metric implementation and the "left" string.</p>
+     * <p>This accepts the edit distance implementation and the "left" string.</p>
      *
-     * @param metric This may not be null.
+     * @param editDistance This may not be null.
      * @param left This may be null here,
-     *             but the StringMetric#compare(CharSequence left, CharSequence right)
+     *             but the EditDistance#compare(CharSequence left, CharSequence right)
      *             implementation may not accept nulls.
      */
-    public StringMetricFrom(final StringMetric<R> metric, final CharSequence left) {
-        if (metric == null) {
-            throw new IllegalArgumentException("The metric may not be null.");
+    public EditDistanceFrom(final EditDistance<R> editDistance, final CharSequence left) {
+        if (editDistance == null) {
+            throw new IllegalArgumentException("The edit distance may not be null.");
         }
 
-        this.metric = metric;
+        this.editDistance = editDistance;
         this.left = left;
     }
 
     /**
      * <p>
      * This compares "left" field against the "right" parameter
-     * using the "metric" implementation.
+     * using the "edit distance" implementation.
      * </p>
      *
      * @param right the second CharSequence
      * @return the similarity score between two CharSequences
      */
     public R apply(CharSequence right) {
-        return metric.apply(left, right);
+        return editDistance.apply(left, right);
     }
 
     /**
@@ -100,12 +101,12 @@ public class StringMetricFrom<R> {
     }
 
     /**
-     * Gets the right parameter.
+     * Gets the edit distance.
      *
-     * @return the right parameter
+     * @return the edit distance
      */
-    public StringMetric<R> getMetric() {
-        return metric;
+    public EditDistance<R> getEditDistance() {
+        return editDistance;
     }
 
 }

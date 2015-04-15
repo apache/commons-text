@@ -17,11 +17,11 @@
 package org.apache.commons.text.similarity;
 
 /**
- * Interface for <a href='http://en.wikipedia.org/wiki/String_metric'>String Metrics</a>.
+ * Interface for <a href="http://en.wikipedia.org/wiki/Edit_distance">Edit Distances</a>.
  *
  * <p>
- * A string metric measures the similarity between two character sequences. Depending on
- * the algorithm, higher values can mean closer strings, or more distant strings.
+ * A edit distance measures the similarity between two character sequences. Closer strings
+ * have shorter distances, and vice-versa.
  * </p>
  *
  * <p>
@@ -31,9 +31,10 @@ package org.apache.commons.text.similarity;
  * and returns an <code>R</code> type similarity score.
  * </p>
  *
- * @param <R> The type of similarity score unit used by this StringMetric.
+ * @param <R> The type of similarity score unit used by this EditDistance.
+ * @since 1.0
  */
-public interface StringMetric<R> {
+public interface EditDistance<R> {
 
     /**
      * Compares two CharSequences.
