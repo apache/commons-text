@@ -20,6 +20,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,8 +55,6 @@ public class ParameterizedEditDistanceFromTest<R> {
     public static Iterable<Object[]> parameters() {
         return Arrays.asList( new Object[][] {
 
-            /* TODO: When SANDBOX-491 is ready, add a few FuzzyScore tests. */
-
             { new HammingDistance(), "Sam I am.", "Ham I am.", 1 },
             { new HammingDistance(), "Japtheth, Ham, Shem", "Japtheth, HAM, Shem", 2 },
             { new HammingDistance(), "Hamming", "Hamming", 0 },
@@ -64,10 +63,13 @@ public class ParameterizedEditDistanceFromTest<R> {
             { new JaroWrinklerDistance(), "hippo", "elephant",  0.44 },
             { new JaroWrinklerDistance(), "hippo", "zzzzzzzz", 0.0 },
 
-            /* TODO: When SANDBOX-491 is ready, add a few limited/threshold tests. */
             { new LevenshteinDistance(), "Apache", "a patchy", 4 },
             { new LevenshteinDistance(), "go", "no go", 3 },
             { new LevenshteinDistance(), "go", "go", 0 },
+
+            { new LevenshteinDistance(4), "Apache", "a patchy", 4 },
+            { new LevenshteinDistance(4), "go", "no go", 3 },
+            { new LevenshteinDistance(0), "go", "go", 0 },
 
             {
                 new EditDistance<Boolean>() {
