@@ -22,6 +22,7 @@
   <body>
 
   <release version="1.0" date="tba" description="tba">
+    <action issue="SANDBOX-496" type="add" dev="kinow">Write user guide</action>
     <action issue="SANDBOX-488" type="fix" dev="kinow">Work on the string metric, distance, and similarity definitions for the project</action>
     <action issue="SANDBOX-487" type="add" dev="kinow">Human name parser</action>
     <action issue="SANDBOX-492" type="fix" dev="kinow" due-to="Jonathan baker">Create StringDistanceFrom class that contains a StringMetric and the "left" side string.  This would have a method that accepts the "right" side string to test.</action>

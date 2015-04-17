@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 /**
  * A simple word tokenizer that utilizes regex to find words. It applies a regex
- * {@code}(\\w)+{@code} over the input text to extract words from a given character
+ * {@code}(\w)+{@code} over the input text to extract words from a given character
  * sequence.
  *
  * @since 0.1

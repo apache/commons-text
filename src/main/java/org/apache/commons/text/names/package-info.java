@@ -17,6 +17,9 @@
 /**
  * <p>A human names parser in Java.</p>
  *
+ * <p>The parser can parse different name formats, producing parts of names such as
+ * first and last name, prefix, suffix and nickname.</p>
+ *
  * @since 1.0
  */
 package org.apache.commons.text.names;
