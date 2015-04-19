@@ -24,58 +24,87 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>A parser capable of parsing name parts out of a single string.</p>
+ * A parser capable of parsing name parts out of a single string.
  *
+ * <h3>Parsing examples</h3>
+ * 
  * <p>The code works by basically applying several Regexes in a certain order
- * and removing (chopping) tokens off the original string. The parser consumes
- * the tokens during its creation.</p>
+ * and removing (chopping) tokens off the original string. The parser creates
+ * a {@link Name} object representing the parse result. Note that passing null
+ * to the {@link #parse(String)} method will result in an exception.</p>
  *
- * <ul>
- * <li>J. Walter Weatherman </li>
- * <li>de la Cruz, Ana M.</li>
- * <li>James C. ('Jimmy') O'Dell, Jr.</li>
- * </ul>
+ * <table>
+ *  <tr>
+ *   <th>input</th>
+ *   <th>Leading initial</th>
+ *   <th>First name</th>
+ *   <th>Nick name</th>
+ *   <th>Middle name</th>
+ *   <th>Last Name</th>
+ *   <th>Suffix</th>
+ *  </tr>
+ *  <tr>
+ *   <td>J. Walter Weatherman</td>
+ *   <td>J.</td>
+ *   <td>Walter</td>
+ *   <td></td>
+ *   <td></td>
+ *   <td>Weatherman</td>
+ *   <td></td>
+ *  </tr>
+ *  <tr>
+ *   <td>de la Cruz, Ana M.</td>
+ *   <td></td>
+ *   <td>Ana</td>
+ *   <td></td>
+ *   <td>M.</td>
+ *   <td>de la Cruz</td>
+ *   <td></td>
+ *  </tr>
+ *  <tr>
+ *   <td>James C. ('Jimmy') O'Dell, Jr.</td>
+ *   <td></td>
+ *   <td>James</td>
+ *   <td>Jimmy</td>
+ *   <td>C.</td>
+ *   <td>O'Dell</td>
+ *   <td>Jr.</td>
+ *  </tr>
+ * </table>
  *
- * <p>and parses out the:</p>
- *
- * <ul>
- * <li>leading initial (Like "J." in "J. Walter Weatherman")</li>
- * <li>first name (or first initial in a name like 'R. Crumb')</li>
- * <li>nicknames (like "Jimmy" in "James C. ('Jimmy') O'Dell, Jr.")</li>
- * <li>middle names</li>
- * <li>last name (including compound ones like "van der Sar' and "Ortega y Gasset"), and</li>
- * <li>suffix (like 'Jr.', 'III')</li>
- * </ul>
- *
+ * <h3>Sample usage</h3>
+ * 
+ * <p>HumanNameParser instances are immutable and can be reused for parsing multiple names:</p>
+ * 
  * <pre>
- * Name name = new Name("Sérgio Vieira de Mello");
- * HumanNameParser parser = new HumanNameParser(name);
- * String firstName = parser.getFirst();
- * String nickname = parser.getNickname();
+ * HumanNameParser parser = new HumanNameParser();
+ * Name parsedName = parser.parse("Sérgio Vieira de Mello")
+ * String firstName = parsedName.getFirstName();
+ * String nickname = parsedName.getNickName();
  * // ...
+ * 
+ * Name nextName = parser.parse("James C. ('Jimmy') O'Dell, Jr.")
+ * String firstName = nextName.getFirstName();
+ * String nickname = nextName.getNickName();
  * </pre>
  *
+ * <h3>Further notes</h3>
+ * 
  * <p>The original code was written in <a href="http://jasonpriem.com/human-name-parse">PHP</a>
- * and ported to <a href="http://tupilabs.github.io/HumanNameParser.java/">Java</a>.</p>
- *
- * <p>This implementation is based on the Java implementation, with additions
- * suggested in <a href="https://issues.apache.org/jira/browse/SANDBOX-487">SANDBOX-487</a>.</p>
+ * and ported to <a href="http://tupilabs.github.io/HumanNameParser.java/">Java</a>. This 
+ * implementation is based on the Java implementation, with additions
+ * suggested in <a href="https://issues.apache.org/jira/browse/SANDBOX-487">SANDBOX-487</a>
+ * and <a href="https://issues.apache.org/jira/browse/SANDBOX-498">SANDBOX-498</a>.</p>
  *
  * <p>This class is immutable.</p>
  */
 public final class HumanNameParser {
 
-    /**
-     * Suffixes found.
-     */
     private final List<String> suffixes;
-    /**
-     * Prefixes found.
-     */
     private final List<String> prefixes;
 
     /**
-     * Creates a parser given a string name.
+     * Creates a new parser.
      */
     public HumanNameParser() {
         // TODO make this configurable
@@ -90,7 +119,7 @@ public final class HumanNameParser {
     }
 
     /**
-     * Consumes the string and creates the name parts.
+     * Parses a name from the given string.
      *
      * @param name the name to parse. Must not be null.
      * @throws NameParseException if the parser fails to retrieve the name parts.
