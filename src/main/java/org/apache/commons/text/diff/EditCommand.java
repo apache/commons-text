@@ -49,7 +49,6 @@ package org.apache.commons.text.diff;
  * @see EditScript
  *
  * @param <T> object type
- * @since 1.0
  */
 public abstract class EditCommand<T> {
 

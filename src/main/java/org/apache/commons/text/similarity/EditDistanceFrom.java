@@ -48,7 +48,6 @@ package org.apache.commons.text.similarity;
  * </pre>
  *
  * @param <R> This is the type of similarity score used by the EditDistance function.
- * @since 1.0
  */
 public class EditDistanceFrom<R> {
 

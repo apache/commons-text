@@ -24,8 +24,6 @@ import java.util.regex.Pattern;
  * for handling with Regexes.</p>
  *
  * <p>This class is not thread-safe.</p>
- *
- * @since 1.0
  */
 public class Name {
 

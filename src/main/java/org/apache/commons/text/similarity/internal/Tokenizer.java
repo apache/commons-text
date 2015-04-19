@@ -20,7 +20,6 @@ package org.apache.commons.text.similarity.internal;
  * A tokenizer. Can produce arrays of tokens from a given type.
  *
  * @param <T> given type
- * @since 0.1
  */
 public interface Tokenizer<T> {
 

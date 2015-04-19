@@ -30,8 +30,6 @@ import org.junit.Test;
 
 /**
  * Tests the {@code HumanNameParser} class.
- *
- * @since 1.0
  */
 public class ParserTest {
 

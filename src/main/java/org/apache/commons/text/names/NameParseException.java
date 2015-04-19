@@ -18,8 +18,6 @@ package org.apache.commons.text.names;
 
 /**
  * Name parse exception.
- *
- * @since 1.0
  */
 public class NameParseException extends RuntimeException {
 

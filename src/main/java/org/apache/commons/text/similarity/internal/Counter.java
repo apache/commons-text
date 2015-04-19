@@ -27,7 +27,6 @@ import java.util.Map;
  *
  * @see <a href="https://docs.python.org/dev/library/collections.html#collections.Counter">
  * https://docs.python.org/dev/library/collections.html#collections.Counter</a>
- * @since 0.1
  */
 public final class Counter {
 
