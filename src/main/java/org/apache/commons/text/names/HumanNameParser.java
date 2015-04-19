@@ -65,10 +65,6 @@ import org.apache.commons.lang3.StringUtils;
 public class HumanNameParser {
 
     /**
-     * Name parsed.
-     */
-    private Name name;
-    /**
      * Leading init part.
      */
     private String leadingInit;
@@ -103,21 +99,8 @@ public class HumanNameParser {
 
     /**
      * Creates a parser given a string name.
-     *
-     * @param name string name
      */
-    public HumanNameParser(String name) {
-        this(new Name(name));
-    }
-
-    /**
-     * Creates a parser given a {@code Name} object.
-     *
-     * @param name {@code Name}
-     */
-    public HumanNameParser(Name name) {
-        this.name = name;
-
+    public HumanNameParser() {
         this.leadingInit = "";
         this.first = "";
         this.nickname = "";
@@ -125,24 +108,15 @@ public class HumanNameParser {
         this.last = "";
         this.suffix = "";
 
-        this.suffixes = Arrays.asList(new String[] {
+        this.suffixes = Arrays.asList(new String[]{
                 "esq", "esquire", "jr",
-                "sr", "2", "ii", "iii", "iv" });
+                "sr", "2", "ii", "iii", "iv"});
         this.prefixes = Arrays
             .asList(new String[] {
                     "bar", "ben", "bin", "da", "dal",
                     "de la", "de", "del", "der", "di", "ibn", "la", "le",
                     "san", "st", "ste", "van", "van der", "van den", "vel",
                     "von" });
-    }
-
-    /**
-     * Gets the {@code Name} object.
-     *
-     * @return the {@code Name} object
-     */
-    public Name getName() {
-        return name;
     }
 
     /**
@@ -220,9 +194,11 @@ public class HumanNameParser {
     /**
      * Consumes the string and creates the name parts.
      *
+     * @param nameStr the name to parse.
      * @throws NameParseException if the parser fails to retrieve the name parts
      */
-    public void parse() {
+    public void parse(String nameStr) {
+        Name name = new Name(nameStr);
         String suffixes = StringUtils.join(this.suffixes, "\\.*|") + "\\.*";
         String prefixes = StringUtils.join(this.prefixes, " |") + " ";
 
@@ -238,28 +214,28 @@ public class HumanNameParser {
         String firstRegex = "(?i)^([^ ]+)";
 
         // get nickname, if there is one
-        this.nickname = this.name.chopWithRegex(nicknamesRegex, 2);
+        this.nickname = name.chopWithRegex(nicknamesRegex, 2);
 
         // get suffix, if there is one
-        this.suffix = this.name.chopWithRegex(suffixRegex, 1);
+        this.suffix = name.chopWithRegex(suffixRegex, 1);
 
         // flip the before-comma and after-comma parts of the name
-        this.name.flip(",");
+        name.flip(",");
 
         // get the last name
-        this.last = this.name.chopWithRegex(lastRegex, 0);
+        this.last = name.chopWithRegex(lastRegex, 0);
 
         // get the first initial, if there is one
-        this.leadingInit = this.name.chopWithRegex(leadingInitRegex, 1);
+        this.leadingInit = name.chopWithRegex(leadingInitRegex, 1);
 
         // get the first name
-        this.first = this.name.chopWithRegex(firstRegex, 0);
+        this.first = name.chopWithRegex(firstRegex, 0);
         if (StringUtils.isBlank(this.first)) {
-            throw new NameParseException("Couldn't find a first name in '{" + this.name.getStr() + "}'");
+            throw new NameParseException("Couldn't find a first name in '{" + name.getStr() + "}'");
         }
 
         // if anything's left, that's the middle name
-        this.middle = this.name.getStr();
+        this.middle = name.getStr();
     }
 
 }

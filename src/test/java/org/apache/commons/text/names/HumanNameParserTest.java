@@ -64,8 +64,8 @@ public class HumanNameParserTest {
      * @param record a CSVRecord representing one record in the input file.
      */
     private void validateRecord(CSVRecord record) {
-        HumanNameParser parser = new HumanNameParser(record.get(Colums.Name));
-        parser.parse();
+        HumanNameParser parser = new HumanNameParser();
+        parser.parse(record.get(Colums.Name));
 
         long recordNum = record.getRecordNumber();
         assertThat("Wrong LeadingInit in record " + recordNum,
