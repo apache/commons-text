@@ -19,6 +19,7 @@ package org.apache.commons.text.names;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -194,10 +195,13 @@ public class HumanNameParser {
     /**
      * Consumes the string and creates the name parts.
      *
-     * @param nameStr the name to parse.
-     * @throws NameParseException if the parser fails to retrieve the name parts
+     * @param nameStr the name to parse. Must not be null.
+     * @throws NameParseException if the parser fails to retrieve the name parts.
+     * @throws NullPointerException if nameStr is null.
      */
     public void parse(String nameStr) {
+        Objects.requireNonNull(nameStr, "Parameter 'nameStr' must not be null.");
+
         Name name = new Name(nameStr);
         String suffixes = StringUtils.join(this.suffixes, "\\.*|") + "\\.*";
         String prefixes = StringUtils.join(this.prefixes, " |") + " ";

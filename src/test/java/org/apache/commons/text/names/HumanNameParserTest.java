@@ -50,6 +50,12 @@ public class HumanNameParserTest {
         }
     }
 
+    @Test(expected = NullPointerException.class)
+    public void shouldThrowNullPointerException_WhenNullIsParsed() throws Exception {
+        HumanNameParser parser = new HumanNameParser();
+        parser.parse(null);
+    }
+
     @Test
     public void testInputs() {
         for (CSVRecord record : parser) {
