@@ -61,27 +61,28 @@ public class HumanNameParserTest {
     /**
      * Validates a line in the testNames.txt file.
      *
-     * @param record the tokens with leading spaces
+     * @param record a CSVRecord representing one record in the input file.
      */
     private void validateRecord(CSVRecord record) {
         HumanNameParser parser = new HumanNameParser(record.get(Colums.Name));
 
-        assertThat("Wrong LeadingInit in record " + record.getRecordNumber(),
+        long recordNum = record.getRecordNumber();
+        assertThat("Wrong LeadingInit in record " + recordNum,
                 parser.getLeadingInit(), equalTo(record.get(Colums.LeadingInit)));
         
-        assertThat("Wrong FirstName in record " + record.getRecordNumber(),
+        assertThat("Wrong FirstName in record " + recordNum,
                 parser.getFirst(), equalTo(record.get(Colums.FirstName)));
         
-        assertThat("Wrong NickName in record " + record.getRecordNumber(),
+        assertThat("Wrong NickName in record " + recordNum,
                 parser.getNickname(), equalTo(record.get(Colums.NickName)));
         
-        assertThat("Wrong MiddleName in record " + record.getRecordNumber(),
+        assertThat("Wrong MiddleName in record " + recordNum,
                 parser.getMiddle(), equalTo(record.get(Colums.MiddleName)));
         
-        assertThat("Wrong LastName in record " + record.getRecordNumber(),
+        assertThat("Wrong LastName in record " + recordNum,
                 parser.getLast(), equalTo(record.get(Colums.LastName)));
         
-        assertThat("Wrong Suffix in record " + record.getRecordNumber(),
+        assertThat("Wrong Suffix in record " + recordNum,
                 parser.getSuffix(), equalTo(record.get(Colums.Suffix)));
     }
 
