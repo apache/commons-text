@@ -16,7 +16,8 @@
  */
 package org.apache.commons.text.names;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 
 import java.nio.charset.Charset;
 
@@ -65,23 +66,23 @@ public class HumanNameParserTest {
     private void validateRecord(CSVRecord record) {
         HumanNameParser parser = new HumanNameParser(record.get(Colums.Name));
 
-        assertEquals("Wrong LeadingInit in record " + record.getRecordNumber(),
-                record.get(Colums.LeadingInit), parser.getLeadingInit());
+        assertThat("Wrong LeadingInit in record " + record.getRecordNumber(),
+                parser.getLeadingInit(), equalTo(record.get(Colums.LeadingInit)));
         
-        assertEquals("Wrong FirstName in record " + record.getRecordNumber(), 
-                record.get(Colums.FirstName), parser.getFirst());
+        assertThat("Wrong FirstName in record " + record.getRecordNumber(),
+                parser.getFirst(), equalTo(record.get(Colums.FirstName)));
         
-        assertEquals("Wrong NickName in record " + record.getRecordNumber(), 
-                record.get(Colums.NickName), parser.getNickname());
+        assertThat("Wrong NickName in record " + record.getRecordNumber(),
+                parser.getNickname(), equalTo(record.get(Colums.NickName)));
         
-        assertEquals("Wrong MiddleName in record " + record.getRecordNumber(), 
-                record.get(Colums.MiddleName), parser.getMiddle());
+        assertThat("Wrong MiddleName in record " + record.getRecordNumber(),
+                parser.getMiddle(), equalTo(record.get(Colums.MiddleName)));
         
-        assertEquals("Wrong LastName in record " + record.getRecordNumber(), 
-                record.get(Colums.LastName), parser.getLast());
+        assertThat("Wrong LastName in record " + record.getRecordNumber(),
+                parser.getLast(), equalTo(record.get(Colums.LastName)));
         
-        assertEquals("Wrong Suffix in record " + record.getRecordNumber(), 
-                record.get(Colums.Suffix), parser.getSuffix());
+        assertThat("Wrong Suffix in record " + record.getRecordNumber(),
+                parser.getSuffix(), equalTo(record.get(Colums.Suffix)));
     }
 
     private enum Colums {
