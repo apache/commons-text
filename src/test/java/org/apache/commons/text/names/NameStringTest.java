@@ -16,7 +16,8 @@
  */
 package org.apache.commons.text.names;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,70 +36,42 @@ public class NameStringTest {
     }
 
     @Test
-    public void testSetStrRemovesWhitespaceAtEnds() {
-        nameString.setStr("    Björn O'Malley \r\n");
-        assertEquals(
-            "Björn O'Malley",
-            nameString.getStr()
-        );
+    public void testChopWithRegexReturnsChoppedSubstring() {
+        NameString nameString = new NameString("Björn O'Malley");
+
+        assertThat(nameString.chopWithRegex("(^([^ ]+))(.+)", 1), equalTo("Björn"));
     }
 
     @Test
-    public void testSetStrRemovesRedudentantWhitespace(){
-        nameString.setStr(" Björn    O'Malley");
-        assertEquals(
-            "Björn O'Malley",
-            nameString.getStr()
-        );
-    }
-
-    @Test
-    public void testChopWithRegexReturnsChoppedSubstring(){
-        nameString.setStr("Björn O'Malley");
-        assertEquals(
-            "Björn",
-            nameString.chopWithRegex("(^([^ ]+))(.+)", 1)
-        );
-    }
-
-    @Test
-    public void testChopWithRegexChopsStartOffNameStr(){
-        nameString.setStr("Björn O'Malley");
+    public void testChopWithRegexChopsStartOffNameStr() {
+        NameString nameString = new NameString("Björn O'Malley");
         nameString.chopWithRegex("(^[^ ]+)", 0);
-        assertEquals(
-                "O'Malley",
-            nameString.getStr()
-        );
+
+        assertThat(nameString.getWrappedString(), equalTo("O'Malley"));
     }
 
     @Test
-    public void testChopWithRegexChopsEndOffNameStr(){
-        nameString.setStr("Björn O'Malley");
+    public void testChopWithRegexChopsEndOffNameStr() {
+        NameString nameString = new NameString("Björn O'Malley");
         nameString.chopWithRegex("( (.+)$)", 1);
-        assertEquals(
-            "Björn",
-            nameString.getStr()
-        );
+
+        assertThat(nameString.getWrappedString(), equalTo("Björn"));
     }
 
     @Test
-    public void testChopWithRegexChopsMiddleFromNameStr(){
-        nameString.setStr("Björn 'Bill' O'Malley");
+    public void testChopWithRegexChopsMiddleFromNameStr() {
+        NameString nameString = new NameString("Björn 'Bill' O'Malley");
         nameString.chopWithRegex("( '[^']+' )", 0);
-        assertEquals(
-            "Björn O'Malley",
-            nameString.getStr()
-        );
+
+        assertThat(nameString.getWrappedString(), equalTo("Björn O'Malley"));
     }
 
     @Test
     public void testFlip() {
-        nameString.setStr("O'Malley, Björn");
+        NameString nameString = new NameString("O'Malley, Björn");
         nameString.flip(",");
-        assertEquals(
-            "Björn O'Malley",
-            nameString.getStr()
-        );
+
+        assertThat(nameString.getWrappedString(), equalTo("Björn O'Malley"));
     }
 
 }

@@ -37,27 +37,17 @@ final class NameString {
      *
      * @param str encapsulated string.
      */
-    public NameString(String str) {
+    NameString(String str) {
         this.str = str;
     }
 
     /**
-     * Gets the encapsulated string.
+     * Gets the wrapped string.
      *
-     * @return encapsulated string
+     * @return wrapped string
      */
-    public String getStr() {
+    String getWrappedString() {
         return str;
-    }
-
-    /**
-     * Sets the encapsulated string value.
-     *
-     * @param str string value
-     */
-    public void setStr(String str) {
-        this.str = str;
-        this.norm();
     }
 
     /**
@@ -70,7 +60,7 @@ final class NameString {
      * @param submatchIndex which of the parenthesized submatches to use
      * @return the part of the namestring that got chopped off
      */
-    public String chopWithRegex(String regex, int submatchIndex) {
+    String chopWithRegex(String regex, int submatchIndex) {
         String chopped = "";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(this.str);
@@ -106,7 +96,7 @@ final class NameString {
      * @param flipAroundChar the character(s) demarcating the two halves you want to flip.
      * @throws NameParseException if a regex fails or a condition is not expected
      */
-    public void flip(String flipAroundChar) {
+    void flip(String flipAroundChar) {
         String[] parts = this.str.split(flipAroundChar);
         if (parts != null) {
             if (parts.length == 2) {
@@ -125,7 +115,7 @@ final class NameString {
      * <p>Strips whitespace chars from ends, strips redundant whitespace, converts
      * whitespace chars to " ".</p>
      */
-    public void norm() {
+    private void norm() {
         this.str = this.str.trim();
         this.str = this.str.replaceAll("\\s+", " ");
         this.str = this.str.replaceAll(",$", " ");

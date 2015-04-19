@@ -100,6 +100,7 @@ public final class HumanNameParser {
         Objects.requireNonNull(name, "Parameter 'name' must not be null.");
 
         NameString nameString = new NameString(name);
+        // TODO compile regexes only once when the parser is created
         String suffixes = StringUtils.join(this.suffixes, "\\.*|") + "\\.*";
         String prefixes = StringUtils.join(this.prefixes, " |") + " ";
 
@@ -132,11 +133,11 @@ public final class HumanNameParser {
         // get the first name
         String first = nameString.chopWithRegex(firstRegex, 0);
         if (StringUtils.isBlank(first)) {
-            throw new NameParseException("Couldn't find a first name in '{" + nameString.getStr() + "}'");
+            throw new NameParseException("Couldn't find a first name in '{" + nameString.getWrappedString() + "}'");
         }
 
         // if anything's left, that's the middle name
-        String middle = nameString.getStr();
+        String middle = nameString.getWrappedString();
         
         return new Name(leadingInit, first, nickname, middle, last, suffix);
     }
