@@ -134,8 +134,6 @@ public class HumanNameParser {
                     "de la", "de", "del", "der", "di", "ibn", "la", "le",
                     "san", "st", "ste", "van", "van der", "van den", "vel",
                     "von" });
-
-        this.parse();
     }
 
     /**
@@ -224,7 +222,7 @@ public class HumanNameParser {
      *
      * @throws NameParseException if the parser fails to retrieve the name parts
      */
-    private void parse() {
+    public void parse() {
         String suffixes = StringUtils.join(this.suffixes, "\\.*|") + "\\.*";
         String prefixes = StringUtils.join(this.prefixes, " |") + " ";
 
