@@ -18,34 +18,26 @@ package org.apache.commons.text.names;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.logging.Logger;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * Tests the {@code HumanNameParser} class.
  */
-public class ParserTest {
+public class HumanNameParserTest {
 
     private CSVParser parser;
 
     @Before
     public void setUp() throws Exception {
         parser = CSVParser.parse(
-                ParserTest.class.getResource("testNames.txt"), 
+                HumanNameParserTest.class.getResource("testNames.txt"), 
                 Charset.forName("UTF-8"), 
                 CSVFormat.DEFAULT.withDelimiter('|').withHeader());
     }
@@ -73,7 +65,7 @@ public class ParserTest {
     private void validateRecord(CSVRecord record) {
         HumanNameParser parser = new HumanNameParser(record.get(Colums.Name));
 
-        assertEquals("Wrong LeadingInit in record " + record.getRecordNumber(), 
+        assertEquals("Wrong LeadingInit in record " + record.getRecordNumber(),
                 record.get(Colums.LeadingInit), parser.getLeadingInit());
         
         assertEquals("Wrong FirstName in record " + record.getRecordNumber(), 
