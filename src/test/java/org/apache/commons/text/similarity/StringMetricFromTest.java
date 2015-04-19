@@ -54,11 +54,6 @@ public class StringMetricFromTest {
                 mostSimilar = test;
             }
         }
-       
-        System.out.println("The string most similar to \"" + target + "\" "
-            + "is \"" + mostSimilar + "\" because "
-            + "its distance is only " + shortestDistance + ".");
-
         assertThat(mostSimilar, equalTo("a patchy"));
         assertThat(shortestDistance, equalTo(4));
     }
