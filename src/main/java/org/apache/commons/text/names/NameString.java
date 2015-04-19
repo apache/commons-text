@@ -98,14 +98,12 @@ final class NameString {
      */
     void flip(String flipAroundChar) {
         String[] parts = this.str.split(flipAroundChar);
-        if (parts != null) {
-            if (parts.length == 2) {
-                this.str = String.format("%s %s", parts[1], parts[0]);
-                this.norm();
-            } else if (parts.length > 2) {
-                throw new NameParseException(
-                        "Can't flip around multiple '" + flipAroundChar + "' characters in namestring.");
-            }
+        if (parts.length == 2) {
+            this.str = String.format("%s %s", parts[1], parts[0]);
+            this.norm();
+        } else if (parts.length > 2) {
+            throw new NameParseException(
+                    "Can't flip around multiple '" + flipAroundChar + "' characters in namestring.");
         }
     }
 
