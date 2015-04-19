@@ -22,10 +22,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.logging.Logger;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -33,70 +40,59 @@ import org.junit.Test;
  */
 public class ParserTest {
 
-    private static final Logger LOGGER = Logger.getLogger(ParserTest.class.getName());
+    private CSVParser parser;
 
-    private static File testNames = null;
-
-    @BeforeClass
-    public static void setUp() {
-        testNames = new File(ParserTest.class.getResource("/org/apache/commons/text/names/testNames.txt").getFile());
+    @Before
+    public void setUp() throws Exception {
+        parser = CSVParser.parse(
+                ParserTest.class.getResource("testNames.txt"), 
+                Charset.forName("UTF-8"), 
+                CSVFormat.DEFAULT.withDelimiter('|').withHeader());
     }
 
-    @Test
-    public void testAll() throws IOException {
-        BufferedReader buffer = null;
-        FileReader reader = null;
-
-        try {
-            reader = new FileReader(testNames);
-            buffer = new BufferedReader(reader);
-
-            String line = null;
-            while ((line = buffer.readLine()) != null) {
-                if (StringUtils.isBlank(line)) {
-                    LOGGER.warning("Empty line in testNames.txt");
-                    continue;
-                }
-
-                String[] tokens = line.split("\\|");
-                if (tokens.length != 7) {
-                    LOGGER.warning(String.format("Invalid line in testNames.txt: %s", line));
-                    continue;
-                }
-
-                validateLine(tokens);
-            }
-        } finally {
-            if (reader != null)
-                reader.close();
-            if (buffer != null)
-                buffer.close();
+    @After
+    public void tearDown() throws Exception {
+        if (parser != null) {
+            parser.close();
         }
     }
 
+    @Test
+    public void testInputs() {
+        for (CSVRecord record : parser) {
+            validateRecord(record);
+        }
+    }
+
+    
     /**
      * Validates a line in the testNames.txt file.
      *
-     * @param tokens the tokens with leading spaces
+     * @param record the tokens with leading spaces
      */
-    private void validateLine(String[] tokens) {
-        String name = tokens[0].trim();
+    private void validateRecord(CSVRecord record) {
+        HumanNameParser parser = new HumanNameParser(record.get(Colums.Name));
 
-        String leadingInit = tokens[1].trim();
-        String first = tokens[2].trim();
-        String nickname = tokens[3].trim();
-        String middle = tokens[4].trim();
-        String last = tokens[5].trim();
-        String suffix = tokens[6].trim();
-
-        HumanNameParser parser = new HumanNameParser(name);
-
-        assertEquals(leadingInit, parser.getLeadingInit());
-        assertEquals(first, parser.getFirst());
-        assertEquals(nickname, parser.getNickname());
-        assertEquals(middle, parser.getMiddle());
-        assertEquals(last, parser.getLast());
-        assertEquals(suffix, parser.getSuffix());
+        assertEquals("Wrong LeadingInit in record " + record.getRecordNumber(), 
+                record.get(Colums.LeadingInit), parser.getLeadingInit());
+        
+        assertEquals("Wrong FirstName in record " + record.getRecordNumber(), 
+                record.get(Colums.FirstName), parser.getFirst());
+        
+        assertEquals("Wrong NickName in record " + record.getRecordNumber(), 
+                record.get(Colums.NickName), parser.getNickname());
+        
+        assertEquals("Wrong MiddleName in record " + record.getRecordNumber(), 
+                record.get(Colums.MiddleName), parser.getMiddle());
+        
+        assertEquals("Wrong LastName in record " + record.getRecordNumber(), 
+                record.get(Colums.LastName), parser.getLast());
+        
+        assertEquals("Wrong Suffix in record " + record.getRecordNumber(), 
+                record.get(Colums.Suffix), parser.getSuffix());
     }
 
+    private enum Colums {
+        Name,LeadingInit,FirstName,NickName,MiddleName,LastName,Suffix
+    }
 }
