@@ -33,32 +33,33 @@ import org.junit.Test;
  */
 public class HumanNameParserTest {
 
-    private CSVParser parser;
+    private CSVParser inputParser;
+    private HumanNameParser nameParser;
 
     @Before
     public void setUp() throws Exception {
-        parser = CSVParser.parse(
+        inputParser = CSVParser.parse(
                 HumanNameParserTest.class.getResource("testNames.txt"), 
                 Charset.forName("UTF-8"), 
                 CSVFormat.DEFAULT.withDelimiter('|').withHeader());
+        nameParser = new HumanNameParser();
     }
 
     @After
     public void tearDown() throws Exception {
-        if (parser != null) {
-            parser.close();
+        if (inputParser != null) {
+            inputParser.close();
         }
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldThrowNullPointerException_WhenNullIsParsed() throws Exception {
-        HumanNameParser parser = new HumanNameParser();
-        parser.parse(null);
+        nameParser.parse(null);
     }
 
     @Test
     public void testInputs() {
-        for (CSVRecord record : parser) {
+        for (CSVRecord record : inputParser) {
             validateRecord(record);
         }
     }
@@ -70,8 +71,7 @@ public class HumanNameParserTest {
      * @param record a CSVRecord representing one record in the input file.
      */
     private void validateRecord(CSVRecord record) {
-        HumanNameParser parser = new HumanNameParser();
-        Name result = parser.parse(record.get(Colums.Name));
+        Name result = nameParser.parse(record.get(Colums.Name));
 
         long recordNum = record.getRecordNumber();
         assertThat("Wrong LeadingInit in record " + recordNum,
