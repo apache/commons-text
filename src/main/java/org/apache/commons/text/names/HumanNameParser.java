@@ -195,14 +195,14 @@ public class HumanNameParser {
     /**
      * Consumes the string and creates the name parts.
      *
-     * @param nameStr the name to parse. Must not be null.
+     * @param name the name to parse. Must not be null.
      * @throws NameParseException if the parser fails to retrieve the name parts.
-     * @throws NullPointerException if nameStr is null.
+     * @throws NullPointerException if name is null.
      */
-    public void parse(String nameStr) {
-        Objects.requireNonNull(nameStr, "Parameter 'nameStr' must not be null.");
+    public Name parse(String name) {
+        Objects.requireNonNull(name, "Parameter 'name' must not be null.");
 
-        Name name = new Name(nameStr);
+        NameString nameString = new NameString(name);
         String suffixes = StringUtils.join(this.suffixes, "\\.*|") + "\\.*";
         String prefixes = StringUtils.join(this.prefixes, " |") + " ";
 
@@ -218,28 +218,30 @@ public class HumanNameParser {
         String firstRegex = "(?i)^([^ ]+)";
 
         // get nickname, if there is one
-        this.nickname = name.chopWithRegex(nicknamesRegex, 2);
+        this.nickname = nameString.chopWithRegex(nicknamesRegex, 2);
 
         // get suffix, if there is one
-        this.suffix = name.chopWithRegex(suffixRegex, 1);
+        this.suffix = nameString.chopWithRegex(suffixRegex, 1);
 
-        // flip the before-comma and after-comma parts of the name
-        name.flip(",");
+        // flip the before-comma and after-comma parts of the nameString
+        nameString.flip(",");
 
-        // get the last name
-        this.last = name.chopWithRegex(lastRegex, 0);
+        // get the last nameString
+        this.last = nameString.chopWithRegex(lastRegex, 0);
 
         // get the first initial, if there is one
-        this.leadingInit = name.chopWithRegex(leadingInitRegex, 1);
+        this.leadingInit = nameString.chopWithRegex(leadingInitRegex, 1);
 
-        // get the first name
-        this.first = name.chopWithRegex(firstRegex, 0);
+        // get the first nameString
+        this.first = nameString.chopWithRegex(firstRegex, 0);
         if (StringUtils.isBlank(this.first)) {
-            throw new NameParseException("Couldn't find a first name in '{" + name.getStr() + "}'");
+            throw new NameParseException("Couldn't find a first name in '{" + nameString.getStr() + "}'");
         }
 
-        // if anything's left, that's the middle name
-        this.middle = name.getStr();
+        // if anything's left, that's the middle nameString
+        this.middle = nameString.getStr();
+        
+        return new Name(leadingInit, first, nickname, middle, last, suffix);
     }
 
 }

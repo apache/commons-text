@@ -25,79 +25,79 @@ import org.junit.Test;
  * Tests for {@code Name} and {@code HumanNameParser}. Utilizes the same
  * input file as the PHP library 0.2 version.
  */
-public class NameTest {
+public class NameStringTest {
 
-    protected Name object;
+    private NameString nameString;
 
     @Before
     public void setUp() {
-        object = new Name("Björn O'Malley");
+        nameString = new NameString("Björn O'Malley");
     }
 
     @Test
     public void testSetStrRemovesWhitespaceAtEnds() {
-        object.setStr("    Björn O'Malley \r\n");
+        nameString.setStr("    Björn O'Malley \r\n");
         assertEquals(
             "Björn O'Malley",
-            object.getStr()
+            nameString.getStr()
         );
     }
 
     @Test
     public void testSetStrRemovesRedudentantWhitespace(){
-        object.setStr(" Björn    O'Malley");
+        nameString.setStr(" Björn    O'Malley");
         assertEquals(
             "Björn O'Malley",
-            object.getStr()
+            nameString.getStr()
         );
     }
 
     @Test
     public void testChopWithRegexReturnsChoppedSubstring(){
-        object.setStr("Björn O'Malley");
+        nameString.setStr("Björn O'Malley");
         assertEquals(
             "Björn",
-            object.chopWithRegex("(^([^ ]+))(.+)", 1)
+            nameString.chopWithRegex("(^([^ ]+))(.+)", 1)
         );
     }
 
     @Test
     public void testChopWithRegexChopsStartOffNameStr(){
-        object.setStr("Björn O'Malley");
-        object.chopWithRegex("(^[^ ]+)", 0);
+        nameString.setStr("Björn O'Malley");
+        nameString.chopWithRegex("(^[^ ]+)", 0);
         assertEquals(
                 "O'Malley",
-            object.getStr()
+            nameString.getStr()
         );
     }
 
     @Test
     public void testChopWithRegexChopsEndOffNameStr(){
-        object.setStr("Björn O'Malley");
-        object.chopWithRegex("( (.+)$)", 1);
+        nameString.setStr("Björn O'Malley");
+        nameString.chopWithRegex("( (.+)$)", 1);
         assertEquals(
             "Björn",
-            object.getStr()
+            nameString.getStr()
         );
     }
 
     @Test
     public void testChopWithRegexChopsMiddleFromNameStr(){
-        object.setStr("Björn 'Bill' O'Malley");
-        object.chopWithRegex("( '[^']+' )", 0);
+        nameString.setStr("Björn 'Bill' O'Malley");
+        nameString.chopWithRegex("( '[^']+' )", 0);
         assertEquals(
             "Björn O'Malley",
-            object.getStr()
+            nameString.getStr()
         );
     }
 
     @Test
     public void testFlip() {
-        object.setStr("O'Malley, Björn");
-        object.flip(",");
+        nameString.setStr("O'Malley, Björn");
+        nameString.flip(",");
         assertEquals(
             "Björn O'Malley",
-            object.getStr()
+            nameString.getStr()
         );
     }
 

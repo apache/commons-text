@@ -71,26 +71,26 @@ public class HumanNameParserTest {
      */
     private void validateRecord(CSVRecord record) {
         HumanNameParser parser = new HumanNameParser();
-        parser.parse(record.get(Colums.Name));
+        Name result = parser.parse(record.get(Colums.Name));
 
         long recordNum = record.getRecordNumber();
         assertThat("Wrong LeadingInit in record " + recordNum,
-                parser.getLeadingInit(), equalTo(record.get(Colums.LeadingInit)));
-        
+                result.getLeadingInitial(), equalTo(record.get(Colums.LeadingInit)));
+
         assertThat("Wrong FirstName in record " + recordNum,
-                parser.getFirst(), equalTo(record.get(Colums.FirstName)));
-        
+                result.getFirstName(), equalTo(record.get(Colums.FirstName)));
+
         assertThat("Wrong NickName in record " + recordNum,
-                parser.getNickname(), equalTo(record.get(Colums.NickName)));
-        
+                result.getNickName(), equalTo(record.get(Colums.NickName)));
+
         assertThat("Wrong MiddleName in record " + recordNum,
-                parser.getMiddle(), equalTo(record.get(Colums.MiddleName)));
-        
+                result.getMiddleName(), equalTo(record.get(Colums.MiddleName)));
+
         assertThat("Wrong LastName in record " + recordNum,
-                parser.getLast(), equalTo(record.get(Colums.LastName)));
-        
+                result.getLastName(), equalTo(record.get(Colums.LastName)));
+
         assertThat("Wrong Suffix in record " + recordNum,
-                parser.getSuffix(), equalTo(record.get(Colums.Suffix)));
+                result.getSuffix(), equalTo(record.get(Colums.Suffix)));
     }
 
     private enum Colums {
