@@ -14,10 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.commons.text.similarity;
+
 /**
- * Classes used internally by similarity algorithms. Internal use only, backward compatibility
- * not guaranteed.
+ * A tokenizer. Can produce arrays of tokens from a given type.
  *
- * @since 0.1
+ * @param <T> given type
  */
-package org.apache.commons.text.similarity.internal;
+interface Tokenizer<T> {
+
+    /**
+     * Returns an array of tokens.
+     *
+     * @param text input text
+     * @return array of tokens
+     */
+    T[] tokenize(CharSequence text);
+
+}

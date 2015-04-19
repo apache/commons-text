@@ -33,7 +33,7 @@
  * </ul>
  *
  * <p>The {@link org.apache.commons.text.similarity.CosineDistance Cosine Distance}
- * utilises a {@link org.apache.commons.text.similarity.internal.RegexTokenizer regular expression tokenizer (\w+)}.
+ * utilises a {@link org.apache.commons.text.similarity.RegexTokenizer regular expression tokenizer (\w+)}.
  * And the {@link org.apache.commons.text.similarity.LevenshteinDistance Levenshtein Distance}'s
  * behaviour can be changed to take into consideration a maximum throughput.</p>
  *

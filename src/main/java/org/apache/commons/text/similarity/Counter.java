@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.text.similarity.internal;
+package org.apache.commons.text.similarity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,7 @@ import java.util.Map;
  * @see <a href="https://docs.python.org/dev/library/collections.html#collections.Counter">
  * https://docs.python.org/dev/library/collections.html#collections.Counter</a>
  */
-public final class Counter {
+final class Counter {
 
     /**
      * Hidden constructor.
