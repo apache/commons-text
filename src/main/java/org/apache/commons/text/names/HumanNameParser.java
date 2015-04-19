@@ -61,8 +61,6 @@ import org.apache.commons.lang3.StringUtils;
  * suggested in <a href="https://issues.apache.org/jira/browse/SANDBOX-487">SANDBOX-487</a>.</p>
  *
  * <p>This class is not thread-safe.</p>
- *
- * @since 1.0
  */
 public class HumanNameParser {
 

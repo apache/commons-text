@@ -18,18 +18,11 @@ package org.apache.commons.text.similarity;
 
 import java.util.Map;
 
-import org.apache.commons.text.similarity.internal.Counter;
-import org.apache.commons.text.similarity.internal.RegexTokenizer;
-import org.apache.commons.text.similarity.internal.Tokenizer;
-
 /**
  * Measures the cosine distance between two character sequences.
  *
  * <p>It utilizes the CosineSimilarity to compute the distance. Character sequences
  * are converted into vectors through a simple tokenizer that works with </p>
- *
- * @see org.apache.commons.text.similarity.internal.RegexTokenizer
- * @since 1.0
  */
 public class CosineDistance implements EditDistance<Double> {
     /**

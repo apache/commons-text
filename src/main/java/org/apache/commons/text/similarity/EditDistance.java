@@ -32,7 +32,6 @@ package org.apache.commons.text.similarity;
  * </p>
  *
  * @param <R> The type of similarity score unit used by this EditDistance.
- * @since 1.0
  */
 public interface EditDistance<R> {
 

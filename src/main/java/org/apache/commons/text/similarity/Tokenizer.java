@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.text.similarity.internal;
+package org.apache.commons.text.similarity;
 
 /**
  * A tokenizer. Can produce arrays of tokens from a given type.
  *
  * @param <T> given type
- * @since 0.1
  */
-public interface Tokenizer<T> {
+interface Tokenizer<T> {
 
     /**
      * Returns an array of tokens.

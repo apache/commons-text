@@ -34,8 +34,6 @@ package org.apache.commons.text.similarity;
  * <p>
  * This code has been adapted from Apache Commons Lang 3.3.
  * </p>
- *
- * @since 1.0
  */
 public class JaroWrinklerDistance implements EditDistance<Double> {
 

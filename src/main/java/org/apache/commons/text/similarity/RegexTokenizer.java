@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.text.similarity.internal;
+package org.apache.commons.text.similarity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +25,8 @@ import java.util.regex.Pattern;
  * A simple word tokenizer that utilizes regex to find words. It applies a regex
  * {@code}(\w)+{@code} over the input text to extract words from a given character
  * sequence.
- *
- * @since 0.1
  */
-public class RegexTokenizer implements Tokenizer<CharSequence> {
+class RegexTokenizer implements Tokenizer<CharSequence> {
 
     /**
      * {@inheritDoc}

@@ -28,8 +28,6 @@ import java.util.Set;
  * For further explanation about the Cosine Similarity, refer to
  * http://en.wikipedia.org/wiki/Cosine_similarity.
  * </p>
- *
- * @since 1.0
  */
 public class CosineSimilarity {
 

@@ -24,8 +24,6 @@ import org.junit.Test;
 /**
  * Tests for {@code Name} and {@code HumanNameParser}. Utilizes the same
  * input file as the PHP library 0.2 version.
- *
- * @since 1.0
  */
 public class NameTest {
 
