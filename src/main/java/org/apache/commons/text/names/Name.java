@@ -41,26 +41,58 @@ public final class Name {
         this.suffix = suffix;
     }
 
+    // TODO Add an example to each getter
+
+    /**
+     * Gets the leading init part of the name.
+     *
+     * @return the leading init part of the name
+     */
     public String getLeadingInitial() {
         return leadingInitial;
     }
 
+    /**
+     * Gets the first name.
+     *
+     * @return first name
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /**
+     * Gets the nickname.
+     *
+     * @return the nickname
+     */
     public String getNickName() {
         return nickName;
     }
 
+    /**
+     * Gets the middle name.
+     *
+     * @return the middle name
+     */
     public String getMiddleName() {
         return middleName;
     }
 
+    /**
+     * Gets the last name.
+     *
+     * @return the last name
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     * Gets the suffix part of the name.
+     *
+     * @return the name suffix
+     */
     public String getSuffix() {
         return suffix;
     }

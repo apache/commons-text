@@ -61,135 +61,32 @@ import org.apache.commons.lang3.StringUtils;
  * <p>This implementation is based on the Java implementation, with additions
  * suggested in <a href="https://issues.apache.org/jira/browse/SANDBOX-487">SANDBOX-487</a>.</p>
  *
- * <p>This class is not thread-safe.</p>
+ * <p>This class is immutable.</p>
  */
 public class HumanNameParser {
 
     /**
-     * Leading init part.
-     */
-    private String leadingInit;
-    /**
-     * First name.
-     */
-    private String first;
-    /**
-     * Single nickname found in the name input.
-     */
-    private String nickname;
-    /**
-     * Middle name.
-     */
-    private String middle;
-    /**
-     * Last name.
-     */
-    private String last;
-    /**
-     * Name suffix.
-     */
-    private String suffix;
-    /**
      * Suffixes found.
      */
-    private List<String> suffixes;
+    private final List<String> suffixes;
     /**
      * Prefixes found.
      */
-    private List<String> prefixes;
+    private final List<String> prefixes;
 
     /**
      * Creates a parser given a string name.
      */
     public HumanNameParser() {
-        this.leadingInit = "";
-        this.first = "";
-        this.nickname = "";
-        this.middle = "";
-        this.last = "";
-        this.suffix = "";
-
-        this.suffixes = Arrays.asList(new String[]{
+        // TODO make this configurable
+        this.suffixes = Arrays.asList(
                 "esq", "esquire", "jr",
-                "sr", "2", "ii", "iii", "iv"});
-        this.prefixes = Arrays
-            .asList(new String[] {
+                "sr", "2", "ii", "iii", "iv");
+        this.prefixes = Arrays.asList(
                     "bar", "ben", "bin", "da", "dal",
                     "de la", "de", "del", "der", "di", "ibn", "la", "le",
                     "san", "st", "ste", "van", "van der", "van den", "vel",
-                    "von" });
-    }
-
-    /**
-     * Gets the leading init part of the name.
-     *
-     * @return the leading init part of the name
-     */
-    public String getLeadingInit() {
-        return leadingInit;
-    }
-
-    /**
-     * Gets the first name.
-     *
-     * @return first name
-     */
-    public String getFirst() {
-        return first;
-    }
-
-    /**
-     * Gets the nickname.
-     *
-     * @return the nickname
-     */
-    public String getNickname() {
-        return nickname;
-    }
-
-    /**
-     * Gets the middle name.
-     *
-     * @return the middle name
-     */
-    public String getMiddle() {
-        return middle;
-    }
-
-    /**
-     * Gets the last name.
-     *
-     * @return the last name
-     */
-    public String getLast() {
-        return last;
-    }
-
-    /**
-     * Gets the suffix part of the name.
-     *
-     * @return the name suffix
-     */
-    public String getSuffix() {
-        return suffix;
-    }
-
-    /**
-     * Gets the name suffixes.
-     *
-     * @return the name suffixes
-     */
-    public List<String> getSuffixes() {
-        return suffixes;
-    }
-
-    /**
-     * Gets the name prefixes.
-     *
-     * @return the name prefixes
-     */
-    public List<String> getPrefixes() {
-        return prefixes;
+                    "von" );
     }
 
     /**
@@ -218,28 +115,28 @@ public class HumanNameParser {
         String firstRegex = "(?i)^([^ ]+)";
 
         // get nickname, if there is one
-        this.nickname = nameString.chopWithRegex(nicknamesRegex, 2);
+        String nickname = nameString.chopWithRegex(nicknamesRegex, 2);
 
         // get suffix, if there is one
-        this.suffix = nameString.chopWithRegex(suffixRegex, 1);
+        String suffix = nameString.chopWithRegex(suffixRegex, 1);
 
-        // flip the before-comma and after-comma parts of the nameString
+        // flip the before-comma and after-comma parts of the name
         nameString.flip(",");
 
-        // get the last nameString
-        this.last = nameString.chopWithRegex(lastRegex, 0);
+        // get the last name
+        String last = nameString.chopWithRegex(lastRegex, 0);
 
         // get the first initial, if there is one
-        this.leadingInit = nameString.chopWithRegex(leadingInitRegex, 1);
+        String leadingInit = nameString.chopWithRegex(leadingInitRegex, 1);
 
-        // get the first nameString
-        this.first = nameString.chopWithRegex(firstRegex, 0);
-        if (StringUtils.isBlank(this.first)) {
+        // get the first name
+        String first = nameString.chopWithRegex(firstRegex, 0);
+        if (StringUtils.isBlank(first)) {
             throw new NameParseException("Couldn't find a first name in '{" + nameString.getStr() + "}'");
         }
 
-        // if anything's left, that's the middle nameString
-        this.middle = nameString.getStr();
+        // if anything's left, that's the middle name
+        String middle = nameString.getStr();
         
         return new Name(leadingInit, first, nickname, middle, last, suffix);
     }
