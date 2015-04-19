@@ -4,6 +4,6 @@ Copyright 2001-2015 The Apache Software Foundation
 This product includes software developed at
 The Apache Software Foundation (http://www.apache.org/).
 
-This product includes software from the HumanNameParser.php
-(https://github.com/jasonpriem/HumanNameParser.php) library,
-under the Apache License 2.0 (see: the o.a.c.t.names package).
+This product includes software ported from the HumanNameParser PHP library
+(https://github.com/jasonpriem/HumanNameParser.php), which is licensed under
+the MIT License (MIT) (see: the o.a.c.t.names package).
