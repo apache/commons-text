@@ -19,212 +19,117 @@ package org.apache.commons.text.names;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>A parser capable of parsing name parts out of a single string.</p>
+ * A parser capable of parsing name parts out of a single string.
  *
+ * <h3>Parsing examples</h3>
+ * 
  * <p>The code works by basically applying several Regexes in a certain order
- * and removing (chopping) tokens off the original string. The parser consumes
- * the tokens during its creation.</p>
+ * and removing (chopping) tokens off the original string. The parser creates
+ * a {@link Name} object representing the parse result. Note that passing null
+ * to the {@link #parse(String)} method will result in an exception.</p>
  *
- * <ul>
- * <li>J. Walter Weatherman </li>
- * <li>de la Cruz, Ana M.</li>
- * <li>James C. ('Jimmy') O'Dell, Jr.</li>
- * </ul>
+ * <table>
+ *  <tr>
+ *   <th>input</th>
+ *   <th>Leading initial</th>
+ *   <th>First name</th>
+ *   <th>Nick name</th>
+ *   <th>Middle name</th>
+ *   <th>Last Name</th>
+ *   <th>Suffix</th>
+ *  </tr>
+ *  <tr>
+ *   <td>J. Walter Weatherman</td>
+ *   <td>J.</td>
+ *   <td>Walter</td>
+ *   <td></td>
+ *   <td></td>
+ *   <td>Weatherman</td>
+ *   <td></td>
+ *  </tr>
+ *  <tr>
+ *   <td>de la Cruz, Ana M.</td>
+ *   <td></td>
+ *   <td>Ana</td>
+ *   <td></td>
+ *   <td>M.</td>
+ *   <td>de la Cruz</td>
+ *   <td></td>
+ *  </tr>
+ *  <tr>
+ *   <td>James C. ('Jimmy') O'Dell, Jr.</td>
+ *   <td></td>
+ *   <td>James</td>
+ *   <td>Jimmy</td>
+ *   <td>C.</td>
+ *   <td>O'Dell</td>
+ *   <td>Jr.</td>
+ *  </tr>
+ * </table>
  *
- * <p>and parses out the:</p>
- *
- * <ul>
- * <li>leading initial (Like "J." in "J. Walter Weatherman")</li>
- * <li>first name (or first initial in a name like 'R. Crumb')</li>
- * <li>nicknames (like "Jimmy" in "James C. ('Jimmy') O'Dell, Jr.")</li>
- * <li>middle names</li>
- * <li>last name (including compound ones like "van der Sar' and "Ortega y Gasset"), and</li>
- * <li>suffix (like 'Jr.', 'III')</li>
- * </ul>
- *
+ * <h3>Sample usage</h3>
+ * 
+ * <p>HumanNameParser instances are immutable and can be reused for parsing multiple names:</p>
+ * 
  * <pre>
- * Name name = new Name("Sérgio Vieira de Mello");
- * HumanNameParser parser = new HumanNameParser(name);
- * String firstName = parser.getFirst();
- * String nickname = parser.getNickname();
+ * HumanNameParser parser = new HumanNameParser();
+ * Name parsedName = parser.parse("Sérgio Vieira de Mello")
+ * String firstName = parsedName.getFirstName();
+ * String nickname = parsedName.getNickName();
  * // ...
+ * 
+ * Name nextName = parser.parse("James C. ('Jimmy') O'Dell, Jr.")
+ * String firstName = nextName.getFirstName();
+ * String nickname = nextName.getNickName();
  * </pre>
  *
+ * <h3>Further notes</h3>
+ * 
  * <p>The original code was written in <a href="http://jasonpriem.com/human-name-parse">PHP</a>
- * and ported to <a href="http://tupilabs.github.io/HumanNameParser.java/">Java</a>.</p>
+ * and ported to <a href="http://tupilabs.github.io/HumanNameParser.java/">Java</a>. This 
+ * implementation is based on the Java implementation, with additions
+ * suggested in <a href="https://issues.apache.org/jira/browse/SANDBOX-487">SANDBOX-487</a>
+ * and <a href="https://issues.apache.org/jira/browse/SANDBOX-498">SANDBOX-498</a>.</p>
  *
- * <p>This implementation is based on the Java implementation, with additions
- * suggested in <a href="https://issues.apache.org/jira/browse/SANDBOX-487">SANDBOX-487</a>.</p>
- *
- * <p>This class is not thread-safe.</p>
+ * <p>This class is immutable.</p>
  */
-public class HumanNameParser {
+public final class HumanNameParser {
+
+    private final List<String> suffixes;
+    private final List<String> prefixes;
 
     /**
-     * Name parsed.
+     * Creates a new parser.
      */
-    private Name name;
-    /**
-     * Leading init part.
-     */
-    private String leadingInit;
-    /**
-     * First name.
-     */
-    private String first;
-    /**
-     * Single nickname found in the name input.
-     */
-    private String nickname;
-    /**
-     * Middle name.
-     */
-    private String middle;
-    /**
-     * Last name.
-     */
-    private String last;
-    /**
-     * Name suffix.
-     */
-    private String suffix;
-    /**
-     * Suffixes found.
-     */
-    private List<String> suffixes;
-    /**
-     * Prefixes found.
-     */
-    private List<String> prefixes;
-
-    /**
-     * Creates a parser given a string name.
-     *
-     * @param name string name
-     */
-    public HumanNameParser(String name) {
-        this(new Name(name));
-    }
-
-    /**
-     * Creates a parser given a {@code Name} object.
-     *
-     * @param name {@code Name}
-     */
-    public HumanNameParser(Name name) {
-        this.name = name;
-
-        this.leadingInit = "";
-        this.first = "";
-        this.nickname = "";
-        this.middle = "";
-        this.last = "";
-        this.suffix = "";
-
-        this.suffixes = Arrays.asList(new String[] {
+    public HumanNameParser() {
+        // TODO make this configurable
+        this.suffixes = Arrays.asList(
                 "esq", "esquire", "jr",
-                "sr", "2", "ii", "iii", "iv" });
-        this.prefixes = Arrays
-            .asList(new String[] {
+                "sr", "2", "ii", "iii", "iv");
+        this.prefixes = Arrays.asList(
                     "bar", "ben", "bin", "da", "dal",
                     "de la", "de", "del", "der", "di", "ibn", "la", "le",
                     "san", "st", "ste", "van", "van der", "van den", "vel",
-                    "von" });
-
-        this.parse();
+                    "von" );
     }
 
     /**
-     * Gets the {@code Name} object.
+     * Parses a name from the given string.
      *
-     * @return the {@code Name} object
+     * @param name the name to parse. Must not be null.
+     * @throws NameParseException if the parser fails to retrieve the name parts.
+     * @throws NullPointerException if name is null.
      */
-    public Name getName() {
-        return name;
-    }
+    public Name parse(String name) {
+        Objects.requireNonNull(name, "Parameter 'name' must not be null.");
 
-    /**
-     * Gets the leading init part of the name.
-     *
-     * @return the leading init part of the name
-     */
-    public String getLeadingInit() {
-        return leadingInit;
-    }
-
-    /**
-     * Gets the first name.
-     *
-     * @return first name
-     */
-    public String getFirst() {
-        return first;
-    }
-
-    /**
-     * Gets the nickname.
-     *
-     * @return the nickname
-     */
-    public String getNickname() {
-        return nickname;
-    }
-
-    /**
-     * Gets the middle name.
-     *
-     * @return the middle name
-     */
-    public String getMiddle() {
-        return middle;
-    }
-
-    /**
-     * Gets the last name.
-     *
-     * @return the last name
-     */
-    public String getLast() {
-        return last;
-    }
-
-    /**
-     * Gets the suffix part of the name.
-     *
-     * @return the name suffix
-     */
-    public String getSuffix() {
-        return suffix;
-    }
-
-    /**
-     * Gets the name suffixes.
-     *
-     * @return the name suffixes
-     */
-    public List<String> getSuffixes() {
-        return suffixes;
-    }
-
-    /**
-     * Gets the name prefixes.
-     *
-     * @return the name prefixes
-     */
-    public List<String> getPrefixes() {
-        return prefixes;
-    }
-
-    /**
-     * Consumes the string and creates the name parts.
-     *
-     * @throws NameParseException if the parser fails to retrieve the name parts
-     */
-    private void parse() {
+        NameString nameString = new NameString(name);
+        // TODO compile regexes only once when the parser is created
         String suffixes = StringUtils.join(this.suffixes, "\\.*|") + "\\.*";
         String prefixes = StringUtils.join(this.prefixes, " |") + " ";
 
@@ -240,28 +145,30 @@ public class HumanNameParser {
         String firstRegex = "(?i)^([^ ]+)";
 
         // get nickname, if there is one
-        this.nickname = this.name.chopWithRegex(nicknamesRegex, 2);
+        String nickname = nameString.chopWithRegex(nicknamesRegex, 2);
 
         // get suffix, if there is one
-        this.suffix = this.name.chopWithRegex(suffixRegex, 1);
+        String suffix = nameString.chopWithRegex(suffixRegex, 1);
 
         // flip the before-comma and after-comma parts of the name
-        this.name.flip(",");
+        nameString.flip(",");
 
         // get the last name
-        this.last = this.name.chopWithRegex(lastRegex, 0);
+        String last = nameString.chopWithRegex(lastRegex, 0);
 
         // get the first initial, if there is one
-        this.leadingInit = this.name.chopWithRegex(leadingInitRegex, 1);
+        String leadingInit = nameString.chopWithRegex(leadingInitRegex, 1);
 
         // get the first name
-        this.first = this.name.chopWithRegex(firstRegex, 0);
-        if (StringUtils.isBlank(this.first)) {
-            throw new NameParseException("Couldn't find a first name in '{" + this.name.getStr() + "}'");
+        String first = nameString.chopWithRegex(firstRegex, 0);
+        if (StringUtils.isBlank(first)) {
+            throw new NameParseException("Couldn't find a first name in '{" + nameString.getWrappedString() + "}'");
         }
 
         // if anything's left, that's the middle name
-        this.middle = this.name.getStr();
+        String middle = nameString.getWrappedString();
+        
+        return new Name(leadingInit, first, nickname, middle, last, suffix);
     }
 
 }

@@ -33,26 +33,33 @@ import org.junit.Test;
  */
 public class HumanNameParserTest {
 
-    private CSVParser parser;
+    private CSVParser inputParser;
+    private HumanNameParser nameParser;
 
     @Before
     public void setUp() throws Exception {
-        parser = CSVParser.parse(
+        inputParser = CSVParser.parse(
                 HumanNameParserTest.class.getResource("testNames.txt"), 
                 Charset.forName("UTF-8"), 
                 CSVFormat.DEFAULT.withDelimiter('|').withHeader());
+        nameParser = new HumanNameParser();
     }
 
     @After
     public void tearDown() throws Exception {
-        if (parser != null) {
-            parser.close();
+        if (inputParser != null) {
+            inputParser.close();
         }
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void shouldThrowNullPointerException_WhenNullIsParsed() throws Exception {
+        nameParser.parse(null);
     }
 
     @Test
     public void testInputs() {
-        for (CSVRecord record : parser) {
+        for (CSVRecord record : inputParser) {
             validateRecord(record);
         }
     }
@@ -64,29 +71,29 @@ public class HumanNameParserTest {
      * @param record a CSVRecord representing one record in the input file.
      */
     private void validateRecord(CSVRecord record) {
-        HumanNameParser parser = new HumanNameParser(record.get(Colums.Name));
+        Name result = nameParser.parse(record.get(Columns.Name));
 
         long recordNum = record.getRecordNumber();
         assertThat("Wrong LeadingInit in record " + recordNum,
-                parser.getLeadingInit(), equalTo(record.get(Colums.LeadingInit)));
-        
+                result.getLeadingInitial(), equalTo(record.get(Columns.LeadingInit)));
+
         assertThat("Wrong FirstName in record " + recordNum,
-                parser.getFirst(), equalTo(record.get(Colums.FirstName)));
-        
+                result.getFirstName(), equalTo(record.get(Columns.FirstName)));
+
         assertThat("Wrong NickName in record " + recordNum,
-                parser.getNickname(), equalTo(record.get(Colums.NickName)));
-        
+                result.getNickName(), equalTo(record.get(Columns.NickName)));
+
         assertThat("Wrong MiddleName in record " + recordNum,
-                parser.getMiddle(), equalTo(record.get(Colums.MiddleName)));
-        
+                result.getMiddleName(), equalTo(record.get(Columns.MiddleName)));
+
         assertThat("Wrong LastName in record " + recordNum,
-                parser.getLast(), equalTo(record.get(Colums.LastName)));
-        
+                result.getLastName(), equalTo(record.get(Columns.LastName)));
+
         assertThat("Wrong Suffix in record " + recordNum,
-                parser.getSuffix(), equalTo(record.get(Colums.Suffix)));
+                result.getSuffix(), equalTo(record.get(Columns.Suffix)));
     }
 
-    private enum Colums {
+    private enum Columns {
         Name,LeadingInit,FirstName,NickName,MiddleName,LastName,Suffix
     }
 }

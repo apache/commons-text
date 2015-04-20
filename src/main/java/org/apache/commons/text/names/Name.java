@@ -16,119 +16,102 @@
  */
 package org.apache.commons.text.names;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Objects;
 
 /**
- * <p>A {@code Name} object that encapsulates a name string, and contains the logic
- * for handling with Regexes.</p>
+ * An object representing the result of parsing a Name.
  *
- * <p>This class is not thread-safe.</p>
+ * <p>This class is immutable.</p>
  */
-public class Name {
+public final class Name {
+
+    private final String leadingInitial;
+    private final String firstName;
+    private final String nickName;
+    private final String middleName;
+    private final String lastName;
+    private final String suffix;
+
+    Name(String leadingInitial, String firstName, String nickName, String middleName, String lastName, String suffix) {
+        this.leadingInitial = leadingInitial;
+        this.firstName = firstName;
+        this.nickName = nickName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.suffix = suffix;
+    }
+
+    // TODO Add an example to each getter
 
     /**
-     * Encapsulated string. Not immutable!
-     */
-    private String str;
-
-    /**
-     * Creates a new Name object.
+     * Gets the leading init part of the name.
      *
-     * @param str encapsulated string.
+     * @return the leading init part of the name
      */
-    public Name(String str) {
-        this.str = str;
+    public String getLeadingInitial() {
+        return leadingInitial;
     }
 
     /**
-     * Gets the encapsulated string.
+     * Gets the first name.
      *
-     * @return encapsulated string
+     * @return first name
      */
-    public String getStr() {
-        return str;
+    public String getFirstName() {
+        return firstName;
     }
 
     /**
-     * Sets the encapsulated string value.
+     * Gets the nickname.
      *
-     * @param str string value
+     * @return the nickname
      */
-    public void setStr(String str) {
-        this.str = str;
-        this.norm();
+    public String getNickName() {
+        return nickName;
     }
 
     /**
-     * Uses a regex to chop off and return part of the namestring.
-     * There are two parts: first, it returns the matched substring,
-     * and then it removes that substring from the encapsulated
-     * string and normalizes it.
+     * Gets the middle name.
      *
-     * @param regex matches the part of the namestring to chop off
-     * @param submatchIndex which of the parenthesized submatches to use
-     * @return the part of the namestring that got chopped off
+     * @return the middle name
      */
-    public String chopWithRegex(String regex, int submatchIndex) {
-        String chopped = "";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(this.str);
-
-        // workdaround for numReplacements in Java
-        int numReplacements = 0;
-        while (matcher.find()) {
-            numReplacements++;
-        }
-
-        // recreate or the groups are gone
-        pattern = Pattern.compile(regex);
-        matcher = pattern.matcher(this.str);
-        if (matcher.find()) {
-            boolean subset = matcher.groupCount() > submatchIndex;
-            if (subset) {
-                this.str = this.str.replaceAll(regex, " ");
-                if (numReplacements > 1) {
-                    throw new NameParseException("The regex being used to find the name has multiple matches.");
-                }
-                this.norm();
-                return matcher.group(submatchIndex).trim();
-            }
-        }
-        return chopped;
+    public String getMiddleName() {
+        return middleName;
     }
 
     /**
-     * Flips the front and back parts of a name with one another.
-     * Front and back are determined by a specified character somewhere in the
-     * middle of the string.
+     * Gets the last name.
      *
-     * @param flipAroundChar the character(s) demarcating the two halves you want to flip.
-     * @throws NameParseException if a regex fails or a condition is not expected
+     * @return the last name
      */
-    public void flip(String flipAroundChar) {
-        String[] parts = this.str.split(flipAroundChar);
-        if (parts != null) {
-            if (parts.length == 2) {
-                this.str = String.format("%s %s", parts[1], parts[0]);
-                this.norm();
-            } else if (parts.length > 2) {
-                throw new NameParseException(
-                        "Can't flip around multiple '" + flipAroundChar + "' characters in namestring.");
-            }
-        }
+    public String getLastName() {
+        return lastName;
     }
 
     /**
-     * <p>Removes extra whitespace and punctuation from {@code this.str}.</p>
+     * Gets the suffix part of the name.
      *
-     * <p>Strips whitespace chars from ends, strips redundant whitespace, converts
-     * whitespace chars to " ".</p>
+     * @return the name suffix
      */
-    public void norm() {
-        this.str = this.str.trim();
-        this.str = this.str.replaceAll("\\s+", " ");
-        this.str = this.str.replaceAll(",$", " ");
+    public String getSuffix() {
+        return suffix;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Name name = (Name) o;
+        return Objects.equals(leadingInitial, name.leadingInitial) &&
+                Objects.equals(firstName, name.firstName) &&
+                Objects.equals(nickName, name.nickName) &&
+                Objects.equals(middleName, name.middleName) &&
+                Objects.equals(lastName, name.lastName) &&
+                Objects.equals(suffix, name.suffix);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(leadingInitial, firstName, nickName, middleName, lastName, suffix);
+    }
 }

@@ -19,7 +19,7 @@ package org.apache.commons.text.names;
 /**
  * Name parse exception.
  */
-public class NameParseException extends RuntimeException {
+public final class NameParseException extends RuntimeException {
 
     /**
      * Serial UID.
