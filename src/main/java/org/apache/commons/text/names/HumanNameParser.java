@@ -33,7 +33,7 @@ import org.apache.commons.lang3.StringUtils;
  * a {@link Name} object representing the parse result. Note that passing null
  * to the {@link #parse(String)} method will result in an exception.</p>
  *
- * <table>
+ * <table summary="Examples">
  *  <tr>
  *   <th>input</th>
  *   <th>Leading initial</th>
@@ -124,6 +124,7 @@ public final class HumanNameParser {
      * @param name the name to parse. Must not be null.
      * @throws NameParseException if the parser fails to retrieve the name parts.
      * @throws NullPointerException if name is null.
+     * @return The name object
      */
     public Name parse(String name) {
         Objects.requireNonNull(name, "Parameter 'name' must not be null.");
