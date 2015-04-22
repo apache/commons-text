@@ -22,6 +22,7 @@
   <body>
 
   <release version="1.0" date="tba" description="tba">
+    <action issue="SANDBOX-499" type="add" dev="kinow">Create Commons Text logo</action>
     <action issue="SANDBOX-498" type="update" dev="britter">Improve HumanNameParser</action>
     <action issue="SANDBOX-497" type="fix" dev="kinow">IP clearance for the names package</action>
     <action issue="SANDBOX-496" type="add" dev="kinow">Write user guide</action>
