@@ -38,7 +38,7 @@
 
   <issueManagement>
     <system>jira</system>
-    <url>http://issues.apache.org/jira/browse/SANDBOX</url>
+    <url>http://issues.apache.org/jira/browse/TEXT</url>
   </issueManagement>
 
   <scm>
@@ -112,8 +112,8 @@
     <commons.release.version>0.1</commons.release.version>
     <commons.release.desc>(Java 6.0+)</commons.release.desc>
 
-    <commons.jira.id>SANDBOX</commons.jira.id>
-    <commons.jira.pid>12317115</commons.jira.pid>
+    <commons.jira.id>TEXT</commons.jira.id>
+    <commons.jira.pid>12318221</commons.jira.pid>
 
     <commons.site.path>text</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/sandbox/commons-text</commons.scmPubUrl>
