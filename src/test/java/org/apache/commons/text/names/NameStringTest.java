@@ -37,14 +37,11 @@ public class NameStringTest {
 
     @Test
     public void testChopWithRegexReturnsChoppedSubstring() {
-        NameString nameString = new NameString("Björn O'Malley");
-
         assertThat(nameString.chopWithRegex("(^([^ ]+))(.+)", 1), equalTo("Björn"));
     }
 
     @Test
     public void testChopWithRegexChopsStartOffNameStr() {
-        NameString nameString = new NameString("Björn O'Malley");
         nameString.chopWithRegex("(^[^ ]+)", 0);
 
         assertThat(nameString.getWrappedString(), equalTo("O'Malley"));
@@ -52,7 +49,6 @@ public class NameStringTest {
 
     @Test
     public void testChopWithRegexChopsEndOffNameStr() {
-        NameString nameString = new NameString("Björn O'Malley");
         nameString.chopWithRegex("( (.+)$)", 1);
 
         assertThat(nameString.getWrappedString(), equalTo("Björn"));
@@ -60,7 +56,6 @@ public class NameStringTest {
 
     @Test
     public void testChopWithRegexChopsMiddleFromNameStr() {
-        NameString nameString = new NameString("Björn 'Bill' O'Malley");
         nameString.chopWithRegex("( '[^']+' )", 0);
 
         assertThat(nameString.getWrappedString(), equalTo("Björn O'Malley"));
@@ -68,7 +63,6 @@ public class NameStringTest {
 
     @Test
     public void testFlip() {
-        NameString nameString = new NameString("O'Malley, Björn");
         nameString.flip(",");
 
         assertThat(nameString.getWrappedString(), equalTo("Björn O'Malley"));
