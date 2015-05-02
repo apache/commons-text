@@ -93,7 +93,7 @@ import org.apache.commons.lang3.StringUtils;
  * <p>The original code was written in <a href="http://jasonpriem.com/human-name-parse">PHP</a>
  * and ported to <a href="http://tupilabs.github.io/HumanNameParser.java/">Java</a>. This 
  * implementation is based on the Java implementation, with additions
- * suggested in <a href="https://issues.apache.org/jira/browse/TEXT-15">TEST-15</a>
+ * suggested in <a href="https://issues.apache.org/jira/browse/TEXT-15">TEXT-15</a>
  * and <a href="https://issues.apache.org/jira/browse/TEXT-16">TEXT-16</a>.</p>
  *
  * <p>This class is immutable.</p>
