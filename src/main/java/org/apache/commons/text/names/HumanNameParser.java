@@ -110,8 +110,7 @@ public final class HumanNameParser {
     public HumanNameParser() {
         // TODO make this configurable
         this.salutations = Arrays.asList(
-                "mr",  "mrs", "ms", "miss", "dr",
-                "mr.",  "mrs.", "ms.", "miss.", "dr."
+                "mr",  "mrs", "ms", "miss", "dr"
         );
         this.suffixes = Arrays.asList(
                 "esq", "esquire", "jr",
@@ -144,7 +143,7 @@ public final class HumanNameParser {
         // but you can select a particular parenthesized submatch to be returned.
         // Also, note that each regex requres that the preceding ones have been run, and matches chopped out.
         // names that starts or end w/ an apostrophe break this
-        String salutationRegex = "^(?i)(("+salutations+"))";
+        String salutationRegex = "^(?i)(("+salutations+")\\.)";
         String nicknamesRegex = "(?i) ('|\\\"|\\(\\\"*'*)(.+?)('|\\\"|\\\"*'*\\)) ";
         String suffixRegex = "(?i),* *((" + suffixes + ")$)";
         String lastRegex = "(?i)(?!^)\\b([^ ]+ y |" + prefixes + ")*[^ ]+$";
