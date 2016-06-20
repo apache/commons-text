@@ -33,7 +33,7 @@ public final class Name {
     private final String lastName;
     private final String suffix;
 
-    Name(String leadingInitial, String salutation, String firstName, String nickName, String middleName, String lastName, String suffix) {
+    public Name(String leadingInitial, String salutation, String firstName, String nickName, String middleName, String lastName, String suffix) {
         this.leadingInitial = leadingInitial;
         this.salutation = salutation;
         this.firstName = firstName;
