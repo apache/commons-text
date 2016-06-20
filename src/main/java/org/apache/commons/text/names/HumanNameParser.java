@@ -100,6 +100,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public final class HumanNameParser {
 
+    private final List<String> salutations;
     private final List<String> suffixes;
     private final List<String> prefixes;
 
@@ -108,6 +109,10 @@ public final class HumanNameParser {
      */
     public HumanNameParser() {
         // TODO make this configurable
+        this.salutations = Arrays.asList(
+                "Mr",  "Mrs", "Ms", "Miss", "Dr",
+                "Mr.",  "Mrs.", "Ms.", "Miss.", "Dr."
+        );
         this.suffixes = Arrays.asList(
                 "esq", "esquire", "jr",
                 "sr", "2", "ii", "iii", "iv");
@@ -131,6 +136,7 @@ public final class HumanNameParser {
 
         NameString nameString = new NameString(name);
         // TODO compile regexes only once when the parser is created
+        String salutations = StringUtils.join(this.salutations, " |") + "";
         String suffixes = StringUtils.join(this.suffixes, "\\.*|") + "\\.*";
         String prefixes = StringUtils.join(this.prefixes, " |") + " ";
 
@@ -138,12 +144,15 @@ public final class HumanNameParser {
         // but you can select a particular parenthesized submatch to be returned.
         // Also, note that each regex requres that the preceding ones have been run, and matches chopped out.
         // names that starts or end w/ an apostrophe break this
+        String salutationRegex = "^(("+salutations+"))";
         String nicknamesRegex = "(?i) ('|\\\"|\\(\\\"*'*)(.+?)('|\\\"|\\\"*'*\\)) ";
         String suffixRegex = "(?i),* *((" + suffixes + ")$)";
         String lastRegex = "(?i)(?!^)\\b([^ ]+ y |" + prefixes + ")*[^ ]+$";
         // note the lookahead, which isn't returned or replaced
         String leadingInitRegex = "(?i)(^(.\\.*)(?= \\p{L}{2}))";
         String firstRegex = "(?i)^([^ ]+)";
+
+        String salutation = nameString.chopWithRegex(salutationRegex, 1);
 
         // get nickname, if there is one
         String nickname = nameString.chopWithRegex(nicknamesRegex, 2);
@@ -169,7 +178,7 @@ public final class HumanNameParser {
         // if anything's left, that's the middle name
         String middle = nameString.getWrappedString();
         
-        return new Name(leadingInit, first, nickname, middle, last, suffix);
+        return new Name(leadingInit, salutation, first, nickname, middle, last, suffix);
     }
 
 }

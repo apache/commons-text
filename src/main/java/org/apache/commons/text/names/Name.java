@@ -26,14 +26,16 @@ import java.util.Objects;
 public final class Name {
 
     private final String leadingInitial;
+    private final String salutation;
     private final String firstName;
     private final String nickName;
     private final String middleName;
     private final String lastName;
     private final String suffix;
 
-    Name(String leadingInitial, String firstName, String nickName, String middleName, String lastName, String suffix) {
+    Name(String leadingInitial, String salutation, String firstName, String nickName, String middleName, String lastName, String suffix) {
         this.leadingInitial = leadingInitial;
+        this.salutation = salutation;
         this.firstName = firstName;
         this.nickName = nickName;
         this.middleName = middleName;
@@ -50,6 +52,11 @@ public final class Name {
      */
     public String getLeadingInitial() {
         return leadingInitial;
+    }
+
+
+    public String getSalutation() {
+        return salutation;
     }
 
     /**
