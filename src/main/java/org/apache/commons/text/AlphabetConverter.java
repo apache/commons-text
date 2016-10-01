@@ -59,7 +59,7 @@ import java.util.Set;
  * </pre>
  *
  * <p>
- * #ThreadSafe# as static factory methods receive arrays, or a map which is copied as an unmodifiable map.
+ * #ThreadSafe# AlphabetConverter class methods are threadsafe as they do not change internal state.
  * </p>
  *
  * @since 0.1
@@ -294,6 +294,8 @@ public class AlphabetConverter {
     /**
      * Create an alphabet converter, for converting from the original alphabet, to the encoded alphabet, while leaving
      * the characters in <em>doNotEncode</em> as they are (if possible).
+     * 
+     * Duplicate letters in either original or encoding will be ignored. 
      *
      * @param original an array of chars representing the original alphabet
      * @param encoding an array of chars representing the alphabet to be used for encoding
@@ -322,6 +324,8 @@ public class AlphabetConverter {
     /**
      * Create an alphabet converter, for converting from the original alphabet, to the encoded alphabet, while leaving
      * the characters in <em>doNotEncode</em> as they are (if possible)
+     * 
+     * Duplicate letters in either original or encoding will be ignored 
      *
      * @param original an array of ints representing the original alphabet in codepoints
      * @param encoding an array of ints representing the alphabet to be used for encoding, in codepoints

@@ -73,16 +73,20 @@ public class AlphabetConverterTest {
         test(english_and_numbers, lower_case_english_and_numbers, numbers, "1", "456", "abc", "ABC", "this will be converted but 12345 and this will be");
     }
 
+    private AlphabetConverter createJavadocExample() {
+        Character[] original = {'a','b','c','d'};
+        Character[] encoding = {'0','1','d'};
+        Character[] doNotEncode = {'d'};
+        
+        return AlphabetConverter.createConverterFromChars(original, encoding, doNotEncode);
+    }
+    
     /*
      * Test example in javadocs for consistency
      */
     @Test
     public void javadocExampleTest() throws UnsupportedEncodingException {
-        Character[] original = {'a','b','c','d'};
-        Character[] encoding = {'0','1','d'};
-        Character[] doNotEncode = {'d'};
-        
-        AlphabetConverter ac = AlphabetConverter.createConverterFromChars(original, encoding, doNotEncode);
+        AlphabetConverter ac = createJavadocExample();
         
         Assert.assertEquals("00", ac.encode("a"));
         Assert.assertEquals("01", ac.encode("b"));
@@ -90,7 +94,29 @@ public class AlphabetConverterTest {
         Assert.assertEquals("d", ac.encode("d"));
         Assert.assertEquals("00010dd", ac.encode("abcd"));
     }
-    
+
+    @Test
+    public void unexpectedEndwhileDecodingTest() throws UnsupportedEncodingException {
+        String toDecode = "00d01d0";
+        
+        thrown.expect(UnsupportedEncodingException.class);
+        thrown.expectMessage("Unexpected end of string while decoding " + toDecode);
+
+        AlphabetConverter ac = createJavadocExample();
+        ac.decode(toDecode);
+    }
+
+    @Test
+    public void unexpectedStringWhileDecodingTest() throws UnsupportedEncodingException {
+        String toDecode = "00XX";
+        
+        thrown.expect(UnsupportedEncodingException.class);
+        thrown.expectMessage("Unexpected string without decoding (XX) in " + toDecode);
+
+        AlphabetConverter ac = createJavadocExample();
+        ac.decode(toDecode);
+    }
+
     /*
      * Test constructor from code points
      */
