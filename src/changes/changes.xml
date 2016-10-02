@@ -22,6 +22,7 @@
   <body>
 
   <release version="1.0" date="tba" description="tba">
+    <action issue="TEXT-19" type="add" dev="kinow" due-to="Eyal Allweil">Add alphabet converter</action>
     <action issue="TEXT-13" type="add" dev="kinow">Create Commons Text logo</action>
     <action issue="TEXT-16" type="update" dev="britter">Improve HumanNameParser</action>
     <action issue="TEXT-5" type="fix" dev="kinow">IP clearance for the names package</action>
