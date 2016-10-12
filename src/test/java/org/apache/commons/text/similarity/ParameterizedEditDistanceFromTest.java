@@ -20,7 +20,6 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
-import java.util.Locale;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
