@@ -1,4 +1,19 @@
-# Include only files generated during build, and avoid IDE specific files 
-target/
+# Maven build files
+target
+*.log
+maven-eclipse.xml
+build.properties
 site-content
+*~
 
+# IntelliJ IDEA files
+.idea
+.iws
+*.iml
+*.ipr
+
+# Eclipse files
+.settings
+.classpath
+.project
+.externalToolBuilders
