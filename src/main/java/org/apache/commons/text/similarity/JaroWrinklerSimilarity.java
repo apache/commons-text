@@ -35,7 +35,7 @@ package org.apache.commons.text.similarity;
  * This code has been adapted from Apache Commons Lang 3.3.
  * </p>
  */
-public class JaroWrinklerDistance implements EditDistance<Double> {
+public class JaroWrinklerSimilarity implements EditDistance<Double> {
 
     /**
      * The default prefix length limit set to four.
