@@ -98,7 +98,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * <p>This class is immutable.</p>
  */
-public class HumanNameParser {
+public final class HumanNameParser {
 
     private final List<String> salutations;
     private final List<String> suffixes;
