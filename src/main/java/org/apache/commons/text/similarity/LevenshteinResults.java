@@ -24,53 +24,53 @@ package org.apache.commons.text.similarity;
  */
 public class LevenshteinResults {
 
-	private final Integer distance;
-	private final Integer insertCount;
-	private final Integer deleteCount;
-	private final Integer substituteCount;
+    private final Integer distance;
+    private final Integer insertCount;
+    private final Integer deleteCount;
+    private final Integer substituteCount;
 
-	public LevenshteinResults (final Integer distance, final Integer insertCount, final Integer deleteCount, final Integer substituteCount) {
-		this.distance = distance;
-		this.insertCount = insertCount;
-		this.deleteCount = deleteCount;
-		this.substituteCount = substituteCount;
-	}
+    public LevenshteinResults (final Integer distance, final Integer insertCount, final Integer deleteCount, final Integer substituteCount) {
+        this.distance = distance;
+        this.insertCount = insertCount;
+        this.deleteCount = deleteCount;
+        this.substituteCount = substituteCount;
+    }
 
-	/**
-	 * gets the distance between two character sequence.
-	 * @return distance between two character sequence.
-	 */
-	public Integer getDistance() {
-		return distance;
-	}
+    /**
+     * gets the distance between two character sequence.
+     * @return distance between two character sequence.
+     */
+    public Integer getDistance() {
+        return distance;
+    }
 
-	/**
-	 * gets the number of insertion needed to change one character sequence to
-	 * other.
-	 * 
-	 * @return insert character count.
-	 */
-	public Integer getInsertCount() {
-		return insertCount;
-	}
+    /**
+     * gets the number of insertion needed to change one character sequence to
+     * other.
+     * 
+     * @return insert character count.
+     */
+    public Integer getInsertCount() {
+        return insertCount;
+    }
 
-	/**
-	 * gets the number of character deletion needed to change one character
-	 * sequence to other.
-	 * 
-	 * @return delete character count.
-	 */
-	public Integer getDeleteCount() {
-		return deleteCount;
-	}
+    /**
+     * gets the number of character deletion needed to change one character
+     * sequence to other.
+     * 
+     * @return delete character count.
+     */
+    public Integer getDeleteCount() {
+        return deleteCount;
+    }
 
-	/**
-	 * get the number of character substitution needed to change one character
-	 * sequence to other.
-	 * 
-	 * @return substitute character count.
-	 */
-	public Integer getSubstituteCount() {
-		return substituteCount;
-	}
+    /**
+     * get the number of character substitution needed to change one character
+     * sequence to other.
+     * 
+     * @return substitute character count.
+     */
+    public Integer getSubstituteCount() {
+        return substituteCount;
+    }
 }

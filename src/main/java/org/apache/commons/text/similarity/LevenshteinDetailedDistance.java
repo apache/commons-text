@@ -223,9 +223,9 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         // if one string is empty, the edit distance is necessarily the length
         // of the other
         if (n == 0) {
-        	return m <= threshold ? new LevenshteinResults(m, m, 0, 0) : new LevenshteinResults(-1, 0, 0, 0);
+            return m <= threshold ? new LevenshteinResults(m, m, 0, 0) : new LevenshteinResults(-1, 0, 0, 0);
         } else if (m == 0) {
-        	return n <= threshold ? new LevenshteinResults(n, 0, n, 0) : new LevenshteinResults(-1, 0, 0, 0);
+            return n <= threshold ? new LevenshteinResults(n, 0, n, 0) : new LevenshteinResults(-1, 0, 0, 0);
         }
 
         boolean swapped = false;
@@ -246,10 +246,10 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
 
         //filling the first row and first column values in the matrix
         for(int index = 0; index <=n; index++) {
-        	matrix[0][index] = index;
+            matrix[0][index] = index;
         }
         for(int index = 0; index <=m; index++) {
-        	matrix[index][0] = index;
+            matrix[index][0] = index;
         }
         
         // fill in starting table values
@@ -381,7 +381,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
             right = tmp;
             n = m;
             m = right.length();
-        	swapped = true;
+            swapped = true;
         }
 
         int[] p = new int[n + 1]; //'previous' cost array, horizontally
@@ -391,10 +391,10 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
 
         //filling the first row and first column values in the matrix
         for(int index = 0; index <=n; index++) {
-        	matrix[0][index] = index;
+            matrix[0][index] = index;
         }
         for(int index = 0; index <=m; index++) {
-        	matrix[index][0] = index;
+            matrix[index][0] = index;
         }
 
         // indexes into strings left and right
@@ -428,103 +428,103 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         return findDetailedResults(left, right, matrix, swapped);
     }
 
-	/**
-	 * Finds count for each of the three [insert, delete, substitute] operations
-	 * needed. This is based on the matrix formed based on the two character
-	 * sequence.
-	 * 
-	 * @param left
-	 *            character sequence which need to be converted from.
-	 * @param right
-	 *            character sequence which need to be converted to.
-	 * @param matrix
-	 *            two dimensional array containing
-	 * @param swapped
-	 *            tells whether the value for left character sequence and right
-	 *            character sequence were swapped to save memory
-	 * @return result object containing the count of insert, delete and
-	 *         substitute and total count needed
-	 */
-	private static LevenshteinResults findDetailedResults(CharSequence left, CharSequence right, int[][] matrix,
-			boolean swapped) {
+    /**
+     * Finds count for each of the three [insert, delete, substitute] operations
+     * needed. This is based on the matrix formed based on the two character
+     * sequence.
+     * 
+     * @param left
+     *            character sequence which need to be converted from.
+     * @param right
+     *            character sequence which need to be converted to.
+     * @param matrix
+     *            two dimensional array containing
+     * @param swapped
+     *            tells whether the value for left character sequence and right
+     *            character sequence were swapped to save memory
+     * @return result object containing the count of insert, delete and
+     *         substitute and total count needed
+     */
+    private static LevenshteinResults findDetailedResults(CharSequence left, CharSequence right, int[][] matrix,
+            boolean swapped) {
 
-		int delCount = 0;
-		int addCount = 0;
-		int subCount = 0;
+        int delCount = 0;
+        int addCount = 0;
+        int subCount = 0;
 
-		int rowIndex = right.length();
-		int columnIndex = left.length();
+        int rowIndex = right.length();
+        int columnIndex = left.length();
 
-		int dataAtLeft = 0;
-		int dataAtTop = 0;
-		int dataAtDiagonal = 0;
-		int data = 0;
-		boolean deleted = false;
-		boolean added = false;
+        int dataAtLeft = 0;
+        int dataAtTop = 0;
+        int dataAtDiagonal = 0;
+        int data = 0;
+        boolean deleted = false;
+        boolean added = false;
 
-		while (rowIndex >= 0 && columnIndex >= 0) {
+        while (rowIndex >= 0 && columnIndex >= 0) {
 
-			if (columnIndex == 0) {
-				dataAtLeft = -1;
-			} else {
-				dataAtLeft = matrix[rowIndex][columnIndex - 1];
-			}
-			if (rowIndex == 0) {
-				dataAtTop = -1;
-			} else {
-				dataAtTop = matrix[rowIndex - 1][columnIndex];
-			}
-			if (rowIndex > 0 && columnIndex > 0) {
-				dataAtDiagonal = matrix[rowIndex - 1][columnIndex - 1];
-			} else {
-				dataAtDiagonal = -1;
-			}
-			if (dataAtLeft == -1 && dataAtTop == -1 && dataAtDiagonal == -1) {
-				break;
-			}
-			data = matrix[rowIndex][columnIndex];
+            if (columnIndex == 0) {
+                dataAtLeft = -1;
+            } else {
+                dataAtLeft = matrix[rowIndex][columnIndex - 1];
+            }
+            if (rowIndex == 0) {
+                dataAtTop = -1;
+            } else {
+                dataAtTop = matrix[rowIndex - 1][columnIndex];
+            }
+            if (rowIndex > 0 && columnIndex > 0) {
+                dataAtDiagonal = matrix[rowIndex - 1][columnIndex - 1];
+            } else {
+                dataAtDiagonal = -1;
+            }
+            if (dataAtLeft == -1 && dataAtTop == -1 && dataAtDiagonal == -1) {
+                break;
+            }
+            data = matrix[rowIndex][columnIndex];
 
-			// case in which the character at left and right are the same,
-			// in this case none of the counters will be incremented.
-			if (columnIndex > 0 && rowIndex > 0 && left.charAt(columnIndex - 1) == right.charAt(rowIndex - 1)) {
-				columnIndex--;
-				rowIndex--;
-				continue;
-			}
+            // case in which the character at left and right are the same,
+            // in this case none of the counters will be incremented.
+            if (columnIndex > 0 && rowIndex > 0 && left.charAt(columnIndex - 1) == right.charAt(rowIndex - 1)) {
+                columnIndex--;
+                rowIndex--;
+                continue;
+            }
 
-			// handling insert and delete cases.
-			deleted = false;
-			added = false;
-			if (data - 1 == dataAtLeft && (data <= dataAtDiagonal && data <= dataAtTop)
-					|| (dataAtDiagonal == -1 && dataAtTop == -1)) {
-				columnIndex--;
-				if (swapped == true) {
-					addCount++;
-					added = true;
-				} else {
-					delCount++;
-					deleted = true;
-				}
-			}
-			else if (data - 1 == dataAtTop && (data <= dataAtDiagonal && data <= dataAtLeft)
-					|| (dataAtDiagonal == -1 && dataAtLeft == -1)) {
-				rowIndex--;
-				if (swapped == true) {
-					delCount++;
-					deleted = true;
-				} else {
-					addCount++;
-					added = true;
-				}
-			}
+            // handling insert and delete cases.
+            deleted = false;
+            added = false;
+            if (data - 1 == dataAtLeft && (data <= dataAtDiagonal && data <= dataAtTop)
+                    || (dataAtDiagonal == -1 && dataAtTop == -1)) {
+                columnIndex--;
+                if (swapped == true) {
+                    addCount++;
+                    added = true;
+                } else {
+                    delCount++;
+                    deleted = true;
+                }
+            }
+            else if (data - 1 == dataAtTop && (data <= dataAtDiagonal && data <= dataAtLeft)
+                    || (dataAtDiagonal == -1 && dataAtLeft == -1)) {
+                rowIndex--;
+                if (swapped == true) {
+                    delCount++;
+                    deleted = true;
+                } else {
+                    addCount++;
+                    added = true;
+                }
+            }
 
-			// substituted case
-			if (!added && !deleted) {
-				subCount++;
-				columnIndex--;
-				rowIndex--;
-			}
-		}
-		return new LevenshteinResults(addCount + delCount + subCount, addCount, delCount, subCount);
-	}
+            // substituted case
+            if (!added && !deleted) {
+                subCount++;
+                columnIndex--;
+                rowIndex--;
+            }
+        }
+        return new LevenshteinResults(addCount + delCount + subCount, addCount, delCount, subCount);
+    }
 }
