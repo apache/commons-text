@@ -40,7 +40,7 @@ class RegexTokenizer implements Tokenizer<CharSequence> {
         }
         Pattern pattern = Pattern.compile("(\\w)+");
         Matcher matcher = pattern.matcher(text.toString());
-        List<String> tokens = new ArrayList<String>();
+        List<String> tokens = new ArrayList<>();
         while (matcher.find()) {
             tokens.add(matcher.group(0));
         }

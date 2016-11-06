@@ -46,7 +46,7 @@ public class StringsComparatorTest {
     @Test
     public void testExecution() {
         for (int i = 0; i < before.size(); ++i) {
-            final ExecutionVisitor<Character> ev = new ExecutionVisitor<Character>();
+            final ExecutionVisitor<Character> ev = new ExecutionVisitor<>();
             new StringsComparator(before.get(i), after.get(i)).getScript().visit(ev);
             Assert.assertEquals(after.get(i), ev.getString());
         }
