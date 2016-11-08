@@ -215,7 +215,7 @@ public class StringsComparator {
                 }
                 // Second step
                 if (delta % 2 != 0 && delta - d <= k && k <= delta + d) {
-                    if (vUp[i - delta] <= vDown[i]) {
+                    if (vUp[i - delta] <= vDown[i]) { // NOPMD
                         return buildSnake(vUp[i - delta], k + start1 - start2, end1, end2);
                     }
                 }
@@ -241,7 +241,7 @@ public class StringsComparator {
                 }
                 // Second step
                 if (delta % 2 == 0 && -d <= k && k <= d) {
-                    if (vUp[i] <= vDown[i + delta]) {
+                    if (vUp[i] <= vDown[i + delta]) { // NOPMD
                         return buildSnake(vUp[i], k + start1 - start2, end1, end2);
                     }
                 }

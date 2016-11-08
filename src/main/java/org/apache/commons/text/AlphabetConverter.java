@@ -92,11 +92,10 @@ public final class AlphabetConverter {
      *
      * @param originalToEncoded original string to be encoded
      * @param encodedToOriginal encoding alphabet
-     * @param doNotEncodeMap encoding black list
      * @param encodedLetterLength length of the encoded letter
      */
     private AlphabetConverter(Map<Integer, String> originalToEncoded, Map<String, String> encodedToOriginal,
-            Map<Integer, String> doNotEncodeMap, int encodedLetterLength) {
+            int encodedLetterLength) {
 
         this.originalToEncoded = originalToEncoded;
         this.encodedToOriginal = encodedToOriginal;
@@ -205,6 +204,7 @@ public final class AlphabetConverter {
      * @param originals original values
      * @param doNotEncodeMap map of values that should not be encoded
      */
+    @SuppressWarnings("PMD")
     private void addSingleEncoding(int level, String currentEncoding, Collection<Integer> encoding,
             Iterator<Integer> originals, Map<Integer, String> doNotEncodeMap) {
 
@@ -306,8 +306,7 @@ public final class AlphabetConverter {
             }
         }
 
-        return new AlphabetConverter(unmodifiableOriginalToEncoded, encodedToOriginal, doNotEncodeMap,
-                encodedLetterLength);
+        return new AlphabetConverter(unmodifiableOriginalToEncoded, encodedToOriginal, encodedLetterLength);
     }
 
     /**
@@ -412,7 +411,7 @@ public final class AlphabetConverter {
                 }
             }
 
-            return new AlphabetConverter(originalToEncoded, encodedToOriginal, doNotEncodeMap, encodedLetterLength);
+            return new AlphabetConverter(originalToEncoded, encodedToOriginal, encodedLetterLength);
 
         } else if (encodingCopy.size() - doNotEncodeCopy.size() < 2) {
             throw new IllegalArgumentException(
@@ -435,8 +434,7 @@ public final class AlphabetConverter {
 
             encodedLetterLength = lettersSoFar + 1;
 
-            AlphabetConverter ac = new AlphabetConverter(originalToEncoded, encodedToOriginal, doNotEncodeMap,
-                    encodedLetterLength);
+            AlphabetConverter ac = new AlphabetConverter(originalToEncoded, encodedToOriginal, encodedLetterLength);
 
             ac.addSingleEncoding(encodedLetterLength, "", encodingCopy, originalCopy.iterator(), doNotEncodeMap);
 
