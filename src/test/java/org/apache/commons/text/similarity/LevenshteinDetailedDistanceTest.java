@@ -86,6 +86,55 @@ public class LevenshteinDetailedDistanceTest {
         assertEquals(0, (int) result.getDeleteCount());
         assertEquals(1, (int) result.getSubstituteCount());
     }
+    
+    @Test
+    public void testEquals() {
+     LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
+     LevenshteinResults actualResult = classBeingTested.apply("hello", "hallo");
+     LevenshteinResults expectedResult = new LevenshteinResults(1, 0, 0, 1);
+     assertEquals(actualResult, expectedResult);
+     
+     actualResult = classBeingTested.apply("zzzzzzzz", "hippo");
+     expectedResult = new LevenshteinResults(8, 0, 3, 5);
+     assertEquals(actualResult, expectedResult);
+     assertEquals(actualResult, actualResult); //intentionally added
+
+     actualResult = classBeingTested.apply("", "");
+     expectedResult = new LevenshteinResults(0, 0, 0, 0);
+     assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testHashCode() {
+     LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
+     LevenshteinResults actualResult = classBeingTested.apply("aaapppp", "");
+     LevenshteinResults expectedResult = new LevenshteinResults(7, 0, 7, 0);
+     assertEquals(actualResult.hashCode(), expectedResult.hashCode());
+     
+     actualResult = classBeingTested.apply("frog", "fog");
+     expectedResult = new LevenshteinResults(1, 0, 1, 0);
+     assertEquals(actualResult.hashCode(), expectedResult.hashCode());
+
+     actualResult = classBeingTested.apply("elephant", "hippo");
+     expectedResult = new LevenshteinResults(7, 0, 3, 4);
+     assertEquals(actualResult.hashCode(), expectedResult.hashCode());
+    }
+
+    @Test
+    public void testToString() {
+     LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
+     LevenshteinResults actualResult = classBeingTested.apply("fly", "ant");
+     LevenshteinResults expectedResult = new LevenshteinResults(3, 0, 0, 3);
+     assertEquals(actualResult.toString(), expectedResult.toString());
+     
+     actualResult = classBeingTested.apply("hippo", "elephant");
+     expectedResult = new LevenshteinResults(7, 3, 0, 4);
+     assertEquals(actualResult.toString(), expectedResult.toString());
+
+     actualResult = classBeingTested.apply("", "a");
+     expectedResult = new LevenshteinResults(1, 1, 0, 0);
+     assertEquals(actualResult.toString(), expectedResult.toString());
+    }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetLevenshteinDetailedDistance_NullString() throws Exception {
