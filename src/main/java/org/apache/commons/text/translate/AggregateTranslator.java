@@ -16,8 +16,6 @@
  */
 package org.apache.commons.text.translate;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.io.IOException;
 import java.io.Writer;
 
@@ -37,7 +35,11 @@ public class AggregateTranslator extends CharSequenceTranslator {
      * @param translators CharSequenceTranslator array to aggregate
      */
     public AggregateTranslator(final CharSequenceTranslator... translators) {
-        this.translators = ArrayUtils.clone(translators);
+        if (translators != null) {
+            this.translators = translators.clone();
+        } else {
+            this.translators = null;
+        }
     }
 
     /**
