@@ -27,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
  * A parser capable of parsing name parts out of a single string.
  *
  * <h3>Parsing examples</h3>
- * 
+ *
  * <p>The code works by basically applying several Regexes in a certain order
  * and removing (chopping) tokens off the original string. The parser creates
  * a {@link Name} object representing the parse result. Note that passing null
@@ -73,25 +73,25 @@ import org.apache.commons.lang3.StringUtils;
  * </table>
  *
  * <h3>Sample usage</h3>
- * 
+ *
  * <p>HumanNameParser instances are immutable and can be reused for parsing multiple names:</p>
- * 
+ *
  * <pre>
  * HumanNameParser parser = new HumanNameParser();
  * Name parsedName = parser.parse("Sérgio Vieira de Mello")
  * String firstName = parsedName.getFirstName();
  * String nickname = parsedName.getNickName();
  * // ...
- * 
+ *
  * Name nextName = parser.parse("James C. ('Jimmy') O'Dell, Jr.")
  * String firstName = nextName.getFirstName();
  * String nickname = nextName.getNickName();
  * </pre>
  *
  * <h3>Further notes</h3>
- * 
+ *
  * <p>The original code was written in <a href="http://jasonpriem.com/human-name-parse">PHP</a>
- * and ported to <a href="http://tupilabs.github.io/HumanNameParser.java/">Java</a>. This 
+ * and ported to <a href="http://tupilabs.github.io/HumanNameParser.java/">Java</a>. This
  * implementation is based on the Java implementation, with additions
  * suggested in <a href="https://issues.apache.org/jira/browse/TEXT-15">TEXT-15</a>
  * and <a href="https://issues.apache.org/jira/browse/TEXT-16">TEXT-16</a>.</p>
@@ -100,7 +100,13 @@ import org.apache.commons.lang3.StringUtils;
  */
 public final class HumanNameParser {
 
+    /**
+     * List of suffixes. Not exposed to users or children classes.
+     */
     private final List<String> suffixes;
+    /**
+     * List of prefixes. Not exposed to users or children classes.
+     */
     private final List<String> prefixes;
 
     /**
@@ -115,7 +121,7 @@ public final class HumanNameParser {
                     "bar", "ben", "bin", "da", "dal",
                     "de la", "de", "del", "der", "di", "ibn", "la", "le",
                     "san", "st", "ste", "van", "van der", "van den", "vel",
-                    "von" );
+                    "von");
     }
 
     /**
@@ -168,7 +174,7 @@ public final class HumanNameParser {
 
         // if anything's left, that's the middle name
         String middle = nameString.getWrappedString();
-        
+
         return new Name(leadingInit, first, nickname, middle, last, suffix);
     }
 

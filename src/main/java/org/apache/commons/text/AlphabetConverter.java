@@ -64,14 +64,27 @@ import java.util.Set;
  *
  * @since 0.1
  */
-public class AlphabetConverter {
+public final class AlphabetConverter {
 
+    /**
+     * Original string to be encoded.
+     */
     private final Map<Integer, String> originalToEncoded;
+    /**
+     * Encoding alphabet.
+     */
     private final Map<String, String> encodedToOriginal;
-
+    /**
+     * Length of the encoded letter.
+     */
     private final int encodedLetterLength;
-
+    /**
+     * Arrow constant, used for converting the object into a string.
+     */
     private static final String ARROW = " -> ";
+    /**
+     * Line separator, used for converting the object into a string.
+     */
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     /**
@@ -123,7 +136,7 @@ public class AlphabetConverter {
     }
 
     /**
-     * Decodes a given string
+     * Decode a given string.
      *
      * @param encoded a string that has been encoded using this AlphabetConverter
      * @return the decoded string, {@code null} if the given string is null
@@ -175,7 +188,7 @@ public class AlphabetConverter {
 
     /**
      * Get the mapping from integer code point of source language to encoded string. Use to reconstruct converter from
-     * serialized map
+     * serialized map.
      *
      * @return the original map
      */
@@ -184,7 +197,13 @@ public class AlphabetConverter {
     }
 
     /**
-     * Recursive method used when creating encoder/decoder
+     * Recursive method used when creating encoder/decoder.
+     *
+     * @param level at which point it should add a single encoding
+     * @param currentEncoding current encoding
+     * @param encoding letters encoding
+     * @param originals original values
+     * @param doNotEncodeMap map of values that should not be encoded
      */
     private void addSingleEncoding(int level, String currentEncoding, Collection<Integer> encoding,
             Iterator<Integer> originals, Map<Integer, String> doNotEncodeMap) {
@@ -245,7 +264,7 @@ public class AlphabetConverter {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof AlphabetConverter == false) {
+        if (!(obj instanceof AlphabetConverter)) {
             return false;
         }
         final AlphabetConverter other = (AlphabetConverter) obj;
@@ -294,8 +313,8 @@ public class AlphabetConverter {
     /**
      * Create an alphabet converter, for converting from the original alphabet, to the encoded alphabet, while leaving
      * the characters in <em>doNotEncode</em> as they are (if possible).
-     * 
-     * Duplicate letters in either original or encoding will be ignored. 
+     *
+     * <p>Duplicate letters in either original or encoding will be ignored.</p>
      *
      * @param original an array of chars representing the original alphabet
      * @param encoding an array of chars representing the alphabet to be used for encoding
@@ -310,6 +329,12 @@ public class AlphabetConverter {
                 convertCharsToIntegers(doNotEncode));
     }
 
+    /**
+     * Convert characters to integers.
+     *
+     * @param chars array of characters
+     * @return an equivalent array of integers
+     */
     private static Integer[] convertCharsToIntegers(Character[] chars) {
         if (chars == null || chars.length == 0) {
             return new Integer[0];
@@ -323,9 +348,9 @@ public class AlphabetConverter {
 
     /**
      * Create an alphabet converter, for converting from the original alphabet, to the encoded alphabet, while leaving
-     * the characters in <em>doNotEncode</em> as they are (if possible)
-     * 
-     * Duplicate letters in either original or encoding will be ignored 
+     * the characters in <em>doNotEncode</em> as they are (if possible).
+     *
+     * <p>Duplicate letters in either original or encoding will be ignored.</p>
      *
      * @param original an array of ints representing the original alphabet in codepoints
      * @param encoding an array of ints representing the alphabet to be used for encoding, in codepoints
@@ -391,7 +416,7 @@ public class AlphabetConverter {
 
         } else if (encodingCopy.size() - doNotEncodeCopy.size() < 2) {
             throw new IllegalArgumentException(
-                    "Must have at least two encoding characters (not counting those in the 'do not encode' list), but has "
+                    "Must have at least two encoding characters (excluding those in the 'do not encode' list), but has "
                             + (encodingCopy.size() - doNotEncodeCopy.size()));
         } else {
             // we start with one which is our minimum, and because we do the
