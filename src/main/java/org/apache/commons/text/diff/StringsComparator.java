@@ -108,7 +108,7 @@ public class StringsComparator {
      *         sequences
      */
     public EditScript<Character> getScript() {
-        final EditScript<Character> script = new EditScript<Character>();
+        final EditScript<Character> script = new EditScript<>();
         buildScript(0, left.length(), 0, right.length(), script);
         return script;
     }
@@ -134,15 +134,15 @@ public class StringsComparator {
             int j = start2;
             while (i < end1 || j < end2) {
                 if (i < end1 && j < end2 && left.charAt(i) == right.charAt(j)) {
-                    script.append(new KeepCommand<Character>(left.charAt(i)));
+                    script.append(new KeepCommand<>(left.charAt(i)));
                     ++i;
                     ++j;
                 } else {
                     if (end1 - start1 > end2 - start2) {
-                        script.append(new DeleteCommand<Character>(left.charAt(i)));
+                        script.append(new DeleteCommand<>(left.charAt(i)));
                         ++i;
                     } else {
-                        script.append(new InsertCommand<Character>(right.charAt(j)));
+                        script.append(new InsertCommand<>(right.charAt(j)));
                         ++j;
                     }
                 }
@@ -154,7 +154,7 @@ public class StringsComparator {
                         start2, middle.getStart() - middle.getDiag(),
                         script);
             for (int i = middle.getStart(); i < middle.getEnd(); ++i) {
-                script.append(new KeepCommand<Character>(left.charAt(i)));
+                script.append(new KeepCommand<>(left.charAt(i)));
             }
             buildScript(middle.getEnd(), end1,
                         middle.getEnd() - middle.getDiag(), end2,
@@ -215,7 +215,7 @@ public class StringsComparator {
                 }
                 // Second step
                 if (delta % 2 != 0 && delta - d <= k && k <= delta + d) {
-                    if (vUp[i - delta] <= vDown[i]) {
+                    if (vUp[i - delta] <= vDown[i]) { // NOPMD
                         return buildSnake(vUp[i - delta], k + start1 - start2, end1, end2);
                     }
                 }
@@ -241,7 +241,7 @@ public class StringsComparator {
                 }
                 // Second step
                 if (delta % 2 == 0 && -d <= k && k <= d) {
-                    if (vUp[i] <= vDown[i + delta]) {
+                    if (vUp[i] <= vDown[i + delta]) { // NOPMD
                         return buildSnake(vUp[i], k + start1 - start2, end1, end2);
                     }
                 }

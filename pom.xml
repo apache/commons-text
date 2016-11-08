@@ -63,6 +63,11 @@
       <id>chtompki</id>
       <email>chtompki@apache.org</email>
     </developer>
+    <developer>
+      <name>Gary Gregory</name>
+      <id>ggregory</id>
+      <email>ggregory@apache.org</email>
+    </developer>
   </developers>
   <contributors>
 
@@ -74,7 +79,7 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <!-- if upgrading, be sure to check shaded jar relocations! -->
-      <version>3.4</version>
+      <version>3.5</version>
     </dependency>
     <!-- testing -->
     <dependency>
@@ -93,7 +98,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-csv</artifactId>
-      <version>1.1</version>
+      <version>1.4</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -115,7 +120,7 @@
     <commons.componentid>text</commons.componentid>
     <!-- Current 3.x release series -->
     <commons.release.version>0.1</commons.release.version>
-    <commons.release.desc>(Java 6.0+)</commons.release.desc>
+    <commons.release.desc>(Java 7+)</commons.release.desc>
 
     <commons.jira.id>TEXT</commons.jira.id>
     <commons.jira.pid>12318221</commons.jira.pid>
@@ -314,7 +319,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>javancss-maven-plugin</artifactId>
-        <version>2.0</version>
       </plugin>
     </plugins>
   </reporting>

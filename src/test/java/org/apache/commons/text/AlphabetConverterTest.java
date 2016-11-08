@@ -136,7 +136,7 @@ public class AlphabetConverterTest {
     @Test
     public void noEncodingLettersTest() {
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Must have at least two encoding characters (not counting those in the 'do not encode' list), but has 0");
+        thrown.expectMessage("Must have at least two encoding characters (excluding those in the 'do not encode' list), but has 0");
 
         AlphabetConverter.createConverterFromChars(english_and_numbers, numbers, numbers);
     }
@@ -144,7 +144,7 @@ public class AlphabetConverterTest {
     @Test
     public void onlyOneEncodingLettersTest() {
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Must have at least two encoding characters (not counting those in the 'do not encode' list), but has 1");
+        thrown.expectMessage("Must have at least two encoding characters (excluding those in the 'do not encode' list), but has 1");
 
         Character[] numbersPlusUnderscore = Arrays.copyOf(numbers, numbers.length + 1);
         numbersPlusUnderscore[numbersPlusUnderscore.length -1] = '_';

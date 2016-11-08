@@ -72,7 +72,7 @@ public class CosineSimilarity {
      */
     private Set<CharSequence> getIntersection(Map<CharSequence, Integer> leftVector,
             Map<CharSequence, Integer> rightVector) {
-        Set<CharSequence> intersection = new HashSet<CharSequence>(leftVector.keySet());
+        Set<CharSequence> intersection = new HashSet<>(leftVector.keySet());
         intersection.retainAll(rightVector.keySet());
         return intersection;
     }

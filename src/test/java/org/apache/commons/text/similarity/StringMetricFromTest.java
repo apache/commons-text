@@ -32,7 +32,7 @@ public class StringMetricFromTest {
         String left = "Apache";
         String right = "a patchy";
         Integer distance = 4;
-        EditDistanceFrom<Integer> metricFrom = new EditDistanceFrom<Integer>(metric, left);
+        EditDistanceFrom<Integer> metricFrom = new EditDistanceFrom<>(metric, left);
 
         assertThat(metricFrom.apply(right), equalTo(distance));
         assertThat(metricFrom.apply(right), equalTo(metric.apply(left, right)));
@@ -43,7 +43,7 @@ public class StringMetricFromTest {
         EditDistance<Integer> metric = new LevenshteinDistance();
         String target = "Apache";
         EditDistanceFrom<Integer> metricFrom =
-            new EditDistanceFrom<Integer>(metric, target);
+            new EditDistanceFrom<>(metric, target);
         String mostSimilar = null;
         Integer shortestDistance = null;
         

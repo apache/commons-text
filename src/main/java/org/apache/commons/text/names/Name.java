@@ -25,13 +25,41 @@ import java.util.Objects;
  */
 public final class Name {
 
+    /**
+     * Leading initial. e.g. <em>F.</em>, as in <em>Francisco ('Chico') Silva Zhao II</em>.
+     */
     private final String leadingInitial;
+    /**
+     * The first name, e.g. <em>Francisco</em>, as in <em>Francisco ('Chico') Silva Zhao II</em>.
+     */
     private final String firstName;
+    /**
+     * The nickname, e.g. <em>Chico</em>, as in <em>Francisco ('Chico') Silva Zhao II</em>.
+     */
     private final String nickName;
+    /**
+     * The middle name, e.g. <em>Silva</em>, as in <em>Francisco ('Chico') Silva Zhao II</em>.
+     */
     private final String middleName;
+    /**
+     * The last name, e.g. <em>Zhao</em>, as in <em>Francisco ('Chico') Silva Zhao II</em>.
+     */
     private final String lastName;
+    /**
+     * The suffix, e.g. <em>II</em>, as in <em>Francisco ('Chico') Silva Zhao II</em>.
+     */
     private final String suffix;
 
+    /**
+     * Create a Name.
+     *
+     * @param leadingInitial the leading initial
+     * @param firstName the first name
+     * @param nickName the nickname
+     * @param middleName the middle name
+     * @param lastName the last name
+     * @param suffix a suffix
+     */
     Name(String leadingInitial, String firstName, String nickName, String middleName, String lastName, String suffix) {
         this.leadingInitial = leadingInitial;
         this.firstName = firstName;
@@ -40,8 +68,6 @@ public final class Name {
         this.lastName = lastName;
         this.suffix = suffix;
     }
-
-    // TODO Add an example to each getter
 
     /**
      * Gets the leading init part of the name.
@@ -99,15 +125,19 @@ public final class Name {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Name name = (Name) o;
-        return Objects.equals(leadingInitial, name.leadingInitial) &&
-                Objects.equals(firstName, name.firstName) &&
-                Objects.equals(nickName, name.nickName) &&
-                Objects.equals(middleName, name.middleName) &&
-                Objects.equals(lastName, name.lastName) &&
-                Objects.equals(suffix, name.suffix);
+        return Objects.equals(leadingInitial, name.leadingInitial)
+                && Objects.equals(firstName, name.firstName)
+                && Objects.equals(nickName, name.nickName)
+                && Objects.equals(middleName, name.middleName)
+                && Objects.equals(lastName, name.lastName)
+                && Objects.equals(suffix, name.suffix);
     }
 
     @Override

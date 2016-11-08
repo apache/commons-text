@@ -161,7 +161,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * @param threshold the target threshold, must not be negative
      * @return result distance, or -1
      */
-    private static int limitedCompare(CharSequence left, CharSequence right, int threshold) {
+    private static int limitedCompare(CharSequence left, CharSequence right, int threshold) { // NOPMD
         if (left == null || right == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }
