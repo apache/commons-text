@@ -18,8 +18,6 @@ package org.apache.commons.text.translate;
 
 /**
  * Translates codepoints to their Unicode escaped value suitable for Java source.
- * 
- * @since 3.2
  */
 public class JavaUnicodeEscaper extends UnicodeEscaper {
 
@@ -32,7 +30,7 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
      *            above which to escape
      * @return the newly created {@code UnicodeEscaper} instance
      */
-    public static org.apache.commons.text.translate.JavaUnicodeEscaper above(final int codepoint) {
+    public static JavaUnicodeEscaper above(final int codepoint) {
         return outsideOf(0, codepoint);
     }
 
@@ -45,7 +43,7 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
      *            below which to escape
      * @return the newly created {@code UnicodeEscaper} instance
      */
-    public static org.apache.commons.text.translate.JavaUnicodeEscaper below(final int codepoint) {
+    public static JavaUnicodeEscaper below(final int codepoint) {
         return outsideOf(codepoint, Integer.MAX_VALUE);
     }
 
@@ -60,8 +58,8 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
      *            below which to escape
      * @return the newly created {@code UnicodeEscaper} instance
      */
-    public static org.apache.commons.text.translate.JavaUnicodeEscaper between(final int codepointLow, final int codepointHigh) {
-        return new org.apache.commons.text.translate.JavaUnicodeEscaper(codepointLow, codepointHigh, true);
+    public static JavaUnicodeEscaper between(final int codepointLow, final int codepointHigh) {
+        return new JavaUnicodeEscaper(codepointLow, codepointHigh, true);
     }
 
     /**
@@ -75,8 +73,8 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
      *            above which to escape
      * @return the newly created {@code UnicodeEscaper} instance
      */
-    public static org.apache.commons.text.translate.JavaUnicodeEscaper outsideOf(final int codepointLow, final int codepointHigh) {
-        return new org.apache.commons.text.translate.JavaUnicodeEscaper(codepointLow, codepointHigh, false);
+    public static JavaUnicodeEscaper outsideOf(final int codepointLow, final int codepointHigh) {
+        return new JavaUnicodeEscaper(codepointLow, codepointHigh, false);
     }
 
     /**

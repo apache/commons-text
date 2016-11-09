@@ -23,8 +23,6 @@ import java.util.HashSet;
 
 /**
  * Translates a value using a lookup table.
- *
- * @since 3.0
  */
 public class LookupTranslator extends CharSequenceTranslator {
 

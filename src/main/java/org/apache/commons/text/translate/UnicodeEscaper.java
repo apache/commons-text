@@ -21,8 +21,6 @@ import java.io.Writer;
 
 /**
  * Translates codepoints to their Unicode escaped value.
- *
- * @since 3.0
  */
 public class UnicodeEscaper extends CodePointTranslator {
 
@@ -59,7 +57,7 @@ public class UnicodeEscaper extends CodePointTranslator {
      * @param codepoint below which to escape
      * @return the newly created {@code UnicodeEscaper} instance
      */
-    public static org.apache.commons.text.translate.UnicodeEscaper below(final int codepoint) {
+    public static UnicodeEscaper below(final int codepoint) {
         return outsideOf(codepoint, Integer.MAX_VALUE);
     }
 
@@ -69,7 +67,7 @@ public class UnicodeEscaper extends CodePointTranslator {
      * @param codepoint above which to escape
      * @return the newly created {@code UnicodeEscaper} instance
      */
-    public static org.apache.commons.text.translate.UnicodeEscaper above(final int codepoint) {
+    public static UnicodeEscaper above(final int codepoint) {
         return outsideOf(0, codepoint);
     }
 
@@ -80,8 +78,8 @@ public class UnicodeEscaper extends CodePointTranslator {
      * @param codepointHigh above which to escape
      * @return the newly created {@code UnicodeEscaper} instance
      */
-    public static org.apache.commons.text.translate.UnicodeEscaper outsideOf(final int codepointLow, final int codepointHigh) {
-        return new org.apache.commons.text.translate.UnicodeEscaper(codepointLow, codepointHigh, false);
+    public static UnicodeEscaper outsideOf(final int codepointLow, final int codepointHigh) {
+        return new UnicodeEscaper(codepointLow, codepointHigh, false);
     }
 
     /**
@@ -91,8 +89,8 @@ public class UnicodeEscaper extends CodePointTranslator {
      * @param codepointHigh below which to escape
      * @return the newly created {@code UnicodeEscaper} instance
      */
-    public static org.apache.commons.text.translate.UnicodeEscaper between(final int codepointLow, final int codepointHigh) {
-        return new org.apache.commons.text.translate.UnicodeEscaper(codepointLow, codepointHigh, true);
+    public static UnicodeEscaper between(final int codepointLow, final int codepointHigh) {
+        return new UnicodeEscaper(codepointLow, codepointHigh, true);
     }
 
     /**
