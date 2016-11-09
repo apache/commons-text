@@ -22,6 +22,7 @@
   <body>
 
   <release version="1.0" date="tba" description="tba">
+    <action issue="TEXT-10" type="add" dev="kinow" due-to="Don Jeba">A more complex Levenshtein distance</action>
     <action issue="TEXT-24" type="add" dev="chtompki">Add coveralls and Travis.ci integration</action>
     <action issue="TEXT-19" type="add" dev="kinow" due-to="Eyal Allweil">Add alphabet converter</action>
     <action issue="TEXT-13" type="add" dev="kinow">Create Commons Text logo</action>
