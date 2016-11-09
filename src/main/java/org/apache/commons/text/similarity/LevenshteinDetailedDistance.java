@@ -159,7 +159,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * @param threshold the target threshold, must not be negative
      * @return result distance, or -1
      */
-    private static LevenshteinResults limitedCompare(CharSequence left, CharSequence right, int threshold) {
+    private static LevenshteinResults limitedCompare(CharSequence left, CharSequence right, int threshold) { // NOPMD
         if (left == null || right == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }
@@ -496,7 +496,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
             deleted = false;
             added = false;
             if (data - 1 == dataAtLeft && (data <= dataAtDiagonal && data <= dataAtTop)
-                    || (dataAtDiagonal == -1 && dataAtTop == -1)) {
+                    || (dataAtDiagonal == -1 && dataAtTop == -1)) { // NOPMD
                 columnIndex--;
                 if (swapped == true) {
                     addCount++;
@@ -507,7 +507,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
                 }
             }
             else if (data - 1 == dataAtTop && (data <= dataAtDiagonal && data <= dataAtLeft)
-                    || (dataAtDiagonal == -1 && dataAtLeft == -1)) {
+                    || (dataAtDiagonal == -1 && dataAtLeft == -1)) { // NOPMD
                 rowIndex--;
                 if (swapped == true) {
                     delCount++;
