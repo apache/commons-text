@@ -19,18 +19,41 @@ package org.apache.commons.text.similarity;
 import java.util.Objects;
 
 /**
- * Container class to store Levenshtein distance between two character sequence.
- * It also stores the count of inserts, deletions and substitutions needed to
- * change one character sequence to other.
- * 
+ * Container class to store Levenshtein distance between two character sequences.
+ *
+ * <p>Stores the count of insert, deletion and substitute operations needed to
+ * change one character sequence into another.</p>
+ *
+ * <p>This class is immutable.</p>
+ *
+ * @since 1.0
  */
 public class LevenshteinResults {
-
+    /**
+     * Edit distance.
+     */
     private final Integer distance;
+    /**
+     * Insert character count.
+     */
     private final Integer insertCount;
+    /**
+     * Delete character count.
+     */
     private final Integer deleteCount;
+    /**
+     * Substitute character count.
+     */
     private final Integer substituteCount;
 
+    /**
+     * Create the results for a detailed Levenshtein distance.
+     *
+     * @param distance distance between two character sequences.
+     * @param insertCount insert character count
+     * @param deleteCount delete character count
+     * @param substituteCount substitute character count
+     */
     public LevenshteinResults(final Integer distance, final Integer insertCount, final Integer deleteCount,
             final Integer substituteCount) {
         this.distance = distance;
@@ -40,87 +63,63 @@ public class LevenshteinResults {
     }
 
     /**
-     * gets the distance between two character sequence.
-     * 
-     * @return distance between two character sequence.
+     * Get the distance between two character sequences.
+     *
+     * @return distance between two character sequence
      */
     public Integer getDistance() {
         return distance;
     }
 
     /**
-     * gets the number of insertion needed to change one character sequence to
-     * other.
-     * 
-     * @return insert character count.
+     * Get the number of insertion needed to change one character sequence into another.
+     *
+     * @return insert character count
      */
     public Integer getInsertCount() {
         return insertCount;
     }
 
     /**
-     * gets the number of character deletion needed to change one character
-     * sequence to other.
-     * 
-     * @return delete character count.
+     * Get the number of character deletion needed to change one character sequence to other.
+     *
+     * @return delete character count
      */
     public Integer getDeleteCount() {
         return deleteCount;
     }
 
     /**
-     * get the number of character substitution needed to change one character
-     * sequence to other.
-     * 
-     * @return substitute character count.
+     * Get the number of character substitution needed to change one character sequence into another.
+     *
+     * @return substitute character count
      */
     public Integer getSubstituteCount() {
         return substituteCount;
     }
 
-    /**
-     * indicates whether this object is equal to the object passed. It checks
-     * whether each of the individual attributes of both the objects are equal.
-     * 
-     * @param o
-     *            - the object to which this object needs to be compared.
-     * 
-     * @return - true if this object is same as the one passed as argument,
-     *         false otherwise.
-     */
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (o == null || getClass() != o.getClass())
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         LevenshteinResults result = (LevenshteinResults) o;
         return Objects.equals(distance, result.distance) && Objects.equals(insertCount, result.insertCount)
                 && Objects.equals(deleteCount, result.deleteCount)
                 && Objects.equals(substituteCount, result.substituteCount);
     }
 
-    /**
-     * gets the hash code value for this object. This hash code is made from
-     * individual attributes of this object.
-     * 
-     * @return - hash code value of this object.
-     */
     @Override
     public int hashCode() {
         return Objects.hash(distance, insertCount, deleteCount, substituteCount);
     }
 
-    /**
-     * returns the textual representation of this object, its formed using
-     * individual attributes of this object.
-     * 
-     * @return - textual representation of this object.
-     */
     @Override
     public String toString() {
         return "Distance: " + distance + ", Insert: " + insertCount + ", Delete: " + deleteCount + ", Substitute: "
                 + substituteCount;
-
     }
 }

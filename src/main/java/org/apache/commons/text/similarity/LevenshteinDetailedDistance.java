@@ -26,16 +26,13 @@ import java.util.Arrays;
  * where each change is a single character modification (deletion, insertion
  * or substitution).
  * </p>
- *
  */
 public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResults> {
-
 
     /**
      * Default instance.
      */
     private static final LevenshteinDetailedDistance DEFAULT_INSTANCE = new LevenshteinDetailedDistance();
-
     /**
      * Threshold.
      */
@@ -54,14 +51,11 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
     }
 
     /**
-     * <p>
      * If the threshold is not null, distance calculations will be limited to a maximum length.
-     * If the threshold is null, the unlimited version of the algorithm will be used.
-     * </p>
      *
-     * @param threshold
-     *        If this is null then distances calculations will not be limited.
-     *        This may not be negative.
+     * <p>If the threshold is null, the unlimited version of the algorithm will be used.</p>
+     *
+     * @param threshold If this is null then distances calculations will not be limited. This may not be negative.
      */
     public LevenshteinDetailedDistance(final Integer threshold) {
         if (threshold != null && threshold < 0) {
@@ -159,7 +153,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * @param threshold the target threshold, must not be negative
      * @return result distance, or -1
      */
-    private static LevenshteinResults limitedCompare(CharSequence left, CharSequence right, int threshold) { // NOPMD
+    private static LevenshteinResults limitedCompare(CharSequence left, CharSequence right, int threshold) { //NOPMD
         if (left == null || right == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }
@@ -220,8 +214,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         int n = left.length(); // length of left
         int m = right.length(); // length of right
 
-        // if one string is empty, the edit distance is necessarily the length
-        // of the other
+        // if one string is empty, the edit distance is necessarily the length of the other
         if (n == 0) {
             return m <= threshold ? new LevenshteinResults(m, m, 0, 0) : new LevenshteinResults(-1, 0, 0, 0);
         } else if (m == 0) {
@@ -242,16 +235,16 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         int[] p = new int[n + 1]; // 'previous' cost array, horizontally
         int[] d = new int[n + 1]; // cost array, horizontally
         int[] tempD; // placeholder to assist in swapping p and d
-        int[][] matrix = new int[m+1][n+1];
+        int[][] matrix = new int[m + 1][n + 1];
 
         //filling the first row and first column values in the matrix
-        for(int index = 0; index <=n; index++) {
+        for (int index = 0; index <= n; index++) {
             matrix[0][index] = index;
         }
-        for(int index = 0; index <=m; index++) {
+        for (int index = 0; index <= m; index++) {
             matrix[index][0] = index;
         }
-        
+
         // fill in starting table values
         final int boundary = Math.min(n, threshold) + 1;
         for (int i = 0; i < boundary; i++) {
@@ -272,8 +265,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
             final int max = j > Integer.MAX_VALUE - threshold ? n : Math.min(
                     n, j + threshold);
 
-            // the stripe may lead off of the table if s and t are of different
-            // sizes
+            // the stripe may lead off of the table if s and t are of different sizes
             if (min > max) {
                 return new LevenshteinResults(-1, 0, 0, 0);
             }
@@ -289,8 +281,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
                     // diagonally left and up
                     d[i] = p[i - 1];
                 } else {
-                    // 1 + minimum of cell to the left, to the top, diagonally
-                    // left and up
+                    // 1 + minimum of cell to the left, to the top, diagonally left and up
                     d[i] = 1 + Math.min(Math.min(d[i - 1], p[i]), p[i - 1]);
                 }
                 matrix[j][i] = d[i];
@@ -302,9 +293,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
             d = tempD;
         }
 
-        // if p[n] is greater than the threshold, there's no guarantee on it
-        // being the correct
-        // distance
+        // if p[n] is greater than the threshold, there's no guarantee on it being the correct distance
         if (p[n] <= threshold) {
             return findDetailedResults(left, right, matrix, swapped);
         }
@@ -384,16 +373,16 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
             swapped = true;
         }
 
-        int[] p = new int[n + 1]; //'previous' cost array, horizontally
+        int[] p = new int[n + 1]; // 'previous' cost array, horizontally
         int[] d = new int[n + 1]; // cost array, horizontally
         int[] tempD; //placeholder to assist in swapping p and d
-        int[][] matrix = new int[m+1][n+1];
+        int[][] matrix = new int[m + 1][n + 1];
 
-        //filling the first row and first column values in the matrix
-        for(int index = 0; index <=n; index++) {
+        // filling the first row and first column values in the matrix
+        for (int index = 0; index <= n; index++) {
             matrix[0][index] = index;
         }
-        for(int index = 0; index <=m; index++) {
+        for (int index = 0; index <= m; index++) {
             matrix[index][0] = index;
         }
 
@@ -407,11 +396,11 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         for (i = 0; i <= n; i++) {
             p[i] = i;
         }
-        
+
         for (j = 1; j <= m; j++) {
             rightJ = right.charAt(j - 1);
             d[0] = j;
-            
+
             for (i = 1; i <= n; i++) {
                 cost = left.charAt(i - 1) == rightJ ? 0 : 1;
                 // minimum of cell to the left+1, to the top+1, diagonally left and up +cost
@@ -432,18 +421,13 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * Finds count for each of the three [insert, delete, substitute] operations
      * needed. This is based on the matrix formed based on the two character
      * sequence.
-     * 
-     * @param left
-     *            character sequence which need to be converted from.
-     * @param right
-     *            character sequence which need to be converted to.
-     * @param matrix
-     *            two dimensional array containing
-     * @param swapped
-     *            tells whether the value for left character sequence and right
+     *
+     * @param left character sequence which need to be converted from
+     * @param right character sequence which need to be converted to
+     * @param matrix two dimensional array containing
+     * @param swapped tells whether the value for left character sequence and right
      *            character sequence were swapped to save memory
-     * @return result object containing the count of insert, delete and
-     *         substitute and total count needed
+     * @return result object containing the count of insert, delete and substitute and total count needed
      */
     private static LevenshteinResults findDetailedResults(CharSequence left, CharSequence right, int[][] matrix,
             boolean swapped) {
@@ -498,18 +482,17 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
             if (data - 1 == dataAtLeft && (data <= dataAtDiagonal && data <= dataAtTop)
                     || (dataAtDiagonal == -1 && dataAtTop == -1)) { // NOPMD
                 columnIndex--;
-                if (swapped == true) {
+                if (swapped) {
                     addCount++;
                     added = true;
                 } else {
                     delCount++;
                     deleted = true;
                 }
-            }
-            else if (data - 1 == dataAtTop && (data <= dataAtDiagonal && data <= dataAtLeft)
+            } else if (data - 1 == dataAtTop && (data <= dataAtDiagonal && data <= dataAtLeft)
                     || (dataAtDiagonal == -1 && dataAtLeft == -1)) { // NOPMD
                 rowIndex--;
-                if (swapped == true) {
+                if (swapped) {
                     delCount++;
                     deleted = true;
                 } else {
