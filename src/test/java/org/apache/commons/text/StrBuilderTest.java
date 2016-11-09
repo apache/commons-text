@@ -467,7 +467,7 @@ public class StrBuilderTest {
     @Test
     public void testToCharArray() {
         final StrBuilder sb = new StrBuilder();
-        assertEquals(ArrayUtils.EMPTY_CHAR_ARRAY, sb.toCharArray());
+        assertEquals(ArrayUtils.EMPTY_CHAR_ARRAY.length, sb.toCharArray().length);
 
         char[] a = sb.toCharArray();
         assertNotNull("toCharArray() result is null", a);
@@ -482,7 +482,7 @@ public class StrBuilderTest {
     @Test
     public void testToCharArrayIntInt() {
         final StrBuilder sb = new StrBuilder();
-        assertEquals(ArrayUtils.EMPTY_CHAR_ARRAY, sb.toCharArray(0, 0));
+        assertEquals(ArrayUtils.EMPTY_CHAR_ARRAY.length, sb.toCharArray(0, 0).length);
 
         sb.append("junit");
         char[] a = sb.toCharArray(0, 20); // too large test
