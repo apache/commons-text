@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 /**
- * Unit tests for {@link org.apache.commons.lang3.text.AlphabetConverter}.
+ * Unit tests for {@link org.apache.commons.text.AlphabetConverter}.
  */
 public class AlphabetConverterTest {
 
