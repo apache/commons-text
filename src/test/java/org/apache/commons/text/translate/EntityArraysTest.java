@@ -22,6 +22,7 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -67,6 +68,40 @@ public class EntityArraysTest  {
         }
         assertTrue("One or more errors detected",success);
     }
-    
+
+    @Test
+    public void testISO8859Arrays() {
+        testEscapeVsUnescapeArrays(EntityArrays.ISO8859_1_ESCAPE(), EntityArrays.ISO8859_1_UNESCAPE());
+    }
+
+    @Test
+    public void testHtml40ExtendedArrays() {
+        testEscapeVsUnescapeArrays(EntityArrays.HTML40_EXTENDED_ESCAPE(), EntityArrays.HTML40_EXTENDED_UNESCAPE());
+    }
+
+    @Test
+    public void testAposArrays() {
+        testEscapeVsUnescapeArrays(EntityArrays.APOS_ESCAPE(), EntityArrays.APOS_UNESCAPE());
+    }
+
+    @Test
+    public void testBasicArrays() {
+        testEscapeVsUnescapeArrays(EntityArrays.BASIC_ESCAPE(), EntityArrays.BASIC_UNESCAPE());
+    }
+
+    @Test
+    public void testJavaCntrlCharsArrays() {
+        testEscapeVsUnescapeArrays(EntityArrays.JAVA_CTRL_CHARS_ESCAPE(), EntityArrays.JAVA_CTRL_CHARS_ESCAPE());
+    }
+
+    private void testEscapeVsUnescapeArrays(String[][] escapeArray, String[][] unescapeArray) {
+        for (String[] escapeElement : escapeArray) {
+            for (String[] unescapeElement : unescapeArray) {
+                if (escapeElement[0] == unescapeElement[1]) {
+                    assertEquals(escapeElement[1], unescapeElement[0]);
+                }
+            }
+        }
+    }
     
 }

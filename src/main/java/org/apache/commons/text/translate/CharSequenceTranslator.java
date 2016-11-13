@@ -25,8 +25,6 @@ import java.util.Locale;
  * An API for translating text. 
  * Its core use is to escape and unescape text. Because escaping and unescaping 
  * is completely contextual, the API does not present two separate signatures.
- * 
- * @since 3.0
  */
 public abstract class CharSequenceTranslator {
 
@@ -114,8 +112,8 @@ public abstract class CharSequenceTranslator {
      * @param translators CharSequenceTranslator array of translators to merge with this one
      * @return CharSequenceTranslator merging this translator with the others
      */
-    public final org.apache.commons.text.translate.CharSequenceTranslator with(final org.apache.commons.text.translate.CharSequenceTranslator... translators) {
-        final org.apache.commons.text.translate.CharSequenceTranslator[] newArray = new org.apache.commons.text.translate.CharSequenceTranslator[translators.length + 1];
+    public final CharSequenceTranslator with(final CharSequenceTranslator... translators) {
+        final CharSequenceTranslator[] newArray = new CharSequenceTranslator[translators.length + 1];
         newArray[0] = this;
         System.arraycopy(translators, 0, newArray, 1, translators.length);
         return new AggregateTranslator(newArray);

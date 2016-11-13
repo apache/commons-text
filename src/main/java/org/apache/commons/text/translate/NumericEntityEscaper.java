@@ -21,8 +21,6 @@ import java.io.Writer;
 
 /**
  * Translates codepoints to their XML numeric entity escaped value.
- *
- * @since 3.0
  */
 public class NumericEntityEscaper extends CodePointTranslator {
 
@@ -59,7 +57,7 @@ public class NumericEntityEscaper extends CodePointTranslator {
      * @param codepoint below which to escape
      * @return the newly created {@code NumericEntityEscaper} instance
      */
-    public static org.apache.commons.text.translate.NumericEntityEscaper below(final int codepoint) {
+    public static NumericEntityEscaper below(final int codepoint) {
         return outsideOf(codepoint, Integer.MAX_VALUE);
     }
 
@@ -69,7 +67,7 @@ public class NumericEntityEscaper extends CodePointTranslator {
      * @param codepoint above which to escape
      * @return the newly created {@code NumericEntityEscaper} instance
      */
-    public static org.apache.commons.text.translate.NumericEntityEscaper above(final int codepoint) {
+    public static NumericEntityEscaper above(final int codepoint) {
         return outsideOf(0, codepoint);
     }
 
@@ -80,8 +78,8 @@ public class NumericEntityEscaper extends CodePointTranslator {
      * @param codepointHigh below which to escape
      * @return the newly created {@code NumericEntityEscaper} instance
      */
-    public static org.apache.commons.text.translate.NumericEntityEscaper between(final int codepointLow, final int codepointHigh) {
-        return new org.apache.commons.text.translate.NumericEntityEscaper(codepointLow, codepointHigh, true);
+    public static NumericEntityEscaper between(final int codepointLow, final int codepointHigh) {
+        return new NumericEntityEscaper(codepointLow, codepointHigh, true);
     }
 
     /**
@@ -91,8 +89,8 @@ public class NumericEntityEscaper extends CodePointTranslator {
      * @param codepointHigh above which to escape
      * @return the newly created {@code NumericEntityEscaper} instance
      */
-    public static org.apache.commons.text.translate.NumericEntityEscaper outsideOf(final int codepointLow, final int codepointHigh) {
-        return new org.apache.commons.text.translate.NumericEntityEscaper(codepointLow, codepointHigh, false);
+    public static NumericEntityEscaper outsideOf(final int codepointLow, final int codepointHigh) {
+        return new NumericEntityEscaper(codepointLow, codepointHigh, false);
     }
 
     /**
