@@ -15,6 +15,7 @@ package org.apache.commons.text.similarity;
  *     <li><code>d(x,y) &gt;= 0</code>, non-negativity or separation axiom</li>
  *     <li><code>d(x,y) == d(y,x)</code>, symmetry.</li>
  * </ul>
+ *
  * <p>
  * Notice, these are two of the properties that contribute to d being a metric.
  * </p>

@@ -22,15 +22,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.JaroWrinklerDistance}.
+ * Unit tests for {@link JaroWinklerDistance}.
  */
-public class JaroWrinklerDistanceTest {
+public class JaroWinklerDistanceTest {
 
-    private static JaroWrinklerDistance distance;
+    private static JaroWinklerDistance distance;
     
     @BeforeClass
     public static void setUp() {
-        distance = new JaroWrinklerDistance();
+        distance = new JaroWinklerDistance();
     }
     
     @Test
