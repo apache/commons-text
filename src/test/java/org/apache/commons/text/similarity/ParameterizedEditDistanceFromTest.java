@@ -58,10 +58,6 @@ public class ParameterizedEditDistanceFromTest<R> {
             { new HammingDistance(), "Japtheth, Ham, Shem", "Japtheth, HAM, Shem", 2 },
             { new HammingDistance(), "Hamming", "Hamming", 0 },
 
-            { new JaroWinklerDistance(), "elephant", "hippo", 0.44 },
-            { new JaroWinklerDistance(), "hippo", "elephant",  0.44 },
-            { new JaroWinklerDistance(), "hippo", "zzzzzzzz", 0.0 },
-
             { new LevenshteinDistance(), "Apache", "a patchy", 4 },
             { new LevenshteinDistance(), "go", "no go", 3 },
             { new LevenshteinDistance(), "go", "go", 0 },
