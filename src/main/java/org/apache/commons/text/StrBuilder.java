@@ -62,7 +62,7 @@ import java.util.Objects;
  * with invalid indices or null input, have been altered - see individual methods.
  * The biggest of these changes is that by default, null will not output the text
  * 'null'. This can be controlled by a property, {@link #setNullText(String)}.
- * <p>
+ * </p>
  *
  */
 public class StrBuilder implements CharSequence, Appendable, Serializable, Builder<String> {
