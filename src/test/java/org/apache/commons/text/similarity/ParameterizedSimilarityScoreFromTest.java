@@ -59,7 +59,7 @@ public class ParameterizedSimilarityScoreFromTest<R> {
 
     @Test
     public void test() {
-        final SimilarityScoreFrom<R> similarityScoreFrom = new SimilarityScoreFrom<R>(similarityScore, left);
+        final SimilarityScoreFrom<R> similarityScoreFrom = new SimilarityScoreFrom<>(similarityScore, left);
         assertThat(similarityScoreFrom.apply(right), equalTo(distance));
     }
 }
