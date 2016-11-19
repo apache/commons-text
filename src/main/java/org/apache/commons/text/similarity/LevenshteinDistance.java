@@ -104,6 +104,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * @return result distance, or -1
      * @throws IllegalArgumentException if either String input {@code null}
      */
+    @Override
     public Integer apply(final CharSequence left, final CharSequence right) {
         if (threshold != null) {
             return limitedCompare(left, right, threshold);

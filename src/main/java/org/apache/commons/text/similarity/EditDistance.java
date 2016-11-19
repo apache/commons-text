@@ -52,6 +52,7 @@ public interface EditDistance<R> extends SimilarityScore<R> {
      * @param right the second CharSequence
      * @return the similarity score between two CharSequences
      */
+    @Override
     R apply(CharSequence left, CharSequence right);
 
 }
