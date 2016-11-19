@@ -78,7 +78,7 @@ public class FuzzyScore {
      * @throws IllegalArgumentException if either String input {@code null} or
      *             Locale input {@code null}
      */
-    public Integer fuzzyScore(CharSequence term, CharSequence query) {
+    public Integer fuzzyScore(final CharSequence term, final CharSequence query) {
         if (term == null || query == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }

@@ -132,7 +132,7 @@ public final class HumanNameParser {
      * @throws NullPointerException if name is null.
      * @return The name object
      */
-    public Name parse(String name) {
+    public Name parse(final String name) {
         Objects.requireNonNull(name, "Parameter 'name' must not be null.");
 
         NameString nameString = new NameString(name);

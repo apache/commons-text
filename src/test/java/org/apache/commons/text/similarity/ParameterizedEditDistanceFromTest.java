@@ -68,7 +68,7 @@ public class ParameterizedEditDistanceFromTest<R> {
 
             {
                 new EditDistance<Boolean>() {
-                    public Boolean apply(CharSequence left, CharSequence right) {
+                    public Boolean apply(final CharSequence left, final CharSequence right) {
                         return left == right || (left != null && left.equals(right));
                     }
                 },

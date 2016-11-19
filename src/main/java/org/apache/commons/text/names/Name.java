@@ -60,7 +60,7 @@ public final class Name {
      * @param lastName the last name
      * @param suffix a suffix
      */
-    Name(String leadingInitial, String firstName, String nickName, String middleName, String lastName, String suffix) {
+    Name(final String leadingInitial, final String firstName, final String nickName, final String middleName, final String lastName, final String suffix) {
         this.leadingInitial = leadingInitial;
         this.firstName = firstName;
         this.nickName = nickName;
@@ -124,7 +124,7 @@ public final class Name {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }

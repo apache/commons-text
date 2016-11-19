@@ -53,7 +53,7 @@ public class HammingDistance implements EditDistance<Integer> {
      *             if they do not have the same length
      */
     @Override
-    public Integer apply(CharSequence left, CharSequence right) {
+    public Integer apply(final CharSequence left, final CharSequence right) {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }

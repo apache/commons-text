@@ -38,7 +38,7 @@ public final class NameParseException extends RuntimeException {
      *
      * @param message message
      */
-    public NameParseException(String message) {
+    public NameParseException(final String message) {
         super(message);
     }
 
@@ -47,7 +47,7 @@ public final class NameParseException extends RuntimeException {
      *
      * @param cause cause
      */
-    public NameParseException(Throwable cause) {
+    public NameParseException(final Throwable cause) {
         super(cause);
     }
 
@@ -57,7 +57,7 @@ public final class NameParseException extends RuntimeException {
      * @param message message
      * @param cause cause
      */
-    public NameParseException(String message, Throwable cause) {
+    public NameParseException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
@@ -69,8 +69,8 @@ public final class NameParseException extends RuntimeException {
      * @param enableSuppression flag to enable suppression
      * @param writableStackTrace a writable stack trace
      */
-    public NameParseException(String message, Throwable cause,
-            boolean enableSuppression, boolean writableStackTrace) {
+    public NameParseException(final String message, final Throwable cause,
+            final boolean enableSuppression, final boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 

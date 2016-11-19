@@ -35,7 +35,7 @@ public class CosineDistance implements EditDistance<Double> {
     private final CosineSimilarity cosineSimilarity = new CosineSimilarity();
 
     @Override
-    public Double apply(CharSequence left, CharSequence right) {
+    public Double apply(final CharSequence left, final CharSequence right) {
         CharSequence[] leftTokens = tokenizer.tokenize(left);
         CharSequence[] rightTokens = tokenizer.tokenize(right);
 

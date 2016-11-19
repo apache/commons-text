@@ -84,7 +84,7 @@ public class StringsComparator {
      * @param left first character sequence to be compared
      * @param right second character sequence to be compared
      */
-    public StringsComparator(String left, String right) {
+    public StringsComparator(final String left, final String right) {
         this.left = left;
         this.right = right;
 
@@ -179,7 +179,7 @@ public class StringsComparator {
      * @param end2  the end of the second sequence to be compared
      * @return the middle snake
      */
-    private Snake getMiddleSnake(int start1, int end1, int start2, int end2) {
+    private Snake getMiddleSnake(final int start1, final int end1, final int start2, final int end2) {
         // Myers Algorithm
         // Initialisations
         final int m = end1 - start1;

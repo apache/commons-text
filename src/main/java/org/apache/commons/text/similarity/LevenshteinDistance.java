@@ -104,7 +104,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * @return result distance, or -1
      * @throws IllegalArgumentException if either String input {@code null}
      */
-    public Integer apply(CharSequence left, CharSequence right) {
+    public Integer apply(final CharSequence left, final CharSequence right) {
         if (threshold != null) {
             return limitedCompare(left, right, threshold);
         } else {
@@ -161,7 +161,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * @param threshold the target threshold, must not be negative
      * @return result distance, or -1
      */
-    private static int limitedCompare(CharSequence left, CharSequence right, int threshold) { // NOPMD
+    private static int limitedCompare(CharSequence left, CharSequence right, final int threshold) { // NOPMD
         if (left == null || right == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }

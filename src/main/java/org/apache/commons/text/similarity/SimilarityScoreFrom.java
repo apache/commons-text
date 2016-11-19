@@ -86,7 +86,7 @@ public class SimilarityScoreFrom<R> {
      * @param right the second CharSequence
      * @return the similarity score between two CharSequences
      */
-    public R apply(CharSequence right) {
+    public R apply(final CharSequence right) {
         return similarityScore.apply(left, right);
     }
 

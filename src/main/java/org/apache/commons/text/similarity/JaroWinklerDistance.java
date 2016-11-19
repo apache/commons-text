@@ -73,7 +73,7 @@ public class JaroWinklerDistance implements SimilarityScore<Double> {
      * @throws IllegalArgumentException if either String input {@code null}
      */
     @Override
-    public Double apply(CharSequence left, CharSequence right) {
+    public Double apply(final CharSequence left, final CharSequence right) {
         final double defaultScalingFactor = 0.1;
         final double percentageRoundValue = 100.0;
 

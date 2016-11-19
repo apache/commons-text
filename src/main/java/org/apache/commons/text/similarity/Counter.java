@@ -44,7 +44,7 @@ final class Counter {
      * @param tokens array of tokens
      * @return dict, where the elements are key, and the count the value
      */
-    public static Map<CharSequence, Integer> of(CharSequence[] tokens) {
+    public static Map<CharSequence, Integer> of(final CharSequence[] tokens) {
         final Map<CharSequence, Integer> innerCounter = new HashMap<>();
         for (CharSequence token : tokens) {
             if (innerCounter.containsKey(token)) {

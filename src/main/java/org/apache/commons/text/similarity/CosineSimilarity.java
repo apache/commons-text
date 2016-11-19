@@ -38,7 +38,7 @@ public class CosineSimilarity {
      * @param rightVector right vector
      * @return cosine similarity between the two vectors
      */
-    public Double cosineSimilarity(Map<CharSequence, Integer> leftVector, Map<CharSequence, Integer> rightVector) {
+    public Double cosineSimilarity(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector) {
         if (leftVector == null || rightVector == null) {
             throw new IllegalArgumentException("Vectors must not be null");
         }
@@ -70,8 +70,8 @@ public class CosineSimilarity {
      * @param rightVector right vector map
      * @return common strings
      */
-    private Set<CharSequence> getIntersection(Map<CharSequence, Integer> leftVector,
-            Map<CharSequence, Integer> rightVector) {
+    private Set<CharSequence> getIntersection(final Map<CharSequence, Integer> leftVector,
+            final Map<CharSequence, Integer> rightVector) {
         Set<CharSequence> intersection = new HashSet<>(leftVector.keySet());
         intersection.retainAll(rightVector.keySet());
         return intersection;
@@ -87,8 +87,8 @@ public class CosineSimilarity {
      * @param intersection common elements
      * @return the dot product
      */
-    private double dot(Map<CharSequence, Integer> leftVector, Map<CharSequence, Integer> rightVector,
-            Set<CharSequence> intersection) {
+    private double dot(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector,
+            final Set<CharSequence> intersection) {
         long dotProduct = 0;
         for (CharSequence key : intersection) {
             dotProduct += leftVector.get(key) * rightVector.get(key);

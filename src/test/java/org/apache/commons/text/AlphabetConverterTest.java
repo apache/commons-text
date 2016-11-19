@@ -168,7 +168,7 @@ public class AlphabetConverterTest {
         AlphabetConverter.createConverterFromChars(lower_case_english, english_and_numbers, numbers);
     }
 
-    private void test(Character[] originalChars, Character[] encodingChars, Character[] doNotEncodeChars, String... strings) throws UnsupportedEncodingException {
+    private void test(final Character[] originalChars, final Character[] encodingChars, final Character[] doNotEncodeChars, final String... strings) throws UnsupportedEncodingException {
         
         AlphabetConverter ac = AlphabetConverter.createConverterFromChars(originalChars, encodingChars, doNotEncodeChars);
         

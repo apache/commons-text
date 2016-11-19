@@ -94,8 +94,8 @@ public final class AlphabetConverter {
      * @param encodedToOriginal encoding alphabet
      * @param encodedLetterLength length of the encoded letter
      */
-    private AlphabetConverter(Map<Integer, String> originalToEncoded, Map<String, String> encodedToOriginal,
-            int encodedLetterLength) {
+    private AlphabetConverter(final Map<Integer, String> originalToEncoded, final Map<String, String> encodedToOriginal,
+            final int encodedLetterLength) {
 
         this.originalToEncoded = originalToEncoded;
         this.encodedToOriginal = encodedToOriginal;
@@ -109,7 +109,7 @@ public final class AlphabetConverter {
      * @return the encoded string, {@code null} if the given string is null
      * @throws UnsupportedEncodingException if chars that are not supported are encountered
      */
-    public String encode(String original) throws UnsupportedEncodingException {
+    public String encode(final String original) throws UnsupportedEncodingException {
         if (original == null) {
             return null;
         }
@@ -141,7 +141,7 @@ public final class AlphabetConverter {
      * @return the decoded string, {@code null} if the given string is null
      * @throws UnsupportedEncodingException if unexpected characters that cannot be handled are encountered
      */
-    public String decode(String encoded) throws UnsupportedEncodingException {
+    public String decode(final String encoded) throws UnsupportedEncodingException {
         if (encoded == null) {
             return null;
         }
@@ -205,8 +205,8 @@ public final class AlphabetConverter {
      * @param doNotEncodeMap map of values that should not be encoded
      */
     @SuppressWarnings("PMD")
-    private void addSingleEncoding(int level, String currentEncoding, Collection<Integer> encoding,
-            Iterator<Integer> originals, Map<Integer, String> doNotEncodeMap) {
+    private void addSingleEncoding(final int level, final String currentEncoding, final Collection<Integer> encoding,
+            final Iterator<Integer> originals, final Map<Integer, String> doNotEncodeMap) {
 
         if (level > 0) {
             for (int encodingLetter : encoding) {
@@ -257,7 +257,7 @@ public final class AlphabetConverter {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }
@@ -286,7 +286,7 @@ public final class AlphabetConverter {
      * @return the reconstructed AlphabetConverter
      * @see AlphabetConverter#getOriginalToEncoded()
      */
-    public static AlphabetConverter createConverterFromMap(Map<Integer, String> originalToEncoded) {
+    public static AlphabetConverter createConverterFromMap(final Map<Integer, String> originalToEncoded) {
         final Map<Integer, String> unmodifiableOriginalToEncoded = Collections.unmodifiableMap(originalToEncoded);
         Map<String, String> encodedToOriginal = new LinkedHashMap<>();
         Map<Integer, String> doNotEncodeMap = new HashMap<>();
@@ -322,8 +322,8 @@ public final class AlphabetConverter {
      * @return the AlphabetConverter
      * @throws IllegalArgumentException if an AlphabetConverter cannot be constructed
      */
-    public static AlphabetConverter createConverterFromChars(Character[] original, Character[] encoding,
-            Character[] doNotEncode) {
+    public static AlphabetConverter createConverterFromChars(final Character[] original, final Character[] encoding,
+            final Character[] doNotEncode) {
         return AlphabetConverter.createConverter(convertCharsToIntegers(original), convertCharsToIntegers(encoding),
                 convertCharsToIntegers(doNotEncode));
     }
@@ -334,7 +334,7 @@ public final class AlphabetConverter {
      * @param chars array of characters
      * @return an equivalent array of integers
      */
-    private static Integer[] convertCharsToIntegers(Character[] chars) {
+    private static Integer[] convertCharsToIntegers(final Character[] chars) {
         if (chars == null || chars.length == 0) {
             return new Integer[0];
         }
@@ -358,7 +358,7 @@ public final class AlphabetConverter {
      * @return the AlphabetConverter
      * @throws IllegalArgumentException if an AlphabetConverter cannot be constructed
      */
-    public static AlphabetConverter createConverter(Integer[] original, Integer[] encoding, Integer[] doNotEncode) {
+    public static AlphabetConverter createConverter(final Integer[] original, final Integer[] encoding, final Integer[] doNotEncode) {
 
         Set<Integer> originalCopy = new LinkedHashSet<>(Arrays.<Integer> asList(original));
         Set<Integer> encodingCopy = new LinkedHashSet<>(Arrays.<Integer> asList(encoding));
@@ -449,7 +449,7 @@ public final class AlphabetConverter {
      * @return a new string with the new code point
      * @see http://www.oracle.com/us/technologies/java/supplementary-142654.html
      */
-    private static String codePointToString(int i) {
+    private static String codePointToString(final int i) {
         if (Character.charCount(i) == 1) {
             return String.valueOf((char) i);
         } else {

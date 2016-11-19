@@ -59,8 +59,8 @@ public class ReplacementsFinderTest {
             }
         });
     }
-    public ReplacementsFinderTest(String left, String right, int skipped,
-            Character[] from, Character[] to) {
+    public ReplacementsFinderTest(final String left, final String right, final int skipped,
+            final Character[] from, final Character[] to) {
         this.left = left;
         this.right = right;
         this.skipped = skipped;
@@ -98,7 +98,7 @@ public class ReplacementsFinderTest {
             return to;
         }
         @Override
-        public void handleReplacement(int skipped, List<Character> from, List<Character> to) {
+        public void handleReplacement(final int skipped, final List<Character> from, final List<Character> to) {
             this.skipped += skipped;
             this.from.addAll(from);
             this.to.addAll(to);

@@ -94,7 +94,7 @@ public class EntityArraysTest  {
         testEscapeVsUnescapeArrays(EntityArrays.JAVA_CTRL_CHARS_ESCAPE(), EntityArrays.JAVA_CTRL_CHARS_ESCAPE());
     }
 
-    private void testEscapeVsUnescapeArrays(String[][] escapeArray, String[][] unescapeArray) {
+    private void testEscapeVsUnescapeArrays(final String[][] escapeArray, final String[][] unescapeArray) {
         for (String[] escapeElement : escapeArray) {
             for (String[] unescapeElement : unescapeArray) {
                 if (escapeElement[0] == unescapeElement[1]) {

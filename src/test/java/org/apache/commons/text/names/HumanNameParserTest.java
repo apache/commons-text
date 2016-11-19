@@ -70,7 +70,7 @@ public class HumanNameParserTest {
      *
      * @param record a CSVRecord representing one record in the input file.
      */
-    private void validateRecord(CSVRecord record) {
+    private void validateRecord(final CSVRecord record) {
         Name result = nameParser.parse(record.get(Columns.Name));
 
         long recordNum = record.getRecordNumber();

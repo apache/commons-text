@@ -37,7 +37,7 @@ final class NameString {
      *
      * @param str encapsulated string.
      */
-    NameString(String str) {
+    NameString(final String str) {
         this.str = str;
     }
 
@@ -60,7 +60,7 @@ final class NameString {
      * @param submatchIndex which of the parenthesized submatches to use
      * @return the part of the namestring that got chopped off
      */
-    String chopWithRegex(String regex, int submatchIndex) {
+    String chopWithRegex(final String regex, final int submatchIndex) {
         String chopped = "";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(this.str);
@@ -96,7 +96,7 @@ final class NameString {
      * @param flipAroundChar the character(s) demarcating the two halves you want to flip.
      * @throws NameParseException if a regex fails or a condition is not expected
      */
-    void flip(String flipAroundChar) {
+    void flip(final String flipAroundChar) {
         String[] parts = this.str.split(flipAroundChar);
         if (parts.length == 2) {
             this.str = String.format("%s %s", parts[1], parts[0]);

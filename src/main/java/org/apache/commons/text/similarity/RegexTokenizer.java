@@ -34,7 +34,7 @@ class RegexTokenizer implements Tokenizer<CharSequence> {
      * @throws IllegalArgumentException if the input text is blank
      */
     @Override
-    public CharSequence[] tokenize(CharSequence text) {
+    public CharSequence[] tokenize(final CharSequence text) {
         if (text == null || text.toString().trim().equals("")) {
             throw new IllegalArgumentException("Invalid text");
         }
