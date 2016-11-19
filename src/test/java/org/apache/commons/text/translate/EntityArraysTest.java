@@ -95,8 +95,8 @@ public class EntityArraysTest  {
     }
 
     private void testEscapeVsUnescapeArrays(final String[][] escapeArray, final String[][] unescapeArray) {
-        for (String[] escapeElement : escapeArray) {
-            for (String[] unescapeElement : unescapeArray) {
+        for (final String[] escapeElement : escapeArray) {
+            for (final String[] unescapeElement : unescapeArray) {
                 if (escapeElement[0] == unescapeElement[1]) {
                     assertEquals(escapeElement[1], unescapeElement[0]);
                 }

@@ -114,12 +114,12 @@ public final class AlphabetConverter {
             return null;
         }
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < original.length();) {
-            int codepoint = original.codePointAt(i);
+            final int codepoint = original.codePointAt(i);
 
-            String nextLetter = originalToEncoded.get(codepoint);
+            final String nextLetter = originalToEncoded.get(codepoint);
 
             if (nextLetter == null) {
                 throw new UnsupportedEncodingException(
@@ -146,11 +146,11 @@ public final class AlphabetConverter {
             return null;
         }
 
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
 
         for (int j = 0; j < encoded.length();) {
-            Integer i = encoded.codePointAt(j);
-            String s = codePointToString(i);
+            final Integer i = encoded.codePointAt(j);
+            final String s = codePointToString(i);
 
             if (s.equals(originalToEncoded.get(i))) {
                 result.append(s);
@@ -159,8 +159,8 @@ public final class AlphabetConverter {
                 if (j + encodedLetterLength > encoded.length()) {
                     throw new UnsupportedEncodingException("Unexpected end of string while decoding " + encoded);
                 } else {
-                    String nextGroup = encoded.substring(j, j + encodedLetterLength);
-                    String next = encodedToOriginal.get(nextGroup);
+                    final String nextGroup = encoded.substring(j, j + encodedLetterLength);
+                    final String next = encodedToOriginal.get(nextGroup);
                     if (next == null) {
                         throw new UnsupportedEncodingException(
                                 "Unexpected string without decoding (" + nextGroup + ") in " + encoded);
@@ -209,7 +209,7 @@ public final class AlphabetConverter {
             final Iterator<Integer> originals, final Map<Integer, String> doNotEncodeMap) {
 
         if (level > 0) {
-            for (int encodingLetter : encoding) {
+            for (final int encodingLetter : encoding) {
                 if (originals.hasNext()) {
 
                     // this skips the doNotEncode chars if they are in the
@@ -226,7 +226,7 @@ public final class AlphabetConverter {
             Integer next = originals.next();
 
             while (doNotEncodeMap.containsKey(next)) {
-                String originalLetterAsString = codePointToString(next);
+                final String originalLetterAsString = codePointToString(next);
 
                 originalToEncoded.put(next, originalLetterAsString);
                 encodedToOriginal.put(originalLetterAsString, originalLetterAsString);
@@ -238,7 +238,7 @@ public final class AlphabetConverter {
                 next = originals.next();
             }
 
-            String originalLetterAsString = codePointToString(next);
+            final String originalLetterAsString = codePointToString(next);
 
             originalToEncoded.put(next, currentEncoding);
             encodedToOriginal.put(currentEncoding, originalLetterAsString);
@@ -247,9 +247,9 @@ public final class AlphabetConverter {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
-        for (Entry<Integer, String> entry : originalToEncoded.entrySet()) {
+        for (final Entry<Integer, String> entry : originalToEncoded.entrySet()) {
             sb.append(codePointToString(entry.getKey())).append(ARROW).append(entry.getValue()).append(LINE_SEPARATOR);
         }
 
@@ -288,13 +288,13 @@ public final class AlphabetConverter {
      */
     public static AlphabetConverter createConverterFromMap(final Map<Integer, String> originalToEncoded) {
         final Map<Integer, String> unmodifiableOriginalToEncoded = Collections.unmodifiableMap(originalToEncoded);
-        Map<String, String> encodedToOriginal = new LinkedHashMap<>();
-        Map<Integer, String> doNotEncodeMap = new HashMap<>();
+        final Map<String, String> encodedToOriginal = new LinkedHashMap<>();
+        final Map<Integer, String> doNotEncodeMap = new HashMap<>();
 
         int encodedLetterLength = 1;
 
-        for (Entry<Integer, String> e : unmodifiableOriginalToEncoded.entrySet()) {
-            String originalAsString = codePointToString(e.getKey());
+        for (final Entry<Integer, String> e : unmodifiableOriginalToEncoded.entrySet()) {
+            final String originalAsString = codePointToString(e.getKey());
             encodedToOriginal.put(e.getValue(), originalAsString);
 
             if (e.getValue().equals(originalAsString)) {
@@ -338,7 +338,7 @@ public final class AlphabetConverter {
         if (chars == null || chars.length == 0) {
             return new Integer[0];
         }
-        Integer[] integers = new Integer[chars.length];
+        final Integer[] integers = new Integer[chars.length];
         for (int i = 0; i < chars.length; i++) {
             integers[i] = (int) chars[i];
         }
@@ -360,9 +360,9 @@ public final class AlphabetConverter {
      */
     public static AlphabetConverter createConverter(final Integer[] original, final Integer[] encoding, final Integer[] doNotEncode) {
 
-        Set<Integer> originalCopy = new LinkedHashSet<>(Arrays.<Integer> asList(original));
-        Set<Integer> encodingCopy = new LinkedHashSet<>(Arrays.<Integer> asList(encoding));
-        Set<Integer> doNotEncodeCopy = new LinkedHashSet<>(Arrays.<Integer> asList(doNotEncode));
+        final Set<Integer> originalCopy = new LinkedHashSet<>(Arrays.<Integer> asList(original));
+        final Set<Integer> encodingCopy = new LinkedHashSet<>(Arrays.<Integer> asList(encoding));
+        final Set<Integer> doNotEncodeCopy = new LinkedHashSet<>(Arrays.<Integer> asList(doNotEncode));
 
         final Map<Integer, String> originalToEncoded = new LinkedHashMap<>();
         final Map<String, String> encodedToOriginal = new LinkedHashMap<>();
@@ -370,7 +370,7 @@ public final class AlphabetConverter {
 
         int encodedLetterLength;
 
-        for (int i : doNotEncodeCopy) {
+        for (final int i : doNotEncodeCopy) {
             if (!originalCopy.contains(i)) {
                 throw new IllegalArgumentException(
                         "Can not use 'do not encode' list because original alphabet does not contain '"
@@ -389,10 +389,10 @@ public final class AlphabetConverter {
         if (encodingCopy.size() >= originalCopy.size()) {
             encodedLetterLength = 1;
 
-            Iterator<Integer> it = encodingCopy.iterator();
+            final Iterator<Integer> it = encodingCopy.iterator();
 
-            for (int originalLetter : originalCopy) {
-                String originalLetterAsString = codePointToString(originalLetter);
+            for (final int originalLetter : originalCopy) {
+                final String originalLetterAsString = codePointToString(originalLetter);
 
                 if (doNotEncodeMap.containsKey(originalLetter)) {
                     originalToEncoded.put(originalLetter, originalLetterAsString);
@@ -404,7 +404,7 @@ public final class AlphabetConverter {
                         next = it.next();
                     }
 
-                    String encodedLetter = codePointToString(next);
+                    final String encodedLetter = codePointToString(next);
 
                     originalToEncoded.put(originalLetter, encodedLetter);
                     encodedToOriginal.put(encodedLetter, originalLetterAsString);
@@ -434,7 +434,7 @@ public final class AlphabetConverter {
 
             encodedLetterLength = lettersSoFar + 1;
 
-            AlphabetConverter ac = new AlphabetConverter(originalToEncoded, encodedToOriginal, encodedLetterLength);
+            final AlphabetConverter ac = new AlphabetConverter(originalToEncoded, encodedToOriginal, encodedLetterLength);
 
             ac.addSingleEncoding(encodedLetterLength, "", encodingCopy, originalCopy.iterator(), doNotEncodeMap);
 

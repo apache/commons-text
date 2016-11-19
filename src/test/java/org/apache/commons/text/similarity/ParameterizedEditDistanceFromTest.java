@@ -82,7 +82,7 @@ public class ParameterizedEditDistanceFromTest<R> {
 
     @Test
     public void test() {
-        EditDistanceFrom<R> editDistanceFrom = new EditDistanceFrom<>(editDistance, left);
+        final EditDistanceFrom<R> editDistanceFrom = new EditDistanceFrom<>(editDistance, left);
         assertThat(editDistanceFrom.apply(right), equalTo(distance));
     }
 

@@ -59,7 +59,7 @@ public class HumanNameParserTest {
 
     @Test
     public void testInputs() {
-        for (CSVRecord record : inputParser) {
+        for (final CSVRecord record : inputParser) {
             validateRecord(record);
         }
     }
@@ -71,9 +71,9 @@ public class HumanNameParserTest {
      * @param record a CSVRecord representing one record in the input file.
      */
     private void validateRecord(final CSVRecord record) {
-        Name result = nameParser.parse(record.get(Columns.Name));
+        final Name result = nameParser.parse(record.get(Columns.Name));
 
-        long recordNum = record.getRecordNumber();
+        final long recordNum = record.getRecordNumber();
         assertThat("Wrong LeadingInit in record " + recordNum,
                 result.getLeadingInitial(), equalTo(record.get(Columns.LeadingInit)));
 

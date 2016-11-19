@@ -135,45 +135,45 @@ public final class HumanNameParser {
     public Name parse(final String name) {
         Objects.requireNonNull(name, "Parameter 'name' must not be null.");
 
-        NameString nameString = new NameString(name);
+        final NameString nameString = new NameString(name);
         // TODO compile regexes only once when the parser is created
-        String suffixes = StringUtils.join(this.suffixes, "\\.*|") + "\\.*";
-        String prefixes = StringUtils.join(this.prefixes, " |") + " ";
+        final String suffixes = StringUtils.join(this.suffixes, "\\.*|") + "\\.*";
+        final String prefixes = StringUtils.join(this.prefixes, " |") + " ";
 
         // The regex use is a bit tricky.  *Everything* matched by the regex will be replaced,
         // but you can select a particular parenthesized submatch to be returned.
         // Also, note that each regex requres that the preceding ones have been run, and matches chopped out.
         // names that starts or end w/ an apostrophe break this
-        String nicknamesRegex = "(?i) ('|\\\"|\\(\\\"*'*)(.+?)('|\\\"|\\\"*'*\\)) ";
-        String suffixRegex = "(?i),* *((" + suffixes + ")$)";
-        String lastRegex = "(?i)(?!^)\\b([^ ]+ y |" + prefixes + ")*[^ ]+$";
+        final String nicknamesRegex = "(?i) ('|\\\"|\\(\\\"*'*)(.+?)('|\\\"|\\\"*'*\\)) ";
+        final String suffixRegex = "(?i),* *((" + suffixes + ")$)";
+        final String lastRegex = "(?i)(?!^)\\b([^ ]+ y |" + prefixes + ")*[^ ]+$";
         // note the lookahead, which isn't returned or replaced
-        String leadingInitRegex = "(?i)(^(.\\.*)(?= \\p{L}{2}))";
-        String firstRegex = "(?i)^([^ ]+)";
+        final String leadingInitRegex = "(?i)(^(.\\.*)(?= \\p{L}{2}))";
+        final String firstRegex = "(?i)^([^ ]+)";
 
         // get nickname, if there is one
-        String nickname = nameString.chopWithRegex(nicknamesRegex, 2);
+        final String nickname = nameString.chopWithRegex(nicknamesRegex, 2);
 
         // get suffix, if there is one
-        String suffix = nameString.chopWithRegex(suffixRegex, 1);
+        final String suffix = nameString.chopWithRegex(suffixRegex, 1);
 
         // flip the before-comma and after-comma parts of the name
         nameString.flip(",");
 
         // get the last name
-        String last = nameString.chopWithRegex(lastRegex, 0);
+        final String last = nameString.chopWithRegex(lastRegex, 0);
 
         // get the first initial, if there is one
-        String leadingInit = nameString.chopWithRegex(leadingInitRegex, 1);
+        final String leadingInit = nameString.chopWithRegex(leadingInitRegex, 1);
 
         // get the first name
-        String first = nameString.chopWithRegex(firstRegex, 0);
+        final String first = nameString.chopWithRegex(firstRegex, 0);
         if (StringUtils.isBlank(first)) {
             throw new NameParseException("Couldn't find a first name in '{" + nameString.getWrappedString() + "}'");
         }
 
         // if anything's left, that's the middle name
-        String middle = nameString.getWrappedString();
+        final String middle = nameString.getWrappedString();
 
         return new Name(leadingInit, first, nickname, middle, last, suffix);
     }

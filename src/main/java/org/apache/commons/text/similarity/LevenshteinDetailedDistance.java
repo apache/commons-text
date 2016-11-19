@@ -235,7 +235,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         int[] p = new int[n + 1]; // 'previous' cost array, horizontally
         int[] d = new int[n + 1]; // cost array, horizontally
         int[] tempD; // placeholder to assist in swapping p and d
-        int[][] matrix = new int[m + 1][n + 1];
+        final int[][] matrix = new int[m + 1][n + 1];
 
         //filling the first row and first column values in the matrix
         for (int index = 0; index <= n; index++) {
@@ -376,7 +376,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         int[] p = new int[n + 1]; // 'previous' cost array, horizontally
         int[] d = new int[n + 1]; // cost array, horizontally
         int[] tempD; //placeholder to assist in swapping p and d
-        int[][] matrix = new int[m + 1][n + 1];
+        final int[][] matrix = new int[m + 1][n + 1];
 
         // filling the first row and first column values in the matrix
         for (int index = 0; index <= n; index++) {

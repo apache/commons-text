@@ -106,7 +106,7 @@ public class LevenshteinResults {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        LevenshteinResults result = (LevenshteinResults) o;
+        final LevenshteinResults result = (LevenshteinResults) o;
         return Objects.equals(distance, result.distance) && Objects.equals(insertCount, result.insertCount)
                 && Objects.equals(deleteCount, result.deleteCount)
                 && Objects.equals(substituteCount, result.substituteCount);

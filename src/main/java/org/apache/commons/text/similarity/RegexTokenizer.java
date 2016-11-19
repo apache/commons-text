@@ -38,9 +38,9 @@ class RegexTokenizer implements Tokenizer<CharSequence> {
         if (text == null || text.toString().trim().equals("")) {
             throw new IllegalArgumentException("Invalid text");
         }
-        Pattern pattern = Pattern.compile("(\\w)+");
-        Matcher matcher = pattern.matcher(text.toString());
-        List<String> tokens = new ArrayList<>();
+        final Pattern pattern = Pattern.compile("(\\w)+");
+        final Matcher matcher = pattern.matcher(text.toString());
+        final List<String> tokens = new ArrayList<>();
         while (matcher.find()) {
             tokens.add(matcher.group(0));
         }

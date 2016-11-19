@@ -61,7 +61,7 @@ final class NameString {
      * @return the part of the namestring that got chopped off
      */
     String chopWithRegex(final String regex, final int submatchIndex) {
-        String chopped = "";
+        final String chopped = "";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(this.str);
 
@@ -75,7 +75,7 @@ final class NameString {
         pattern = Pattern.compile(regex);
         matcher = pattern.matcher(this.str);
         if (matcher.find()) {
-            boolean subset = matcher.groupCount() > submatchIndex;
+            final boolean subset = matcher.groupCount() > submatchIndex;
             if (subset) {
                 this.str = this.str.replaceAll(regex, " ");
                 if (numReplacements > 1) {
@@ -97,7 +97,7 @@ final class NameString {
      * @throws NameParseException if a regex fails or a condition is not expected
      */
     void flip(final String flipAroundChar) {
-        String[] parts = this.str.split(flipAroundChar);
+        final String[] parts = this.str.split(flipAroundChar);
         if (parts.length == 2) {
             this.str = String.format("%s %s", parts[1], parts[0]);
             this.norm();

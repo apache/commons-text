@@ -28,11 +28,11 @@ public class StringMetricFromTest {
 
     @Test
     public void testEquivalence() {
-        EditDistance<Integer> metric = new LevenshteinDistance();
-        String left = "Apache";
-        String right = "a patchy";
-        Integer distance = 4;
-        EditDistanceFrom<Integer> metricFrom = new EditDistanceFrom<>(metric, left);
+        final EditDistance<Integer> metric = new LevenshteinDistance();
+        final String left = "Apache";
+        final String right = "a patchy";
+        final Integer distance = 4;
+        final EditDistanceFrom<Integer> metricFrom = new EditDistanceFrom<>(metric, left);
 
         assertThat(metricFrom.apply(right), equalTo(distance));
         assertThat(metricFrom.apply(right), equalTo(metric.apply(left, right)));
@@ -40,15 +40,15 @@ public class StringMetricFromTest {
 
     @Test
     public void testJavadocExample() {
-        EditDistance<Integer> metric = new LevenshteinDistance();
-        String target = "Apache";
-        EditDistanceFrom<Integer> metricFrom =
+        final EditDistance<Integer> metric = new LevenshteinDistance();
+        final String target = "Apache";
+        final EditDistanceFrom<Integer> metricFrom =
             new EditDistanceFrom<>(metric, target);
         String mostSimilar = null;
         Integer shortestDistance = null;
         
-        for (String test : new String[] { "Appaloosa", "a patchy", "apple" }) {
-            Integer distance = metricFrom.apply(test);
+        for (final String test : new String[] { "Appaloosa", "a patchy", "apple" }) {
+            final Integer distance = metricFrom.apply(test);
             if (shortestDistance == null || distance < shortestDistance) {
                 shortestDistance = distance;
                 mostSimilar = test;

@@ -89,7 +89,7 @@ public class LevenshteinDetailedDistanceTest {
     
     @Test
     public void testEquals() {
-     LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
+     final LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
      LevenshteinResults actualResult = classBeingTested.apply("hello", "hallo");
      LevenshteinResults expectedResult = new LevenshteinResults(1, 0, 0, 1);
      assertEquals(actualResult, expectedResult);
@@ -106,7 +106,7 @@ public class LevenshteinDetailedDistanceTest {
 
     @Test
     public void testHashCode() {
-     LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
+     final LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
      LevenshteinResults actualResult = classBeingTested.apply("aaapppp", "");
      LevenshteinResults expectedResult = new LevenshteinResults(7, 0, 7, 0);
      assertEquals(actualResult.hashCode(), expectedResult.hashCode());
@@ -122,7 +122,7 @@ public class LevenshteinDetailedDistanceTest {
 
     @Test
     public void testToString() {
-     LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
+     final LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
      LevenshteinResults actualResult = classBeingTested.apply("fly", "ant");
      LevenshteinResults expectedResult = new LevenshteinResults(3, 0, 0, 3);
      assertEquals(actualResult.toString(), expectedResult.toString());
