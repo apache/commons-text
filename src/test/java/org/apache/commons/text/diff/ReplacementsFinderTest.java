@@ -32,11 +32,11 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class ReplacementsFinderTest {
     private SimpleHandler handler = null;
-    private String left;
-    private String right;
-    private int skipped;
-    private Character[] from;
-    private Character[] to;
+    private final String left;
+    private final String right;
+    private final int skipped;
+    private final Character[] from;
+    private final Character[] to;
     @Before
     public void setUp() {
         handler = new SimpleHandler();
@@ -81,8 +81,8 @@ public class ReplacementsFinderTest {
     // Helper RecplacementsHandler implementation for testing
     private class SimpleHandler implements ReplacementsHandler<Character> {
         private int skipped;
-        private List<Character> from;
-        private List<Character> to;
+        private final List<Character> from;
+        private final List<Character> to;
         public SimpleHandler() {
             skipped = 0;
             from = new ArrayList<>();
