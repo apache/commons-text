@@ -146,7 +146,7 @@ public final class HumanNameParser {
         // TODO compile regexes only once when the parser is created
         final String suffixes = StringUtils.join(this.suffixes, "\\.*|") + "\\.*";
         final String prefixes = StringUtils.join(this.prefixes, " |") + " ";
-        final String salutations = StringUtils.join(this.salutations, " |") + " ";
+        final String salutations = StringUtils.join(this.salutations, " |");
 
         // The regex use is a bit tricky.  *Everything* matched by the regex will be replaced,
         // but you can select a particular parenthesized submatch to be returned.
@@ -155,7 +155,7 @@ public final class HumanNameParser {
         final String nicknamesRegex = "(?i) ('|\\\"|\\(\\\"*'*)(.+?)('|\\\"|\\\"*'*\\)) ";
         final String suffixRegex = "(?i),* *((" + suffixes + ")$)";
         final String lastRegex = "(?i)(?!^)\\b([^ ]+ y |" + prefixes + ")*[^ ]+$";
-        final String salutationRegex = "^(?i)(("+salutations+")\\.)";
+        final String salutationRegex = "^(?i)(("+salutations+")(\\.|\\s))";
         // note the lookahead, which isn't returned or replaced
         final String leadingInitRegex = "(?i)(^(.\\.*)(?= \\p{L}{2}))";
         final String firstRegex = "(?i)^([^ ]+)";
