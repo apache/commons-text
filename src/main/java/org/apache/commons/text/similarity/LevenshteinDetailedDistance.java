@@ -100,9 +100,8 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
     public LevenshteinResults apply(final CharSequence left, final CharSequence right) {
         if (threshold != null) {
             return limitedCompare(left, right, threshold);
-        } else {
-            return unlimitedCompare(left, right);
         }
+        return unlimitedCompare(left, right);
     }
 
     /**

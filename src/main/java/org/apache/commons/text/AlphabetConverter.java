@@ -158,17 +158,15 @@ public final class AlphabetConverter {
             } else {
                 if (j + encodedLetterLength > encoded.length()) {
                     throw new UnsupportedEncodingException("Unexpected end of string while decoding " + encoded);
-                } else {
-                    final String nextGroup = encoded.substring(j, j + encodedLetterLength);
-                    final String next = encodedToOriginal.get(nextGroup);
-                    if (next == null) {
-                        throw new UnsupportedEncodingException(
-                                "Unexpected string without decoding (" + nextGroup + ") in " + encoded);
-                    } else {
-                        result.append(next);
-                        j += encodedLetterLength;
-                    }
                 }
+                final String nextGroup = encoded.substring(j, j + encodedLetterLength);
+                final String next = encodedToOriginal.get(nextGroup);
+                if (next == null) {
+                    throw new UnsupportedEncodingException(
+                            "Unexpected string without decoding (" + nextGroup + ") in " + encoded);
+                }
+                result.append(next);
+                j += encodedLetterLength;
             }
         }
 
@@ -452,8 +450,7 @@ public final class AlphabetConverter {
     private static String codePointToString(final int i) {
         if (Character.charCount(i) == 1) {
             return String.valueOf((char) i);
-        } else {
-            return new String(Character.toChars(i));
         }
+        return new String(Character.toChars(i));
     }
 }
