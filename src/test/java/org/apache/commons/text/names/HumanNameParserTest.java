@@ -74,6 +74,10 @@ public class HumanNameParserTest {
         final Name result = nameParser.parse(record.get(Columns.Name));
 
         final long recordNum = record.getRecordNumber();
+
+        assertThat("Wrong Salutation in record " + recordNum,
+                result.getSalutation(), equalTo(record.get(Columns.Salutation)));
+
         assertThat("Wrong LeadingInit in record " + recordNum,
                 result.getLeadingInitial(), equalTo(record.get(Columns.LeadingInit)));
 
@@ -94,6 +98,6 @@ public class HumanNameParserTest {
     }
 
     private enum Columns {
-        Name,LeadingInit,FirstName,NickName,MiddleName,LastName,Suffix
+        Name,Salutation,LeadingInit,FirstName,NickName,MiddleName,LastName,Suffix
     }
 }
