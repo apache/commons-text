@@ -286,9 +286,8 @@ public class WordUtils {
                 if (matcher.start() == 0) {
                     offset += matcher.end();
                     continue;
-                }else {
-                    spaceToWrapAt = matcher.start();
                 }
+                spaceToWrapAt = matcher.start();
             }
 
             // only last line without leading spaces is left
