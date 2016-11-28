@@ -560,7 +560,7 @@ public class StringEscapeUtilsTest {
      */
     @Test
     public void testLang708() throws IOException {
-        final FileInputStream fis = new FileInputStream("src/test/resources/lang-708-input.txt");
+        final FileInputStream fis = new FileInputStream("src/test/resources/stringEscapeUtilsTestData.txt");
         final String input = IOUtils.toString(fis, "UTF-8");
         final String escaped = StringEscapeUtils.escapeEcmaScript(input);
         // just the end:
