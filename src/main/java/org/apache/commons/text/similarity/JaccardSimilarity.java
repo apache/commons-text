@@ -50,7 +50,7 @@ public class JaccardSimilarity implements EditDistance<Double> {
     }
 
     /**
-     * Calculates Jaccard Similarity of two set character sequence passed as
+     * Calculates Jaccard Similarity of two character sequences passed as
      * input. Does the calculation by identifying the union (characters in at
      * least one of the two sets) of the two sets and intersection (characters
      * which are present in set one which are present in set two)

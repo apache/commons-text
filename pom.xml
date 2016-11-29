@@ -68,6 +68,11 @@
       <id>ggregory</id>
       <email>ggregory@apache.org</email>
     </developer>
+    <developer>
+      <name>Don Jeba</name>
+      <id>drajakumar</id>
+      <email>donjeba@yahoo.com</email>
+    </developer>
   </developers>
   <contributors>
 
