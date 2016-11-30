@@ -29,7 +29,7 @@ import java.util.Set;
  * https://en.wikipedia.org/wiki/Jaccard_index
  * </p>
  */
-public class JaccardSimilarity implements EditDistance<Double> {
+public class JaccardSimilarity implements SimilarityScore<Double> {
 
     /**
      * Calculates Jaccard Similarity of two set character sequence passed as

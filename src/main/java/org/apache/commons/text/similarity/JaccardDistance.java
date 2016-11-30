@@ -32,7 +32,7 @@ public class JaccardDistance implements EditDistance<Double> {
 
     /**
      * Calculates Jaccard distance of two set character sequence passed as
-     * input. Calculates Jaccard similarity and returns the complementary of it.
+     * input. Calculates Jaccard similarity and returns the complement of it.
      * 
      * @param left first character sequence
      * @param right second character sequence

@@ -47,6 +47,7 @@ public class JaccardDistanceTest {
         assertEquals(0.10d, classBeingTested.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.0d);
         assertEquals(0.87d, classBeingTested.apply("left", "right"), 0.0d);
         assertEquals(0.87d, classBeingTested.apply("leettteft", "ritttght"), 0.0d);
+        assertEquals(0.0d, classBeingTested.apply("the same string", "the same string"), 0.0d);
     }
 
     @Test(expected = IllegalArgumentException.class)

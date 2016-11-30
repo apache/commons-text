@@ -68,14 +68,13 @@
       <id>ggregory</id>
       <email>ggregory@apache.org</email>
     </developer>
-    <developer>
-      <name>Don Jeba</name>
-      <id>drajakumar</id>
-      <email>donjeba@yahoo.com</email>
-    </developer>
   </developers>
-  <contributors>
 
+  <contributors>
+    <contributor>
+      <name>Don Jeba</name>
+      <email>donjeba@yahoo.com</email>
+    </contributor>
   </contributors>
 
   <!-- Lang should depend on very little -->
