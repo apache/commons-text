@@ -38,20 +38,20 @@ public class CosineSimilarity {
      * @param rightVector right vector
      * @return cosine similarity between the two vectors
      */
-    public Double cosineSimilarity(Map<CharSequence, Integer> leftVector, Map<CharSequence, Integer> rightVector) {
+    public Double cosineSimilarity(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector) {
         if (leftVector == null || rightVector == null) {
             throw new IllegalArgumentException("Vectors must not be null");
         }
 
-        Set<CharSequence> intersection = getIntersection(leftVector, rightVector);
+        final Set<CharSequence> intersection = getIntersection(leftVector, rightVector);
 
-        double dotProduct = dot(leftVector, rightVector, intersection);
+        final double dotProduct = dot(leftVector, rightVector, intersection);
         double d1 = 0.0d;
-        for (Integer value : leftVector.values()) {
+        for (final Integer value : leftVector.values()) {
             d1 += Math.pow(value, 2);
         }
         double d2 = 0.0d;
-        for (Integer value : rightVector.values()) {
+        for (final Integer value : rightVector.values()) {
             d2 += Math.pow(value, 2);
         }
         double cosineSimilarity;
@@ -70,9 +70,9 @@ public class CosineSimilarity {
      * @param rightVector right vector map
      * @return common strings
      */
-    private Set<CharSequence> getIntersection(Map<CharSequence, Integer> leftVector,
-            Map<CharSequence, Integer> rightVector) {
-        Set<CharSequence> intersection = new HashSet<>(leftVector.keySet());
+    private Set<CharSequence> getIntersection(final Map<CharSequence, Integer> leftVector,
+            final Map<CharSequence, Integer> rightVector) {
+        final Set<CharSequence> intersection = new HashSet<>(leftVector.keySet());
         intersection.retainAll(rightVector.keySet());
         return intersection;
     }
@@ -87,10 +87,10 @@ public class CosineSimilarity {
      * @param intersection common elements
      * @return the dot product
      */
-    private double dot(Map<CharSequence, Integer> leftVector, Map<CharSequence, Integer> rightVector,
-            Set<CharSequence> intersection) {
+    private double dot(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector,
+            final Set<CharSequence> intersection) {
         long dotProduct = 0;
-        for (CharSequence key : intersection) {
+        for (final CharSequence key : intersection) {
             dotProduct += leftVector.get(key) * rightVector.get(key);
         }
         return dotProduct;

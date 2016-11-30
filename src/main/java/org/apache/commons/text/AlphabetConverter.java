@@ -94,8 +94,8 @@ public final class AlphabetConverter {
      * @param encodedToOriginal encoding alphabet
      * @param encodedLetterLength length of the encoded letter
      */
-    private AlphabetConverter(Map<Integer, String> originalToEncoded, Map<String, String> encodedToOriginal,
-            int encodedLetterLength) {
+    private AlphabetConverter(final Map<Integer, String> originalToEncoded, final Map<String, String> encodedToOriginal,
+            final int encodedLetterLength) {
 
         this.originalToEncoded = originalToEncoded;
         this.encodedToOriginal = encodedToOriginal;
@@ -109,17 +109,17 @@ public final class AlphabetConverter {
      * @return the encoded string, {@code null} if the given string is null
      * @throws UnsupportedEncodingException if chars that are not supported are encountered
      */
-    public String encode(String original) throws UnsupportedEncodingException {
+    public String encode(final String original) throws UnsupportedEncodingException {
         if (original == null) {
             return null;
         }
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < original.length();) {
-            int codepoint = original.codePointAt(i);
+            final int codepoint = original.codePointAt(i);
 
-            String nextLetter = originalToEncoded.get(codepoint);
+            final String nextLetter = originalToEncoded.get(codepoint);
 
             if (nextLetter == null) {
                 throw new UnsupportedEncodingException(
@@ -141,16 +141,16 @@ public final class AlphabetConverter {
      * @return the decoded string, {@code null} if the given string is null
      * @throws UnsupportedEncodingException if unexpected characters that cannot be handled are encountered
      */
-    public String decode(String encoded) throws UnsupportedEncodingException {
+    public String decode(final String encoded) throws UnsupportedEncodingException {
         if (encoded == null) {
             return null;
         }
 
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
 
         for (int j = 0; j < encoded.length();) {
-            Integer i = encoded.codePointAt(j);
-            String s = codePointToString(i);
+            final Integer i = encoded.codePointAt(j);
+            final String s = codePointToString(i);
 
             if (s.equals(originalToEncoded.get(i))) {
                 result.append(s);
@@ -158,17 +158,15 @@ public final class AlphabetConverter {
             } else {
                 if (j + encodedLetterLength > encoded.length()) {
                     throw new UnsupportedEncodingException("Unexpected end of string while decoding " + encoded);
-                } else {
-                    String nextGroup = encoded.substring(j, j + encodedLetterLength);
-                    String next = encodedToOriginal.get(nextGroup);
-                    if (next == null) {
-                        throw new UnsupportedEncodingException(
-                                "Unexpected string without decoding (" + nextGroup + ") in " + encoded);
-                    } else {
-                        result.append(next);
-                        j += encodedLetterLength;
-                    }
                 }
+                final String nextGroup = encoded.substring(j, j + encodedLetterLength);
+                final String next = encodedToOriginal.get(nextGroup);
+                if (next == null) {
+                    throw new UnsupportedEncodingException(
+                            "Unexpected string without decoding (" + nextGroup + ") in " + encoded);
+                }
+                result.append(next);
+                j += encodedLetterLength;
             }
         }
 
@@ -205,11 +203,11 @@ public final class AlphabetConverter {
      * @param doNotEncodeMap map of values that should not be encoded
      */
     @SuppressWarnings("PMD")
-    private void addSingleEncoding(int level, String currentEncoding, Collection<Integer> encoding,
-            Iterator<Integer> originals, Map<Integer, String> doNotEncodeMap) {
+    private void addSingleEncoding(final int level, final String currentEncoding, final Collection<Integer> encoding,
+            final Iterator<Integer> originals, final Map<Integer, String> doNotEncodeMap) {
 
         if (level > 0) {
-            for (int encodingLetter : encoding) {
+            for (final int encodingLetter : encoding) {
                 if (originals.hasNext()) {
 
                     // this skips the doNotEncode chars if they are in the
@@ -226,7 +224,7 @@ public final class AlphabetConverter {
             Integer next = originals.next();
 
             while (doNotEncodeMap.containsKey(next)) {
-                String originalLetterAsString = codePointToString(next);
+                final String originalLetterAsString = codePointToString(next);
 
                 originalToEncoded.put(next, originalLetterAsString);
                 encodedToOriginal.put(originalLetterAsString, originalLetterAsString);
@@ -238,7 +236,7 @@ public final class AlphabetConverter {
                 next = originals.next();
             }
 
-            String originalLetterAsString = codePointToString(next);
+            final String originalLetterAsString = codePointToString(next);
 
             originalToEncoded.put(next, currentEncoding);
             encodedToOriginal.put(currentEncoding, originalLetterAsString);
@@ -247,9 +245,9 @@ public final class AlphabetConverter {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
-        for (Entry<Integer, String> entry : originalToEncoded.entrySet()) {
+        for (final Entry<Integer, String> entry : originalToEncoded.entrySet()) {
             sb.append(codePointToString(entry.getKey())).append(ARROW).append(entry.getValue()).append(LINE_SEPARATOR);
         }
 
@@ -257,7 +255,7 @@ public final class AlphabetConverter {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }
@@ -286,15 +284,15 @@ public final class AlphabetConverter {
      * @return the reconstructed AlphabetConverter
      * @see AlphabetConverter#getOriginalToEncoded()
      */
-    public static AlphabetConverter createConverterFromMap(Map<Integer, String> originalToEncoded) {
+    public static AlphabetConverter createConverterFromMap(final Map<Integer, String> originalToEncoded) {
         final Map<Integer, String> unmodifiableOriginalToEncoded = Collections.unmodifiableMap(originalToEncoded);
-        Map<String, String> encodedToOriginal = new LinkedHashMap<>();
-        Map<Integer, String> doNotEncodeMap = new HashMap<>();
+        final Map<String, String> encodedToOriginal = new LinkedHashMap<>();
+        final Map<Integer, String> doNotEncodeMap = new HashMap<>();
 
         int encodedLetterLength = 1;
 
-        for (Entry<Integer, String> e : unmodifiableOriginalToEncoded.entrySet()) {
-            String originalAsString = codePointToString(e.getKey());
+        for (final Entry<Integer, String> e : unmodifiableOriginalToEncoded.entrySet()) {
+            final String originalAsString = codePointToString(e.getKey());
             encodedToOriginal.put(e.getValue(), originalAsString);
 
             if (e.getValue().equals(originalAsString)) {
@@ -322,8 +320,8 @@ public final class AlphabetConverter {
      * @return the AlphabetConverter
      * @throws IllegalArgumentException if an AlphabetConverter cannot be constructed
      */
-    public static AlphabetConverter createConverterFromChars(Character[] original, Character[] encoding,
-            Character[] doNotEncode) {
+    public static AlphabetConverter createConverterFromChars(final Character[] original, final Character[] encoding,
+            final Character[] doNotEncode) {
         return AlphabetConverter.createConverter(convertCharsToIntegers(original), convertCharsToIntegers(encoding),
                 convertCharsToIntegers(doNotEncode));
     }
@@ -334,11 +332,11 @@ public final class AlphabetConverter {
      * @param chars array of characters
      * @return an equivalent array of integers
      */
-    private static Integer[] convertCharsToIntegers(Character[] chars) {
+    private static Integer[] convertCharsToIntegers(final Character[] chars) {
         if (chars == null || chars.length == 0) {
             return new Integer[0];
         }
-        Integer[] integers = new Integer[chars.length];
+        final Integer[] integers = new Integer[chars.length];
         for (int i = 0; i < chars.length; i++) {
             integers[i] = (int) chars[i];
         }
@@ -358,11 +356,11 @@ public final class AlphabetConverter {
      * @return the AlphabetConverter
      * @throws IllegalArgumentException if an AlphabetConverter cannot be constructed
      */
-    public static AlphabetConverter createConverter(Integer[] original, Integer[] encoding, Integer[] doNotEncode) {
+    public static AlphabetConverter createConverter(final Integer[] original, final Integer[] encoding, final Integer[] doNotEncode) {
 
-        Set<Integer> originalCopy = new LinkedHashSet<>(Arrays.<Integer> asList(original));
-        Set<Integer> encodingCopy = new LinkedHashSet<>(Arrays.<Integer> asList(encoding));
-        Set<Integer> doNotEncodeCopy = new LinkedHashSet<>(Arrays.<Integer> asList(doNotEncode));
+        final Set<Integer> originalCopy = new LinkedHashSet<>(Arrays.<Integer> asList(original));
+        final Set<Integer> encodingCopy = new LinkedHashSet<>(Arrays.<Integer> asList(encoding));
+        final Set<Integer> doNotEncodeCopy = new LinkedHashSet<>(Arrays.<Integer> asList(doNotEncode));
 
         final Map<Integer, String> originalToEncoded = new LinkedHashMap<>();
         final Map<String, String> encodedToOriginal = new LinkedHashMap<>();
@@ -370,7 +368,7 @@ public final class AlphabetConverter {
 
         int encodedLetterLength;
 
-        for (int i : doNotEncodeCopy) {
+        for (final int i : doNotEncodeCopy) {
             if (!originalCopy.contains(i)) {
                 throw new IllegalArgumentException(
                         "Can not use 'do not encode' list because original alphabet does not contain '"
@@ -389,10 +387,10 @@ public final class AlphabetConverter {
         if (encodingCopy.size() >= originalCopy.size()) {
             encodedLetterLength = 1;
 
-            Iterator<Integer> it = encodingCopy.iterator();
+            final Iterator<Integer> it = encodingCopy.iterator();
 
-            for (int originalLetter : originalCopy) {
-                String originalLetterAsString = codePointToString(originalLetter);
+            for (final int originalLetter : originalCopy) {
+                final String originalLetterAsString = codePointToString(originalLetter);
 
                 if (doNotEncodeMap.containsKey(originalLetter)) {
                     originalToEncoded.put(originalLetter, originalLetterAsString);
@@ -404,7 +402,7 @@ public final class AlphabetConverter {
                         next = it.next();
                     }
 
-                    String encodedLetter = codePointToString(next);
+                    final String encodedLetter = codePointToString(next);
 
                     originalToEncoded.put(originalLetter, encodedLetter);
                     encodedToOriginal.put(encodedLetter, originalLetterAsString);
@@ -434,7 +432,7 @@ public final class AlphabetConverter {
 
             encodedLetterLength = lettersSoFar + 1;
 
-            AlphabetConverter ac = new AlphabetConverter(originalToEncoded, encodedToOriginal, encodedLetterLength);
+            final AlphabetConverter ac = new AlphabetConverter(originalToEncoded, encodedToOriginal, encodedLetterLength);
 
             ac.addSingleEncoding(encodedLetterLength, "", encodingCopy, originalCopy.iterator(), doNotEncodeMap);
 
@@ -449,11 +447,10 @@ public final class AlphabetConverter {
      * @return a new string with the new code point
      * @see http://www.oracle.com/us/technologies/java/supplementary-142654.html
      */
-    private static String codePointToString(int i) {
+    private static String codePointToString(final int i) {
         if (Character.charCount(i) == 1) {
             return String.valueOf((char) i);
-        } else {
-            return new String(Character.toChars(i));
         }
+        return new String(Character.toChars(i));
     }
 }

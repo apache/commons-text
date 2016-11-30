@@ -44,7 +44,8 @@ public class ParameterizedSimilarityScoreFromTest<R> {
 
                 {
                         new SimilarityScore<Boolean>() {
-                            public Boolean apply(CharSequence left, CharSequence right) {
+                            @Override
+                            public Boolean apply(final CharSequence left, final CharSequence right) {
                                 return left == right || (left != null && left.equals(right));
                             }
                         },
@@ -58,7 +59,7 @@ public class ParameterizedSimilarityScoreFromTest<R> {
 
     @Test
     public void test() {
-        SimilarityScoreFrom<R> similarityScoreFrom = new SimilarityScoreFrom<R>(similarityScore, left);
+        final SimilarityScoreFrom<R> similarityScoreFrom = new SimilarityScoreFrom<>(similarityScore, left);
         assertThat(similarityScoreFrom.apply(right), equalTo(distance));
     }
 }

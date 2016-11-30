@@ -99,14 +99,14 @@ public class LevenshteinResults {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        LevenshteinResults result = (LevenshteinResults) o;
+        final LevenshteinResults result = (LevenshteinResults) o;
         return Objects.equals(distance, result.distance) && Objects.equals(insertCount, result.insertCount)
                 && Objects.equals(deleteCount, result.deleteCount)
                 && Objects.equals(substituteCount, result.substituteCount);

@@ -30,6 +30,10 @@ public final class Name {
      */
     private final String leadingInitial;
     /**
+     * Salutation. e.g. <em>Dr.</em>, as in <em>Dr. Jekyll</em>, or <em>Mr.</em>, as in <em>Mr. Hyde</em/>.
+     */
+    private final String salutation;
+    /**
      * The first name, e.g. <em>Francisco</em>, as in <em>Francisco ('Chico') Silva Zhao II</em>.
      */
     private final String firstName;
@@ -54,14 +58,16 @@ public final class Name {
      * Create a Name.
      *
      * @param leadingInitial the leading initial
+     * @param salutation the salutation
      * @param firstName the first name
      * @param nickName the nickname
      * @param middleName the middle name
      * @param lastName the last name
      * @param suffix a suffix
      */
-    Name(String leadingInitial, String firstName, String nickName, String middleName, String lastName, String suffix) {
+    Name(final String leadingInitial, final String salutation, final String firstName, final String nickName, final String middleName, final String lastName, final String suffix) {
         this.leadingInitial = leadingInitial;
+        this.salutation = salutation;
         this.firstName = firstName;
         this.nickName = nickName;
         this.middleName = middleName;
@@ -76,6 +82,11 @@ public final class Name {
      */
     public String getLeadingInitial() {
         return leadingInitial;
+    }
+
+
+    public String getSalutation() {
+        return salutation;
     }
 
     /**
@@ -124,14 +135,14 @@ public final class Name {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Name name = (Name) o;
+        final Name name = (Name) o;
         return Objects.equals(leadingInitial, name.leadingInitial)
                 && Objects.equals(firstName, name.firstName)
                 && Objects.equals(nickName, name.nickName)

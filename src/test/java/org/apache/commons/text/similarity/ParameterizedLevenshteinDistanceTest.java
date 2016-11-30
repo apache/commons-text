@@ -118,7 +118,7 @@ public class ParameterizedLevenshteinDistanceTest {
 
     @Test
     public void test() {
-        LevenshteinDistance metric = new LevenshteinDistance(threshold);
+        final LevenshteinDistance metric = new LevenshteinDistance(threshold);
         assertThat(metric.apply(left, right), equalTo(distance));
     }
 

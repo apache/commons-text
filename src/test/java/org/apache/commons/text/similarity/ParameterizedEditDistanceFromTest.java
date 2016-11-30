@@ -68,7 +68,8 @@ public class ParameterizedEditDistanceFromTest<R> {
 
             {
                 new EditDistance<Boolean>() {
-                    public Boolean apply(CharSequence left, CharSequence right) {
+                    @Override
+                    public Boolean apply(final CharSequence left, final CharSequence right) {
                         return left == right || (left != null && left.equals(right));
                     }
                 },
@@ -82,7 +83,7 @@ public class ParameterizedEditDistanceFromTest<R> {
 
     @Test
     public void test() {
-        EditDistanceFrom<R> editDistanceFrom = new EditDistanceFrom<>(editDistance, left);
+        final EditDistanceFrom<R> editDistanceFrom = new EditDistanceFrom<>(editDistance, left);
         assertThat(editDistanceFrom.apply(right), equalTo(distance));
     }
 

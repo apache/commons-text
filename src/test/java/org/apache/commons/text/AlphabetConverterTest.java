@@ -74,9 +74,9 @@ public class AlphabetConverterTest {
     }
 
     private AlphabetConverter createJavadocExample() {
-        Character[] original = {'a','b','c','d'};
-        Character[] encoding = {'0','1','d'};
-        Character[] doNotEncode = {'d'};
+        final Character[] original = {'a','b','c','d'};
+        final Character[] encoding = {'0','1','d'};
+        final Character[] doNotEncode = {'d'};
         
         return AlphabetConverter.createConverterFromChars(original, encoding, doNotEncode);
     }
@@ -86,7 +86,7 @@ public class AlphabetConverterTest {
      */
     @Test
     public void javadocExampleTest() throws UnsupportedEncodingException {
-        AlphabetConverter ac = createJavadocExample();
+        final AlphabetConverter ac = createJavadocExample();
         
         Assert.assertEquals("00", ac.encode("a"));
         Assert.assertEquals("01", ac.encode("b"));
@@ -97,23 +97,23 @@ public class AlphabetConverterTest {
 
     @Test
     public void unexpectedEndwhileDecodingTest() throws UnsupportedEncodingException {
-        String toDecode = "00d01d0";
+        final String toDecode = "00d01d0";
         
         thrown.expect(UnsupportedEncodingException.class);
         thrown.expectMessage("Unexpected end of string while decoding " + toDecode);
 
-        AlphabetConverter ac = createJavadocExample();
+        final AlphabetConverter ac = createJavadocExample();
         ac.decode(toDecode);
     }
 
     @Test
     public void unexpectedStringWhileDecodingTest() throws UnsupportedEncodingException {
-        String toDecode = "00XX";
+        final String toDecode = "00XX";
         
         thrown.expect(UnsupportedEncodingException.class);
         thrown.expectMessage("Unexpected string without decoding (XX) in " + toDecode);
 
-        AlphabetConverter ac = createJavadocExample();
+        final AlphabetConverter ac = createJavadocExample();
         ac.decode(toDecode);
     }
 
@@ -122,13 +122,13 @@ public class AlphabetConverterTest {
      */
     @Test
     public void unicodeTest() throws UnsupportedEncodingException {
-        AlphabetConverter ac = AlphabetConverter.createConverter(unicode, lower_case_english_codepoints, doNotEncodePoints);
+        final AlphabetConverter ac = AlphabetConverter.createConverter(unicode, lower_case_english_codepoints, doNotEncodePoints);
         
         Assert.assertEquals(2, ac.getEncodedCharLength());
         
-        String original = "\u8a43\u8a45 \u8dce ab \u8dc3 c \u8983";
-        String encoded = ac.encode(original);
-        String decoded = ac.decode(encoded);
+        final String original = "\u8a43\u8a45 \u8dce ab \u8dc3 c \u8983";
+        final String encoded = ac.encode(original);
+        final String decoded = ac.decode(encoded);
         
         Assert.assertEquals("Encoded '" + original + "' into '" + encoded + "', but decoded into '" + decoded + "'", original, decoded);
     }
@@ -146,7 +146,7 @@ public class AlphabetConverterTest {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Must have at least two encoding characters (excluding those in the 'do not encode' list), but has 1");
 
-        Character[] numbersPlusUnderscore = Arrays.copyOf(numbers, numbers.length + 1);
+        final Character[] numbersPlusUnderscore = Arrays.copyOf(numbers, numbers.length + 1);
         numbersPlusUnderscore[numbersPlusUnderscore.length -1] = '_';
 
         AlphabetConverter.createConverterFromChars(english_and_numbers, numbersPlusUnderscore, numbers);
@@ -168,11 +168,11 @@ public class AlphabetConverterTest {
         AlphabetConverter.createConverterFromChars(lower_case_english, english_and_numbers, numbers);
     }
 
-    private void test(Character[] originalChars, Character[] encodingChars, Character[] doNotEncodeChars, String... strings) throws UnsupportedEncodingException {
+    private void test(final Character[] originalChars, final Character[] encodingChars, final Character[] doNotEncodeChars, final String... strings) throws UnsupportedEncodingException {
         
-        AlphabetConverter ac = AlphabetConverter.createConverterFromChars(originalChars, encodingChars, doNotEncodeChars);
+        final AlphabetConverter ac = AlphabetConverter.createConverterFromChars(originalChars, encodingChars, doNotEncodeChars);
         
-        AlphabetConverter reconstructedAlphabetConverter = AlphabetConverter.createConverterFromMap(ac.getOriginalToEncoded());
+        final AlphabetConverter reconstructedAlphabetConverter = AlphabetConverter.createConverterFromMap(ac.getOriginalToEncoded());
         
         Assert.assertEquals(ac, reconstructedAlphabetConverter);
         Assert.assertEquals(ac.hashCode(), reconstructedAlphabetConverter.hashCode());
@@ -181,19 +181,19 @@ public class AlphabetConverterTest {
         Assert.assertEquals("", ac.encode("")); // test empty conversion
 
         // test all the trial strings
-        for (String s : strings) {
-            String encoded = ac.encode(s);
+        for (final String s : strings) {
+            final String encoded = ac.encode(s);
 
             // test that only encoding chars are used
-            List<Character> originalEncodingChars = Arrays.asList(encodingChars);
+            final List<Character> originalEncodingChars = Arrays.asList(encodingChars);
             for (int i = 0; i < encoded.length(); i++) {
                 Assert.assertTrue(originalEncodingChars.contains(encoded.charAt(i)));
             }
 
-            String decoded = ac.decode(encoded);
+            final String decoded = ac.decode(encoded);
 
             // test that only the original alphabet is used after decoding
-            List<Character> originalCharsList = Arrays.asList(originalChars);
+            final List<Character> originalCharsList = Arrays.asList(originalChars);
             for (int i = 0; i < decoded.length(); i++) {
                 Assert.assertTrue(originalCharsList.contains(decoded.charAt(i)));
             }
