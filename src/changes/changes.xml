@@ -22,6 +22,7 @@
   <body>
 
   <release version="1.0" date="tba" description="tba">
+    <action issue="TEXT-22" type="fix" dev="chtompki">LevenshteinDistance reduce memory consumption</action>
     <action issue="TEXT-31" type="remove" dev="chtompki">Remove org.apache.commons.text.names, for later release than 1.0</action>
     <action issue="TEXT-2" type="add" dev="chtompki" due-to="Don Jeba">Add Jaccard Index and Jaccard Distance</action>
     <action issue="TEXT-27" type="add" dev="chtompki">Move org.apache.commons.lang3.StringEscapeUtils.java into text</action>
