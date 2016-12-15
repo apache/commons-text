@@ -618,4 +618,12 @@ public class StringEscapeUtilsTest {
         assertEquals(expected, StringEscapeUtils.escapeJson(input));
     }
 
+    @Test
+    public void testBuilder() {
+        String result = StringEscapeUtils.builder(StringEscapeUtils.ESCAPE_XML10)
+                .escape("<").append(">").toString();
+
+        assertEquals("&lt;>", result);
+    }
+
 }
