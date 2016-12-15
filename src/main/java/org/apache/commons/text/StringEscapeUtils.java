@@ -524,7 +524,6 @@ public class StringEscapeUtils {
      *      .toString()
      * </pre>
      *
-     * @since 3.6
      */
     public static class Builder {
 
@@ -572,7 +571,7 @@ public class StringEscapeUtils {
     /**
      * Get a {@link Builder}.
      * @return {@link Builder}
-     * @since 3.2
+     *
      */
     public static StringEscapeUtils.Builder builder(final CharSequenceTranslator translator) {
         return new Builder(translator);
