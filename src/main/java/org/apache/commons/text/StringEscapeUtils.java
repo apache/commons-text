@@ -732,9 +732,9 @@ public class StringEscapeUtils {
      * <p>Supports only the five basic XML entities (gt, lt, quot, amp, apos).
      * Does not support DTDs or external entities.</p>
      *
-     * <p>Note that Unicode characters greater than 0x7f are as of 3.0, no longer 
-     *    escaped. If you still wish this functionality, you can achieve it 
-     *    via the following: 
+     * <p>Note that Unicode characters greater than 0x7f are as of 3.0, no longer
+     *    escaped. If you still wish this functionality, you can achieve it
+     *    via the following:
      * {@code StringEscapeUtils.ESCAPE_XML.with( NumericEntityEscaper.between(0x7f, Integer.MAX_VALUE) );}</p>
      *
      * @param input  the {@code String} to escape, may be null
@@ -882,7 +882,6 @@ public class StringEscapeUtils {
         return UNESCAPE_CSV.translate(input);
     }
 
-    // Shell
     /**
      * <p>Escapes the characters in a {@code String} using XSI rules.</p>
      *
@@ -899,7 +898,6 @@ public class StringEscapeUtils {
      * @see <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcu/chap2.html">Shell Command Language</a>
      * @param input  String to escape values in, may be null
      * @return String with escaped values, {@code null} if null string input
-     * @since 3.6
      */
     public static final String escapeXSI(final String input) {
         return ESCAPE_XSI.translate(input);
@@ -911,7 +909,6 @@ public class StringEscapeUtils {
      * @see StringEscapeUtils#escapeXSI(String)
      * @param input  the {@code String} to unescape, may be null
      * @return a new unescaped {@code String}, {@code null} if null string input
-     * @since 3.6
      */
     public static final String unescapeXSI(final String input) {
         return UNESCAPE_XSI.translate(input);
