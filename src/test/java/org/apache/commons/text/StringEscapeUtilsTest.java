@@ -16,9 +16,12 @@
  */
 package org.apache.commons.text;
 
+import static org.apache.commons.text.StringEscapeUtils.escapeXSI;
+import static org.apache.commons.text.StringEscapeUtils.unescapeXSI;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -620,10 +623,25 @@ public class StringEscapeUtilsTest {
 
     @Test
     public void testBuilder() {
-        String result = StringEscapeUtils.builder(StringEscapeUtils.ESCAPE_XML10)
-                .escape("<").append(">").toString();
-
+        String result = StringEscapeUtils.builder(StringEscapeUtils.ESCAPE_XML10).escape("<").append(">").toString();
         assertEquals("&lt;>", result);
+    }
+
+    @Test
+    public void testEscapeXSI() {
+        assertNull(null, escapeXSI(null));
+        assertEquals("He\\ didn\\'t\\ say,\\ \\\"Stop!\\\"", escapeXSI("He didn't say, \"Stop!\""));
+        assertEquals("\\\\", escapeXSI("\\"));
+        assertEquals("", escapeXSI("\n"));
+    }
+
+    @Test
+    public void testUnscapeXSI() {
+        assertNull(null, unescapeXSI(null));
+        assertEquals("\"", unescapeXSI("\\\""));
+        assertEquals("He didn't say, \"Stop!\"", unescapeXSI("He\\ didn\\'t\\ say,\\ \\\"Stop!\\\""));
+        assertEquals("\\", unescapeXSI("\\\\"));
+        assertEquals("", unescapeXSI("\\"));
     }
 
 }
