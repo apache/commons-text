@@ -21,6 +21,8 @@ import java.io.Writer;
 
 /**
  * Translates codepoints to their Unicode escaped value.
+ *
+ * @since 1.0
  */
 public class UnicodeEscaper extends CodePointTranslator {
 
@@ -128,7 +130,6 @@ public class UnicodeEscaper extends CodePointTranslator {
      *            a Unicode code point
      * @return the hex string for the given codepoint
      *
-     * @since 3.2
      */
     protected String toUtf16Escape(final int codepoint) {
         return "\\u" + hex(codepoint);

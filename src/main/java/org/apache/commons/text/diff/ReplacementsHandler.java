@@ -23,6 +23,7 @@ import java.util.List;
  *
  * @param <T> object type
  * @see ReplacementsFinder
+ * @since 1.0
  */
 public interface ReplacementsHandler<T> {
 

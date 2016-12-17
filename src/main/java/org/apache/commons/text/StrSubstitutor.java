@@ -117,6 +117,8 @@ import java.util.Properties;
  * {@link #setEnableSubstitutionInVariables(boolean) enableSubstitutionInVariables}
  * property to <b>true</b>.
  * <p>This class is <b>not</b> thread safe.</p>
+ *
+ * @since 1.0
  */
 public class StrSubstitutor {
 
@@ -134,7 +136,6 @@ public class StrSubstitutor {
     public static final StrMatcher DEFAULT_SUFFIX = StrMatcher.stringMatcher("}");
     /**
      * Constant for the default value delimiter of a variable.
-     * @since 3.2
      */
     public static final StrMatcher DEFAULT_VALUE_DELIMITER = StrMatcher.stringMatcher(":-");
 
@@ -289,7 +290,6 @@ public class StrSubstitutor {
      * @param escape  the escape character
      * @param valueDelimiter  the variable default value delimiter, may be null
      * @throws IllegalArgumentException if the prefix or suffix is null
-     * @since 3.2
      */
     public <V> StrSubstitutor(final Map<String, V> valueMap, final String prefix, final String suffix,
                               final char escape, final String valueDelimiter) {
@@ -332,7 +332,6 @@ public class StrSubstitutor {
      * @param escape  the escape character
      * @param valueDelimiter  the variable default value delimiter string, may be null
      * @throws IllegalArgumentException if the prefix or suffix is null
-     * @since 3.2
      */
     public StrSubstitutor(final StrLookup<?> variableResolver, final String prefix, final String suffix,
                           final char escape, final String valueDelimiter) {
@@ -367,7 +366,6 @@ public class StrSubstitutor {
      * @param escape  the escape character
      * @param valueDelimiterMatcher  the variable default value delimiter matcher, may be null
      * @throws IllegalArgumentException if the prefix or suffix is null
-     * @since 3.2
      */
     public StrSubstitutor(
             final StrLookup<?> variableResolver, final StrMatcher prefixMatcher, final StrMatcher suffixMatcher,
@@ -508,7 +506,6 @@ public class StrSubstitutor {
      *
      * @param source  the buffer to use as a template, not changed, null returns null
      * @return the result of the replace operation
-     * @since 3.2
      */
     public String replace(final CharSequence source) {
         if (source == null) {
@@ -529,7 +526,6 @@ public class StrSubstitutor {
      * @param offset  the start offset within the array, must be valid
      * @param length  the length within the array to be processed, must be valid
      * @return the result of the replace operation
-     * @since 3.2
      */
     public String replace(final CharSequence source, final int offset, final int length) {
         if (source == null) {
@@ -647,7 +643,6 @@ public class StrSubstitutor {
      *
      * @param source  the buffer to replace in, updated, null returns zero
      * @return true if altered
-     * @since 3.2
      */
     public boolean replaceIn(final StringBuilder source) {
         if (source == null) {
@@ -668,7 +663,6 @@ public class StrSubstitutor {
      * @param offset  the start offset within the array, must be valid
      * @param length  the length within the buffer to be processed, must be valid
      * @return true if altered
-     * @since 3.2
      */
     public boolean replaceIn(final StringBuilder source, final int offset, final int length) {
         if (source == null) {
@@ -1090,7 +1084,6 @@ public class StrSubstitutor {
      * If it returns null, then the variable default value resolution is disabled.
      *
      * @return the variable default value delimiter matcher in use, may be null
-     * @since 3.2
      */
     public StrMatcher getValueDelimiterMatcher() {
         return valueDelimiterMatcher;
@@ -1108,7 +1101,6 @@ public class StrSubstitutor {
      *
      * @param valueDelimiterMatcher  variable default value delimiter matcher to use, may be null
      * @return this, to enable chaining
-     * @since 3.2
      */
     public StrSubstitutor setValueDelimiterMatcher(final StrMatcher valueDelimiterMatcher) {
         this.valueDelimiterMatcher = valueDelimiterMatcher;
@@ -1124,7 +1116,6 @@ public class StrSubstitutor {
      *
      * @param valueDelimiter  the variable default value delimiter character to use
      * @return this, to enable chaining
-     * @since 3.2
      */
     public StrSubstitutor setValueDelimiter(final char valueDelimiter) {
         return setValueDelimiterMatcher(StrMatcher.charMatcher(valueDelimiter));
@@ -1142,7 +1133,6 @@ public class StrSubstitutor {
      *
      * @param valueDelimiter  the variable default value delimiter string to use, may be null or empty
      * @return this, to enable chaining
-     * @since 3.2
      */
     public StrSubstitutor setValueDelimiter(final String valueDelimiter) {
         if (valueDelimiter == null || valueDelimiter.length() == 0) {
@@ -1178,7 +1168,6 @@ public class StrSubstitutor {
      * Returns a flag whether substitution is done in variable names.
      *
      * @return the substitution in variable names flag
-     * @since 3.0
      */
     public boolean isEnableSubstitutionInVariables() {
         return enableSubstitutionInVariables;
@@ -1191,7 +1180,6 @@ public class StrSubstitutor {
      * <code>${jre-${java.version}}</code>. The default value is <b>false</b>.
      *
      * @param enableSubstitutionInVariables the new value of the flag
-     * @since 3.0
      */
     public void setEnableSubstitutionInVariables(
             final boolean enableSubstitutionInVariables) {
@@ -1203,7 +1191,6 @@ public class StrSubstitutor {
      * substitution.
      * 
      * @return the preserve escape flag
-     * @since 3.5
      */
     public boolean isPreserveEscapes() {
         return preserveEscapes;
@@ -1219,7 +1206,6 @@ public class StrSubstitutor {
      * <code>${this-is-escaped}</code>).  The default value is <b>false</b>
      * 
      * @param preserveEscapes true if escapes are to be preserved
-     * @since 3.5
      */
     public void setPreserveEscapes(final boolean preserveEscapes) {
         this.preserveEscapes = preserveEscapes;

@@ -28,6 +28,8 @@ import static java.util.FormattableFlags.LEFT_JUSTIFY;
  * when using a {@code Formatter}. It is primarily concerned with numeric precision
  * and padding, and is not designed to allow generalised alternate formats.</p>
  *
+ * @since 1.0
+ *
  */
 public class FormattableUtils {
 

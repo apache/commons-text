@@ -24,6 +24,8 @@ import java.util.Arrays;
  * <p>
  * This class comes complete with various factory methods.
  * If these do not suffice, you can subclass and implement your own matcher.
+ *
+ * @since 1.0
  */
 public abstract class StrMatcher {
 
@@ -257,7 +259,6 @@ public abstract class StrMatcher {
      * @param buffer  the text content to match against, do not change
      * @param pos  the starting position for the match, valid for buffer
      * @return the number of matching characters, zero for no match
-     * @since 2.4
      */
     public int isMatch(final char[] buffer, final int pos) {
         return isMatch(buffer, pos, 0, buffer.length);

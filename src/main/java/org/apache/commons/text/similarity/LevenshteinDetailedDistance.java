@@ -26,6 +26,8 @@ import java.util.Arrays;
  * where each change is a single character modification (deletion, insertion
  * or substitution).
  * </p>
+ *
+ * @since 1.0
  */
 public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResults> {
 

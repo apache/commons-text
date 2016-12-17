@@ -21,6 +21,8 @@ import java.io.Writer;
 
 /**
  * Translates codepoints to their XML numeric entity escaped value.
+ *
+ * @since 1.0
  */
 public class NumericEntityEscaper extends CodePointTranslator {
 

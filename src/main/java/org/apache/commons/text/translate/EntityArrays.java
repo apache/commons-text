@@ -20,6 +20,8 @@ package org.apache.commons.text.translate;
  * Class holding various entity data for HTML and XML - generally for use with
  * the LookupTranslator.
  * All arrays are of length [*][2].
+ *
+ * @since 1.0
  */
 public class EntityArrays {
 

@@ -25,6 +25,8 @@ package org.apache.commons.text.similarity;
  * For further explanation about Jaccard Distance, refer
  * https://en.wikipedia.org/wiki/Jaccard_index
  * </p>
+ *
+ * @since 1.0
  */
 public class JaccardDistance implements EditDistance<Double> {
 

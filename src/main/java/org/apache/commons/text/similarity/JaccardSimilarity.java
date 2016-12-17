@@ -28,6 +28,8 @@ import java.util.Set;
  * For further explanation about Jaccard Similarity, refer
  * https://en.wikipedia.org/wiki/Jaccard_index
  * </p>
+ *
+ * @since 1.0
  */
 public class JaccardSimilarity implements SimilarityScore<Double> {
 

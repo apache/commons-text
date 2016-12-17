@@ -62,7 +62,8 @@ import java.util.Set;
  * #ThreadSafe# AlphabetConverter class methods are threadsafe as they do not change internal state.
  * </p>
  *
- * @since 0.1
+ * @since 1.0
+ *
  */
 public final class AlphabetConverter {
 

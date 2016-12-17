@@ -30,6 +30,8 @@ import java.util.Map;
  * <p>
  * For example, it would be possible to implement a lookup that used the
  * key as a primary key, and looked up the value on demand from the database
+ *
+ * @since 1.0
  */
 public abstract class StrLookup<V> {
 

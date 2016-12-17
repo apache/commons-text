@@ -30,6 +30,8 @@ import java.util.Locale;
  * <p>
  * This code has been adapted from Apache Commons Lang 3.3.
  * </p>
+ *
+ * @since 1.0
  */
 public class FuzzyScore {
 

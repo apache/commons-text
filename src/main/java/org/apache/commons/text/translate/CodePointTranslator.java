@@ -22,6 +22,8 @@ import java.io.Writer;
 /**
  * Helper subclass to CharSequenceTranslator to allow for translations that 
  * will replace up to one character at a time.
+ *
+ * @since 1.0
  */
 public abstract class CodePointTranslator extends CharSequenceTranslator {
 

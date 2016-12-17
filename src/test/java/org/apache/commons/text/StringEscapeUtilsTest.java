@@ -297,43 +297,7 @@ public class StringEscapeUtilsTest {
         // TODO: refine API for escaping/unescaping specific HTML versions
     }
 
-    @Test
-    @SuppressWarnings( "deprecation" ) // ESCAPE_XML has been replaced by ESCAPE_XML10 and ESCAPE_XML11 in 3.3
-    public void testEscapeXml() throws Exception {
-        assertEquals("&lt;abc&gt;", StringEscapeUtils.escapeXml("<abc>"));
-        assertEquals("<abc>", StringEscapeUtils.unescapeXml("&lt;abc&gt;"));
 
-        assertEquals("XML should not escape >0x7f values",
-                "\u00A1", StringEscapeUtils.escapeXml("\u00A1"));
-        assertEquals("XML should be able to unescape >0x7f values",
-                "\u00A0", StringEscapeUtils.unescapeXml("&#160;"));
-        assertEquals("XML should be able to unescape >0x7f values with one leading 0",
-                "\u00A0", StringEscapeUtils.unescapeXml("&#0160;"));
-        assertEquals("XML should be able to unescape >0x7f values with two leading 0s",
-                "\u00A0", StringEscapeUtils.unescapeXml("&#00160;"));
-        assertEquals("XML should be able to unescape >0x7f values with three leading 0s",
-                "\u00A0", StringEscapeUtils.unescapeXml("&#000160;"));
-
-        assertEquals("ain't", StringEscapeUtils.unescapeXml("ain&apos;t"));
-        assertEquals("ain&apos;t", StringEscapeUtils.escapeXml("ain't"));
-        assertEquals("", StringEscapeUtils.escapeXml(""));
-        assertEquals(null, StringEscapeUtils.escapeXml(null));
-        assertEquals(null, StringEscapeUtils.unescapeXml(null));
-
-        StringWriter sw = new StringWriter();
-        try {
-            StringEscapeUtils.ESCAPE_XML.translate("<abc>", sw);
-        } catch (final IOException e) {
-        }
-        assertEquals("XML was escaped incorrectly", "&lt;abc&gt;", sw.toString() );
-
-        sw = new StringWriter();
-        try {
-            StringEscapeUtils.UNESCAPE_XML.translate("&lt;abc&gt;", sw);
-        } catch (final IOException e) {
-        }
-        assertEquals("XML was unescaped incorrectly", "<abc>", sw.toString() );
-    }
 
     @Test
     public void testEscapeXml10() throws Exception {
@@ -365,53 +329,6 @@ public class StringEscapeUtilsTest {
                 "a\ud7ff  \ue000b", StringEscapeUtils.escapeXml11("a\ud7ff\ud800 \udfff \ue000b"));
         assertEquals("XML 1.1 should omit #xfffe | #xffff",
                 "a\ufffdb", StringEscapeUtils.escapeXml11("a\ufffd\ufffe\uffffb"));
-    }
-
-    /**
-     * Tests Supplementary characters. 
-     * <p>
-     * From http://www.w3.org/International/questions/qa-escapes
-     * </p>
-     * <blockquote>
-     * Supplementary characters are those Unicode characters that have code points higher than the characters in
-     * the Basic Multilingual Plane (BMP). In UTF-16 a supplementary character is encoded using two 16-bit surrogate code points from the
-     * BMP. Because of this, some people think that supplementary characters need to be represented using two escapes, but this is incorrect
-     * - you must use the single, code point value for that character. For example, use &amp;&#35;x233B4&#59; rather than
-     * &amp;&#35;xD84C&#59;&amp;&#35;xDFB4&#59;.
-     * </blockquote>
-     * @see <a href="http://www.w3.org/International/questions/qa-escapes">Using character escapes in markup and CSS</a>
-     * @see <a href="https://issues.apache.org/jira/browse/LANG-728">LANG-728</a>
-     */
-    @Test
-    @SuppressWarnings( "deprecation" ) // ESCAPE_XML has been replaced by ESCAPE_XML10 and ESCAPE_XML11 in 3.3
-    public void testEscapeXmlSupplementaryCharacters() {
-        final CharSequenceTranslator escapeXml =
-                StringEscapeUtils.ESCAPE_XML.with( NumericEntityEscaper.between(0x7f, Integer.MAX_VALUE) );
-
-        assertEquals("Supplementary character must be represented using a single escape", "&#144308;",
-                escapeXml.translate("\uD84C\uDFB4"));
-
-        assertEquals("Supplementary characters mixed with basic characters should be encoded correctly", "a b c &#144308;",
-                escapeXml.translate("a b c \uD84C\uDFB4"));
-    }
-
-    @Test
-    @SuppressWarnings( "deprecation" ) // ESCAPE_XML has been replaced by ESCAPE_XML10 and ESCAPE_XML11 in 3.3
-    public void testEscapeXmlAllCharacters() {
-        // http://www.w3.org/TR/xml/#charsets says:
-        // Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF] /* any Unicode character,
-        // excluding the surrogate blocks, FFFE, and FFFF. */
-        final CharSequenceTranslator escapeXml = StringEscapeUtils.ESCAPE_XML
-                .with(NumericEntityEscaper.below(9), NumericEntityEscaper.between(0xB, 0xC), NumericEntityEscaper.between(0xE, 0x19),
-                        NumericEntityEscaper.between(0xD800, 0xDFFF), NumericEntityEscaper.between(0xFFFE, 0xFFFF), NumericEntityEscaper.above(0x110000));
-
-        assertEquals("&#0;&#1;&#2;&#3;&#4;&#5;&#6;&#7;&#8;", escapeXml.translate("\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\u0008"));
-        assertEquals("\t", escapeXml.translate("\t")); // 0x9
-        assertEquals("\n", escapeXml.translate("\n")); // 0xA
-        assertEquals("&#11;&#12;", escapeXml.translate("\u000B\u000C"));
-        assertEquals("\r", escapeXml.translate("\r")); // 0xD
-        assertEquals("Hello World! Ain&apos;t this great?", escapeXml.translate("Hello World! Ain't this great?"));
-        assertEquals("&#14;&#15;&#24;&#25;", escapeXml.translate("\u000E\u000F\u0018\u0019"));
     }
 
     /**
@@ -571,17 +488,6 @@ public class StringEscapeUtilsTest {
         // a little more:
         assertTrue(escaped, escaped.endsWith("\"valueCode\\\":\\\"\\\"}]"));
         fis.close();
-    }
-
-    /**
-     * Tests https://issues.apache.org/jira/browse/LANG-720
-     */
-    @Test
-    @SuppressWarnings( "deprecation" ) // escapeXml(String) has been replaced by escapeXml10(String) and escapeXml11(String) in 3.3
-    public void testLang720() {
-        final String input = "\ud842\udfb7" + "A";
-        final String escaped = StringEscapeUtils.escapeXml(input);
-        assertEquals(input, escaped);
     }
 
     /**

@@ -62,6 +62,8 @@ import java.util.Objects;
  * <li>Thread-safety of <code>Format</code>s, including <code>MessageFormat</code> and thus
  *     <code>ExtendedMessageFormat</code>, is not guaranteed.</li>
  * </ul>
+ *
+ * @since 1.0
  */
 public class ExtendedMessageFormat extends MessageFormat {
     private static final long serialVersionUID = -2362048321261811743L;

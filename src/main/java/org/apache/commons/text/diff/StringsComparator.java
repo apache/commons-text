@@ -48,6 +48,7 @@ package org.apache.commons.text.diff;
  * @see EditScript
  * @see EditCommand
  * @see CommandVisitor
+ * @since 1.0
  */
 public class StringsComparator {
 

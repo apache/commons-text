@@ -22,6 +22,8 @@ import java.io.Writer;
 /**
  * Executes a sequence of translators one after the other. Execution ends whenever 
  * the first translator consumes codepoints from the input.
+ *
+ * @since 1.0
  */
 public class AggregateTranslator extends CharSequenceTranslator {
 

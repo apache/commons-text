@@ -118,6 +118,7 @@ package org.apache.commons.text.diff;
  * </pre>
  *
  * @param <T> object type
+ * @since 1.0
  */
 public interface CommandVisitor<T> {
 

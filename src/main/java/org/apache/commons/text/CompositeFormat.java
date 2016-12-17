@@ -25,6 +25,8 @@ import java.text.ParsePosition;
  * Formats using one formatter and parses using a different formatter. An
  * example of use for this would be a webapp where data is taken in one way and
  * stored in a database another way.
+ *
+ * @since 1.0
  */
 public class CompositeFormat extends Format {
 

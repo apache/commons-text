@@ -48,6 +48,7 @@ import java.util.List;
  * @see StringsComparator
  *
  * @param <T> object type
+ * @since 1.0
  */
 public class ReplacementsFinder<T> implements CommandVisitor<T> {
 

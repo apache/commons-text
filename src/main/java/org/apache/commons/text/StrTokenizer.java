@@ -78,6 +78,8 @@ import java.util.NoSuchElementException;
  *   <td>ignoreEmptyTokens</td><td>boolean</td><td>true</td>
  *  </tr>
  * </table>
+ *
+ * @since 1.0
  */
 public class StrTokenizer implements ListIterator<String>, Cloneable {
 

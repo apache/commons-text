@@ -18,6 +18,8 @@ package org.apache.commons.text.translate;
 
 /**
  * Translates codepoints to their Unicode escaped value suitable for Java source.
+ *
+ * @since 1.0
  */
 public class JavaUnicodeEscaper extends UnicodeEscaper {
 
