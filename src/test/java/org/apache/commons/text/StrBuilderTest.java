@@ -28,8 +28,6 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 import java.util.Arrays;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 /**
  * Unit tests for {@link StrBuilder}.
  */
@@ -467,7 +465,7 @@ public class StrBuilderTest {
     @Test
     public void testToCharArray() {
         final StrBuilder sb = new StrBuilder();
-        assertEquals(ArrayUtils.EMPTY_CHAR_ARRAY.length, sb.toCharArray().length);
+        assertEquals(0, sb.toCharArray().length);
 
         char[] a = sb.toCharArray();
         assertNotNull("toCharArray() result is null", a);
@@ -482,7 +480,7 @@ public class StrBuilderTest {
     @Test
     public void testToCharArrayIntInt() {
         final StrBuilder sb = new StrBuilder();
-        assertEquals(ArrayUtils.EMPTY_CHAR_ARRAY.length, sb.toCharArray(0, 0).length);
+        assertEquals(0, sb.toCharArray(0, 0).length);
 
         sb.append("junit");
         char[] a = sb.toCharArray(0, 20); // too large test
