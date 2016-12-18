@@ -19,9 +19,6 @@ package org.apache.commons.text;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.apache.commons.lang3.CharUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import org.apache.commons.text.translate.AggregateTranslator;
 import org.apache.commons.text.translate.CharSequenceTranslator;
 import org.apache.commons.text.translate.EntityArrays;
@@ -47,6 +44,9 @@ import org.apache.commons.text.translate.UnicodeUnpairedSurrogateRemover;
  * @since 1.0
  */
 public class StringEscapeUtils {
+
+    private static final char LF = '\n';
+    private static final char CR = '\r';
 
     /* ESCAPE TRANSLATORS */
 
@@ -120,37 +120,37 @@ public class StringEscapeUtils {
                     new LookupTranslator(EntityArrays.APOS_ESCAPE()),
                     new LookupTranslator(
                             new String[][] {
-                                    { "\u0000", StringUtils.EMPTY },
-                                    { "\u0001", StringUtils.EMPTY },
-                                    { "\u0002", StringUtils.EMPTY },
-                                    { "\u0003", StringUtils.EMPTY },
-                                    { "\u0004", StringUtils.EMPTY },
-                                    { "\u0005", StringUtils.EMPTY },
-                                    { "\u0006", StringUtils.EMPTY },
-                                    { "\u0007", StringUtils.EMPTY },
-                                    { "\u0008", StringUtils.EMPTY },
-                                    { "\u000b", StringUtils.EMPTY },
-                                    { "\u000c", StringUtils.EMPTY },
-                                    { "\u000e", StringUtils.EMPTY },
-                                    { "\u000f", StringUtils.EMPTY },
-                                    { "\u0010", StringUtils.EMPTY },
-                                    { "\u0011", StringUtils.EMPTY },
-                                    { "\u0012", StringUtils.EMPTY },
-                                    { "\u0013", StringUtils.EMPTY },
-                                    { "\u0014", StringUtils.EMPTY },
-                                    { "\u0015", StringUtils.EMPTY },
-                                    { "\u0016", StringUtils.EMPTY },
-                                    { "\u0017", StringUtils.EMPTY },
-                                    { "\u0018", StringUtils.EMPTY },
-                                    { "\u0019", StringUtils.EMPTY },
-                                    { "\u001a", StringUtils.EMPTY },
-                                    { "\u001b", StringUtils.EMPTY },
-                                    { "\u001c", StringUtils.EMPTY },
-                                    { "\u001d", StringUtils.EMPTY },
-                                    { "\u001e", StringUtils.EMPTY },
-                                    { "\u001f", StringUtils.EMPTY },
-                                    { "\ufffe", StringUtils.EMPTY },
-                                    { "\uffff", StringUtils.EMPTY }
+                                    { "\u0000", "" },
+                                    { "\u0001", "" },
+                                    { "\u0002", "" },
+                                    { "\u0003", "" },
+                                    { "\u0004", "" },
+                                    { "\u0005", "" },
+                                    { "\u0006", "" },
+                                    { "\u0007", "" },
+                                    { "\u0008", "" },
+                                    { "\u000b", "" },
+                                    { "\u000c", "" },
+                                    { "\u000e", "" },
+                                    { "\u000f", "" },
+                                    { "\u0010", "" },
+                                    { "\u0011", "" },
+                                    { "\u0012", "" },
+                                    { "\u0013", "" },
+                                    { "\u0014", "" },
+                                    { "\u0015", "" },
+                                    { "\u0016", "" },
+                                    { "\u0017", "" },
+                                    { "\u0018", "" },
+                                    { "\u0019", "" },
+                                    { "\u001a", "" },
+                                    { "\u001b", "" },
+                                    { "\u001c", "" },
+                                    { "\u001d", "" },
+                                    { "\u001e", "" },
+                                    { "\u001f", "" },
+                                    { "\ufffe", "" },
+                                    { "\uffff", "" }
                             }),
                     NumericEntityEscaper.between(0x7f, 0x84),
                     NumericEntityEscaper.between(0x86, 0x9f),
@@ -170,11 +170,11 @@ public class StringEscapeUtils {
                     new LookupTranslator(EntityArrays.APOS_ESCAPE()),
                     new LookupTranslator(
                             new String[][] {
-                                    { "\u0000", StringUtils.EMPTY },
+                                    { "\u0000", "" },
                                     { "\u000b", "&#11;" },
                                     { "\u000c", "&#12;" },
-                                    { "\ufffe", StringUtils.EMPTY },
-                                    { "\uffff", StringUtils.EMPTY }
+                                    { "\ufffe", "" },
+                                    { "\uffff", "" }
                             }),
                     NumericEntityEscaper.between(0x1, 0x8),
                     NumericEntityEscaper.between(0xe, 0x1f),
@@ -228,7 +228,7 @@ public class StringEscapeUtils {
         private static final char CSV_QUOTE = '"';
         private static final String CSV_QUOTE_STR = String.valueOf(CSV_QUOTE);
         private static final char[] CSV_SEARCH_CHARS =
-                new char[] {CSV_DELIMITER, CSV_QUOTE, CharUtils.CR, CharUtils.LF};
+                new char[] {CSV_DELIMITER, CSV_QUOTE, CR, LF};
 
         @Override
         public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
@@ -241,7 +241,7 @@ public class StringEscapeUtils {
                 out.write(input.toString());
             } else {
                 out.write(CSV_QUOTE);
-                out.write(StringUtils.replace(input.toString(), CSV_QUOTE_STR, CSV_QUOTE_STR + CSV_QUOTE_STR));
+                out.write(input.toString().replace(CSV_QUOTE_STR, CSV_QUOTE_STR + CSV_QUOTE_STR));
                 out.write(CSV_QUOTE);
             }
             return Character.codePointCount(input, 0, input.length());
@@ -381,7 +381,7 @@ public class StringEscapeUtils {
         private static final char CSV_QUOTE = '"';
         private static final String CSV_QUOTE_STR = String.valueOf(CSV_QUOTE);
         private static final char[] CSV_SEARCH_CHARS =
-                new char[] {CSV_DELIMITER, CSV_QUOTE, CharUtils.CR, CharUtils.LF};
+                new char[] {CSV_DELIMITER, CSV_QUOTE, CR, LF};
 
         @Override
         public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
@@ -400,7 +400,7 @@ public class StringEscapeUtils {
 
             if ( StringUtils.containsAny(quoteless, CSV_SEARCH_CHARS) ) {
                 // deal with escaped quotes; ie) ""
-                out.write(StringUtils.replace(quoteless, CSV_QUOTE_STR + CSV_QUOTE_STR, CSV_QUOTE_STR));
+                out.write(quoteless.replace(CSV_QUOTE_STR + CSV_QUOTE_STR, CSV_QUOTE_STR));
             } else {
                 out.write(input.toString());
             }
