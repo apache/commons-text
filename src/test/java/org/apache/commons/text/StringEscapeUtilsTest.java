@@ -33,8 +33,6 @@ import java.lang.reflect.Modifier;
 import java.nio.charset.Charset;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.text.translate.CharSequenceTranslator;
-import org.apache.commons.text.translate.NumericEntityEscaper;
 import org.junit.Test;
 
 /**
