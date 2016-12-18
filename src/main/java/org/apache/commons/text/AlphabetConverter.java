@@ -446,7 +446,7 @@ public final class AlphabetConverter {
      *
      * @param i code point
      * @return a new string with the new code point
-     * @see http://www.oracle.com/us/technologies/java/supplementary-142654.html
+     * @see "http://www.oracle.com/us/technologies/java/supplementary-142654.html"
      */
     private static String codePointToString(final int i) {
         if (Character.charCount(i) == 1) {
