@@ -19,9 +19,7 @@ package org.apache.commons.text;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
-
 import org.apache.commons.text.translate.AggregateTranslator;
 import org.apache.commons.text.translate.CharSequenceTranslator;
 import org.apache.commons.text.translate.EntityArrays;
@@ -47,6 +45,9 @@ import org.apache.commons.text.translate.UnicodeUnpairedSurrogateRemover;
  * @since 1.0
  */
 public class StringEscapeUtils {
+
+    private static final char LF = '\n';
+    private static final char CR = '\r';
 
     /* ESCAPE TRANSLATORS */
 
@@ -228,7 +229,7 @@ public class StringEscapeUtils {
         private static final char CSV_QUOTE = '"';
         private static final String CSV_QUOTE_STR = String.valueOf(CSV_QUOTE);
         private static final char[] CSV_SEARCH_CHARS =
-                new char[] {CSV_DELIMITER, CSV_QUOTE, CharUtils.CR, CharUtils.LF};
+                new char[] {CSV_DELIMITER, CSV_QUOTE, CR, LF};
 
         @Override
         public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
@@ -381,7 +382,7 @@ public class StringEscapeUtils {
         private static final char CSV_QUOTE = '"';
         private static final String CSV_QUOTE_STR = String.valueOf(CSV_QUOTE);
         private static final char[] CSV_SEARCH_CHARS =
-                new char[] {CSV_DELIMITER, CSV_QUOTE, CharUtils.CR, CharUtils.LF};
+                new char[] {CSV_DELIMITER, CSV_QUOTE, CR, LF};
 
         @Override
         public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
