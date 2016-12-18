@@ -77,7 +77,6 @@
     </contributor>
   </contributors>
 
-  <!-- Lang should depend on very little -->
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
