@@ -26,8 +26,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 /**
  * Unit test for {@link StrTokenizer}.
  */
@@ -56,7 +54,7 @@ public class StrTokenizerTest {
 
         final String expected[] = new String[]{"a", "b", "c", "d;\"e", "f", "", "", "",};
 
-        assertEquals(ArrayUtils.toString(tokens), expected.length, tokens.length);
+        assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
             assertEquals("token[" + i + "] was '" + tokens[i] + "' but was expected to be '" + expected[i] + "'",
                     expected[i], tokens[i]);
@@ -77,7 +75,7 @@ public class StrTokenizerTest {
 
         final String expected[] = new String[]{"a", "b", "c ", "d;\"e", "f", " ", " ", "",};
 
-        assertEquals(ArrayUtils.toString(tokens), expected.length, tokens.length);
+        assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
             assertEquals("token[" + i + "] was '" + tokens[i] + "' but was expected to be '" + expected[i] + "'",
                     expected[i], tokens[i]);
@@ -98,7 +96,7 @@ public class StrTokenizerTest {
 
         final String expected[] = new String[]{"a", "b", " c", "d;\"e", "f", " ", " ", "",};
 
-        assertEquals(ArrayUtils.toString(tokens), expected.length, tokens.length);
+        assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
             assertEquals("token[" + i + "] was '" + tokens[i] + "' but was expected to be '" + expected[i] + "'",
                     expected[i], tokens[i]);
@@ -119,7 +117,7 @@ public class StrTokenizerTest {
 
         final String expected[] = new String[]{"a", "b", "c", "d;\"e", "f",};
 
-        assertEquals(ArrayUtils.toString(tokens), expected.length, tokens.length);
+        assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
             assertEquals("token[" + i + "] was '" + tokens[i] + "' but was expected to be '" + expected[i] + "'",
                     expected[i], tokens[i]);
@@ -141,7 +139,7 @@ public class StrTokenizerTest {
 
         final String expected[] = new String[]{"a", "b", "c", "d;\"e", "f", null, null, null,};
 
-        assertEquals(ArrayUtils.toString(tokens), expected.length, tokens.length);
+        assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
             assertEquals("token[" + i + "] was '" + tokens[i] + "' but was expected to be '" + expected[i] + "'",
                     expected[i], tokens[i]);
@@ -175,7 +173,7 @@ public class StrTokenizerTest {
             prevCount++;
         }
 
-        assertEquals(ArrayUtils.toString(tokens), expected.length, tokens.length);
+        assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
 
         assertTrue("could not cycle through entire token list" + " using the 'hasNext' and 'next' methods",
                 nextCount == expected.length);
@@ -198,7 +196,7 @@ public class StrTokenizerTest {
 
         final String expected[] = new String[]{"a", "", "", "b", "c", "d e", "f", "",};
 
-        assertEquals(ArrayUtils.toString(tokens), expected.length, tokens.length);
+        assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
             assertEquals("token[" + i + "] was '" + tokens[i] + "' but was expected to be '" + expected[i] + "'",
                     expected[i], tokens[i]);
@@ -219,7 +217,7 @@ public class StrTokenizerTest {
 
         final String expected[] = new String[]{"a", "b", "c", "d e", "f",};
 
-        assertEquals(ArrayUtils.toString(tokens), expected.length, tokens.length);
+        assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
             assertEquals("token[" + i + "] was '" + tokens[i] + "' but was expected to be '" + expected[i] + "'",
                     expected[i], tokens[i]);
