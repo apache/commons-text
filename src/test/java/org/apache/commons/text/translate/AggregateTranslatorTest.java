@@ -32,7 +32,7 @@ public class AggregateTranslatorTest {
 
     @Test
     public void testNullConstructor() throws NoSuchFieldException, IllegalAccessException {
-        final org.apache.commons.text.translate.AggregateTranslator subject = new org.apache.commons.text.translate.AggregateTranslator(null);
+        final AggregateTranslator subject = new AggregateTranslator(null);
         final Field field = AggregateTranslator.class.getDeclaredField("translators");
         field.setAccessible(Boolean.TRUE);
         assertNull(field.get(subject));
@@ -40,9 +40,9 @@ public class AggregateTranslatorTest {
 
     @Test
     public void testNonNull() throws IOException{
-        final CharSequenceTranslator translator1 = new org.apache.commons.text.translate.LookupTranslator(new CharSequence[][] { { "one", "two" } });
-        final CharSequenceTranslator translator2 = new org.apache.commons.text.translate.LookupTranslator(new CharSequence[][] { { "three", "four" } });
-        final org.apache.commons.text.translate.AggregateTranslator subject = new org.apache.commons.text.translate.AggregateTranslator(translator1, translator2);
+        final CharSequenceTranslator translator1 = new LookupTranslator(new CharSequence[][] { { "one", "two" } });
+        final CharSequenceTranslator translator2 = new LookupTranslator(new CharSequence[][] { { "three", "four" } });
+        final AggregateTranslator subject = new AggregateTranslator(translator1, translator2);
         final StringWriter out1 = new StringWriter();
         final int result1 = subject.translate(new StringBuffer("one"), 0, out1);
         assertEquals("Incorrect codepoint consumption", 3, result1);
