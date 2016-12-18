@@ -16,8 +16,6 @@
  */
 package org.apache.commons.text;
 
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.text.Format;
 import java.text.MessageFormat;
 import java.text.ParsePosition;
@@ -272,14 +270,14 @@ public class ExtendedMessageFormat extends MessageFormat {
         if (!super.equals(obj)) {
             return false;
         }
-        if (ObjectUtils.notEqual(getClass(), obj.getClass())) {
+        if (!Objects.equals(getClass(), obj.getClass())) {
           return false;
         }
         final ExtendedMessageFormat rhs = (ExtendedMessageFormat)obj;
-        if (ObjectUtils.notEqual(toPattern, rhs.toPattern)) {
+        if (!Objects.equals(toPattern, rhs.toPattern)) {
             return false;
         }
-        if (ObjectUtils.notEqual(registry, rhs.registry)) {
+        if (!Objects.equals(registry, rhs.registry)) {
             return false;
         }
         return true;
