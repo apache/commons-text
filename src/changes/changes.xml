@@ -22,6 +22,7 @@
   <body>
 
   <release version="1.0" date="tba" description="tba">
+    <action issue="TEXT-35" type="fix" dev="kinow">Unfinished class Javadoc for CosineDistance</action>
     <action issue="TEXT-33" type="update" dev="chtompki">Consolidating since tags at 1.0, removing deprecated methods</action>
     <action issue="TEXT-29" type="add" dev="chtompki">Add a builder to StringEscapeUtils</action>
     <action issue="TEXT-28" type="add" dev="chtompki">Add shell/XSI escape/unescape support</action>

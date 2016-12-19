@@ -21,11 +21,17 @@ import java.util.Map;
 /**
  * Measures the cosine distance between two character sequences.
  *
- * <p>It utilizes the CosineSimilarity to compute the distance. Character sequences
- * are converted into vectors through a simple tokenizer that works with </p>
+ * <p>It utilizes the {@link CosineSimilarity} to compute the distance. Character sequences
+ * are converted into vectors through a simple tokenizer that works with a regular expression
+ * to split words in a sentence.</p>
+ *
+ * <p>
+ * For further explanation about Cosine Similarity and Cosine Distance, refer to
+ * http://en.wikipedia.org/wiki/Cosine_similarity.
+ * </p>
  *
  * @since 1.0
- *
+ * @see CosineSimilarity
  */
 public class CosineDistance implements EditDistance<Double> {
     /**
