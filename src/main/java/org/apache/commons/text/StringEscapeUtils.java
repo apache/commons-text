@@ -469,11 +469,11 @@ public class StringEscapeUtils {
      * <p>Example:</p>
      * <pre>
      * new Builder(ESCAPE_HTML4)
-     *      .append("&lt;p>")
+     *      .append("&lt;p&gt;")
      *      .escape("This is paragraph 1 and special chars like &amp; get escaped.")
-     *      .append("&lt;/p>&lt;p>")
+     *      .append("&lt;/p&gt;&lt;p&gt;")
      *      .escape("This is paragraph 2 &amp; more...")
-     *      .append("&lt;/p>")
+     *      .append("&lt;/p&gt;")
      *      .toString()
      * </pre>
      *
@@ -523,8 +523,8 @@ public class StringEscapeUtils {
 
     /**
      * Get a {@link Builder}.
+     * @param translator the text translator
      * @return {@link Builder}
-     *
      */
     public static StringEscapeUtils.Builder builder(final CharSequenceTranslator translator) {
         return new Builder(translator);
