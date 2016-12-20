@@ -284,7 +284,7 @@ public class RandomStringBuilder implements Builder<String> {
         long remaining = length;
 
         do {
-            int codePoint = random.nextInt(maximumCodePoint - minimumCodePoint) + minimumCodePoint;
+            int codePoint = random.nextInt(maximumCodePoint - minimumCodePoint + 1) + minimumCodePoint;
 
             switch (Character.getType(codePoint)) {
             case Character.UNASSIGNED:
