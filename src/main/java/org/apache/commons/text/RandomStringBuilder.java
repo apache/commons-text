@@ -37,7 +37,7 @@ import java.util.Set;
  * 
  * <pre>
  * // Generates a 20 code point string, using only the letters a-z
- * String random = new RandomStringBuilder().ofLength(20).withMinimum('a').withMaximum('z').build();
+ * String random = new RandomStringBuilder().ofLength(20).withinRange('a','z').build();
  * </pre>
  * 
  * <p>
@@ -45,10 +45,19 @@ import java.util.Set;
  * {@link #filteredBy(CodePointPredicate...)}, which defines a collection of
  * tests that are applied to the randomly generated code points. The code points
  * will only be included in the result if they pass at least one of the tests.
- * Some commonly used predicates are provided (e.g. {@link #LETTER_PREDICATE} or
- * {@link #DIGIT_PREDICATE}) and others can be created by implementing
+ * Some commonly used predicates are provided (e.g. {@link #LETTERS} or
+ * {@link #DIGITS}) and others can be created by implementing
  * {@link CodePointPredicate}.
  * </p>
+ * 
+ * <pre>
+ * // Generates a 10 code point string containing only letters
+ * 
+ * import static org.apache.commons.text.RandomStringBuilder.LETTERS;
+ * ...
+ * String random = new RandomStringBuilder().ofLength(10).filteredBy(LETTERS).build();
+ * </pre>
+ * 
  * <p>
  * A {@code RandomStringBuilder} instance can be used multiple times to generate
  * different random strings, however it cannot safely be shared between threads.
@@ -137,54 +146,38 @@ public class RandomStringBuilder implements Builder<String> {
 
     /**
      * <p>
-     * Specifies the smallest code point that may be generated.
-     * </p>
-     * 
-     * <p>
-     * The minimum code point must not be larger than the maximum code point,
-     * otherwise the call to {@link #build()} will fail.
+     * Specifies the minimum and maximum code points allowed in the generated
+     * string.
      * </p>
      * 
      * @param minimumCodePoint
      *            the smallest code point allowed (inclusive)
-     * @return {@code this}, to allow method chaining
-     * @throws IllegalArgumentException
-     *             if {@code minimumCodePoint < 0}
-     * @since 1.0
-     */
-    public RandomStringBuilder withMinimum(final int minimumCodePoint) {
-        if (minimumCodePoint < 0) {
-            throw new IllegalArgumentException(String.format("Value %d is smaller than zero.", minimumCodePoint));
-        }
-
-        this.minimumCodePoint = minimumCodePoint;
-        return this;
-    }
-
-    /**
-     * <p>
-     * Specifies the largest code point that may be generated.
-     * </p>
-     * 
-     * <p>
-     * The maximum code point must not be smaller than the minimum code point,
-     * otherwise the call to {@link #build()} will fail.
-     * </p>
-     * 
      * @param maximumCodePoint
      *            the largest code point allowed (inclusive)
      * @return {@code this}, to allow method chaining
      * @throws IllegalArgumentException
      *             if {@code maximumCodePoint >}
      *             {@link Character#MAX_CODE_POINT}
+     * @throws IllegalArgumentException
+     *             if {@code minimumCodePoint < 0}
+     * @throws IllegalArgumentException
+     *             if {@code minimumCodePoint > maximumCodePoint}
      * @since 1.0
      */
-    public RandomStringBuilder withMaximum(final int maximumCodePoint) {
+    public RandomStringBuilder withinRange(final int minimumCodePoint, final int maximumCodePoint) {
+        if (minimumCodePoint > maximumCodePoint) {
+            throw new IllegalArgumentException(String.format(
+                    "Minimum code point %d is larger than maximum code point %d", minimumCodePoint, maximumCodePoint));
+        }
+        if (minimumCodePoint < 0) {
+            throw new IllegalArgumentException(String.format("Minimum code point %d is negative", minimumCodePoint));
+        }
         if (maximumCodePoint > Character.MAX_CODE_POINT) {
             throw new IllegalArgumentException(
                     String.format("Value %d is larger than Character.MAX_CODE_POINT.", maximumCodePoint));
         }
 
+        this.minimumCodePoint = minimumCodePoint;
         this.maximumCodePoint = maximumCodePoint;
         return this;
     }
@@ -260,18 +253,10 @@ public class RandomStringBuilder implements Builder<String> {
      * </p>
      * 
      * @return the randomly generated string
-     * @throws IllegalStateException
-     *             if the maximum code point is smaller than the minimum code
-     *             point
      * @since 1.0
      */
     @Override
     public String build() {
-        if (maximumCodePoint < minimumCodePoint) {
-            throw new IllegalStateException(String.format("Maximum code point %d is smaller than minimum code point %d",
-                    maximumCodePoint, minimumCodePoint));
-        }
-
         if (length == 0) {
             return "";
         }
@@ -337,14 +322,14 @@ public class RandomStringBuilder implements Builder<String> {
      * 
      * @since 1.0
      */
-    public static final CodePointPredicate LETTER_PREDICATE = new LetterPredicate();
+    public static final CodePointPredicate LETTERS = new LetterPredicate();
 
     /**
      * Tests code points against {@link Character#isDigit(int)}.
      * 
      * @since 1.0
      */
-    public static final CodePointPredicate DIGIT_PREDICATE = new DigitPredicate();
+    public static final CodePointPredicate DIGITS = new DigitPredicate();
 
     /**
      * Tests whether code points are letters.

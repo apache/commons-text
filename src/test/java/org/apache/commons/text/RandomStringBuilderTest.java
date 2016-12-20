@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text;
 
+import static org.apache.commons.text.RandomStringBuilder.LETTERS;
 import static org.junit.Assert.*;
 
 import java.util.Random;
@@ -66,30 +67,29 @@ public class RandomStringBuilderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testBadMinimumCodePoint() throws Exception {
-        new RandomStringBuilder().withMinimum(-1);
+        new RandomStringBuilder().withinRange(-1, 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testBadMaximumCodePoint() throws Exception {
-        new RandomStringBuilder().withMaximum(Character.MAX_CODE_POINT + 1);
+        new RandomStringBuilder().withinRange(0, Character.MAX_CODE_POINT + 1);
     }
 
     @Test
-    public void testWithRange() throws Exception {
-        final int length = 5000;
-        final int minimumCodePoint = 'a';
-        final int maximumCodePoint = 'z';
-        String str = new RandomStringBuilder().ofLength(length).withMinimum(minimumCodePoint)
-                .withMaximum(maximumCodePoint).build();
-
-        int i = 0;
-        do {
-            int codePoint = str.codePointAt(i);
-            assertTrue(codePoint >= minimumCodePoint && codePoint <= maximumCodePoint);
-            i += Character.charCount(codePoint);
-        } while (i < str.length());
-
-    }
+        public void testWithinRange() throws Exception {
+            final int length = 5000;
+            final int minimumCodePoint = 'a';
+            final int maximumCodePoint = 'z';
+            String str = new RandomStringBuilder().ofLength(length).withinRange(minimumCodePoint,maximumCodePoint).build();
+    
+            int i = 0;
+            do {
+                int codePoint = str.codePointAt(i);
+                assertTrue(codePoint >= minimumCodePoint && codePoint <= maximumCodePoint);
+                i += Character.charCount(codePoint);
+            } while (i < str.length());
+    
+        }
 
     @Test
     public void testNoLoneSurrogates() throws Exception {
@@ -137,7 +137,7 @@ public class RandomStringBuilderTest {
 
     @Test
     public void testLetterPredicate() throws Exception {
-        String str = new RandomStringBuilder().ofLength(5000).filteredBy(RandomStringBuilder.LETTER_PREDICATE).build();
+        String str = new RandomStringBuilder().ofLength(5000).filteredBy(LETTERS).build();
 
         int i = 0;
         do {
@@ -149,7 +149,7 @@ public class RandomStringBuilderTest {
 
     @Test
     public void testDigitPredicate() throws Exception {
-        String str = new RandomStringBuilder().ofLength(5000).filteredBy(RandomStringBuilder.DIGIT_PREDICATE).build();
+        String str = new RandomStringBuilder().ofLength(5000).filteredBy(RandomStringBuilder.DIGITS).build();
 
         int i = 0;
         do {
@@ -161,7 +161,7 @@ public class RandomStringBuilderTest {
 
     @Test
     public void testMultipleFilters() throws Exception {
-        String str = new RandomStringBuilder().ofLength(5000).withMinimum('a').withMaximum('d')
+        String str = new RandomStringBuilder().ofLength(5000).withinRange('a','d')
                 .filteredBy(A_FILTER, B_FILTER).build();
 
         boolean aFound = false;
@@ -187,8 +187,8 @@ public class RandomStringBuilderTest {
         // Request a string in an area of the Basic Multilingual Plane that is
         // largely
         // occupied by private characters
-        String str = new RandomStringBuilder().ofLength(5000).withMinimum(startOfPrivateBMPChars)
-                .withMaximum(Character.MIN_SUPPLEMENTARY_CODE_POINT - 1).build();
+        String str = new RandomStringBuilder().ofLength(5000).withinRange(startOfPrivateBMPChars, 
+                Character.MIN_SUPPLEMENTARY_CODE_POINT - 1).build();
 
         int i = 0;
         do {
@@ -198,15 +198,15 @@ public class RandomStringBuilderTest {
         } while (i < str.length());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testBadMinAndMax() throws Exception {
-        new RandomStringBuilder().withMaximum(1).withMinimum(2).build();
+        new RandomStringBuilder().withinRange(2, 1);
     }
 
     @Test
     public void testRemoveFilters() throws Exception {
 
-        RandomStringBuilder builder = new RandomStringBuilder().ofLength(100).withMinimum('a').withMaximum('z')
+        RandomStringBuilder builder = new RandomStringBuilder().ofLength(100).withinRange('a', 'z')
                 .filteredBy(A_FILTER);
 
         builder.filteredBy();
@@ -224,7 +224,7 @@ public class RandomStringBuilderTest {
 
     @Test
     public void testChangeOfFilter() throws Exception {
-        RandomStringBuilder builder = new RandomStringBuilder().ofLength(100).withMinimum('a').withMaximum('z')
+        RandomStringBuilder builder = new RandomStringBuilder().ofLength(100).withinRange('a', 'z')
                 .filteredBy(A_FILTER);
         String str = builder.filteredBy(B_FILTER).build();
 
