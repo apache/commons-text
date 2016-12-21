@@ -18,6 +18,8 @@ package org.apache.commons.text.translate;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Executes a sequence of translators one after the other. Execution ends whenever 
@@ -27,7 +29,7 @@ import java.io.Writer;
  */
 public class AggregateTranslator extends CharSequenceTranslator {
 
-    private final CharSequenceTranslator[] translators;
+    private final List<CharSequenceTranslator> translators = new ArrayList<>();
 
     /**
      * Specify the translators to be used at creation time. 
@@ -36,9 +38,11 @@ public class AggregateTranslator extends CharSequenceTranslator {
      */
     public AggregateTranslator(final CharSequenceTranslator... translators) {
         if (translators != null) {
-            this.translators = translators.clone();
-        } else {
-            this.translators = null;
+            for (CharSequenceTranslator translator : translators) {
+                if (translator != null) {
+                    this.translators.add(translator);
+                }
+            }
         }
     }
 

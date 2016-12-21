@@ -20,10 +20,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.lang.reflect.Field;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * Unit tests for {@link org.apache.commons.text.translate.AggregateTranslator}.
@@ -31,11 +29,17 @@ import static org.junit.Assert.assertNull;
 public class AggregateTranslatorTest {
 
     @Test
-    public void testNullConstructor() throws NoSuchFieldException, IllegalAccessException {
+    public void testNullConstructor() throws Exception {
+        final String testString = "foo";
         final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator[]) null);
-        final Field field = AggregateTranslator.class.getDeclaredField("translators");
-        field.setAccessible(Boolean.TRUE);
-        assertNull(field.get(subject));
+        assertEquals(testString, subject.translate(testString));
+    }
+    
+    @Test
+    public void testNullVarargConstructor() throws Exception {
+        final String testString = "foo";
+        final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator) null);
+        assertEquals(testString, subject.translate(testString));
     }
 
     @Test
