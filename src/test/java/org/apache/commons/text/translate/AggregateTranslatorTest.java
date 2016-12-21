@@ -32,7 +32,7 @@ public class AggregateTranslatorTest {
 
     @Test
     public void testNullConstructor() throws NoSuchFieldException, IllegalAccessException {
-        final AggregateTranslator subject = new AggregateTranslator(null);
+        final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator[]) null);
         final Field field = AggregateTranslator.class.getDeclaredField("translators");
         field.setAccessible(Boolean.TRUE);
         assertNull(field.get(subject));
