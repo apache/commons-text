@@ -42,12 +42,23 @@ package org.apache.commons.text.similarity;
  */
 public class LongestCommonSubsequence implements SimilarityScore<Integer> {
 
+    /**
+     * Calculates longestCommonSubsequence similarity scoreof two set character sequence passed as
+     * input.
+     *
+     * @param left first character sequence
+     * @param right second character sequence
+     * @return longestCommonSubsequenceLength
+     * @throws IllegalArgumentException
+     *             if either String input {@code null}
+     */
+    @Override
     public Integer apply(final CharSequence left, final CharSequence right) {
         // Quick return for invalid inputs
         if (left == null || right == null) {
             throw new IllegalArgumentException("Inputs must not be null");
         }
-        return longestCommonSubstringLengthArray(left,right)[left.length()][right.length()];
+        return logestCommonSubsequence(left, right).length();
     }
 
     /**
@@ -70,6 +81,8 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * @param left
      * @param right
      * @return lcsLengthArray
+     * @throws IllegalArgumentException
+     *             if either String input {@code null}
      */
     public CharSequence logestCommonSubsequence(final CharSequence left, final CharSequence right) {
         // Quick return
@@ -93,7 +106,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
                 j = j - 1;
             }
         }
-        return longestCommonSubstringArray;
+        return longestCommonSubstringArray.reverse().toString();
     }
 
     /**
@@ -124,37 +137,6 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
             }
         }
         return lcsLengthArray;
-    }
-
-
-    public int wikiLcs(CharSequence left, CharSequence right) {
-        int m = left.length();
-        int n = right.length();
-        char[] x = left.toString().toCharArray();
-        char[] y = right.toString().toCharArray();
-
-        int[][] c = new int[m + 1][n + 1];
-
-        for (int i = 0; i <= m; i++) {
-            c[i][0] = 0;
-        }
-
-        for (int j = 0; j <= n; j++) {
-            c[0][j] = 0;
-        }
-
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (x[i - 1] == y[j - 1]) {
-                    c[i][j] = c[i - 1][j - 1] + 1;
-
-                } else {
-                    c[i][j] = Math.max(c[i][j - 1], c[i - 1][j]);
-                }
-            }
-        }
-
-        return c[m][n];
     }
 
 }
