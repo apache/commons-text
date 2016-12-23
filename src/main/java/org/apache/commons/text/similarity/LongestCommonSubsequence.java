@@ -79,8 +79,8 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * derived from another sequence by deleting some elements without changing the order of the remaining elements.
      * </p>
      *
-     * @param left
-     * @param right
+     * @param left first character sequence
+     * @param right second character sequence
      * @return lcsLengthArray
      * @throws IllegalArgumentException
      *             if either String input {@code null}
@@ -116,8 +116,8 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * dynamic programming portion of the algorithm, and is the reason for the runtime complexity being
      * O(m*n), where m=left.length() and n=right.length().
      *
-     * @param left
-     * @param right
+     * @param left first character sequence
+     * @param right second character sequence
      * @return lcsLengthArray
      */
     public int[][] longestCommonSubstringLengthArray(final CharSequence left, final CharSequence right) {
