@@ -103,6 +103,8 @@ public class RandomStringBuilder implements Builder<String> {
     /**
      * <p>
      * Constructs a builder with default properties:
+     * </p>
+     *
      * <ul>
      * <li>Length: {@value #DEFAULT_LENGTH}</li>
      * <li>Minimum code point: {@value #DEFAULT_MINIMUM_CODE_POINT}</li>
@@ -110,7 +112,6 @@ public class RandomStringBuilder implements Builder<String> {
      * <li>Default source of randomness</li>
      * <li>No character filters</li>
      * </ul>
-     * </p>
      * 
      * @since 1.0
      */
