@@ -17,7 +17,7 @@
 package org.apache.commons.text.similarity;
 
 /**
- * A similarity algorithm indicating the length of the longest common subsequence between two strings..
+ * A similarity algorithm indicating the length of the longest common subsequence between two strings.
  *
  * <p>
  * The Longest common subsequence algorithm returns the length of the longest subsequence that two strings have in
@@ -25,7 +25,7 @@ package org.apache.commons.text.similarity;
  * of the commonly shared length implies that the strings are completely the same in value and position.
  * <i>Note.</i>  Generally this algorithm is fairly inefficient, as for length <i>m</i>, <i>n</i> of the input
  * <code>CharSequence</code>'s <code>left</code> and <code>right</code> respectively, the runtime of the
- * algoirthm is <i>O(m*n)</i>.
+ * algorithm is <i>O(m*n)</i>.
  * </p>
  *
  * <p>
@@ -43,7 +43,7 @@ package org.apache.commons.text.similarity;
 public class LongestCommonSubsequence implements SimilarityScore<Integer> {
 
     /**
-     * Calculates longestCommonSubsequence similarity scoreof two set character sequence passed as
+     * Calculates longestCommonSubsequence similarity score of two <code>CharSequence</code>'s passed as
      * input.
      *
      * @param left first character sequence
@@ -63,7 +63,8 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
 
     /**
      *
-     * Computes the longestCommonSubsequence between the two strings given.
+     * Computes the longestCommonSubsequence between the two <code>CharSequence</code>'s passed as
+     * input.
      *
      * <p>
      * Note, a substring and
