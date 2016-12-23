@@ -90,7 +90,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Inputs must not be null");
         }
-        StringBuffer longestCommonSubstringArray = new StringBuffer(Math.max(left.length(), right.length()));
+        StringBuilder longestCommonSubstringArray = new StringBuilder(Math.max(left.length(), right.length()));
         int[][] lcsLengthArray = longestCommonSubstringLengthArray(left, right);
         int i = left.length() - 1;
         int j = right.length() - 1;
