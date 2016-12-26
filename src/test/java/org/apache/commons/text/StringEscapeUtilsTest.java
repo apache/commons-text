@@ -16,14 +16,7 @@
  */
 package org.apache.commons.text;
 
-import static org.apache.commons.text.StringEscapeUtils.escapeXSI;
-import static org.apache.commons.text.StringEscapeUtils.unescapeXSI;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -34,7 +27,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.junit.Test;
+import static org.apache.commons.text.StringEscapeUtils.escapeXSI;
+import static org.apache.commons.text.StringEscapeUtils.unescapeXSI;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Unit tests for {@link StringEscapeUtils}.
@@ -239,6 +239,32 @@ public class StringEscapeUtilsTest {
             assertEquals(message, expected, actual);
         }
     }
+
+    @Test
+    public void testEscapeHtml4Once() {
+        for (final String[] element : HTML_ESCAPES) {
+            final String message = element[0];
+            final String expected = element[1];
+            final String original = element[2];
+            assertEquals(message, expected, org.apache.commons.lang3.StringEscapeUtils.escapeHtml4Once(original));
+            assertEquals(message, expected, org.apache.commons.lang3.StringEscapeUtils.escapeHtml4Once(expected));
+            final StringWriter sw = new StringWriter();
+            try {
+                org.apache.commons.lang3.StringEscapeUtils.ESCAPE_HTML4_ONCE.translate(original, sw);
+            } catch (final IOException e) {
+            }
+            final String actual = original == null ? null : sw.toString();
+            assertEquals(message, expected, actual);
+            final StringWriter sw2 = new StringWriter();
+            try {
+                org.apache.commons.lang3.StringEscapeUtils.ESCAPE_HTML4_ONCE.translate(expected, sw2);
+            } catch (final IOException e) {
+            }
+            final String actual2 = original == null ? null : sw2.toString();
+            assertEquals(message, expected, actual2);
+        }
+    }
+
 
     @Test
     public void testUnescapeHtml4() {
