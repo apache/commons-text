@@ -203,4 +203,10 @@ public class RandomStringGeneratorTest {
             assertTrue(c == 'b');
         }
     }
+    
+    @Test
+    public void testZeroLength() throws Exception {
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+        assertEquals("", generator.generate(0));
+    }
 }
