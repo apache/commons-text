@@ -79,13 +79,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <!-- if upgrading, be sure to check shaded jar relocations! -->
-      <version>3.5</version>
-    </dependency>
-    <!-- testing -->
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
@@ -162,53 +155,6 @@
             <ignorePathToDelete>javadocs</ignorePathToDelete>
           </ignorePathsToDelete>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <!-- v1.7 is somehow not compatible with commons-parent 25; see
-             http://svn.apache.org/viewvc?diff_format=h&view=revision&revision=1350822 -->
-        <version>1.6</version>
-        <configuration>
-          <minimizeJar>true</minimizeJar>
-          <createDependencyReducedPom>true</createDependencyReducedPom>
-          <createSourcesJar>true</createSourcesJar>
-          <artifactSet>
-            <includes>
-              <include>org.apache.commons:commons-lang3</include>
-            </includes>
-          </artifactSet>
-          <relocations>
-            <relocation>
-              <pattern>org.apache.commons.lang3.builder.</pattern>
-              <shadedPattern>org.apache.commons.text._lang3.builder.__</shadedPattern>
-            </relocation>
-            <relocation>
-              <pattern>org.apache.commons.lang3.exception.</pattern>
-              <shadedPattern>org.apache.commons.text._lang3.exception.__</shadedPattern>
-            </relocation>
-            <relocation>
-              <pattern>org.apache.commons.lang3.mutable.</pattern>
-              <shadedPattern>org.apache.commons.text._lang3.mutable.__</shadedPattern>
-            </relocation>
-            <relocation>
-              <pattern>org.apache.commons.lang3.tuple.</pattern>
-              <shadedPattern>org.apache.commons.text._lang3.tuple.__</shadedPattern>
-            </relocation>
-            <relocation>
-              <pattern>org.apache.commons.lang3.</pattern>
-              <shadedPattern>org.apache.commons.text._lang3.__</shadedPattern>
-            </relocation>
-          </relocations>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
 

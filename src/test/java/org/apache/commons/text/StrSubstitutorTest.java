@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang3.mutable.MutableObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -678,7 +677,12 @@ public class StrSubstitutorTest {
         }
 
         // replace using object
-        final MutableObject<String> obj = new MutableObject<>(replaceTemplate);  // toString returns template
+        final Object obj = new Object() {
+            @Override
+            public String toString() {
+                return replaceTemplate;
+            }
+        };
         assertEquals(expectedResult, sub.replace(obj));
 
         // replace in StringBuffer
