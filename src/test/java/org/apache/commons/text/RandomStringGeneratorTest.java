@@ -16,63 +16,57 @@
  */
 package org.apache.commons.text;
 
-import static org.apache.commons.text.RandomStringBuilder.LETTERS;
 import static org.junit.Assert.*;
 
 import java.util.Random;
 
-import org.apache.commons.text.RandomStringBuilder.CodePointPredicate;
 import org.junit.Test;
 
 /**
- * Tests for {@link RandomStringBuilder}
+ * Tests for {@link RandomStringGenerator}
  */
-public class RandomStringBuilderTest {
+public class RandomStringGeneratorTest {
 
     private static int codePointLength(String s) {
         return s.codePointCount(0, s.length());
     }
 
-    private static final CodePointPredicate A_FILTER = new CodePointPredicate() {
+    private static final CharacterPredicate A_FILTER = new CharacterPredicate() {
         @Override
         public boolean test(int codePoint) {
             return codePoint == 'a';
         }
     };
 
-    private static final CodePointPredicate B_FILTER = new CodePointPredicate() {
+    private static final CharacterPredicate B_FILTER = new CharacterPredicate() {
         @Override
         public boolean test(int codePoint) {
             return codePoint == 'b';
         }
     };
 
-    @Test
-    public void testDefaultLength() throws Exception {
-        String str = new RandomStringBuilder().build();
-        assertEquals(RandomStringBuilder.DEFAULT_LENGTH, codePointLength(str));
-    }
-
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidLength() throws Exception {
-        new RandomStringBuilder().ofLength(-1);
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+        generator.generate(-1);
     }
 
     @Test
     public void testSetLength() throws Exception {
         final int length = 99;
-        String str = new RandomStringBuilder().ofLength(length).build();
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+        String str = generator.generate(length);
         assertEquals(length, codePointLength(str));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testBadMinimumCodePoint() throws Exception {
-        new RandomStringBuilder().withinRange(-1, 1);
+        new RandomStringGenerator.Builder().withinRange(-1, 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testBadMaximumCodePoint() throws Exception {
-        new RandomStringBuilder().withinRange(0, Character.MAX_CODE_POINT + 1);
+        new RandomStringGenerator.Builder().withinRange(0, Character.MAX_CODE_POINT + 1);
     }
 
     @Test
@@ -80,7 +74,8 @@ public class RandomStringBuilderTest {
             final int length = 5000;
             final int minimumCodePoint = 'a';
             final int maximumCodePoint = 'z';
-            String str = new RandomStringBuilder().ofLength(length).withinRange(minimumCodePoint,maximumCodePoint).build();
+            RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange(minimumCodePoint,maximumCodePoint).build();
+            String str = generator.generate(length);
     
             int i = 0;
             do {
@@ -94,7 +89,7 @@ public class RandomStringBuilderTest {
     @Test
     public void testNoLoneSurrogates() throws Exception {
         final int length = 5000;
-        String str = new RandomStringBuilder().ofLength(length).build();
+        String str = new RandomStringGenerator.Builder().build().generate(length);
 
         char lastChar = str.charAt(0);
         for (int i = 1; i < str.length(); i++) {
@@ -129,40 +124,16 @@ public class RandomStringBuilderTest {
             }
         };
 
-        String str = new RandomStringBuilder().ofLength(100).usingRandom(testRandom).build();
+        String str = new RandomStringGenerator.Builder().usingRandom(testRandom).build().generate(10);
         for (char c : str.toCharArray()) {
             assertEquals(testChar, c);
         }
     }
 
     @Test
-    public void testLetterPredicate() throws Exception {
-        String str = new RandomStringBuilder().ofLength(5000).filteredBy(LETTERS).build();
-
-        int i = 0;
-        do {
-            int codePoint = str.codePointAt(i);
-            assertTrue(Character.isLetter(codePoint));
-            i += Character.charCount(codePoint);
-        } while (i < str.length());
-    }
-
-    @Test
-    public void testDigitPredicate() throws Exception {
-        String str = new RandomStringBuilder().ofLength(5000).filteredBy(RandomStringBuilder.DIGITS).build();
-
-        int i = 0;
-        do {
-            int codePoint = str.codePointAt(i);
-            assertTrue(Character.isDigit(codePoint));
-            i += Character.charCount(codePoint);
-        } while (i < str.length());
-    }
-
-    @Test
     public void testMultipleFilters() throws Exception {
-        String str = new RandomStringBuilder().ofLength(5000).withinRange('a','d')
-                .filteredBy(A_FILTER, B_FILTER).build();
+        String str = new RandomStringGenerator.Builder().withinRange('a','d')
+                .filteredBy(A_FILTER, B_FILTER).build().generate(5000);
 
         boolean aFound = false;
         boolean bFound = false;
@@ -187,8 +158,8 @@ public class RandomStringBuilderTest {
         // Request a string in an area of the Basic Multilingual Plane that is
         // largely
         // occupied by private characters
-        String str = new RandomStringBuilder().ofLength(5000).withinRange(startOfPrivateBMPChars, 
-                Character.MIN_SUPPLEMENTARY_CODE_POINT - 1).build();
+        String str = new RandomStringGenerator.Builder().withinRange(startOfPrivateBMPChars, 
+                Character.MIN_SUPPLEMENTARY_CODE_POINT - 1).build().generate(5000);
 
         int i = 0;
         do {
@@ -200,18 +171,18 @@ public class RandomStringBuilderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testBadMinAndMax() throws Exception {
-        new RandomStringBuilder().withinRange(2, 1);
+        new RandomStringGenerator.Builder().withinRange(2, 1);
     }
 
     @Test
     public void testRemoveFilters() throws Exception {
 
-        RandomStringBuilder builder = new RandomStringBuilder().ofLength(100).withinRange('a', 'z')
+        RandomStringGenerator.Builder builder = new RandomStringGenerator.Builder().withinRange('a', 'z')
                 .filteredBy(A_FILTER);
 
         builder.filteredBy();
 
-        String str = builder.build();
+        String str = builder.build().generate(100);
         for (char c : str.toCharArray()) {
             if (c != 'a') {
                 // filter was successfully removed
@@ -224,9 +195,9 @@ public class RandomStringBuilderTest {
 
     @Test
     public void testChangeOfFilter() throws Exception {
-        RandomStringBuilder builder = new RandomStringBuilder().ofLength(100).withinRange('a', 'z')
+        RandomStringGenerator.Builder builder = new RandomStringGenerator.Builder().withinRange('a', 'z')
                 .filteredBy(A_FILTER);
-        String str = builder.filteredBy(B_FILTER).build();
+        String str = builder.filteredBy(B_FILTER).build().generate(100);
 
         for (char c : str.toCharArray()) {
             assertTrue(c == 'b');
