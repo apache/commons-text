@@ -246,18 +246,18 @@ public class StringEscapeUtilsTest {
             final String message = element[0];
             final String expected = element[1];
             final String original = element[2];
-            assertEquals(message, expected, org.apache.commons.lang3.StringEscapeUtils.escapeHtml4Once(original));
-            assertEquals(message, expected, org.apache.commons.lang3.StringEscapeUtils.escapeHtml4Once(expected));
+            assertEquals(message, expected, StringEscapeUtils.escapeHtml4Once(original));
+            assertEquals(message, expected, StringEscapeUtils.escapeHtml4Once(expected));
             final StringWriter sw = new StringWriter();
             try {
-                org.apache.commons.lang3.StringEscapeUtils.ESCAPE_HTML4_ONCE.translate(original, sw);
+                StringEscapeUtils.ESCAPE_HTML4_ONCE.translate(original, sw);
             } catch (final IOException e) {
             }
             final String actual = original == null ? null : sw.toString();
             assertEquals(message, expected, actual);
             final StringWriter sw2 = new StringWriter();
             try {
-                org.apache.commons.lang3.StringEscapeUtils.ESCAPE_HTML4_ONCE.translate(expected, sw2);
+                StringEscapeUtils.ESCAPE_HTML4_ONCE.translate(expected, sw2);
             } catch (final IOException e) {
             }
             final String actual2 = original == null ? null : sw2.toString();
