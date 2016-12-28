@@ -210,7 +210,6 @@ public class StringEscapeUtils {
      * AggregateTranslator. Because, a SingleLookupTranslator only checks the values of the
      * lookup table passed to that instance while deciding whether a value is
      * already translated or not.
-     *
      */
     public static final CharSequenceTranslator ESCAPE_HTML3_ONCE =
             new SingleLookupTranslator(EntityArrays.BASIC_ESCAPE(), EntityArrays.ISO8859_1_ESCAPE());
@@ -244,7 +243,6 @@ public class StringEscapeUtils {
      * AggregateTranslator. Because, a SingleLookupTranslator only checks the values of the
      * lookup table passed to that instance while deciding whether a value is
      * already translated or not.
-     *
      */
     public static final CharSequenceTranslator ESCAPE_HTML4_ONCE =
             new SingleLookupTranslator(EntityArrays.BASIC_ESCAPE(), EntityArrays.ISO8859_1_ESCAPE(), EntityArrays.HTML40_EXTENDED_ESCAPE());
@@ -752,7 +750,6 @@ public class StringEscapeUtils {
      * @see <a href="http://www.w3.org/TR/REC-html40/sgml/entities.html">HTML 4.0 Character entity references</a>
      * @see <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01 Character References</a>
      * @see <a href="http://www.w3.org/TR/html401/charset.html#code-position">HTML 4.01 Code positions</a>
-     *
      */
     public static final String escapeHtml4Once(final String input) {
         return ESCAPE_HTML4_ONCE.translate(input);
@@ -777,7 +774,6 @@ public class StringEscapeUtils {
      *
      * @param input  the {@code String} to escape, may be null
      * @return a new escaped {@code String}, {@code null} if null string input
-     *
      */
     public static final String escapeHtml3Once(final String input) {
         return ESCAPE_HTML3_ONCE.translate(input);

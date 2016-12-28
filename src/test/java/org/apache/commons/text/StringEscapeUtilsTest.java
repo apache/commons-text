@@ -290,7 +290,6 @@ public class StringEscapeUtilsTest {
         }
     }
 
-
     @Test
     public void testUnescapeHtml4() {
         for (final String[] element : HTML_ESCAPES) {
