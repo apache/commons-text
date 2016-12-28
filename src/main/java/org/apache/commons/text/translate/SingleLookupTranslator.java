@@ -9,7 +9,7 @@ import java.util.HashSet;
  * Translates a value using a lookup table.
  * But doesn't translate if that value is already translated.
  *
- * @since 3.0
+ * @since 1.0
  */
 public class SingleLookupTranslator extends CharSequenceTranslator {
 

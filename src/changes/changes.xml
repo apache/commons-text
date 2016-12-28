@@ -22,6 +22,10 @@
   <body>
 
   <release version="1.0" date="tba" description="tba">
+    <action issue="TEXT-40" type="add" dev="chtompki" due-to="Sampanna Kahu">Escape HTML characters only once</action>
+    <action issue="TEXT-37" type="fix" dev="djones">Global vs local source of randomness</action>
+    <action issue="TEXT-38" type="fix" dev="djones">Fluent API in "RandomStringBuilder"</action>
+    <action issue="TEXT-26" type="fix" dev="chtompki">Fix JaroWinklerDistance in the manner of LUCENE-1297</action>
     <action issue="TEXT-32" type="add" dev="chtompki">Add LCS similarity and distance</action>
     <action issue="TEXT-34" type="add" dev="djones">Add class to generate random strings</action>
     <action issue="TEXT-35" type="fix" dev="kinow">Unfinished class Javadoc for CosineDistance</action>
