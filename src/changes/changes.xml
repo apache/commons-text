@@ -22,6 +22,7 @@
   <body>
 
   <release version="1.0" date="tba" description="tba">
+    <action issue="TEXT-50" type="update" dev="chtompki">Upgrade from commons-parent version 41 to version 42</action>
     <action issue="TEXT-40" type="add" dev="chtompki" due-to="Sampanna Kahu">Escape HTML characters only once</action>
     <action issue="TEXT-37" type="fix" dev="djones">Global vs local source of randomness</action>
     <action issue="TEXT-38" type="fix" dev="djones">Fluent API in "RandomStringBuilder"</action>
