@@ -33,7 +33,7 @@ public class SingleLookupTranslator extends CharSequenceTranslator {
      * lookup table passed to this instance while deciding whether a value is
      * already translated or not.
      *
-     * @param inputArrays
+     * @param inputArrays, an array of string arrays.
      */
     public SingleLookupTranslator(final String[][]... inputArrays) {
         String[][] lookup = new String[0][];

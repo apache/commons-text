@@ -612,6 +612,14 @@ public class StringEscapeUtils {
      * output string: He didn\'t say, \"Stop!\"
      * </pre>
      *
+     * <b>Security Note.</b> We only provide backslash escaping in this method. For example, {@code '\"'} has the output
+     * {@code '\\\"'} which could result in potential issues in the case where the string being escaped is being used
+     * in an HTML tag like {@code <select onmouseover="..." />}. If you wish to have more rigorous string escaping, you
+     * may consider the
+     * <a href="https://www.owasp.org/index.php/Category:OWASP_Enterprise_Security_API_JAVA">ESAPI Libraries</a>. Further,
+     * you can view the
+     * <a href="https://github.com/esapi">ESAPI GitHub Org</a>.
+     *
      * @param input  String to escape values in, may be null
      * @return String with escaped values, {@code null} if null string input
      */
