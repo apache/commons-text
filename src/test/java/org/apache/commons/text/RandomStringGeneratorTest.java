@@ -16,11 +16,9 @@
  */
 package org.apache.commons.text;
 
-import static org.junit.Assert.*;
-
-import java.util.Random;
-
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link RandomStringGenerator}
@@ -115,7 +113,7 @@ public class RandomStringGeneratorTest {
     @Test
     public void testUsingRandom() throws Exception {
         final char testChar = 'a';
-        final Random testRandom = new Random() {
+        final TextRandomProvider testRandom = new TextRandomProvider() {
             private static final long serialVersionUID = 1L;
 
             @Override

@@ -17,7 +17,6 @@
 package org.apache.commons.text;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -30,8 +29,13 @@ import java.util.concurrent.ThreadLocalRandom;
  * </p>
  * 
  * <pre>
+ * // Using Apache Commons RNG for randomness
+ * UniformRandomProvider rng = RandomSource.create(...);
  * // Generates a 20 code point string, using only the letters a-z
- * RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange('a', 'z').build();
+ * RandomStringGenerator generator = new RandomStringGenerator.Builder()
+ *     .withinRange('a', 'z')
+ *     .usingRandom(rng::nextInt) // uses Java 8 syntax
+ *     .build();
  * String random = generator.generate(20);
  * </pre>
  * 
@@ -46,7 +50,7 @@ public final class RandomStringGenerator {
     private final int minimumCodePoint;
     private final int maximumCodePoint;
     private final Set<CharacterPredicate> inclusivePredicates;
-    private final Random random;
+    private final TextRandomProvider random;
 
 
     /**
@@ -62,7 +66,7 @@ public final class RandomStringGenerator {
      *            source of randomness
      */
     private RandomStringGenerator(int minimumCodePoint, int maximumCodePoint,
-            Set<CharacterPredicate> inclusivePredicates, Random random) {
+            Set<CharacterPredicate> inclusivePredicates, TextRandomProvider random) {
         this.minimumCodePoint = minimumCodePoint;
         this.maximumCodePoint = maximumCodePoint;
         this.inclusivePredicates = inclusivePredicates;
@@ -168,7 +172,7 @@ public final class RandomStringGenerator {
      * <p>The minimum and maximum code point values are defined using {@link #withinRange(int, int)}. The
      * default values are {@code 0} and {@link Character#MAX_CODE_POINT} respectively.</p>
      * 
-     * <p>The source of randomness can be set using {@link #usingRandom(Random)}, otherwise {@link ThreadLocalRandom}
+     * <p>The source of randomness can be set using {@link #usingRandom(TextRandomProvider) }, otherwise {@link ThreadLocalRandom}
      * is used.</p>
      * 
      * <p>The type of code points returned can be filtered using {@link #filteredBy(CharacterPredicate...)}, 
@@ -207,7 +211,7 @@ public final class RandomStringGenerator {
         private int minimumCodePoint = DEFAULT_MINIMUM_CODE_POINT;
         private int maximumCodePoint = DEFAULT_MAXIMUM_CODE_POINT;
         private Set<CharacterPredicate> inclusivePredicates;
-        private Random random;
+        private TextRandomProvider random;
         
         
         /**
@@ -286,8 +290,25 @@ public final class RandomStringGenerator {
         
         /**
          * <p>
-         * Overrides the default source of randomness.
+         * Overrides the default source of randomness.  It is highly
+         * recommended that a random number generator library like
+         * <a href="http://commons.apache.org/proper/commons-rng/">Apache Commons RNG</a>
+         * be used to provide the random number generation.
          * </p>
+         *
+         * <p>
+         * When using Java 8 or later, {@link TextRandomProvider} is a
+         * functional interface and need not be explicitly implemented:
+         * </p>
+         * <pre>
+         * {@code
+         * UniformRandomProvider rng = RandomSource.create(...);
+         * RandomStringGenerator gen = new RandomStringGenerator.Builder()
+         *     .usingRandom(rng::nextInt)
+         *     // additional builder calls as needed
+         *     .build();
+         * }
+         * </pre>
          * 
          * <p>
          * Passing {@code null} to this method will revert to the default source of
@@ -299,7 +320,7 @@ public final class RandomStringGenerator {
          * @return {@code this}, to allow method chaining
          * @since 1.0
          */
-        public Builder usingRandom(final Random random) {
+        public Builder usingRandom(final TextRandomProvider random) {
             this.random = random;
             return this;
         }
