@@ -106,7 +106,7 @@
     <site>
       <id>apache.website</id>
       <name>Apache Commons Site</name>
-      <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/sandbox/commons-text/</url>
+      <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text/</url>
     </site>
   </distributionManagement>
 
@@ -125,7 +125,7 @@
     <commons.jira.pid>12318221</commons.jira.pid>
 
     <commons.site.path>text</commons.site.path>
-    <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/sandbox/commons-text
+    <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text
     </commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 

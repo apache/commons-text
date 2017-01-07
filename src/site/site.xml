@@ -25,7 +25,7 @@
     <body>
         <menu name="Text">
             <item name="Overview"                 href="/index.html"/>
-            <item name="Download"                 href="/download_commons-text.cgi"/>
+            <item name="Download"                 href="http://commons.apache.org/text/download_text.cgi"/>
             <item name="Release History"          href="/release-history.html"/>
             <item name="Javadoc (Latest release)" href="javadocs/api-release/index.html"/>
         </menu>
