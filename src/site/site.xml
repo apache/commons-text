@@ -27,7 +27,7 @@
             <item name="Overview"                 href="/index.html"/>
             <item name="Download"                 href="http://commons.apache.org/text/download_text.cgi"/>
             <item name="Release History"          href="/release-history.html"/>
-            <item name="Javadoc (Latest release [latest until first release])" href="apidocs/index.html"/>
+            <item name="Javadoc (Latest release)" href="apidocs/index.html"/>
         </menu>
 
         <menu name="Development">
