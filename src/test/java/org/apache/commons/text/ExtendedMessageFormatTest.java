@@ -298,6 +298,8 @@ public class ExtendedMessageFormatTest {
         assertTrue("same, equals()",   emf.equals(emf));
         assertTrue("same, hashcode()", emf.hashCode() == emf.hashCode());
 
+        assertFalse("null, equals", emf.equals(null));
+
         // Equal Object
         other = new ExtendedMessageFormat(pattern, Locale.US, fmtRegistry);
         assertTrue("equal, equals()",   emf.equals(other));
@@ -307,7 +309,7 @@ public class ExtendedMessageFormatTest {
         other = new OtherExtendedMessageFormat(pattern, Locale.US, fmtRegistry);
         assertFalse("class, equals()",  emf.equals(other));
         assertTrue("class, hashcode()", emf.hashCode() == other.hashCode()); // same hashcode
-        
+
         // Different pattern
         other = new ExtendedMessageFormat("X" + pattern, Locale.US, fmtRegistry);
         assertFalse("pattern, equals()",   emf.equals(other));
@@ -388,6 +390,30 @@ public class ExtendedMessageFormatTest {
             result.applyPattern(pattern);
         }
         return result;
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSetFormatIsUnsupported() {
+        final ExtendedMessageFormat emf = new ExtendedMessageFormat("");
+        emf.setFormat(0, new LowerCaseFormat());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSetFormatByArgumentIndexIsUnsupported() {
+        final ExtendedMessageFormat emf = new ExtendedMessageFormat("");
+        emf.setFormatByArgumentIndex(0, new LowerCaseFormat());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSetFormatsIsUnsupported() {
+        final ExtendedMessageFormat emf = new ExtendedMessageFormat("");
+        emf.setFormats(new Format[]{new LowerCaseFormat(), new UpperCaseFormat()});
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSetFormatsByArgumentIndex() {
+        final ExtendedMessageFormat emf = new ExtendedMessageFormat("");
+        emf.setFormatsByArgumentIndex(new Format[]{new LowerCaseFormat(), new UpperCaseFormat()});
     }
 
     // ------------------------ Test Formats ------------------------

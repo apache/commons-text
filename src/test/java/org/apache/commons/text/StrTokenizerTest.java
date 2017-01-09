@@ -294,6 +294,42 @@ public class StrTokenizerTest {
     }
 
     @Test
+    public void testDelimString() {
+        final String input = "a##b##c";
+        final StrTokenizer tok = new StrTokenizer(input, "##");
+
+        assertEquals("a", tok.next());
+        assertEquals("b", tok.next());
+        assertEquals("c", tok.next());
+        assertFalse(tok.hasNext());
+    }
+
+    @Test
+    public void testDelimMatcher() {
+        final String input = "a/b\\c";
+        final StrMatcher delimMatcher = new StrMatcher.CharSetMatcher(new char[]{'/', '\\'});
+
+        final StrTokenizer tok = new StrTokenizer(input, delimMatcher);
+        assertEquals("a", tok.next());
+        assertEquals("b", tok.next());
+        assertEquals("c", tok.next());
+        assertFalse(tok.hasNext());
+    }
+
+    @Test
+    public void testDelimMatcherQuoteMatcher() {
+        final String input = "`a`;`b`;`c`";
+        final StrMatcher delimMatcher = new StrMatcher.CharSetMatcher(new char[]{';'});
+        final StrMatcher quoteMatcher = new StrMatcher.CharSetMatcher(new char[]{'`'});
+
+        final StrTokenizer tok = new StrTokenizer(input, delimMatcher, quoteMatcher);
+        assertEquals("a", tok.next());
+        assertEquals("b", tok.next());
+        assertEquals("c", tok.next());
+        assertFalse(tok.hasNext());
+    }
+
+    @Test
     public void testBasicEmpty1() {
         final String input = "a  b c";
         final StrTokenizer tok = new StrTokenizer(input);

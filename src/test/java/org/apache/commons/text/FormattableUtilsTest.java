@@ -19,6 +19,7 @@ package org.apache.commons.text;
 import static java.util.FormattableFlags.LEFT_JUSTIFY;
 import static org.junit.Assert.assertEquals;
 
+import java.util.Formattable;
 import java.util.Formatter;
 
 import org.junit.Test;
@@ -27,6 +28,18 @@ import org.junit.Test;
  * Unit tests {@link FormattableUtils}.
  */
 public class FormattableUtilsTest {
+
+    @Test
+    public void testPublicConstructorExists() {
+        new FormattableUtils();
+    }
+
+    @Test
+    public void testSimplestFormat() {
+        final Formattable formattable = new SimplestFormattable("foo");
+
+        assertEquals("foo",  FormattableUtils.toString(formattable));
+    }
 
     @Test
     public void testDefaultAppend() {
@@ -111,5 +124,19 @@ public class FormattableUtilsTest {
         assertEquals("+*_", FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 3, 2, '_', "+*").toString());
         assertEquals("+*___", FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 5, 2, '_', "+*").toString());
     }
+
+    static class SimplestFormattable implements Formattable {
+        private final String text;
+
+        SimplestFormattable(final String text) {
+            this.text = text;
+        }
+
+        @Override
+        public void formatTo(Formatter formatter, int flags, int width, int precision) {
+            formatter.format(text);
+        }
+    };
+
 
 }
