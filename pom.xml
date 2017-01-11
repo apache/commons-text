@@ -34,7 +34,7 @@
     Apache Commons Text is a library focused on algorithms working on strings.
   </description>
 
-  <url>http://commons.apache.org/sandbox/commons-text/</url>
+  <url>http://commons.apache.org/proper/commons-text/</url>
 
   <issueManagement>
     <system>jira</system>
@@ -125,8 +125,7 @@
     <commons.jira.pid>12318221</commons.jira.pid>
 
     <commons.site.path>text</commons.site.path>
-    <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text
-    </commons.scmPubUrl>
+    <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
     <!-- Override default buildNumber timestamp format, needed for coveralls plugin -->
