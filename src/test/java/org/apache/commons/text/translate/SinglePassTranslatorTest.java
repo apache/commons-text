@@ -50,7 +50,7 @@ public class SinglePassTranslatorTest {
         assertEquals(7, dummyTranslator.translate("abcdefg", 0, out));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void indexIsValidated() throws Exception {
         dummyTranslator.translate("abc", 1, out);
     }

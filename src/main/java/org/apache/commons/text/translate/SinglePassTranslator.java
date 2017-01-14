@@ -28,12 +28,13 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
     @Override
     public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
         if (index != 0) {
-            throw new IllegalStateException(getClassName() + " should never reach index different than 0");
+            throw new IllegalArgumentException(getClassName() + ".translate(final CharSequence input, final int " +
+                    "index, final Writer out) can not handle a non-zero index.");
         }
 
         translateWhole(input, out);
 
-        return Character.codePointCount(input, 0, input.length());
+        return Character.codePointCount(input, index, input.length());
     }
 
     private String getClassName() {
