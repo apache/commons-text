@@ -21,7 +21,8 @@
   </properties>
   <body>
 
-  <release version="1.0" date="tba" description="tba">
+  <release version="1.0" date="tba" description="First release of Commons Text">
+    <action issue="TEXT-53" type="update" dev="chtompki">Prepare site for 1.0 release</action>
     <action issue="TEXT-56" type="add" dev="chtompki" due-to="Jarek Strzeleck">Move CvsTranslators out of StringEscapeUtils and make them DRY</action>
     <action issue="TEXT-55" type="remove" dev="chtompki">Remove WordUtils to be added back in an upcoming 1.X release</action>
     <action issue="TEXT-52" type="fix" dev="chtompki">Possible attacks through StringEscapeUtils.escapeEcmaScrip better javadoc</action>
