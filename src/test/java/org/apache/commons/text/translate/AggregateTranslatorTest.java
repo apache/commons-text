@@ -20,11 +20,13 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- * Unit tests for {@link org.apache.commons.text.translate.AggregateTranslator}.
+ * Unit tests for {@link AggregateTranslator}.
  */
 public class AggregateTranslatorTest {
 
@@ -44,8 +46,12 @@ public class AggregateTranslatorTest {
 
     @Test
     public void testNonNull() throws IOException{
-        final CharSequenceTranslator translator1 = new LookupTranslator(new CharSequence[][] { { "one", "two" } });
-        final CharSequenceTranslator translator2 = new LookupTranslator(new CharSequence[][] { { "three", "four" } });
+        final Map<CharSequence, CharSequence> oneTwoMap = new HashMap<>();
+        oneTwoMap.put("one", "two");
+        final Map<CharSequence, CharSequence> threeFourMap = new HashMap<>();
+        threeFourMap.put("three", "four");
+        final CharSequenceTranslator translator1 = new LookupTranslator(oneTwoMap);
+        final CharSequenceTranslator translator2 = new LookupTranslator(threeFourMap);
         final AggregateTranslator subject = new AggregateTranslator(translator1, translator2);
         final StringWriter out1 = new StringWriter();
         final int result1 = subject.translate(new StringBuffer("one"), 0, out1);
