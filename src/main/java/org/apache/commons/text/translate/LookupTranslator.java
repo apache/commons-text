@@ -18,8 +18,10 @@ package org.apache.commons.text.translate;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * Translates a value using a lookup table.
@@ -28,7 +30,7 @@ import java.util.HashSet;
  */
 public class LookupTranslator extends CharSequenceTranslator {
 
-    private final HashMap<String, String> lookupMap;
+    private final Map<String, String> lookupMap;
     private final HashSet<Character> prefixSet;
     private final int shortest;
     private final int longest;
@@ -42,6 +44,7 @@ public class LookupTranslator extends CharSequenceTranslator {
      *
      * @param lookup CharSequence[][] table of size [*][2]
      */
+    @Deprecated
     public LookupTranslator(final CharSequence[]... lookup) {
         lookupMap = new HashMap<>();
         prefixSet = new HashSet<>();
@@ -58,6 +61,41 @@ public class LookupTranslator extends CharSequenceTranslator {
                 if (sz > _longest) {
                     _longest = sz;
                 }
+            }
+        }
+        shortest = _shortest;
+        longest = _longest;
+    }
+
+    /**
+     * Define the lookup table to be used in translation
+     *
+     * Note that, as of Lang 3.1 (the orgin of this code), the key to the lookup
+     * table is converted to a java.lang.String. This is because we need the key
+     * to support hashCode and equals(Object), allowing it to be the key for a
+     * HashMap. See LANG-882.
+     *
+     * @param lookupMap Map&lt;CharSequence, CharSequence&gt; table of translator
+     *                  mappings
+     */
+    public LookupTranslator(final Map<CharSequence, CharSequence> lookupMap) {
+        if (lookupMap == null) {
+            throw new InvalidParameterException("lookupMap cannot be null");
+        }
+        this.lookupMap = new HashMap<>();
+        prefixSet = new HashSet<>();
+        int _shortest = Integer.MAX_VALUE;
+        int _longest = 0;
+        for (final CharSequence key : lookupMap.keySet()) {
+            this.lookupMap.put(key.toString(),
+                    lookupMap.get(key).toString());
+            this.prefixSet.add(key.charAt(0));
+            final int sz = key.length();
+            if (sz < _shortest) {
+                _shortest = sz;
+            }
+            if (sz > _longest) {
+                _longest = sz;
             }
         }
         shortest = _shortest;

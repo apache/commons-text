@@ -21,17 +21,21 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- * Unit tests for {@link org.apache.commons.text.translate.LookupTranslator}.
+ * Unit tests for {@link LookupTranslator}.
  */
 public class LookupTranslatorTest  {
 
     @Test
     public void testBasicLookup() throws IOException {
-        final org.apache.commons.text.translate.LookupTranslator lt = new org.apache.commons.text.translate.LookupTranslator(new CharSequence[][] { { "one", "two" } });
+        final Map<CharSequence, CharSequence> translatorMap = new HashMap<>();
+        translatorMap.put("one", "two");
+        final LookupTranslator lt = new LookupTranslator(translatorMap);
         final StringWriter out = new StringWriter();
         final int result = lt.translate("one", 0, out);
         assertEquals("Incorrect codepoint consumption", 3, result);
@@ -41,7 +45,9 @@ public class LookupTranslatorTest  {
     // Tests: https://issues.apache.org/jira/browse/LANG-882
     @Test
     public void testLang882() throws IOException {
-        final org.apache.commons.text.translate.LookupTranslator lt = new LookupTranslator(new CharSequence[][] { { new StringBuffer("one"), new StringBuffer("two") } });
+        final Map<CharSequence, CharSequence> translatorMap = new HashMap<>();
+        translatorMap.put(new StringBuffer("one"), new StringBuffer("two"));
+        final LookupTranslator lt = new LookupTranslator(translatorMap);
         final StringWriter out = new StringWriter();
         final int result = lt.translate(new StringBuffer("one"), 0, out);
         assertEquals("Incorrect codepoint consumption", 3, result);

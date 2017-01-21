@@ -136,12 +136,13 @@ public class EntityArrays {
     };
 
     /**
-     * Mapping to escape <a href="https://secure.wikimedia.org/wikipedia/en/wiki/ISO/IEC_8859-1">ISO-8859-1</a>
+     * A Map&lt;CharSequence, CharSequence&gt; to to escape
+     * <a href="https://secure.wikimedia.org/wikipedia/en/wiki/ISO/IEC_8859-1">ISO-8859-1</a>
      * characters to their named HTML 3.x equivalents.
      */
-    public static final Map<String,String> ISO8859_1_ESCAPE;
+    public static final Map<CharSequence, CharSequence> ISO8859_1_ESCAPE;
     static {
-        Map<String,String> initialMap = new HashMap<>();
+        Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         initialMap.put("\u00A0", "&nbsp;"); // non-breaking space
         initialMap.put("\u00A1", "&iexcl;"); // inverted exclamation mark
         initialMap.put("\u00A2", "&cent;"); // cent sign
@@ -252,7 +253,7 @@ public class EntityArrays {
     /**
      * Reverse of {@link #ISO8859_1_ESCAPE} for unescaping purposes.
      */
-    public static final Map<String,String> ISO8859_1_UNESCAPE;
+    public static final Map<CharSequence, CharSequence> ISO8859_1_UNESCAPE;
     static {
         ISO8859_1_UNESCAPE = Collections.unmodifiableMap(invert(ISO8859_1_ESCAPE));
     }
@@ -463,14 +464,14 @@ public class EntityArrays {
     };
 
     /**
-     * A Map&lt;String, String&gt; to escape additional
+     * A Map&lt;CharSequence, CharSequence&gt; to escape additional
      * <a href="http://www.w3.org/TR/REC-html40/sgml/entities.html">character entity
      * references</a>. Note that this must be used with {@link #ISO8859_1_ESCAPE} to get the full list of
      * HTML 4.0 character entities.
      */
-    public static final Map<String,String> HTML40_EXTENDED_ESCAPE;
+    public static final Map<CharSequence, CharSequence> HTML40_EXTENDED_ESCAPE;
     static {
-        Map<String,String> initialMap = new HashMap<>();
+        Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         // <!-- Latin Extended-B -->
         initialMap.put("\u0192", "&fnof;"); // latin small f with hook = function= florin, U+0192 ISOtech -->
         // <!-- Greek -->
@@ -679,7 +680,7 @@ public class EntityArrays {
     /**
      * Reverse of {@link #HTML40_EXTENDED_ESCAPE} for unescaping purposes.
      */
-    public static final Map<String,String> HTML40_EXTENDED_UNESCAPE;
+    public static final Map<CharSequence, CharSequence> HTML40_EXTENDED_UNESCAPE;
     static {
         HTML40_EXTENDED_UNESCAPE = Collections.unmodifiableMap(invert(HTML40_EXTENDED_ESCAPE));
     }
@@ -700,13 +701,14 @@ public class EntityArrays {
     };
 
     /**
-     * A Map&lt;String, String&gt; to escape the basic XML and HTML character entities.
+     * A Map&lt;CharSequence, CharSequence&gt; to escape the basic XML and HTML
+     * character entities.
      *
      * Namely: {@code " & < >}
      */
-    public static final Map<String,String> BASIC_ESCAPE;
+    public static final Map<CharSequence, CharSequence> BASIC_ESCAPE;
     static {
-        Map<String,String> initialMap = new HashMap<>();
+        Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         initialMap.put("\"", "&quot;"); // " - double-quote
         initialMap.put("&", "&amp;");   // & - ampersand
         initialMap.put("<", "&lt;");    // < - less-than
@@ -725,7 +727,7 @@ public class EntityArrays {
     /**
      * Reverse of {@link #BASIC_ESCAPE} for unescaping purposes.
      */
-    public static final Map<String,String> BASIC_UNESCAPE;
+    public static final Map<CharSequence, CharSequence> BASIC_UNESCAPE;
     static {
         BASIC_UNESCAPE = Collections.unmodifiableMap(invert(BASIC_ESCAPE));
     }
@@ -741,11 +743,12 @@ public class EntityArrays {
     };
 
     /**
-     * A Map&lt;String, String&gt; to escape the apostrophe character to its XML character entity.
+     * A Map&lt;CharSequence, CharSequence&gt; to escape the apostrophe character to
+     * its XML character entity.
      */
-    public static final Map<String,String> APOS_ESCAPE;
+    public static final Map<CharSequence, CharSequence> APOS_ESCAPE;
     static {
-        Map<String,String> initialMap = new HashMap<>();
+        Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         initialMap.put("'","&apos;"); // XML apostrophe
         APOS_ESCAPE = Collections.unmodifiableMap(initialMap);
     }
@@ -761,7 +764,7 @@ public class EntityArrays {
     /**
      * Reverse of {@link #APOS_ESCAPE()} for unescaping purposes.
      */
-    public static final Map<String, String> APOS_UNESCAPE;
+    public static final Map<CharSequence, CharSequence> APOS_UNESCAPE;
     static {
         APOS_UNESCAPE = Collections.unmodifiableMap(invert(APOS_ESCAPE));
     }
@@ -783,13 +786,14 @@ public class EntityArrays {
     };
 
     /**
-     * A Map&lt;String, String&gt; to escape the Java control characters.
+     * A Map&lt;CharSequence, CharSequence&gt; to escape the Java
+     * control characters.
      *
      * Namely: {@code \b \n \t \f \r}
      */
-    public static final Map<String, String> JAVA_CTRL_CHARS_ESCAPE;
+    public static final Map<CharSequence, CharSequence> JAVA_CTRL_CHARS_ESCAPE;
     static {
-        Map<String,String> initialMap = new HashMap<>();
+        Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         initialMap.put("\b", "\\b");
         initialMap.put("\n", "\\n");
         initialMap.put("\t", "\\t");
@@ -809,7 +813,7 @@ public class EntityArrays {
     /**
      * Reverse of {@link #JAVA_CTRL_CHARS_ESCAPE} for unescaping purposes.
      */
-    public static final Map<String, String> JAVA_CTRL_CHARS_UNESCAPE;
+    public static final Map<CharSequence, CharSequence> JAVA_CTRL_CHARS_UNESCAPE;
     static {
         JAVA_CTRL_CHARS_UNESCAPE = Collections.unmodifiableMap(invert(JAVA_CTRL_CHARS_ESCAPE));
     }
@@ -834,9 +838,9 @@ public class EntityArrays {
      * @param map Map&lt;String, String&gt; to be inverted
      * @return Map&lt;String, String&gt; inverted array
      */
-    public static Map<String,String> invert(final Map<String,String> map) {
-        Map<String,String> newMap = new HashMap<>();
-        for(String key: map.keySet()){
+    public static Map<CharSequence, CharSequence> invert(final Map<CharSequence, CharSequence> map) {
+        Map<CharSequence, CharSequence> newMap = new HashMap<>();
+        for(CharSequence key: map.keySet()){
             newMap.put(map.get(key), key);
         }
         return newMap;

@@ -113,9 +113,10 @@ public class EntityArraysTest  {
         testEscapeVsUnescapeMaps(EntityArrays.JAVA_CTRL_CHARS_ESCAPE, EntityArrays.JAVA_CTRL_CHARS_UNESCAPE);
     }
 
-    private void testEscapeVsUnescapeMaps(final Map<String,String> escapeMap, final Map<String,String> unescapeMap) {
-        for (final String escapeKey : escapeMap.keySet()) {
-            for (final String unescapeKey : unescapeMap.keySet()) {
+    private void testEscapeVsUnescapeMaps(final Map<CharSequence, CharSequence> escapeMap,
+                                          final Map<CharSequence, CharSequence> unescapeMap) {
+        for (final CharSequence escapeKey : escapeMap.keySet()) {
+            for (final CharSequence unescapeKey : unescapeMap.keySet()) {
                 if (escapeKey == unescapeMap.get(unescapeKey)) {
                     assertEquals(escapeMap.get(escapeKey), unescapeKey);
                 }
