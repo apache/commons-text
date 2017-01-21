@@ -20,6 +20,7 @@ package org.apache.commons.text.translate;
 import org.junit.Test;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -71,34 +72,34 @@ public class EntityArraysTest  {
 
     @Test
     public void testISO8859Arrays() {
-        testEscapeVsUnescapeArrays(EntityArrays.ISO8859_1_ESCAPE(), EntityArrays.ISO8859_1_UNESCAPE());
+        testEscapeVsUnescapeArrays(EntityArrays.ISO8859_1_ESCAPE, EntityArrays.ISO8859_1_UNESCAPE);
     }
 
     @Test
     public void testHtml40ExtendedArrays() {
-        testEscapeVsUnescapeArrays(EntityArrays.HTML40_EXTENDED_ESCAPE(), EntityArrays.HTML40_EXTENDED_UNESCAPE());
+        testEscapeVsUnescapeArrays(EntityArrays.HTML40_EXTENDED_ESCAPE, EntityArrays.HTML40_EXTENDED_UNESCAPE);
     }
 
     @Test
     public void testAposArrays() {
-        testEscapeVsUnescapeArrays(EntityArrays.APOS_ESCAPE(), EntityArrays.APOS_UNESCAPE());
+        testEscapeVsUnescapeArrays(EntityArrays.APOS_ESCAPE, EntityArrays.APOS_UNESCAPE);
     }
 
     @Test
     public void testBasicArrays() {
-        testEscapeVsUnescapeArrays(EntityArrays.BASIC_ESCAPE(), EntityArrays.BASIC_UNESCAPE());
+        testEscapeVsUnescapeArrays(EntityArrays.BASIC_ESCAPE, EntityArrays.BASIC_UNESCAPE);
     }
 
     @Test
     public void testJavaCntrlCharsArrays() {
-        testEscapeVsUnescapeArrays(EntityArrays.JAVA_CTRL_CHARS_ESCAPE(), EntityArrays.JAVA_CTRL_CHARS_ESCAPE());
+        testEscapeVsUnescapeArrays(EntityArrays.JAVA_CTRL_CHARS_ESCAPE, EntityArrays.JAVA_CTRL_CHARS_UNESCAPE);
     }
 
-    private void testEscapeVsUnescapeArrays(final String[][] escapeArray, final String[][] unescapeArray) {
-        for (final String[] escapeElement : escapeArray) {
-            for (final String[] unescapeElement : unescapeArray) {
-                if (escapeElement[0] == unescapeElement[1]) {
-                    assertEquals(escapeElement[1], unescapeElement[0]);
+    private void testEscapeVsUnescapeArrays(final Map<String,String> escapeMap, final Map<String,String> unescapeMap) {
+        for (final String escapeKey : escapeMap.keySet()) {
+            for (final String unescapeKey : unescapeMap.keySet()) {
+                if (escapeKey == unescapeMap.get(unescapeKey)) {
+                    assertEquals(escapeMap.get(escapeKey), unescapeKey);
                 }
             }
         }
