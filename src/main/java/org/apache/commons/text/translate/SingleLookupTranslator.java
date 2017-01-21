@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * Translates a value using a lookup table.
@@ -29,7 +30,7 @@ import java.util.HashSet;
  */
 public class SingleLookupTranslator extends CharSequenceTranslator {
 
-    private final HashMap<String, String> lookupMap;
+    private final Map<String, String> lookupMap;
     private final HashSet<Character>      prefixSet;
     private final int                     shortest;
     private final int                     longest;
@@ -49,12 +50,14 @@ public class SingleLookupTranslator extends CharSequenceTranslator {
      * lookup table passed to this instance while deciding whether a value is
      * already translated or not.
      *
-     * @param inputArrays, an array of string arrays.
+     * @param inputMaps, an array of Map&lt;CharSequence, CharSequence&gt;.
      */
-    public SingleLookupTranslator(final String[][]... inputArrays) {
-        String[][] lookup = new String[0][];
-        for (String[][] input : inputArrays) {
-            lookup = append(lookup, input);
+    public SingleLookupTranslator(Map<CharSequence, CharSequence>... inputMaps) {
+        Map<CharSequence, CharSequence> lookup = new HashMap<>();
+        for (Map<CharSequence, CharSequence> input : inputMaps) {
+            for(CharSequence key : input.keySet()) {
+                lookup.put(key, input.get(key));
+            }
         }
         lookupMap = new HashMap<String, String>();
         prefixSet = new HashSet<Character>();
@@ -63,17 +66,17 @@ public class SingleLookupTranslator extends CharSequenceTranslator {
         int _shortestValue = Integer.MAX_VALUE;
         int _longestValue = 0;
         if (lookup != null) {
-            for (final CharSequence[] seq : lookup) {
-                this.lookupMap.put(seq[0].toString(), seq[1].toString());
-                this.prefixSet.add(seq[0].charAt(0));
-                final int sz = seq[0].length();
+            for (final CharSequence key: lookup.keySet()) {
+                this.lookupMap.put(key.toString(), lookup.get(key).toString());
+                this.prefixSet.add(key.charAt(0));
+                final int sz = key.length();
                 if (sz < _shortest) {
                     _shortest = sz;
                 }
                 if (sz > _longest) {
                     _longest = sz;
                 }
-                final int sizeOfValue = seq[1].length();
+                final int sizeOfValue = lookup.get(key).length();
                 if (sizeOfValue < _shortestValue) {
                     _shortestValue = sizeOfValue;
                 }
@@ -86,13 +89,6 @@ public class SingleLookupTranslator extends CharSequenceTranslator {
         longest = _longest;
         shortestValue = _shortestValue;
         longestValue = _longestValue;
-    }
-
-    private static String[][] append(String[][] a, String[][] b) {
-        String[][] result = new String[a.length + b.length][];
-        System.arraycopy(a, 0, result, 0, a.length);
-        System.arraycopy(b, 0, result, a.length, b.length);
-        return result;
     }
 
     /**

@@ -32,6 +32,9 @@ import org.apache.commons.text.translate.UnicodeUnpairedSurrogateRemover;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>Escapes and unescapes {@code String}s for
@@ -57,16 +60,17 @@ public class StringEscapeUtils {
      * object allows the Java escaping functionality to be used 
      * as the foundation for a custom translator.
      */
-    public static final CharSequenceTranslator ESCAPE_JAVA =
-            new LookupTranslator(
-                    new String[][] {
-                            {"\"", "\\\""},
-                            {"\\", "\\\\"},
-                    }).with(
-                    new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE())
-            ).with(
-                    JavaUnicodeEscaper.outsideOf(32, 0x7f)
-            );
+    public static final CharSequenceTranslator ESCAPE_JAVA;
+    static {
+        Map<CharSequence, CharSequence> escapeJavaMap = new HashMap<>();
+        escapeJavaMap.put("\"", "\\\"");
+        escapeJavaMap.put("\\", "\\\\");
+        ESCAPE_JAVA = new AggregateTranslator(
+                new LookupTranslator(Collections.unmodifiableMap(escapeJavaMap)),
+                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE),
+                JavaUnicodeEscaper.outsideOf(32, 0x7f)
+        );
+    }
 
     /**
      * Translator object for escaping EcmaScript/JavaScript. 
@@ -75,18 +79,19 @@ public class StringEscapeUtils {
      * object allows the EcmaScript escaping functionality to be used 
      * as the foundation for a custom translator.
      */
-    public static final CharSequenceTranslator ESCAPE_ECMASCRIPT =
-            new AggregateTranslator(
-                    new LookupTranslator(
-                            new String[][] {
-                                    {"'", "\\'"},
-                                    {"\"", "\\\""},
-                                    {"\\", "\\\\"},
-                                    {"/", "\\/"}
-                            }),
-                    new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE()),
-                    JavaUnicodeEscaper.outsideOf(32, 0x7f)
-            );
+    public static final CharSequenceTranslator ESCAPE_ECMASCRIPT;
+    static {
+        Map<CharSequence, CharSequence> escapeEcmaScriptMap = new HashMap<>();
+        escapeEcmaScriptMap.put("'", "\\'");
+        escapeEcmaScriptMap.put("\"", "\\\"");
+        escapeEcmaScriptMap.put("\\", "\\\\");
+        escapeEcmaScriptMap.put("/", "\\/");
+        ESCAPE_ECMASCRIPT = new AggregateTranslator(
+                new LookupTranslator(Collections.unmodifiableMap(escapeEcmaScriptMap)),
+                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE),
+                JavaUnicodeEscaper.outsideOf(32, 0x7f)
+        );
+    }
 
     /**
      * Translator object for escaping Json.
@@ -95,17 +100,18 @@ public class StringEscapeUtils {
      * object allows the Json escaping functionality to be used
      * as the foundation for a custom translator.
      */
-    public static final CharSequenceTranslator ESCAPE_JSON =
-            new AggregateTranslator(
-                    new LookupTranslator(
-                            new String[][] {
-                                    {"\"", "\\\""},
-                                    {"\\", "\\\\"},
-                                    {"/", "\\/"}
-                            }),
-                    new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE()),
-                    JavaUnicodeEscaper.outsideOf(32, 0x7f)
-            );
+    public static final CharSequenceTranslator ESCAPE_JSON;
+    static {
+        Map<CharSequence, CharSequence> escapeJsonMap = new HashMap<>();
+        escapeJsonMap.put("\"", "\\\"");
+        escapeJsonMap.put("\\", "\\\\");
+        escapeJsonMap.put("/", "\\/");
+        ESCAPE_JSON = new AggregateTranslator(
+                new LookupTranslator(Collections.unmodifiableMap(escapeJsonMap)),
+                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE),
+                JavaUnicodeEscaper.outsideOf(32, 0x7f)
+        );
+    }
 
     /**
      * Translator object for escaping XML 1.0.
@@ -114,48 +120,49 @@ public class StringEscapeUtils {
      * object allows the XML escaping functionality to be used
      * as the foundation for a custom translator.
      */
-    public static final CharSequenceTranslator ESCAPE_XML10 =
-            new AggregateTranslator(
-                    new LookupTranslator(EntityArrays.BASIC_ESCAPE()),
-                    new LookupTranslator(EntityArrays.APOS_ESCAPE()),
-                    new LookupTranslator(
-                            new String[][] {
-                                    { "\u0000", StringUtils.EMPTY },
-                                    { "\u0001", StringUtils.EMPTY },
-                                    { "\u0002", StringUtils.EMPTY },
-                                    { "\u0003", StringUtils.EMPTY },
-                                    { "\u0004", StringUtils.EMPTY },
-                                    { "\u0005", StringUtils.EMPTY },
-                                    { "\u0006", StringUtils.EMPTY },
-                                    { "\u0007", StringUtils.EMPTY },
-                                    { "\u0008", StringUtils.EMPTY },
-                                    { "\u000b", StringUtils.EMPTY },
-                                    { "\u000c", StringUtils.EMPTY },
-                                    { "\u000e", StringUtils.EMPTY },
-                                    { "\u000f", StringUtils.EMPTY },
-                                    { "\u0010", StringUtils.EMPTY },
-                                    { "\u0011", StringUtils.EMPTY },
-                                    { "\u0012", StringUtils.EMPTY },
-                                    { "\u0013", StringUtils.EMPTY },
-                                    { "\u0014", StringUtils.EMPTY },
-                                    { "\u0015", StringUtils.EMPTY },
-                                    { "\u0016", StringUtils.EMPTY },
-                                    { "\u0017", StringUtils.EMPTY },
-                                    { "\u0018", StringUtils.EMPTY },
-                                    { "\u0019", StringUtils.EMPTY },
-                                    { "\u001a", StringUtils.EMPTY },
-                                    { "\u001b", StringUtils.EMPTY },
-                                    { "\u001c", StringUtils.EMPTY },
-                                    { "\u001d", StringUtils.EMPTY },
-                                    { "\u001e", StringUtils.EMPTY },
-                                    { "\u001f", StringUtils.EMPTY },
-                                    { "\ufffe", StringUtils.EMPTY },
-                                    { "\uffff", StringUtils.EMPTY }
-                            }),
-                    NumericEntityEscaper.between(0x7f, 0x84),
-                    NumericEntityEscaper.between(0x86, 0x9f),
-                    new UnicodeUnpairedSurrogateRemover()
-            );
+    public static final CharSequenceTranslator ESCAPE_XML10;
+    static {
+        Map<CharSequence, CharSequence> escapeXml10Map = new HashMap<>();
+        escapeXml10Map.put("\u0000", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0001", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0002", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0003", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0004", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0005", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0006", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0007", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0008", StringUtils.EMPTY);
+        escapeXml10Map.put("\u000b", StringUtils.EMPTY);
+        escapeXml10Map.put("\u000c", StringUtils.EMPTY);
+        escapeXml10Map.put("\u000e", StringUtils.EMPTY);
+        escapeXml10Map.put("\u000f", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0010", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0011", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0012", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0013", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0014", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0015", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0016", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0017", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0018", StringUtils.EMPTY);
+        escapeXml10Map.put("\u0019", StringUtils.EMPTY);
+        escapeXml10Map.put("\u001a", StringUtils.EMPTY);
+        escapeXml10Map.put("\u001b", StringUtils.EMPTY);
+        escapeXml10Map.put("\u001c", StringUtils.EMPTY);
+        escapeXml10Map.put("\u001d", StringUtils.EMPTY);
+        escapeXml10Map.put("\u001e", StringUtils.EMPTY);
+        escapeXml10Map.put("\u001f", StringUtils.EMPTY);
+        escapeXml10Map.put("\ufffe", StringUtils.EMPTY);
+        escapeXml10Map.put("\uffff", StringUtils.EMPTY);
+        ESCAPE_XML10 = new AggregateTranslator(
+                new LookupTranslator(Collections.unmodifiableMap(escapeXml10Map)),
+                new LookupTranslator(EntityArrays.BASIC_ESCAPE),
+                new LookupTranslator(EntityArrays.APOS_ESCAPE),
+                NumericEntityEscaper.between(0x7f, 0x84),
+                NumericEntityEscaper.between(0x86, 0x9f),
+                new UnicodeUnpairedSurrogateRemover()
+        );
+    }
 
     /**
      * Translator object for escaping XML 1.1.
@@ -164,24 +171,25 @@ public class StringEscapeUtils {
      * object allows the XML escaping functionality to be used
      * as the foundation for a custom translator.
      */
-    public static final CharSequenceTranslator ESCAPE_XML11 =
-            new AggregateTranslator(
-                    new LookupTranslator(EntityArrays.BASIC_ESCAPE()),
-                    new LookupTranslator(EntityArrays.APOS_ESCAPE()),
-                    new LookupTranslator(
-                            new String[][] {
-                                    { "\u0000", StringUtils.EMPTY },
-                                    { "\u000b", "&#11;" },
-                                    { "\u000c", "&#12;" },
-                                    { "\ufffe", StringUtils.EMPTY },
-                                    { "\uffff", StringUtils.EMPTY }
-                            }),
-                    NumericEntityEscaper.between(0x1, 0x8),
-                    NumericEntityEscaper.between(0xe, 0x1f),
-                    NumericEntityEscaper.between(0x7f, 0x84),
-                    NumericEntityEscaper.between(0x86, 0x9f),
-                    new UnicodeUnpairedSurrogateRemover()
-            );
+    public static final CharSequenceTranslator ESCAPE_XML11;
+    static {
+        Map<CharSequence, CharSequence> escapeXml11Map = new HashMap<>();
+        escapeXml11Map.put("\u0000", StringUtils.EMPTY);
+        escapeXml11Map.put("\u000b", "&#11;");
+        escapeXml11Map.put("\u000c", "&#12;");
+        escapeXml11Map.put("\ufffe", StringUtils.EMPTY);
+        escapeXml11Map.put("\uffff", StringUtils.EMPTY);
+        ESCAPE_XML11 = new AggregateTranslator(
+                new LookupTranslator(Collections.unmodifiableMap(escapeXml11Map)),
+                new LookupTranslator(EntityArrays.BASIC_ESCAPE),
+                new LookupTranslator(EntityArrays.APOS_ESCAPE),
+                NumericEntityEscaper.between(0x1, 0x8),
+                NumericEntityEscaper.between(0xe, 0x1f),
+                NumericEntityEscaper.between(0x7f, 0x84),
+                NumericEntityEscaper.between(0x86, 0x9f),
+                new UnicodeUnpairedSurrogateRemover()
+        );
+    }
 
     /**
      * Translator object for escaping HTML version 3.0.
@@ -192,8 +200,8 @@ public class StringEscapeUtils {
      */
     public static final CharSequenceTranslator ESCAPE_HTML3 =
             new AggregateTranslator(
-                    new LookupTranslator(EntityArrays.BASIC_ESCAPE()),
-                    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE())
+                    new LookupTranslator(EntityArrays.BASIC_ESCAPE),
+                    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE)
             );
 
     /**
@@ -212,7 +220,7 @@ public class StringEscapeUtils {
      * already translated or not.
      */
     public static final CharSequenceTranslator ESCAPE_HTML3_ONCE =
-            new SingleLookupTranslator(EntityArrays.BASIC_ESCAPE(), EntityArrays.ISO8859_1_ESCAPE());
+            new SingleLookupTranslator(EntityArrays.BASIC_ESCAPE, EntityArrays.ISO8859_1_ESCAPE);
 
 
     /**
@@ -224,9 +232,9 @@ public class StringEscapeUtils {
      */
     public static final CharSequenceTranslator ESCAPE_HTML4 =
             new AggregateTranslator(
-                    new LookupTranslator(EntityArrays.BASIC_ESCAPE()),
-                    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE()),
-                    new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE())
+                    new LookupTranslator(EntityArrays.BASIC_ESCAPE),
+                    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE),
+                    new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE)
             );
 
     /**
@@ -245,7 +253,11 @@ public class StringEscapeUtils {
      * already translated or not.
      */
     public static final CharSequenceTranslator ESCAPE_HTML4_ONCE =
-            new SingleLookupTranslator(EntityArrays.BASIC_ESCAPE(), EntityArrays.ISO8859_1_ESCAPE(), EntityArrays.HTML40_EXTENDED_ESCAPE());
+            new SingleLookupTranslator(
+                    EntityArrays.BASIC_ESCAPE,
+                    EntityArrays.ISO8859_1_ESCAPE,
+                    EntityArrays.HTML40_EXTENDED_ESCAPE
+            );
 
     /**
      * Translator object for escaping individual Comma Separated Values. 
@@ -261,33 +273,36 @@ public class StringEscapeUtils {
      *
      * @see <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcu/chap2.html">Shell Command Language</a>
      */
-    public static final CharSequenceTranslator ESCAPE_XSI =
-        new LookupTranslator(
-            new String[][] {
-                    {"|", "\\|"},
-                    {"&", "\\&"},
-                    {";", "\\;"},
-                    {"<", "\\<"},
-                    {">", "\\>"},
-                    {"(", "\\("},
-                    {")", "\\)"},
-                    {"$", "\\$"},
-                    {"`", "\\`"},
-                    {"\\", "\\\\"},
-                    {"\"", "\\\""},
-                    {"'", "\\'"},
-                    {" ", "\\ "},
-                    {"\t", "\\\t"},
-                    {"\r\n", ""},
-                    {"\n", ""},
-                    {"*", "\\*"},
-                    {"?", "\\?"},
-                    {"[", "\\["},
-                    {"#", "\\#"},
-                    {"~", "\\~"},
-                    {"=", "\\="},
-                    {"%", "\\%"},
-            });
+    public static final CharSequenceTranslator ESCAPE_XSI;
+    static {
+        Map<CharSequence, CharSequence> escapeXsiMap = new HashMap<>();
+        escapeXsiMap.put("|", "\\|");
+        escapeXsiMap.put("&", "\\&");
+        escapeXsiMap.put(";", "\\;");
+        escapeXsiMap.put("<", "\\<");
+        escapeXsiMap.put(">", "\\>");
+        escapeXsiMap.put("(", "\\(");
+        escapeXsiMap.put(")", "\\)");
+        escapeXsiMap.put("$", "\\$");
+        escapeXsiMap.put("`", "\\`");
+        escapeXsiMap.put("\\", "\\\\");
+        escapeXsiMap.put("\"", "\\\"");
+        escapeXsiMap.put("'", "\\'");
+        escapeXsiMap.put(" ", "\\ ");
+        escapeXsiMap.put("\t", "\\\t");
+        escapeXsiMap.put("\r\n", "");
+        escapeXsiMap.put("\n", "");
+        escapeXsiMap.put("*", "\\*");
+        escapeXsiMap.put("?", "\\?");
+        escapeXsiMap.put("[", "\\[");
+        escapeXsiMap.put("#", "\\#");
+        escapeXsiMap.put("~", "\\~");
+        escapeXsiMap.put("=", "\\=");
+        escapeXsiMap.put("%", "\\%");
+        ESCAPE_XSI = new LookupTranslator(
+                Collections.unmodifiableMap(escapeXsiMap)
+        );
+    }
 
     /* UNESCAPE TRANSLATORS */
 
@@ -299,19 +314,20 @@ public class StringEscapeUtils {
      * as the foundation for a custom translator.
      */
     // TODO: throw "illegal character: \92" as an Exception if a \ on the end of the Java (as per the compiler)?
-    public static final CharSequenceTranslator UNESCAPE_JAVA =
-            new AggregateTranslator(
-                    new OctalUnescaper(),     // .between('\1', '\377'),
-                    new UnicodeUnescaper(),
-                    new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_UNESCAPE()),
-                    new LookupTranslator(
-                            new String[][] {
-                                    {"\\\\", "\\"},
-                                    {"\\\"", "\""},
-                                    {"\\'", "'"},
-                                    {"\\", ""}
-                            })
-            );
+    public static final CharSequenceTranslator UNESCAPE_JAVA;
+    static {
+        Map<CharSequence, CharSequence> unescapeJavaMap = new HashMap<>();
+        unescapeJavaMap.put("\\\\", "\\");
+        unescapeJavaMap.put("\\\"", "\"");
+        unescapeJavaMap.put("\\'", "'");
+        unescapeJavaMap.put("\\", "");
+        UNESCAPE_JAVA = new AggregateTranslator(
+                new LookupTranslator(Collections.unmodifiableMap(unescapeJavaMap)),
+                new OctalUnescaper(),     // .between('\1', '\377'),
+                new UnicodeUnescaper(),
+                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_UNESCAPE)
+        );
+    }
 
     /**
      * Translator object for unescaping escaped EcmaScript. 
@@ -340,8 +356,8 @@ public class StringEscapeUtils {
      */
     public static final CharSequenceTranslator UNESCAPE_HTML3 =
             new AggregateTranslator(
-                    new LookupTranslator(EntityArrays.BASIC_UNESCAPE()),
-                    new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE()),
+                    new LookupTranslator(EntityArrays.BASIC_UNESCAPE),
+                    new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE),
                     new NumericEntityUnescaper()
             );
 
@@ -354,9 +370,9 @@ public class StringEscapeUtils {
      */
     public static final CharSequenceTranslator UNESCAPE_HTML4 =
             new AggregateTranslator(
-                    new LookupTranslator(EntityArrays.BASIC_UNESCAPE()),
-                    new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE()),
-                    new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE()),
+                    new LookupTranslator(EntityArrays.BASIC_UNESCAPE),
+                    new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE),
+                    new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE),
                     new NumericEntityUnescaper()
             );
 
@@ -369,8 +385,8 @@ public class StringEscapeUtils {
      */
     public static final CharSequenceTranslator UNESCAPE_XML =
             new AggregateTranslator(
-                    new LookupTranslator(EntityArrays.BASIC_UNESCAPE()),
-                    new LookupTranslator(EntityArrays.APOS_UNESCAPE()),
+                    new LookupTranslator(EntityArrays.BASIC_UNESCAPE),
+                    new LookupTranslator(EntityArrays.APOS_UNESCAPE),
                     new NumericEntityUnescaper()
             );
 
