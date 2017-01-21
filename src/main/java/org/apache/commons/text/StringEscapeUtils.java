@@ -322,10 +322,10 @@ public class StringEscapeUtils {
         unescapeJavaMap.put("\\'", "'");
         unescapeJavaMap.put("\\", "");
         UNESCAPE_JAVA = new AggregateTranslator(
-                new LookupTranslator(Collections.unmodifiableMap(unescapeJavaMap)),
                 new OctalUnescaper(),     // .between('\1', '\377'),
                 new UnicodeUnescaper(),
-                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_UNESCAPE)
+                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_UNESCAPE),
+                new LookupTranslator(Collections.unmodifiableMap(unescapeJavaMap))
         );
     }
 
