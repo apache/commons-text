@@ -19,83 +19,101 @@ package org.apache.commons.text.translate;
 
 import org.junit.Test;
 
-import java.util.HashSet;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Map;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
- * Unit tests for {@link org.apache.commons.text.translate.EntityArrays}.
+ * Unit tests for {@link EntityArrays}.
  */
 public class EntityArraysTest  {
 
     @Test
     public void testConstructorExists() {
-        new org.apache.commons.text.translate.EntityArrays();
+        new EntityArrays();
     }
 
-    // LANG-659 - check arrays for duplicate entries
+    // LANG-659, LANG-658 - avoid duplicate entries
     @Test
-    public void testHTML40_EXTENDED_ESCAPE(){
-        final Set<String> col0 = new HashSet<>();
-        final Set<String> col1 = new HashSet<>();
-        final String [][] sa = org.apache.commons.text.translate.EntityArrays.HTML40_EXTENDED_ESCAPE();
-        for(int i =0; i <sa.length; i++){
-            assertTrue("Already added entry 0: "+i+" "+sa[i][0],col0.add(sa[i][0]));
-            assertTrue("Already added entry 1: "+i+" "+sa[i][1],col1.add(sa[i][1]));
-        }
-    }
-
-   // LANG-658 - check arrays for duplicate entries
-    @Test
-    public void testISO8859_1_ESCAPE(){
-        final Set<String> col0 = new HashSet<>();
-        final Set<String> col1 = new HashSet<>();
-        final String [][] sa = EntityArrays.ISO8859_1_ESCAPE();
-        boolean success = true;
-        for(int i =0; i <sa.length; i++){
-            final boolean add0 = col0.add(sa[i][0]);
-            final boolean add1 = col1.add(sa[i][1]);
-            if (!add0) { 
-                success = false;
-                System.out.println("Already added entry 0: "+i+" "+sa[i][0]+" "+sa[i][1]);
-            }
-            if (!add1) {
-                success = false;
-                System.out.println("Already added entry 1: "+i+" "+sa[i][0]+" "+sa[i][1]);
+    public void testForDuplicatedDeclaredMapKeys() throws Exception {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/org/apache/commons/text/translate/EntityArrays.java"))) {
+            String line;
+            int mapDeclarationCounter = 0;
+            while ((line = br.readLine()) != null) {
+                //Start with map declaration and count put lines
+                if (line.contains("new HashMap<>();")) {
+                    mapDeclarationCounter = 0;
+                } else if (line.contains(".put(")) {
+                    mapDeclarationCounter++;
+                } else if (line.contains("Collections.unmodifiableMap(initialMap);")) {
+                    String mapVariableName = line.split("=")[0].trim();
+                    Map<String,String> mapValue = (Map)EntityArrays.class.getDeclaredField(mapVariableName).get(EntityArrays.class);
+                    // Validate that we are not inserting into the same key twice in the map declaration. If this,
+                    // indeed was the case the keySet().size() would be smaller than the number of put() statements
+                    assertEquals(mapDeclarationCounter, mapValue.keySet().size());
+                }
             }
         }
-        assertTrue("One or more errors detected",success);
     }
 
     @Test
-    public void testISO8859Arrays() {
-        testEscapeVsUnescapeArrays(EntityArrays.ISO8859_1_ESCAPE, EntityArrays.ISO8859_1_UNESCAPE);
+    public void testForDuplicateDeclaredMapValuesISO8859Map() {
+        assertEquals(EntityArrays.ISO8859_1_ESCAPE.keySet().size(),
+                EntityArrays.ISO8859_1_UNESCAPE.keySet().size());
     }
 
     @Test
-    public void testHtml40ExtendedArrays() {
-        testEscapeVsUnescapeArrays(EntityArrays.HTML40_EXTENDED_ESCAPE, EntityArrays.HTML40_EXTENDED_UNESCAPE);
+    public void testISO8859Map() {
+        testEscapeVsUnescapeMaps(EntityArrays.ISO8859_1_ESCAPE, EntityArrays.ISO8859_1_UNESCAPE);
     }
 
     @Test
-    public void testAposArrays() {
-        testEscapeVsUnescapeArrays(EntityArrays.APOS_ESCAPE, EntityArrays.APOS_UNESCAPE);
+    public void testForDuplicateDeclaredMapValuesHtml40ExtendedMap() {
+        assertEquals(EntityArrays.HTML40_EXTENDED_ESCAPE.keySet().size(),
+                EntityArrays.HTML40_EXTENDED_UNESCAPE.keySet().size());
     }
 
     @Test
-    public void testBasicArrays() {
-        testEscapeVsUnescapeArrays(EntityArrays.BASIC_ESCAPE, EntityArrays.BASIC_UNESCAPE);
+    public void testHtml40ExtendedMap() {
+        testEscapeVsUnescapeMaps(EntityArrays.HTML40_EXTENDED_ESCAPE, EntityArrays.HTML40_EXTENDED_UNESCAPE);
     }
 
     @Test
-    public void testJavaCntrlCharsArrays() {
-        testEscapeVsUnescapeArrays(EntityArrays.JAVA_CTRL_CHARS_ESCAPE, EntityArrays.JAVA_CTRL_CHARS_UNESCAPE);
+    public void testForDuplicateDeclaredMapValuesAposMap() {
+        assertEquals(EntityArrays.APOS_ESCAPE.keySet().size(),
+                EntityArrays.APOS_UNESCAPE.keySet().size());
     }
 
-    private void testEscapeVsUnescapeArrays(final Map<String,String> escapeMap, final Map<String,String> unescapeMap) {
+    @Test
+    public void testAposMap() {
+        testEscapeVsUnescapeMaps(EntityArrays.APOS_ESCAPE, EntityArrays.APOS_UNESCAPE);
+    }
+
+    @Test
+    public void testForDuplicateDeclaredMapValuesBasicMap() {
+        assertEquals(EntityArrays.BASIC_ESCAPE.keySet().size(),
+                EntityArrays.BASIC_UNESCAPE.keySet().size());
+    }
+
+    @Test
+    public void testBasicMap() {
+        testEscapeVsUnescapeMaps(EntityArrays.BASIC_ESCAPE, EntityArrays.BASIC_UNESCAPE);
+    }
+
+    @Test
+    public void testForDuplicateDeclaredMapValuesJavaCtrlCharsMap() {
+        assertEquals(EntityArrays.JAVA_CTRL_CHARS_ESCAPE.keySet().size(),
+                EntityArrays.JAVA_CTRL_CHARS_UNESCAPE.keySet().size());
+    }
+
+    @Test
+    public void testJavaCntrlCharsMap() {
+        testEscapeVsUnescapeMaps(EntityArrays.JAVA_CTRL_CHARS_ESCAPE, EntityArrays.JAVA_CTRL_CHARS_UNESCAPE);
+    }
+
+    private void testEscapeVsUnescapeMaps(final Map<String,String> escapeMap, final Map<String,String> unescapeMap) {
         for (final String escapeKey : escapeMap.keySet()) {
             for (final String unescapeKey : unescapeMap.keySet()) {
                 if (escapeKey == unescapeMap.get(unescapeKey)) {
