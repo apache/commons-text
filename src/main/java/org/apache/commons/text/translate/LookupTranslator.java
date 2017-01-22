@@ -38,38 +38,6 @@ public class LookupTranslator extends CharSequenceTranslator {
     /**
      * Define the lookup table to be used in translation
      *
-     * Note that, as of Lang 3.1, the key to the lookup table is converted to a
-     * java.lang.String. This is because we need the key to support hashCode and
-     * equals(Object), allowing it to be the key for a HashMap. See LANG-882.
-     *
-     * @param lookup CharSequence[][] table of size [*][2]
-     */
-    @Deprecated
-    public LookupTranslator(final CharSequence[]... lookup) {
-        lookupMap = new HashMap<>();
-        prefixSet = new HashSet<>();
-        int _shortest = Integer.MAX_VALUE;
-        int _longest = 0;
-        if (lookup != null) {
-            for (final CharSequence[] seq : lookup) {
-                this.lookupMap.put(seq[0].toString(), seq[1].toString());
-                this.prefixSet.add(seq[0].charAt(0));
-                final int sz = seq[0].length();
-                if (sz < _shortest) {
-                    _shortest = sz;
-                }
-                if (sz > _longest) {
-                    _longest = sz;
-                }
-            }
-        }
-        shortest = _shortest;
-        longest = _longest;
-    }
-
-    /**
-     * Define the lookup table to be used in translation
-     *
      * Note that, as of Lang 3.1 (the orgin of this code), the key to the lookup
      * table is converted to a java.lang.String. This is because we need the key
      * to support hashCode and equals(Object), allowing it to be the key for a

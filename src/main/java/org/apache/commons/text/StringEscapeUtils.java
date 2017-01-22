@@ -155,9 +155,9 @@ public class StringEscapeUtils {
         escapeXml10Map.put("\ufffe", StringUtils.EMPTY);
         escapeXml10Map.put("\uffff", StringUtils.EMPTY);
         ESCAPE_XML10 = new AggregateTranslator(
-                new LookupTranslator(Collections.unmodifiableMap(escapeXml10Map)),
                 new LookupTranslator(EntityArrays.BASIC_ESCAPE),
                 new LookupTranslator(EntityArrays.APOS_ESCAPE),
+                new LookupTranslator(Collections.unmodifiableMap(escapeXml10Map)),
                 NumericEntityEscaper.between(0x7f, 0x84),
                 NumericEntityEscaper.between(0x86, 0x9f),
                 new UnicodeUnpairedSurrogateRemover()
@@ -180,9 +180,9 @@ public class StringEscapeUtils {
         escapeXml11Map.put("\ufffe", StringUtils.EMPTY);
         escapeXml11Map.put("\uffff", StringUtils.EMPTY);
         ESCAPE_XML11 = new AggregateTranslator(
-                new LookupTranslator(Collections.unmodifiableMap(escapeXml11Map)),
                 new LookupTranslator(EntityArrays.BASIC_ESCAPE),
                 new LookupTranslator(EntityArrays.APOS_ESCAPE),
+                new LookupTranslator(Collections.unmodifiableMap(escapeXml11Map)),
                 NumericEntityEscaper.between(0x1, 0x8),
                 NumericEntityEscaper.between(0xe, 0x1f),
                 NumericEntityEscaper.between(0x7f, 0x84),
