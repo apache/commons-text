@@ -246,9 +246,9 @@
         <configuration>
           <enableRulesSummary>false</enableRulesSummary>
           <configLocation>src/main/resources/org/apache/commons/text/beta/checkstyle.xml</configLocation>
-          <headerLocation>${basedir}/src/main/resources/org/apache/commons/text/license-header.txt</headerLocation>
-          <suppressionsLocation>${basedir}/src/main/resources/org/apache/commons/text/checkstyle-suppressions.xml</suppressionsLocation>
-          <suppressionsFileExpression>${basedir}/src/main/resources/org/apache/commons/text/checkstyle-suppressions.xml</suppressionsFileExpression>
+          <headerLocation>${basedir}/src/main/resources/org/apache/commons/text/beta/license-header.txt</headerLocation>
+          <suppressionsLocation>${basedir}/src/main/resources/org/apache/commons/text/beta/checkstyle-suppressions.xml</suppressionsLocation>
+          <suppressionsFileExpression>${basedir}/src/main/resources/org/apache/commons/text/beta/checkstyle-suppressions.xml</suppressionsFileExpression>
         </configuration>
         <reportSets>
           <reportSet>
