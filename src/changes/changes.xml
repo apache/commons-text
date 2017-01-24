@@ -22,6 +22,7 @@
   <body>
 
   <release version="1.0" date="tba" description="First release of Commons Text">
+    <action issue="TEXT-61" type="update" dev="chtompki" due-to="Lee Adcock">Naming packages org.apache.commons.text.beta</action>
     <action issue="TEXT-60" type="fix" dev="chtompki" due-to="Lee Adcock">Upgrading Jacoco for Java 9-ea compatibility.</action>
     <action issue="TEXT-58" type="update" dev="chtompki">Refactor EntityArrays to have unmodifiableMaps in leu of String[][]</action>
     <action issue="TEXT-53" type="update" dev="chtompki">Prepare site for 1.0 release</action>

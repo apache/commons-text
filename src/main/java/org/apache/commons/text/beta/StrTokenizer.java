@@ -455,7 +455,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      *
      * @return this, to enable chaining
      */
-    public org.apache.commons.text.beta.StrTokenizer reset() {
+    public StrTokenizer reset() {
         tokenPos = 0;
         tokens = null;
         return this;
@@ -469,7 +469,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      * @param input  the new string to tokenize, null sets no text to parse
      * @return this, to enable chaining
      */
-    public org.apache.commons.text.beta.StrTokenizer reset(final String input) {
+    public StrTokenizer reset(final String input) {
         reset();
         if (input != null) {
             this.chars = input.toCharArray();
@@ -487,7 +487,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      * @param input  the new character array to tokenize, not cloned, null sets no text to parse
      * @return this, to enable chaining
      */
-    public org.apache.commons.text.beta.StrTokenizer reset(final char[] input) {
+    public StrTokenizer reset(final char[] input) {
         reset();
         if (input != null) {
             this.chars = input;
