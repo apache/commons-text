@@ -105,6 +105,10 @@
     </dependency>
   </dependencies>
 
+  <properties>
+    <commons.jacoco.version>0.7.8</commons.jacoco.version>
+  </properties>
+
   <distributionManagement>
     <site>
       <id>apache.website</id>
