@@ -22,15 +22,17 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import org.apache.commons.text.beta.translate.UnicodeUnescaper;
+
 /**
- * Unit tests for {@link org.apache.commons.text.translate.UnicodeEscaper}.
+ * Unit tests for {@link org.apache.commons.text.beta.translate.UnicodeEscaper}.
  */
 public class UnicodeUnescaperTest {
 
     // Requested in LANG-507
     @Test
     public void testUPlus() {
-        final org.apache.commons.text.translate.UnicodeUnescaper uu = new org.apache.commons.text.translate.UnicodeUnescaper();
+        final org.apache.commons.text.beta.translate.UnicodeUnescaper uu = new org.apache.commons.text.beta.translate.UnicodeUnescaper();
 
         final String input = "\\u+0047";
         assertEquals("Failed to unescape Unicode characters with 'u+' notation", "G", uu.translate(input));
@@ -38,7 +40,7 @@ public class UnicodeUnescaperTest {
 
     @Test
     public void testUuuuu() {
-        final org.apache.commons.text.translate.UnicodeUnescaper uu = new org.apache.commons.text.translate.UnicodeUnescaper();
+        final org.apache.commons.text.beta.translate.UnicodeUnescaper uu = new org.apache.commons.text.beta.translate.UnicodeUnescaper();
 
         final String input = "\\uuuuuuuu0047";
         final String result = uu.translate(input);
@@ -47,7 +49,7 @@ public class UnicodeUnescaperTest {
 
     @Test
     public void testLessThanFour() {
-        final org.apache.commons.text.translate.UnicodeUnescaper uu = new UnicodeUnescaper();
+        final org.apache.commons.text.beta.translate.UnicodeUnescaper uu = new UnicodeUnescaper();
 
         final String input = "\\0047\\u006";
         try {

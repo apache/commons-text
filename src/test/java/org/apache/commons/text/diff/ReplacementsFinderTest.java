@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import org.apache.commons.text.beta.diff.ReplacementsFinder;
+import org.apache.commons.text.beta.diff.ReplacementsHandler;
+import org.apache.commons.text.beta.diff.StringsComparator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -21,13 +21,14 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 
+import org.apache.commons.text.beta.similarity.LevenshteinDistance;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.LevenshteinDistance}.
+ * Unit tests for {@link org.apache.commons.text.beta.similarity.LevenshteinDistance}.
  */
 @RunWith(Parameterized.class)
 public class ParameterizedLevenshteinDistanceTest {

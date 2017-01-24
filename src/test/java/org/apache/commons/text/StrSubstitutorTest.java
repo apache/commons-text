@@ -29,6 +29,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.mutable.MutableObject;
+import org.apache.commons.text.beta.StrBuilder;
+import org.apache.commons.text.beta.StrMatcher;
+import org.apache.commons.text.beta.StrSubstitutor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

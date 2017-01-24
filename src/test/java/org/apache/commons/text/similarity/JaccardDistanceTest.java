@@ -18,11 +18,12 @@ package org.apache.commons.text.similarity;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.text.beta.similarity.JaccardDistance;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.JaccardDistance}.
+ * Unit tests for {@link org.apache.commons.text.beta.similarity.JaccardDistance}.
  */
 public class JaccardDistanceTest {
 

@@ -17,6 +17,8 @@
 package org.apache.commons.text;
 
 import org.junit.Test;
+import org.apache.commons.text.beta.ExtendedMessageFormat;
+import org.apache.commons.text.beta.FormatFactory;
 import org.junit.Before;
 import static org.junit.Assert.*;
 

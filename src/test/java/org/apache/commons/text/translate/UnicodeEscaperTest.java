@@ -21,14 +21,16 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.text.beta.translate.UnicodeEscaper;
+
 /**
- * Unit tests for {@link org.apache.commons.text.translate.UnicodeEscaper}.
+ * Unit tests for {@link org.apache.commons.text.beta.translate.UnicodeEscaper}.
  */
 public class UnicodeEscaperTest  {
 
     @Test
     public void testBelow() {
-        final org.apache.commons.text.translate.UnicodeEscaper ue = org.apache.commons.text.translate.UnicodeEscaper.below('F');
+        final org.apache.commons.text.beta.translate.UnicodeEscaper ue = org.apache.commons.text.beta.translate.UnicodeEscaper.below('F');
 
         final String input = "ADFGZ";
         final String result = ue.translate(input);
@@ -37,7 +39,7 @@ public class UnicodeEscaperTest  {
 
     @Test
     public void testBetween() {
-        final org.apache.commons.text.translate.UnicodeEscaper ue = org.apache.commons.text.translate.UnicodeEscaper.between('F', 'L');
+        final org.apache.commons.text.beta.translate.UnicodeEscaper ue = org.apache.commons.text.beta.translate.UnicodeEscaper.between('F', 'L');
 
         final String input = "ADFGZ";
         final String result = ue.translate(input);
@@ -46,7 +48,7 @@ public class UnicodeEscaperTest  {
 
     @Test
     public void testAbove() {
-        final org.apache.commons.text.translate.UnicodeEscaper ue = UnicodeEscaper.above('F');
+        final org.apache.commons.text.beta.translate.UnicodeEscaper ue = UnicodeEscaper.above('F');
 
         final String input = "ADFGZ";
         final String result = ue.translate(input);

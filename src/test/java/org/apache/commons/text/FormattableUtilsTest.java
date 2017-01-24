@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Formattable;
 import java.util.Formatter;
 
+import org.apache.commons.text.beta.FormattableUtils;
 import org.junit.Test;
 
 /**

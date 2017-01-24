@@ -17,6 +17,7 @@
 
 package org.apache.commons.text;
 
+import org.apache.commons.text.beta.StrBuilder;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

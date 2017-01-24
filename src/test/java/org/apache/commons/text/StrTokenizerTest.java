@@ -17,6 +17,8 @@
 
 package org.apache.commons.text;
 
+import org.apache.commons.text.beta.StrMatcher;
+import org.apache.commons.text.beta.StrTokenizer;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

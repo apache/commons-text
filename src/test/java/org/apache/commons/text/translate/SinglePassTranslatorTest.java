@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text.translate;
 
+import org.apache.commons.text.beta.translate.SinglePassTranslator;
 import org.junit.Before;
 import org.junit.Test;
 

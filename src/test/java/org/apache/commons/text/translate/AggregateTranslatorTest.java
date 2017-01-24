@@ -16,6 +16,9 @@
  */
 package org.apache.commons.text.translate;
 
+import org.apache.commons.text.beta.translate.AggregateTranslator;
+import org.apache.commons.text.beta.translate.CharSequenceTranslator;
+import org.apache.commons.text.beta.translate.LookupTranslator;
 import org.junit.Test;
 
 import java.io.IOException;

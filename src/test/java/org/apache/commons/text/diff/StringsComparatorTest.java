@@ -17,6 +17,9 @@
 package org.apache.commons.text.diff;
 import java.util.Arrays;
 import java.util.List;
+
+import org.apache.commons.text.beta.diff.CommandVisitor;
+import org.apache.commons.text.beta.diff.StringsComparator;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

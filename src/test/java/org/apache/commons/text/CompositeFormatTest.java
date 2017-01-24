@@ -17,6 +17,7 @@
 
 package org.apache.commons.text;
 
+import org.apache.commons.text.beta.CompositeFormat;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.text.FieldPosition;
@@ -26,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 /**
- * Unit tests for {@link org.apache.commons.text.CompositeFormat}.
+ * Unit tests for {@link org.apache.commons.text.beta.CompositeFormat}.
  */
 public class CompositeFormatTest {
 

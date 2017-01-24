@@ -18,10 +18,11 @@ package org.apache.commons.text.similarity;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.text.beta.similarity.LevenshteinDistance;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.LevenshteinDistance}.
+ * Unit tests for {@link org.apache.commons.text.beta.similarity.LevenshteinDistance}.
  */
 public class LevenshteinDistanceTest {
 

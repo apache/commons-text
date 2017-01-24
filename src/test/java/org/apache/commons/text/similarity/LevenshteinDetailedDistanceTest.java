@@ -18,6 +18,8 @@ package org.apache.commons.text.similarity;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.text.beta.similarity.LevenshteinDetailedDistance;
+import org.apache.commons.text.beta.similarity.LevenshteinResults;
 import org.junit.Test;
 
 public class LevenshteinDetailedDistanceTest {

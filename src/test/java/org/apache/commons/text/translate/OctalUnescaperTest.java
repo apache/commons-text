@@ -21,14 +21,16 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.text.beta.translate.OctalUnescaper;
+
 /**
- * Unit tests for {@link org.apache.commons.text.translate.OctalUnescaper}.
+ * Unit tests for {@link org.apache.commons.text.beta.translate.OctalUnescaper}.
  */
 public class OctalUnescaperTest {
 
     @Test
     public void testBetween() {
-        final org.apache.commons.text.translate.OctalUnescaper oue = new OctalUnescaper();   //.between("1", "377");
+        final org.apache.commons.text.beta.translate.OctalUnescaper oue = new OctalUnescaper();   //.between("1", "377");
 
         String input = "\\45";
         String result = oue.translate(input);
