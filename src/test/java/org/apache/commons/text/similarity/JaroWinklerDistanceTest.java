@@ -18,6 +18,7 @@ package org.apache.commons.text.similarity;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.text.beta.similarity.JaroWinklerDistance;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

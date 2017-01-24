@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text.translate;
 
+import org.apache.commons.text.beta.translate.JavaUnicodeEscaper;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -23,13 +24,13 @@ import java.io.UnsupportedEncodingException;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Unit tests for {@link org.apache.commons.text.translate.JavaUnicodeEscaper}.
+ * Unit tests for {@link org.apache.commons.text.beta.translate.JavaUnicodeEscaper}.
  */
 public class JavaUnicodeEscaperTest {
 
     @Test
     public void testBelow() {
-        final org.apache.commons.text.translate.JavaUnicodeEscaper jue = org.apache.commons.text.translate.JavaUnicodeEscaper.below('F');
+        final org.apache.commons.text.beta.translate.JavaUnicodeEscaper jue = org.apache.commons.text.beta.translate.JavaUnicodeEscaper.below('F');
 
         final String input = "ADFGZ";
         final String result = jue.translate(input);
@@ -38,7 +39,7 @@ public class JavaUnicodeEscaperTest {
 
     @Test
     public void testBetween() {
-        final org.apache.commons.text.translate.JavaUnicodeEscaper jue = org.apache.commons.text.translate.JavaUnicodeEscaper.between('F', 'L');
+        final org.apache.commons.text.beta.translate.JavaUnicodeEscaper jue = org.apache.commons.text.beta.translate.JavaUnicodeEscaper.between('F', 'L');
 
         final String input = "ADFGZ";
         final String result = jue.translate(input);
@@ -47,7 +48,7 @@ public class JavaUnicodeEscaperTest {
 
     @Test
     public void testAbove() {
-        final org.apache.commons.text.translate.JavaUnicodeEscaper jue = JavaUnicodeEscaper.above('F');
+        final org.apache.commons.text.beta.translate.JavaUnicodeEscaper jue = JavaUnicodeEscaper.above('F');
 
         final String input = "ADFGZ";
         final String result = jue.translate(input);
@@ -56,7 +57,7 @@ public class JavaUnicodeEscaperTest {
 
     @Test
     public void testToUtf16Escape() throws UnsupportedEncodingException {
-        final org.apache.commons.text.translate.JavaUnicodeEscaper jue = org.apache.commons.text.translate.JavaUnicodeEscaper.below('F');
+        final org.apache.commons.text.beta.translate.JavaUnicodeEscaper jue = org.apache.commons.text.beta.translate.JavaUnicodeEscaper.below('F');
         // According to https://en.wikipedia.org/wiki/UTF-16#Code_points_U.2B10000..U.2B10FFFF,
         // Character ?,	U+24B62,	Binary Code Point 0010 0100 1011 0110 0010,	Binary UTF-167 1101 1000 0101 0010 1101 1111 0110 0010, UTF-16 Hex Code Units D852 DF62
         final String encoding = jue.toUtf16Escape(Integer.parseInt("024B62", 16));

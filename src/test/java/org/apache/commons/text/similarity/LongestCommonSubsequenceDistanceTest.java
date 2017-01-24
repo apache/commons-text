@@ -21,8 +21,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.text.beta.similarity.LongestCommonSubsequenceDistance;
+
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.LongestCommonSubsequenceDistance}.
+ * Unit tests for {@link org.apache.commons.text.beta.similarity.LongestCommonSubsequenceDistance}.
  */
 public class LongestCommonSubsequenceDistanceTest {
 

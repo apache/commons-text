@@ -22,14 +22,16 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import org.apache.commons.text.beta.translate.NumericEntityUnescaper;
+
 /**
- * Unit tests for {@link org.apache.commons.text.translate.NumericEntityUnescaper}.
+ * Unit tests for {@link org.apache.commons.text.beta.translate.NumericEntityUnescaper}.
  */
 public class NumericEntityUnescaperTest  {
 
     @Test
     public void testSupplementaryUnescaping() {
-        final org.apache.commons.text.translate.NumericEntityUnescaper neu = new org.apache.commons.text.translate.NumericEntityUnescaper();
+        final org.apache.commons.text.beta.translate.NumericEntityUnescaper neu = new org.apache.commons.text.beta.translate.NumericEntityUnescaper();
         final String input = "&#68642;";
         final String expected = "\uD803\uDC22";
 
@@ -39,7 +41,7 @@ public class NumericEntityUnescaperTest  {
 
     @Test
     public void testOutOfBounds() {
-        final org.apache.commons.text.translate.NumericEntityUnescaper neu = new org.apache.commons.text.translate.NumericEntityUnescaper();
+        final org.apache.commons.text.beta.translate.NumericEntityUnescaper neu = new org.apache.commons.text.beta.translate.NumericEntityUnescaper();
 
         assertEquals("Failed to ignore when last character is &", "Test &", neu.translate("Test &"));
         assertEquals("Failed to ignore when last character is &", "Test &#", neu.translate("Test &#"));
@@ -50,7 +52,7 @@ public class NumericEntityUnescaperTest  {
     @Test
     public void testUnfinishedEntity() {
         // parse it
-        org.apache.commons.text.translate.NumericEntityUnescaper neu = new org.apache.commons.text.translate.NumericEntityUnescaper(org.apache.commons.text.translate.NumericEntityUnescaper.OPTION.semiColonOptional);
+        org.apache.commons.text.beta.translate.NumericEntityUnescaper neu = new org.apache.commons.text.beta.translate.NumericEntityUnescaper(org.apache.commons.text.beta.translate.NumericEntityUnescaper.OPTION.semiColonOptional);
         String input = "Test &#x30 not test";
         String expected = "Test \u0030 not test";
 
@@ -58,7 +60,7 @@ public class NumericEntityUnescaperTest  {
         assertEquals("Failed to support unfinished entities (i.e. missing semi-colon)", expected, result);
 
         // ignore it
-        neu = new org.apache.commons.text.translate.NumericEntityUnescaper();
+        neu = new org.apache.commons.text.beta.translate.NumericEntityUnescaper();
         input = "Test &#x30 not test";
         expected = input;
 
@@ -66,7 +68,7 @@ public class NumericEntityUnescaperTest  {
         assertEquals("Failed to ignore unfinished entities (i.e. missing semi-colon)", expected, result);
 
         // fail it
-        neu = new org.apache.commons.text.translate.NumericEntityUnescaper(NumericEntityUnescaper.OPTION.errorIfNoSemiColon);
+        neu = new org.apache.commons.text.beta.translate.NumericEntityUnescaper(NumericEntityUnescaper.OPTION.errorIfNoSemiColon);
         input = "Test &#x30 not test";
 
         try {

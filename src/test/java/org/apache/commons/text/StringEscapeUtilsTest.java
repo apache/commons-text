@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text;
 
+import org.apache.commons.text.beta.StringEscapeUtils;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -27,8 +28,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static org.apache.commons.text.StringEscapeUtils.escapeXSI;
-import static org.apache.commons.text.StringEscapeUtils.unescapeXSI;
+import static org.apache.commons.text.beta.StringEscapeUtils.escapeXSI;
+import static org.apache.commons.text.beta.StringEscapeUtils.unescapeXSI;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

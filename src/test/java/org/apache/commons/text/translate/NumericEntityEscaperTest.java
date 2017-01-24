@@ -21,14 +21,16 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.text.beta.translate.NumericEntityEscaper;
+
 /**
- * Unit tests for {@link org.apache.commons.text.translate.NumericEntityEscaper}.
+ * Unit tests for {@link org.apache.commons.text.beta.translate.NumericEntityEscaper}.
  */
 public class NumericEntityEscaperTest  {
 
     @Test
     public void testBelow() {
-        final org.apache.commons.text.translate.NumericEntityEscaper nee = org.apache.commons.text.translate.NumericEntityEscaper.below('F');
+        final org.apache.commons.text.beta.translate.NumericEntityEscaper nee = org.apache.commons.text.beta.translate.NumericEntityEscaper.below('F');
 
         final String input = "ADFGZ";
         final String result = nee.translate(input);
@@ -37,7 +39,7 @@ public class NumericEntityEscaperTest  {
 
     @Test
     public void testBetween() {
-        final org.apache.commons.text.translate.NumericEntityEscaper nee = org.apache.commons.text.translate.NumericEntityEscaper.between('F', 'L');
+        final org.apache.commons.text.beta.translate.NumericEntityEscaper nee = org.apache.commons.text.beta.translate.NumericEntityEscaper.between('F', 'L');
 
         final String input = "ADFGZ";
         final String result = nee.translate(input);
@@ -46,7 +48,7 @@ public class NumericEntityEscaperTest  {
 
     @Test
     public void testAbove() {
-        final org.apache.commons.text.translate.NumericEntityEscaper nee = org.apache.commons.text.translate.NumericEntityEscaper.above('F');
+        final org.apache.commons.text.beta.translate.NumericEntityEscaper nee = org.apache.commons.text.beta.translate.NumericEntityEscaper.above('F');
 
         final String input = "ADFGZ";
         final String result = nee.translate(input);
@@ -56,7 +58,7 @@ public class NumericEntityEscaperTest  {
     // See LANG-617
     @Test
     public void testSupplementary() {
-        final org.apache.commons.text.translate.NumericEntityEscaper nee = new NumericEntityEscaper();
+        final org.apache.commons.text.beta.translate.NumericEntityEscaper nee = new NumericEntityEscaper();
         final String input = "\uD803\uDC22";
         final String expected = "&#68642;";
 

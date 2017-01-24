@@ -18,11 +18,12 @@ package org.apache.commons.text.similarity;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.text.beta.similarity.HammingDistance;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.HammingDistance}.
+ * Unit tests for {@link org.apache.commons.text.beta.similarity.HammingDistance}.
  */
 public class HammingDistanceTest {
 

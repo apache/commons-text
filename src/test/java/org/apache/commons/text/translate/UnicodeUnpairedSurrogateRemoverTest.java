@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text.translate;
 
+import org.apache.commons.text.beta.translate.UnicodeUnpairedSurrogateRemover;
 import org.junit.Test;
 
 import java.io.CharArrayWriter;
@@ -24,10 +25,10 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Unit tests for {@link org.apache.commons.text.translate.UnicodeUnpairedSurrogateRemover}.
+ * Unit tests for {@link org.apache.commons.text.beta.translate.UnicodeUnpairedSurrogateRemover}.
  */
 public class UnicodeUnpairedSurrogateRemoverTest {
-    final org.apache.commons.text.translate.UnicodeUnpairedSurrogateRemover subject = new UnicodeUnpairedSurrogateRemover();
+    final org.apache.commons.text.beta.translate.UnicodeUnpairedSurrogateRemover subject = new UnicodeUnpairedSurrogateRemover();
     final CharArrayWriter writer = new CharArrayWriter(); // nothing is ever written to it
     
     @Test

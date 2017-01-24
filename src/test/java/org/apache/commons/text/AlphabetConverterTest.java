@@ -20,13 +20,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.text.beta.AlphabetConverter;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 /**
- * Unit tests for {@link org.apache.commons.text.AlphabetConverter}.
+ * Unit tests for {@link org.apache.commons.text.beta.AlphabetConverter}.
  */
 public class AlphabetConverterTest {
 

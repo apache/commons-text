@@ -20,10 +20,11 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Locale;
 
+import org.apache.commons.text.beta.similarity.FuzzyScore;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.FuzzyScore}.
+ * Unit tests for {@link org.apache.commons.text.beta.similarity.FuzzyScore}.
  */
 public class FuzzyScoreTest {
 

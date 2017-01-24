@@ -16,6 +16,9 @@
  */
 package org.apache.commons.text.similarity;
 
+import org.apache.commons.text.beta.similarity.JaroWinklerDistance;
+import org.apache.commons.text.beta.similarity.SimilarityScore;
+import org.apache.commons.text.beta.similarity.SimilarityScoreFrom;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -27,7 +30,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.SimilarityScoreFrom}.
+ * Unit tests for {@link org.apache.commons.text.beta.similarity.SimilarityScoreFrom}.
  *
  * @param <R> The {@link SimilarityScore} return type.
  */

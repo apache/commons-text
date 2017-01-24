@@ -21,11 +21,12 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import org.apache.commons.text.beta.similarity.CosineDistance;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.text.similarity.CosineSimilarity}.
+ * Unit tests for {@link org.apache.commons.text.beta.similarity.CosineSimilarity}.
  */
 public class CosineDistanceTest {
 
