@@ -44,7 +44,8 @@ Apache Commons Text
 ===================
 
 [![Build Status](https://travis-ci.org/apache/commons-text.svg?branch=master)](https://travis-ci.org/apache/commons-text)
-[![Coverage Status](https://coveralls.io/repos/github/apache/commons-text/badge.svg?branch=master)](https://coveralls.io/github/apache/commons-text?branch=master)
+[![Coverage Status](https://coveralls.io/repos/apache/commons-text/badge.svg?branch=master)](https://coveralls.io/r/apache/commons-text)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 Apache Commons Text is a library focused on algorithms working on strings.
@@ -52,16 +53,12 @@ Apache Commons Text is a library focused on algorithms working on strings.
 Documentation
 -------------
 
-More information can be found on the [homepage](https://commons.apache.org/proper/commons-text).
+More information can be found on the [Apache Commons Text homepage](https://commons.apache.org/proper/commons-text).
 The [JavaDoc](https://commons.apache.org/proper/commons-text/javadocs/api-release) can be browsed.
 Questions related to the usage of Apache Commons Text should be posted to the [user mailing list][ml].
 
 Where can I get the latest release?
 -----------------------------------
-
-There have not been any official releases yet.
-
-<!---
 You can download source and binaries from our [download page](https://commons.apache.org/proper/commons-text/download_text.cgi).
 
 Alternatively you can pull it from the central Maven repositories:
@@ -70,14 +67,14 @@ Alternatively you can pull it from the central Maven repositories:
 <dependency>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-text</artifactId>
-  <version>0.1</version>
+  <version>1.0-beta-1</version>
 </dependency>
 ```
---->
+
 Contributing
 ------------
 
-We accept PRs via github. The [developer mailing list][ml] is the main channel of communication for contributors.
+We accept Pull Requests via GitHub. The [developer mailing list][ml] is the main channel of communication for contributors.
 There are some guidelines which will make applying PRs easier for us:
 + No tabs! Please use spaces for indentation.
 + Respect the code style.
@@ -89,7 +86,9 @@ You can learn more about contributing via GitHub in our [contribution guidelines
 
 License
 -------
-Code is under the [Apache Licence v2](https://www.apache.org/licenses/LICENSE-2.0.txt).
+This code is under the [Apache Licence v2](https://www.apache.org/licenses/LICENSE-2.0).
+
+See the `NOTICE.txt` file for required notices and attributions.
 
 Donations
 ---------
@@ -99,8 +98,8 @@ Additional Resources
 --------------------
 
 + [Apache Commons Homepage](https://commons.apache.org/)
-+ [Apache Bugtracker (JIRA)](https://issues.apache.org/jira/)
++ [Apache Issue Tracker (JIRA)](https://issues.apache.org/jira/browse/TEXT)
 + [Apache Commons Twitter Account](https://twitter.com/ApacheCommons)
-+ #apachecommons IRC channel on freenode.org
++ `#apache-commons` IRC channel on `irc.freenode.org`
 
 [ml]:https://commons.apache.org/mail-lists.html
