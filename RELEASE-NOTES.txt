@@ -13,6 +13,18 @@ Java environment.
 
 Apache Commons Text is a library focused on algorithms working on strings.
 
+A NOTE ON THE HISTORY OF THE CODE
+=================================
+
+The codebase began in the fall of 2014 as a location for housing algorithms for
+operating on Strings that seemed to have a more complex nature than those which
+would be considered a needed extension to java.lang. Thus, a new component,
+different from Apache Commons Lang was warranted. As the project evolved, it was
+noticed that Commons Lang had considerable more text manipulation tools than
+the average Java application developer would need or even want. So, we have
+decided to move the more esoteric String processing algorithms out of Commons
+Lang into Commons Text.
+
 JAVA 9 SUPPORT
 ==============
 
@@ -45,6 +57,10 @@ o TEXT-9:    Incorporate String algorithms from Commons Lang Thanks to britter.
 
 FIXED BUGS
 ==========
+
+Note. We recognize the curoisity of a new component having "fixed bugs," but a
+considerable number of files were migrated over from Commons Lang, some of which
+needed fixes.
 
 o TEXT-60:   Upgrading Jacoco for Java 9-ea compatibility. Thanks to Lee Adcock.
 o TEXT-52:   Possible attacks through StringEscapeUtils.escapeEcmaScrip better
@@ -93,4 +109,4 @@ Apache Commons Text website:
 http://commons.apache.org/text/
 
 Have fun!
--Apachje Commons Text team
+-Apache Commons Text team
