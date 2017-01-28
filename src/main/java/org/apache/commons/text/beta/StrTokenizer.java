@@ -490,7 +490,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
     public StrTokenizer reset(final char[] input) {
         reset();
         if (input != null) {
-            this.chars = input;
+            this.chars = input.clone();
         } else {
             this.chars = null;
         }

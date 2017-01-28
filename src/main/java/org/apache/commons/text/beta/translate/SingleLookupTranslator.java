@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -31,19 +32,19 @@ import java.util.Map;
 public class SingleLookupTranslator extends CharSequenceTranslator {
 
     private final Map<String, String> lookupMap;
-    private final HashSet<Character>      prefixSet;
-    private final int                     shortest;
-    private final int                     longest;
-    private final int                     shortestValue;
-    private final int                     longestValue;
+    private final HashSet<Character> prefixSet;
+    private final int shortest;
+    private final int longest;
+    private final int shortestValue;
+    private final int longestValue;
 
     /**
      * Define the look tables to be used in translation.
-     *
+     * <p>
      * Note that, as of Lang 3.1, the key to the lookup table is converted to a
      * java.lang.String. This is because we need the key to support hashCode and
      * equals(Object), allowing it to be the key for a HashMap. See LANG-882.
-     *
+     * <p>
      * Also note that, multiple lookup tables should be passed to this translator
      * instead of passing multiple instances of this translator to the
      * AggregateTranslator. Because, this translator only checks the values of the
@@ -55,8 +56,11 @@ public class SingleLookupTranslator extends CharSequenceTranslator {
     public SingleLookupTranslator(Map<CharSequence, CharSequence>... inputMaps) {
         Map<CharSequence, CharSequence> lookup = new HashMap<>();
         for (Map<CharSequence, CharSequence> input : inputMaps) {
-            for(CharSequence key : input.keySet()) {
-                lookup.put(key, input.get(key));
+            Iterator it = input.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry) it.next();
+                lookup.put((CharSequence) pair.getKey(),
+                        (CharSequence) pair.getValue());
             }
         }
         lookupMap = new HashMap<String, String>();
@@ -66,17 +70,20 @@ public class SingleLookupTranslator extends CharSequenceTranslator {
         int _shortestValue = Integer.MAX_VALUE;
         int _longestValue = 0;
         if (lookup != null) {
-            for (final CharSequence key: lookup.keySet()) {
-                this.lookupMap.put(key.toString(), lookup.get(key).toString());
-                this.prefixSet.add(key.charAt(0));
-                final int sz = key.length();
+            Iterator it = lookup.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry) it.next();
+                this.lookupMap.put(((CharSequence) pair.getKey()).toString(),
+                        ((CharSequence) pair.getValue()).toString().toString());
+                this.prefixSet.add(((CharSequence) pair.getKey()).charAt(0));
+                final int sz = ((CharSequence) pair.getKey()).length();
                 if (sz < _shortest) {
                     _shortest = sz;
                 }
                 if (sz > _longest) {
                     _longest = sz;
                 }
-                final int sizeOfValue = lookup.get(key).length();
+                final int sizeOfValue = lookup.get(((CharSequence) pair.getKey())).length();
                 if (sizeOfValue < _shortestValue) {
                     _shortestValue = sizeOfValue;
                 }
@@ -110,7 +117,8 @@ public class SingleLookupTranslator extends CharSequenceTranslator {
         if (index + maxValue > input.length()) {
             maxValue = input.length() - index;
         }
-        // implement greedy algorithm to check all the possible 'value' matches for which we need to skip translation.
+        // implement greedy algorithm to check all the possible 'value' matches
+        // for which we need to skip translation.
         for (int i = maxValue; i >= shortestValue; i--) {
             final CharSequence subSeq = input.subSequence(index, index + i);
             // If the sub-string is already translated, return without translating.

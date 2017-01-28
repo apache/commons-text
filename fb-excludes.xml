@@ -16,4 +16,16 @@
    limitations under the License.
 -->
 <FindBugsFilter>
+
+  <Match>
+    <Class name="org.apache.commons.text.beta.ExtendedMessageFormat" />
+    <Bug code="UR" />
+  </Match>
+
+  <Match>
+    <Class name="org.apache.commons.text.beta.StrTokenizer" />
+    <Method name="clone" />
+    <Bug code="CN" />
+  </Match>
+
 </FindBugsFilter>

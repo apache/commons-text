@@ -222,6 +222,7 @@
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>
+          <excludeFilterFile>${basedir}/fb-excludes.xml</excludeFilterFile>
         </configuration>
       </plugin>
       <plugin>
