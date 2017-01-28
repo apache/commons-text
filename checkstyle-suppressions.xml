@@ -25,4 +25,5 @@
   <suppress checks="DesignForExtension" files=".+\.java" lines="0-9999" />
   <suppress checks="HideUtilityClassConstructor" files=".+\.java" lines="0-9999" />
   <suppress checks="VisibilityModifier" files=".+\.java" lines="0-9999" />
+  <suppress checks="EmptyBlock" files="ExtendedMessageFormat.java" lines="387-390" />
 </suppressions>

@@ -23,7 +23,7 @@ import static java.util.FormattableFlags.LEFT_JUSTIFY;
 
 /**
  * <p>Provides utilities for working with the {@code Formattable} interface.</p>
- * 
+ *
  * <p>The {@link Formattable} interface provides basic control over formatting
  * when using a {@code Formatter}. It is primarily concerned with numeric precision
  * and padding, and is not designed to allow generalised alternate formats.</p>
@@ -42,7 +42,7 @@ public class FormattableUtils {
      * <p>{@code FormattableUtils} instances should NOT be constructed in
      * standard programming. Instead, the methods of the class should be invoked
      * statically.</p>
-     * 
+     *
      * <p>This constructor is public to permit tools that require a JavaBean
      * instance to operate.</p>
      */
@@ -54,7 +54,7 @@ public class FormattableUtils {
     /**
      * Get the default formatted representation of the specified
      * {@code Formattable}.
-     * 
+     *
      * @param formattable  the instance to convert to a string, not null
      * @return the resulting string, not null
      */
@@ -66,7 +66,7 @@ public class FormattableUtils {
      * Handles the common {@code Formattable} operations of truncate-pad-append,
      * with no ellipsis on precision overflow, and padding width underflow with
      * spaces.
-     * 
+     *
      * @param seq  the string to handle, not null
      * @param formatter  the destination formatter, not null
      * @param flags  the flags for formatting, see {@code Formattable}
@@ -82,7 +82,7 @@ public class FormattableUtils {
     /**
      * Handles the common {@link Formattable} operations of truncate-pad-append,
      * with no ellipsis on precision overflow.
-     * 
+     *
      * @param seq  the string to handle, not null
      * @param formatter  the destination formatter, not null
      * @param flags  the flags for formatting, see {@code Formattable}
@@ -99,7 +99,7 @@ public class FormattableUtils {
     /**
      * Handles the common {@link Formattable} operations of truncate-pad-append,
      * padding width underflow with spaces.
-     * 
+     *
      * @param seq  the string to handle, not null
      * @param formatter  the destination formatter, not null
      * @param flags  the flags for formatting, see {@code Formattable}
@@ -116,7 +116,7 @@ public class FormattableUtils {
 
     /**
      * Handles the common {@link Formattable} operations of truncate-pad-append.
-     * 
+     *
      * @param seq  the string to handle, not null
      * @param formatter  the destination formatter, not null
      * @param flags  the flags for formatting, see {@code Formattable}
@@ -129,18 +129,21 @@ public class FormattableUtils {
      */
     public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
             final int precision, final char padChar, final CharSequence ellipsis) {
-        if ( ! (ellipsis == null || precision < 0 || ellipsis.length() <= precision) ) {
-            throw new IllegalArgumentException(String.format("Specified ellipsis '%1$s' exceeds precision of %2$s", ellipsis, Integer.valueOf(precision)));
+        if (!(ellipsis == null || precision < 0 || ellipsis.length() <= precision)) {
+            throw new IllegalArgumentException(
+                    String.format("Specified ellipsis '%1$s' exceeds precision of %2$s",
+                            ellipsis,
+                            Integer.valueOf(precision)));
         }
         final StringBuilder buf = new StringBuilder(seq);
         if (precision >= 0 && precision < seq.length()) {
-            final CharSequence _ellipsis;
+            final CharSequence normalizedEllipsis;
             if (ellipsis == null) {
-                _ellipsis = "";
+                normalizedEllipsis = "";
             } else {
-                _ellipsis = ellipsis;
+                normalizedEllipsis = ellipsis;
             }
-            buf.replace(precision - _ellipsis.length(), seq.length(), _ellipsis.toString());
+            buf.replace(precision - normalizedEllipsis.length(), seq.length(), normalizedEllipsis.toString());
         }
         final boolean leftJustify = (flags & LEFT_JUSTIFY) == LEFT_JUSTIFY;
         for (int i = buf.length(); i < width; i++) {

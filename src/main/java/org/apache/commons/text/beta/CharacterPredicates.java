@@ -21,14 +21,14 @@ package org.apache.commons.text.beta;
  * Commonly used implementations of {@link CharacterPredicate}. Per the interface
  * requirements, all implementations are thread safe.
  * </p>
- * 
+ *
  * @since 1.0
  */
 public enum CharacterPredicates implements CharacterPredicate {
 
     /**
-     * Tests code points against {@link Character#isLetter(int)}
-     * 
+     * Tests code points against {@link Character#isLetter(int)}.
+     *
      * @since 1.0
      */
     LETTERS {
@@ -40,7 +40,7 @@ public enum CharacterPredicates implements CharacterPredicate {
 
     /**
      * Tests code points against {@link Character#isDigit(int)}.
-     * 
+     *
      * @since 1.0
      */
     DIGITS {

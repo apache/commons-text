@@ -40,7 +40,8 @@ public class CosineSimilarity {
      * @param rightVector right vector
      * @return cosine similarity between the two vectors
      */
-    public Double cosineSimilarity(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector) {
+    public Double cosineSimilarity(final Map<CharSequence, Integer> leftVector,
+                                   final Map<CharSequence, Integer> rightVector) {
         if (leftVector == null || rightVector == null) {
             throw new IllegalArgumentException("Vectors must not be null");
         }
