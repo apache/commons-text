@@ -26,4 +26,9 @@
   <suppress checks="HideUtilityClassConstructor" files=".+\.java" lines="0-9999" />
   <suppress checks="VisibilityModifier" files=".+\.java" lines="0-9999" />
   <suppress checks="EmptyBlock" files="ExtendedMessageFormat.java" lines="387-390" />
+  <suppress checks="LocalFinalVariableName" files="FormattableUtils.java" lines="140-146" />
+  <suppress checks="MagicNumber" files="JaccardDistance.java" lines="0-99999" />
+  <suppress checks="MagicNumber" files="JaccardSimilarity.java" lines="0-9999" />
+  <suppress checks="MagicNumber" files="JaroWinklerDistance.java" lines="0-9999" />
+  <suppress checks="NoWhitespaceAfter" files="JaroWinklerDistance.java" lines="0-9999" />
 </suppressions>

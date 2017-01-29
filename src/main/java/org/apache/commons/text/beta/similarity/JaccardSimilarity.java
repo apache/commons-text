@@ -36,7 +36,7 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
     /**
      * Calculates Jaccard Similarity of two set character sequence passed as
      * input.
-     * 
+     *
      * @param left first character sequence
      * @param right second character sequence
      * @return index
@@ -56,7 +56,7 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
      * input. Does the calculation by identifying the union (characters in at
      * least one of the two sets) of the two sets and intersection (characters
      * which are present in set one which are present in set two)
-     * 
+     *
      * @param left first character sequence
      * @param right second character sequence
      * @return index

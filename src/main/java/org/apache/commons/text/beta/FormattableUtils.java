@@ -137,13 +137,13 @@ public class FormattableUtils {
         }
         final StringBuilder buf = new StringBuilder(seq);
         if (precision >= 0 && precision < seq.length()) {
-            final CharSequence normalizedEllipsis;
+            final CharSequence _ellipsis;
             if (ellipsis == null) {
-                normalizedEllipsis = "";
+                _ellipsis = "";
             } else {
-                normalizedEllipsis = ellipsis;
+                _ellipsis = ellipsis;
             }
-            buf.replace(precision - normalizedEllipsis.length(), seq.length(), normalizedEllipsis.toString());
+            buf.replace(precision - _ellipsis.length(), seq.length(), _ellipsis.toString());
         }
         final boolean leftJustify = (flags & LEFT_JUSTIFY) == LEFT_JUSTIFY;
         for (int i = buf.length(); i < width; i++) {
