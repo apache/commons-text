@@ -36,6 +36,9 @@ package org.apache.commons.text.beta.similarity;
  */
 public class LongestCommonSubsequenceDistance implements EditDistance<Integer> {
 
+    /**
+     * Object for calculating the longest common subsequence that we can then normalize in apply.
+     */
     private final LongestCommonSubsequence longestCommonSubsequence = new LongestCommonSubsequence();
 
     /**

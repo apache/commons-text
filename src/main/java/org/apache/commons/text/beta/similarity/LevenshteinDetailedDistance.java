@@ -155,7 +155,9 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * @param threshold the target threshold, must not be negative
      * @return result distance, or -1
      */
-    private static LevenshteinResults limitedCompare(CharSequence left, CharSequence right, final int threshold) { //NOPMD
+    private static LevenshteinResults limitedCompare(CharSequence left,
+                                                     CharSequence right,
+                                                     final int threshold) { //NOPMD
         if (left == null || right == null) {
             throw new IllegalArgumentException("Strings must not be null");
         }
@@ -431,8 +433,10 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      *            character sequence were swapped to save memory
      * @return result object containing the count of insert, delete and substitute and total count needed
      */
-    private static LevenshteinResults findDetailedResults(final CharSequence left, final CharSequence right, final int[][] matrix,
-            final boolean swapped) {
+    private static LevenshteinResults findDetailedResults(final CharSequence left,
+                                                          final CharSequence right,
+                                                          final int[][] matrix,
+                                                          final boolean swapped) {
 
         int delCount = 0;
         int addCount = 0;

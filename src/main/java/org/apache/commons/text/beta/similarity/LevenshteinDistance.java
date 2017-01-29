@@ -366,7 +366,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
         // indexes into strings left and right
         int i; // iterates through left
         int j; // iterates through right
-        int upper_left;
+        int upperLeft;
         int upper;
 
         char rightJ; // jth character of right
@@ -377,7 +377,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
         }
 
         for (j = 1; j <= m; j++) {
-            upper_left = p[0];
+            upperLeft = p[0];
             rightJ = right.charAt(j - 1);
             p[0] = j;
 
@@ -385,8 +385,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
                 upper = p[i];
                 cost = left.charAt(i - 1) == rightJ ? 0 : 1;
                 // minimum of cell to the left+1, to the top+1, diagonally left and up +cost
-                p[i] = Math.min(Math.min(p[i - 1] + 1, p[i] + 1), upper_left + cost);
-                upper_left = upper;
+                p[i] = Math.min(Math.min(p[i - 1] + 1, p[i] + 1), upperLeft + cost);
+                upperLeft = upper;
             }
         }
 

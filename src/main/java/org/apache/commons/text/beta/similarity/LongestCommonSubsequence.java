@@ -75,8 +75,9 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * </p>
      *
      * <p>
-     * For reference, we give the definition of a subsequence for the reader: a <i>subsequence</i> is a sequence that can be
-     * derived from another sequence by deleting some elements without changing the order of the remaining elements.
+     * For reference, we give the definition of a subsequence for the reader: a <i>subsequence</i> is a sequence that
+     * can be derived from another sequence by deleting some elements without changing the order of the remaining
+     * elements.
      * </p>
      *
      * @param left first character sequence
@@ -122,8 +123,8 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      */
     public int[][] longestCommonSubstringLengthArray(final CharSequence left, final CharSequence right) {
         int[][] lcsLengthArray = new int[left.length() + 1][right.length() + 1];
-        for (int i=0; i < left.length(); i++) {
-            for (int j=0; j < right.length(); j++) {
+        for (int i = 0; i < left.length(); i++) {
+            for (int j = 0; j < right.length(); j++) {
                 if (i == 0) {
                     lcsLengthArray[i][j] = 0;
                 }

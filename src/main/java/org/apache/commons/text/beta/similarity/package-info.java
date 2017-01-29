@@ -30,7 +30,8 @@
  * <li>{@link org.apache.commons.text.beta.similarity.HammingDistance Hamming Distance}</li>
  * <li>{@link org.apache.commons.text.beta.similarity.JaroWinklerDistance Jaro-Winkler Distance}</li>
  * <li>{@link org.apache.commons.text.beta.similarity.LevenshteinDistance Levenshtein Distance}</li>
- * <li>{@link org.apache.commons.text.beta.similarity.LongestCommonSubsequenceDistance Longest Commons Subsequence Distance}</li>
+ * <li>{@link org.apache.commons.text.beta.similarity.LongestCommonSubsequenceDistance
+ * Longest Commons Subsequence Distance}</li>
  * </ul>
  *
  * <p>The {@link org.apache.commons.text.beta.similarity.CosineDistance Cosine Distance}
