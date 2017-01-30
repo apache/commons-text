@@ -73,7 +73,7 @@ limitations under the License.
           be used for default passwords. StringEscapeUtils contains methods to
           escape and unescape Java, JavaScript, HTML, XML and SQL. It is worth noting that
           the package <code>org.apache.commons.text.beta.translate</code> holds the
-          functionality underpinning the StringEscapeUtils, with mappings and translations
+          functionality underpinning the StringEscapeUtils with mappings and translations
           between such mappings for the sake of doing String escaping. StrTokenizer is
           an improved alternative to java.util.StringTokenizer.
         </p>
