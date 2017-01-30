@@ -42,17 +42,9 @@ limitations under the License.
 
     <section name="Description">
       <p>The Commons Text library provides additions to the standard JDK's
-        java.lang package. Very generic, very reusable components for everyday
-        use.
-      </p>
-      <p>The text package was added in Commons Lang 2.2. It provides, amongst
-        other classes, a replacement for StringBuffer named <code>
-          StrBuilder</code>, a class for substituting variables within a String
-        named <code>StrSubstitutor</code> and a replacement for StringTokenizer
-        named <code>StrTokenizer</code>. While somewhat ungainly, the <code>
-          Str
-        </code> prefix has been used to ensure we don't clash with any current
-        or future standard Java classes.
+        text handling. Our goal is to provide a consistent set of tools for
+        processing text generally from computing distances between Strings
+        to being able to effeciently do String escaping of various types.
       </p>
     </section>
 
@@ -88,15 +80,20 @@ limitations under the License.
       </subsection>
 
       <subsection name="Similarity and Distance">
-        <p>The <code>similarity</code> packages contains various different mechanisms of
+        <p>The <code>org.apache.commons.text.beta.similarity</code> packages contains various different mechanisms of
           calculating "similarity scores" as well as "edit distances between Strings. Note,
           the difference between a "similarity score" and a "distance function" is that
           a distance functions meets the following qualifications:
           <ul>
-            <li><code>d(x,y) &gt;= 0</code>, non-negativity or separation axiom</li>
-            <li><code>d(x,y) == 0</code>, if and only if, <code>x == y</code></li>
-            <li><code>d(x,y) == d(y,x)</code>, symmetry, and</li>
-            <li><code>d(x,z) &lt;=  d(x,y) + d(y,z)</code>, the triangle inequality</li>
+            <li><code>d(x,y) &gt;= 0</code>, non-negativity or separation axiom
+            </li>
+            <li><code>d(x,y) == 0</code>, if and only if,
+              <code>x == y</code>
+            </li>
+            <li><code>d(x,y) == d(y,x)</code>, symmetry, and
+            </li>
+            <li><code>d(x,z) &lt;= d(x,y) + d(y,z)</code>, the triangle inequality
+            </li>
           </ul>
           whereas a "similarity score" need not satisfy all such properties. Though, it
           is fairly easy to "normalize" a similarity score to manufacture an "edit distance."
