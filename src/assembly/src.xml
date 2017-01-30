@@ -25,7 +25,7 @@
         <fileSet>
             <includes>
                 <include>checkstyle.xml</include>
-                <include>checkstyle-supressions.xml</include>
+                <include>checkstyle-suppressions.xml</include>
                 <include>CONTRIBUTING.md</include>
                 <include>fb-excludes.xml</include>
                 <include>LICENSE.txt</include>
