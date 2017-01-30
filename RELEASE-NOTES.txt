@@ -62,6 +62,7 @@ Note. We recognize the curoisity of a new component having "fixed bugs," but a
 considerable number of files were migrated over from Commons Lang, some of which
 needed fixes.
 
+o TEXT-62:   Incorporate suggestions from RC2 into 1.0 release.
 o TEXT-60:   Upgrading Jacoco for Java 9-ea compatibility. Thanks to Lee Adcock.
 o TEXT-52:   Possible attacks through StringEscapeUtils.escapeEcmaScrip better
              javadoc

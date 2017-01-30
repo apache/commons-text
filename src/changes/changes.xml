@@ -45,7 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
 
-  <release version="1.0-beta-1" date="2017-01-25" description="First release (beta) of Commons Text">
+  <release version="1.0-beta-1" date="2017-01-30" description="First release (beta) of Commons Text">
     <action issue="TEXT-62" type="fix" dev="chtompki">Incorporate suggestions from RC2 into 1.0 release</action>
     <action issue="TEXT-61" type="update" dev="chtompki" due-to="Lee Adcock">Naming packages org.apache.commons.text.beta</action>
     <action issue="TEXT-60" type="fix" dev="chtompki" due-to="Lee Adcock">Upgrading Jacoco for Java 9-ea compatibility.</action>
