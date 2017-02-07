@@ -42,10 +42,6 @@ import java.util.Arrays;
 public class JaroWinklerDistance implements SimilarityScore<Double> {
 
     /**
-     * The default prefix length limit set to four.
-     */
-    private static final int PREFIX_LENGTH_LIMIT = 4;
-    /**
      * Represents a failed index search.
      */
     public static final int INDEX_NOT_FOUND = -1;
