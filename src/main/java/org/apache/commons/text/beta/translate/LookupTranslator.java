@@ -55,14 +55,13 @@ public class LookupTranslator extends CharSequenceTranslator {
         prefixSet = new HashSet<>();
         int _shortest = Integer.MAX_VALUE;
         int _longest = 0;
-        Iterator it = lookupMap.entrySet().iterator();
+        Iterator<Map.Entry<CharSequence, CharSequence>> it = lookupMap.entrySet().iterator();
 
         while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            this.lookupMap.put(((CharSequence) pair.getKey()).toString(),
-                    ((CharSequence) pair.getValue()).toString());
-            this.prefixSet.add(((CharSequence) pair.getKey()).charAt(0));
-            final int sz = ((CharSequence) pair.getKey()).length();
+            Map.Entry<CharSequence, CharSequence> pair = it.next();
+            this.lookupMap.put(pair.getKey().toString(), pair.getValue().toString());
+            this.prefixSet.add((pair.getKey()).charAt(0));
+            final int sz = pair.getKey().length();
             if (sz < _shortest) {
                 _shortest = sz;
             }

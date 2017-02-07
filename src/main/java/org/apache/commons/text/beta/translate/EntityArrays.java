@@ -434,9 +434,9 @@ public class EntityArrays {
      */
     public static Map<CharSequence, CharSequence> invert(final Map<CharSequence, CharSequence> map) {
         Map<CharSequence, CharSequence> newMap = new HashMap<>();
-        Iterator it = map.entrySet().iterator();
+        Iterator<Map.Entry<CharSequence, CharSequence>> it = map.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
+            Map.Entry<CharSequence, CharSequence> pair = it.next();
             newMap.put((CharSequence) pair.getValue(), (CharSequence) pair.getKey());
         }
         return newMap;

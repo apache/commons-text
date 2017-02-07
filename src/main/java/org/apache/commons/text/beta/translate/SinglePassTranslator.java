@@ -38,7 +38,7 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
     }
 
     private String getClassName() {
-        final Class clazz = this.getClass();
+        final Class<? extends SinglePassTranslator> clazz = this.getClass();
         return clazz.isAnonymousClass() ?  clazz.getName() : clazz.getSimpleName();
     }
 

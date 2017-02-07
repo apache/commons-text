@@ -56,11 +56,10 @@ public class SingleLookupTranslator extends CharSequenceTranslator {
     public SingleLookupTranslator(Map<CharSequence, CharSequence>... inputMaps) {
         Map<CharSequence, CharSequence> lookup = new HashMap<>();
         for (Map<CharSequence, CharSequence> input : inputMaps) {
-            Iterator it = input.entrySet().iterator();
+            Iterator<Map.Entry<CharSequence, CharSequence>> it = input.entrySet().iterator();
             while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry) it.next();
-                lookup.put((CharSequence) pair.getKey(),
-                        (CharSequence) pair.getValue());
+                Map.Entry<CharSequence, CharSequence> pair = it.next();
+                lookup.put(pair.getKey(), pair.getValue());
             }
         }
         lookupMap = new HashMap<String, String>();
@@ -70,20 +69,19 @@ public class SingleLookupTranslator extends CharSequenceTranslator {
         int _shortestValue = Integer.MAX_VALUE;
         int _longestValue = 0;
         if (lookup != null) {
-            Iterator it = lookup.entrySet().iterator();
+            Iterator<Map.Entry<CharSequence, CharSequence>> it = lookup.entrySet().iterator();
             while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry) it.next();
-                this.lookupMap.put(((CharSequence) pair.getKey()).toString(),
-                        ((CharSequence) pair.getValue()).toString().toString());
-                this.prefixSet.add(((CharSequence) pair.getKey()).charAt(0));
-                final int sz = ((CharSequence) pair.getKey()).length();
+                Map.Entry<CharSequence, CharSequence> pair = it.next();
+                this.lookupMap.put(pair.getKey().toString(), pair.getValue().toString().toString());
+                this.prefixSet.add(pair.getKey().charAt(0));
+                final int sz = pair.getKey().length();
                 if (sz < _shortest) {
                     _shortest = sz;
                 }
                 if (sz > _longest) {
                     _longest = sz;
                 }
-                final int sizeOfValue = lookup.get(((CharSequence) pair.getKey())).length();
+                final int sizeOfValue = lookup.get(pair.getKey()).length();
                 if (sizeOfValue < _shortestValue) {
                     _shortestValue = sizeOfValue;
                 }

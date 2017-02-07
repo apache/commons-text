@@ -50,7 +50,8 @@ public class EntityArraysTest  {
                     mapDeclarationCounter++;
                 } else if (line.contains("Collections.unmodifiableMap(initialMap);")) {
                     String mapVariableName = line.split("=")[0].trim();
-                    Map<String,String> mapValue = (Map)EntityArrays.class.getDeclaredField(mapVariableName).get(EntityArrays.class);
+                    @SuppressWarnings("unchecked") // This is test code
+                    Map<String,String> mapValue = (Map<String, String>)EntityArrays.class.getDeclaredField(mapVariableName).get(EntityArrays.class);
                     // Validate that we are not inserting into the same key twice in the map declaration. If this,
                     // indeed was the case the keySet().size() would be smaller than the number of put() statements
                     assertEquals(mapDeclarationCounter, mapValue.keySet().size());
