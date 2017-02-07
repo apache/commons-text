@@ -72,7 +72,7 @@ public class SingleLookupTranslator extends CharSequenceTranslator {
             Iterator<Map.Entry<CharSequence, CharSequence>> it = lookup.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry<CharSequence, CharSequence> pair = it.next();
-                this.lookupMap.put(pair.getKey().toString(), pair.getValue().toString().toString());
+                this.lookupMap.put(pair.getKey().toString(), pair.getValue().toString());
                 this.prefixSet.add(pair.getKey().charAt(0));
                 final int sz = pair.getKey().length();
                 if (sz < _shortest) {
