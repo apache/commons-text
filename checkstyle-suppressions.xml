@@ -32,6 +32,8 @@
   <suppress checks="MagicNumber" files="JaroWinklerDistance.java" lines="0-99999" />
   <suppress checks="NoWhitespaceAfter" files="JaroWinklerDistance.java" lines="0-99999" />
   <suppress checks="FileLength" files="StrBuilder.java" lines="0-99999" />
-  <suppress checks="MagicNumber" files="StrBuilder.java" lines="0-99999"/>
-  <suppress checks="MagicNumber" files="StringEscapeUtils.java" lines="0-99999"/>
+  <suppress checks="MagicNumber" files="StrBuilder.java" lines="0-99999" />
+  <suppress checks="MagicNumber" files="StringEscapeUtils.java" lines="0-99999" />
+  <suppress checks="EmptyBlock" files="StrLookup.java" lines="0-99999" />
+  <suppress checks="MagicNumber" files="StrMatcher.java" lines="0-99999" />
 </suppressions>
