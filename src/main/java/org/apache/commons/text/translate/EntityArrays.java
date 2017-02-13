@@ -390,7 +390,7 @@ public class EntityArrays {
     public static final Map<CharSequence, CharSequence> APOS_ESCAPE;
     static {
         Map<CharSequence, CharSequence> initialMap = new HashMap<>();
-        initialMap.put("'","&apos;"); // XML apostrophe
+        initialMap.put("'", "&apos;"); // XML apostrophe
         APOS_ESCAPE = Collections.unmodifiableMap(initialMap);
     }
 
@@ -428,7 +428,7 @@ public class EntityArrays {
     }
 
     /**
-     * Used to invert an escape Map into an unescape Map
+     * Used to invert an escape Map into an unescape Map.
      * @param map Map&lt;String, String&gt; to be inverted
      * @return Map&lt;String, String&gt; inverted array
      */

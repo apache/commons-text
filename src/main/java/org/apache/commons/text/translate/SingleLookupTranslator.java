@@ -31,11 +31,17 @@ import java.util.Map;
  */
 public class SingleLookupTranslator extends CharSequenceTranslator {
 
+    /** The lookupMap to be used for translation. */
     private final Map<String, String> lookupMap;
+    /** The first character of each key in the lookupMap. */
     private final HashSet<Character> prefixSet;
+    /** The length of the shortest key in the lookupMap. */
     private final int shortest;
+    /** The length of the longest key in the lookupMap. */
     private final int longest;
+    /** The length of the shortest value in the lookupMap. */
     private final int shortestValue;
+    /** The length of the longest value in the lookupMap. */
     private final int longestValue;
 
     /**
@@ -51,7 +57,7 @@ public class SingleLookupTranslator extends CharSequenceTranslator {
      * lookup table passed to this instance while deciding whether a value is
      * already translated or not.
      *
-     * @param inputMaps, an array of Map&lt;CharSequence, CharSequence&gt;.
+     * @param inputMaps an array of Map&lt;CharSequence, CharSequence&gt;.
      */
     public SingleLookupTranslator(Map<CharSequence, CharSequence>... inputMaps) {
         Map<CharSequence, CharSequence> lookup = new HashMap<>();

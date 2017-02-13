@@ -25,15 +25,21 @@ import java.io.Writer;
 /**
  * This class holds inner classes for escaping/unescaping Comma Separated Values.
  */
-public class CsvTranslators {
+public final class CsvTranslators {
 
+    /** Comma character. */
     private static final char CSV_DELIMITER = ',';
+    /** Quote character. */
     private static final char CSV_QUOTE = '"';
+    /** Quote character converted to string. */
     private static final String CSV_QUOTE_STR = String.valueOf(CSV_QUOTE);
+    /** Escaped quote string. */
     private static final String CSV_ESCAPED_QUOTE_STR = CSV_QUOTE_STR + CSV_QUOTE_STR;
+    /** CSV key characters in an array. */
     private static final char[] CSV_SEARCH_CHARS =
             new char[] {CSV_DELIMITER, CSV_QUOTE, CharUtils.CR, CharUtils.LF};
 
+    /** Hidden constructor. */
     private CsvTranslators() { }
 
     /**

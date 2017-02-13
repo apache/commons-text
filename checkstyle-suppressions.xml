@@ -25,15 +25,32 @@
   <suppress checks="DesignForExtension" files=".+\.java" lines="0-99999" />
   <suppress checks="HideUtilityClassConstructor" files=".+\.java" lines="0-99999" />
   <suppress checks="VisibilityModifier" files=".+\.java" lines="0-99999" />
+
   <suppress checks="EmptyBlock" files="ExtendedMessageFormat.java" lines="0-99999" />
+
   <suppress checks="LocalFinalVariableName" files="FormattableUtils.java" lines="0-99999" />
+
   <suppress checks="MagicNumber" files="JaccardDistance.java" lines="0-99999" />
+
   <suppress checks="MagicNumber" files="JaccardSimilarity.java" lines="0-99999" />
+
   <suppress checks="MagicNumber" files="JaroWinklerDistance.java" lines="0-99999" />
   <suppress checks="NoWhitespaceAfter" files="JaroWinklerDistance.java" lines="0-99999" />
+
   <suppress checks="FileLength" files="StrBuilder.java" lines="0-99999" />
   <suppress checks="MagicNumber" files="StrBuilder.java" lines="0-99999" />
+
   <suppress checks="MagicNumber" files="StringEscapeUtils.java" lines="0-99999" />
+
   <suppress checks="EmptyBlock" files="StrLookup.java" lines="0-99999" />
+
   <suppress checks="MagicNumber" files="StrMatcher.java" lines="0-99999" />
+
+  <suppress checks="LocalVariableName" files="LookupTranslator.java" lines="0-99999" />
+
+  <suppress checks="MagicNumber" files="NumericEntityEscaper.java" lines="0-99999" />
+
+  <suppress checks="MagicNumber" files="NumericEntityUnescaper.java" lines="0-99999" />
+
+  <suppress checks="MagicNumber" files="OctalUnescaper.java" lines="0-99999" />
 </suppressions>
