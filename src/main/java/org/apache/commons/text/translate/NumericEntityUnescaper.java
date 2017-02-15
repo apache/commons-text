@@ -35,7 +35,7 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
     public static enum OPTION { semiColonRequired, semiColonOptional, errorIfNoSemiColon }
 
     /** EnumSet of OPTIONS, given from the constructor. */
-    // TODO?: Create an OptionsSet class to hide some of the conditional logic below
+    // TODO: Create an OptionsSet class to hide some of the conditional logic below
     private final EnumSet<OPTION> options;
 
     /**
