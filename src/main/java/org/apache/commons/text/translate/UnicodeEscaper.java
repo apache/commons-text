@@ -26,14 +26,18 @@ import java.io.Writer;
  */
 public class UnicodeEscaper extends CodePointTranslator {
 
+    /** int value representing the lowest codepoint boundary. */
     private final int below;
+    /** int value representing the highest codepoint boundary. */
     private final int above;
+    /** whether to escape between the boundaries or outside them. */
     private final boolean between;
 
     /**
-     * <p>Constructs a <code>UnicodeEscaper</code> for all characters. </p>
+     * <p>Constructs a <code>UnicodeEscaper</code> for all characters.
+     * </p>
      */
-    public UnicodeEscaper(){
+    public UnicodeEscaper() {
         this(0, Integer.MAX_VALUE, true);
     }
 
@@ -110,7 +114,6 @@ public class UnicodeEscaper extends CodePointTranslator {
             }
         }
 
-        // TODO: Handle potential + sign per various Unicode escape implementations
         if (codepoint > 0xffff) {
             out.write(toUtf16Escape(codepoint));
         } else {
@@ -124,8 +127,8 @@ public class UnicodeEscaper extends CodePointTranslator {
     }
 
     /**
-     * Converts the given codepoint to a hex string of the form {@code "\\uXXXX"}
-     * 
+     * Converts the given codepoint to a hex string of the form {@code "\\uXXXX"}.
+     *
      * @param codepoint
      *            a Unicode code point
      * @return the hex string for the given codepoint

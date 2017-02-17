@@ -313,7 +313,6 @@ public class StringEscapeUtils {
      * object allows the Java unescaping functionality to be used
      * as the foundation for a custom translator.
      */
-    // TODO: throw "illegal character: \92" as an Exception if a \ on the end of the Java (as per the compiler)?
     public static final CharSequenceTranslator UNESCAPE_JAVA;
     static {
         Map<CharSequence, CharSequence> unescapeJavaMap = new HashMap<>();

@@ -28,8 +28,8 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
     @Override
     public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
         if (index != 0) {
-            throw new IllegalArgumentException(getClassName() + ".translate(final CharSequence input, final int " +
-                    "index, final Writer out) can not handle a non-zero index.");
+            throw new IllegalArgumentException(getClassName() + ".translate(final CharSequence input, final int "
+                    + "index, final Writer out) can not handle a non-zero index.");
         }
 
         translateWhole(input, out);
@@ -37,6 +37,11 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
         return Character.codePointCount(input, index, input.length());
     }
 
+    /**
+     * A utility method to be used in the {@link #translate(CharSequence, int, Writer)} method.
+     *
+     * @return the name of this or the extending class.
+     */
     private String getClassName() {
         final Class<? extends SinglePassTranslator> clazz = this.getClass();
         return clazz.isAnonymousClass() ?  clazz.getName() : clazz.getSimpleName();
@@ -47,7 +52,6 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
      *
      * @param input CharSequence that is being translated
      * @param out Writer to translate the text to
-     * @return total count of codepoints in input
      * @throws IOException if and only if the Writer produces an IOException
      */
     abstract void translateWhole(final CharSequence input, final Writer out) throws IOException;

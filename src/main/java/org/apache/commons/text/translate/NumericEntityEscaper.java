@@ -26,8 +26,11 @@ import java.io.Writer;
  */
 public class NumericEntityEscaper extends CodePointTranslator {
 
+    /** int value representing the lowest codepoint boundary. */
     private final int below;
+    /** int value representing the highest codepoint boundary. */
     private final int above;
+    /** whether to escape between the boundaries or outside them. */
     private final boolean between;
 
     /**
@@ -100,7 +103,7 @@ public class NumericEntityEscaper extends CodePointTranslator {
      */
     @Override
     public boolean translate(final int codepoint, final Writer out) throws IOException {
-        if(between) {
+        if (between) {
             if (codepoint < below || codepoint > above) {
                 return false;
             }

@@ -46,7 +46,8 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
 
   <release version="TBA" date="TBA" description="TBA">
-  <action issue="TEXT-63" type="fix" dev="sebb">Mutable fields should be private</action>
+    <action issue="TEXT-65" type="fix" dev="chtompki">Fixing the 200 checkstyle errors present in 1.0-beta-1</action>
+    <action issue="TEXT-63" type="fix" dev="sebb">Mutable fields should be private</action>
   </release>
 
   <release version="1.0-beta-1" date="2017-01-30" description="First release (beta) of Commons Text">
