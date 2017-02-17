@@ -114,7 +114,6 @@ public class UnicodeEscaper extends CodePointTranslator {
             }
         }
 
-        // TODO: Handle potential + sign per various Unicode escape implementations
         if (codepoint > 0xffff) {
             out.write(toUtf16Escape(codepoint));
         } else {
