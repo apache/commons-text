@@ -224,7 +224,51 @@ public class StringEscapeUtilsTest {
     };
 
     @Test
-    public void testEscapeHtml() {
+    public void testEscapeHtml3() {
+        for (final String[] element : HTML_ESCAPES) {
+            final String message = element[0];
+            final String expected = element[1];
+            final String original = element[2];
+            assertEquals(message, expected, StringEscapeUtils.escapeHtml4(original));
+            final StringWriter sw = new StringWriter();
+            try {
+                StringEscapeUtils.ESCAPE_HTML3.translate(original, sw);
+            } catch (final IOException e) {
+            }
+            final String actual = original == null ? null : sw.toString();
+            assertEquals(message, expected, actual);
+        }
+    }
+
+    @Test
+    public void testUnescapeHtml3() {
+        for (final String[] element : HTML_ESCAPES) {
+            final String message = element[0];
+            final String expected = element[2];
+            final String original = element[1];
+            assertEquals(message, expected, StringEscapeUtils.unescapeHtml3(original));
+
+            final StringWriter sw = new StringWriter();
+            try {
+                StringEscapeUtils.UNESCAPE_HTML3.translate(original, sw);
+            } catch (final IOException e) {
+            }
+            final String actual = original == null ? null : sw.toString();
+            assertEquals(message, expected, actual);
+        }
+        // \u00E7 is a cedilla (c with wiggle under)
+        // note that the test string must be 7-bit-clean (Unicode escaped) or else it will compile incorrectly
+        // on some locales        
+        assertEquals("funny chars pass through OK", "Fran\u00E7ais", StringEscapeUtils.unescapeHtml3("Fran\u00E7ais"));
+
+        assertEquals("Hello&;World", StringEscapeUtils.unescapeHtml3("Hello&;World"));
+        assertEquals("Hello&#;World", StringEscapeUtils.unescapeHtml3("Hello&#;World"));
+        assertEquals("Hello&# ;World", StringEscapeUtils.unescapeHtml3("Hello&# ;World"));
+        assertEquals("Hello&##;World", StringEscapeUtils.unescapeHtml3("Hello&##;World"));
+    }
+
+@Test
+    public void testEscapeHtml4() {
         for (final String[] element : HTML_ESCAPES) {
             final String message = element[0];
             final String expected = element[1];
