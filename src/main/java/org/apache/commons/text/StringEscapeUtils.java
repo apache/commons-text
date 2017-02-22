@@ -26,7 +26,6 @@ import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.commons.text.translate.NumericEntityEscaper;
 import org.apache.commons.text.translate.NumericEntityUnescaper;
 import org.apache.commons.text.translate.OctalUnescaper;
-import org.apache.commons.text.translate.SingleLookupTranslator;
 import org.apache.commons.text.translate.UnicodeUnescaper;
 import org.apache.commons.text.translate.UnicodeUnpairedSurrogateRemover;
 
@@ -205,25 +204,6 @@ public class StringEscapeUtils {
             );
 
     /**
-     * The improved translator object for escaping HTML version 3.0.
-     * The 'improved' part of this translator is that it checks if the html is already translated.
-     * This check prevents double, triple, or recursive translations.
-     *
-     * While {@link #escapeHtml3Once(String)} is the expected method of use, this
-     * object allows the HTML escaping functionality to be used
-     * as the foundation for a custom translator.
-     *
-     * Note that, multiple lookup tables should be passed to this translator
-     * instead of passing multiple instances of this translator to the
-     * AggregateTranslator. Because, a SingleLookupTranslator only checks the values of the
-     * lookup table passed to that instance while deciding whether a value is
-     * already translated or not.
-     */
-    public static final CharSequenceTranslator ESCAPE_HTML3_ONCE =
-            new SingleLookupTranslator(EntityArrays.BASIC_ESCAPE, EntityArrays.ISO8859_1_ESCAPE);
-
-
-    /**
      * Translator object for escaping HTML version 4.0.
      *
      * While {@link #escapeHtml4(String)} is the expected method of use, this
@@ -235,28 +215,6 @@ public class StringEscapeUtils {
                     new LookupTranslator(EntityArrays.BASIC_ESCAPE),
                     new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE),
                     new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE)
-            );
-
-    /**
-     * The improved translator object for escaping HTML version 4.0.
-     * The 'improved' part of this translator is that it checks if the html is already translated.
-     * This check prevents double, triple, or recursive translations.
-     *
-     * While {@link #escapeHtml4Once(String)} is the expected method of use, this
-     * object allows the HTML escaping functionality to be used
-     * as the foundation for a custom translator.
-     *
-     * Note that, multiple lookup tables should be passed to this translator
-     * instead of passing multiple instances of this translator to the
-     * AggregateTranslator. Because, a SingleLookupTranslator only checks the values of the
-     * lookup table passed to that instance while deciding whether a value is
-     * already translated or not.
-     */
-    public static final CharSequenceTranslator ESCAPE_HTML4_ONCE =
-            new SingleLookupTranslator(
-                    EntityArrays.BASIC_ESCAPE,
-                    EntityArrays.ISO8859_1_ESCAPE,
-                    EntityArrays.HTML40_EXTENDED_ESCAPE
             );
 
     /**
@@ -702,43 +660,6 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Escapes the characters in a {@code String} using HTML entities.
-     * But escapes them only once. i.e. does not escape already escaped characters.</p>
-     *
-     * <p>
-     * For example:
-     * </p>
-     * <p><code>"bread" &amp; "butter"</code></p>
-     * becomes:
-     * <p>
-     * <code>&amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</code>.
-     * </p>
-     *
-     * <p>
-     * But:
-     * </p>
-     * <p><code>&amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</code></p>
-     * remains unaffected.
-     *
-     * <p>Supports all known HTML 4.0 entities, including funky accents.
-     * Note that the commonly used apostrophe escape character (&amp;apos;)
-     * is not a legal entity and so is not supported). </p>
-     *
-     * @param input  the {@code String} to escape, may be null
-     * @return a new escaped {@code String}, {@code null} if null string input
-     *
-     * @see <a href="http://hotwired.lycos.com/webmonkey/reference/special_characters/">ISO Entities</a>
-     * @see <a href="http://www.w3.org/TR/REC-html32#latin1">HTML 3.2 Character Entities for ISO Latin-1</a>
-     * @see <a href="http://www.w3.org/TR/REC-html40/sgml/entities.html">HTML 4.0 Character entity references</a>
-     * @see <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01 Character References</a>
-     * @see <a href="http://www.w3.org/TR/html401/charset.html#code-position">HTML 4.01 Code positions</a>
-     */
-    public static final String escapeHtml4Once(final String input) {
-        return ESCAPE_HTML4_ONCE.translate(input);
-    }
-
-
-    /**
      * <p>Escapes the characters in a {@code String} using HTML entities.</p>
      * <p>Supports only the HTML 3.0 entities. </p>
      *
@@ -749,18 +670,6 @@ public class StringEscapeUtils {
         return ESCAPE_HTML3.translate(input);
     }
 
-    /**
-     * <p>Escapes the characters in a {@code String} using HTML entities.
-     * But escapes them only once. i.e. does not escape already escaped characters.</p>
-     * <p>Supports only the HTML 3.0 entities. </p>
-     *
-     * @param input  the {@code String} to escape, may be null
-     * @return a new escaped {@code String}, {@code null} if null string input
-     */
-    public static final String escapeHtml3Once(final String input) {
-        return ESCAPE_HTML3_ONCE.translate(input);
-    }
-
     //-----------------------------------------------------------------------
     /**
      * <p>Unescapes a string containing entity escapes to a string
@@ -768,7 +677,7 @@ public class StringEscapeUtils {
      * escapes. Supports HTML 4.0 entities.</p>
      *
      * <p>For example, the string {@code "&lt;Fran&ccedil;ais&gt;"}
-     * will become {@code "<Français>"}</p>
+     * will become {@code "<Franï¿½ais>"}</p>
      *
      * <p>If an entity is unrecognized, it is left alone, and inserted
      * verbatim into the result string. e.g. {@code "&gt;&zzzz;x"} will
