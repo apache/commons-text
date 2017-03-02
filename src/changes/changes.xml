@@ -52,6 +52,7 @@ The <action> type attribute can be add,update,fix,remove.
    Methods StringEscapeUtils#escapeHtml3Once and StringEscapeUtils#escapeHtml4Once
    have been removed; see TEXT-40
   ">
+    <action issue="TEXT-64" type="fix" dev="kinow" due-to="chtompki">Investigate locale issue in ExtendedMessageFormatTest</action>
     <action issue="TEXT-69" type="fix" dev="chtompki">Resolve PMD/CMD Violations</action>
     <action issue="TEXT-40" type="remove" dev="sebb">Escape HTML characters only once: revert</action>
     <action issue="TEXT-65" type="fix" dev="chtompki">Fixing the 200 checkstyle errors present in 1.0-beta-1</action>
