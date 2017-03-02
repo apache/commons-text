@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Locale.Category;
 import java.util.Map;
 import java.util.Objects;
 
@@ -117,7 +118,7 @@ public class ExtendedMessageFormat extends MessageFormat {
      * @throws IllegalArgumentException in case of a bad pattern.
      */
     public ExtendedMessageFormat(final String pattern) {
-        this(pattern, Locale.getDefault());
+        this(pattern, Locale.getDefault(Category.FORMAT));
     }
 
     /**
@@ -140,7 +141,7 @@ public class ExtendedMessageFormat extends MessageFormat {
      */
     public ExtendedMessageFormat(final String pattern,
                                  final Map<String, ? extends FormatFactory> registry) {
-        this(pattern, Locale.getDefault(), registry);
+        this(pattern, Locale.getDefault(Category.FORMAT), registry);
     }
 
     /**
