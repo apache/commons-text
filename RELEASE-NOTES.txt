@@ -1,5 +1,5 @@
                           Apache Commons Text
-                           Version 1.0-beta-1
+                              Version 1.0
                              Release Notes
 
 
@@ -12,6 +12,42 @@ for the purpose of processing and manipulating text that should be of use in a
 Java environment.
 
 Apache Commons Text is a library focused on algorithms working on strings.
+
+
+INCOMPATIBLE CHANGES
+====================
+
+All package names changed from org.apache.commons.text.beta in 1.0-beta-1 to
+org.apache.commons.text in 1.0.
+
+Methods StringEscapeUtils#escapeHtml3Once and StringEscapeUtils#escapeHtml4Once
+have been removed; see TEXT-40
+
+JAVA 9 SUPPORT
+==============
+
+At our time of release of 1.0-beta-1, our build succeeds with Java 9-ea build 158,
+and we believe all of our features to be Java 9 compatible. However, when we run
+"mvn clean site" we have failures.
+
+FIXED BUGS
+==========
+
+o TEXT-64:   Investigate locale issue in ExtendedMessageFormatTest. Thanks to
+             chtompki.
+o TEXT-69:   Resolve PMD/CMD Violations
+o TEXT-65:   Fixing the 200 checkstyle errors present in 1.0-beta-1.
+o TEXT-63:   Mutable fields should be private.
+
+REMOVED
+=======
+
+o TEXT-40:   Escape HTML characters only once: revert.
+
+
+
+                        Release Notes for version 1.0-beta-1
+
 
 A NOTE ON THE HISTORY OF THE CODE
 =================================
@@ -28,8 +64,8 @@ Lang into Commons Text.
 JAVA 9 SUPPORT
 ==============
 
-At our time of release our build succeeds with Java 9-ea build 153, and we
-believe all of our features to be Java 9 compatible.
+At our time of release of 1.0-beta-1, our build succeeds with Java 9-ea build 153,
+and we believe all of our features to be Java 9 compatible.
 
 NEW FEATURES
 ============
