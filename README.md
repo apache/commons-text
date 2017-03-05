@@ -67,7 +67,7 @@ Alternatively you can pull it from the central Maven repositories:
 <dependency>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-text</artifactId>
-  <version>1.0-beta-1</version>
+  <version>1.0</version>
 </dependency>
 ```
 
