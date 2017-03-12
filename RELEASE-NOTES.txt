@@ -26,7 +26,7 @@ have been removed; see TEXT-40
 JAVA 9 SUPPORT
 ==============
 
-At our time of release of 1.0-beta-1, our build succeeds with Java 9-ea build 158,
+At our time of release of 1.0, our build succeeds with Java 9-ea build 158,
 and we believe all of our features to be Java 9 compatible. However, when we run
 "mvn clean site" we have failures.
 
