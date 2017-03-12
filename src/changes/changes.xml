@@ -45,6 +45,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
 
+  <release version="1.1" date="tbd" description="tbd">
+    <action issue="TEXT-72" type="fix" dev="chtompki">Similar to LANG-1025, clirr fails site build.</action>
+  </release>
+
   <release version="1.0" date="2017-03-04" description="
 
    Incompatible changes
