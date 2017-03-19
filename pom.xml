@@ -90,7 +90,6 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <!-- if upgrading, be sure to check shaded jar relocations! -->
       <version>3.5</version>
     </dependency>
     <!-- testing -->
