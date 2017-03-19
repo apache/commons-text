@@ -139,6 +139,9 @@
     <!-- Override 01-23-2017 for java 9-ea compatibility -->
     <commons.jacoco.version>0.7.8</commons.jacoco.version>
 
+    <!-- Use clirr version that works on Java 8 -->
+    <commons.clirr.version>2.8</commons.clirr.version>
+
     <checkstyle.plugin.version>2.13</checkstyle.plugin.version>
   </properties>
 
