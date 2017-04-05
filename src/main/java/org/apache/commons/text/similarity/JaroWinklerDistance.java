@@ -75,7 +75,6 @@ public class JaroWinklerDistance implements SimilarityScore<Double> {
     @Override
     public Double apply(final CharSequence left, final CharSequence right) {
         final double defaultScalingFactor = 0.1;
-        final double percentageRoundValue = 100.0;
 
         if (left == null || right == null) {
             throw new IllegalArgumentException("Strings must not be null");
@@ -88,7 +87,7 @@ public class JaroWinklerDistance implements SimilarityScore<Double> {
         }
         double j = ((m / left.length() + m / right.length() + (m - mtp[1]) / m)) / 3;
         double jw = j < 0.7D ? j : j + Math.min(defaultScalingFactor, 1D / mtp[3]) * mtp[2] * (1D - j);
-        return Math.round(jw * percentageRoundValue) / percentageRoundValue;
+        return jw;
     }
 
     /**

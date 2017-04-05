@@ -35,13 +35,14 @@ public class JaroWinklerDistanceTest {
     
     @Test
     public void testGetJaroWinklerDistance_StringString() {
-        assertEquals(0.93d, (double) distance.apply("frog", "fog"), 0.0d);
+        assertEquals(0.92499d, (double) distance.apply("frog", "fog"), 0.00001d);
         assertEquals(0.0d, (double) distance.apply("fly", "ant"), 0.0d);
-        assertEquals(0.44d, (double) distance.apply("elephant", "hippo"), 0.0d);
-        assertEquals(0.93d, (double) distance.apply("ABC Corporation", "ABC Corp"), 0.0d);
-        assertEquals(0.95d, (double) distance.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."), 0.0d);
-        assertEquals(0.92d, (double) distance.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"), 0.0d);
-        assertEquals(0.88d, (double) distance.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.0d);
+        assertEquals(0.44166d, (double) distance.apply("elephant", "hippo"), 0.00001d);
+        assertEquals(0.92740d, (double) distance.apply("ABC Corporation", "ABC Corp"), 0.00001d);
+        assertEquals(0.94580d, (double) distance.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."), 0.00001d);
+        assertEquals(0.921458d, (double) distance.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"), 0.00001d);
+        assertEquals(0.882329d, (double) distance.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.00001d);
+        assertEquals(0.996598d, (double) distance.apply("/opt/software1", "/opt/software2"), 0.00001d);
     }
 
     @Test(expected = IllegalArgumentException.class)

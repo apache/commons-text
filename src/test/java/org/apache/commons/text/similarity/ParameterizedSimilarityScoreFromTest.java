@@ -54,9 +54,9 @@ public class ParameterizedSimilarityScoreFromTest<R> {
     public static Iterable<Object[]> parameters() {
         return Arrays.asList( new Object[][] {
 
-                { new JaroWinklerDistance(), "elephant", "hippo", 0.44 },
-                { new JaroWinklerDistance(), "hippo", "elephant",  0.44 },
-                { new JaroWinklerDistance(), "hippo", "zzzzzzzz", 0.0 },
+                { new LevenshteinDistance(), "elephant", "hippo", 7 },
+                { new LevenshteinDistance(), "hippo", "elephant",  7 },
+                { new LevenshteinDistance(), "hippo", "zzzzzzzz", 8 },
 
                 {
                         new SimilarityScore<Boolean>() {
