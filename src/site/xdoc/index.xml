@@ -47,7 +47,7 @@ The code base is monitored by a Sonar instance running on <a href="https://analy
 <section name="Release Information">
 <p>The latest stable release of Text is 1.0. You may: </p>
 <ul>
-<li>Download <a href="/download_text.cgi">1.0</a></li>
+<li>Download <a href="http://commons.apache.org/proper/commons-text/download_text.cgi">1.0</a></li>
 <li>Read the <a href="release-notes/RELEASE-NOTES-1.0.txt">1.0 release notes</a></li>
 </ul>
 <p>
