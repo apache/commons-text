@@ -328,7 +328,6 @@ public final class AlphabetConverter {
         final Map<Integer, String> unmodifiableOriginalToEncoded =
                 Collections.unmodifiableMap(originalToEncoded);
         final Map<String, String> encodedToOriginal = new LinkedHashMap<>();
-        final Map<Integer, String> doNotEncodeMap = new HashMap<>();
 
         int encodedLetterLength = 1;
 
@@ -336,10 +335,6 @@ public final class AlphabetConverter {
                 : unmodifiableOriginalToEncoded.entrySet()) {
             final String originalAsString = codePointToString(e.getKey());
             encodedToOriginal.put(e.getValue(), originalAsString);
-
-            if (e.getValue().equals(originalAsString)) {
-                doNotEncodeMap.put(e.getKey(), e.getValue());
-            }
 
             if (e.getValue().length() > encodedLetterLength) {
                 encodedLetterLength = e.getValue().length();
