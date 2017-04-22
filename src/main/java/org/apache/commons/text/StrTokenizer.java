@@ -1088,6 +1088,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
     @Override
     public Object clone() {
         try {
+            super.clone();
             return cloneReset();
         } catch (final CloneNotSupportedException ex) {
             return null;
