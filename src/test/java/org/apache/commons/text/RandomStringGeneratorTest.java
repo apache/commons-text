@@ -25,10 +25,6 @@ import static org.junit.Assert.*;
  */
 public class RandomStringGeneratorTest {
 
-    private static int codePointLength(String s) {
-        return s.codePointCount(0, s.length());
-    }
-
     private static final CharacterPredicate A_FILTER = new CharacterPredicate() {
         @Override
         public boolean test(int codePoint) {
@@ -44,13 +40,17 @@ public class RandomStringGeneratorTest {
     };
 
     @Test(expected = IllegalArgumentException.class)
-    public void testInvalidLength() throws Exception {
+    public void testInvalidLength() {
         RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
         generator.generate(-1);
     }
 
+    private static int codePointLength(String s) {
+        return s.codePointCount(0, s.length());
+    }
+
     @Test
-    public void testSetLength() throws Exception {
+    public void testSetLength() {
         final int length = 99;
         RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
         String str = generator.generate(length);
@@ -58,34 +58,33 @@ public class RandomStringGeneratorTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testBadMinimumCodePoint() throws Exception {
+    public void testBadMinimumCodePoint() {
         new RandomStringGenerator.Builder().withinRange(-1, 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testBadMaximumCodePoint() throws Exception {
+    public void testBadMaximumCodePoint() {
         new RandomStringGenerator.Builder().withinRange(0, Character.MAX_CODE_POINT + 1);
     }
 
     @Test
-        public void testWithinRange() throws Exception {
-            final int length = 5000;
-            final int minimumCodePoint = 'a';
-            final int maximumCodePoint = 'z';
-            RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange(minimumCodePoint,maximumCodePoint).build();
-            String str = generator.generate(length);
-    
-            int i = 0;
-            do {
-                int codePoint = str.codePointAt(i);
-                assertTrue(codePoint >= minimumCodePoint && codePoint <= maximumCodePoint);
-                i += Character.charCount(codePoint);
-            } while (i < str.length());
-    
-        }
+    public void testWithinRange() {
+        final int length = 5000;
+        final int minimumCodePoint = 'a';
+        final int maximumCodePoint = 'z';
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange(minimumCodePoint,maximumCodePoint).build();
+        String str = generator.generate(length);
+
+        int i = 0;
+        do {
+            int codePoint = str.codePointAt(i);
+            assertTrue(codePoint >= minimumCodePoint && codePoint <= maximumCodePoint);
+            i += Character.charCount(codePoint);
+        } while (i < str.length());
+    }
 
     @Test
-    public void testNoLoneSurrogates() throws Exception {
+    public void testNoLoneSurrogates() {
         final int length = 5000;
         String str = new RandomStringGenerator.Builder().build().generate(length);
 
@@ -111,10 +110,9 @@ public class RandomStringGeneratorTest {
     }
 
     @Test
-    public void testUsingRandom() throws Exception {
+    public void testUsingRandom() {
         final char testChar = 'a';
         final TextRandomProvider testRandom = new TextRandomProvider() {
-            private static final long serialVersionUID = 1L;
 
             @Override
             public int nextInt(int n) {
@@ -129,7 +127,7 @@ public class RandomStringGeneratorTest {
     }
 
     @Test
-    public void testMultipleFilters() throws Exception {
+    public void testMultipleFilters() {
         String str = new RandomStringGenerator.Builder().withinRange('a','d')
                 .filteredBy(A_FILTER, B_FILTER).build().generate(5000);
 
@@ -150,12 +148,11 @@ public class RandomStringGeneratorTest {
     }
 
     @Test
-    public void testNoPrivateCharacters() throws Exception {
+    public void testNoPrivateCharacters() {
         final int startOfPrivateBMPChars = 0xE000;
 
         // Request a string in an area of the Basic Multilingual Plane that is
-        // largely
-        // occupied by private characters
+        // largely occupied by private characters
         String str = new RandomStringGenerator.Builder().withinRange(startOfPrivateBMPChars, 
                 Character.MIN_SUPPLEMENTARY_CODE_POINT - 1).build().generate(5000);
 
@@ -173,8 +170,7 @@ public class RandomStringGeneratorTest {
     }
 
     @Test
-    public void testRemoveFilters() throws Exception {
-
+    public void testRemoveFilters() {
         RandomStringGenerator.Builder builder = new RandomStringGenerator.Builder().withinRange('a', 'z')
                 .filteredBy(A_FILTER);
 
@@ -192,7 +188,7 @@ public class RandomStringGeneratorTest {
     }
 
     @Test
-    public void testChangeOfFilter() throws Exception {
+    public void testChangeOfFilter() {
         RandomStringGenerator.Builder builder = new RandomStringGenerator.Builder().withinRange('a', 'z')
                 .filteredBy(A_FILTER);
         String str = builder.filteredBy(B_FILTER).build().generate(100);
@@ -201,9 +197,9 @@ public class RandomStringGeneratorTest {
             assertTrue(c == 'b');
         }
     }
-    
+
     @Test
-    public void testZeroLength() throws Exception {
+    public void testZeroLength() {
         RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
         assertEquals("", generator.generate(0));
     }
