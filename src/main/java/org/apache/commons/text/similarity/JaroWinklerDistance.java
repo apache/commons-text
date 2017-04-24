@@ -150,7 +150,7 @@ public class JaroWinklerDistance implements SimilarityScore<Double> {
                 break;
             }
         }
-        return new int[] { matches, transpositions / 2, prefix, max.length() };
+        return new int[] {matches, transpositions / 2, prefix, max.length()};
     }
 
 }

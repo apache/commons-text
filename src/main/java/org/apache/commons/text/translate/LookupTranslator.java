@@ -56,9 +56,9 @@ public class LookupTranslator extends CharSequenceTranslator {
             throw new InvalidParameterException("lookupMap cannot be null");
         }
         this.lookupMap = new HashMap<>();
-        prefixSet = new HashSet<>();
-        int _shortest = Integer.MAX_VALUE;
-        int _longest = 0;
+        this.prefixSet = new HashSet<>();
+        int currentShortest = Integer.MAX_VALUE;
+        int currentLongest = 0;
         Iterator<Map.Entry<CharSequence, CharSequence>> it = lookupMap.entrySet().iterator();
 
         while (it.hasNext()) {
@@ -66,15 +66,15 @@ public class LookupTranslator extends CharSequenceTranslator {
             this.lookupMap.put(pair.getKey().toString(), pair.getValue().toString());
             this.prefixSet.add(pair.getKey().charAt(0));
             final int sz = pair.getKey().length();
-            if (sz < _shortest) {
-                _shortest = sz;
+            if (sz < currentShortest) {
+                currentShortest = sz;
             }
-            if (sz > _longest) {
-                _longest = sz;
+            if (sz > currentLongest) {
+                currentLongest = sz;
             }
         }
-        shortest = _shortest;
-        longest = _longest;
+        this.shortest = currentShortest;
+        this.longest = currentLongest;
     }
 
     /**
