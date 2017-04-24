@@ -94,7 +94,9 @@
             <property name="allowUndeclaredRTE" value="true"/>
         </module>
         <module name="JavadocType"/>
-        <module name="JavadocVariable"/>
+        <module name="JavadocVariable">
+           <property name="excludeScope" value="private"/>
+        </module>
         <module name="JavadocStyle"/>
 
 
