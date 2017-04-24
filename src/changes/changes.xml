@@ -46,6 +46,8 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
 
   <release version="1.1" date="tbd" description="tbd">
+    <action issue="TEXT-81" type="add" dev="pschumacher" dev="djones">Add RandomStringGenerator</action>
+    <action issue="TEXT-36" type="add" dev="pschumacher" due-to="Raymond DeCampo">RandomStringGenerator: allow users to provide source of randomness</action>
     <action issue="TEXT-76" type="fix" dev="kinow">Correct round issue in Jaro Winkler implementation</action>
     <action issue="TEXT-72" type="fix" dev="chtompki">Similar to LANG-1025, clirr fails site build.</action>
   </release>

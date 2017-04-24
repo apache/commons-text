@@ -37,15 +37,15 @@ package org.apache.commons.text;
  *     .build();
  * }
  * </pre>
+ * @since 1.1
  */
 public interface TextRandomProvider {
 
     /**
-     * Generates an int value between 0 (inclusive) and the specified value 
+     * Generates an int value between 0 (inclusive) and the specified value
      * (exclusive).
      * @param max  Bound on the random number to be returned. Must be positive.
      * @return a random int value between 0 (inclusive) and n (exclusive).
-     * @throws IllegalArgumentException - if max is negative
      */
     int nextInt(int max);
 }
