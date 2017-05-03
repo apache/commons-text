@@ -174,9 +174,9 @@ public class WordUtils {
      * @return a line with newlines inserted, <code>null</code> if null input
      */
     public static String wrap(final String str,
-            final int wrapLength,
-            final String newLineStr,
-            final boolean wrapLongWords) {
+                              final int wrapLength,
+                              final String newLineStr,
+                              final boolean wrapLongWords) {
         return wrap(str, wrapLength, newLineStr, wrapLongWords, " ");
     }
 
@@ -272,10 +272,10 @@ public class WordUtils {
      * @return a line with newlines inserted, <code>null</code> if null input
      */
     public static String wrap(final String str,
-            int wrapLength,
-            String newLineStr,
-            final boolean wrapLongWords,
-            String wrapOn) {
+                              int wrapLength,
+                              String newLineStr,
+                              final boolean wrapLongWords,
+                              String wrapOn) {
         if (str == null) {
             return null;
         }
