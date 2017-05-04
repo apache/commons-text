@@ -472,7 +472,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      */
     public StrBuilder appendNewLine() {
         if (newLine == null)  {
-            append(System.getProperty("line.separator"));
+            append(System.lineSeparator());
             return this;
         }
         return append(newLine);

@@ -88,11 +88,6 @@ public final class AlphabetConverter {
      * Arrow constant, used for converting the object into a string.
      */
     private static final String ARROW = " -> ";
-    /**
-     * Line separator, used for converting the object into a string.
-     */
-    private static final String LINE_SEPARATOR =
-            System.getProperty("line.separator");
 
     /**
      * Hidden constructor for alphabet converter. Used by static helper methods.
@@ -284,7 +279,7 @@ public final class AlphabetConverter {
                 : originalToEncoded.entrySet()) {
             sb.append(codePointToString(entry.getKey()))
                     .append(ARROW)
-                    .append(entry.getValue()).append(LINE_SEPARATOR);
+                    .append(entry.getValue()).append(System.lineSeparator());
         }
 
         return sb.toString();
