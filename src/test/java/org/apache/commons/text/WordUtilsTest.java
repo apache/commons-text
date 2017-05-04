@@ -476,6 +476,7 @@ public class WordUtilsTest {
     public void testLANG673() throws Exception {
         assertEquals("01",WordUtils.abbreviate("01 23 45 67 89", 0, 40, ""));
         assertEquals("01 23 45 67",WordUtils.abbreviate("01 23 45 67 89", 10, 40, ""));
+        assertEquals("01 23 45 67 89",WordUtils.abbreviate("01 23 45 67 89", 40, 40, ""));
     }
 
     @Test
