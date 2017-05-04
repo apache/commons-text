@@ -785,7 +785,7 @@ public class WordUtils {
             upper = lower;
         }
 
-        final StringBuffer result = new StringBuffer();
+        final StringBuilder result = new StringBuilder();
         final int index = StringUtils.indexOf(str, " ", lower);
         if (index == -1) {
             result.append(str.substring(0, upper));
