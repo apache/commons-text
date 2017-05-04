@@ -760,12 +760,9 @@ public class WordUtils {
      * @return the abbreviated String.
      */
     public static String abbreviate(String str, int lower, int upper, String appendToEnd) {
-        if (str == null) {
-            return null;
-        }
 
-        if (str.length() == 0) {
-            return StringUtils.EMPTY;
+        if (StringUtils.isEmpty(str)) {
+            return str;
         }
 
         // if the lower value is greater than the length of the string,
