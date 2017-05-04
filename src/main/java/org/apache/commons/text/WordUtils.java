@@ -782,11 +782,6 @@ public class WordUtils {
      */
     public static String abbreviate(String str, int lower, int upper, String appendToEnd) {
 
-
-        if (StringUtils.isEmpty(str)) {
-            return str;
-        }
-
         // throw IllegalArgumentException if upper limit is less than -1 which voids contact.
         if (upper < -1) {
             throw new IllegalArgumentException("upper value cannot be less than -1");
@@ -795,6 +790,10 @@ public class WordUtils {
         // throw IllegalArgumentException if upper value is less than lower value.
         if (upper < lower && upper != -1) {
             throw new IllegalArgumentException("upper value is less than lower value");
+        }
+
+        if (StringUtils.isEmpty(str)) {
+            return str;
         }
 
         // if the lower value is greater than the length of the string,
