@@ -29,7 +29,7 @@ import org.apache.commons.lang3.StringUtils;
  * An exception will not be thrown for a <code>null</code> input.
  * Each method documents its behaviour in more detail.</p>
  *
- * @since 1.0
+ * @since 1.1
  */
 public class WordUtils {
 
@@ -624,7 +624,6 @@ public class WordUtils {
      * @param str  the String to get initials from, may be null
      * @return String of initial letters, <code>null</code> if null String input
      * @see #initials(String,char[])
-     * @since 2.2
      */
     public static String initials(final String str) {
         return initials(str, null);
@@ -654,7 +653,6 @@ public class WordUtils {
      * @param delimiters  set of characters to determine words, null means whitespace
      * @return String of initial characters, <code>null</code> if null String input
      * @see #initials(String)
-     * @since 2.2
      */
     public static String initials(final String str, final char... delimiters) {
         if (StringUtils.isEmpty(str)) {
@@ -704,7 +702,6 @@ public class WordUtils {
      * @param word The CharSequence to check, may be null
      * @param words The array of String words to search for, may be null
      * @return {@code true} if all search words are found, {@code false} otherwise
-     * @since 3.5
      */
     public static boolean containsAllWords(final CharSequence word, final CharSequence... words) {
         if (StringUtils.isEmpty(word) || ArrayUtils.isEmpty(words)) {
