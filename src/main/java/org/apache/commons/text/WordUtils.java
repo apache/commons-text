@@ -741,7 +741,7 @@ public class WordUtils {
 
     //-----------------------------------------------------------------------
     /**
-     * Abbreviates a string nicely.
+     * Abbreviates the words nicely.
      *
      * This method searches for the first space after the lower limit and abbreviates
      * the String there. It will also append any String passed as a parameter
@@ -758,8 +758,30 @@ public class WordUtils {
      *                    This is appended ONLY if the string was indeed abbreviated.
      *                    The append does not count towards the lower or upper limits.
      * @return the abbreviated String.
+     *
+     * <pre>
+     *
+     * WordUtils.abbreviate("Now is the time for all good men", 0, 40, null));     = "Now"
+     * WordUtils.abbreviate("Now is the time for all good men", 10, 40, null));    = "Now is the"
+     * WordUtils.abbreviate("Now is the time for all good men", 20, 40, null));    = "Now is the time for all"
+     * WordUtils.abbreviate("Now is the time for all good men", 0, 40, ""));       = "Now"
+     * WordUtils.abbreviate("Now is the time for all good men", 10, 40, ""));      = "Now is the"
+     * WordUtils.abbreviate("Now is the time for all good men", 20, 40, ""));      = "Now is the time for all"
+     * WordUtils.abbreviate("Now is the time for all good men", 0, 40, " ..."));   = "Now ..."
+     * WordUtils.abbreviate("Now is the time for all good men", 10, 40, " ..."));  = "Now is the ..."
+     * WordUtils.abbreviate("Now is the time for all good men", 20, 40, " ..."));  = "Now is the time for all ..."
+     * WordUtils.abbreviate("Now is the time for all good men", 0, -1, ""));       = "Now"
+     * WordUtils.abbreviate("Now is the time for all good men", 10, -1, ""));      = "Now is the"
+     * WordUtils.abbreviate("Now is the time for all good men", 20, -1, ""));      = "Now is the time for all"
+     * WordUtils.abbreviate("Now is the time for all good men", 50, -1, ""));      = "Now is the time for all good men"
+     * WordUtils.abbreviate("Now is the time for all good men", 1000, -1, ""));    = "Now is the time for all good men"
+     * WordUtils.abbreviate("Now is the time for all good men", 9, -10, null));    = IllegalArgumentException
+     * WordUtils.abbreviate("Now is the time for all good men", 10, 5, null));     = IllegalArgumentException
+     *
+     * </pre>
      */
     public static String abbreviate(String str, int lower, int upper, String appendToEnd) {
+
 
         if (StringUtils.isEmpty(str)) {
             return str;
