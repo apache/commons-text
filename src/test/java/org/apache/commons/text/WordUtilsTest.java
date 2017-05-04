@@ -417,4 +417,12 @@ public class WordUtilsTest {
         assertEquals(expect, WordUtils.swapCase(test));
     }
 
+    @Test
+    public void testLANG1292() throws Exception {
+        // Prior to fix, this was throwing StringIndexOutOfBoundsException
+        WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
+                + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
+                + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",70);
+    }
+
 }

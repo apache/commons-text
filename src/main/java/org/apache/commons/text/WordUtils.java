@@ -16,9 +16,11 @@
  */
 package org.apache.commons.text;
 
-import java.lang.reflect.Array;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>Operations on Strings that contain words.</p>
@@ -30,8 +32,6 @@ import java.util.regex.Pattern;
  * @since 1.0
  */
 public class WordUtils {
-
-    private static final int THIRTY_TWO = 32;
 
     /**
      * <p><code>WordUtils</code> instances should NOT be constructed in
@@ -108,7 +108,7 @@ public class WordUtils {
      * <table border="1" summary="Wrap Results">
      *  <tr>
      *   <th>input</th>
-     *   <th>wrapLenght</th>
+     *   <th>wrapLength</th>
      *   <th>newLineString</th>
      *   <th>wrapLongWords</th>
      *   <th>result</th>
@@ -189,7 +189,7 @@ public class WordUtils {
      * <table border="1" summary="Wrap Results">
      *  <tr>
      *   <th>input</th>
-     *   <th>wrapLenght</th>
+     *   <th>wrapLength</th>
      *   <th>newLineString</th>
      *   <th>wrapLongWords</th>
      *   <th>wrapOn</th>
@@ -280,18 +280,18 @@ public class WordUtils {
             return null;
         }
         if (newLineStr == null) {
-            newLineStr = System.getProperty("line.separator");
+            newLineStr = System.lineSeparator();
         }
         if (wrapLength < 1) {
             wrapLength = 1;
         }
-        if (wrapOn == null || wrapOn.length() == 0 || wrapOn.trim().length() == 0) {
+        if (StringUtils.isBlank(wrapOn)) {
             wrapOn = " ";
         }
         final Pattern patternToWrapOn = Pattern.compile(wrapOn);
         final int inputLineLength = str.length();
         int offset = 0;
-        final StringBuilder wrappedLine = new StringBuilder(inputLineLength + THIRTY_TWO);
+        final StringBuilder wrappedLine = new StringBuilder(inputLineLength + 32);
 
         while (offset < inputLineLength) {
             int spaceToWrapAt = -1;
@@ -301,8 +301,9 @@ public class WordUtils {
                 if (matcher.start() == 0) {
                     offset += matcher.end();
                     continue;
+                } else {
+                    spaceToWrapAt = matcher.start() + offset;
                 }
-                spaceToWrapAt = matcher.start();
             }
 
             // only last line without leading spaces is left
@@ -410,7 +411,7 @@ public class WordUtils {
      */
     public static String capitalize(final String str, final char... delimiters) {
         final int delimLen = delimiters == null ? -1 : delimiters.length;
-        if (str == null || str.length() == 0 || delimLen == 0) {
+        if (StringUtils.isEmpty(str) || delimLen == 0) {
             return str;
         }
         final char[] buffer = str.toCharArray();
@@ -478,7 +479,7 @@ public class WordUtils {
      */
     public static String capitalizeFully(String str, final char... delimiters) {
         final int delimLen = delimiters == null ? -1 : delimiters.length;
-        if (str == null || str.length() == 0 || delimLen == 0) {
+        if (StringUtils.isEmpty(str) || delimLen == 0) {
             return str;
         }
         str = str.toLowerCase();
@@ -533,7 +534,7 @@ public class WordUtils {
      */
     public static String uncapitalize(final String str, final char... delimiters) {
         final int delimLen = delimiters == null ? -1 : delimiters.length;
-        if (str == null || str.length() == 0 || delimLen == 0) {
+        if (StringUtils.isEmpty(str) || delimLen == 0) {
             return str;
         }
         final char[] buffer = str.toCharArray();
@@ -574,7 +575,7 @@ public class WordUtils {
      * @return the changed String, <code>null</code> if null String input
      */
     public static String swapCase(final String str) {
-        if (str == null || str.length() == 0) {
+        if (StringUtils.isEmpty(str)) {
             return str;
         }
         final char[] buffer = str.toCharArray();
@@ -623,6 +624,7 @@ public class WordUtils {
      * @param str  the String to get initials from, may be null
      * @return String of initial letters, <code>null</code> if null String input
      * @see #initials(String,char[])
+     * @since 2.2
      */
     public static String initials(final String str) {
         return initials(str, null);
@@ -652,9 +654,10 @@ public class WordUtils {
      * @param delimiters  set of characters to determine words, null means whitespace
      * @return String of initial characters, <code>null</code> if null String input
      * @see #initials(String)
+     * @since 2.2
      */
     public static String initials(final String str, final char... delimiters) {
-        if (str == null || str.length() == 0) {
+        if (StringUtils.isEmpty(str)) {
             return str;
         }
         if (delimiters != null && delimiters.length == 0) {
@@ -701,13 +704,14 @@ public class WordUtils {
      * @param word The CharSequence to check, may be null
      * @param words The array of String words to search for, may be null
      * @return {@code true} if all search words are found, {@code false} otherwise
+     * @since 3.5
      */
     public static boolean containsAllWords(final CharSequence word, final CharSequence... words) {
-        if (word == null || word.length() == 0 || words == null || Array.getLength(words) == 0) {
+        if (StringUtils.isEmpty(word) || ArrayUtils.isEmpty(words)) {
             return false;
         }
         for (final CharSequence w : words) {
-            if (w == null || w.length() == 0 || String.valueOf(w).trim().length() == 0) {
+            if (StringUtils.isBlank(w)) {
                 return false;
             }
             final Pattern p = Pattern.compile(".*\\b" + w + "\\b.*");
