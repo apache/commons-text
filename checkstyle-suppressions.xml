@@ -52,4 +52,6 @@
   <suppress checks="MagicNumber" files="UnicodeEscaper.java" lines="0-99999" />
 
   <suppress checks="MagicNumber" files="UnicodeUnescaper.java" lines="0-99999" />
+
+  <suppress checks="MagicNumber" files="WordUtils.java" lines="0-99999" />
 </suppressions>
