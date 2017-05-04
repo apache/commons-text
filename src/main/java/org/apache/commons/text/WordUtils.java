@@ -765,6 +765,16 @@ public class WordUtils {
             return str;
         }
 
+        // throw IllegalArgumentException if upper limit is less than -1 which voids contact.
+        if (upper < -1) {
+            throw new IllegalArgumentException("upper value cannot be less than -1");
+        }
+
+        // throw IllegalArgumentException if upper value is less than lower value.
+        if (upper < lower && upper != -1) {
+            throw new IllegalArgumentException("upper value is less than lower value");
+        }
+
         // if the lower value is greater than the length of the string,
         // set to the length of the string
         if (lower > str.length()) {
@@ -775,11 +785,6 @@ public class WordUtils {
         // than the length of the string, set to the length of the string
         if (upper == -1 || upper > str.length()) {
             upper = str.length();
-        }
-
-        // if upper is less than lower, raise it to lower
-        if (upper < lower) {
-            upper = lower;
         }
 
         final StringBuilder result = new StringBuilder();
