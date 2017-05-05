@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import static org.junit.Assert.assertTrue;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 /**
@@ -41,32 +42,32 @@ public class WordUtilsTest {
         assertTrue(Modifier.isPublic(WordUtils.class.getModifiers()));
         assertFalse(Modifier.isFinal(WordUtils.class.getModifiers()));
     }
-    
+
     //-----------------------------------------------------------------------
     @Test
     public void testWrap_StringInt() {
         assertEquals(null, WordUtils.wrap(null, 20));
         assertEquals(null, WordUtils.wrap(null, -1));
-        
+
         assertEquals("", WordUtils.wrap("", 20));
         assertEquals("", WordUtils.wrap("", -1));
-        
+
         // normal
         final String systemNewLine = System.lineSeparator();
         String input = "Here is one line of text that is going to be wrapped after 20 columns.";
-        String expected = "Here is one line of" + systemNewLine + "text that is going" 
+        String expected = "Here is one line of" + systemNewLine + "text that is going"
             + systemNewLine + "to be wrapped after" + systemNewLine + "20 columns.";
         assertEquals(expected, WordUtils.wrap(input, 20));
-        
+
         // long word at end
         input = "Click here to jump to the commons website - http://commons.apache.org";
-        expected = "Click here to jump" + systemNewLine + "to the commons" + systemNewLine 
+        expected = "Click here to jump" + systemNewLine + "to the commons" + systemNewLine
             + "website -" + systemNewLine + "http://commons.apache.org";
         assertEquals(expected, WordUtils.wrap(input, 20));
-        
+
         // long word in middle
         input = "Click here, http://commons.apache.org, to jump to the commons website";
-        expected = "Click here," + systemNewLine + "http://commons.apache.org," + systemNewLine 
+        expected = "Click here," + systemNewLine + "http://commons.apache.org," + systemNewLine
             + "to jump to the" + systemNewLine + "commons website";
         assertEquals(expected, WordUtils.wrap(input, 20));
 
@@ -76,7 +77,7 @@ public class WordUtilsTest {
         expected = "word1  " + systemNewLine + "word2  " + systemNewLine + "word3";
         assertEquals(expected, WordUtils.wrap(input, 7));
     }
-    
+
     @Test
     public void testWrap_StringIntStringBoolean() {
         assertEquals(null, WordUtils.wrap(null, 20, "\n", false));
@@ -85,14 +86,14 @@ public class WordUtilsTest {
         assertEquals(null, WordUtils.wrap(null, 20, null, false));
         assertEquals(null, WordUtils.wrap(null, -1, null, true));
         assertEquals(null, WordUtils.wrap(null, -1, null, false));
-        
+
         assertEquals("", WordUtils.wrap("", 20, "\n", false));
         assertEquals("", WordUtils.wrap("", 20, "\n", true));
         assertEquals("", WordUtils.wrap("", 20, null, false));
         assertEquals("", WordUtils.wrap("", 20, null, true));
         assertEquals("", WordUtils.wrap("", -1, null, false));
         assertEquals("", WordUtils.wrap("", -1, null, true));
-        
+
         // normal
         String input = "Here is one line of text that is going to be wrapped after 20 columns.";
         String expected = "Here is one line of\ntext that is going\nto be wrapped after\n20 columns.";
@@ -116,7 +117,7 @@ public class WordUtilsTest {
         // system newline char
         final String systemNewLine = System.lineSeparator();
         input = "Here is one line of text that is going to be wrapped after 20 columns.";
-        expected = "Here is one line of" + systemNewLine + "text that is going" + systemNewLine 
+        expected = "Here is one line of" + systemNewLine + "text that is going" + systemNewLine
             + "to be wrapped after" + systemNewLine + "20 columns.";
         assertEquals(expected, WordUtils.wrap(input, 20, null, false));
         assertEquals(expected, WordUtils.wrap(input, 20, null, true));
@@ -126,26 +127,26 @@ public class WordUtilsTest {
         expected = "Here:  is  one  line\nof  text  that  is \ngoing  to  be \nwrapped  after  20 \ncolumns.";
         assertEquals(expected, WordUtils.wrap(input, 20, "\n", false));
         assertEquals(expected, WordUtils.wrap(input, 20, "\n", true));
-        
+
         // with tab
         input = "Here is\tone line of text that is going to be wrapped after 20 columns.";
         expected = "Here is\tone line of\ntext that is going\nto be wrapped after\n20 columns.";
         assertEquals(expected, WordUtils.wrap(input, 20, "\n", false));
         assertEquals(expected, WordUtils.wrap(input, 20, "\n", true));
-        
+
         // with tab at wrapColumn
         input = "Here is one line of\ttext that is going to be wrapped after 20 columns.";
         expected = "Here is one line\nof\ttext that is\ngoing to be wrapped\nafter 20 columns.";
         assertEquals(expected, WordUtils.wrap(input, 20, "\n", false));
         assertEquals(expected, WordUtils.wrap(input, 20, "\n", true));
-        
+
         // difference because of long word
         input = "Click here to jump to the commons website - http://commons.apache.org";
         expected = "Click here to jump\nto the commons\nwebsite -\nhttp://commons.apache.org";
         assertEquals(expected, WordUtils.wrap(input, 20, "\n", false));
         expected = "Click here to jump\nto the commons\nwebsite -\nhttp://commons.apach\ne.org";
         assertEquals(expected, WordUtils.wrap(input, 20, "\n", true));
-        
+
         // difference because of long word in middle
         input = "Click here, http://commons.apache.org, to jump to the commons website";
         expected = "Click here,\nhttp://commons.apache.org,\nto jump to the\ncommons website";
@@ -186,7 +187,7 @@ public class WordUtilsTest {
         assertEquals(null, WordUtils.capitalize(null));
         assertEquals("", WordUtils.capitalize(""));
         assertEquals("  ", WordUtils.capitalize("  "));
-        
+
         assertEquals("I", WordUtils.capitalize("I") );
         assertEquals("I", WordUtils.capitalize("i") );
         assertEquals("I Am Here 123", WordUtils.capitalize("i am here 123") );
@@ -194,13 +195,13 @@ public class WordUtilsTest {
         assertEquals("I Am HERE 123", WordUtils.capitalize("i am HERE 123") );
         assertEquals("I AM HERE 123", WordUtils.capitalize("I AM HERE 123") );
     }
-    
+
     @Test
     public void testCapitalizeWithDelimiters_String() {
         assertEquals(null, WordUtils.capitalize(null, null));
         assertEquals("", WordUtils.capitalize("", new char[0]));
         assertEquals("  ", WordUtils.capitalize("  ", new char[0]));
-        
+
         char[] chars = new char[] { '-', '+', ' ', '@' };
         assertEquals("I", WordUtils.capitalize("I", chars) );
         assertEquals("I", WordUtils.capitalize("i", chars) );
@@ -218,7 +219,7 @@ public class WordUtilsTest {
         assertEquals(null, WordUtils.capitalizeFully(null));
         assertEquals("", WordUtils.capitalizeFully(""));
         assertEquals("  ", WordUtils.capitalizeFully("  "));
-        
+
         assertEquals("I", WordUtils.capitalizeFully("I") );
         assertEquals("I", WordUtils.capitalizeFully("i") );
         assertEquals("I Am Here 123", WordUtils.capitalizeFully("i am here 123") );
@@ -226,13 +227,13 @@ public class WordUtilsTest {
         assertEquals("I Am Here 123", WordUtils.capitalizeFully("i am HERE 123") );
         assertEquals("I Am Here 123", WordUtils.capitalizeFully("I AM HERE 123") );
     }
-    
+
     @Test
     public void testCapitalizeFullyWithDelimiters_String() {
         assertEquals(null, WordUtils.capitalizeFully(null, null));
         assertEquals("", WordUtils.capitalizeFully("", new char[0]));
         assertEquals("  ", WordUtils.capitalizeFully("  ", new char[0]));
-        
+
         char[] chars = new char[] { '-', '+', ' ', '@' };
         assertEquals("I", WordUtils.capitalizeFully("I", chars) );
         assertEquals("I", WordUtils.capitalizeFully("i", chars) );
@@ -270,7 +271,7 @@ public class WordUtilsTest {
         assertEquals(null, WordUtils.uncapitalize(null));
         assertEquals("", WordUtils.uncapitalize(""));
         assertEquals("  ", WordUtils.uncapitalize("  "));
-        
+
         assertEquals("i", WordUtils.uncapitalize("I") );
         assertEquals("i", WordUtils.uncapitalize("i") );
         assertEquals("i am here 123", WordUtils.uncapitalize("i am here 123") );
@@ -278,13 +279,13 @@ public class WordUtilsTest {
         assertEquals("i am hERE 123", WordUtils.uncapitalize("i am HERE 123") );
         assertEquals("i aM hERE 123", WordUtils.uncapitalize("I AM HERE 123") );
     }
-    
+
     @Test
     public void testUncapitalizeWithDelimiters_String() {
         assertEquals(null, WordUtils.uncapitalize(null, null));
         assertEquals("", WordUtils.uncapitalize("", new char[0]));
         assertEquals("  ", WordUtils.uncapitalize("  ", new char[0]));
-        
+
         char[] chars = new char[] { '-', '+', ' ', '@' };
         assertEquals("i", WordUtils.uncapitalize("I", chars) );
         assertEquals("i", WordUtils.uncapitalize("i", chars) );
@@ -329,7 +330,7 @@ public class WordUtilsTest {
         assertEquals("BJ.L", WordUtils.initials(" Ben   John  . Lee", array));
         assertEquals("KO", WordUtils.initials("Kay O'Murphy", array));
         assertEquals("iah1", WordUtils.initials("i am here 123", array));
-        
+
         array = new char[0];
         assertEquals(null, WordUtils.initials(null, array));
         assertEquals("", WordUtils.initials("", array));
@@ -343,7 +344,7 @@ public class WordUtilsTest {
         assertEquals("", WordUtils.initials(" Ben   John  . Lee", array));
         assertEquals("", WordUtils.initials("Kay O'Murphy", array));
         assertEquals("", WordUtils.initials("i am here 123", array));
-        
+
         array = " ".toCharArray();
         assertEquals(null, WordUtils.initials(null, array));
         assertEquals("", WordUtils.initials("", array));
@@ -357,7 +358,7 @@ public class WordUtilsTest {
         assertEquals("BJ.L", WordUtils.initials(" Ben   John  . Lee", array));
         assertEquals("KO", WordUtils.initials("Kay O'Murphy", array));
         assertEquals("iah1", WordUtils.initials("i am here 123", array));
-        
+
         array = " .".toCharArray();
         assertEquals(null, WordUtils.initials(null, array));
         assertEquals("", WordUtils.initials("", array));
@@ -370,7 +371,7 @@ public class WordUtilsTest {
         assertEquals("BJL", WordUtils.initials(" Ben   John  . Lee", array));
         assertEquals("KO", WordUtils.initials("Kay O'Murphy", array));
         assertEquals("iah1", WordUtils.initials("i am here 123", array));
-        
+
         array = " .'".toCharArray();
         assertEquals(null, WordUtils.initials(null, array));
         assertEquals("", WordUtils.initials("", array));
@@ -383,7 +384,7 @@ public class WordUtilsTest {
         assertEquals("BJL", WordUtils.initials(" Ben   John  . Lee", array));
         assertEquals("KOM", WordUtils.initials("Kay O'Murphy", array));
         assertEquals("iah1", WordUtils.initials("i am here 123", array));
-        
+
         array = "SIJo1".toCharArray();
         assertEquals(null, WordUtils.initials(null, array));
         assertEquals("", WordUtils.initials("", array));
@@ -404,7 +405,7 @@ public class WordUtilsTest {
         assertEquals(null, WordUtils.swapCase(null));
         assertEquals("", WordUtils.swapCase(""));
         assertEquals("  ", WordUtils.swapCase("  "));
-        
+
         assertEquals("i", WordUtils.swapCase("I") );
         assertEquals("I", WordUtils.swapCase("i") );
         assertEquals("I AM HERE 123", WordUtils.swapCase("i am here 123") );
@@ -417,12 +418,74 @@ public class WordUtilsTest {
         assertEquals(expect, WordUtils.swapCase(test));
     }
 
+    // -----------------------------------------------------------------------
+    @Test
+    public void testAbbreviateForNullAndEmptyString() {
+        assertEquals(null, (WordUtils.abbreviate(null, 1,-1,"")));
+        assertEquals(StringUtils.EMPTY, WordUtils.abbreviate("", 1,-1,""));
+        assertEquals("", WordUtils.abbreviate("0123456790", 0,0,""));
+        assertEquals("", WordUtils.abbreviate(" 0123456790", 0,-1,""));
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testAbbreviateForUpperLimit() {
+        assertEquals("01234", WordUtils.abbreviate("0123456789", 0,5,""));
+        assertEquals("012", WordUtils.abbreviate("012 3456789", 2, 5,""));
+        assertEquals("0123456789", WordUtils.abbreviate("0123456789", 0,-1,""));
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testAbbreviateForUpperLimitAndAppendedString() {
+        assertEquals("01234-", WordUtils.abbreviate("0123456789", 0,5,"-"));
+        assertEquals("012", WordUtils.abbreviate("012 3456789", 2, 5, null));
+        assertEquals("0123456789", WordUtils.abbreviate("0123456789", 0,-1,""));
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testAbbreviateForLowerValue() {
+        assertEquals("012", WordUtils.abbreviate("012 3456789", 0,5, null));
+        assertEquals("01234", WordUtils.abbreviate("01234 56789", 5, 10, null));
+        assertEquals("01 23 45 67", WordUtils.abbreviate("01 23 45 67 89", 9, -1, null));
+        assertEquals("01 23 45 6", WordUtils.abbreviate("01 23 45 67 89", 9, 10, null));
+        assertEquals("0123456789", WordUtils.abbreviate("0123456789", 15, 20, null));
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testAbbreviateForLowerValueAndAppendedString() {
+        assertEquals("012", WordUtils.abbreviate("012 3456789", 0,5, null));
+        assertEquals("01234-", WordUtils.abbreviate("01234 56789", 5, 10, "-"));
+        assertEquals("01 23 45 67abc", WordUtils.abbreviate("01 23 45 67 89", 9, -1, "abc"));
+        assertEquals("01 23 45 6", WordUtils.abbreviate("01 23 45 67 89", 9, 10, ""));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAbbreviateForLowerThanMinusOneValues() {
+        assertEquals("01 23 45 67", WordUtils.abbreviate("01 23 45 67 89", 9, -10, null));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAbbreviateUpperLessThanLowerValues() {
+        assertEquals("01234", WordUtils.abbreviate("0123456789", 5, 2,""));
+    }
+
+    @Test
+    public void testLANG673() throws Exception {
+        assertEquals("01",WordUtils.abbreviate("01 23 45 67 89", 0, 40, ""));
+        assertEquals("01 23 45 67",WordUtils.abbreviate("01 23 45 67 89", 10, 40, ""));
+        assertEquals("01 23 45 67 89",WordUtils.abbreviate("01 23 45 67 89", 40, 40, ""));
+    }
+
     @Test
     public void testLANG1292() throws Exception {
         // Prior to fix, this was throwing StringIndexOutOfBoundsException
         WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
                 + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
                 + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",70);
+
     }
 
 }

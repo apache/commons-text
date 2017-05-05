@@ -739,4 +739,91 @@ public class WordUtils {
         return false;
     }
 
-}
+    //-----------------------------------------------------------------------
+    /**
+     * Abbreviates the words nicely.
+     *
+     * This method searches for the first space after the lower limit and abbreviates
+     * the String there. It will also append any String passed as a parameter
+     * to the end of the String. The upper limit can be specified to forcibly
+     * abbreviate a String.
+     *
+     * @param str         the string to be abbreviated. If null is passed, null is returned.
+     *                    If the empty String is passed, the empty string is returned.
+     * @param lower       the lower limit.
+     * @param upper       the upper limit; specify -1 if no limit is desired.
+     *                    If the upper limit is lower than the lower limit, it will be
+     *                    adjusted to be the same as the lower limit.
+     * @param appendToEnd String to be appended to the end of the abbreviated string.
+     *                    This is appended ONLY if the string was indeed abbreviated.
+     *                    The append does not count towards the lower or upper limits.
+     * @return the abbreviated String.
+     *
+     * <pre>
+     *
+     * WordUtils.abbreviate("Now is the time for all good men", 0, 40, null));     = "Now"
+     * WordUtils.abbreviate("Now is the time for all good men", 10, 40, null));    = "Now is the"
+     * WordUtils.abbreviate("Now is the time for all good men", 20, 40, null));    = "Now is the time for all"
+     * WordUtils.abbreviate("Now is the time for all good men", 0, 40, ""));       = "Now"
+     * WordUtils.abbreviate("Now is the time for all good men", 10, 40, ""));      = "Now is the"
+     * WordUtils.abbreviate("Now is the time for all good men", 20, 40, ""));      = "Now is the time for all"
+     * WordUtils.abbreviate("Now is the time for all good men", 0, 40, " ..."));   = "Now ..."
+     * WordUtils.abbreviate("Now is the time for all good men", 10, 40, " ..."));  = "Now is the ..."
+     * WordUtils.abbreviate("Now is the time for all good men", 20, 40, " ..."));  = "Now is the time for all ..."
+     * WordUtils.abbreviate("Now is the time for all good men", 0, -1, ""));       = "Now"
+     * WordUtils.abbreviate("Now is the time for all good men", 10, -1, ""));      = "Now is the"
+     * WordUtils.abbreviate("Now is the time for all good men", 20, -1, ""));      = "Now is the time for all"
+     * WordUtils.abbreviate("Now is the time for all good men", 50, -1, ""));      = "Now is the time for all good men"
+     * WordUtils.abbreviate("Now is the time for all good men", 1000, -1, ""));    = "Now is the time for all good men"
+     * WordUtils.abbreviate("Now is the time for all good men", 9, -10, null));    = IllegalArgumentException
+     * WordUtils.abbreviate("Now is the time for all good men", 10, 5, null));     = IllegalArgumentException
+     *
+     * </pre>
+     */
+    public static String abbreviate(String str, int lower, int upper, String appendToEnd) {
+
+        // throw IllegalArgumentException if upper limit is less than -1 which voids contact.
+        if (upper < -1) {
+            throw new IllegalArgumentException("upper value cannot be less than -1");
+        }
+
+        // throw IllegalArgumentException if upper value is less than lower value.
+        if (upper < lower && upper != -1) {
+            throw new IllegalArgumentException("upper value is less than lower value");
+        }
+
+        if (StringUtils.isEmpty(str)) {
+            return str;
+        }
+
+        // if the lower value is greater than the length of the string,
+        // set to the length of the string
+        if (lower > str.length()) {
+            lower = str.length();
+        }
+
+        // if the upper value is -1 (i.e. no limit) or is greater
+        // than the length of the string, set to the length of the string
+        if (upper == -1 || upper > str.length()) {
+            upper = str.length();
+        }
+
+        final StringBuilder result = new StringBuilder();
+        final int index = StringUtils.indexOf(str, " ", lower);
+        if (index == -1) {
+            result.append(str.substring(0, upper));
+            // only if abbreviation has occured do we append the appendToEnd value
+            if (upper != str.length()) {
+                result.append(StringUtils.defaultString(appendToEnd));
+            }
+        } else if (index > upper) {
+            result.append(str.substring(0, upper));
+            result.append(StringUtils.defaultString(appendToEnd));
+        } else {
+            result.append(str.substring(0, index));
+            result.append(StringUtils.defaultString(appendToEnd));
+        }
+
+        return result.toString();
+    }
+ }
