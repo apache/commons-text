@@ -46,6 +46,7 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
 
   <release version="1.1" date="tbd" description="tbd">
+    <action issue="TEXT-41" type="add" dev="chtompki" due-to="Amey Jadiye">WordUtils.abbreviate support</action>
     <action issue="TEXT-82" type="add" dev="chtompki" due-to="Amey Jadiye">Putting WordUtils back in to the codebase</action>
     <action issue="TEXT-81" type="add" dev="pschumacher" due-to="djones">Add RandomStringGenerator</action>
     <action issue="TEXT-36" type="add" dev="pschumacher" due-to="Raymond DeCampo">RandomStringGenerator: allow users to provide source of randomness</action>
