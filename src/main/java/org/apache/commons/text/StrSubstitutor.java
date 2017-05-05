@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang3.Validate;
+
 /**
  * Substitutes variables within a string by values.
  * <p>
@@ -982,9 +984,7 @@ public class StrSubstitutor {
      * @throws IllegalArgumentException if the prefix matcher is null
      */
     public StrSubstitutor setVariablePrefixMatcher(final StrMatcher prefixMatcher) {
-        if (prefixMatcher == null) {
-            throw new IllegalArgumentException("Variable prefix matcher must not be null!");
-        }
+        Validate.isTrue(prefixMatcher != null, "Variable prefix matcher must not be null!");
         this.prefixMatcher = prefixMatcher;
         return this;
     }
@@ -1014,9 +1014,7 @@ public class StrSubstitutor {
      * @throws IllegalArgumentException if the prefix is null
      */
     public StrSubstitutor setVariablePrefix(final String prefix) {
-       if (prefix == null) {
-            throw new IllegalArgumentException("Variable prefix must not be null!");
-        }
+        Validate.isTrue(prefix != null, "Variable prefix must not be null!");
         return setVariablePrefixMatcher(StrMatcher.stringMatcher(prefix));
     }
 
@@ -1047,9 +1045,7 @@ public class StrSubstitutor {
      * @throws IllegalArgumentException if the suffix matcher is null
      */
     public StrSubstitutor setVariableSuffixMatcher(final StrMatcher suffixMatcher) {
-        if (suffixMatcher == null) {
-            throw new IllegalArgumentException("Variable suffix matcher must not be null!");
-        }
+        Validate.isTrue(suffixMatcher != null, "Variable suffix matcher must not be null!");
         this.suffixMatcher = suffixMatcher;
         return this;
     }
@@ -1079,9 +1075,7 @@ public class StrSubstitutor {
      * @throws IllegalArgumentException if the suffix is null
      */
     public StrSubstitutor setVariableSuffix(final String suffix) {
-       if (suffix == null) {
-            throw new IllegalArgumentException("Variable suffix must not be null!");
-        }
+        Validate.isTrue(suffix != null, "Variable suffix must not be null!");
         return setVariableSuffixMatcher(StrMatcher.stringMatcher(suffix));
     }
 

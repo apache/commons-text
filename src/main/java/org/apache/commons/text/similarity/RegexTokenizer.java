@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
+
 /**
  * A simple word tokenizer that utilizes regex to find words. It applies a regex
  * {@code}(\w)+{@code} over the input text to extract words from a given character
@@ -37,9 +40,7 @@ class RegexTokenizer implements Tokenizer<CharSequence> {
      */
     @Override
     public CharSequence[] tokenize(final CharSequence text) {
-        if (text == null || text.toString().trim().equals("")) {
-            throw new IllegalArgumentException("Invalid text");
-        }
+        Validate.isTrue(StringUtils.isNotBlank(text), "Invalid text");
         final Pattern pattern = Pattern.compile("(\\w)+");
         final Matcher matcher = pattern.matcher(text.toString());
         final List<String> tokens = new ArrayList<>();

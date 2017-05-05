@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text.similarity;
 
+import org.apache.commons.lang3.Validate;
+
 /**
  * <p>
  * This stores a {@link SimilarityScore} implementation and a {@link CharSequence} "left" string.
@@ -70,9 +72,7 @@ public class SimilarityScoreFrom<R> {
      *             implementation may not accept nulls.
      */
     public SimilarityScoreFrom(final SimilarityScore<R> similarityScore, final CharSequence left) {
-        if (similarityScore == null) {
-            throw new IllegalArgumentException("The edit distance may not be null.");
-        }
+        Validate.isTrue(similarityScore != null, "The edit distance may not be null.");
 
         this.similarityScore = similarityScore;
         this.left = left;

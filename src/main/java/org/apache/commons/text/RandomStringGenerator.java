@@ -20,6 +20,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.apache.commons.lang3.Validate;
+
 /**
  * <p>
  * Generates random Unicode strings containing the specified number of code points.
@@ -119,9 +121,7 @@ public final class RandomStringGenerator {
         if (length == 0) {
             return "";
         }
-        if (length < 0) {
-            throw new IllegalArgumentException(String.format("Length %d is smaller than zero.", length));
-        }
+        Validate.isTrue(length > 0, "Length %d is smaller than zero.", length);
 
         final StringBuilder builder = new StringBuilder(length);
         long remaining = length;
@@ -223,19 +223,11 @@ public final class RandomStringGenerator {
          *             if {@code minimumCodePoint > maximumCodePoint}
          */
         public Builder withinRange(final int minimumCodePoint, final int maximumCodePoint) {
-            if (minimumCodePoint > maximumCodePoint) {
-                throw new IllegalArgumentException(String.format(
-                        "Minimum code point %d is larger than maximum code point %d",
-                        minimumCodePoint, maximumCodePoint));
-            }
-            if (minimumCodePoint < 0) {
-                throw new IllegalArgumentException(
-                        String.format("Minimum code point %d is negative", minimumCodePoint));
-            }
-            if (maximumCodePoint > Character.MAX_CODE_POINT) {
-                throw new IllegalArgumentException(
-                        String.format("Value %d is larger than Character.MAX_CODE_POINT.", maximumCodePoint));
-            }
+            Validate.isTrue(minimumCodePoint <= maximumCodePoint,
+                    "Minimum code point %d is larger than maximum code point %d", minimumCodePoint, maximumCodePoint);
+            Validate.isTrue(minimumCodePoint >= 0, "Minimum code point %d is negative", minimumCodePoint);
+            Validate.isTrue(maximumCodePoint <= Character.MAX_CODE_POINT,
+                    "Value %d is larger than Character.MAX_CODE_POINT.", maximumCodePoint);
 
             this.minimumCodePoint = minimumCodePoint;
             this.maximumCodePoint = maximumCodePoint;

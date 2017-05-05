@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text.similarity;
 
+import org.apache.commons.lang3.Validate;
+
 /**
  * <p>
  * This stores a {@link EditDistance} implementation and a {@link CharSequence} "left" string.
@@ -70,9 +72,7 @@ public class EditDistanceFrom<R> {
      *             implementation may not accept nulls.
      */
     public EditDistanceFrom(final EditDistance<R> editDistance, final CharSequence left) {
-        if (editDistance == null) {
-            throw new IllegalArgumentException("The edit distance may not be null.");
-        }
+        Validate.isTrue(editDistance != null, "The edit distance may not be null.");
 
         this.editDistance = editDistance;
         this.left = left;

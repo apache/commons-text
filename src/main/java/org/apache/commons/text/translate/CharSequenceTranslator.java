@@ -21,6 +21,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Locale;
 
+import org.apache.commons.lang3.Validate;
+
 /**
  * An API for translating text.
  * Its core use is to escape and unescape text. Because escaping and unescaping
@@ -80,9 +82,7 @@ public abstract class CharSequenceTranslator {
      * @throws IOException if and only if the Writer produces an IOException
      */
     public final void translate(final CharSequence input, final Writer out) throws IOException {
-        if (out == null) {
-            throw new IllegalArgumentException("The Writer must not be null");
-        }
+        Validate.isTrue(out != null, "The Writer must not be null");
         if (input == null) {
             return;
         }

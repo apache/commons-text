@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 
 /**
  * <p>Operations on Strings that contain words.</p>
@@ -698,7 +699,6 @@ public class WordUtils {
      * WordUtils.containsAllWords("abc def", "def", "abc") = true
      * </pre>
      *
-     *
      * @param word The CharSequence to check, may be null
      * @param words The array of String words to search for, may be null
      * @return {@code true} if all search words are found, {@code false} otherwise
@@ -760,7 +760,6 @@ public class WordUtils {
      * @return the abbreviated String.
      *
      * <pre>
-     *
      * WordUtils.abbreviate("Now is the time for all good men", 0, 40, null));     = "Now"
      * WordUtils.abbreviate("Now is the time for all good men", 10, 40, null));    = "Now is the"
      * WordUtils.abbreviate("Now is the time for all good men", 20, 40, null));    = "Now is the time for all"
@@ -777,20 +776,11 @@ public class WordUtils {
      * WordUtils.abbreviate("Now is the time for all good men", 1000, -1, ""));    = "Now is the time for all good men"
      * WordUtils.abbreviate("Now is the time for all good men", 9, -10, null));    = IllegalArgumentException
      * WordUtils.abbreviate("Now is the time for all good men", 10, 5, null));     = IllegalArgumentException
-     *
      * </pre>
      */
     public static String abbreviate(String str, int lower, int upper, String appendToEnd) {
-
-        // throw IllegalArgumentException if upper limit is less than -1 which voids contact.
-        if (upper < -1) {
-            throw new IllegalArgumentException("upper value cannot be less than -1");
-        }
-
-        // throw IllegalArgumentException if upper value is less than lower value.
-        if (upper < lower && upper != -1) {
-            throw new IllegalArgumentException("upper value is less than lower value");
-        }
+        Validate.isTrue(upper >= -1, "upper value cannot be less than -1");
+        Validate.isTrue(upper >= lower || upper == -1, "upper value is less than lower value");
 
         if (StringUtils.isEmpty(str)) {
             return str;
