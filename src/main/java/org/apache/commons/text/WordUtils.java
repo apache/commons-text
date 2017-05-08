@@ -419,7 +419,7 @@ public class WordUtils {
         int outOffset = 0;
 
         boolean capitalizeNext = true;
-        for (int index = 0; index < str.length();) {
+        for (int index = 0; index < strLen;) {
             final int codePoint = str.codePointAt(index);
 
             if (isDelimiter(codePoint, delimiters)) {
@@ -553,7 +553,7 @@ public class WordUtils {
         int outOffset = 0;
 
         boolean uncapitalizeNext = true;
-        for (int index = 0; index < str.length();) {
+        for (int index = 0; index < strLen;) {
             final int codePoint = str.codePointAt(index);
 
             if (isDelimiter(codePoint, delimiters)) {
