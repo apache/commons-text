@@ -753,7 +753,7 @@ public class WordUtils {
      * @param delimiters  the delimiters
      * @return true if it is a delimiter
      */
-    private static boolean isDelimiter(final char ch, final char[] delimiters) {
+    public static boolean isDelimiter(final char ch, final char[] delimiters) {
         if (delimiters == null) {
             return Character.isWhitespace(ch);
         }
@@ -773,7 +773,7 @@ public class WordUtils {
      * @param delimiters  the delimiters
      * @return true if it is a delimiter
      */
-    private static boolean isDelimiter(final int codePoint, final char[] delimiters) {
+    public static boolean isDelimiter(final int codePoint, final char[] delimiters) {
         if (delimiters == null) {
             return Character.isWhitespace(codePoint);
         }
