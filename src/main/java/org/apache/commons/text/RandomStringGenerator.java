@@ -52,9 +52,24 @@ import org.apache.commons.lang3.Validate;
  */
 public final class RandomStringGenerator {
 
+    /**
+     * The smallest allowed code point (inclusive).
+     */
     private final int minimumCodePoint;
+
+    /**
+     * The largest allowed code point (inclusive).
+     */
     private final int maximumCodePoint;
+
+    /**
+     * Filters for code points.
+     */
     private final Set<CharacterPredicate> inclusivePredicates;
+
+    /**
+     * The source of randomness for this generator.
+     */
     private final TextRandomProvider random;
 
     /**
@@ -198,9 +213,24 @@ public final class RandomStringGenerator {
          */
         public static final int DEFAULT_MINIMUM_CODE_POINT = 0;
 
+        /**
+         * The minimum code point allowed.
+         */
         private int minimumCodePoint = DEFAULT_MINIMUM_CODE_POINT;
+
+        /**
+         * The maximum code point allowed.
+         */
         private int maximumCodePoint = DEFAULT_MAXIMUM_CODE_POINT;
+
+        /**
+         * Filters for code points.
+         */
         private Set<CharacterPredicate> inclusivePredicates;
+
+        /**
+         * The source of randomness.
+         */
         private TextRandomProvider random;
 
         /**
