@@ -19,6 +19,8 @@ package org.apache.commons.text.translate;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.apache.commons.lang3.Range;
+
 /**
  * Translates codepoints to their XML numeric entity escaped value.
  *
@@ -26,13 +28,10 @@ import java.io.Writer;
  */
 public class NumericEntityEscaper extends CodePointTranslator {
 
-    /** int value representing the lowest codepoint boundary. */
-    private final int below;
-    /** int value representing the highest codepoint boundary. */
-    private final int above;
     /** whether to escape between the boundaries or outside them. */
     private final boolean between;
-
+    /** range from lowest codepoint to highest codepoint. */
+    private final Range<Integer> range;
     /**
      * <p>Constructs a <code>NumericEntityEscaper</code> for the specified range. This is
      * the underlying method for the other constructors/builders. The <code>below</code>
@@ -44,8 +43,7 @@ public class NumericEntityEscaper extends CodePointTranslator {
      * @param between whether to escape between the boundaries or outside them
      */
     private NumericEntityEscaper(final int below, final int above, final boolean between) {
-        this.below = below;
-        this.above = above;
+        this.range = Range.between(below, above);
         this.between = between;
     }
 
@@ -103,16 +101,9 @@ public class NumericEntityEscaper extends CodePointTranslator {
      */
     @Override
     public boolean translate(final int codepoint, final Writer out) throws IOException {
-        if (between) {
-            if (codepoint < below || codepoint > above) {
-                return false;
-            }
-        } else {
-            if (codepoint >= below && codepoint <= above) {
-                return false;
-            }
+        if (this.between != this.range.contains(codepoint)) {
+            return false;
         }
-
         out.write("&#");
         out.write(Integer.toString(codepoint, 10));
         out.write(';');
