@@ -24,12 +24,10 @@ limitations under the License.
 <!-- ================================================== -->
 <section name="Commons Text Release History">
 
-<!-- TODO: Add the Java version for each release -->
-
 <table>
 <tr><th>Version</th><th>Release date</th><th>Required Java Version</th><th>Javadoc</th><th>Release notes</th></tr>
 <tr>
-  <td>1.1</td><td>TBD</td><td>7.0</td><td><a href="javadocs/api-1.1/">api-1.1</a></td><td><a href="release-notes/RELEASE-NOTES-1.1.txt">release notes for 1.1</a></td>
+  <td>1.1</td><td>5-23-2017</td><td>7.0</td><td><a href="javadocs/api-1.1/">api-1.1</a></td><td><a href="release-notes/RELEASE-NOTES-1.1.txt">release notes for 1.1</a></td>
 </tr>
 <tr>
   <td>1.0</td><td>3-11-2017</td><td>7.0</td><td><a href="javadocs/api-1.0/">api-1.0</a></td><td><a href="release-notes/RELEASE-NOTES-1.0.txt">release notes for 1.0</a></td>

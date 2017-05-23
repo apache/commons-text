@@ -45,7 +45,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
 
-  <release version="1.1" date="tbd" description="tbd">
+  <release version="1.2" date="tbd" description="tbd">
+  </release>
+
+  <release version="1.1" date="2017-05-23" description="Release 1.1">
     <action issue="TEXT-39" type="update" dev="chtompki" due-to="Amey Jadiye">WordUtils should use toXxxxCase(int) rather than toXxxxCase(char)</action>
     <action issue="TEXT-41" type="add" dev="chtompki" due-to="Amey Jadiye">WordUtils.abbreviate support</action>
     <action issue="TEXT-82" type="add" dev="chtompki" due-to="Amey Jadiye">Putting WordUtils back in to the codebase</action>
