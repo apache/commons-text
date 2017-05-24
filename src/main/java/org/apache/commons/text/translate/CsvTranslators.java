@@ -16,15 +16,15 @@
  */
 package org.apache.commons.text.translate;
 
-import org.apache.commons.lang3.CharUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.IOException;
 import java.io.Writer;
 
+import org.apache.commons.lang3.CharUtils;
+import org.apache.commons.lang3.StringUtils;
 /**
  * This class holds inner classes for escaping/unescaping Comma Separated Values.
  */
+@Deprecated
 public final class CsvTranslators {
 
     /** Comma character. */
@@ -45,6 +45,7 @@ public final class CsvTranslators {
     /**
      * Translator for escaping Comma Separated Values.
      */
+    @Deprecated
     public static class CsvEscaper extends SinglePassTranslator {
 
         @Override
@@ -64,6 +65,7 @@ public final class CsvTranslators {
     /**
      * Translator for unescaping escaped Comma Separated Value entries.
      */
+    @Deprecated
     public static class CsvUnescaper extends SinglePassTranslator {
 
         @Override
