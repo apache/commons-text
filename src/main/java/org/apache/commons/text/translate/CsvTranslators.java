@@ -22,9 +22,18 @@ import java.io.Writer;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 /**
- * This class holds inner classes for escaping/unescaping Comma Separated Values.
+ * <p>This class holds inner classes for escaping/unescaping Comma Separated Values.<p>
+ *
+ * In favor of Commons CSV which is responsible for all csv operations its always
+ * recommended to use API given in commons-csv.
+ *
+ * {@link CsvTranslators} have made by keeping in mind it will be useful to make high
+ * level and more complex API around CSV files. All low level API working on Text and
+ * with CSV are present in this class.
+ *
+ * @see <a href="http://commons.apache.org/proper/commons-csv/apidocs/index.html">commons-csv</a>
+ *
  */
-@Deprecated
 public final class CsvTranslators {
 
     /** Comma character. */
@@ -45,7 +54,6 @@ public final class CsvTranslators {
     /**
      * Translator for escaping Comma Separated Values.
      */
-    @Deprecated
     public static class CsvEscaper extends SinglePassTranslator {
 
         @Override
@@ -65,7 +73,6 @@ public final class CsvTranslators {
     /**
      * Translator for unescaping escaped Comma Separated Value entries.
      */
-    @Deprecated
     public static class CsvUnescaper extends SinglePassTranslator {
 
         @Override
