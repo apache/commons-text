@@ -62,7 +62,7 @@ public class StrLookupTest  {
         final String osName = "os.name";
         final String newOsName = oldProperties.getProperty(osName) + "_changed";
 
-        final StrLookup<String> sysLookup = StrLookup.systemPropertiesLookup();
+        final StrLookup sysLookup = StrLookup.systemPropertiesLookup();
         final Properties newProps = new Properties();
         newProps.setProperty(osName, newOsName);
         System.setProperties(newProps);
@@ -83,7 +83,7 @@ public class StrLookupTest  {
         final String oldOs = System.getProperty(osName);
         final String newOsName = oldOs + "_changed";
 
-        final StrLookup<String> sysLookup = StrLookup.systemPropertiesLookup();
+        final StrLookup sysLookup = StrLookup.systemPropertiesLookup();
         System.setProperty(osName, newOsName);
         try {
             assertEquals("Changed properties not detected", newOsName, sysLookup.lookup(osName));
