@@ -47,8 +47,8 @@ import org.apache.commons.lang3.Validate;
  * </pre>
  * <p>
  * {@code RandomStringBuilder} instances are thread-safe when using the
- * default random number generator (RNG). If a custom RNG is set by calling the method 
- * {@link Builder#usingRandom(TextRandomProvider) Builder.usingRandom(TextRandomProvider)}, thread-safety 
+ * default random number generator (RNG). If a custom RNG is set by calling the method
+ * {@link Builder#usingRandom(TextRandomProvider) Builder.usingRandom(TextRandomProvider)}, thread-safety
  * must be ensured externally.
  * </p>
  * @since 1.1
