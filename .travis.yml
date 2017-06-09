@@ -29,7 +29,7 @@ before_install:
 
 script:
   - mvn test apache-rat:check clirr:check checkstyle:check findbugs:check javadoc:javadoc
-  - docker run -v `pwd`:/work ibmcom/ibmjava:8-sdk /bin/bash -c "apt-get update && cd work && apt-get install -y maven && mvn test apache-rat:check clirr:check checkstyle:check findbugs:check javadoc:javadoc"
+  - docker run -v `pwd`:/work ibmcom/ibmjava:8-sdk /bin/bash -c "apt-get update && cd work && apt-get install -y maven && mvn"
 
 after_success:
   - mvn clean test jacoco:report coveralls:report
