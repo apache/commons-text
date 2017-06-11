@@ -27,111 +27,104 @@ import org.junit.Test;
 
 public class CsvTranslatorsTest {
 
-	@Test
-	public void csvEscaperPlaneTextTest() throws IOException{
-		final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
-		final Writer writer = new StringWriter();
-		final String input = "hi this is just a plane text nothing to do with csv!";
-		escaper.translateWhole(input, writer);
-		String data = writer.toString();
-		assertEquals(data, input);
-	}
+    @Test
+    public void csvEscaperPlaneTextTest() throws IOException {
+        final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
+        final Writer writer = new StringWriter();
+        final String input = "hi this is just a plane text nothing to do with csv!";
+        escaper.translateWhole(input, writer);
+        String data = writer.toString();
+        assertEquals(data, input);
+    }
 
-	@Test
-	public void csvEscaperCommaTest() throws IOException{
-		final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
-		final Writer writer = new StringWriter();
-		final String input = "hi,this,is,a,test";
-		escaper.translateWhole(input, writer);
-		String data = writer.toString();
-		assertEquals(data, "\"hi,this,is,a,test\"");
+    @Test
+    public void csvEscaperCommaTest() throws IOException {
+        final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
+        final Writer writer = new StringWriter();
+        final String input = "hi,this,is,a,test";
+        escaper.translateWhole(input, writer);
+        String data = writer.toString();
+        assertEquals(data, "\"hi,this,is,a,test\"");
+    }
 
-	}
+    @Test
+    public void csvEscaperQuoteTest() throws IOException {
+        final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
+        final Writer writer = new StringWriter();
+        final String input = "hi,this,is,a,\"quote,test";
+        escaper.translateWhole(input, writer);
+        String data = writer.toString();
+        assertEquals(data, "\"hi,this,is,a,\"\"quote,test\"");
+    }
 
-	@Test
-	public void csvEscaperQuoteTest() throws IOException{
-		final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
-		final Writer writer = new StringWriter();
-		final String input = "hi,this,is,a,\"quote,test";
-		escaper.translateWhole(input, writer);
-		String data = writer.toString();
-		assertEquals(data, "\"hi,this,is,a,\"\"quote,test\"");
+    @Test
+    public void csvEscaperCRTest() throws IOException {
+        final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
+        final Writer writer = new StringWriter();
+        final String input = "hi,this,is,a,CR,test" + String.valueOf(CharUtils.CR);
+        escaper.translateWhole(input, writer);
+        String data = writer.toString();
+        assertEquals(data, "\"hi,this,is,a,CR,test" + String.valueOf(CharUtils.CR) + "\"");
+    }
 
-	}
-	@Test
-	public void csvEscaperCRTest() throws IOException{
-		final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
-		final Writer writer = new StringWriter();
-		final String input = "hi,this,is,a,CR,test" + String.valueOf(CharUtils.CR);
-		escaper.translateWhole(input, writer);
-		String data = writer.toString();
-		assertEquals(data, "\"hi,this,is,a,CR,test"+String.valueOf(CharUtils.CR)+"\"");
+    @Test
+    public void csvEscaperLFTest() throws IOException {
+        final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
+        final Writer writer = new StringWriter();
+        final String input = "hi,this,is,a,LF,test" + String.valueOf(CharUtils.LF);
+        escaper.translateWhole(input, writer);
+        String data = writer.toString();
+        assertEquals(data, "\"hi,this,is,a,LF,test" + String.valueOf(CharUtils.LF) + "\"");
+    }
 
-	}
-	@Test
-	public void csvEscaperLFTest() throws IOException{
-		final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
-		final Writer writer = new StringWriter();
-		final String input = "hi,this,is,a,LF,test" + String.valueOf(CharUtils.LF);
-		escaper.translateWhole(input, writer);
-		String data = writer.toString();
-		assertEquals(data, "\"hi,this,is,a,LF,test" + String.valueOf(CharUtils.LF) +"\"");
+    @Test
+    public void csvUnEscaperPlaneTextTest() throws IOException {
+        final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
+        final Writer writer = new StringWriter();
+        final String input = "hi,this,is,unescape,test";
+        escaper.translateWhole(input, writer);
+        String data = writer.toString();
+        assertEquals(data, "hi,this,is,unescape,test");
+    }
 
-	}
+    @Test
+    public void csvUnEscaperTest1() throws IOException {
+        final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
+        final Writer writer = new StringWriter();
+        final String input = "\"hi,this,is,unescape,test\"";
+        escaper.translateWhole(input, writer);
+        String data = writer.toString();
+        assertEquals(data, "hi,this,is,unescape,test");
+    }
 
-	@Test
-	public void csvUnEscaperPlaneTextTest() throws IOException{
-		final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
-		final Writer writer = new StringWriter();
-		final String input = "hi,this,is,unescape,test";
-		escaper.translateWhole(input, writer);
-		String data = writer.toString();
-		assertEquals(data, "hi,this,is,unescape,test");
+    @Test
+    public void csvUnEscaperTest2() throws IOException {
+        final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
+        final Writer writer = new StringWriter();
+        final String input = "\"hi,this,is,unescape,test";
+        escaper.translateWhole(input, writer);
+        String data = writer.toString();
+        assertEquals(data, input);
+    }
 
-	}
+    @Test
+    public void csvUnEscaperTest3() throws IOException {
+        final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
+        final Writer writer = new StringWriter();
+        final String input = "hi,this,is,unescape,test\"";
+        escaper.translateWhole(input, writer);
+        String data = writer.toString();
+        assertEquals(data, input);
+    }
 
-	@Test
-	public void csvUnEscaperTest1() throws IOException{
-		final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
-		final Writer writer = new StringWriter();
-		final String input = "\"hi,this,is,unescape,test\"";
-		escaper.translateWhole(input, writer);
-		String data = writer.toString();
-		assertEquals(data, "hi,this,is,unescape,test");
-
-	}
-
-	@Test
-	public void csvUnEscaperTest2() throws IOException{
-		final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
-		final Writer writer = new StringWriter();
-		final String input = "\"hi,this,is,unescape,test";
-		escaper.translateWhole(input, writer);
-		String data = writer.toString();
-		assertEquals(data, input);
-
-	}
-
-	@Test
-	public void csvUnEscaperTest3() throws IOException{
-		final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
-		final Writer writer = new StringWriter();
-		final String input = "hi,this,is,unescape,test\"";
-		escaper.translateWhole(input, writer);
-		String data = writer.toString();
-		assertEquals(data, input);
-
-	}
-
-	@Test
-	public void csvUnEscaperTest4() throws IOException{
-		final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
-		final Writer writer = new StringWriter();
-		final String input = "\"hi,this,is,\"unescape,test\"";
-		escaper.translateWhole(input, writer);
-		String data = writer.toString();
-		assertEquals(data, "hi,this,is,\"unescape,test");
-
-	}
+    @Test
+    public void csvUnEscaperTest4() throws IOException {
+        final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
+        final Writer writer = new StringWriter();
+        final String input = "\"hi,this,is,\"unescape,test\"";
+        escaper.translateWhole(input, writer);
+        String data = writer.toString();
+        assertEquals(data, "hi,this,is,\"unescape,test");
+    }
 
 }
