@@ -24,15 +24,10 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * <p>This class holds inner classes for escaping/unescaping Comma Separated Values.<p>
  *
- * In favor of Commons CSV which is responsible for all csv operations its always
- * recommended to use API given in commons-csv.
- *
- * {@link CsvTranslators} have made by keeping in mind it will be useful to make high
- * level and more complex API around CSV files. All low level API working on Text and
- * with CSV are present in this class.
+ * In general the use a high level API like commons-csv should be preferred over these
+ * low level classes.
  *
  * @see <a href="http://commons.apache.org/proper/commons-csv/apidocs/index.html">commons-csv</a>
- *
  */
 public final class CsvTranslators {
 
