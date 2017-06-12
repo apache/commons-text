@@ -46,6 +46,7 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
 
   <release version="1.2" date="tbd" description="tbd">
+    <action issue="TEXT-83" type="update" dev"chtompki" due-to="Amey Jadiye">Document CsvTranslators from from commons text in favor of Commons CSV</action>
     <action issue="TEXT-67" type="update" dev="kinow">NumericEntityUnescaper.options - TODO</action>
     <action issue="TEXT-84" type="update" dev="djones">RandomStringGenerator claims to be immutable, but isn't</action>
   </release>
