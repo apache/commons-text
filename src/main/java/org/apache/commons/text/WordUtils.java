@@ -411,8 +411,7 @@ public class WordUtils {
      * @see #capitalizeFully(String)
      */
     public static String capitalize(final String str, final char... delimiters) {
-        final int delimLen = delimiters == null ? -1 : delimiters.length;
-        if (StringUtils.isEmpty(str) || delimLen == 0) {
+        if (StringUtils.isEmpty(str)) {
             return str;
         }
         int strLen = str.length();
@@ -490,8 +489,7 @@ public class WordUtils {
      * @return capitalized String, <code>null</code> if null String input
      */
     public static String capitalizeFully(String str, final char... delimiters) {
-        final int delimLen = delimiters == null ? -1 : delimiters.length;
-        if (StringUtils.isEmpty(str) || delimLen == 0) {
+        if (StringUtils.isEmpty(str)) {
             return str;
         }
         str = str.toLowerCase();
@@ -545,8 +543,7 @@ public class WordUtils {
      * @see #capitalize(String)
      */
     public static String uncapitalize(final String str, final char... delimiters) {
-        final int delimLen = delimiters == null ? -1 : delimiters.length;
-        if (StringUtils.isEmpty(str) || delimLen == 0) {
+        if (StringUtils.isEmpty(str)) {
             return str;
         }
         int strLen = str.length();

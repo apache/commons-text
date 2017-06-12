@@ -229,6 +229,16 @@ public class WordUtilsTest {
     }
 
     @Test
+    public void testCapitalizeFully_Text88() {
+        assertEquals("I am fine now",WordUtils.capitalizeFully("i am fine now", new char[]{}));
+    }
+
+    @Test
+    public void testUnCapitalize_Text88() {
+        assertEquals("i am fine now",WordUtils.uncapitalize("I am fine now", new char[]{}));
+    }
+
+    @Test
     public void testCapitalizeFullyWithDelimiters_String() {
         assertEquals(null, WordUtils.capitalizeFully(null, null));
         assertEquals("", WordUtils.capitalizeFully("", new char[0]));
