@@ -177,6 +177,27 @@ public final class RandomStringGenerator {
     }
 
     /**
+     * Generates a random string, containing between the minimum (inclusive) and the maximum (inclusive)
+     * number of code points.
+     *
+     * @param minLengthInclusive
+     *            the minimum (inclusive) number of code points to generate
+     * @param maxLengthInclusive
+     *            the maximum (inclusive) number of code points to generate
+     * @return the generated string
+     * @throws IllegalArgumentException
+     *             if {@code minLengthInclusive < 0}, or {@code maxLengthInclusive < minLengthInclusive}
+     * @see RandomStringGenerator#generate(int)
+     * @since 1.2
+     */
+    public String generate(final int minLengthInclusive, final int maxLengthInclusive) {
+        Validate.isTrue(minLengthInclusive >= 0, "Minimum length %d is smaller than zero.", minLengthInclusive);
+        Validate.isTrue(minLengthInclusive <= maxLengthInclusive,
+                "Maximum length %d is smaller than minimum length %d.", maxLengthInclusive, minLengthInclusive);
+        return generate(generateRandomNumber(minLengthInclusive, maxLengthInclusive));
+    }
+
+    /**
      * <p>A builder for generating {@code RandomStringGenerator} instances.</p>
      * <p>The behaviour of a generator is controlled by properties set by this
      * builder. Each property has a default value, which can be overridden by

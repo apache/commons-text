@@ -18,6 +18,9 @@ package org.apache.commons.text;
 
 import org.junit.Test;
 
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.*;
 
 /**
@@ -45,6 +48,18 @@ public class RandomStringGeneratorTest {
         generator.generate(-1);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testGenerateMinMaxLengthInvalidLength() {
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+        generator.generate(-1, 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGenerateMinMaxLengthMinGreaterThanMax() {
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+        generator.generate(1, 0);
+    }
+
     private static int codePointLength(String s) {
         return s.codePointCount(0, s.length());
     }
@@ -55,6 +70,15 @@ public class RandomStringGeneratorTest {
         RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
         String str = generator.generate(length);
         assertEquals(length, codePointLength(str));
+    }
+
+    @Test
+    public void testGenerateMinMaxLength() {
+        final int minLength = 0;
+        final int maxLength = 3;
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+        String str = generator.generate(minLength, maxLength);
+        assertThat(codePointLength(str), allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(3)));
     }
 
     @Test(expected = IllegalArgumentException.class)
