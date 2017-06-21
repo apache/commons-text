@@ -2004,4 +2004,86 @@ public class StrBuilderTest {
         buffer.flip();
         assertEquals("Test 1234567890", buffer.toString());
     }
+
+    @Test
+    public void testAppendCharBufferNull() throws Exception {
+        final StrBuilder sb = new StrBuilder("1234567890");
+        final String text = "Test ";
+        final CharBuffer buffer = null;
+        sb.append(buffer);
+        assertEquals("1234567890", sb.toString());
+
+        final StrBuilder sb1 = new StrBuilder("1234567890");
+        final String text1 = "Test ";
+        final CharBuffer buffer1 = null;
+        sb.append(buffer1, 0, 0);
+        assertEquals("1234567890", sb1.toString());
+    }
+
+    @Test
+    public void testAppendCharBufferException() throws Exception {
+        final StrBuilder sb = new StrBuilder("1234567890");
+        final String text = "Test";
+        final CharBuffer buffer = CharBuffer.allocate(sb.size() + text.length());
+        buffer.put(text);
+        buffer.flip();
+        try {
+            sb.append(buffer, -1, 12);
+        } catch (StringIndexOutOfBoundsException e) {
+            assertEquals("startIndex must be valid", e.getMessage());
+        }
+
+        try {
+            sb.append(buffer, 0, -1);
+        } catch (StringIndexOutOfBoundsException e) {
+            assertEquals("length must be valid", e.getMessage());
+        }
+
+        sb.append(buffer);
+        assertEquals("1234567890Test", sb.toString());
+    }
+
+    @Test
+    public void testAppendCharSequence() {
+        CharSequence obj0 = null;
+        CharSequence obj1 = new StrBuilder("test1");
+        CharSequence obj2 = new StringBuilder("test2");
+        CharSequence obj3 = new StringBuffer("test3");
+        CharBuffer obj4 = CharBuffer.wrap("test4".toCharArray());
+
+        final StrBuilder sb0 = new StrBuilder();
+        assertEquals("", sb0.append(obj0).toString());
+
+        final StrBuilder sb1 = new StrBuilder();
+        assertEquals("test1", sb1.append(obj1).toString());
+
+        final StrBuilder sb2 = new StrBuilder();
+        assertEquals("test2", sb2.append(obj2).toString());
+
+        final StrBuilder sb3 = new StrBuilder();
+        assertEquals("test3", sb3.append(obj3).toString());
+
+        final StrBuilder sb4 = new StrBuilder();
+        assertEquals("test4", sb4.append(obj4).toString());
+
+        final StrBuilder sb5 = new StrBuilder();
+        assertEquals("", sb5.append(obj0, 0, 0).toString());
+    }
+
+    @Test
+    public void testAppendStringBuilderNull() {
+        final StrBuilder sb1 = new StrBuilder();
+        StringBuilder b = null;
+        assertEquals("", sb1.append(b).toString());
+
+        final StrBuilder sb2 = new StrBuilder();
+        assertEquals("", sb1.append(b, 0, 0).toString());
+    }
+
+    @Test
+    public void testAppendln() {
+        final StrBuilder sb1 = new StrBuilder();
+        final char ch = 'c';
+        assertEquals("c\n", sb1.appendln(ch).toString());
+    }
 }
