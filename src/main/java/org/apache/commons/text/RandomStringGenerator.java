@@ -16,11 +16,13 @@
  */
 package org.apache.commons.text;
 
+import org.apache.commons.lang3.Validate;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
-
-import org.apache.commons.lang3.Validate;
 
 /**
  * <p>
@@ -73,23 +75,29 @@ public final class RandomStringGenerator {
     private final TextRandomProvider random;
 
     /**
+     * The source of provided charachters.
+     */
+    private final List<Character> characterList;
+
+    /**
      * Constructs the generator.
-     *
-     * @param minimumCodePoint
+     *  @param minimumCodePoint
      *            smallest allowed code point (inclusive)
      * @param maximumCodePoint
      *            largest allowed code point (inclusive)
      * @param inclusivePredicates
-     *            filters for code points
-     * @param random
-     *            source of randomness
+ *            filters for code points
+     * @param random random generator
+     * @param characterList list of predefined set of characters
      */
     private RandomStringGenerator(int minimumCodePoint, int maximumCodePoint,
-            Set<CharacterPredicate> inclusivePredicates, TextRandomProvider random) {
+                                  Set<CharacterPredicate> inclusivePredicates, TextRandomProvider random,
+                                  List<Character> characterList) {
         this.minimumCodePoint = minimumCodePoint;
         this.maximumCodePoint = maximumCodePoint;
         this.inclusivePredicates = inclusivePredicates;
         this.random = random;
+        this.characterList = characterList;
     }
 
     /**
@@ -107,6 +115,23 @@ public final class RandomStringGenerator {
             return random.nextInt(maxInclusive - minInclusive + 1) + minInclusive;
         }
         return ThreadLocalRandom.current().nextInt(minInclusive, maxInclusive + 1);
+    }
+
+
+
+    /**
+     * Generates a random number within a range, using a {@link ThreadLocalRandom} instance
+     * or the user-supplied source of randomness.
+     *
+     * @param characterList predefined char list.
+     * @return the random number.
+     */
+    private int generateRandomNumber(final List<Character> characterList) {
+        int listSize = characterList.size();
+        if (random != null) {
+            return String.valueOf(characterList.get(random.nextInt(listSize))).codePointAt(0);
+        }
+        return String.valueOf(characterList.get(ThreadLocalRandom.current().nextInt(0, listSize))).codePointAt(0);
     }
 
     /**
@@ -142,8 +167,12 @@ public final class RandomStringGenerator {
         long remaining = length;
 
         do {
-            int codePoint = generateRandomNumber(minimumCodePoint, maximumCodePoint);
-
+            int codePoint;
+            if (characterList != null && characterList.size() > 0) {
+                codePoint = generateRandomNumber(characterList);
+            } else {
+                codePoint = generateRandomNumber(minimumCodePoint, maximumCodePoint);
+            }
             switch (Character.getType(codePoint)) {
             case Character.UNASSIGNED:
             case Character.PRIVATE_USE:
@@ -232,6 +261,11 @@ public final class RandomStringGenerator {
          * The source of randomness.
          */
         private TextRandomProvider random;
+
+        /**
+         * The source of provided charachters.
+         */
+        private List<Character> characterList;
 
         /**
          * <p>
@@ -336,12 +370,58 @@ public final class RandomStringGenerator {
         }
 
         /**
+         * <p>
+         * Limits the characters in the generated string to those who match at
+         * supplied list of Character.
+         * </p>
+         *
+         * <p>
+         * Passing {@code null} or an empty array to this method will revert to the
+         * default behaviour of allowing any character. Multiple calls to this
+         * method will replace the previously stored Character.
+         * </p>
+         *
+         * @param chars set of preefined Characters for random string generation
+         *            the Character can be, may be {@code null} or empty
+         * @return {@code this}, to allow method chaining
+         */
+        public Builder selectFromList(char[] chars) {
+            characterList = new ArrayList<Character>();
+            for (char c : chars) {
+                characterList.add(c);
+            }
+            return this;
+        }
+
+        /**
+         * <p>
+         * Limits the characters in the generated string to those who match at
+         * supplied list of Character.
+         * </p>
+         *
+         * <p>
+         * Passing {@code null} or an empty array to this method will revert to the
+         * default behaviour of allowing any character. Multiple calls to this
+         * method will replace the previously stored Character.
+         * </p>
+         *
+         * @param characterList set of preefined Characters for random string generation
+         *            the Character can be, may be {@code null} or empty
+         * @return {@code this}, to allow method chaining
+         */
+        public Builder selectFromList(List<Character> characterList) {
+            this.characterList = characterList;
+            return this;
+        }
+
+        /**
          * <p>Builds the {@code RandomStringGenerator} using the properties specified.</p>
          * @return the configured {@code RandomStringGenerator}
          */
         @Override
         public RandomStringGenerator build() {
-            return new RandomStringGenerator(minimumCodePoint, maximumCodePoint, inclusivePredicates, random);
+            return new RandomStringGenerator(minimumCodePoint, maximumCodePoint, inclusivePredicates,
+                    random, characterList);
         }
     }
 }

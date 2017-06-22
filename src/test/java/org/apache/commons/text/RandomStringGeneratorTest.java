@@ -18,6 +18,9 @@ package org.apache.commons.text;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -202,5 +205,33 @@ public class RandomStringGeneratorTest {
     public void testZeroLength() {
         RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
         assertEquals("", generator.generate(0));
+    }
+
+    @Test
+    public void testSelectFromList() {
+        List<Character> list = new ArrayList<Character>();
+        list.add('a');
+        list.add('b');
+        list.add('c');
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFromList(list).build();
+
+        String randomText = generator.generate(5);
+
+        for (char c : randomText.toCharArray()) {
+            assertTrue(list.contains(c));
+        }
+    }
+
+    @Test
+    public void testSelectFromCharArray() {
+        String str = "abc";
+        char[] charArray = str.toCharArray();
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFromList(charArray).build();
+
+        String randomText = generator.generate(5);
+
+        for (char c : randomText.toCharArray()) {
+            assertTrue(str.indexOf(c) != -1);
+        }
     }
 }
