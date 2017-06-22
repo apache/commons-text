@@ -28,7 +28,7 @@ import java.util.Set;
  * An exception will not be thrown for a <code>null</code> input.
  * Each method documents its behaviour in more detail.</p>
  *
- * @since 1.0
+ * @since 1.2
  */
 public class CaseUtils {
 
@@ -44,8 +44,6 @@ public class CaseUtils {
         super();
     }
 
-    // Camel Case
-    //-----------------------------------------------------------------------
     /**
      * <p>Converts all the delimiter separated words in a String into camelCase,
      * that is each word is made up of a titlecase character and then a series of
@@ -112,19 +110,17 @@ public class CaseUtils {
         } else {
             return str;
         }
-
     }
 
     /**
      * <p>Converts an array of delimiters to a hash set of code points. Code point of space(32) is added
-     * as the default value. The generated hash set provides O(1)
-     * lookup time .</p>
+     * as the default value. The generated hash set provides O(1) lookup time.</p>
      *
      * @param delimiters  set of characters to determine capitalization, null means whitespace
      * @return Set<Integer>
      */
     private static Set<Integer> generateDelimiterSet(final char[] delimiters) {
-        Set<Integer> delimiterHashSet = new HashSet<Integer>();
+        Set<Integer> delimiterHashSet = new HashSet<>();
         delimiterHashSet.add(Character.codePointAt(new char[]{' '}, 0));
         if (delimiters == null || delimiters.length == 0) {
             return delimiterHashSet;
@@ -134,7 +130,6 @@ public class CaseUtils {
             delimiterHashSet.add(Character.codePointAt(delimiters, index));
         }
         return delimiterHashSet;
-
     }
 }
 
