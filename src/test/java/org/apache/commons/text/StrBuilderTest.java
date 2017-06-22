@@ -2096,7 +2096,7 @@ public class StrBuilderTest {
         assertEquals("", sb1.append(b).toString());
 
         final StrBuilder sb2 = new StrBuilder();
-        assertEquals("", sb1.append(b, 0, 0).toString());
+        assertEquals("", sb2.append(b, 0, 0).toString());
     }
 
     @Test
