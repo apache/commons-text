@@ -2103,6 +2103,6 @@ public class StrBuilderTest {
     public void testAppendln() {
         final StrBuilder sb1 = new StrBuilder();
         final char ch = 'c';
-        assertEquals("c\n", sb1.appendln(ch).toString());
+        assertEquals("c" + System.lineSeparator(), sb1.appendln(ch).toString());
     }
 }
