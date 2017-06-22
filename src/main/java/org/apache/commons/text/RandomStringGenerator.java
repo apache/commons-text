@@ -48,7 +48,10 @@ import java.util.concurrent.ThreadLocalRandom;
  * String randomLetters = generator.generate(20);
  * </pre>
  * <p>
- * {@code RandomStringBuilder} instances are immutable and thread-safe.
+ * {@code RandomStringBuilder} instances are thread-safe when using the
+ * default random number generator (RNG). If a custom RNG is set by calling the method
+ * {@link Builder#usingRandom(TextRandomProvider) Builder.usingRandom(TextRandomProvider)}, thread-safety
+ * must be ensured externally.
  * </p>
  * @since 1.1
  */
@@ -200,6 +203,27 @@ public final class RandomStringGenerator {
         } while (remaining != 0);
 
         return builder.toString();
+    }
+
+    /**
+     * Generates a random string, containing between the minimum (inclusive) and the maximum (inclusive)
+     * number of code points.
+     *
+     * @param minLengthInclusive
+     *            the minimum (inclusive) number of code points to generate
+     * @param maxLengthInclusive
+     *            the maximum (inclusive) number of code points to generate
+     * @return the generated string
+     * @throws IllegalArgumentException
+     *             if {@code minLengthInclusive < 0}, or {@code maxLengthInclusive < minLengthInclusive}
+     * @see RandomStringGenerator#generate(int)
+     * @since 1.2
+     */
+    public String generate(final int minLengthInclusive, final int maxLengthInclusive) {
+        Validate.isTrue(minLengthInclusive >= 0, "Minimum length %d is smaller than zero.", minLengthInclusive);
+        Validate.isTrue(minLengthInclusive <= maxLengthInclusive,
+                "Maximum length %d is smaller than minimum length %d.", maxLengthInclusive, minLengthInclusive);
+        return generate(generateRandomNumber(minLengthInclusive, maxLengthInclusive));
     }
 
     /**

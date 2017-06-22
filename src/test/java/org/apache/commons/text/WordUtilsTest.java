@@ -226,6 +226,7 @@ public class WordUtilsTest {
         assertEquals("I Am Here 123", WordUtils.capitalizeFully("I Am Here 123") );
         assertEquals("I Am Here 123", WordUtils.capitalizeFully("i am HERE 123") );
         assertEquals("I Am Here 123", WordUtils.capitalizeFully("I AM HERE 123") );
+        assertEquals("Alphabet", WordUtils.capitalizeFully("alphabet") ); // single word
     }
 
     @Test
@@ -244,6 +245,8 @@ public class WordUtilsTest {
         chars = new char[] {'.'};
         assertEquals("I am.Fine", WordUtils.capitalizeFully("i aM.fine", chars) );
         assertEquals("I Am.fine", WordUtils.capitalizeFully("i am.fine", null) );
+        assertEquals("Alphabet", WordUtils.capitalizeFully("alphabet", null) ); // single word
+        assertEquals("Alphabet", WordUtils.capitalizeFully("alphabet", new char[] {'!'}) ); // no matching delim
     }
 
     @Test

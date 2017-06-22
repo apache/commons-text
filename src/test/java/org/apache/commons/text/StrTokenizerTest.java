@@ -19,12 +19,12 @@ package org.apache.commons.text;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import static org.junit.Assert.*;
 
 /**
  * Unit test for {@link StrTokenizer}.
@@ -910,4 +910,29 @@ public class StrTokenizerTest {
         assertEquals("StrTokenizer[a, b, c, d, e]", tkn.toString());
     }
 
+    //-----------------------------------------------------------------------
+    @Test
+    public void testStringTokenizerStringMatcher() {
+        char chars[]=new char[]{'a', 'b', 'c', 'd'};
+        final StrTokenizer tokens= new StrTokenizer(chars, "bc");
+        assertEquals("a", tokens.next());
+        assertEquals("d", tokens.next());
+    }
+
+    //-----------------------------------------------------------------------
+    @Test
+    public void testStringTokenizerStrMatcher() {
+        char chars[]=new char[]{'a', ',', 'c'};
+        final StrTokenizer tokens= new StrTokenizer(chars, StrMatcher.commaMatcher());
+        assertEquals("a", tokens.next());
+        assertEquals("c", tokens.next());
+    }
+
+    //-----------------------------------------------------------------------
+    @Test
+    public void testStringTokenizerQuoteMatcher() {
+        char chars[]=new char[]{'\'','a', 'c','\'','d'};
+        final StrTokenizer tokens= new StrTokenizer(chars, StrMatcher.commaMatcher(), StrMatcher.quoteMatcher());
+        assertEquals("acd", tokens.next());
+    }
 }
