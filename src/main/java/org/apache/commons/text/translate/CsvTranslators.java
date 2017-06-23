@@ -16,14 +16,18 @@
  */
 package org.apache.commons.text.translate;
 
-import org.apache.commons.lang3.CharUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.IOException;
 import java.io.Writer;
 
+import org.apache.commons.lang3.CharUtils;
+import org.apache.commons.lang3.StringUtils;
 /**
- * This class holds inner classes for escaping/unescaping Comma Separated Values.
+ * <p>This class holds inner classes for escaping/unescaping Comma Separated Values.<p>
+ *
+ * In general the use a high level API like commons-csv should be preferred over these
+ * low level classes.
+ *
+ * @see <a href="http://commons.apache.org/proper/commons-csv/apidocs/index.html">commons-csv</a>
  */
 public final class CsvTranslators {
 

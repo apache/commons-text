@@ -45,7 +45,17 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
 
-  <release version="1.1" date="tbd" description="tbd">
+  <release version="1.2" date="tbd" description="tbd">
+     <action issue="TEXT-90" type="add" dev="pschumacher">Add CharacterPredicates for ASCII letters (uppercase/lowercase) and arabic numerals</action>
+    <action issue="TEXT-85" type="add" dev="chtompki" due-to="Arun Vinud S S">Added CaseUtils class with camel case conversion support</action>
+    <action issue="TEXT-91" type="add" dev="pschumacher">RandomStringGenerator should be able to generate a String with a random length</action>
+    <action issue="TEXT-92" type="update" dev="pschumacher">Update commons-lang dependency to version 3.6</action>
+    <action issue="TEXT-83" type="update" dev="chtompki" due-to="Amey Jadiye">Document that commons-csv should be used in preference to CsvTranslators</action>
+    <action issue="TEXT-67" type="update" dev="kinow">NumericEntityUnescaper.options - fix TODO</action>
+    <action issue="TEXT-84" type="update" dev="djones">RandomStringGenerator claims to be immutable, but isn't</action>
+  </release>
+
+  <release version="1.1" date="2017-05-23" description="Release 1.1">
     <action issue="TEXT-39" type="update" dev="chtompki" due-to="Amey Jadiye">WordUtils should use toXxxxCase(int) rather than toXxxxCase(char)</action>
     <action issue="TEXT-41" type="add" dev="chtompki" due-to="Amey Jadiye">WordUtils.abbreviate support</action>
     <action issue="TEXT-82" type="add" dev="chtompki" due-to="Amey Jadiye">Putting WordUtils back in to the codebase</action>
