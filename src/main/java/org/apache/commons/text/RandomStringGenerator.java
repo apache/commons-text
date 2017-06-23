@@ -409,34 +409,10 @@ public final class RandomStringGenerator {
          *            the Character can be, may be {@code null} or empty
          * @return {@code this}, to allow method chaining
          */
-        public Builder selectFromList(char[] chars) {
+        public Builder selectFrom(char ... chars) {
             characterList = new ArrayList<Character>();
             for (char c : chars) {
                 characterList.add(c);
-            }
-            return this;
-        }
-
-        /**
-         * <p>
-         * Limits the characters in the generated string to those who match at
-         * supplied list of Character.
-         * </p>
-         *
-         * <p>
-         * Passing {@code null} or an empty array to this method will revert to the
-         * default behaviour of allowing any character. Multiple calls to this
-         * method will replace the previously stored Character.
-         * </p>
-         *
-         * @param characterList set of preefined Characters for random string generation
-         *            the Character can be, may be {@code null} or empty
-         * @return {@code this}, to allow method chaining
-         */
-        public Builder selectFromList(List<Character> characterList) {
-            this.characterList = new ArrayList<Character>();
-            for (char c : characterList) {
-                this.characterList.add(c);
             }
             return this;
         }

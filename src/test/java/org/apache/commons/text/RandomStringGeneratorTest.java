@@ -232,37 +232,24 @@ public class RandomStringGeneratorTest {
         assertEquals("", generator.generate(0));
     }
 
-
-
-
-
-
-
-
-    
-    @Test
-    public void testSelectFromList() {
-        List<Character> list = new ArrayList<Character>();
-        list.add('a');
-        list.add('b');
-        list.add('c');
-        RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFromList(list).build();
-
-        String randomText = generator.generate(5);
-
-        for (char c : randomText.toCharArray()) {
-            assertTrue(list.contains(c));
-        }
-    }
-
     @Test
     public void testSelectFromCharArray() {
         String str = "abc";
         char[] charArray = str.toCharArray();
-        RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFromList(charArray).build();
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFrom(charArray).build();
 
         String randomText = generator.generate(5);
 
+        for (char c : randomText.toCharArray()) {
+            assertTrue(str.indexOf(c) != -1);
+        }
+    }
+
+    @Test
+    public void testSelectFromCharVarargs() {
+        String str="abc";
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFrom('a','b','c').build();
+        String randomText = generator.generate(5);
         for (char c : randomText.toCharArray()) {
             assertTrue(str.indexOf(c) != -1);
         }
