@@ -434,9 +434,9 @@ public final class RandomStringGenerator {
          * @return {@code this}, to allow method chaining
          */
         public Builder selectFromList(List<Character> characterList) {
-            characterList = new ArrayList<Character>();
+            this.characterList = new ArrayList<Character>();
             for (char c : characterList) {
-                characterList.add(c);
+                this.characterList.add(c);
             }
             return this;
         }

@@ -232,6 +232,14 @@ public class RandomStringGeneratorTest {
         assertEquals("", generator.generate(0));
     }
 
+
+
+
+
+
+
+
+    
     @Test
     public void testSelectFromList() {
         List<Character> list = new ArrayList<Character>();
