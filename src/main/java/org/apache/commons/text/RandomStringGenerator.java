@@ -84,14 +84,16 @@ public final class RandomStringGenerator {
 
     /**
      * Constructs the generator.
-     *  @param minimumCodePoint
+     *
+     * @param minimumCodePoint
      *            smallest allowed code point (inclusive)
      * @param maximumCodePoint
      *            largest allowed code point (inclusive)
      * @param inclusivePredicates
- *            filters for code points
-     * @param random random generator
-     * @param characterList list of predefined set of characters
+     *            filters for code points
+     * @param random
+     *            source of randomness
+     * @param characterList list of predefined set of characters.
      */
     private RandomStringGenerator(int minimumCodePoint, int maximumCodePoint,
                                   Set<CharacterPredicate> inclusivePredicates, TextRandomProvider random,
