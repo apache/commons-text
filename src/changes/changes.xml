@@ -46,6 +46,7 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
 
   <release version="1.2" date="tbd" description="tbd">
+     <action issue="TEXT-93" type="update" dev="chtompki" due-to="Amey Jadiye">Update RandomStringGenerator to accept a list of valid characters</action>
      <action issue="TEXT-90" type="add" dev="pschumacher">Add CharacterPredicates for ASCII letters (uppercase/lowercase) and arabic numerals</action>
     <action issue="TEXT-85" type="add" dev="chtompki" due-to="Arun Vinud S S">Added CaseUtils class with camel case conversion support</action>
     <action issue="TEXT-91" type="add" dev="pschumacher">RandomStringGenerator should be able to generate a String with a random length</action>
