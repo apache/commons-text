@@ -402,6 +402,7 @@ public class WordUtils {
      * WordUtils.capitalize(*, new char[0])     = *
      * WordUtils.capitalize("i am fine", null)  = "I Am Fine"
      * WordUtils.capitalize("i aM.fine", {'.'}) = "I aM.Fine"
+     * WordUtils.capitalize("i am fine", new char[]{}) = "I am fine"
      * </pre>
      *
      * @param str  the String to capitalize, may be null
@@ -411,8 +412,7 @@ public class WordUtils {
      * @see #capitalizeFully(String)
      */
     public static String capitalize(final String str, final char... delimiters) {
-        final int delimLen = delimiters == null ? -1 : delimiters.length;
-        if (StringUtils.isEmpty(str) || delimLen == 0) {
+        if (StringUtils.isEmpty(str)) {
             return str;
         }
         int strLen = str.length();
@@ -490,8 +490,7 @@ public class WordUtils {
      * @return capitalized String, <code>null</code> if null String input
      */
     public static String capitalizeFully(String str, final char... delimiters) {
-        final int delimLen = delimiters == null ? -1 : delimiters.length;
-        if (StringUtils.isEmpty(str) || delimLen == 0) {
+        if (StringUtils.isEmpty(str)) {
             return str;
         }
         str = str.toLowerCase();
@@ -537,6 +536,7 @@ public class WordUtils {
      * WordUtils.uncapitalize(*, null)            = *
      * WordUtils.uncapitalize(*, new char[0])     = *
      * WordUtils.uncapitalize("I AM.FINE", {'.'}) = "i AM.fINE"
+     * WordUtils.uncapitalize("I am fine", new char[]{}) = "i am fine"
      * </pre>
      *
      * @param str  the String to uncapitalize, may be null
@@ -545,8 +545,7 @@ public class WordUtils {
      * @see #capitalize(String)
      */
     public static String uncapitalize(final String str, final char... delimiters) {
-        final int delimLen = delimiters == null ? -1 : delimiters.length;
-        if (StringUtils.isEmpty(str) || delimLen == 0) {
+        if (StringUtils.isEmpty(str)) {
             return str;
         }
         int strLen = str.length();
