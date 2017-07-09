@@ -78,7 +78,7 @@ public final class RandomStringGenerator {
     private final TextRandomProvider random;
 
     /**
-     * The source of provided charachters.
+     * The source of provided characters.
      */
     private final List<Character> characterList;
 
@@ -121,8 +121,6 @@ public final class RandomStringGenerator {
         }
         return ThreadLocalRandom.current().nextInt(minInclusive, maxInclusive + 1);
     }
-
-
 
     /**
      * Generates a random number within a range, using a {@link ThreadLocalRandom} instance
@@ -289,7 +287,7 @@ public final class RandomStringGenerator {
         private TextRandomProvider random;
 
         /**
-         * The source of provided charachters.
+         * The source of provided characters.
          */
         private List<Character> characterList;
 
@@ -410,6 +408,7 @@ public final class RandomStringGenerator {
          * @param chars set of preefined Characters for random string generation
          *            the Character can be, may be {@code null} or empty
          * @return {@code this}, to allow method chaining
+         * @since 1.2
          */
         public Builder selectFrom(char ... chars) {
             characterList = new ArrayList<Character>();
