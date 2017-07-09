@@ -2027,13 +2027,11 @@ public class StrBuilderTest {
     @Test
     public void testAppendCharBufferNull() throws Exception {
         final StrBuilder sb = new StrBuilder("1234567890");
-        final String text = "Test ";
         final CharBuffer buffer = null;
         sb.append(buffer);
         assertEquals("1234567890", sb.toString());
 
         final StrBuilder sb1 = new StrBuilder("1234567890");
-        final String text1 = "Test ";
         final CharBuffer buffer1 = null;
         sb.append(buffer1, 0, 0);
         assertEquals("1234567890", sb1.toString());
