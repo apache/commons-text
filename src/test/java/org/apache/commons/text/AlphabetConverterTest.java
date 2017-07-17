@@ -18,12 +18,18 @@ package org.apache.commons.text;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 /**
  * Unit tests for {@link AlphabetConverter}.
@@ -201,4 +207,97 @@ public class AlphabetConverterTest {
             Assert.assertEquals("Encoded '" + s + "' into '" + encoded + "', but decoded into '" + decoded + "'", s, decoded);
         }
     }
+
+    @Test
+    public void testCreateConverterFromCharsWithNullAndNull() {
+
+        Character[] characterArray = new Character[2];
+        characterArray[0] = Character.valueOf('$');
+        characterArray[1] = characterArray[0];
+
+        try {
+            AlphabetConverter.createConverterFromChars(characterArray, null, null);
+            fail("Expecting exception: IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(AlphabetConverter.class.getName(), e.getStackTrace()[0].getClassName());
+        }
+
+    }
+
+    @Test
+    public void testCreateConverterFromCharsOne() {
+
+        Character[] characterArray = new Character[2];
+        characterArray[0] = new Character('5');
+        characterArray[1] = characterArray[0];
+        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
+
+        assertEquals(1, alphabetConverter.getEncodedCharLength());
+
+    }
+
+    @Test
+    public void testCreateConverterFromMapAndEquals() {
+
+        Map<Integer, String> hashMap = new HashMap<Integer, String>();
+        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromMap(hashMap);
+        hashMap.put(0, "CtDs");
+        AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(hashMap);
+
+        assertFalse(alphabetConverter.equals(alphabetConverterTwo));
+        assertEquals(1, alphabetConverter.getEncodedCharLength());
+
+    }
+
+    @Test
+    public void testEquals() {
+
+        Character[] characterArray = new Character[2];
+        Character character = new Character('R');
+        characterArray[0] = character;
+        characterArray[1] = character;
+        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
+        Map<Integer, String> map = new HashMap<Integer, String>();
+        AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(map);
+
+        assertEquals(1, alphabetConverterTwo.getEncodedCharLength());
+        assertFalse(alphabetConverter.equals(alphabetConverterTwo));
+
+    }
+
+    @Test
+    public void testEqualsWithNull() {
+
+        Character[] characterArray = new Character[0];
+        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, null, null);
+
+        assertFalse(alphabetConverter.equals(null));
+
+    }
+
+    @Test
+    public void testCreateConverterFromCharsAndEquals() {
+
+        Character[] characterArray = new Character[2];
+        char charOne = '+';
+        Character character = new Character('+');
+        characterArray[0] = character;
+        characterArray[1] = characterArray[0];
+        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
+
+        assertFalse(alphabetConverter.equals(charOne));
+
+    }
+
+    @Test
+    public void testDecodeReturningNull() throws UnsupportedEncodingException {
+
+        Map<Integer, String> map = new HashMap<Integer, String>();
+        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromMap(map);
+        alphabetConverter.decode(null);
+
+        assertEquals(1, alphabetConverter.getEncodedCharLength());
+
+    }
+
 }
