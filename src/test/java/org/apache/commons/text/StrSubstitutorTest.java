@@ -17,16 +17,21 @@
 
 package org.apache.commons.text;
 
-import org.apache.commons.lang3.mutable.MutableObject;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import static org.junit.Assert.*;
+import org.apache.commons.lang3.mutable.MutableObject;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test class for {@link StrSubstitutor}.
@@ -48,7 +53,6 @@ public class StrSubstitutorTest {
     }
 
     //-----------------------------------------------------------------------
-
     /**
      * Tests simple key replace.
      */
@@ -392,7 +396,6 @@ public class StrSubstitutorTest {
     }
 
     //-----------------------------------------------------------------------
-
     /**
      * Tests protected.
      */
@@ -416,7 +419,6 @@ public class StrSubstitutorTest {
     }
 
     //-----------------------------------------------------------------------
-
     /**
      * Tests constructor.
      */
@@ -451,7 +453,6 @@ public class StrSubstitutorTest {
     }
 
     //-----------------------------------------------------------------------
-
     /**
      * Tests get set.
      */
@@ -550,7 +551,6 @@ public class StrSubstitutorTest {
     }
 
     //-----------------------------------------------------------------------
-
     /**
      * Tests static.
      */
@@ -583,8 +583,8 @@ public class StrSubstitutorTest {
         buf.append(", your home directory is ");
         buf.append(System.getProperty("user.home")).append('.');
         assertEquals(buf.toString(), StrSubstitutor.replaceSystemProperties("Hi ${user.name}, you are "
-                + "working with ${os.name}, your home "
-                + "directory is ${user.home}."));
+            + "working with ${os.name}, your home "
+            + "directory is ${user.home}."));
     }
 
     /**
@@ -603,7 +603,7 @@ public class StrSubstitutorTest {
      * Test the replace of a properties object
      */
     @Test
-    public void testSubstituteDefaultProperties() {
+    public void testSubstituteDefaultProperties(){
         final String org = "${doesnotwork}";
         System.setProperty("doesnotwork", "It works!");
 
@@ -737,10 +737,8 @@ public class StrSubstitutorTest {
         }
     }
 
-
     @Test
     public void testReplaceInTakingTwoAndThreeIntsReturningFalse() {
-
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
         StrLookup.MapStrLookup<Object> strLookup_MapStrLookup = new StrLookup.MapStrLookup<Object>(hashMap);
         StrMatcher strMatcher = StrMatcher.tabMatcher();
@@ -749,84 +747,63 @@ public class StrSubstitutorTest {
         assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, (-1369)));
         assertEquals('b', strSubstitutor.getEscapeChar());
         assertFalse(strSubstitutor.isPreserveEscapes());
-
     }
-
 
     @Test
     public void testReplaceInTakingStringBuilderWithNonNull() {
-
         StrLookup<String> strLookup = StrLookup.systemPropertiesLookup();
         StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup, "b<H", "b<H", '\'');
         StringBuilder stringBuilder = new StringBuilder((CharSequence) "b<H");
 
         assertEquals('\'', strSubstitutor.getEscapeChar());
         assertFalse(strSubstitutor.replaceIn(stringBuilder));
-
     }
-
 
     @Test
     public void testReplaceInTakingStringBufferWithNonNull() {
-
         Map<String, String> map = new HashMap<String, String>();
         StrSubstitutor strSubstitutor = new StrSubstitutor((Map<String, String>) map, "WV@i#y?N*[", "WV@i#y?N*[", '*');
 
         assertFalse(strSubstitutor.isPreserveEscapes());
         assertFalse(strSubstitutor.replaceIn(new StringBuffer((CharSequence) "WV@i#y?N*[")));
         assertEquals('*', strSubstitutor.getEscapeChar());
-
     }
-
 
     @Test
     public void testCreatesStrSubstitutorTakingStrLookupAndCallsReplaceTakingTwoAndThreeInts() {
-
         Map<String, CharacterPredicates> map = new HashMap<String, CharacterPredicates>();
         StrLookup.MapStrLookup<CharacterPredicates> strLookup_MapStrLookup = new StrLookup.MapStrLookup<CharacterPredicates>(map);
         StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup_MapStrLookup);
 
         assertNull(strSubstitutor.replace((CharSequence) null, 0, 0));
         assertEquals('$', strSubstitutor.getEscapeChar());
-
     }
-
 
     @Test
     public void testReplaceTakingCharSequenceReturningNull() {
-
         StrSubstitutor strSubstitutor = new StrSubstitutor((StrLookup<?>) null);
-
 
         assertNull( strSubstitutor.replace((CharSequence) null) );
         assertFalse(strSubstitutor.isPreserveEscapes());
         assertEquals('$', strSubstitutor.getEscapeChar());
-
     }
-
 
     @Test  //I consider this to be a defect.
     public void testReplaceTakingThreeArgumentsThrowsNullPointerException() {
-
         try {
             StrSubstitutor.replace(null, (Properties) null);
             fail("Expecting exception: NullPointerException");
         } catch (NullPointerException e) {
             assertEquals(StrSubstitutor.class.getName(), e.getStackTrace()[0].getClassName());
         }
-
     }
-
 
     @Test
     public void testReplaceInTakingStringBuilderWithNull() {
-
         Map<String, Object> map = new HashMap<String, Object>();
         StrSubstitutor strSubstitutor = new StrSubstitutor(map, "", "", 'T', "K+<'f");
 
         assertFalse(strSubstitutor.replaceIn((StringBuilder) null));
-
     }
-
 
 }

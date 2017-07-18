@@ -404,27 +404,22 @@ public class LevenshteinDetailedDistanceTest {
 
     @Test
     public void testGetDefaultInstanceOne() {
-
         LevenshteinDetailedDistance levenshteinDetailedDistance = LevenshteinDetailedDistance.getDefaultInstance();
         LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("Distance: -2147483643, Insert: 0, Delete: 0, Substitute: 0", "Distance: 0, Insert: 2147483536, Delete: 0, Substitute: 0");
 
         assertEquals(21, (int) levenshteinResults.getDistance());
-
     }
 
     @Test
     public void testGetDefaultInstanceTwo() {
-
         LevenshteinDetailedDistance levenshteinDetailedDistance = LevenshteinDetailedDistance.getDefaultInstance();
         LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("Distance: 2147483647, Insert: 0, Delete: 0, Substitute: 0", "Distance: 0, Insert: 2147483647, Delete: 0, Substitute: 0");
 
         assertEquals(20, (int) levenshteinResults.getDistance());
-
     }
 
     @Test
     public void testCreatesLevenshteinDetailedDistanceTakingInteger6() {
-
         LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
         LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("", "Distance: 38, Insert: 0, Delete: 0, Substitute: 0");
 
@@ -433,12 +428,10 @@ public class LevenshteinDetailedDistanceTest {
 
         assertEquals(0, (int) levenshteinResults.getInsertCount());
         assertEquals(-1, (int) levenshteinResults.getDistance());
-
     }
 
     @Test
     public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDetailedDistanceTakingInteger() {
-
         LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
         CharSequence charSequence = new StrBuilder();
 
@@ -448,12 +441,10 @@ public class LevenshteinDetailedDistanceTest {
         } catch (IllegalArgumentException e) {
             assertEquals(LevenshteinDetailedDistance.class.getName(), e.getStackTrace()[0].getClassName());
         }
-
     }
 
     @Test
     public void testApplyWithNull() {
-
         LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
 
         try {
@@ -462,16 +453,13 @@ public class LevenshteinDetailedDistanceTest {
         } catch (IllegalArgumentException e) {
             assertEquals(LevenshteinDetailedDistance.class.getName(), e.getStackTrace()[0].getClassName());
         }
-
     }
 
     @Test
     public void testGetThreshold() {
-
         LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
 
         assertEquals(0, (int) levenshteinDetailedDistance.getThreshold());
-
     }
 
 }

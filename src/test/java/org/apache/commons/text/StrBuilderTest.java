@@ -2109,7 +2109,6 @@ public class StrBuilderTest {
 
     @Test
     public void testAppendTakingTwoAndThreeIntsWithZeroAndAppendTakingTwoAndThreeIntsThrowsStringIndexOutOfBoundsExceptionTwo() {
-
         StrBuilder strBuilder = new StrBuilder(630);
         Charset charset = Charset.defaultCharset();
         ByteBuffer byteBuffer = charset.encode("end < start");
@@ -2121,12 +2120,10 @@ public class StrBuilderTest {
         } catch (StringIndexOutOfBoundsException e) {
             assertEquals(StrBuilder.class.getName(),  e.getStackTrace()[0].getClassName());
         }
-
     }
 
     @Test
     public void testAppendTakingTwoAndThreeIntsThrowsStringIndexOutOfBoundsExceptionAndAppendTakingTwoAndThreeIntsThree() {
-
         StrBuilder strBuilder = new StrBuilder();
         Charset charset = Charset.defaultCharset();
         ByteBuffer byteBuffer = charset.encode("asdf");
@@ -2138,12 +2135,10 @@ public class StrBuilderTest {
         } catch (StringIndexOutOfBoundsException e) {
             assertEquals(StrBuilder.class.getName(),  e.getStackTrace()[0].getClassName());
         }
-
     }
 
     @Test
     public void testDeleteCharAtWithNegative() {
-
         StrBuilder strBuilder = new StrBuilder();
 
         try {
@@ -2152,7 +2147,6 @@ public class StrBuilderTest {
         } catch (StringIndexOutOfBoundsException e) {
             assertEquals(StrBuilder.class.getName(),  e.getStackTrace()[0].getClassName());
         }
-
     }
 
 }

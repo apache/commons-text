@@ -140,7 +140,6 @@ public class LevenshteinDistanceTest {
 
     @Test
     public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDistanceTakingInteger() {
-
         LevenshteinDistance levenshteinDistance = new LevenshteinDistance(0);
 
         try {
@@ -149,16 +148,13 @@ public class LevenshteinDistanceTest {
         } catch (IllegalArgumentException e) {
             assertEquals(LevenshteinDistance.class.getName(), e.getStackTrace()[0].getClassName());
         }
-
     }
 
     @Test
     public void testGetThresholdDirectlyAfterObjectInstantiation() {
-
         LevenshteinDistance levenshteinDistance = new LevenshteinDistance();
 
         assertNull(levenshteinDistance.getThreshold());
-
     }
 
 }

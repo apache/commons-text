@@ -55,11 +55,11 @@ public class ExtendedMessageFormatTest {
         final String pattern = "Lower: {0,lower} Upper: {1,upper}";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, registry);
         assertEquals("TOPATTERN", pattern, emf.toPattern());
-        assertEquals("Lower: foo Upper: BAR", emf.format(new Object[]{"foo", "bar"}));
-        assertEquals("Lower: foo Upper: BAR", emf.format(new Object[]{"Foo", "Bar"}));
-        assertEquals("Lower: foo Upper: BAR", emf.format(new Object[]{"FOO", "BAR"}));
-        assertEquals("Lower: foo Upper: BAR", emf.format(new Object[]{"FOO", "bar"}));
-        assertEquals("Lower: foo Upper: BAR", emf.format(new Object[]{"foo", "BAR"}));
+        assertEquals("Lower: foo Upper: BAR", emf.format(new Object[] {"foo", "bar"}));
+        assertEquals("Lower: foo Upper: BAR", emf.format(new Object[] {"Foo", "Bar"}));
+        assertEquals("Lower: foo Upper: BAR", emf.format(new Object[] {"FOO", "BAR"}));
+        assertEquals("Lower: foo Upper: BAR", emf.format(new Object[] {"FOO", "bar"}));
+        assertEquals("Lower: foo Upper: BAR", emf.format(new Object[] {"foo", "BAR"}));
     }
 
     /**
@@ -69,7 +69,7 @@ public class ExtendedMessageFormatTest {
     public void testEscapedQuote_LANG_477() {
         final String pattern = "it''s a {0,lower} 'test'!";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, registry);
-        assertEquals("it's a dummy test!", emf.format(new Object[]{"DUMMY"}));
+        assertEquals("it's a dummy test!", emf.format(new Object[] {"DUMMY"}));
     }
 
     /**
@@ -79,7 +79,7 @@ public class ExtendedMessageFormatTest {
     public void testEmbeddedPatternInChoice() {
         final String pattern = "Hi {0,lower}, got {1,choice,0#none|1#one|1<{1,number}}, {2,upper}!";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, registry);
-        assertEquals(emf.format(new Object[]{"there", 3, "great"}), "Hi there, got 3, GREAT!");
+        assertEquals(emf.format(new Object[] {"there", 3, "great"}), "Hi there, got 3, GREAT!");
     }
 
     /**
@@ -87,15 +87,15 @@ public class ExtendedMessageFormatTest {
      */
     @Test
     public void testEscapedBraces_LANG_948() {
-        // message without placeholder because braces are escaped by quotes 
+        // message without placeholder because braces are escaped by quotes
         final String pattern = "Message without placeholders '{}'";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, registry);
-        assertEquals("Message without placeholders {}", emf.format(new Object[]{"DUMMY"}));
+        assertEquals("Message without placeholders {}", emf.format(new Object[] {"DUMMY"}));
 
-        // message with placeholder because quotes are escaped by quotes 
+        // message with placeholder because quotes are escaped by quotes
         final String pattern2 = "Message with placeholder ''{0}''";
         final ExtendedMessageFormat emf2 = new ExtendedMessageFormat(pattern2, registry);
-        assertEquals("Message with placeholder 'DUMMY'", emf2.format(new Object[]{"DUMMY"}));
+        assertEquals("Message with placeholder 'DUMMY'", emf2.format(new Object[] {"DUMMY"}));
     }
 
     /**
@@ -105,7 +105,7 @@ public class ExtendedMessageFormatTest {
     public void testExtendedAndBuiltInFormats() {
         final Calendar cal = Calendar.getInstance();
         cal.set(2007, Calendar.JANUARY, 23, 18, 33, 05);
-        final Object[] args = new Object[]{"John Doe", cal.getTime(), Double.valueOf("12345.67")};
+        final Object[] args = new Object[] {"John Doe", cal.getTime(), Double.valueOf("12345.67")};
         final String builtinsPattern = "DOB: {1,date,short} Salary: {2,number,currency}";
         final String extendedPattern = "Name: {0,upper} ";
         final String pattern = extendedPattern + builtinsPattern;
@@ -202,18 +202,18 @@ public class ExtendedMessageFormatTest {
      */
     @Test
     public void testBuiltInChoiceFormat() {
-        final Object[] values = new Number[]{Integer.valueOf(1), Double.valueOf("2.2"), Double.valueOf("1234.5")};
+        final Object[] values = new Number[] {Integer.valueOf(1), Double.valueOf("2.2"), Double.valueOf("1234.5")};
         String choicePattern = null;
         final Locale[] availableLocales = NumberFormat.getAvailableLocales();
 
         choicePattern = "{0,choice,1#One|2#Two|3#Many {0,number}}";
         for (final Object value : values) {
-            checkBuiltInFormat(value + ": " + choicePattern, new Object[]{value}, availableLocales);
+            checkBuiltInFormat(value + ": " + choicePattern, new Object[] {value}, availableLocales);
         }
 
         choicePattern = "{0,choice,1#''One''|2#\"Two\"|3#''{Many}'' {0,number}}";
         for (final Object value : values) {
-            checkBuiltInFormat(value + ": " + choicePattern, new Object[]{value}, availableLocales);
+            checkBuiltInFormat(value + ": " + choicePattern, new Object[] {value}, availableLocales);
         }
     }
 
@@ -224,36 +224,36 @@ public class ExtendedMessageFormatTest {
     public void testBuiltInDateTimeFormat() {
         final Calendar cal = Calendar.getInstance();
         cal.set(2007, Calendar.JANUARY, 23, 18, 33, 05);
-        final Object[] args = new Object[]{cal.getTime()};
+        final Object[] args = new Object[] {cal.getTime()};
         final Locale[] availableLocales = DateFormat.getAvailableLocales();
 
-        checkBuiltInFormat("1: {0,date,short}", args, availableLocales);
-        checkBuiltInFormat("2: {0,date,medium}", args, availableLocales);
-        checkBuiltInFormat("3: {0,date,long}", args, availableLocales);
-        checkBuiltInFormat("4: {0,date,full}", args, availableLocales);
+        checkBuiltInFormat("1: {0,date,short}",    args, availableLocales);
+        checkBuiltInFormat("2: {0,date,medium}",   args, availableLocales);
+        checkBuiltInFormat("3: {0,date,long}",     args, availableLocales);
+        checkBuiltInFormat("4: {0,date,full}",     args, availableLocales);
         checkBuiltInFormat("5: {0,date,d MMM yy}", args, availableLocales);
-        checkBuiltInFormat("6: {0,time,short}", args, availableLocales);
-        checkBuiltInFormat("7: {0,time,medium}", args, availableLocales);
-        checkBuiltInFormat("8: {0,time,long}", args, availableLocales);
-        checkBuiltInFormat("9: {0,time,full}", args, availableLocales);
-        checkBuiltInFormat("10: {0,time,HH:mm}", args, availableLocales);
-        checkBuiltInFormat("11: {0,date}", args, availableLocales);
-        checkBuiltInFormat("12: {0,time}", args, availableLocales);
+        checkBuiltInFormat("6: {0,time,short}",    args, availableLocales);
+        checkBuiltInFormat("7: {0,time,medium}",   args, availableLocales);
+        checkBuiltInFormat("8: {0,time,long}",     args, availableLocales);
+        checkBuiltInFormat("9: {0,time,full}",     args, availableLocales);
+        checkBuiltInFormat("10: {0,time,HH:mm}",   args, availableLocales);
+        checkBuiltInFormat("11: {0,date}",         args, availableLocales);
+        checkBuiltInFormat("12: {0,time}",         args, availableLocales);
     }
 
     @Test
     public void testOverriddenBuiltinFormat() {
         final Calendar cal = Calendar.getInstance();
         cal.set(2007, Calendar.JANUARY, 23);
-        final Object[] args = new Object[]{cal.getTime()};
+        final Object[] args = new Object[] {cal.getTime()};
         final Locale[] availableLocales = DateFormat.getAvailableLocales();
         final Map<String, ? extends FormatFactory> dateRegistry = Collections.singletonMap("date", new OverrideShortDateFormatFactory());
 
         //check the non-overridden builtins:
-        checkBuiltInFormat("1: {0,date}", dateRegistry, args, availableLocales);
-        checkBuiltInFormat("2: {0,date,medium}", dateRegistry, args, availableLocales);
-        checkBuiltInFormat("3: {0,date,long}", dateRegistry, args, availableLocales);
-        checkBuiltInFormat("4: {0,date,full}", dateRegistry, args, availableLocales);
+        checkBuiltInFormat("1: {0,date}", dateRegistry,          args, availableLocales);
+        checkBuiltInFormat("2: {0,date,medium}", dateRegistry,   args, availableLocales);
+        checkBuiltInFormat("3: {0,date,long}", dateRegistry,     args, availableLocales);
+        checkBuiltInFormat("4: {0,date,full}", dateRegistry,     args, availableLocales);
         checkBuiltInFormat("5: {0,date,d MMM yy}", dateRegistry, args, availableLocales);
 
         //check the overridden format:
@@ -272,13 +272,13 @@ public class ExtendedMessageFormatTest {
      */
     @Test
     public void testBuiltInNumberFormat() {
-        final Object[] args = new Object[]{Double.valueOf("6543.21")};
+        final Object[] args = new Object[] {Double.valueOf("6543.21")};
         final Locale[] availableLocales = NumberFormat.getAvailableLocales();
-        checkBuiltInFormat("1: {0,number}", args, availableLocales);
-        checkBuiltInFormat("2: {0,number,integer}", args, availableLocales);
-        checkBuiltInFormat("3: {0,number,currency}", args, availableLocales);
-        checkBuiltInFormat("4: {0,number,percent}", args, availableLocales);
-        checkBuiltInFormat("5: {0,number,00000.000}", args, availableLocales);
+        checkBuiltInFormat("1: {0,number}",            args, availableLocales);
+        checkBuiltInFormat("2: {0,number,integer}",    args, availableLocales);
+        checkBuiltInFormat("3: {0,number,currency}",   args, availableLocales);
+        checkBuiltInFormat("4: {0,number,percent}",    args, availableLocales);
+        checkBuiltInFormat("5: {0,number,00000.000}",  args, availableLocales);
     }
 
     /**
@@ -295,42 +295,41 @@ public class ExtendedMessageFormatTest {
         ExtendedMessageFormat other = null;
 
         // Same object
-        assertTrue("same, equals()", emf.equals(emf));
+        assertTrue("same, equals()",   emf.equals(emf));
         assertTrue("same, hashcode()", emf.hashCode() == emf.hashCode());
 
         assertFalse("null, equals", emf.equals(null));
 
         // Equal Object
         other = new ExtendedMessageFormat(pattern, Locale.US, fmtRegistry);
-        assertTrue("equal, equals()", emf.equals(other));
+        assertTrue("equal, equals()",   emf.equals(other));
         assertTrue("equal, hashcode()", emf.hashCode() == other.hashCode());
 
         // Different Class
         other = new OtherExtendedMessageFormat(pattern, Locale.US, fmtRegistry);
-        assertFalse("class, equals()", emf.equals(other));
+        assertFalse("class, equals()",  emf.equals(other));
         assertTrue("class, hashcode()", emf.hashCode() == other.hashCode()); // same hashcode
 
         // Different pattern
         other = new ExtendedMessageFormat("X" + pattern, Locale.US, fmtRegistry);
-        assertFalse("pattern, equals()", emf.equals(other));
+        assertFalse("pattern, equals()",   emf.equals(other));
         assertFalse("pattern, hashcode()", emf.hashCode() == other.hashCode());
 
         // Different registry
         other = new ExtendedMessageFormat(pattern, Locale.US, otherRegitry);
-        assertFalse("registry, equals()", emf.equals(other));
+        assertFalse("registry, equals()",   emf.equals(other));
         assertFalse("registry, hashcode()", emf.hashCode() == other.hashCode());
 
         // Different Locale
         other = new ExtendedMessageFormat(pattern, Locale.FRANCE, fmtRegistry);
-        assertFalse("locale, equals()", emf.equals(other));
+        assertFalse("locale, equals()",  emf.equals(other));
         assertTrue("locale, hashcode()", emf.hashCode() == other.hashCode()); // same hashcode
     }
 
     /**
      * Test a built in format for the specified Locales, plus <code>null</code> Locale.
-     *
      * @param pattern MessageFormat pattern
-     * @param args    MessageFormat arguments
+     * @param args MessageFormat arguments
      * @param locales to test
      */
     private void checkBuiltInFormat(final String pattern, final Object[] args, final Locale[] locales) {
@@ -339,11 +338,10 @@ public class ExtendedMessageFormatTest {
 
     /**
      * Test a built in format for the specified Locales, plus <code>null</code> Locale.
-     *
-     * @param pattern     MessageFormat pattern
+     * @param pattern MessageFormat pattern
      * @param fmtRegistry FormatFactory registry to use
-     * @param args        MessageFormat arguments
-     * @param locales     to test
+     * @param args MessageFormat arguments
+     * @param locales to test
      */
     private void checkBuiltInFormat(final String pattern, final Map<String, ?> fmtRegistry, final Object[] args, final Locale[] locales) {
         checkBuiltInFormat(pattern, fmtRegistry, args, (Locale) null);
@@ -355,11 +353,10 @@ public class ExtendedMessageFormatTest {
     /**
      * Create an ExtendedMessageFormat for the specified pattern and locale and check the
      * formated output matches the expected result for the parameters.
-     *
-     * @param pattern        string
+     * @param pattern string
      * @param registryUnused map (currently unused)
-     * @param args           Object[]
-     * @param locale         Locale
+     * @param args Object[]
+     * @param locale Locale
      */
     private void checkBuiltInFormat(final String pattern, final Map<String, ?> registryUnused, final Object[] args, final Locale locale) {
         final StringBuilder buffer = new StringBuilder();
@@ -376,15 +373,14 @@ public class ExtendedMessageFormatTest {
         } else {
             emf = new ExtendedMessageFormat(pattern, locale);
         }
-        assertEquals("format " + buffer.toString(), mf.format(args), emf.format(args));
+        assertEquals("format "    + buffer.toString(), mf.format(args), emf.format(args));
         assertEquals("toPattern " + buffer.toString(), mf.toPattern(), emf.toPattern());
     }
 
     /**
      * Replace MessageFormat(String, Locale) constructor (not available until JDK 1.4).
-     *
      * @param pattern string
-     * @param locale  Locale
+     * @param locale Locale
      * @return MessageFormat
      */
     private MessageFormat createMessageFormat(final String pattern, final Locale locale) {
@@ -422,7 +418,6 @@ public class ExtendedMessageFormatTest {
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingThreeArgumentsThrowsIllegalArgumentExceptionOne() {
-
         Map<String, FormatFactory> map = new HashMap<String, FormatFactory>();
         ExtendedMessageFormat extendedMessageFormat = null;
 
@@ -432,12 +427,10 @@ public class ExtendedMessageFormatTest {
         } catch (IllegalArgumentException e) {
             assertEquals(ExtendedMessageFormat.class.getName(),  e.getStackTrace()[0].getClassName());
         }
-
     }
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingThreeArgumentsThrowsIllegalArgumentExceptionTwo() {
-
         Map<String, FormatFactory> map = new HashMap<String, FormatFactory>();
         ExtendedMessageFormat extendedMessageFormat = null;
 
@@ -447,12 +440,10 @@ public class ExtendedMessageFormatTest {
         } catch (IllegalArgumentException e) {
             assertEquals(ExtendedMessageFormat.class.getName(),  e.getStackTrace()[0].getClassName());
         }
-
     }
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingThreeArgumentsThrowsIllegalArgumentExceptionThree() {
-
         Map<String, FormatFactory> map = new HashMap<String, FormatFactory>();
         ExtendedMessageFormat extendedMessageFormat = null;
 
@@ -462,12 +453,10 @@ public class ExtendedMessageFormatTest {
         } catch (IllegalArgumentException e) {
             assertEquals(ExtendedMessageFormat.class.getName(), e.getStackTrace()[0].getClassName());
         }
-
     }
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingThreeArgumentsThrowsIllegalArgumentExceptionFour() {
-
         Map<String, FormatFactory> map = new HashMap<String, FormatFactory>();
         ExtendedMessageFormat extendedMessageFormat = null;
 
@@ -477,12 +466,10 @@ public class ExtendedMessageFormatTest {
         } catch (IllegalArgumentException e) {
             assertEquals(ExtendedMessageFormat.class.getName(),  e.getStackTrace()[0].getClassName());
         }
-
     }
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingThreeArgumentsThrowsIllegalArgumentException4() {
-
         Map<String, FormatFactory> map = new HashMap<String, FormatFactory>();
         ExtendedMessageFormat extendedMessageFormat = null;
 
@@ -492,19 +479,16 @@ public class ExtendedMessageFormatTest {
         } catch (IllegalArgumentException e) {
             assertEquals(ExtendedMessageFormat.class.getName(),  e.getStackTrace()[0].getClassName());
         }
-
     }
 
     @Test
     public void testCreatesExtendedMessageFormatTakingString() {
-
         ExtendedMessageFormat extendedMessageFormat = new ExtendedMessageFormat("Unterminated format element at position ");
         Map<String, FormatFactory> map = new HashMap<String, FormatFactory>();
         ExtendedMessageFormat extendedMessageFormatTwo = new ExtendedMessageFormat("Unterminated format element at position ", map);
 
         assertEquals("Unterminated format element at position ", extendedMessageFormatTwo.toPattern());
         assertFalse(extendedMessageFormat.equals(extendedMessageFormatTwo));
-
     }
 
     // ------------------------ Test Formats ------------------------
@@ -517,13 +501,10 @@ public class ExtendedMessageFormatTest {
 
         @Override
         public StringBuffer format(final Object obj, final StringBuffer toAppendTo, final FieldPosition pos) {
-            return toAppendTo.append(((String) obj).toLowerCase());
+            return toAppendTo.append(((String)obj).toLowerCase());
         }
-
         @Override
-        public Object parseObject(final String source, final ParsePosition pos) {
-            throw new UnsupportedOperationException();
-        }
+        public Object parseObject(final String source, final ParsePosition pos) {throw new UnsupportedOperationException();}
     }
 
     /**
@@ -534,42 +515,34 @@ public class ExtendedMessageFormatTest {
 
         @Override
         public StringBuffer format(final Object obj, final StringBuffer toAppendTo, final FieldPosition pos) {
-            return toAppendTo.append(((String) obj).toUpperCase());
+            return toAppendTo.append(((String)obj).toUpperCase());
         }
-
         @Override
-        public Object parseObject(final String source, final ParsePosition pos) {
-            throw new UnsupportedOperationException();
-        }
+        public Object parseObject(final String source, final ParsePosition pos) {throw new UnsupportedOperationException();}
     }
 
 
     // ------------------------ Test Format Factories ---------------
-
     /**
      * {@link FormatFactory} implementation for lower case format.
      */
     private static class LowerCaseFormatFactory implements FormatFactory {
         private static final Format LOWER_INSTANCE = new LowerCaseFormat();
-
         @Override
         public Format getFormat(final String name, final String arguments, final Locale locale) {
             return LOWER_INSTANCE;
         }
     }
-
     /**
      * {@link FormatFactory} implementation for upper case format.
      */
     private static class UpperCaseFormatFactory implements FormatFactory {
         private static final Format UPPER_INSTANCE = new UpperCaseFormat();
-
         @Override
         public Format getFormat(final String name, final String arguments, final Locale locale) {
             return UPPER_INSTANCE;
         }
     }
-
     /**
      * {@link FormatFactory} implementation to override date format "short" to "default".
      */
@@ -578,8 +551,8 @@ public class ExtendedMessageFormatTest {
         public Format getFormat(final String name, final String arguments, final Locale locale) {
             return !"short".equals(arguments) ? null
                     : locale == null ? DateFormat
-                    .getDateInstance(DateFormat.DEFAULT) : DateFormat
-                    .getDateInstance(DateFormat.DEFAULT, locale);
+                            .getDateInstance(DateFormat.DEFAULT) : DateFormat
+                            .getDateInstance(DateFormat.DEFAULT, locale);
         }
     }
 
@@ -590,7 +563,7 @@ public class ExtendedMessageFormatTest {
         private static final long serialVersionUID = 1L;
 
         public OtherExtendedMessageFormat(final String pattern, final Locale locale,
-                                          final Map<String, ? extends FormatFactory> registry) {
+                final Map<String, ? extends FormatFactory> registry) {
             super(pattern, locale, registry);
         }
 
