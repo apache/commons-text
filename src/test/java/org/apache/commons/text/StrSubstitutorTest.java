@@ -739,7 +739,7 @@ public class StrSubstitutorTest {
 
     @Test
     public void testReplaceInTakingTwoAndThreeIntsReturningFalse() {
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        Map<String, Object> hashMap = new HashMap<String, Object>();
         StrLookup.MapStrLookup<Object> strLookup_MapStrLookup = new StrLookup.MapStrLookup<Object>(hashMap);
         StrMatcher strMatcher = StrMatcher.tabMatcher();
         StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup_MapStrLookup, strMatcher, strMatcher, 'b', strMatcher);
@@ -762,10 +762,10 @@ public class StrSubstitutorTest {
     @Test
     public void testReplaceInTakingStringBufferWithNonNull() {
         Map<String, String> map = new HashMap<String, String>();
-        StrSubstitutor strSubstitutor = new StrSubstitutor((Map<String, String>) map, "WV@i#y?N*[", "WV@i#y?N*[", '*');
+        StrSubstitutor strSubstitutor = new StrSubstitutor(map, "WV@i#y?N*[", "WV@i#y?N*[", '*');
 
         assertFalse(strSubstitutor.isPreserveEscapes());
-        assertFalse(strSubstitutor.replaceIn(new StringBuffer((CharSequence) "WV@i#y?N*[")));
+        assertFalse(strSubstitutor.replaceIn(new StringBuffer("WV@i#y?N*[")));
         assertEquals('*', strSubstitutor.getEscapeChar());
     }
 

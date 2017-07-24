@@ -417,12 +417,11 @@ public class ExtendedMessageFormatTest {
     }
 
     @Test
-    public void testFailsToCreateExtendedMessageFormatTakingThreeArgumentsThrowsIllegalArgumentExceptionOne() {
-        Map<String, FormatFactory> map = new HashMap<String, FormatFactory>();
-        ExtendedMessageFormat extendedMessageFormat = null;
+    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionOne() {
+        Map<String, FormatFactory> map = new HashMap();
 
         try {
-            extendedMessageFormat = new ExtendedMessageFormat("agdXdkR;T1{9 ^,LzXf?", map);
+            new ExtendedMessageFormat("agdXdkR;T1{9 ^,LzXf?", map);
             fail("Expecting exception: IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             assertEquals(ExtendedMessageFormat.class.getName(),  e.getStackTrace()[0].getClassName());
@@ -430,12 +429,11 @@ public class ExtendedMessageFormatTest {
     }
 
     @Test
-    public void testFailsToCreateExtendedMessageFormatTakingThreeArgumentsThrowsIllegalArgumentExceptionTwo() {
-        Map<String, FormatFactory> map = new HashMap<String, FormatFactory>();
-        ExtendedMessageFormat extendedMessageFormat = null;
+    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionTwo() {
+        Map<String, FormatFactory> map = new HashMap();
 
         try {
-            extendedMessageFormat = new ExtendedMessageFormat("a5XdkR;T1{9 ,LzXf?", map);
+            new ExtendedMessageFormat("a5XdkR;T1{9 ,LzXf?", map);
             fail("Expecting exception: IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             assertEquals(ExtendedMessageFormat.class.getName(),  e.getStackTrace()[0].getClassName());
@@ -443,12 +441,11 @@ public class ExtendedMessageFormatTest {
     }
 
     @Test
-    public void testFailsToCreateExtendedMessageFormatTakingThreeArgumentsThrowsIllegalArgumentExceptionThree() {
-        Map<String, FormatFactory> map = new HashMap<String, FormatFactory>();
-        ExtendedMessageFormat extendedMessageFormat = null;
+    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionThree() {
+        Map<String, FormatFactory> map = new HashMap();
 
         try {
-            extendedMessageFormat = new ExtendedMessageFormat("9jLh_D9{ ", map);
+            new ExtendedMessageFormat("9jLh_D9{ ", map);
             fail("Expecting exception: IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             assertEquals(ExtendedMessageFormat.class.getName(), e.getStackTrace()[0].getClassName());
@@ -456,12 +453,11 @@ public class ExtendedMessageFormatTest {
     }
 
     @Test
-    public void testFailsToCreateExtendedMessageFormatTakingThreeArgumentsThrowsIllegalArgumentExceptionFour() {
-        Map<String, FormatFactory> map = new HashMap<String, FormatFactory>();
-        ExtendedMessageFormat extendedMessageFormat = null;
+    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFour() {
+        Map<String, FormatFactory> map = new HashMap();
 
         try {
-            extendedMessageFormat = new ExtendedMessageFormat("RD,nXhM{}{", map);
+            new ExtendedMessageFormat("RD,nXhM{}{", map);
             fail("Expecting exception: IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             assertEquals(ExtendedMessageFormat.class.getName(),  e.getStackTrace()[0].getClassName());
@@ -469,12 +465,11 @@ public class ExtendedMessageFormatTest {
     }
 
     @Test
-    public void testFailsToCreateExtendedMessageFormatTakingThreeArgumentsThrowsIllegalArgumentException4() {
-        Map<String, FormatFactory> map = new HashMap<String, FormatFactory>();
-        ExtendedMessageFormat extendedMessageFormat = null;
+    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFive() {
+        Map<String, FormatFactory> map = new HashMap();
 
         try {
-            extendedMessageFormat = new ExtendedMessageFormat("j/[_D9{0,\"&'+0o", map);
+            new ExtendedMessageFormat("j/[_D9{0,\"&'+0o", map);
             fail("Expecting exception: IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             assertEquals(ExtendedMessageFormat.class.getName(),  e.getStackTrace()[0].getClassName());
@@ -484,7 +479,7 @@ public class ExtendedMessageFormatTest {
     @Test
     public void testCreatesExtendedMessageFormatTakingString() {
         ExtendedMessageFormat extendedMessageFormat = new ExtendedMessageFormat("Unterminated format element at position ");
-        Map<String, FormatFactory> map = new HashMap<String, FormatFactory>();
+        Map<String, FormatFactory> map = new HashMap();
         ExtendedMessageFormat extendedMessageFormatTwo = new ExtendedMessageFormat("Unterminated format element at position ", map);
 
         assertEquals("Unterminated format element at position ", extendedMessageFormatTwo.toPattern());
