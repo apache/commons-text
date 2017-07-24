@@ -17,7 +17,9 @@
 package org.apache.commons.text.similarity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
+import org.apache.commons.text.StrBuilder;
 import org.junit.Test;
 
 public class LevenshteinDetailedDistanceTest {
@@ -399,4 +401,65 @@ public class LevenshteinDetailedDistanceTest {
     public void testConstructorWithNegativeThreshold() throws Exception {
         new LevenshteinDetailedDistance(-1);
     }
+
+    @Test
+    public void testGetDefaultInstanceOne() {
+        LevenshteinDetailedDistance levenshteinDetailedDistance = LevenshteinDetailedDistance.getDefaultInstance();
+        LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("Distance: -2147483643, Insert: 0, Delete: 0, Substitute: 0", "Distance: 0, Insert: 2147483536, Delete: 0, Substitute: 0");
+
+        assertEquals(21, (int) levenshteinResults.getDistance());
+    }
+
+    @Test
+    public void testGetDefaultInstanceTwo() {
+        LevenshteinDetailedDistance levenshteinDetailedDistance = LevenshteinDetailedDistance.getDefaultInstance();
+        LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("Distance: 2147483647, Insert: 0, Delete: 0, Substitute: 0", "Distance: 0, Insert: 2147483647, Delete: 0, Substitute: 0");
+
+        assertEquals(20, (int) levenshteinResults.getDistance());
+    }
+
+    @Test
+    public void testCreatesLevenshteinDetailedDistanceTakingInteger6() {
+        LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
+        LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("", "Distance: 38, Insert: 0, Delete: 0, Substitute: 0");
+
+        assertEquals(0, (int) levenshteinResults.getSubstituteCount());
+        assertEquals(0, (int) levenshteinResults.getDeleteCount());
+
+        assertEquals(0, (int) levenshteinResults.getInsertCount());
+        assertEquals(-1, (int) levenshteinResults.getDistance());
+    }
+
+    @Test
+    public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDetailedDistanceTakingInteger() {
+        LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
+        CharSequence charSequence = new StrBuilder();
+
+        try {
+            levenshteinDetailedDistance.apply(charSequence, null);
+            fail("Expecting exception: IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(LevenshteinDetailedDistance.class.getName(), e.getStackTrace()[0].getClassName());
+        }
+    }
+
+    @Test
+    public void testApplyWithNull() {
+        LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
+
+        try {
+            levenshteinDetailedDistance.apply(null, null);
+            fail("Expecting exception: IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(LevenshteinDetailedDistance.class.getName(), e.getStackTrace()[0].getClassName());
+        }
+    }
+
+    @Test
+    public void testGetThreshold() {
+        LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
+
+        assertEquals(0, (int) levenshteinDetailedDistance.getThreshold());
+    }
+
 }

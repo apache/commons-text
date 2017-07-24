@@ -87,12 +87,12 @@ public class ExtendedMessageFormatTest {
      */
     @Test
     public void testEscapedBraces_LANG_948() {
-        // message without placeholder because braces are escaped by quotes 
+        // message without placeholder because braces are escaped by quotes
         final String pattern = "Message without placeholders '{}'";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, registry);
         assertEquals("Message without placeholders {}", emf.format(new Object[] {"DUMMY"}));
 
-        // message with placeholder because quotes are escaped by quotes 
+        // message with placeholder because quotes are escaped by quotes
         final String pattern2 = "Message with placeholder ''{0}''";
         final ExtendedMessageFormat emf2 = new ExtendedMessageFormat(pattern2, registry);
         assertEquals("Message with placeholder 'DUMMY'", emf2.format(new Object[] {"DUMMY"}));
@@ -416,6 +416,76 @@ public class ExtendedMessageFormatTest {
         emf.setFormatsByArgumentIndex(new Format[]{new LowerCaseFormat(), new UpperCaseFormat()});
     }
 
+    @Test
+    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionOne() {
+        Map<String, FormatFactory> map = new HashMap();
+
+        try {
+            new ExtendedMessageFormat("agdXdkR;T1{9 ^,LzXf?", map);
+            fail("Expecting exception: IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(ExtendedMessageFormat.class.getName(),  e.getStackTrace()[0].getClassName());
+        }
+    }
+
+    @Test
+    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionTwo() {
+        Map<String, FormatFactory> map = new HashMap();
+
+        try {
+            new ExtendedMessageFormat("a5XdkR;T1{9 ,LzXf?", map);
+            fail("Expecting exception: IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(ExtendedMessageFormat.class.getName(),  e.getStackTrace()[0].getClassName());
+        }
+    }
+
+    @Test
+    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionThree() {
+        Map<String, FormatFactory> map = new HashMap();
+
+        try {
+            new ExtendedMessageFormat("9jLh_D9{ ", map);
+            fail("Expecting exception: IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(ExtendedMessageFormat.class.getName(), e.getStackTrace()[0].getClassName());
+        }
+    }
+
+    @Test
+    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFour() {
+        Map<String, FormatFactory> map = new HashMap();
+
+        try {
+            new ExtendedMessageFormat("RD,nXhM{}{", map);
+            fail("Expecting exception: IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(ExtendedMessageFormat.class.getName(),  e.getStackTrace()[0].getClassName());
+        }
+    }
+
+    @Test
+    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFive() {
+        Map<String, FormatFactory> map = new HashMap();
+
+        try {
+            new ExtendedMessageFormat("j/[_D9{0,\"&'+0o", map);
+            fail("Expecting exception: IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(ExtendedMessageFormat.class.getName(),  e.getStackTrace()[0].getClassName());
+        }
+    }
+
+    @Test
+    public void testCreatesExtendedMessageFormatTakingString() {
+        ExtendedMessageFormat extendedMessageFormat = new ExtendedMessageFormat("Unterminated format element at position ");
+        Map<String, FormatFactory> map = new HashMap();
+        ExtendedMessageFormat extendedMessageFormatTwo = new ExtendedMessageFormat("Unterminated format element at position ", map);
+
+        assertEquals("Unterminated format element at position ", extendedMessageFormatTwo.toPattern());
+        assertFalse(extendedMessageFormat.equals(extendedMessageFormatTwo));
+    }
+
     // ------------------------ Test Formats ------------------------
 
     /**
@@ -491,7 +561,7 @@ public class ExtendedMessageFormatTest {
                 final Map<String, ? extends FormatFactory> registry) {
             super(pattern, locale, registry);
         }
-        
+
     }
 
 }
