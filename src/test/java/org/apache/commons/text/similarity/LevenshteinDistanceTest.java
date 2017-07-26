@@ -20,7 +20,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 /**
  * Unit tests for {@link LevenshteinDistance}.
@@ -138,23 +137,14 @@ public class LevenshteinDistanceTest {
         new LevenshteinDistance(-1);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDistanceTakingInteger() {
-        LevenshteinDistance levenshteinDistance = new LevenshteinDistance(0);
-
-        try {
-            levenshteinDistance.apply(null,null);
-            fail("Expecting exception: IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
-            assertEquals(LevenshteinDistance.class.getName(), e.getStackTrace()[0].getClassName());
-        }
+        new LevenshteinDistance(0).apply(null, null);
     }
 
     @Test
     public void testGetThresholdDirectlyAfterObjectInstantiation() {
-        LevenshteinDistance levenshteinDistance = new LevenshteinDistance();
-
-        assertNull(levenshteinDistance.getThreshold());
+        assertNull(new LevenshteinDistance().getThreshold());
     }
 
 }

@@ -16,16 +16,13 @@
  */
 package org.apache.commons.text;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
-import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Unit tests for {@link WordUtils} class.
@@ -410,6 +407,23 @@ public class WordUtilsTest {
         assertEquals(" h", WordUtils.initials(" Ben   John  . Lee", array));
         assertEquals("K", WordUtils.initials("Kay O'Murphy", array));
         assertEquals("i2", WordUtils.initials("i am here 123", array));
+    }
+
+    @Test
+    public void testInitialsSurrogatePairs() {
+        //Tests with space as default delimiter
+        assertEquals("\uD800\uDF00\uD800\uDF02", WordUtils.initials("\uD800\uDF00\uD800\uDF01 \uD800\uDF02\uD800\uDF03"));
+        assertEquals("\uD800\uDF00\uD800\uDF02", WordUtils.initials("\uD800\uDF00\uD800\uDF01 \uD800\uDF02\uD800\uDF03", null));
+        assertEquals("\uD800\uDF00\uD800\uDF02", WordUtils.initials("\uD800\uDF00 \uD800\uDF02 ", null));
+
+        //Tests with UTF-16 as delimiters
+        assertEquals("\uD800\uDF00\uD800\uDF02", WordUtils.initials("\uD800\uDF00\uD800\uDF01.\uD800\uDF02\uD800\uDF03", new char[]{'.'}));
+        assertEquals("\uD800\uDF00\uD800\uDF02", WordUtils.initials("\uD800\uDF00\uD800\uDF01A\uD800\uDF02\uD800\uDF03", new char[]{'A'}));
+
+        //Tests with UTF-32 as delimiters
+        assertEquals("\uD800\uDF00\uD800\uDF02", WordUtils.initials("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", new char[]{'\uD800', '\uDF14'}));
+        assertEquals("\uD800\uDF00\uD800\uDF02", WordUtils.initials("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF18\uD800\uDF02\uD800\uDF03", new char[]{'\uD800', '\uDF14', '\uD800', '\uDF18'}));
+
     }
 
     // -----------------------------------------------------------------------

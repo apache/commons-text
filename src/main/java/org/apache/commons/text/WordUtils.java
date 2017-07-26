@@ -24,11 +24,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 /**
- * <p>Operations on Strings that contain words.</p>
+ * <p>
+ * Operations on Strings that contain words.
+ * </p>
  *
- * <p>This class tries to handle <code>null</code> input gracefully.
- * An exception will not be thrown for a <code>null</code> input.
- * Each method documents its behaviour in more detail.</p>
+ * <p>
+ * This class tries to handle <code>null</code> input gracefully. An exception will not be thrown for a
+ * <code>null</code> input. Each method documents its behavior in more detail.
+ * </p>
  *
  * @since 1.1
  */
@@ -688,22 +691,22 @@ public class WordUtils {
             return "";
         }
         final int strLen = str.length();
-        final char[] buf = new char[strLen / 2 + 1];
+        final int [] newCodePoints = new int[strLen / 2 + 1];
         int count = 0;
         boolean lastWasGap = true;
-        for (int i = 0; i < strLen; i++) {
-            final char ch = str.charAt(i);
+        for (int i = 0; i < strLen;) {
+            final int codePoint = str.codePointAt(i);
 
-            if (isDelimiter(ch, delimiters)) {
+            if (isDelimiter(codePoint, delimiters)) {
                 lastWasGap = true;
             } else if (lastWasGap) {
-                buf[count++] = ch;
+                newCodePoints[count++] = codePoint;
                 lastWasGap = false;
-            } else {
-                continue; // ignore ch
             }
+
+            i += Character.charCount(codePoint);
         }
-        return new String(buf, 0, count);
+        return new String(newCodePoints, 0, count);
     }
 
     //-----------------------------------------------------------------------

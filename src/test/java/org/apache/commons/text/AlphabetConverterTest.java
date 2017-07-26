@@ -29,7 +29,6 @@ import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
 
 /**
  * Unit tests for {@link AlphabetConverter}.
@@ -208,18 +207,13 @@ public class AlphabetConverterTest {
         }
     }
 
-    @Test
+    @Test(expected=IllegalArgumentException.class)
     public void testCreateConverterFromCharsWithNullAndNull() {
         Character[] characterArray = new Character[2];
         characterArray[0] = Character.valueOf('$');
         characterArray[1] = characterArray[0];
 
-        try {
-            AlphabetConverter.createConverterFromChars(characterArray, null, null);
-            fail("Expecting exception: IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
-            assertEquals(AlphabetConverter.class.getName(), e.getStackTrace()[0].getClassName());
-        }
+        AlphabetConverter.createConverterFromChars(characterArray, null, null);
     }
 
     @Test
@@ -234,7 +228,7 @@ public class AlphabetConverterTest {
 
     @Test
     public void testCreateConverterFromMapAndEquals() {
-        Map<Integer, String> hashMap = new HashMap<Integer, String>();
+        Map<Integer, String> hashMap = new HashMap<>();
         AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromMap(hashMap);
         hashMap.put(0, "CtDs");
         AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(hashMap);
@@ -250,7 +244,7 @@ public class AlphabetConverterTest {
         characterArray[0] = character;
         characterArray[1] = character;
         AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
-        Map<Integer, String> map = new HashMap<Integer, String>();
+        Map<Integer, String> map = new HashMap<>();
         AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(map);
 
         assertEquals(1, alphabetConverterTwo.getEncodedCharLength());
@@ -279,7 +273,7 @@ public class AlphabetConverterTest {
 
     @Test
     public void testDecodeReturningNull() throws UnsupportedEncodingException {
-        Map<Integer, String> map = new HashMap<Integer, String>();
+        Map<Integer, String> map = new HashMap<>();
         AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromMap(map);
         alphabetConverter.decode(null);
 

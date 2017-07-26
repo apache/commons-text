@@ -17,7 +17,6 @@
 package org.apache.commons.text.similarity;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import org.apache.commons.text.StrBuilder;
 import org.junit.Test;
@@ -430,29 +429,17 @@ public class LevenshteinDetailedDistanceTest {
         assertEquals(-1, (int) levenshteinResults.getDistance());
     }
 
-    @Test
+    @Test(expected=IllegalArgumentException.class)
     public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDetailedDistanceTakingInteger() {
         LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
         CharSequence charSequence = new StrBuilder();
 
-        try {
-            levenshteinDetailedDistance.apply(charSequence, null);
-            fail("Expecting exception: IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
-            assertEquals(LevenshteinDetailedDistance.class.getName(), e.getStackTrace()[0].getClassName());
-        }
+        levenshteinDetailedDistance.apply(charSequence, null);
     }
 
-    @Test
+    @Test(expected=IllegalArgumentException.class)
     public void testApplyWithNull() {
-        LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
-
-        try {
-            levenshteinDetailedDistance.apply(null, null);
-            fail("Expecting exception: IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
-            assertEquals(LevenshteinDetailedDistance.class.getName(), e.getStackTrace()[0].getClassName());
-        }
+        new LevenshteinDetailedDistance(0).apply(null, null);
     }
 
     @Test
