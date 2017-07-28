@@ -32,22 +32,17 @@ import static org.junit.Assert.fail;
  **/
 public class SimilarityScoreFromTest{
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testFailsToCreateSimilarityScoreFromThrowsIllegalArgumentException() {
-      try {
-        new SimilarityScoreFrom<Object>(null, "");
-        fail("Expecting exception: IllegalArgumentException");
-      } catch(IllegalArgumentException e) {
-         assertEquals(Validate.class.getName(), e.getStackTrace()[0].getClassName());
-      }
+    new SimilarityScoreFrom<Object>(null, "");
   }
 
   @Test
   public void testApply() {
-      LongestCommonSubsequence longestCommonSubsequence = new LongestCommonSubsequence();
-      SimilarityScoreFrom<Integer> similarityScoreFrom = new SimilarityScoreFrom(longestCommonSubsequence, "asdf");
+    LongestCommonSubsequence longestCommonSubsequence = new LongestCommonSubsequence();
+    SimilarityScoreFrom<Integer> similarityScoreFrom = new SimilarityScoreFrom(longestCommonSubsequence, "asdf");
 
-      assertEquals(1, (int) similarityScoreFrom.apply("s"));
+    assertEquals(1, (int) similarityScoreFrom.apply("s"));
   }
 
 }

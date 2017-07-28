@@ -45,29 +45,17 @@ public class CosineSimilarityTest{
       assertEquals(0.0, (double) cosineSimilarity.cosineSimilarity(hashMapTwo, hashMapThree), 0.01);
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testCosineSimilarityThrowsIllegalArgumentException() {
-      CosineSimilarity cosineSimilarity = new CosineSimilarity();
-      Map<CharSequence, Integer> map = new HashMap();
-
-      try { 
-        cosineSimilarity.cosineSimilarity(map, null);
-        fail("Expecting exception: IllegalArgumentException");
-      } catch(IllegalArgumentException e) {
-         assertEquals(CosineSimilarity.class.getName(), e.getStackTrace()[0].getClassName());
-      }
+    CosineSimilarity cosineSimilarity = new CosineSimilarity();
+    Map<CharSequence, Integer> map = new HashMap();
+    cosineSimilarity.cosineSimilarity(map, null);
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testCosineSimilarityWithNull() {
-      CosineSimilarity cosineSimilarity = new CosineSimilarity();
-
-      try { 
-        cosineSimilarity.cosineSimilarity(null,null);
-        fail("Expecting exception: IllegalArgumentException");
-      } catch(IllegalArgumentException e) {
-         assertEquals(CosineSimilarity.class.getName(), e.getStackTrace()[0].getClassName());
-      }
+     CosineSimilarity cosineSimilarity = new CosineSimilarity();
+     cosineSimilarity.cosineSimilarity(null,null);
   }
 
   @Test
