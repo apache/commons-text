@@ -251,4 +251,20 @@ public class RandomStringGeneratorTest {
             assertTrue(str.indexOf(c) != -1);
         }
     }
+
+    @Test //I consider this being a defect.
+    public void testGenerateTakingIntThrowsNullPointerException() {
+        RandomStringGenerator.Builder randomStringGenerator_Builder = new RandomStringGenerator.Builder();
+        CharacterPredicate[] characterPredicateArray = new CharacterPredicate[2];
+        randomStringGenerator_Builder.filteredBy(characterPredicateArray);
+        RandomStringGenerator randomStringGenerator = randomStringGenerator_Builder.build();
+
+        try {
+            randomStringGenerator.generate(18);
+            fail("Expecting exception: NullPointerException");
+        } catch(NullPointerException e) {
+            assertEquals(RandomStringGenerator.class.getName(), e.getStackTrace()[0].getClassName());
+        }
+    }
+
 }
