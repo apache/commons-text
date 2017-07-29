@@ -34,6 +34,29 @@ function install_jdk {
   fi
 }
 
+function install_ibm_jdk {
+
+rm -rf /tmp/jdk/ibmjdk8
+
+mkdir -p /tmp/jdk/ibmjdk8
+
+cd /tmp/jdk/ibmjdk8
+
+wget https://iwm.dhe.ibm.com/sdfdl/1v2/regs2/linuxjavasdks/java/java8/8/0/3/12/linuxia32/Xa.2/Xb.N2_vvPzUu_2JEIyVPPqRybA1WF-OqrzhAy4sMq3E9ws/Xc.8/0/3/12/linuxia32/ibm-java-sdk-8.0-3.12-i386-archive.bin/Xd./Xf.LPr.D1vk/Xg.9247250/Xi.swg-sdk8/XY.regsrvs/XZ.SWELeiUcWhSb2NGHFYK0DaN0aBc/ibm-java-sdk-8.0-3.12-i386-archive.bin
+
+chmod 755 ibm-java-sdk-8.0-3.12-i386-archive.bin
+
+printf "4\n1\n\n\n/tmp/jdk/ibmjava8\nY\n\n\n\n" | ./ibm-java-sdk-8.0-3.12-i386-archive.bin
+
+export JAVA_HOME="/tmp/jdk/ibmjdk8/ibm-java-i386-80"
+export JDK_HOME="${JAVA_HOME}"
+export JAVAC="${JAVA_HOME}/bin/javac"
+export PATH="${JAVA_HOME}/bin:${PATH}"
+
+
+}
+
+
 source $HOME/.jdk_switcher_rc
 case "$JDK" in
 6)
@@ -51,6 +74,9 @@ case "$JDK" in
 9-ea-stable)
   install_jdk $JDK9_EA_STABLE_URL
   ;;
+8-ibm)
+  install_ibm_jdk
+  ;;
 esac
 
 # Do not use "~/.mavenrc" set by Travis (https://github.com/travis-ci/travis-ci/issues/3893),
@@ -67,7 +93,7 @@ case "$JDK" in
 7)
   mvn -V -B -e verify -Dbytecode.version=1.7
   ;;
-8 | 8-ea)
+8 | 8-ea | 8-ibm)
   mvn -V -B -e verify -Dbytecode.version=1.8 -Decj=${ECJ:-}
   ;;
 9-ea | 9-ea-stable)

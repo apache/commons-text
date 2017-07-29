@@ -34,6 +34,7 @@ env:
   - JDK=8-ea
   - JDK=9-ea
   - JDK=9-ea-stable
+  - JDK=8-ibm
 
 matrix:
   allow_failures:
