@@ -14,15 +14,31 @@
 # limitations under the License.
 
 language: java
+
+# Skip "install" stage:
+install: true
+
+# Use container-based infrastructure:
 sudo: false
 
-jdk:
-  - openjdk7
-  - oraclejdk7
-  - oraclejdk8
+# Keep Maven local repository between builds:
+cache:
+  directories:
+    - '$HOME/.m2/repository'
 
-script:
-  - mvn
+env:
+  - JDK=6
+  - JDK=7
+  - JDK=8
+  - JDK=8
+    ECJ=true
+  - JDK=8-ea
+  - JDK=9-ea
+  - JDK=9-ea-stable
 
-after_success:
-  - mvn clean test jacoco:report coveralls:report
+matrix:
+  allow_failures:
+    - env: JDK=8-ea
+    - env: JDK=9-ea
+
+script: ./.travis.sh
