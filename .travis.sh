@@ -39,19 +39,14 @@ function install_ibm_jdk {
 uname -a
 lsb_release -a
 
-rm -rf ./ibmjdk8
-
-mkdir -p ./ibmjdk8
-
-cd ./ibmjdk8
 
 wget https://iwm.dhe.ibm.com/sdfdl/1v2/regs2/linuxjavasdks/java/java8/8/0/3/12/linuxia32/Xa.2/Xb.N2_vvPzUu_2JEIyVPPqRybA1WF-OqrzhAy4sMq3E9ws/Xc.8/0/3/12/linuxia32/ibm-java-sdk-8.0-3.12-i386-archive.bin/Xd./Xf.LPr.D1vk/Xg.9247250/Xi.swg-sdk8/XY.regsrvs/XZ.SWELeiUcWhSb2NGHFYK0DaN0aBc/ibm-java-sdk-8.0-3.12-i386-archive.bin
 
 chmod 755 ibm-java-sdk-8.0-3.12-i386-archive.bin
 
-printf "4\n1\n\n\n./ibmjava8\nY\n\n\n\n" | ./ibm-java-sdk-8.0-3.12-i386-archive.bin
+printf "4\n1\n\n\n\n\nY\n\n\n\n" | ./ibm-java-sdk-8.0-3.12-i386-archive.bin
 
-export JAVA_HOME="`pwd`/ibmjdk8/ibm-java-i386-80"
+export JAVA_HOME="`pwd`/ibm-java-i386-80"
 export JDK_HOME="${JAVA_HOME}"
 export JAVAC="${JAVA_HOME}/bin/javac"
 export PATH="${JAVA_HOME}/bin:${PATH}"
