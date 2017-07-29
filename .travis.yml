@@ -27,7 +27,6 @@ cache:
     - '$HOME/.m2/repository'
 
 env:
-  - JDK=6
   - JDK=7
   - JDK=8
   - JDK=8
