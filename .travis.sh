@@ -36,6 +36,9 @@ function install_jdk {
 
 function install_ibm_jdk {
 
+uname -a
+lsb_release -a
+
 rm -rf /tmp/jdk/ibmjdk8
 
 mkdir -p /tmp/jdk/ibmjdk8
