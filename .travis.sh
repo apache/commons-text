@@ -39,6 +39,9 @@ function install_ibm_jdk {
 uname -a
 lsb_release -a
 
+echo "space on this box: "
+
+df -h
 
 wget https://iwm.dhe.ibm.com/sdfdl/1v2/regs2/linuxjavasdks/java/java8/8/0/3/12/linuxia32/Xa.2/Xb.N2_vvPzUu_2JEIyVPPqRybA1WF-OqrzhAy4sMq3E9ws/Xc.8/0/3/12/linuxia32/ibm-java-sdk-8.0-3.12-i386-archive.bin/Xd./Xf.LPr.D1vk/Xg.9247250/Xi.swg-sdk8/XY.regsrvs/XZ.SWELeiUcWhSb2NGHFYK0DaN0aBc/ibm-java-sdk-8.0-3.12-i386-archive.bin
 
