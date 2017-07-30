@@ -15,13 +15,13 @@
 
 language: java
 
-dist: trusty
+dist: precise
 
 # Skip "install" stage:
 install: true
 
 # Use container-based infrastructure:
-sudo: false
+sudo: true
 
 # Keep Maven local repository between builds:
 cache:
