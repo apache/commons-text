@@ -935,4 +935,12 @@ public class StrTokenizerTest {
         final StrTokenizer tokens= new StrTokenizer(chars, StrMatcher.commaMatcher(), StrMatcher.quoteMatcher());
         assertEquals("acd", tokens.next());
     }
+
+    @Test
+    public void testPreviousTokenAndSetEmptyTokenAsNull() {
+        StrTokenizer strTokenizer = StrTokenizer.getTSVInstance(" \t\n\r\f");
+        strTokenizer.setEmptyTokenAsNull(true);
+
+        assertNull(strTokenizer.previousToken());
+    }
 }
