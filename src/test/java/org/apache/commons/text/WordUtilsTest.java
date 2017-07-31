@@ -515,4 +515,9 @@ public class WordUtilsTest {
 
     }
 
+    @Test
+    public void testContainsAllWordsWithNull() {
+        assertFalse(WordUtils.containsAllWords("M", null));
+    }
+
 }

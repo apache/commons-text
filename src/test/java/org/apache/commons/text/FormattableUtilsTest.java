@@ -125,6 +125,13 @@ public class FormattableUtilsTest {
         assertEquals("+*___", FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 5, 2, '_', "+*").toString());
     }
 
+    //I consider this being a defect.
+    @Test(expected = NullPointerException.class)
+    public void testAppendTakingIntsAnd1ThrowsNullPointerException() {
+        FormattableUtils.append("", null, 0, 0, 0, '}');
+
+    }
+
     static class SimplestFormattable implements Formattable {
         private final String text;
 
@@ -137,6 +144,5 @@ public class FormattableUtilsTest {
             formatter.format(text);
         }
     };
-
 
 }

@@ -29,6 +29,7 @@ import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests for {@link AlphabetConverter}.
@@ -249,6 +250,17 @@ public class AlphabetConverterTest {
 
         assertEquals(1, alphabetConverterTwo.getEncodedCharLength());
         assertFalse(alphabetConverter.equals(alphabetConverterTwo));
+    }
+
+    @Test
+    public void testEqualsWithSameObject() {
+        Character[] characterArray = new Character[2];
+        Character character = new Character('R');
+        characterArray[0] = character;
+        characterArray[1] = character;
+        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
+
+        assertTrue(alphabetConverter.equals(alphabetConverter));
     }
 
     @Test

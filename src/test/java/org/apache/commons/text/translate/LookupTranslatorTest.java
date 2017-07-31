@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,5 +54,10 @@ public class LookupTranslatorTest  {
         assertEquals("Incorrect codepoint consumption", 3, result);
         assertEquals("Incorrect value", "two", out.toString());
     }
+
+  @Test(expected = InvalidParameterException.class)
+  public void testFailsToCreateLookupTranslatorThrowsInvalidParameterException() {
+        new LookupTranslator(null);
+  }
 
 }
