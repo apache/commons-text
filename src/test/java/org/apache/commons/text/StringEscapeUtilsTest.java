@@ -614,7 +614,6 @@ public class StringEscapeUtilsTest {
 
     @Test
     public void testUnescapeJson() {
-
         String jsonString = "{\"age\":100,\"name\":\"kyong.com\n\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
 
         assertEquals("", StringEscapeUtils.unescapeJson(""));
@@ -626,7 +625,6 @@ public class StringEscapeUtilsTest {
     @Ignore("Bug found.")
     @Test
     public void testUnescapeJsonFoundBug() {
-
         String jsonString = "{\"age\":100,\"name\":\"m\\\"kyong.com\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
 
         assertEquals(jsonString, StringEscapeUtils.unescapeJson(jsonString));

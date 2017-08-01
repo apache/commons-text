@@ -55,9 +55,9 @@ public class LookupTranslatorTest  {
         assertEquals("Incorrect value", "two", out.toString());
     }
 
-  @Test(expected = InvalidParameterException.class)
-  public void testFailsToCreateLookupTranslatorThrowsInvalidParameterException() {
+    @Test(expected = InvalidParameterException.class)
+    public void testFailsToCreateLookupTranslatorThrowsInvalidParameterException() {
         new LookupTranslator(null);
-  }
+    }
 
 }

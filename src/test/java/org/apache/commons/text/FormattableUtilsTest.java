@@ -129,7 +129,6 @@ public class FormattableUtilsTest {
     @Test(expected = NullPointerException.class)
     public void testAppendTakingIntsAnd1ThrowsNullPointerException() {
         FormattableUtils.append("", null, 0, 0, 0, '}');
-
     }
 
     static class SimplestFormattable implements Formattable {

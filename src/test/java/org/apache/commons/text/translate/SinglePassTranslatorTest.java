@@ -55,9 +55,9 @@ public class SinglePassTranslatorTest {
         dummyTranslator.translate("abc", 1, out);
     }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testTranslateThrowsIllegalArgumentException() throws IOException {
+    @Test(expected = IllegalArgumentException.class)
+    public void testTranslateThrowsIllegalArgumentException() throws IOException {
         dummyTranslator.translate("(,Fk", 647, null);
-  }
+    }
 
 }
