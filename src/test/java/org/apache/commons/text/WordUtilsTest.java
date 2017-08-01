@@ -512,7 +512,11 @@ public class WordUtilsTest {
         WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
                 + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
                 + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",70);
+    }
 
+    @Test
+    public void testContainsAllWordsWithNull() {
+        assertFalse(WordUtils.containsAllWords("M", null));
     }
 
 }

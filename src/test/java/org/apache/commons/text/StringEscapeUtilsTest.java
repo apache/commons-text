@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -590,6 +591,43 @@ public class StringEscapeUtilsTest {
         assertEquals("He didn't say, \"Stop!\"", unescapeXSI("He\\ didn\\'t\\ say,\\ \\\"Stop!\\\""));
         assertEquals("\\", unescapeXSI("\\\\"));
         assertEquals("", unescapeXSI("\\"));
+    }
+
+    @Test
+    public void testUnescapeEcmaScript() {
+        assertNull("Should be null.", StringEscapeUtils.unescapeEcmaScript(null));
+        assertEquals("8lvc1u+6B#-I", StringEscapeUtils.unescapeEcmaScript("8lvc1u+6B#-I"));
+        assertEquals("<script src=\"build/main.bundle.js\"></script>",
+                StringEscapeUtils.unescapeEcmaScript("<script src=\"build/main.bundle.js\"></script>")
+        );
+        assertEquals("<script src=\"build/main.bundle.js\"></script>>",
+                StringEscapeUtils.unescapeEcmaScript("<script src=\"build/main.bundle.js\"></script>>")
+        );
+    }
+
+    @Test
+    public void testEscapeHtmlFour() {
+        assertNull("Should be null.", StringEscapeUtils.escapeHtml3(null));
+        assertEquals("a", StringEscapeUtils.escapeHtml3("a"));
+        assertEquals("&lt;b&gt;a", StringEscapeUtils.escapeHtml3("<b>a"));
+    }
+
+    @Test
+    public void testUnescapeJson() {
+        String jsonString = "{\"age\":100,\"name\":\"kyong.com\n\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
+
+        assertEquals("", StringEscapeUtils.unescapeJson(""));
+        assertEquals(" ", StringEscapeUtils.unescapeJson(" "));
+        assertEquals("a:b", StringEscapeUtils.unescapeJson("a:b"));
+        assertEquals(jsonString, StringEscapeUtils.unescapeJson(jsonString));
+    }
+
+    @Ignore("Bug found.")
+    @Test
+    public void testUnescapeJsonFoundBug() {
+        String jsonString = "{\"age\":100,\"name\":\"m\\\"kyong.com\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
+
+        assertEquals(jsonString, StringEscapeUtils.unescapeJson(jsonString));
     }
 
 }
