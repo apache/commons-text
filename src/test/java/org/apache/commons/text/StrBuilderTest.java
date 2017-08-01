@@ -25,7 +25,9 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
@@ -2103,4 +2105,28 @@ public class StrBuilderTest {
         final char ch = 'c';
         assertEquals("c" + System.lineSeparator(), sb1.appendln(ch).toString());
     }
+
+    @Test(expected=StringIndexOutOfBoundsException.class)
+    public void testAppendTakingTwoAndThreeIntsWithZeroAndAppendTakingTwoAndThreeIntsThrowsStringIndexOutOfBoundsExceptionTwo() {
+        Charset charset = Charset.defaultCharset();
+        ByteBuffer byteBuffer = charset.encode("end < start");
+        CharBuffer charBuffer = charset.decode(byteBuffer);
+
+        new StrBuilder(630).append(charBuffer, 0, 630);
+    }
+
+    @Test(expected=StringIndexOutOfBoundsException.class)
+    public void testAppendTakingTwoAndThreeIntsThrowsStringIndexOutOfBoundsExceptionAndAppendTakingTwoAndThreeIntsThree() {
+        Charset charset = Charset.defaultCharset();
+        ByteBuffer byteBuffer = charset.encode("asdf");
+        CharBuffer charBuffer = charset.decode(byteBuffer);
+
+        new StrBuilder().append(charBuffer, 933, 654);
+    }
+
+    @Test(expected=StringIndexOutOfBoundsException.class)
+    public void testDeleteCharAtWithNegative() {
+        new StrBuilder().deleteCharAt((-1258));
+    }
+
 }

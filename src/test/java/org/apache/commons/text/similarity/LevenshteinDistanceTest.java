@@ -16,9 +16,10 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Unit tests for {@link LevenshteinDistance}.
@@ -134,6 +135,16 @@ public class LevenshteinDistanceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorWithNegativeThreshold() throws Exception {
         new LevenshteinDistance(-1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDistanceTakingInteger() {
+        new LevenshteinDistance(0).apply(null, null);
+    }
+
+    @Test
+    public void testGetThresholdDirectlyAfterObjectInstantiation() {
+        assertNull(new LevenshteinDistance().getThreshold());
     }
 
 }

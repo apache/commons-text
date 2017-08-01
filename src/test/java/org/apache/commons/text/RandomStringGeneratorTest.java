@@ -251,4 +251,14 @@ public class RandomStringGeneratorTest {
             assertTrue(str.indexOf(c) != -1);
         }
     }
+
+    @Test(expected=NullPointerException.class)
+    public void testGenerateTakingIntThrowsNullPointerException() {
+        RandomStringGenerator.Builder randomStringGeneratorBuilder = new RandomStringGenerator.Builder();
+        CharacterPredicate[] characterPredicateArray = new CharacterPredicate[2];
+        randomStringGeneratorBuilder.filteredBy(characterPredicateArray);
+        RandomStringGenerator randomStringGenerator = randomStringGeneratorBuilder.build();
+
+        randomStringGenerator.generate(18);
+    }
 }
