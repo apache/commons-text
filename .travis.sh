@@ -54,7 +54,7 @@ wget http://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/8.0.
 
 mv ibm-java-sdk-8.0-4.7-x86_64-archive.bin /tmp/ibmjdk
 
-chmod 755 ibm-java-sdk-8.0-4.7-x86_64-archive.bin
+chmod 755 /tmp/ibmjdk/ibm-java-sdk-8.0-4.7-x86_64-archive.bin
 
 printf "4\n1\n\n\n\n\nY\n\n\n\n" | /tmp/ibmjdk/ibm-java-sdk-8.0-4.7-x86_64-archive.bin
 
