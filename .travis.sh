@@ -52,6 +52,7 @@ df -h .
 
 wget http://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/8.0.4.7/linux/x86_64/ibm-java-sdk-8.0-4.7-x86_64-archive.bin
 
+mkdir -p /tmp/ibmjdk
 mv ibm-java-sdk-8.0-4.7-x86_64-archive.bin /tmp/ibmjdk
 
 chmod 755 /tmp/ibmjdk/ibm-java-sdk-8.0-4.7-x86_64-archive.bin
