@@ -171,6 +171,7 @@
               <exclude>src/site/resources/download_lang.cgi</exclude>
               <exclude>src/test/resources/stringEscapeUtilsTestData.txt</exclude>
               <exclude>src/site/resources/release-notes/RELEASE-NOTES-*.txt</exclude>
+              <exclude>.travis.sh</exclude>
             </excludes>
           </configuration>
         </plugin>
