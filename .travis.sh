@@ -52,11 +52,13 @@ df -h .
 
 wget http://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/8.0.4.7/linux/x86_64/ibm-java-sdk-8.0-4.7-x86_64-archive.bin
 
+mv ibm-java-sdk-8.0-4.7-x86_64-archive.bin /tmp/ibmjdk
+
 chmod 755 ibm-java-sdk-8.0-4.7-x86_64-archive.bin
 
-printf "4\n1\n\n\n\n\nY\n\n\n\n" | ./ibm-java-sdk-8.0-4.7-x86_64-archive.bin
+printf "4\n1\n\n\n\n\nY\n\n\n\n" | /tmp/ibmjdk/ibm-java-sdk-8.0-4.7-x86_64-archive.bin
 
-export JAVA_HOME="`pwd`/ibm-java-x86_64-80"
+export JAVA_HOME="/tmp/ibmjdk/ibm-java-x86_64-80"
 export JDK_HOME="${JAVA_HOME}"
 export JAVAC="${JAVA_HOME}/bin/javac"
 export PATH="${JAVA_HOME}/bin:${PATH}"
