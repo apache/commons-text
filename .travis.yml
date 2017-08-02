@@ -14,17 +14,33 @@
 # limitations under the License.
 
 language: java
-sudo: false
-# trusty is required for oraclejdk9
-dist: trusty
 
-jdk:
-  - openjdk7
-  - oraclejdk8
-  - oraclejdk9
+dist: precise
 
-script:
-  - mvn
+# Skip "install" stage:
+install: true
 
-after_success:
-  - mvn clean test jacoco:report coveralls:report
+# Use container-based infrastructure:
+sudo: true
+
+# Keep Maven local repository between builds:
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+
+env:
+  - JDK=7
+  - JDK=8
+  - JDK=8
+    ECJ=true
+  - JDK=8-ea
+  - JDK=9-ea
+  - JDK=9-ea-stable
+  - JDK=8-ibm
+
+matrix:
+  allow_failures:
+    - env: JDK=8-ea
+    - env: JDK=9-ea
+
+script: ./.travis.sh
