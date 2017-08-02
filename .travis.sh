@@ -95,20 +95,20 @@ export MAVEN_SKIP_RC=true
 # TODO(Godin): see https://github.com/jacoco/jacoco/issues/300 about "bytecode.version"
 case "$JDK" in
 6)
-  mvn -V -B -e verify -Dbytecode.version=1.6
+  mvn -V -B -e clean verify apache-rat:check clirr:check checkstyle:check findbugs:check javadoc:javadoc -Dbytecode.version=1.6
   ;;
 7)
-  mvn -V -B -e verify -Dbytecode.version=1.7
+  mvn -V -B -e clean verify apache-rat:check clirr:check checkstyle:check findbugs:check javadoc:javadoc -Dbytecode.version=1.7
   ;;
 8 | 8-ea | 8-ibm)
-  mvn -V -B -e verify -Dbytecode.version=1.8 -Decj=${ECJ:-}
+  mvn -V -B -e clean verify apache-rat:check clirr:check checkstyle:check findbugs:check javadoc:javadoc -Dbytecode.version=1.8 -Decj=${ECJ:-}
   ;;
 9-ea | 9-ea-stable)
   # Groovy version should be updated to get rid of "--add-opens" options (see https://twitter.com/CedricChampeau/status/807285853580103684)
   export MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED"
 
   # see https://bugs.openjdk.java.net/browse/JDK-8131041 about "java.locale.providers"
-  mvn -V -B -e verify -Dbytecode.version=1.9 \
+  mvn -V -B -e clean verify apache-rat:check clirr:check checkstyle:check findbugs:check javadoc:javadoc -Dbytecode.version=1.9 \
     -DargLine=-Djava.locale.providers=JRE,SPI
   ;;
 *)
