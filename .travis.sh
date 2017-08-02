@@ -9,6 +9,11 @@ then
   exit 1
 fi
 
+#setting some required jdk urls 
+export JDK9_EA_STABLE_URL=http://download.java.net/java/jdk9/archive/178/binaries/jdk-9+178_linux-x64_bin.tar.gz
+export JDK9_EA_URL=http://download.java.net/java/jdk9/archive/178/binaries/jdk-9+178_linux-x64_bin.tar.gz
+export JDK8_EA_URL=http://download.java.net/java/jdk8u152/archive/b05/binaries/jdk-8u152-ea-bin-b05-linux-x64-20_jun_2017.tar.gz
+
 # Switch to desired JDK, download if required:
 function install_jdk {
   JDK_URL=$1
@@ -40,14 +45,10 @@ uname -a
 lsb_release -a
 
 echo "space on this box: "
-
 df -h
 
 echo "space on this drive:"
-
 df -h .
-
-#wget https://iwm.dhe.ibm.com/sdfdl/1v2/regs2/linuxjavasdks/java/java8/8/0/3/12/linuxia32/Xa.2/Xb.N2_vvPzUu_2JEIyVPPqRybA1WF-OqrzhAy4sMq3E9ws/Xc.8/0/3/12/linuxia32/ibm-java-sdk-8.0-3.12-i386-archive.bin/Xd./Xf.LPr.D1vk/Xg.9247250/Xi.swg-sdk8/XY.regsrvs/XZ.SWELeiUcWhSb2NGHFYK0DaN0aBc/ibm-java-sdk-8.0-3.12-i386-archive.bin
 
 wget http://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/8.0.4.7/linux/x86_64/ibm-java-sdk-8.0-4.7-x86_64-archive.bin
 
@@ -59,7 +60,6 @@ export JAVA_HOME="`pwd`/ibm-java-x86_64-80"
 export JDK_HOME="${JAVA_HOME}"
 export JAVAC="${JAVA_HOME}/bin/javac"
 export PATH="${JAVA_HOME}/bin:${PATH}"
-
 
 }
 
