@@ -46,6 +46,7 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
 
   <release version="1.2" date="tbd" description="tbd">
+    <action issue="TEXT-97" type="add" dev="chtompki" due-to="Amey Jadiye">RandomStringGenerator able to pass multiple ranges to .withinRange()</action>
     <action issue="TEXT-98" type="update" dev="chtompki" due-to="Arun Vinud S S">Deprecate isDelimiter and use HashSets for delimiter checks</action>
     <action issue="TEXT-89" type="add" dev="chtompki" due-to="Arun Vinud S S">WordUtils.initials support for UTF-16 surrogate pairs</action>
     <action issue="TEXT-88" type="update" dev="chtompki" due-to="Amey Jadiye">WordUtils should treat an empty delimiter array as no delimiters</action>
