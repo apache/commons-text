@@ -328,10 +328,14 @@ public final class RandomStringGenerator {
          * generated string.
          * </p>
          *
-         * Ex.
-         * char [][] pairs = {{'0','9'}};
-         * char [][] pairs = {{'a','z'}};
-         * char [][] pairs = {{'a','z'},{'0','9'}};
+         * For example:
+         * <pre>
+         * {@code
+         *     char [][] pairs = {{'0','9'}};
+         *     char [][] pairs = {{'a','z'}};
+         *     char [][] pairs = {{'a','z'},{'0','9'}};
+         * }
+         * </pre>
          *
          * @param pairs array of charachters array, expected is to pass min, max pairs through this arg.
          * @return {@code this}, to allow method chaining.
@@ -401,11 +405,11 @@ public final class RandomStringGenerator {
          * </p>
          * <pre>
          * {@code
-         * UniformRandomProvider rng = RandomSource.create(...);
-         * RandomStringGenerator gen = new RandomStringGenerator.Builder()
-         *     .usingRandom(rng::nextInt)
-         *     // additional builder calls as needed
-         *     .build();
+         *     UniformRandomProvider rng = RandomSource.create(...);
+         *     RandomStringGenerator gen = new RandomStringGenerator.Builder()
+         *         .usingRandom(rng::nextInt)
+         *         // additional builder calls as needed
+         *         .build();
          * }
          * </pre>
          *

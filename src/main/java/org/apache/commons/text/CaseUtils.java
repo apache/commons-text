@@ -36,7 +36,7 @@ public class CaseUtils {
      * <p><code>CaseUtils</code> instances should NOT be constructed in
      * standard programming. Instead, the class should be used as
      * <code>CaseUtils.toCamelCase("foo bar", true, new char[]{'-'});</code>.</p>
-     * <p>
+     *
      * <p>This constructor is public to permit tools that require a JavaBean
      * instance to operate.</p>
      */
