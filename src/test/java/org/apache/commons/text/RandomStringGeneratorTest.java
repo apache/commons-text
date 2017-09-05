@@ -109,6 +109,32 @@ public class RandomStringGeneratorTest {
     }
 
     @Test
+    public void testWithinMultipleRanges() {
+        final int length = 5000;
+        final char [][] pairs = {{'a','z'},{'0','9'}};
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange(pairs).build();
+        String str = generator.generate(length);
+
+        int minimumCodePoint = 0, maximumCodePoint = 0;
+
+        for (char [] pair : pairs ) {
+            minimumCodePoint = Math.min(minimumCodePoint, pair[0]);
+            maximumCodePoint = Math.max(maximumCodePoint, pair[1]);
+        }
+
+        for (char [] pair : pairs ) {
+            int i = 0;
+            do {
+                int codePoint = str.codePointAt(i);
+                assertTrue(codePoint >= minimumCodePoint && codePoint <= maximumCodePoint);
+                i += Character.charCount(codePoint);
+            } while (i < str.length());
+        }
+    }
+
+
+
+    @Test
     public void testNoLoneSurrogates() {
         final int length = 5000;
         String str = new RandomStringGenerator.Builder().build().generate(length);
