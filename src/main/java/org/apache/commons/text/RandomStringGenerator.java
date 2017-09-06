@@ -324,6 +324,40 @@ public final class RandomStringGenerator {
 
         /**
          * <p>
+         * Specifies the array of minimum and maximum char allowed in the
+         * generated string.
+         * </p>
+         *
+         * For example:
+         * <pre>
+         * {@code
+         *     char [][] pairs = {{'0','9'}};
+         *     char [][] pairs = {{'a','z'}};
+         *     char [][] pairs = {{'a','z'},{'0','9'}};
+         * }
+         * </pre>
+         *
+         * @param pairs array of charachters array, expected is to pass min, max pairs through this arg.
+         * @return {@code this}, to allow method chaining.
+         */
+        public Builder withinRange(final char[] ... pairs) {
+            characterList = new ArrayList<Character>();
+            for (char[] pair :  pairs) {
+                final int minimumCodePoint = pair[0];
+                final int maximumCodePoint = pair[1];
+                Validate.isTrue(minimumCodePoint <= maximumCodePoint,
+                    "Minimum code point %d is larger than maximum code point %d", minimumCodePoint, maximumCodePoint);
+
+                for (int index = minimumCodePoint; index <= maximumCodePoint; index++) {
+                    characterList.add((char) index);
+                }
+            }
+            return this;
+
+        }
+
+        /**
+         * <p>
          * Limits the characters in the generated string to those that match at
          * least one of the predicates supplied.
          * </p>
@@ -371,11 +405,11 @@ public final class RandomStringGenerator {
          * </p>
          * <pre>
          * {@code
-         * UniformRandomProvider rng = RandomSource.create(...);
-         * RandomStringGenerator gen = new RandomStringGenerator.Builder()
-         *     .usingRandom(rng::nextInt)
-         *     // additional builder calls as needed
-         *     .build();
+         *     UniformRandomProvider rng = RandomSource.create(...);
+         *     RandomStringGenerator gen = new RandomStringGenerator.Builder()
+         *         .usingRandom(rng::nextInt)
+         *         // additional builder calls as needed
+         *         .build();
          * }
          * </pre>
          *
