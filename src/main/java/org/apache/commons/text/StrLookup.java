@@ -31,20 +31,19 @@ import java.util.Map;
  * For example, it would be possible to implement a lookup that used the
  * key as a primary key, and looked up the value on demand from the database
  *
- * @param <V> the type of the values supported by the lookup
  * @since 1.0
  */
-public abstract class StrLookup<V> {
+public abstract class StrLookup {
 
     /**
      * Lookup that always returns null.
      */
-    private static final StrLookup<String> NONE_LOOKUP = new MapStrLookup<>(null);
+    private static final StrLookup NONE_LOOKUP = new MapStrLookup(null);
 
     /**
      * Lookup based on system properties.
      */
-    private static final StrLookup<String> SYSTEM_PROPERTIES_LOOKUP = new SystemPropertiesStrLookup();
+    private static final StrLookup SYSTEM_PROPERTIES_LOOKUP = new SystemPropertiesStrLookup();
 
     //-----------------------------------------------------------------------
     /**
@@ -52,7 +51,7 @@ public abstract class StrLookup<V> {
      *
      * @return a lookup that always returns null, not null
      */
-    public static StrLookup<?> noneLookup() {
+    public static StrLookup noneLookup() {
         return NONE_LOOKUP;
     }
 
@@ -67,7 +66,7 @@ public abstract class StrLookup<V> {
      *
      * @return a lookup using system properties, not null
      */
-    public static StrLookup<String> systemPropertiesLookup() {
+    public static StrLookup systemPropertiesLookup() {
         return SYSTEM_PROPERTIES_LOOKUP;
     }
 
@@ -77,12 +76,11 @@ public abstract class StrLookup<V> {
      * If the map is null, then null will be returned from every lookup.
      * The map result object is converted to a string using toString().
      *
-     * @param <V> the type of the values supported by the lookup
      * @param map  the map of keys to values, may be null
      * @return a lookup using the map, not null
      */
-    public static <V> StrLookup<V> mapLookup(final Map<String, V> map) {
-        return new MapStrLookup<>(map);
+    public static StrLookup mapLookup(final Map<String, ?> map) {
+        return new MapStrLookup(map);
     }
 
     //-----------------------------------------------------------------------
@@ -122,17 +120,17 @@ public abstract class StrLookup<V> {
     /**
      * Lookup implementation that uses a Map.
      */
-    static class MapStrLookup<V> extends StrLookup<V> {
+    static class MapStrLookup extends StrLookup {
 
         /** Map keys are variable names and value. */
-        private final Map<String, V> map;
+        private final Map<String, ?> map;
 
         /**
          * Creates a new instance backed by a Map.
          *
          * @param map  the map of keys to values, may be null
          */
-        MapStrLookup(final Map<String, V> map) {
+        MapStrLookup(final Map<String, ?> map) {
             this.map = map;
         }
 
@@ -162,7 +160,7 @@ public abstract class StrLookup<V> {
     /**
      * Lookup implementation based on system properties.
      */
-    private static class SystemPropertiesStrLookup extends StrLookup<String> {
+    private static class SystemPropertiesStrLookup extends StrLookup {
         /**
          * {@inheritDoc} This implementation directly accesses system properties.
          */
