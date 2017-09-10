@@ -32,6 +32,7 @@ import java.lang.reflect.Modifier;
 import java.nio.charset.Charset;
 import java.util.Random;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -514,6 +515,7 @@ public class RandomStringUtilsTest {
      * @see <a href="http://issues.apache.org/jira/browse/LANG-100">LANG-100</a>
      */
     @Test
+    @Ignore
     public void testLang100() {
         final int size = 5000;
         final Charset charset = Charset.forName("UTF-8");
