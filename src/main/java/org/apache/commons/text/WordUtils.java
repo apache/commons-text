@@ -47,6 +47,7 @@ public class WordUtils {
      * <p>This constructor is public to permit tools that require a JavaBean
      * instance to operate.</p>
      */
+    @SuppressWarnings("squid:S1118")
     public WordUtils() {
       super();
     }
@@ -614,13 +615,11 @@ public class WordUtils {
         for (int index = 0; index < strLen;) {
             final int oldCodepoint = str.codePointAt(index);
             final int newCodePoint;
-            if (Character.isUpperCase(oldCodepoint)) {
+            if (Character.isUpperCase(oldCodepoint) || Character.isTitleCase(oldCodepoint) ) {
                 newCodePoint = Character.toLowerCase(oldCodepoint);
                 whitespace = false;
-            } else if (Character.isTitleCase(oldCodepoint)) {
-                newCodePoint = Character.toLowerCase(oldCodepoint);
-                whitespace = false;
-            } else if (Character.isLowerCase(oldCodepoint)) {
+            }
+            else if (Character.isLowerCase(oldCodepoint)) {
                 if (whitespace) {
                     newCodePoint = Character.toTitleCase(oldCodepoint);
                     whitespace = false;
