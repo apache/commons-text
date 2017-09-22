@@ -22,6 +22,7 @@ import static org.junit.Assert.fail;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import org.junit.Test;
 
@@ -105,11 +106,30 @@ public class StrLookupTest  {
     }
 
     @Test
+    public void testResourceBundleLookup() {
+        final ResourceBundle map = ResourceBundle.getBundle("testResourceBundleLookup");
+        assertEquals("value", StrLookup.resourceBundleLookup(map).lookup("key"));
+        assertEquals("2", StrLookup.resourceBundleLookup(map).lookup("number"));
+        assertEquals(null, StrLookup.resourceBundleLookup(map).lookup(null));
+        assertEquals(null, StrLookup.resourceBundleLookup(map).lookup(""));
+        assertEquals(null, StrLookup.resourceBundleLookup(map).lookup("other"));
+    }
+
+    @Test
+    public void testResourceBundleLookup_nullMap() {
+        final ResourceBundle resourceBundle = null;
+        assertEquals(null, StrLookup.resourceBundleLookup(resourceBundle).lookup(null));
+        assertEquals(null, StrLookup.resourceBundleLookup(resourceBundle).lookup(""));
+        assertEquals(null, StrLookup.resourceBundleLookup(resourceBundle).lookup("any"));
+    }
+
+    @Test
     public void testMapLookup_nullMap() {
         final Map<String, ?> map = null;
         assertEquals(null, StrLookup.mapLookup(map).lookup(null));
         assertEquals(null, StrLookup.mapLookup(map).lookup(""));
         assertEquals(null, StrLookup.mapLookup(map).lookup("any"));
     }
+
 
 }
