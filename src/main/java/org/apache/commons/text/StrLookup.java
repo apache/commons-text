@@ -165,6 +165,11 @@ public abstract class StrLookup<V> {
             }
             return obj.toString();
         }
+
+        @Override
+        public String toString() {
+            return super.toString() + " [map=" + map + "]";
+        }
     }
 
     // -----------------------------------------------------------------------
@@ -186,6 +191,12 @@ public abstract class StrLookup<V> {
             }
             return resourceBundle.getString(key);
         }
+        
+        @Override
+        public String toString() {
+            return super.toString() + " [resourceBundle=" + resourceBundle + "]";
+        }
+        
     }
 
     // -----------------------------------------------------------------------
