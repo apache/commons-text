@@ -180,12 +180,12 @@ public abstract class StrLookup<V> {
 
         private final ResourceBundle resourceBundle;
 
-        public ResourceBundleLookup(ResourceBundle resourceBundle) {
+        public ResourceBundleLookup(final ResourceBundle resourceBundle) {
             this.resourceBundle = resourceBundle;
         }
 
         @Override
-        public String lookup(String key) {
+        public String lookup(final String key) {
             if (resourceBundle == null || key == null || !resourceBundle.containsKey(key)) {
                 return null;
             }
