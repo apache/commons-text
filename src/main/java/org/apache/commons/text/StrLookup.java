@@ -180,6 +180,11 @@ public abstract class StrLookup<V> {
 
         private final ResourceBundle resourceBundle;
 
+        /**
+         * Creates a new instance backed by a ResourceBundle.
+         *
+         * @param resourceBundle the ResourceBundle of keys to values, may be null
+         */
         public ResourceBundleLookup(final ResourceBundle resourceBundle) {
             this.resourceBundle = resourceBundle;
         }
