@@ -618,8 +618,7 @@ public class WordUtils {
             if (Character.isUpperCase(oldCodepoint) || Character.isTitleCase(oldCodepoint) ) {
                 newCodePoint = Character.toLowerCase(oldCodepoint);
                 whitespace = false;
-            }
-            else if (Character.isLowerCase(oldCodepoint)) {
+            } else if (Character.isLowerCase(oldCodepoint)) {
                 if (whitespace) {
                     newCodePoint = Character.toTitleCase(oldCodepoint);
                     whitespace = false;
