@@ -176,7 +176,7 @@ public abstract class StrLookup<V> {
     /**
      * Lookup implementation based on a ResourceBundle.
      */
-    static class ResourceBundleLookup extends StrLookup<String> {
+    private static class ResourceBundleLookup extends StrLookup<String> {
 
         private final ResourceBundle resourceBundle;
 
