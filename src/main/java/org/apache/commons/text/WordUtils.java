@@ -422,7 +422,7 @@ public class WordUtils {
         }
         final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
         final int strLen = str.length();
-        final int [] newCodePoints = new int[strLen];
+        final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
 
         boolean capitalizeNext = true;
@@ -556,7 +556,7 @@ public class WordUtils {
         }
         final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
         final int strLen = str.length();
-        final int [] newCodePoints = new int[strLen];
+        final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
 
         boolean uncapitalizeNext = true;
@@ -608,7 +608,7 @@ public class WordUtils {
             return str;
         }
         final int strLen = str.length();
-        final int [] newCodePoints = new int[strLen];
+        final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
         boolean whitespace = true;
         for (int index = 0; index < strLen;) {
@@ -696,7 +696,7 @@ public class WordUtils {
         }
         final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
         final int strLen = str.length();
-        final int [] newCodePoints = new int[strLen / 2 + 1];
+        final int[] newCodePoints = new int[strLen / 2 + 1];
         int count = 0;
         boolean lastWasGap = true;
         for (int i = 0; i < strLen;) {
