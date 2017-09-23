@@ -30,8 +30,8 @@ public class SimilarityScoreFromTest {
 
     @Test
     public void testApply() {
-        LongestCommonSubsequence longestCommonSubsequence = new LongestCommonSubsequence();
-        SimilarityScoreFrom<Integer> similarityScoreFrom = new SimilarityScoreFrom<>(longestCommonSubsequence, "asdf");
+        final LongestCommonSubsequence longestCommonSubsequence = new LongestCommonSubsequence();
+        final SimilarityScoreFrom<Integer> similarityScoreFrom = new SimilarityScoreFrom<>(longestCommonSubsequence, "asdf");
 
         assertEquals(1, (int) similarityScoreFrom.apply("s"));
     }

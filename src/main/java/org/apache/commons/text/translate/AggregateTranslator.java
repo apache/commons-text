@@ -41,7 +41,7 @@ public class AggregateTranslator extends CharSequenceTranslator {
      */
     public AggregateTranslator(final CharSequenceTranslator... translators) {
         if (translators != null) {
-            for (CharSequenceTranslator translator : translators) {
+            for (final CharSequenceTranslator translator : translators) {
                 if (translator != null) {
                     this.translators.add(translator);
                 }

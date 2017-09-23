@@ -421,8 +421,8 @@ public class WordUtils {
             return str;
         }
         final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
-        int strLen = str.length();
-        int [] newCodePoints = new int[strLen];
+        final int strLen = str.length();
+        final int [] newCodePoints = new int[strLen];
         int outOffset = 0;
 
         boolean capitalizeNext = true;
@@ -434,7 +434,7 @@ public class WordUtils {
                 newCodePoints[outOffset++] = codePoint;
                 index += Character.charCount(codePoint);
             } else if (capitalizeNext) {
-                int titleCaseCodePoint = Character.toTitleCase(codePoint);
+                final int titleCaseCodePoint = Character.toTitleCase(codePoint);
                 newCodePoints[outOffset++] = titleCaseCodePoint;
                 index += Character.charCount(titleCaseCodePoint);
                 capitalizeNext = false;
@@ -555,8 +555,8 @@ public class WordUtils {
             return str;
         }
         final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
-        int strLen = str.length();
-        int [] newCodePoints = new int[strLen];
+        final int strLen = str.length();
+        final int [] newCodePoints = new int[strLen];
         int outOffset = 0;
 
         boolean uncapitalizeNext = true;
@@ -568,7 +568,7 @@ public class WordUtils {
                 newCodePoints[outOffset++] = codePoint;
                 index += Character.charCount(codePoint);
             } else if (uncapitalizeNext) {
-                int titleCaseCodePoint = Character.toLowerCase(codePoint);
+                final int titleCaseCodePoint = Character.toLowerCase(codePoint);
                 newCodePoints[outOffset++] = titleCaseCodePoint;
                 index += Character.charCount(titleCaseCodePoint);
                 uncapitalizeNext = false;
@@ -608,7 +608,7 @@ public class WordUtils {
             return str;
         }
         final int strLen = str.length();
-        int [] newCodePoints = new int[strLen];
+        final int [] newCodePoints = new int[strLen];
         int outOffset = 0;
         boolean whitespace = true;
         for (int index = 0; index < strLen;) {
@@ -789,7 +789,7 @@ public class WordUtils {
             return Character.isWhitespace(codePoint);
         }
         for (int index = 0; index < delimiters.length; index++) {
-            int delimiterCodePoint = Character.codePointAt(delimiters, index);
+            final int delimiterCodePoint = Character.codePointAt(delimiters, index);
             if (delimiterCodePoint == codePoint) {
                 return true;
             }
@@ -836,7 +836,7 @@ public class WordUtils {
      * WordUtils.abbreviate("Now is the time for all good men", 10, 5, null));     = IllegalArgumentException
      * </pre>
      */
-    public static String abbreviate(String str, int lower, int upper, String appendToEnd) {
+    public static String abbreviate(final String str, int lower, int upper, final String appendToEnd) {
         Validate.isTrue(upper >= -1, "upper value cannot be less than -1");
         Validate.isTrue(upper >= lower || upper == -1, "upper value is less than lower value");
 
@@ -886,7 +886,7 @@ public class WordUtils {
      * @return Set<Integer>
      */
     private static Set<Integer> generateDelimiterSet(final char[] delimiters) {
-        Set<Integer> delimiterHashSet = new HashSet<>();
+        final Set<Integer> delimiterHashSet = new HashSet<>();
         if (delimiters == null || delimiters.length == 0) {
             if (delimiters == null) {
                 delimiterHashSet.add(Character.codePointAt(new char[] {' '}, 0));

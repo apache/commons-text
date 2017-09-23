@@ -25,44 +25,44 @@ public class LevenshteinResultsTest {
 
     @Test
     public void testEqualsReturningFalse() {
-        Integer integerOne = new Integer(1662);
-        Integer integerTwo = new Integer(1164);
-        LevenshteinResults levenshteinResults = new LevenshteinResults(integerOne, integerOne, integerOne, integerOne);
-        LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(integerOne, integerOne, integerTwo, integerTwo);
+        final Integer integerOne = new Integer(1662);
+        final Integer integerTwo = new Integer(1164);
+        final LevenshteinResults levenshteinResults = new LevenshteinResults(integerOne, integerOne, integerOne, integerOne);
+        final LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(integerOne, integerOne, integerTwo, integerTwo);
 
         assertFalse(levenshteinResults.equals(levenshteinResultsTwo));
     }
 
     @Test
     public void testEqualsWithNonNull() {
-        Integer integer = new Integer(1);
-        LevenshteinResults levenshteinResults = new LevenshteinResults(null, integer, integer, null);
-        LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(null, null, null, null);
+        final Integer integer = new Integer(1);
+        final LevenshteinResults levenshteinResults = new LevenshteinResults(null, integer, integer, null);
+        final LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(null, null, null, null);
 
         assertFalse(levenshteinResults.equals(levenshteinResultsTwo));
     }
 
     @Test
     public void testEqualsWithNull() {
-        Integer integer = new Integer((-647));
-        LevenshteinResults levenshteinResults = new LevenshteinResults(integer, null, null, integer);
+        final Integer integer = new Integer((-647));
+        final LevenshteinResults levenshteinResults = new LevenshteinResults(integer, null, null, integer);
 
         assertFalse(levenshteinResults.equals(null));
     }
 
     @Test
     public void testEqualsDifferenceInSubstitutionCount() {
-        Integer integer = new Integer(1662);
-        LevenshteinResults levenshteinResults = new LevenshteinResults(integer, integer, integer, integer);
-        LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(integer, integer, integer, null);
+        final Integer integer = new Integer(1662);
+        final LevenshteinResults levenshteinResults = new LevenshteinResults(integer, integer, integer, integer);
+        final LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(integer, integer, integer, null);
 
         assertFalse(levenshteinResults.equals(levenshteinResultsTwo));
     }
 
     @Test
     public void testEqualsSameObject() {
-        Integer integer = new Integer(1662);
-        LevenshteinResults levenshteinResults = new LevenshteinResults(integer, integer, integer, null);
+        final Integer integer = new Integer(1662);
+        final LevenshteinResults levenshteinResults = new LevenshteinResults(integer, integer, integer, null);
 
         assertTrue(levenshteinResults.equals(levenshteinResults));
     }

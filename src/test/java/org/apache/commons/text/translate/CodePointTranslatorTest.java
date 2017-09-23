@@ -28,11 +28,11 @@ public class CodePointTranslatorTest {
 
   @Test
   public void testAboveReturningNonNull() throws IOException {
-    NumericEntityEscaper numericEntityEscaper = NumericEntityEscaper.above(0);
-    UnicodeEscaper unicodeEscaper = new UnicodeEscaper();
-    String string = unicodeEscaper.toUtf16Escape(0);
-    PipedReader pipedReader = new PipedReader();
-    PipedWriter pipedWriter = new PipedWriter(pipedReader);
+    final NumericEntityEscaper numericEntityEscaper = NumericEntityEscaper.above(0);
+    final UnicodeEscaper unicodeEscaper = new UnicodeEscaper();
+    final String string = unicodeEscaper.toUtf16Escape(0);
+    final PipedReader pipedReader = new PipedReader();
+    final PipedWriter pipedWriter = new PipedWriter(pipedReader);
 
     Assert.assertEquals(1, numericEntityEscaper.translate(string, 0, pipedWriter));
   }

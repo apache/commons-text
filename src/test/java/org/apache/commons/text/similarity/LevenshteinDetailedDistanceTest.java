@@ -403,24 +403,24 @@ public class LevenshteinDetailedDistanceTest {
 
     @Test
     public void testGetDefaultInstanceOne() {
-        LevenshteinDetailedDistance levenshteinDetailedDistance = LevenshteinDetailedDistance.getDefaultInstance();
-        LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("Distance: -2147483643, Insert: 0, Delete: 0, Substitute: 0", "Distance: 0, Insert: 2147483536, Delete: 0, Substitute: 0");
+        final LevenshteinDetailedDistance levenshteinDetailedDistance = LevenshteinDetailedDistance.getDefaultInstance();
+        final LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("Distance: -2147483643, Insert: 0, Delete: 0, Substitute: 0", "Distance: 0, Insert: 2147483536, Delete: 0, Substitute: 0");
 
         assertEquals(21, (int) levenshteinResults.getDistance());
     }
 
     @Test
     public void testGetDefaultInstanceTwo() {
-        LevenshteinDetailedDistance levenshteinDetailedDistance = LevenshteinDetailedDistance.getDefaultInstance();
-        LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("Distance: 2147483647, Insert: 0, Delete: 0, Substitute: 0", "Distance: 0, Insert: 2147483647, Delete: 0, Substitute: 0");
+        final LevenshteinDetailedDistance levenshteinDetailedDistance = LevenshteinDetailedDistance.getDefaultInstance();
+        final LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("Distance: 2147483647, Insert: 0, Delete: 0, Substitute: 0", "Distance: 0, Insert: 2147483647, Delete: 0, Substitute: 0");
 
         assertEquals(20, (int) levenshteinResults.getDistance());
     }
 
     @Test
     public void testCreatesLevenshteinDetailedDistanceTakingInteger6() {
-        LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
-        LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("", "Distance: 38, Insert: 0, Delete: 0, Substitute: 0");
+        final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
+        final LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("", "Distance: 38, Insert: 0, Delete: 0, Substitute: 0");
 
         assertEquals(0, (int) levenshteinResults.getSubstituteCount());
         assertEquals(0, (int) levenshteinResults.getDeleteCount());
@@ -431,8 +431,8 @@ public class LevenshteinDetailedDistanceTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDetailedDistanceTakingInteger() {
-        LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
-        CharSequence charSequence = new StrBuilder();
+        final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
+        final CharSequence charSequence = new StrBuilder();
 
         levenshteinDetailedDistance.apply(charSequence, null);
     }
@@ -444,7 +444,7 @@ public class LevenshteinDetailedDistanceTest {
 
     @Test
     public void testGetThreshold() {
-        LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
+        final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
 
         assertEquals(0, (int) levenshteinDetailedDistance.getThreshold());
     }

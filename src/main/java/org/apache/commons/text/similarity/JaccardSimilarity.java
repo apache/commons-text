@@ -44,7 +44,7 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
      *             if either String input {@code null}
      */
     @Override
-    public Double apply(CharSequence left, CharSequence right) {
+    public Double apply(final CharSequence left, final CharSequence right) {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Input cannot be null");
         }
@@ -61,12 +61,12 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
      * @param right second character sequence
      * @return index
      */
-    private Double calculateJaccardSimilarity(CharSequence left, CharSequence right) {
-        Set<String> intersectionSet = new HashSet<String>();
-        Set<String> unionSet = new HashSet<String>();
+    private Double calculateJaccardSimilarity(final CharSequence left, final CharSequence right) {
+        final Set<String> intersectionSet = new HashSet<String>();
+        final Set<String> unionSet = new HashSet<String>();
         boolean unionFilled = false;
-        int leftLength = left.length();
-        int rightLength = right.length();
+        final int leftLength = left.length();
+        final int rightLength = right.length();
         if (leftLength == 0 || rightLength == 0) {
             return 0d;
         }

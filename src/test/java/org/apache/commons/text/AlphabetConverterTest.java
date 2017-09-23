@@ -210,7 +210,7 @@ public class AlphabetConverterTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void testCreateConverterFromCharsWithNullAndNull() {
-        Character[] characterArray = new Character[2];
+        final Character[] characterArray = new Character[2];
         characterArray[0] = Character.valueOf('$');
         characterArray[1] = characterArray[0];
 
@@ -219,20 +219,20 @@ public class AlphabetConverterTest {
 
     @Test
     public void testCreateConverterFromCharsOne() {
-        Character[] characterArray = new Character[2];
+        final Character[] characterArray = new Character[2];
         characterArray[0] = new Character('5');
         characterArray[1] = characterArray[0];
-        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
 
         assertEquals(1, alphabetConverter.getEncodedCharLength());
     }
 
     @Test
     public void testCreateConverterFromMapAndEquals() {
-        Map<Integer, String> hashMap = new HashMap<>();
-        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromMap(hashMap);
+        final Map<Integer, String> hashMap = new HashMap<>();
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromMap(hashMap);
         hashMap.put(0, "CtDs");
-        AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(hashMap);
+        final AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(hashMap);
 
         assertFalse(alphabetConverter.equals(alphabetConverterTwo));
         assertEquals(1, alphabetConverter.getEncodedCharLength());
@@ -240,13 +240,13 @@ public class AlphabetConverterTest {
 
     @Test
     public void testEquals() {
-        Character[] characterArray = new Character[2];
-        Character character = new Character('R');
+        final Character[] characterArray = new Character[2];
+        final Character character = new Character('R');
         characterArray[0] = character;
         characterArray[1] = character;
-        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
-        Map<Integer, String> map = new HashMap<>();
-        AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(map);
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
+        final Map<Integer, String> map = new HashMap<>();
+        final AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(map);
 
         assertEquals(1, alphabetConverterTwo.getEncodedCharLength());
         assertFalse(alphabetConverter.equals(alphabetConverterTwo));
@@ -254,39 +254,39 @@ public class AlphabetConverterTest {
 
     @Test
     public void testEqualsWithSameObject() {
-        Character[] characterArray = new Character[2];
-        Character character = new Character('R');
+        final Character[] characterArray = new Character[2];
+        final Character character = new Character('R');
         characterArray[0] = character;
         characterArray[1] = character;
-        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
 
         assertTrue(alphabetConverter.equals(alphabetConverter));
     }
 
     @Test
     public void testEqualsWithNull() {
-        Character[] characterArray = new Character[0];
-        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, null, null);
+        final Character[] characterArray = new Character[0];
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, null, null);
 
         assertFalse(alphabetConverter.equals(null));
     }
 
     @Test
     public void testCreateConverterFromCharsAndEquals() {
-        Character[] characterArray = new Character[2];
-        char charOne = '+';
-        Character character = new Character('+');
+        final Character[] characterArray = new Character[2];
+        final char charOne = '+';
+        final Character character = new Character('+');
         characterArray[0] = character;
         characterArray[1] = characterArray[0];
-        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
 
         assertFalse(alphabetConverter.equals(charOne));
     }
 
     @Test
     public void testDecodeReturningNull() throws UnsupportedEncodingException {
-        Map<Integer, String> map = new HashMap<>();
-        AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromMap(map);
+        final Map<Integer, String> map = new HashMap<>();
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromMap(map);
         alphabetConverter.decode(null);
 
         assertEquals(1, alphabetConverter.getEncodedCharLength());

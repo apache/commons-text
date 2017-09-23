@@ -28,32 +28,32 @@ public class CosineSimilarityTest{
 
     @Test
     public void testCosineSimilarityWithNonEmptyMap() {
-        CosineSimilarity cosineSimilarity = new CosineSimilarity();
-        Map<CharSequence, Integer> hashMap = new HashMap<>();
-        Integer integer = new Integer((-397));
+        final CosineSimilarity cosineSimilarity = new CosineSimilarity();
+        final Map<CharSequence, Integer> hashMap = new HashMap<>();
+        final Integer integer = new Integer((-397));
         hashMap.put("3J/$3.L", integer);
-        Map<CharSequence, Integer> hashMapTwo = new HashMap<>();
+        final Map<CharSequence, Integer> hashMapTwo = new HashMap<>();
 
         assertEquals(0.0, (double) cosineSimilarity.cosineSimilarity(hashMap, hashMapTwo), 0.01);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCosineSimilarityThrowsIllegalArgumentException() {
-        CosineSimilarity cosineSimilarity = new CosineSimilarity();
-        Map<CharSequence, Integer> map = new HashMap<>();
+        final CosineSimilarity cosineSimilarity = new CosineSimilarity();
+        final Map<CharSequence, Integer> map = new HashMap<>();
         cosineSimilarity.cosineSimilarity(map, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCosineSimilarityWithNull() {
-        CosineSimilarity cosineSimilarity = new CosineSimilarity();
+        final CosineSimilarity cosineSimilarity = new CosineSimilarity();
         cosineSimilarity.cosineSimilarity(null, null);
     }
 
     @Test
     public void testCosineSimilarityReturningDoubleWhereByteValueIsZero() {
-        CosineSimilarity cosineSimilarity = new CosineSimilarity();
-        Map<CharSequence, Integer> hashMap = new HashMap<>();
+        final CosineSimilarity cosineSimilarity = new CosineSimilarity();
+        final Map<CharSequence, Integer> hashMap = new HashMap<>();
 
         assertEquals(0.0, (double) cosineSimilarity.cosineSimilarity(hashMap, hashMap), 0.01);
     }

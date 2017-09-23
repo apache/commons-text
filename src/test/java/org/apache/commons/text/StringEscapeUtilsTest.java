@@ -524,7 +524,7 @@ public class StringEscapeUtilsTest {
      */
     @Test
     public void testLang708() throws IOException {
-        byte[] inputBytes = Files.readAllBytes(Paths.get("src/test/resources/stringEscapeUtilsTestData.txt"));
+        final byte[] inputBytes = Files.readAllBytes(Paths.get("src/test/resources/stringEscapeUtilsTestData.txt"));
         final String input = new String(inputBytes, StandardCharsets.UTF_8);
         final String escaped = StringEscapeUtils.escapeEcmaScript(input);
         // just the end:
@@ -572,7 +572,7 @@ public class StringEscapeUtilsTest {
 
     @Test
     public void testBuilder() {
-        String result = StringEscapeUtils.builder(StringEscapeUtils.ESCAPE_XML10).escape("<").append(">").toString();
+        final String result = StringEscapeUtils.builder(StringEscapeUtils.ESCAPE_XML10).escape("<").append(">").toString();
         assertEquals("&lt;>", result);
     }
 
@@ -612,7 +612,7 @@ public class StringEscapeUtilsTest {
 
     @Test
     public void testUnescapeJson() {
-        String jsonString = "{\"age\":100,\"name\":\"kyong.com\n\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
+        final String jsonString = "{\"age\":100,\"name\":\"kyong.com\n\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
 
         assertEquals("", StringEscapeUtils.unescapeJson(""));
         assertEquals(" ", StringEscapeUtils.unescapeJson(" "));
@@ -623,7 +623,7 @@ public class StringEscapeUtilsTest {
     @Ignore("https://issues.apache.org/jira/browse/TEXT-100.")
     @Test
     public void testUnescapeJsonFoundBug_Issue_Text_100() {
-        String jsonString = "{\"age\":100,\"name\":\"m\\\"kyong.com\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
+        final String jsonString = "{\"age\":100,\"name\":\"m\\\"kyong.com\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
 
         assertEquals(jsonString, StringEscapeUtils.unescapeJson(jsonString));
     }

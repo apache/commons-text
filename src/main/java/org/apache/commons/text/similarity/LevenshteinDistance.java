@@ -361,7 +361,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
             m = right.length();
         }
 
-        int[] p = new int[n + 1];
+        final int[] p = new int[n + 1];
 
         // indexes into strings left and right
         int i; // iterates through left

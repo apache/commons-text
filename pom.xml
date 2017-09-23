@@ -148,13 +148,14 @@
     <!-- Override default buildNumber timestamp format, needed for coveralls plugin -->
     <maven.buildNumber.timestampFormat>{0,date,yyyy-MM-dd HH:mm:ssZ}</maven.buildNumber.timestampFormat>
 
-    <!-- Override 01-23-2017 for java 9-ea compatibility -->
-    <commons.jacoco.version>0.7.9</commons.jacoco.version>
-
     <!-- Use clirr version that works on Java 8 -->
     <commons.clirr.version>2.8</commons.clirr.version>
 
     <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
+    
+    <!-- Overrides for Java 9 compatibility until commons-parent 43 comes out. -->
+    <commons.jacoco.version>0.7.9</commons.jacoco.version>
+    <commons.findbugs.version>3.0.5</commons.findbugs.version>
   </properties>
 
 

@@ -64,9 +64,9 @@ public class FuzzyScoreTest {
 
     @Test
     public void testGetLocale() {
-        Locale locale = Locale.CANADA_FRENCH;
-        FuzzyScore fuzzyScore = new FuzzyScore(locale);
-        Locale localeTwo = fuzzyScore.getLocale();
+        final Locale locale = Locale.CANADA_FRENCH;
+        final FuzzyScore fuzzyScore = new FuzzyScore(locale);
+        final Locale localeTwo = fuzzyScore.getLocale();
 
         assertSame(locale, localeTwo);
     }

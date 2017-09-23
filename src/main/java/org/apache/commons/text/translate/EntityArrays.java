@@ -37,7 +37,7 @@ public class EntityArrays {
      */
     public static final Map<CharSequence, CharSequence> ISO8859_1_ESCAPE;
     static {
-        Map<CharSequence, CharSequence> initialMap = new HashMap<>();
+        final Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         initialMap.put("\u00A0", "&nbsp;"); // non-breaking space
         initialMap.put("\u00A1", "&iexcl;"); // inverted exclamation mark
         initialMap.put("\u00A2", "&cent;"); // cent sign
@@ -153,7 +153,7 @@ public class EntityArrays {
      */
     public static final Map<CharSequence, CharSequence> HTML40_EXTENDED_ESCAPE;
     static {
-        Map<CharSequence, CharSequence> initialMap = new HashMap<>();
+        final Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         // <!-- Latin Extended-B -->
         initialMap.put("\u0192", "&fnof;"); // latin small f with hook = function= florin, U+0192 ISOtech -->
         // <!-- Greek -->
@@ -367,7 +367,7 @@ public class EntityArrays {
      */
     public static final Map<CharSequence, CharSequence> BASIC_ESCAPE;
     static {
-        Map<CharSequence, CharSequence> initialMap = new HashMap<>();
+        final Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         initialMap.put("\"", "&quot;"); // " - double-quote
         initialMap.put("&", "&amp;");   // & - ampersand
         initialMap.put("<", "&lt;");    // < - less-than
@@ -389,7 +389,7 @@ public class EntityArrays {
      */
     public static final Map<CharSequence, CharSequence> APOS_ESCAPE;
     static {
-        Map<CharSequence, CharSequence> initialMap = new HashMap<>();
+        final Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         initialMap.put("'", "&apos;"); // XML apostrophe
         APOS_ESCAPE = Collections.unmodifiableMap(initialMap);
     }
@@ -410,7 +410,7 @@ public class EntityArrays {
      */
     public static final Map<CharSequence, CharSequence> JAVA_CTRL_CHARS_ESCAPE;
     static {
-        Map<CharSequence, CharSequence> initialMap = new HashMap<>();
+        final Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         initialMap.put("\b", "\\b");
         initialMap.put("\n", "\\n");
         initialMap.put("\t", "\\t");
@@ -433,10 +433,10 @@ public class EntityArrays {
      * @return Map&lt;String, String&gt; inverted array
      */
     public static Map<CharSequence, CharSequence> invert(final Map<CharSequence, CharSequence> map) {
-        Map<CharSequence, CharSequence> newMap = new HashMap<>();
-        Iterator<Map.Entry<CharSequence, CharSequence>> it = map.entrySet().iterator();
+        final Map<CharSequence, CharSequence> newMap = new HashMap<>();
+        final Iterator<Map.Entry<CharSequence, CharSequence>> it = map.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<CharSequence, CharSequence> pair = it.next();
+            final Map.Entry<CharSequence, CharSequence> pair = it.next();
             newMap.put((CharSequence) pair.getValue(), (CharSequence) pair.getKey());
         }
         return newMap;

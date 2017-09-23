@@ -2048,13 +2048,13 @@ public class StrBuilderTest {
         buffer.flip();
         try {
             sb.append(buffer, -1, 12);
-        } catch (StringIndexOutOfBoundsException e) {
+        } catch (final StringIndexOutOfBoundsException e) {
             assertEquals("startIndex must be valid", e.getMessage());
         }
 
         try {
             sb.append(buffer, 0, -1);
-        } catch (StringIndexOutOfBoundsException e) {
+        } catch (final StringIndexOutOfBoundsException e) {
             assertEquals("length must be valid", e.getMessage());
         }
 
@@ -2064,11 +2064,11 @@ public class StrBuilderTest {
 
     @Test
     public void testAppendCharSequence() {
-        CharSequence obj0 = null;
-        CharSequence obj1 = new StrBuilder("test1");
-        CharSequence obj2 = new StringBuilder("test2");
-        CharSequence obj3 = new StringBuffer("test3");
-        CharBuffer obj4 = CharBuffer.wrap("test4".toCharArray());
+        final CharSequence obj0 = null;
+        final CharSequence obj1 = new StrBuilder("test1");
+        final CharSequence obj2 = new StringBuilder("test2");
+        final CharSequence obj3 = new StringBuffer("test3");
+        final CharBuffer obj4 = CharBuffer.wrap("test4".toCharArray());
 
         final StrBuilder sb0 = new StrBuilder();
         assertEquals("", sb0.append(obj0).toString());
@@ -2092,7 +2092,7 @@ public class StrBuilderTest {
     @Test
     public void testAppendStringBuilderNull() {
         final StrBuilder sb1 = new StrBuilder();
-        StringBuilder b = null;
+        final StringBuilder b = null;
         assertEquals("", sb1.append(b).toString());
 
         final StrBuilder sb2 = new StrBuilder();
@@ -2108,18 +2108,18 @@ public class StrBuilderTest {
 
     @Test(expected=StringIndexOutOfBoundsException.class)
     public void testAppendTakingTwoAndThreeIntsWithZeroAndAppendTakingTwoAndThreeIntsThrowsStringIndexOutOfBoundsExceptionTwo() {
-        Charset charset = Charset.defaultCharset();
-        ByteBuffer byteBuffer = charset.encode("end < start");
-        CharBuffer charBuffer = charset.decode(byteBuffer);
+        final Charset charset = Charset.defaultCharset();
+        final ByteBuffer byteBuffer = charset.encode("end < start");
+        final CharBuffer charBuffer = charset.decode(byteBuffer);
 
         new StrBuilder(630).append(charBuffer, 0, 630);
     }
 
     @Test(expected=StringIndexOutOfBoundsException.class)
     public void testAppendTakingTwoAndThreeIntsThrowsStringIndexOutOfBoundsExceptionAndAppendTakingTwoAndThreeIntsThree() {
-        Charset charset = Charset.defaultCharset();
-        ByteBuffer byteBuffer = charset.encode("asdf");
-        CharBuffer charBuffer = charset.decode(byteBuffer);
+        final Charset charset = Charset.defaultCharset();
+        final ByteBuffer byteBuffer = charset.encode("asdf");
+        final CharBuffer charBuffer = charset.decode(byteBuffer);
 
         new StrBuilder().append(charBuffer, 933, 654);
     }

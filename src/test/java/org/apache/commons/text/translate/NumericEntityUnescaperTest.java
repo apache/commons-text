@@ -79,16 +79,16 @@ public class NumericEntityUnescaperTest  {
 
     @Test
     public void testCreatesNumericEntityUnescaperOne() {
-        NumericEntityUnescaper.OPTION[] numericEntityUnescaper_OPTIONArray = new NumericEntityUnescaper.OPTION[0];
-        NumericEntityUnescaper numericEntityUnescaper = new NumericEntityUnescaper(numericEntityUnescaper_OPTIONArray);
+        final NumericEntityUnescaper.OPTION[] numericEntityUnescaper_OPTIONArray = new NumericEntityUnescaper.OPTION[0];
+        final NumericEntityUnescaper numericEntityUnescaper = new NumericEntityUnescaper(numericEntityUnescaper_OPTIONArray);
 
         assertEquals("2|y|O7y`&#uVWj", numericEntityUnescaper.translate((CharSequence) "2|y|O7y`&#uVWj"));
     }
 
     @Test
     public void testCreatesNumericEntityUnescaperTwo() {
-        NumericEntityUnescaper.OPTION[] numericEntityUnescaper_OPTIONArray = new NumericEntityUnescaper.OPTION[0];
-        NumericEntityUnescaper numericEntityUnescaper = new NumericEntityUnescaper(numericEntityUnescaper_OPTIONArray);
+        final NumericEntityUnescaper.OPTION[] numericEntityUnescaper_OPTIONArray = new NumericEntityUnescaper.OPTION[0];
+        final NumericEntityUnescaper numericEntityUnescaper = new NumericEntityUnescaper(numericEntityUnescaper_OPTIONArray);
 
         assertEquals("Ws2v8|O=7NR&#cB", numericEntityUnescaper.translate("Ws2v8|O=7NR&#cB"));
     }

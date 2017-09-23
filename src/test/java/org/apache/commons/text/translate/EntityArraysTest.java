@@ -38,7 +38,7 @@ public class EntityArraysTest  {
     // LANG-659, LANG-658 - avoid duplicate entries
     @Test
     public void testForDuplicatedDeclaredMapKeys() throws Exception {
-        String packageDirectory = EntityArraysTest.class.getPackage().getName().replace(".", "/");
+        final String packageDirectory = EntityArraysTest.class.getPackage().getName().replace(".", "/");
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/" + packageDirectory + "/EntityArrays.java"))) {
             String line;
             int mapDeclarationCounter = 0;
@@ -49,8 +49,9 @@ public class EntityArraysTest  {
                 } else if (line.contains(".put(")) {
                     mapDeclarationCounter++;
                 } else if (line.contains("Collections.unmodifiableMap(initialMap);")) {
-                    String mapVariableName = line.split("=")[0].trim();
+                    final String mapVariableName = line.split("=")[0].trim();
                     @SuppressWarnings("unchecked") // This is test code
+                    final
                     Map<String,String> mapValue = (Map<String, String>)EntityArrays.class.getDeclaredField(mapVariableName).get(EntityArrays.class);
                     // Validate that we are not inserting into the same key twice in the map declaration. If this,
                     // indeed was the case the keySet().size() would be smaller than the number of put() statements

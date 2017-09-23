@@ -443,9 +443,9 @@ public class ExtendedMessageFormatTest {
 
     @Test
     public void testCreatesExtendedMessageFormatTakingString() {
-        ExtendedMessageFormat extendedMessageFormat = new ExtendedMessageFormat("Unterminated format element at position ");
-        Map<String, FormatFactory> map = new HashMap<>();
-        ExtendedMessageFormat extendedMessageFormatTwo = new ExtendedMessageFormat("Unterminated format element at position ", map);
+        final ExtendedMessageFormat extendedMessageFormat = new ExtendedMessageFormat("Unterminated format element at position ");
+        final Map<String, FormatFactory> map = new HashMap<>();
+        final ExtendedMessageFormat extendedMessageFormatTwo = new ExtendedMessageFormat("Unterminated format element at position ", map);
 
         assertEquals("Unterminated format element at position ", extendedMessageFormatTwo.toPattern());
         assertFalse(extendedMessageFormat.equals(extendedMessageFormatTwo));

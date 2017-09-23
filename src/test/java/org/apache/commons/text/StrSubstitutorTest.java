@@ -739,10 +739,10 @@ public class StrSubstitutorTest {
 
     @Test
     public void testReplaceInTakingTwoAndThreeIntsReturningFalse() {
-        Map<String, Object> hashMap = new HashMap<>();
-        StrLookup.MapStrLookup<Object> strLookup_MapStrLookup = new StrLookup.MapStrLookup<>(hashMap);
-        StrMatcher strMatcher = StrMatcher.tabMatcher();
-        StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup_MapStrLookup, strMatcher, strMatcher, 'b', strMatcher);
+        final Map<String, Object> hashMap = new HashMap<>();
+        final StrLookup.MapStrLookup<Object> strLookup_MapStrLookup = new StrLookup.MapStrLookup<>(hashMap);
+        final StrMatcher strMatcher = StrMatcher.tabMatcher();
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup_MapStrLookup, strMatcher, strMatcher, 'b', strMatcher);
 
         assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, (-1369)));
         assertEquals('b', strSubstitutor.getEscapeChar());
@@ -751,9 +751,9 @@ public class StrSubstitutorTest {
 
     @Test
     public void testReplaceInTakingStringBuilderWithNonNull() {
-        StrLookup<String> strLookup = StrLookup.systemPropertiesLookup();
-        StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup, "b<H", "b<H", '\'');
-        StringBuilder stringBuilder = new StringBuilder((CharSequence) "b<H");
+        final StrLookup<String> strLookup = StrLookup.systemPropertiesLookup();
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup, "b<H", "b<H", '\'');
+        final StringBuilder stringBuilder = new StringBuilder((CharSequence) "b<H");
 
         assertEquals('\'', strSubstitutor.getEscapeChar());
         assertFalse(strSubstitutor.replaceIn(stringBuilder));
@@ -761,7 +761,7 @@ public class StrSubstitutorTest {
 
     @Test
     public void testReplaceInTakingStringBufferWithNonNull() {
-        StrSubstitutor strSubstitutor = new StrSubstitutor(new HashMap<String, String>(), "WV@i#y?N*[", "WV@i#y?N*[", '*');
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(new HashMap<String, String>(), "WV@i#y?N*[", "WV@i#y?N*[", '*');
 
         assertFalse(strSubstitutor.isPreserveEscapes());
         assertFalse(strSubstitutor.replaceIn(new StringBuffer("WV@i#y?N*[")));
@@ -770,9 +770,9 @@ public class StrSubstitutorTest {
 
     @Test
     public void testCreatesStrSubstitutorTakingStrLookupAndCallsReplaceTakingTwoAndThreeInts() {
-        Map<String, CharacterPredicates> map = new HashMap<>();
-        StrLookup.MapStrLookup<CharacterPredicates> strLookup_MapStrLookup = new StrLookup.MapStrLookup<>(map);
-        StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup_MapStrLookup);
+        final Map<String, CharacterPredicates> map = new HashMap<>();
+        final StrLookup.MapStrLookup<CharacterPredicates> strLookup_MapStrLookup = new StrLookup.MapStrLookup<>(map);
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup_MapStrLookup);
 
         assertNull(strSubstitutor.replace((CharSequence) null, 0, 0));
         assertEquals('$', strSubstitutor.getEscapeChar());
@@ -780,7 +780,7 @@ public class StrSubstitutorTest {
 
     @Test
     public void testReplaceTakingCharSequenceReturningNull() {
-        StrSubstitutor strSubstitutor = new StrSubstitutor((StrLookup<?>) null);
+        final StrSubstitutor strSubstitutor = new StrSubstitutor((StrLookup<?>) null);
 
         assertNull( strSubstitutor.replace((CharSequence) null) );
         assertFalse(strSubstitutor.isPreserveEscapes());
@@ -794,8 +794,8 @@ public class StrSubstitutorTest {
 
     @Test
     public void testReplaceInTakingStringBuilderWithNull() {
-        Map<String, Object> map = new HashMap<>();
-        StrSubstitutor strSubstitutor = new StrSubstitutor(map, "", "", 'T', "K+<'f");
+        final Map<String, Object> map = new HashMap<>();
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(map, "", "", 'T', "K+<'f");
 
         assertFalse(strSubstitutor.replaceIn((StringBuilder) null));
     }

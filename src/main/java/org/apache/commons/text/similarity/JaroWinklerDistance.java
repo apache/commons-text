@@ -80,13 +80,13 @@ public class JaroWinklerDistance implements SimilarityScore<Double> {
             throw new IllegalArgumentException("Strings must not be null");
         }
 
-        int[] mtp = matches(left, right);
-        double m = mtp[0];
+        final int[] mtp = matches(left, right);
+        final double m = mtp[0];
         if (m == 0) {
             return 0D;
         }
-        double j = ((m / left.length() + m / right.length() + (m - mtp[1]) / m)) / 3;
-        double jw = j < 0.7D ? j : j + Math.min(defaultScalingFactor, 1D / mtp[3]) * mtp[2] * (1D - j);
+        final double j = ((m / left.length() + m / right.length() + (m - mtp[1]) / m)) / 3;
+        final double jw = j < 0.7D ? j : j + Math.min(defaultScalingFactor, 1D / mtp[3]) * mtp[2] * (1D - j);
         return jw;
     }
 
@@ -106,13 +106,13 @@ public class JaroWinklerDistance implements SimilarityScore<Double> {
             max = second;
             min = first;
         }
-        int range = Math.max(max.length() / 2 - 1, 0);
-        int[] matchIndexes = new int[min.length()];
+        final int range = Math.max(max.length() / 2 - 1, 0);
+        final int[] matchIndexes = new int[min.length()];
         Arrays.fill(matchIndexes, -1);
-        boolean[] matchFlags = new boolean[max.length()];
+        final boolean[] matchFlags = new boolean[max.length()];
         int matches = 0;
         for (int mi = 0; mi < min.length(); mi++) {
-            char c1 = min.charAt(mi);
+            final char c1 = min.charAt(mi);
             for (int xi = Math.max(mi - range, 0), xn = Math.min(mi + range + 1, max.length()); xi < xn; xi++) {
                 if (!matchFlags[xi] && c1 == max.charAt(xi)) {
                     matchIndexes[mi] = xi;
@@ -122,8 +122,8 @@ public class JaroWinklerDistance implements SimilarityScore<Double> {
                 }
             }
         }
-        char[] ms1 = new char[matches];
-        char[] ms2 = new char[matches];
+        final char[] ms1 = new char[matches];
+        final char[] ms2 = new char[matches];
         for (int i = 0, si = 0; i < min.length(); i++) {
             if (matchIndexes[i] != -1) {
                 ms1[si] = min.charAt(i);

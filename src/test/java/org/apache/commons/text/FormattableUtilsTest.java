@@ -138,7 +138,7 @@ public class FormattableUtilsTest {
         }
 
         @Override
-        public void formatTo(Formatter formatter, int flags, int width, int precision) {
+        public void formatTo(final Formatter formatter, final int flags, final int width, final int precision) {
             formatter.format(text);
         }
     };
