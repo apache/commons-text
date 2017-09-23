@@ -82,7 +82,7 @@ public class NumericEntityUnescaperTest  {
         final NumericEntityUnescaper.OPTION[] numericEntityUnescaper_OPTIONArray = new NumericEntityUnescaper.OPTION[0];
         final NumericEntityUnescaper numericEntityUnescaper = new NumericEntityUnescaper(numericEntityUnescaper_OPTIONArray);
 
-        assertEquals("2|y|O7y`&#uVWj", numericEntityUnescaper.translate((CharSequence) "2|y|O7y`&#uVWj"));
+        assertEquals("2|y|O7y`&#uVWj", numericEntityUnescaper.translate("2|y|O7y`&#uVWj"));
     }
 
     @Test

@@ -34,7 +34,7 @@ public class CosineSimilarityTest{
         hashMap.put("3J/$3.L", integer);
         final Map<CharSequence, Integer> hashMapTwo = new HashMap<>();
 
-        assertEquals(0.0, (double) cosineSimilarity.cosineSimilarity(hashMap, hashMapTwo), 0.01);
+        assertEquals(0.0, cosineSimilarity.cosineSimilarity(hashMap, hashMapTwo), 0.01);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -55,7 +55,7 @@ public class CosineSimilarityTest{
         final CosineSimilarity cosineSimilarity = new CosineSimilarity();
         final Map<CharSequence, Integer> hashMap = new HashMap<>();
 
-        assertEquals(0.0, (double) cosineSimilarity.cosineSimilarity(hashMap, hashMap), 0.01);
+        assertEquals(0.0, cosineSimilarity.cosineSimilarity(hashMap, hashMap), 0.01);
     }
 
 }

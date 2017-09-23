@@ -437,7 +437,7 @@ public class EntityArrays {
         final Iterator<Map.Entry<CharSequence, CharSequence>> it = map.entrySet().iterator();
         while (it.hasNext()) {
             final Map.Entry<CharSequence, CharSequence> pair = it.next();
-            newMap.put((CharSequence) pair.getValue(), (CharSequence) pair.getKey());
+            newMap.put(pair.getValue(), pair.getKey());
         }
         return newMap;
     }

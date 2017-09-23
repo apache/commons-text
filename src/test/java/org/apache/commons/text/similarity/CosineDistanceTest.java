@@ -64,7 +64,7 @@ public class CosineDistanceTest {
      * @return rounded up value
      */
     private Double roundValue(final Double value) {
-        return (Double) new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        return new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
 }
