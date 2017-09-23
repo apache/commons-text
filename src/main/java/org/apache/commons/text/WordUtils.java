@@ -614,10 +614,7 @@ public class WordUtils {
         for (int index = 0; index < strLen;) {
             final int oldCodepoint = str.codePointAt(index);
             final int newCodePoint;
-            if (Character.isUpperCase(oldCodepoint)) {
-                newCodePoint = Character.toLowerCase(oldCodepoint);
-                whitespace = false;
-            } else if (Character.isTitleCase(oldCodepoint)) {
+            if (Character.isUpperCase(oldCodepoint) || Character.isTitleCase(oldCodepoint)) {
                 newCodePoint = Character.toLowerCase(oldCodepoint);
                 whitespace = false;
             } else if (Character.isLowerCase(oldCodepoint)) {
