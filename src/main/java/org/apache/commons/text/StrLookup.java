@@ -176,8 +176,9 @@ public abstract class StrLookup<V> {
     /**
      * Lookup implementation based on a ResourceBundle.
      */
-    private static class ResourceBundleLookup extends StrLookup<String> {
+    private static final class ResourceBundleLookup extends StrLookup<String> {
 
+        /** ResourceBundle keys are variable names and value. */
         private final ResourceBundle resourceBundle;
 
         /**
@@ -208,7 +209,7 @@ public abstract class StrLookup<V> {
     /**
      * Lookup implementation based on system properties.
      */
-    private static class SystemPropertiesStrLookup extends StrLookup<String> {
+    private static final class SystemPropertiesStrLookup extends StrLookup<String> {
         /**
          * {@inheritDoc} This implementation directly accesses system properties.
          */
