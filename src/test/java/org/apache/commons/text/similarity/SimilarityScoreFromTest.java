@@ -25,7 +25,7 @@ public class SimilarityScoreFromTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testFailsToCreateSimilarityScoreFromThrowsIllegalArgumentException() {
-        new SimilarityScoreFrom<Object>(null, "");
+        new SimilarityScoreFrom<>(null, "");
     }
 
     @Test

@@ -62,8 +62,8 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
      * @return index
      */
     private Double calculateJaccardSimilarity(final CharSequence left, final CharSequence right) {
-        final Set<String> intersectionSet = new HashSet<String>();
-        final Set<String> unionSet = new HashSet<String>();
+        final Set<String> intersectionSet = new HashSet<>();
+        final Set<String> unionSet = new HashSet<>();
         boolean unionFilled = false;
         final int leftLength = left.length();
         final int rightLength = right.length();

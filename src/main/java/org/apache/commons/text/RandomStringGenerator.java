@@ -341,7 +341,7 @@ public final class RandomStringGenerator {
          * @return {@code this}, to allow method chaining.
          */
         public Builder withinRange(final char[] ... pairs) {
-            characterList = new ArrayList<Character>();
+            characterList = new ArrayList<>();
             for (final char[] pair :  pairs) {
                 final int minimumCodePoint = pair[0];
                 final int maximumCodePoint = pair[1];
@@ -445,7 +445,7 @@ public final class RandomStringGenerator {
          * @since 1.2
          */
         public Builder selectFrom(final char ... chars) {
-            characterList = new ArrayList<Character>();
+            characterList = new ArrayList<>();
             for (final char c : chars) {
                 characterList.add(c);
             }
