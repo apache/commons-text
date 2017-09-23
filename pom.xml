@@ -152,7 +152,8 @@
     <commons.clirr.version>2.8</commons.clirr.version>
 
     <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
-    
+    <checkstyle.version>6.19</checkstyle.version>
+
     <!-- Overrides for Java 9 compatibility until commons-parent 43 comes out. -->
     <commons.jacoco.version>0.7.9</commons.jacoco.version>
     <!-- Needs an update to the underlying findbugs project for Java 9 -->
@@ -182,6 +183,13 @@
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>${checkstyle.plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>${checkstyle.version}</version>
+          </dependency>
+        </dependencies>
         <configuration>
           <enableRulesSummary>false</enableRulesSummary>
           <configLocation>${basedir}/checkstyle.xml</configLocation>
