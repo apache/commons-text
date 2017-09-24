@@ -16,14 +16,14 @@
  */
 package org.apache.commons.text;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
 
 /**
  * <p>
@@ -756,7 +756,7 @@ public class WordUtils {
      * @param ch the character to check
      * @param delimiters the delimiters
      * @return true if it is a delimiter
-     * @deprecated as of 1.2 and will be removed in 2.0
+     * @deprecated as of 1.2 with the intention of removing it in 2.0.
      */
     @Deprecated
     public static boolean isDelimiter(final char ch, final char[] delimiters) {
@@ -778,7 +778,7 @@ public class WordUtils {
      * @param codePoint the codePint to check
      * @param delimiters the delimiters
      * @return true if it is a delimiter
-     * @deprecated as of 1.2 and will be removed in 2.0
+     * @deprecated as of 1.2 with the intention of removing it in 2.0.
      */
     @Deprecated
     public static boolean isDelimiter(final int codePoint, final char[] delimiters) {
