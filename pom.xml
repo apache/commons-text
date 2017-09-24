@@ -15,116 +15,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<project
-        xmlns="http://maven.apache.org/POM/4.0.0"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
     <version>42</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
   <artifactId>commons-text</artifactId>
   <version>1.2-SNAPSHOT</version>
   <name>Apache Commons Text</name>
-
-  <inceptionYear>2014</inceptionYear>
-  <description>
-    Apache Commons Text is a library focused on algorithms working on strings.
-  </description>
-
-  <url>http://commons.apache.org/proper/commons-text/</url>
-
-  <issueManagement>
-    <system>jira</system>
-    <url>http://issues.apache.org/jira/browse/TEXT</url>
-  </issueManagement>
-
-  <scm>
-    <connection>scm:git:http://git-wip-us.apache.org/repos/asf/commons-text.git</connection>
-    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/commons-text.git</developerConnection>
-    <url>https://git-wip-us.apache.org/repos/asf?p=commons-text.git</url>
-  </scm>
-
-  <developers>
-    <developer>
-      <name>Bruno P. Kinoshita</name>
-      <id>kinow</id>
-      <email>kinow@apache.org</email>
-    </developer>
-    <developer>
-      <name>Benedikt Ritter</name>
-      <id>britter</id>
-      <email>britter@apache.org</email>
-    </developer>
-    <developer>
-      <name>Rob Tompkins</name>
-      <id>chtompki</id>
-      <email>chtompki@apache.org</email>
-    </developer>
-    <developer>
-      <name>Gary Gregory</name>
-      <id>ggregory</id>
-      <email>ggregory@apache.org</email>
-    </developer>
-    <developer>
-      <name>Duncan Jones</name>
-      <id>djones</id>
-      <email>djones@apache.org</email>
-    </developer>
-  </developers>
-
-  <contributors>
-    <contributor>
-      <name>Don Jeba</name>
-      <email>donjeba@yahoo.com</email>
-    </contributor>
-    <contributor>
-      <name>Sampanna Kahu</name>
-    </contributor>
-    <contributor>
-      <name>Jarek Strzelecki</name>
-    </contributor>
-    <contributor>
-      <name>Lee Adcock</name>
-    </contributor>
-    <contributor>
-      <name>Amey Jadiye</name>
-    </contributor>
-    <contributor>
-      <name>Arun Vinud S S</name>
-    </contributor>
-  </contributors>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.6</version>
-    </dependency>
-    <!-- testing -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-all</artifactId>
-      <version>1.3</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
-  <distributionManagement>
-    <site>
-      <id>apache.website</id>
-      <name>Apache Commons Site</name>
-      <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text/</url>
-    </site>
-  </distributionManagement>
+  <description>Apache Commons Text is a library focused on algorithms working on strings.</description>
 
   <properties>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
@@ -160,6 +61,26 @@
     <commons.findbugs.version>3.0.5</commons.findbugs.version>
   </properties>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.6</version>
+    </dependency>
+    <!-- testing -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
+      <version>1.3</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
   <build>
     <defaultGoal>clean verify apache-rat:check clirr:check checkstyle:check findbugs:check javadoc:javadoc</defaultGoal>
@@ -183,13 +104,6 @@
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>${checkstyle.plugin.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>${checkstyle.version}</version>
-          </dependency>
-        </dependencies>
         <configuration>
           <enableRulesSummary>false</enableRulesSummary>
           <configLocation>${basedir}/checkstyle.xml</configLocation>
@@ -197,6 +111,13 @@
           <suppressionsLocation>${basedir}/checkstyle-suppressions.xml</suppressionsLocation>
           <suppressionsFileExpression>${basedir}/checkstyle-suppressions.xml</suppressionsFileExpression>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>${checkstyle.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -345,6 +266,79 @@
     </plugins>
   </reporting>
 
+  <url>http://commons.apache.org/proper/commons-text/</url>
+
+  <inceptionYear>2014</inceptionYear>
+
+  <developers>
+    <developer>
+      <id>kinow</id>
+      <name>Bruno P. Kinoshita</name>
+      <email>kinow@apache.org</email>
+    </developer>
+    <developer>
+      <id>britter</id>
+      <name>Benedikt Ritter</name>
+      <email>britter@apache.org</email>
+    </developer>
+    <developer>
+      <id>chtompki</id>
+      <name>Rob Tompkins</name>
+      <email>chtompki@apache.org</email>
+    </developer>
+    <developer>
+      <id>ggregory</id>
+      <name>Gary Gregory</name>
+      <email>ggregory@apache.org</email>
+    </developer>
+    <developer>
+      <id>djones</id>
+      <name>Duncan Jones</name>
+      <email>djones@apache.org</email>
+    </developer>
+  </developers>
+
+  <contributors>
+    <contributor>
+      <name>Don Jeba</name>
+      <email>donjeba@yahoo.com</email>
+    </contributor>
+    <contributor>
+      <name>Sampanna Kahu</name>
+    </contributor>
+    <contributor>
+      <name>Jarek Strzelecki</name>
+    </contributor>
+    <contributor>
+      <name>Lee Adcock</name>
+    </contributor>
+    <contributor>
+      <name>Amey Jadiye</name>
+    </contributor>
+    <contributor>
+      <name>Arun Vinud S S</name>
+    </contributor>
+  </contributors>
+
+  <scm>
+    <connection>scm:git:http://git-wip-us.apache.org/repos/asf/commons-text.git</connection>
+    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/commons-text.git</developerConnection>
+    <url>https://git-wip-us.apache.org/repos/asf?p=commons-text.git</url>
+  </scm>
+
+  <issueManagement>
+    <system>jira</system>
+    <url>http://issues.apache.org/jira/browse/TEXT</url>
+  </issueManagement>
+
+  <distributionManagement>
+    <site>
+      <id>apache.website</id>
+      <name>Apache Commons Site</name>
+      <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text/</url>
+    </site>
+  </distributionManagement>
+
   <profiles>
     <profile>
       <id>setup-checkout</id>
@@ -361,25 +355,25 @@
             <executions>
               <execution>
                 <id>prepare-checkout</id>
-                <phase>pre-site</phase>
                 <goals>
                   <goal>run</goal>
                 </goals>
+                <phase>pre-site</phase>
                 <configuration>
                   <tasks>
                     <exec executable="svn">
-                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}"/>
+                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}"></arg>
                     </exec>
 
                     <exec executable="svn">
-                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs"/>
+                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs"></arg>
                     </exec>
 
                     <pathconvert pathsep=" " property="dirs">
-                      <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*"/>
+                      <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*"></dirset>
                     </pathconvert>
                     <exec executable="svn">
-                      <arg line="update --set-depth infinity ${dirs}"/>
+                      <arg line="update --set-depth infinity ${dirs}"></arg>
                     </exec>
                   </tasks>
                 </configuration>
