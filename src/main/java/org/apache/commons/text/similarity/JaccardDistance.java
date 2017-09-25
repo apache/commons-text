@@ -46,7 +46,7 @@ public class JaccardDistance implements EditDistance<Double> {
      *             if either String input {@code null}
      */
     @Override
-    public Double apply(CharSequence left, CharSequence right) {
+    public Double apply(final CharSequence left, final CharSequence right) {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Input cannot be null");
         }

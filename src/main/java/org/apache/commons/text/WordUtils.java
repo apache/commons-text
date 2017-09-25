@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,11 +26,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 /**
- * <p>Operations on Strings that contain words.</p>
+ * <p>
+ * Operations on Strings that contain words.
+ * </p>
  *
- * <p>This class tries to handle <code>null</code> input gracefully.
- * An exception will not be thrown for a <code>null</code> input.
- * Each method documents its behaviour in more detail.</p>
+ * <p>
+ * This class tries to handle <code>null</code> input gracefully. An exception will not be thrown for a
+ * <code>null</code> input. Each method documents its behavior in more detail.
+ * </p>
  *
  * @since 1.1
  */
@@ -415,20 +420,21 @@ public class WordUtils {
         if (StringUtils.isEmpty(str)) {
             return str;
         }
-        int strLen = str.length();
-        int [] newCodePoints = new int[strLen];
+        final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
+        final int strLen = str.length();
+        final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
 
         boolean capitalizeNext = true;
         for (int index = 0; index < strLen;) {
             final int codePoint = str.codePointAt(index);
 
-            if (isDelimiter(codePoint, delimiters)) {
+            if (delimiterSet.contains(codePoint)) {
                 capitalizeNext = true;
                 newCodePoints[outOffset++] = codePoint;
                 index += Character.charCount(codePoint);
             } else if (capitalizeNext) {
-                int titleCaseCodePoint = Character.toTitleCase(codePoint);
+                final int titleCaseCodePoint = Character.toTitleCase(codePoint);
                 newCodePoints[outOffset++] = titleCaseCodePoint;
                 index += Character.charCount(titleCaseCodePoint);
                 capitalizeNext = false;
@@ -548,20 +554,21 @@ public class WordUtils {
         if (StringUtils.isEmpty(str)) {
             return str;
         }
-        int strLen = str.length();
-        int [] newCodePoints = new int[strLen];
+        final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
+        final int strLen = str.length();
+        final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
 
         boolean uncapitalizeNext = true;
         for (int index = 0; index < strLen;) {
             final int codePoint = str.codePointAt(index);
 
-            if (isDelimiter(codePoint, delimiters)) {
+            if (delimiterSet.contains(codePoint)) {
                 uncapitalizeNext = true;
                 newCodePoints[outOffset++] = codePoint;
                 index += Character.charCount(codePoint);
             } else if (uncapitalizeNext) {
-                int titleCaseCodePoint = Character.toLowerCase(codePoint);
+                final int titleCaseCodePoint = Character.toLowerCase(codePoint);
                 newCodePoints[outOffset++] = titleCaseCodePoint;
                 index += Character.charCount(titleCaseCodePoint);
                 uncapitalizeNext = false;
@@ -601,16 +608,13 @@ public class WordUtils {
             return str;
         }
         final int strLen = str.length();
-        int [] newCodePoints = new int[strLen];
+        final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
         boolean whitespace = true;
         for (int index = 0; index < strLen;) {
             final int oldCodepoint = str.codePointAt(index);
             final int newCodePoint;
-            if (Character.isUpperCase(oldCodepoint)) {
-                newCodePoint = Character.toLowerCase(oldCodepoint);
-                whitespace = false;
-            } else if (Character.isTitleCase(oldCodepoint)) {
+            if (Character.isUpperCase(oldCodepoint) || Character.isTitleCase(oldCodepoint)) {
                 newCodePoint = Character.toLowerCase(oldCodepoint);
                 whitespace = false;
             } else if (Character.isLowerCase(oldCodepoint)) {
@@ -687,23 +691,24 @@ public class WordUtils {
         if (delimiters != null && delimiters.length == 0) {
             return "";
         }
+        final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
         final int strLen = str.length();
-        final char[] buf = new char[strLen / 2 + 1];
+        final int[] newCodePoints = new int[strLen / 2 + 1];
         int count = 0;
         boolean lastWasGap = true;
-        for (int i = 0; i < strLen; i++) {
-            final char ch = str.charAt(i);
+        for (int i = 0; i < strLen;) {
+            final int codePoint = str.codePointAt(i);
 
-            if (isDelimiter(ch, delimiters)) {
+            if (delimiterSet.contains(codePoint) || (delimiters == null && Character.isWhitespace(codePoint))) {
                 lastWasGap = true;
             } else if (lastWasGap) {
-                buf[count++] = ch;
+                newCodePoints[count++] = codePoint;
                 lastWasGap = false;
-            } else {
-                continue; // ignore ch
             }
+
+            i += Character.charCount(codePoint);
         }
-        return new String(buf, 0, count);
+        return new String(newCodePoints, 0, count);
     }
 
     //-----------------------------------------------------------------------
@@ -748,10 +753,12 @@ public class WordUtils {
     /**
      * Is the character a delimiter.
      *
-     * @param ch  the character to check
-     * @param delimiters  the delimiters
+     * @param ch the character to check
+     * @param delimiters the delimiters
      * @return true if it is a delimiter
+     * @deprecated as of 1.2 and will be removed in 2.0
      */
+    @Deprecated
     public static boolean isDelimiter(final char ch, final char[] delimiters) {
         if (delimiters == null) {
             return Character.isWhitespace(ch);
@@ -769,15 +776,17 @@ public class WordUtils {
      * Is the codePoint a delimiter.
      *
      * @param codePoint the codePint to check
-     * @param delimiters  the delimiters
+     * @param delimiters the delimiters
      * @return true if it is a delimiter
+     * @deprecated as of 1.2 and will be removed in 2.0
      */
+    @Deprecated
     public static boolean isDelimiter(final int codePoint, final char[] delimiters) {
         if (delimiters == null) {
             return Character.isWhitespace(codePoint);
         }
         for (int index = 0; index < delimiters.length; index++) {
-            int delimiterCodePoint = Character.codePointAt(delimiters, index);
+            final int delimiterCodePoint = Character.codePointAt(delimiters, index);
             if (delimiterCodePoint == codePoint) {
                 return true;
             }
@@ -824,7 +833,7 @@ public class WordUtils {
      * WordUtils.abbreviate("Now is the time for all good men", 10, 5, null));     = IllegalArgumentException
      * </pre>
      */
-    public static String abbreviate(String str, int lower, int upper, String appendToEnd) {
+    public static String abbreviate(final String str, int lower, int upper, final String appendToEnd) {
         Validate.isTrue(upper >= -1, "upper value cannot be less than -1");
         Validate.isTrue(upper >= lower || upper == -1, "upper value is less than lower value");
 
@@ -861,5 +870,31 @@ public class WordUtils {
         }
 
         return result.toString();
+    }
+
+    // -----------------------------------------------------------------------
+    /**
+     * <p>
+     * Converts an array of delimiters to a hash set of code points. Code point of space(32) is added as the default
+     * value if delimiters is null. The generated hash set provides O(1) lookup time.
+     * </p>
+     *
+     * @param delimiters set of characters to determine capitalization, null means whitespace
+     * @return Set<Integer>
+     */
+    private static Set<Integer> generateDelimiterSet(final char[] delimiters) {
+        final Set<Integer> delimiterHashSet = new HashSet<>();
+        if (delimiters == null || delimiters.length == 0) {
+            if (delimiters == null) {
+                delimiterHashSet.add(Character.codePointAt(new char[] {' '}, 0));
+            }
+
+            return delimiterHashSet;
+        }
+
+        for (int index = 0; index < delimiters.length; index++) {
+            delimiterHashSet.add(Character.codePointAt(delimiters, index));
+        }
+        return delimiterHashSet;
     }
  }

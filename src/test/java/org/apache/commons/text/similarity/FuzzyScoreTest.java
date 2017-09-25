@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text.similarity;
 
+import static junit.framework.TestCase.assertSame;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Locale;
@@ -59,6 +60,15 @@ public class FuzzyScoreTest {
     @Test(expected = IllegalArgumentException.class)
     public void testMissingLocale() throws Exception {
         new FuzzyScore((Locale) null);
+    }
+
+    @Test
+    public void testGetLocale() {
+        final Locale locale = Locale.CANADA_FRENCH;
+        final FuzzyScore fuzzyScore = new FuzzyScore(locale);
+        final Locale localeTwo = fuzzyScore.getLocale();
+
+        assertSame(locale, localeTwo);
     }
 
 }

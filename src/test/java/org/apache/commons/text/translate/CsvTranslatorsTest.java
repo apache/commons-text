@@ -33,7 +33,7 @@ public class CsvTranslatorsTest {
         final Writer writer = new StringWriter();
         final String input = "hi this is just a plane text nothing to do with csv!";
         escaper.translateWhole(input, writer);
-        String data = writer.toString();
+        final String data = writer.toString();
         assertEquals(data, input);
     }
 
@@ -43,7 +43,7 @@ public class CsvTranslatorsTest {
         final Writer writer = new StringWriter();
         final String input = "hi,this,is,a,test";
         escaper.translateWhole(input, writer);
-        String data = writer.toString();
+        final String data = writer.toString();
         assertEquals(data, "\"hi,this,is,a,test\"");
     }
 
@@ -53,7 +53,7 @@ public class CsvTranslatorsTest {
         final Writer writer = new StringWriter();
         final String input = "hi,this,is,a,\"quote,test";
         escaper.translateWhole(input, writer);
-        String data = writer.toString();
+        final String data = writer.toString();
         assertEquals(data, "\"hi,this,is,a,\"\"quote,test\"");
     }
 
@@ -63,7 +63,7 @@ public class CsvTranslatorsTest {
         final Writer writer = new StringWriter();
         final String input = "hi,this,is,a,CR,test" + String.valueOf(CharUtils.CR);
         escaper.translateWhole(input, writer);
-        String data = writer.toString();
+        final String data = writer.toString();
         assertEquals(data, "\"hi,this,is,a,CR,test" + String.valueOf(CharUtils.CR) + "\"");
     }
 
@@ -73,7 +73,7 @@ public class CsvTranslatorsTest {
         final Writer writer = new StringWriter();
         final String input = "hi,this,is,a,LF,test" + String.valueOf(CharUtils.LF);
         escaper.translateWhole(input, writer);
-        String data = writer.toString();
+        final String data = writer.toString();
         assertEquals(data, "\"hi,this,is,a,LF,test" + String.valueOf(CharUtils.LF) + "\"");
     }
 
@@ -83,7 +83,7 @@ public class CsvTranslatorsTest {
         final Writer writer = new StringWriter();
         final String input = "hi,this,is,unescape,test";
         escaper.translateWhole(input, writer);
-        String data = writer.toString();
+        final String data = writer.toString();
         assertEquals(data, "hi,this,is,unescape,test");
     }
 
@@ -93,7 +93,7 @@ public class CsvTranslatorsTest {
         final Writer writer = new StringWriter();
         final String input = "\"hi,this,is,unescape,test\"";
         escaper.translateWhole(input, writer);
-        String data = writer.toString();
+        final String data = writer.toString();
         assertEquals(data, "hi,this,is,unescape,test");
     }
 
@@ -103,7 +103,7 @@ public class CsvTranslatorsTest {
         final Writer writer = new StringWriter();
         final String input = "\"hi,this,is,unescape,test";
         escaper.translateWhole(input, writer);
-        String data = writer.toString();
+        final String data = writer.toString();
         assertEquals(data, input);
     }
 
@@ -113,7 +113,7 @@ public class CsvTranslatorsTest {
         final Writer writer = new StringWriter();
         final String input = "hi,this,is,unescape,test\"";
         escaper.translateWhole(input, writer);
-        String data = writer.toString();
+        final String data = writer.toString();
         assertEquals(data, input);
     }
 
@@ -123,7 +123,7 @@ public class CsvTranslatorsTest {
         final Writer writer = new StringWriter();
         final String input = "\"hi,this,is,\"unescape,test\"";
         escaper.translateWhole(input, writer);
-        String data = writer.toString();
+        final String data = writer.toString();
         assertEquals(data, "hi,this,is,\"unescape,test");
     }
 

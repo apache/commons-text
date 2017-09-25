@@ -61,7 +61,7 @@ public class StringEscapeUtils {
      */
     public static final CharSequenceTranslator ESCAPE_JAVA;
     static {
-        Map<CharSequence, CharSequence> escapeJavaMap = new HashMap<>();
+        final Map<CharSequence, CharSequence> escapeJavaMap = new HashMap<>();
         escapeJavaMap.put("\"", "\\\"");
         escapeJavaMap.put("\\", "\\\\");
         ESCAPE_JAVA = new AggregateTranslator(
@@ -80,7 +80,7 @@ public class StringEscapeUtils {
      */
     public static final CharSequenceTranslator ESCAPE_ECMASCRIPT;
     static {
-        Map<CharSequence, CharSequence> escapeEcmaScriptMap = new HashMap<>();
+        final Map<CharSequence, CharSequence> escapeEcmaScriptMap = new HashMap<>();
         escapeEcmaScriptMap.put("'", "\\'");
         escapeEcmaScriptMap.put("\"", "\\\"");
         escapeEcmaScriptMap.put("\\", "\\\\");
@@ -101,7 +101,7 @@ public class StringEscapeUtils {
      */
     public static final CharSequenceTranslator ESCAPE_JSON;
     static {
-        Map<CharSequence, CharSequence> escapeJsonMap = new HashMap<>();
+        final Map<CharSequence, CharSequence> escapeJsonMap = new HashMap<>();
         escapeJsonMap.put("\"", "\\\"");
         escapeJsonMap.put("\\", "\\\\");
         escapeJsonMap.put("/", "\\/");
@@ -121,7 +121,7 @@ public class StringEscapeUtils {
      */
     public static final CharSequenceTranslator ESCAPE_XML10;
     static {
-        Map<CharSequence, CharSequence> escapeXml10Map = new HashMap<>();
+        final Map<CharSequence, CharSequence> escapeXml10Map = new HashMap<>();
         escapeXml10Map.put("\u0000", StringUtils.EMPTY);
         escapeXml10Map.put("\u0001", StringUtils.EMPTY);
         escapeXml10Map.put("\u0002", StringUtils.EMPTY);
@@ -172,7 +172,7 @@ public class StringEscapeUtils {
      */
     public static final CharSequenceTranslator ESCAPE_XML11;
     static {
-        Map<CharSequence, CharSequence> escapeXml11Map = new HashMap<>();
+        final Map<CharSequence, CharSequence> escapeXml11Map = new HashMap<>();
         escapeXml11Map.put("\u0000", StringUtils.EMPTY);
         escapeXml11Map.put("\u000b", "&#11;");
         escapeXml11Map.put("\u000c", "&#12;");
@@ -233,7 +233,7 @@ public class StringEscapeUtils {
      */
     public static final CharSequenceTranslator ESCAPE_XSI;
     static {
-        Map<CharSequence, CharSequence> escapeXsiMap = new HashMap<>();
+        final Map<CharSequence, CharSequence> escapeXsiMap = new HashMap<>();
         escapeXsiMap.put("|", "\\|");
         escapeXsiMap.put("&", "\\&");
         escapeXsiMap.put(";", "\\;");
@@ -273,7 +273,7 @@ public class StringEscapeUtils {
      */
     public static final CharSequenceTranslator UNESCAPE_JAVA;
     static {
-        Map<CharSequence, CharSequence> unescapeJavaMap = new HashMap<>();
+        final Map<CharSequence, CharSequence> unescapeJavaMap = new HashMap<>();
         unescapeJavaMap.put("\\\\", "\\");
         unescapeJavaMap.put("\\\"", "\"");
         unescapeJavaMap.put("\\'", "'");
@@ -382,12 +382,12 @@ public class StringEscapeUtils {
                 throw new IllegalStateException("XsiUnescaper should never reach the [1] index");
             }
 
-            String s = input.toString();
+            final String s = input.toString();
 
             int segmentStart = 0;
             int searchOffset = 0;
             while (true) {
-                int pos = s.indexOf(BACKSLASH, searchOffset);
+                final int pos = s.indexOf(BACKSLASH, searchOffset);
                 if (pos == -1) {
                     if (segmentStart < s.length()) {
                         out.write(s.substring(segmentStart));

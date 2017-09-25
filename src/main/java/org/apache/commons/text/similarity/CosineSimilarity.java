@@ -61,7 +61,7 @@ public class CosineSimilarity {
         if (d1 <= 0.0 || d2 <= 0.0) {
             cosineSimilarity = 0.0;
         } else {
-            cosineSimilarity = (double) (dotProduct / (double) (Math.sqrt(d1) * Math.sqrt(d2)));
+            cosineSimilarity = dotProduct / (Math.sqrt(d1) * Math.sqrt(d2));
         }
         return cosineSimilarity;
     }

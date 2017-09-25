@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -523,7 +524,7 @@ public class StringEscapeUtilsTest {
      */
     @Test
     public void testLang708() throws IOException {
-        byte[] inputBytes = Files.readAllBytes(Paths.get("src/test/resources/stringEscapeUtilsTestData.txt"));
+        final byte[] inputBytes = Files.readAllBytes(Paths.get("src/test/resources/stringEscapeUtilsTestData.txt"));
         final String input = new String(inputBytes, StandardCharsets.UTF_8);
         final String escaped = StringEscapeUtils.escapeEcmaScript(input);
         // just the end:
@@ -571,7 +572,7 @@ public class StringEscapeUtilsTest {
 
     @Test
     public void testBuilder() {
-        String result = StringEscapeUtils.builder(StringEscapeUtils.ESCAPE_XML10).escape("<").append(">").toString();
+        final String result = StringEscapeUtils.builder(StringEscapeUtils.ESCAPE_XML10).escape("<").append(">").toString();
         assertEquals("&lt;>", result);
     }
 
@@ -590,6 +591,41 @@ public class StringEscapeUtilsTest {
         assertEquals("He didn't say, \"Stop!\"", unescapeXSI("He\\ didn\\'t\\ say,\\ \\\"Stop!\\\""));
         assertEquals("\\", unescapeXSI("\\\\"));
         assertEquals("", unescapeXSI("\\"));
+    }
+
+    @Test
+    public void testUnescapeEcmaScript() {
+        assertNull("Should be null.", StringEscapeUtils.unescapeEcmaScript(null));
+        assertEquals("8lvc1u+6B#-I", StringEscapeUtils.unescapeEcmaScript("8lvc1u+6B#-I"));
+        assertEquals("<script src=\"build/main.bundle.js\"></script>",
+                StringEscapeUtils.unescapeEcmaScript("<script src=\"build/main.bundle.js\"></script>"));
+        assertEquals("<script src=\"build/main.bundle.js\"></script>>",
+                StringEscapeUtils.unescapeEcmaScript("<script src=\"build/main.bundle.js\"></script>>"));
+    }
+
+    @Test
+    public void testEscapeHtmlThree() {
+        assertNull("Should be null.", StringEscapeUtils.escapeHtml3(null));
+        assertEquals("a", StringEscapeUtils.escapeHtml3("a"));
+        assertEquals("&lt;b&gt;a", StringEscapeUtils.escapeHtml3("<b>a"));
+    }
+
+    @Test
+    public void testUnescapeJson() {
+        final String jsonString = "{\"age\":100,\"name\":\"kyong.com\n\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
+
+        assertEquals("", StringEscapeUtils.unescapeJson(""));
+        assertEquals(" ", StringEscapeUtils.unescapeJson(" "));
+        assertEquals("a:b", StringEscapeUtils.unescapeJson("a:b"));
+        assertEquals(jsonString, StringEscapeUtils.unescapeJson(jsonString));
+    }
+
+    @Ignore("https://issues.apache.org/jira/browse/TEXT-100.")
+    @Test
+    public void testUnescapeJsonFoundBug_Issue_Text_100() {
+        final String jsonString = "{\"age\":100,\"name\":\"m\\\"kyong.com\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
+
+        assertEquals(jsonString, StringEscapeUtils.unescapeJson(jsonString));
     }
 
 }

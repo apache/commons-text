@@ -53,7 +53,7 @@ public class CaseUtilsTest {
         assertEquals("ABC@def", CaseUtils.toCamelCase("a b c @def", true, new char[]{'-'}));
         assertEquals("ABC@def", CaseUtils.toCamelCase("a b c @def", true, new char[]{'-'}));
 
-        char[] chars = new char[] { '-', '+', ' ', '@' };
+        final char[] chars = new char[] { '-', '+', ' ', '@' };
         assertEquals("-+@ ", CaseUtils.toCamelCase("-+@ ", true, chars));
         assertEquals("toCamelCase", CaseUtils.toCamelCase("   to-CAMEL-cASE", false, chars));
         assertEquals("ToCamelCase", CaseUtils.toCamelCase("@@@@   to+CAMEL@cASE ", true, chars));

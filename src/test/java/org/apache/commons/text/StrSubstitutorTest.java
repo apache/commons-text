@@ -592,7 +592,7 @@ public class StrSubstitutorTest {
      */
     @Test
     public void testLANG1055() {
-        System.setProperty("test_key",  "test_value");
+        System.setProperty("test_key", "test_value");
 
         final String expected = StrSubstitutor.replace("test_key=${test_key}", System.getProperties());
         final String actual = StrSubstitutor.replaceSystemProperties("test_key=${test_key}");
@@ -735,6 +735,69 @@ public class StrSubstitutorTest {
             assertFalse(sub.replaceIn(bld));
             assertEquals(replaceTemplate, bld.toString());
         }
+    }
+
+    @Test
+    public void testReplaceInTakingTwoAndThreeIntsReturningFalse() {
+        final Map<String, Object> hashMap = new HashMap<>();
+        final StrLookup.MapStrLookup<Object> strLookup_MapStrLookup = new StrLookup.MapStrLookup<>(hashMap);
+        final StrMatcher strMatcher = StrMatcher.tabMatcher();
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup_MapStrLookup, strMatcher, strMatcher, 'b', strMatcher);
+
+        assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, (-1369)));
+        assertEquals('b', strSubstitutor.getEscapeChar());
+        assertFalse(strSubstitutor.isPreserveEscapes());
+    }
+
+    @Test
+    public void testReplaceInTakingStringBuilderWithNonNull() {
+        final StrLookup<String> strLookup = StrLookup.systemPropertiesLookup();
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup, "b<H", "b<H", '\'');
+        final StringBuilder stringBuilder = new StringBuilder((CharSequence) "b<H");
+
+        assertEquals('\'', strSubstitutor.getEscapeChar());
+        assertFalse(strSubstitutor.replaceIn(stringBuilder));
+    }
+
+    @Test
+    public void testReplaceInTakingStringBufferWithNonNull() {
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(new HashMap<String, String>(), "WV@i#y?N*[", "WV@i#y?N*[", '*');
+
+        assertFalse(strSubstitutor.isPreserveEscapes());
+        assertFalse(strSubstitutor.replaceIn(new StringBuffer("WV@i#y?N*[")));
+        assertEquals('*', strSubstitutor.getEscapeChar());
+    }
+
+    @Test
+    public void testCreatesStrSubstitutorTakingStrLookupAndCallsReplaceTakingTwoAndThreeInts() {
+        final Map<String, CharacterPredicates> map = new HashMap<>();
+        final StrLookup.MapStrLookup<CharacterPredicates> strLookup_MapStrLookup = new StrLookup.MapStrLookup<>(map);
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup_MapStrLookup);
+
+        assertNull(strSubstitutor.replace((CharSequence) null, 0, 0));
+        assertEquals('$', strSubstitutor.getEscapeChar());
+    }
+
+    @Test
+    public void testReplaceTakingCharSequenceReturningNull() {
+        final StrSubstitutor strSubstitutor = new StrSubstitutor((StrLookup<?>) null);
+
+        assertNull( strSubstitutor.replace((CharSequence) null) );
+        assertFalse(strSubstitutor.isPreserveEscapes());
+        assertEquals('$', strSubstitutor.getEscapeChar());
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testReplaceTakingThreeArgumentsThrowsNullPointerException() {
+        StrSubstitutor.replace(null, (Properties) null);
+    }
+
+    @Test
+    public void testReplaceInTakingStringBuilderWithNull() {
+        final Map<String, Object> map = new HashMap<>();
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(map, "", "", 'T', "K+<'f");
+
+        assertFalse(strSubstitutor.replaceIn((StringBuilder) null));
     }
 
 }

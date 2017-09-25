@@ -77,4 +77,20 @@ public class NumericEntityUnescaperTest  {
         }
     }
 
+    @Test
+    public void testCreatesNumericEntityUnescaperOne() {
+        final NumericEntityUnescaper.OPTION[] numericEntityUnescaper_OPTIONArray = new NumericEntityUnescaper.OPTION[0];
+        final NumericEntityUnescaper numericEntityUnescaper = new NumericEntityUnescaper(numericEntityUnescaper_OPTIONArray);
+
+        assertEquals("2|y|O7y`&#uVWj", numericEntityUnescaper.translate("2|y|O7y`&#uVWj"));
+    }
+
+    @Test
+    public void testCreatesNumericEntityUnescaperTwo() {
+        final NumericEntityUnescaper.OPTION[] numericEntityUnescaper_OPTIONArray = new NumericEntityUnescaper.OPTION[0];
+        final NumericEntityUnescaper numericEntityUnescaper = new NumericEntityUnescaper(numericEntityUnescaper_OPTIONArray);
+
+        assertEquals("Ws2v8|O=7NR&#cB", numericEntityUnescaper.translate("Ws2v8|O=7NR&#cB"));
+    }
+
 }

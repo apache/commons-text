@@ -95,9 +95,9 @@ public final class RandomStringGenerator {
      *            source of randomness
      * @param characterList list of predefined set of characters.
      */
-    private RandomStringGenerator(int minimumCodePoint, int maximumCodePoint,
-                                  Set<CharacterPredicate> inclusivePredicates, TextRandomProvider random,
-                                  List<Character> characterList) {
+    private RandomStringGenerator(final int minimumCodePoint, final int maximumCodePoint,
+                                  final Set<CharacterPredicate> inclusivePredicates, final TextRandomProvider random,
+                                  final List<Character> characterList) {
         this.minimumCodePoint = minimumCodePoint;
         this.maximumCodePoint = maximumCodePoint;
         this.inclusivePredicates = inclusivePredicates;
@@ -130,7 +130,7 @@ public final class RandomStringGenerator {
      * @return the random number.
      */
     private int generateRandomNumber(final List<Character> characterList) {
-        int listSize = characterList.size();
+        final int listSize = characterList.size();
         if (random != null) {
             return String.valueOf(characterList.get(random.nextInt(listSize))).codePointAt(0);
         }
@@ -171,7 +171,7 @@ public final class RandomStringGenerator {
 
         do {
             int codePoint;
-            if (characterList != null && characterList.size() > 0) {
+            if (characterList != null && !characterList.isEmpty()) {
                 codePoint = generateRandomNumber(characterList);
             } else {
                 codePoint = generateRandomNumber(minimumCodePoint, maximumCodePoint);
@@ -186,7 +186,7 @@ public final class RandomStringGenerator {
 
             if (inclusivePredicates != null) {
                 boolean matchedFilter = false;
-                for (CharacterPredicate predicate : inclusivePredicates) {
+                for (final CharacterPredicate predicate : inclusivePredicates) {
                     if (predicate.test(codePoint)) {
                         matchedFilter = true;
                         break;
@@ -343,6 +343,7 @@ public final class RandomStringGenerator {
         public Builder withinRange(final char[] ... pairs) {
             characterList = new ArrayList<Character>();
             for (char[] pair :  pairs) {
+              
                 final int minimumCodePoint = pair[0];
                 final int maximumCodePoint = pair[1];
                 Validate.isTrue(minimumCodePoint <= maximumCodePoint,
@@ -384,7 +385,7 @@ public final class RandomStringGenerator {
                 inclusivePredicates.clear();
             }
 
-            for (CharacterPredicate predicate : predicates) {
+            for (final CharacterPredicate predicate : predicates) {
                 inclusivePredicates.add(predicate);
             }
 
@@ -444,9 +445,9 @@ public final class RandomStringGenerator {
          * @return {@code this}, to allow method chaining
          * @since 1.2
          */
-        public Builder selectFrom(char ... chars) {
-            characterList = new ArrayList<Character>();
-            for (char c : chars) {
+        public Builder selectFrom(final char ... chars) {
+            characterList = new ArrayList<>();
+            for (final char c : chars) {
                 characterList.add(c);
             }
             return this;

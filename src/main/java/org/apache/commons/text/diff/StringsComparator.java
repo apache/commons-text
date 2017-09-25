@@ -294,7 +294,7 @@ public class StringsComparator {
          * @param end  end index of the snake
          * @param diag  diagonal number
          */
-        public Snake(final int start, final int end, final int diag) {
+        Snake(final int start, final int end, final int diag) {
             this.start = start;
             this.end   = end;
             this.diag  = diag;

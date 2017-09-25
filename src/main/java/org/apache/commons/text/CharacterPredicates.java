@@ -33,7 +33,7 @@ public enum CharacterPredicates implements CharacterPredicate {
      */
     LETTERS {
         @Override
-        public boolean test(int codePoint) {
+        public boolean test(final int codePoint) {
             return Character.isLetter(codePoint);
         }
     },
@@ -45,7 +45,7 @@ public enum CharacterPredicates implements CharacterPredicate {
      */
     DIGITS {
         @Override
-        public boolean test(int codePoint) {
+        public boolean test(final int codePoint) {
             return Character.isDigit(codePoint);
         }
     },
@@ -57,7 +57,7 @@ public enum CharacterPredicates implements CharacterPredicate {
      */
     ARABIC_NUMERALS {
         @Override
-        public boolean test(int codePoint) {
+        public boolean test(final int codePoint) {
             return codePoint >= '0' && codePoint <= '9';
         }
     },
@@ -69,7 +69,7 @@ public enum CharacterPredicates implements CharacterPredicate {
      */
     ASCII_LOWERCASE_LETTERS {
         @Override
-        public boolean test(int codePoint) {
+        public boolean test(final int codePoint) {
             return codePoint >= 'a' && codePoint <= 'z';
         }
     },
@@ -81,7 +81,7 @@ public enum CharacterPredicates implements CharacterPredicate {
      */
     ASCII_UPPERCASE_LETTERS {
         @Override
-        public boolean test(int codePoint) {
+        public boolean test(final int codePoint) {
             return codePoint >= 'A' && codePoint <= 'Z';
         }
     },
@@ -93,7 +93,7 @@ public enum CharacterPredicates implements CharacterPredicate {
      */
     ASCII_LETTERS {
         @Override
-        public boolean test(int codePoint) {
+        public boolean test(final int codePoint) {
             return ASCII_LOWERCASE_LETTERS.test(codePoint) || ASCII_UPPERCASE_LETTERS.test(codePoint);
         }
     },
@@ -105,7 +105,7 @@ public enum CharacterPredicates implements CharacterPredicate {
      */
     ASCII_ALPHA_NUMERALS {
         @Override
-        public boolean test(int codePoint) {
+        public boolean test(final int codePoint) {
             return ASCII_LOWERCASE_LETTERS.test(codePoint) || ASCII_UPPERCASE_LETTERS.test(codePoint)
                     || ARABIC_NUMERALS.test(codePoint);
         }

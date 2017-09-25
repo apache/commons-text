@@ -45,7 +45,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
 
-  <release version="1.2" date="tbd" description="tbd">
+  <release version="1.2" date="tbd" description="Release 1.2">
+    <action issue="TEXT-97" type="add" dev="chtompki" due-to="Amey Jadiye">RandomStringGenerator able to pass multiple ranges to .withinRange()</action>
+    <action issue="TEXT-98" type="update" dev="chtompki" due-to="Arun Vinud S S">Deprecate isDelimiter and use HashSets for delimiter checks</action>
+    <action issue="TEXT-89" type="add" dev="chtompki" due-to="Arun Vinud S S">WordUtils.initials support for UTF-16 surrogate pairs</action>
     <action issue="TEXT-88" type="update" dev="chtompki" due-to="Amey Jadiye">WordUtils should treat an empty delimiter array as no delimiters</action>
     <action issue="TEXT-93" type="update" dev="chtompki" due-to="Amey Jadiye">Update RandomStringGenerator to accept a list of valid characters</action>
     <action issue="TEXT-90" type="add" dev="pschumacher">Add CharacterPredicates for ASCII letters (uppercase/lowercase) and arabic numerals</action>
@@ -55,6 +58,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-83" type="update" dev="chtompki" due-to="Amey Jadiye">Document that commons-csv should be used in preference to CsvTranslators</action>
     <action issue="TEXT-67" type="update" dev="kinow">NumericEntityUnescaper.options - fix TODO</action>
     <action issue="TEXT-84" type="update" dev="djones">RandomStringGenerator claims to be immutable, but isn't</action>
+    <action issue="TEXT-102" type="add" dev="ggregory">Add StrLookup.resourceBundleLookup(ResourceBundle)</action>
   </release>
 
   <release version="1.1" date="2017-05-23" description="Release 1.1">

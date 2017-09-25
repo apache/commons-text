@@ -36,7 +36,7 @@ public class CaseUtils {
      * <p><code>CaseUtils</code> instances should NOT be constructed in
      * standard programming. Instead, the class should be used as
      * <code>CaseUtils.toCamelCase("foo bar", true, new char[]{'-'});</code>.</p>
-     * <p>
+     *
      * <p>This constructor is public to permit tools that require a JavaBean
      * instance to operate.</p>
      */
@@ -78,10 +78,10 @@ public class CaseUtils {
             return str;
         }
         str = str.toLowerCase();
-        int strLen = str.length();
-        int [] newCodePoints = new int[strLen];
+        final int strLen = str.length();
+        final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
-        Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
+        final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
         boolean capitalizeNext = false;
         if (capitalizeFirstLetter) {
             capitalizeNext = true;
@@ -96,7 +96,7 @@ public class CaseUtils {
                 }
                 index += Character.charCount(codePoint);
             } else if (capitalizeNext || outOffset == 0 && capitalizeFirstLetter) {
-                int titleCaseCodePoint = Character.toTitleCase(codePoint);
+                final int titleCaseCodePoint = Character.toTitleCase(codePoint);
                 newCodePoints[outOffset++] = titleCaseCodePoint;
                 index += Character.charCount(titleCaseCodePoint);
                 capitalizeNext = false;
@@ -120,7 +120,7 @@ public class CaseUtils {
      * @return Set<Integer>
      */
     private static Set<Integer> generateDelimiterSet(final char[] delimiters) {
-        Set<Integer> delimiterHashSet = new HashSet<>();
+        final Set<Integer> delimiterHashSet = new HashSet<>();
         delimiterHashSet.add(Character.codePointAt(new char[]{' '}, 0));
         if (delimiters == null || delimiters.length == 0) {
             return delimiterHashSet;
