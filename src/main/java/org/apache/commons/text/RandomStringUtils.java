@@ -414,12 +414,12 @@ public class RandomStringUtils {
                 if (chars != null) {
                     generator = new RandomStringGenerator.Builder().selectFrom(chars).build();
                 } else if (numbers &&  letters) {
-                    char [][] pairs = {{'A', 'Z'}, {'a', 'z'}, {'0', '9'}};
+                    char[][] pairs = {{'A', 'Z'}, {'a', 'z'}, {'0', '9'}};
                     generator = new RandomStringGenerator.Builder().withinRange(pairs).build();
                 } else if (numbers) {
                     generator = new RandomStringGenerator.Builder().withinRange('0', '9').build();
                 } else if (letters) {
-                    char [][] pairs = {{'A', 'Z'}, {'a', 'z'}};
+                    char[][] pairs = {{'A', 'Z'}, {'a', 'z'}};
                     generator = new RandomStringGenerator.Builder().withinRange(pairs).build();
                 } else {
                     generator = new RandomStringGenerator.Builder().withinRange(start, end).build();
