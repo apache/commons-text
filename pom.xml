@@ -362,18 +362,18 @@
                 <configuration>
                   <tasks>
                     <exec executable="svn">
-                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}"></arg>
+                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}"/>
                     </exec>
 
                     <exec executable="svn">
-                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs"></arg>
+                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs"/>
                     </exec>
 
                     <pathconvert pathsep=" " property="dirs">
-                      <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*"></dirset>
+                      <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*"/>
                     </pathconvert>
                     <exec executable="svn">
-                      <arg line="update --set-depth infinity ${dirs}"></arg>
+                      <arg line="update --set-depth infinity ${dirs}"/>
                     </exec>
                   </tasks>
                 </configuration>
