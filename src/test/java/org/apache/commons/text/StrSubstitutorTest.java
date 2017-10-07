@@ -153,6 +153,21 @@ public class StrSubstitutorTest {
         doTestReplace("The quick brown fox jumps over the lazy dog.", "The ${animal} jumps over the ${target}.", true);
     }
 
+    @Test
+    public void testDisableSubstitutionInValues() {
+        final StrSubstitutor sub = new StrSubstitutor(values);
+        sub.setDisableSubstitutionInValues(true);
+        values.put("animal", "${critter}");
+        values.put("target", "${pet}");
+        values.put("pet", "${petCharacteristic} dog");
+        values.put("petCharacteristic", "lazy");
+        values.put("critter", "${critterSpeed} ${critterColor} ${critterType}");
+        values.put("critterSpeed", "quick");
+        values.put("critterColor", "brown");
+        values.put("critterType", "fox");
+        doTestReplace(sub,"The ${critter} jumps over the ${pet}.", "The ${animal} jumps over the ${target}.", true);
+    }
+
     /**
      * Tests escaping.
      */
@@ -638,10 +653,14 @@ public class StrSubstitutorTest {
         assertEquals("value $${escaped}", sub.replace(org));
     }
 
-    //-----------------------------------------------------------------------
     private void doTestReplace(final String expectedResult, final String replaceTemplate, final boolean substring) {
-        final String expectedShortResult = expectedResult.substring(1, expectedResult.length() - 1);
         final StrSubstitutor sub = new StrSubstitutor(values);
+        doTestReplace(sub, expectedResult, replaceTemplate, substring);
+    }
+
+    //-----------------------------------------------------------------------
+    private void doTestReplace(final StrSubstitutor sub, final String expectedResult, final String replaceTemplate, final boolean substring) {
+        final String expectedShortResult = expectedResult.substring(1, expectedResult.length() - 1);
 
         // replace using String
         assertEquals(expectedResult, sub.replace(replaceTemplate));
