@@ -865,7 +865,7 @@ public class StrSubstitutor {
                                     buf.replace(startPos, endPos, varValue);
                                     altered = true;
                                     int change = 0;
-                                    if(!substitutionInValuesDisabled) { // recursive replace
+                                    if (!substitutionInValuesDisabled) { // recursive replace
                                         change = substitute(buf, startPos,
                                             varLen, priorVariables);
                                     }
@@ -1225,7 +1225,8 @@ public class StrSubstitutor {
 
     /**
      * Sets a flag whether substitution is done in variable values (recursive).
-     * @param disableSubstitutionInValues
+     *
+     * @param disableSubstitutionInValues true if substitution in variable value are disabled
      */
     public void setDisableSubstitutionInValues(boolean disableSubstitutionInValues) {
         this.disableSubstitutionInValues = disableSubstitutionInValues;
