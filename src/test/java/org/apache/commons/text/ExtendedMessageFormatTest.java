@@ -132,7 +132,7 @@ public class ExtendedMessageFormatTest {
             }
             final StringBuilder expected = new StringBuilder();
             expected.append("Name: ");
-            expected.append(args[0].toString().toUpperCase());
+            expected.append(args[0].toString().toUpperCase(Locale.ROOT));
             expected.append(" DOB: ");
             expected.append(df.format(args[1]));
             expected.append(" Salary: ");
@@ -461,7 +461,7 @@ public class ExtendedMessageFormatTest {
 
         @Override
         public StringBuffer format(final Object obj, final StringBuffer toAppendTo, final FieldPosition pos) {
-            return toAppendTo.append(((String)obj).toLowerCase());
+            return toAppendTo.append(((String)obj).toLowerCase(Locale.ROOT));
         }
         @Override
         public Object parseObject(final String source, final ParsePosition pos) {throw new UnsupportedOperationException();}
@@ -475,7 +475,7 @@ public class ExtendedMessageFormatTest {
 
         @Override
         public StringBuffer format(final Object obj, final StringBuffer toAppendTo, final FieldPosition pos) {
-            return toAppendTo.append(((String)obj).toUpperCase());
+            return toAppendTo.append(((String)obj).toUpperCase(Locale.ROOT));
         }
         @Override
         public Object parseObject(final String source, final ParsePosition pos) {throw new UnsupportedOperationException();}
