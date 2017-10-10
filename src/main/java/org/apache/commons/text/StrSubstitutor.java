@@ -169,6 +169,10 @@ public class StrSubstitutor {
      * Whether escapes should be preserved.  Default is false;
      */
     private boolean preserveEscapes = false;
+    /**
+     * The flag whether substitution in variable values is disabled.
+     */
+    private boolean disableSubstitutionInValues;
 
     //-----------------------------------------------------------------------
     /**
@@ -752,6 +756,7 @@ public class StrSubstitutor {
         final char escape = getEscapeChar();
         final StrMatcher valueDelimMatcher = getValueDelimiterMatcher();
         final boolean substitutionInVariablesEnabled = isEnableSubstitutionInVariables();
+        final boolean substitutionInValuesDisabled = isDisableSubstitutionInValues();
 
         final boolean top = priorVariables == null;
         boolean altered = false;
@@ -856,14 +861,16 @@ public class StrSubstitutor {
                                     varValue = varDefaultValue;
                                 }
                                 if (varValue != null) {
-                                    // recursive replace
                                     final int varLen = varValue.length();
                                     buf.replace(startPos, endPos, varValue);
                                     altered = true;
-                                    int change = substitute(buf, startPos,
+                                    int change = 0;
+                                    if (!substitutionInValuesDisabled) { // recursive replace
+                                        change = substitute(buf, startPos,
                                             varLen, priorVariables);
+                                    }
                                     change = change
-                                            + varLen - (endPos - startPos);
+                                        + varLen - (endPos - startPos);
                                     pos += change;
                                     bufEnd += change;
                                     lengthChange += change;
@@ -1191,6 +1198,42 @@ public class StrSubstitutor {
     public void setEnableSubstitutionInVariables(
             final boolean enableSubstitutionInVariables) {
         this.enableSubstitutionInVariables = enableSubstitutionInVariables;
+    }
+
+    /**
+     * Returns a flag whether substitution is disabled in variable values.If set to
+     * <b>true</b>, the values of variables can contain other variables will not be
+     * processed and substituted original variable is evaluated, e.g.
+     * <pre>
+     * Map valuesMap = HashMap();
+     * valuesMap.put(&quot;name&quot;, &quot;Douglas ${surname}&quot;);
+     * valuesMap.put(&quot;surname&quot;, &quot;Crockford&quot;);
+     * String templateString = &quot;Hi ${name}&quot;;
+     * StrSubstitutor sub = new StrSubstitutor(valuesMap);
+     * String resolvedString = sub.replace(templateString);
+     * </pre>
+     * yielding:
+     * <pre>
+     *      Hi Douglas ${surname}
+     * </pre>
+     *
+     * @return the substitution in variable values flag
+     *
+     * @since 1.2
+     */
+    public boolean isDisableSubstitutionInValues() {
+        return disableSubstitutionInValues;
+    }
+
+    /**
+     * Sets a flag whether substitution is done in variable values (recursive).
+     *
+     * @param disableSubstitutionInValues true if substitution in variable value are disabled
+     *
+     * @since 1.2
+     */
+    public void setDisableSubstitutionInValues(boolean disableSubstitutionInValues) {
+        this.disableSubstitutionInValues = disableSubstitutionInValues;
     }
 
     /**
