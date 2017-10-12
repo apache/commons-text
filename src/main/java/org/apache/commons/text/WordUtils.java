@@ -323,7 +323,7 @@ public class WordUtils {
 
             if (spaceToWrapAt >= offset) {
                 // normal case
-                wrappedLine.append(str.substring(offset, spaceToWrapAt));
+                wrappedLine.append(str, offset, spaceToWrapAt);
                 wrappedLine.append(newLineStr);
                 offset = spaceToWrapAt + 1;
 
@@ -331,7 +331,7 @@ public class WordUtils {
                 // really long word or URL
                 if (wrapLongWords) {
                     // wrap really long word one line at a time
-                    wrappedLine.append(str.substring(offset, wrapLength + offset));
+                    wrappedLine.append(str, offset, wrapLength + offset);
                     wrappedLine.append(newLineStr);
                     offset += wrapLength;
                 } else {
@@ -342,11 +342,11 @@ public class WordUtils {
                     }
 
                     if (spaceToWrapAt >= 0) {
-                        wrappedLine.append(str.substring(offset, spaceToWrapAt));
+                        wrappedLine.append(str, offset, spaceToWrapAt);
                         wrappedLine.append(newLineStr);
                         offset = spaceToWrapAt + 1;
                     } else {
-                        wrappedLine.append(str.substring(offset));
+                        wrappedLine.append(str, offset, str.length());
                         offset = inputLineLength;
                     }
                 }
@@ -354,7 +354,7 @@ public class WordUtils {
         }
 
         // Whatever is left in line is short enough to just pass through
-        wrappedLine.append(str.substring(offset));
+        wrappedLine.append(str, offset, str.length());
 
         return wrappedLine.toString();
     }
@@ -856,16 +856,16 @@ public class WordUtils {
         final StringBuilder result = new StringBuilder();
         final int index = StringUtils.indexOf(str, " ", lower);
         if (index == -1) {
-            result.append(str.substring(0, upper));
+            result.append(str, 0, upper);
             // only if abbreviation has occured do we append the appendToEnd value
             if (upper != str.length()) {
                 result.append(StringUtils.defaultString(appendToEnd));
             }
         } else if (index > upper) {
-            result.append(str.substring(0, upper));
+            result.append(str, 0, upper);
             result.append(StringUtils.defaultString(appendToEnd));
         } else {
-            result.append(str.substring(0, index));
+            result.append(str, 0, index);
             result.append(StringUtils.defaultString(appendToEnd));
         }
 
