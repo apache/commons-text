@@ -232,7 +232,7 @@ public class StrBuilderTest {
         assertTrue(sb.capacity() >= 32);
         assertEquals(3, sb.length());
         assertEquals(3, sb.size());
-        assertTrue(sb.isEmpty() == false);
+        assertFalse(sb.isEmpty());
 
         sb.clear();
         assertTrue(sb.capacity() >= 32);
@@ -244,19 +244,19 @@ public class StrBuilderTest {
         assertTrue(sb.capacity() > 32);
         assertEquals(33, sb.length());
         assertEquals(33, sb.size());
-        assertTrue(sb.isEmpty() == false);
+        assertFalse(sb.isEmpty());
 
         sb.ensureCapacity(16);
         assertTrue(sb.capacity() > 16);
         assertEquals(33, sb.length());
         assertEquals(33, sb.size());
-        assertTrue(sb.isEmpty() == false);
+        assertFalse(sb.isEmpty());
 
         sb.minimizeCapacity();
         assertEquals(33, sb.capacity());
         assertEquals(33, sb.length());
         assertEquals(33, sb.size());
-        assertTrue(sb.isEmpty() == false);
+        assertFalse(sb.isEmpty());
 
         try {
             sb.setLength(-1);
@@ -269,21 +269,21 @@ public class StrBuilderTest {
         assertEquals(33, sb.capacity());
         assertEquals(33, sb.length());
         assertEquals(33, sb.size());
-        assertTrue(sb.isEmpty() == false);
+        assertFalse(sb.isEmpty());
 
         sb.setLength(16);
         assertTrue(sb.capacity() >= 16);
         assertEquals(16, sb.length());
         assertEquals(16, sb.size());
         assertEquals("1234567890123456", sb.toString());
-        assertTrue(sb.isEmpty() == false);
+        assertFalse(sb.isEmpty());
 
         sb.setLength(32);
         assertTrue(sb.capacity() >= 32);
         assertEquals(32, sb.length());
         assertEquals(32, sb.size());
         assertEquals("1234567890123456\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", sb.toString());
-        assertTrue(sb.isEmpty() == false);
+        assertFalse(sb.isEmpty());
 
         sb.setLength(0);
         assertTrue(sb.capacity() >= 32);
