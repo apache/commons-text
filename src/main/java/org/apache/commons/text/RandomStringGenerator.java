@@ -337,7 +337,7 @@ public final class RandomStringGenerator {
          * }
          * </pre>
          *
-         * @param pairs array of charachters array, expected is to pass min, max pairs through this arg.
+         * @param pairs array of characters array, expected is to pass min, max pairs through this arg.
          * @return {@code this}, to allow method chaining.
          */
         public Builder withinRange(final char[] ... pairs) {
@@ -441,7 +441,7 @@ public final class RandomStringGenerator {
          * method will replace the previously stored Character.
          * </p>
          *
-         * @param chars set of preefined Characters for random string generation
+         * @param chars set of predefined Characters for random string generation
          *            the Character can be, may be {@code null} or empty
          * @return {@code this}, to allow method chaining
          * @since 1.2

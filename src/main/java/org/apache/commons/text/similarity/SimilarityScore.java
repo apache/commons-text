@@ -41,7 +41,7 @@ package org.apache.commons.text.similarity;
  * Further, this intended to be BiFunction&lt;CharSequence, CharSequence, R&gt;.
  * The <code>apply</code> method
  * accepts a pair of {@link CharSequence} parameters
- * and returns an <code>R</code> type similarity score. We have ommitted the explicit
+ * and returns an <code>R</code> type similarity score. We have omitted the explicit
  * statement of extending BiFunction due to it only being implemented in Java 1.8, and we
  * wish to maintain Java 1.7 compatibility.
  * </p>

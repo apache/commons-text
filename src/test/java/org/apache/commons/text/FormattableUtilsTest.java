@@ -141,6 +141,6 @@ public class FormattableUtilsTest {
         public void formatTo(final Formatter formatter, final int flags, final int width, final int precision) {
             formatter.format(text);
         }
-    };
+    }
 
 }
