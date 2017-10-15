@@ -58,8 +58,9 @@ public class JavaUnicodeEscaperTest {
     public void testToUtf16Escape() throws UnsupportedEncodingException {
         final JavaUnicodeEscaper jue = JavaUnicodeEscaper.below('F');
         // According to https://en.wikipedia.org/wiki/UTF-16#Code_points_U.2B10000..U.2B10FFFF,
-        // Character ?,	U+24B62,	Binary Code Point 0010 0100 1011 0110 0010,	Binary UTF-167 1101 1000 0101 0010 1101 1111 0110 0010, UTF-16 Hex Code Units D852 DF62
+        // Character ?, U+24B62, Binary Code Point 0010 0100 1011 0110 0010,
+        // Binary UTF-167 1101 1000 0101 0010 1101 1111 0110 0010, UTF-16 Hex Code Units D852 DF62
         final String encoding = jue.toUtf16Escape(Integer.parseInt("024B62", 16));
-        assertEquals("\\uD852\\uDF62",encoding);
+        assertEquals("\\uD852\\uDF62", encoding);
     }
 }

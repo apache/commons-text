@@ -38,10 +38,12 @@ public class ReplacementsFinderTest {
     private final int skipped;
     private final Character[] from;
     private final Character[] to;
+
     @Before
     public void setUp() {
         handler = new SimpleHandler();
     }
+
     @Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
@@ -60,6 +62,7 @@ public class ReplacementsFinderTest {
             }
         });
     }
+
     public ReplacementsFinderTest(final String left, final String right, final int skipped,
             final Character[] from, final Character[] to) {
         this.left = left;
@@ -68,6 +71,7 @@ public class ReplacementsFinderTest {
         this.from = from;
         this.to = to;
     }
+
     @Test
     public void testReplacementsHandler() {
         final StringsComparator sc = new StringsComparator(left, right);
@@ -79,12 +83,13 @@ public class ReplacementsFinderTest {
         assertArrayEquals("To characters do not match", to,
                 handler.getTo().toArray(new Character[0]));
     }
+
     // Helper RecplacementsHandler implementation for testing
     private class SimpleHandler implements ReplacementsHandler<Character> {
         private int skipped;
         private final List<Character> from;
         private final List<Character> to;
-        public SimpleHandler() {
+        SimpleHandler() {
             skipped = 0;
             from = new ArrayList<>();
             to = new ArrayList<>();

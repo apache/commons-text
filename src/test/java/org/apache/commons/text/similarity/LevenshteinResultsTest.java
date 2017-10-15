@@ -27,8 +27,10 @@ public class LevenshteinResultsTest {
     public void testEqualsReturningFalse() {
         final Integer integerOne = new Integer(1662);
         final Integer integerTwo = new Integer(1164);
-        final LevenshteinResults levenshteinResults = new LevenshteinResults(integerOne, integerOne, integerOne, integerOne);
-        final LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(integerOne, integerOne, integerTwo, integerTwo);
+        final LevenshteinResults levenshteinResults =
+                new LevenshteinResults(integerOne, integerOne, integerOne, integerOne);
+        final LevenshteinResults levenshteinResultsTwo =
+                new LevenshteinResults(integerOne, integerOne, integerTwo, integerTwo);
 
         assertFalse(levenshteinResults.equals(levenshteinResultsTwo));
     }

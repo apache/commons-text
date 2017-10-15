@@ -32,6 +32,7 @@ public class StringsComparatorTest {
     private List<String> after;
     private int[]        length;
     private int[]        lcs;
+
     @Test
     public void testLength() {
         for (int i = 0; i < before.size(); ++i) {
@@ -39,6 +40,7 @@ public class StringsComparatorTest {
             assertEquals(length[i], comparator.getScript().getModifications());
         }
     }
+
     @Test
     public void testLongestCommonSubsequence() {
         for (int i = 0; i < before.size(); ++i) {
@@ -46,6 +48,7 @@ public class StringsComparatorTest {
             assertEquals(lcs[i], comparator.getScript().getLCSLength());
         }
     }
+
     @Test
     public void testExecution() {
         for (int i = 0; i < before.size(); ++i) {
@@ -54,9 +57,10 @@ public class StringsComparatorTest {
             assertEquals(after.get(i), ev.getString());
         }
     }
+
     private class ExecutionVisitor<T> implements CommandVisitor<T> {
         private final StringBuilder v;
-        public ExecutionVisitor() {
+        ExecutionVisitor() {
             v = new StringBuilder();
         }
         @Override

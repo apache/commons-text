@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,12 +27,12 @@ import org.junit.Test;
 public class JaroWinklerDistanceTest {
 
     private static JaroWinklerDistance distance;
-    
+
     @BeforeClass
     public static void setUp() {
         distance = new JaroWinklerDistance();
     }
-    
+
     @Test
     public void testGetJaroWinklerDistance_StringString() {
         assertEquals(0.92499d, distance.apply("frog", "fog"), 0.00001d);
@@ -40,7 +40,8 @@ public class JaroWinklerDistanceTest {
         assertEquals(0.44166d, distance.apply("elephant", "hippo"), 0.00001d);
         assertEquals(0.92740d, distance.apply("ABC Corporation", "ABC Corp"), 0.00001d);
         assertEquals(0.94580d, distance.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."), 0.00001d);
-        assertEquals(0.921458d, distance.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"), 0.00001d);
+        assertEquals(0.921458d,
+                distance.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"), 0.00001d);
         assertEquals(0.882329d, distance.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.00001d);
         assertEquals(0.996598d, distance.apply("/opt/software1", "/opt/software2"), 0.00001d);
     }
@@ -59,5 +60,5 @@ public class JaroWinklerDistanceTest {
     public void testGetJaroWinklerDistance_NullString() throws Exception {
         distance.apply(null, "clear");
     }
-    
+
 }
