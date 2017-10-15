@@ -22,13 +22,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -94,11 +94,11 @@ public class AlphabetConverterTest {
     public void javadocExampleTest() throws UnsupportedEncodingException {
         final AlphabetConverter ac = createJavadocExample();
         
-        Assert.assertEquals("00", ac.encode("a"));
-        Assert.assertEquals("01", ac.encode("b"));
-        Assert.assertEquals("0d", ac.encode("c"));
-        Assert.assertEquals("d", ac.encode("d"));
-        Assert.assertEquals("00010dd", ac.encode("abcd"));
+        assertEquals("00", ac.encode("a"));
+        assertEquals("01", ac.encode("b"));
+        assertEquals("0d", ac.encode("c"));
+        assertEquals("d", ac.encode("d"));
+        assertEquals("00010dd", ac.encode("abcd"));
     }
 
     @Test
@@ -130,13 +130,13 @@ public class AlphabetConverterTest {
     public void unicodeTest() throws UnsupportedEncodingException {
         final AlphabetConverter ac = AlphabetConverter.createConverter(unicode, lower_case_english_codepoints, doNotEncodePoints);
         
-        Assert.assertEquals(2, ac.getEncodedCharLength());
+        assertEquals(2, ac.getEncodedCharLength());
         
         final String original = "\u8a43\u8a45 \u8dce ab \u8dc3 c \u8983";
         final String encoded = ac.encode(original);
         final String decoded = ac.decode(encoded);
         
-        Assert.assertEquals("Encoded '" + original + "' into '" + encoded + "', but decoded into '" + decoded + "'", original, decoded);
+        assertEquals("Encoded '" + original + "' into '" + encoded + "', but decoded into '" + decoded + "'", original, decoded);
     }
 
     @Test
@@ -180,11 +180,11 @@ public class AlphabetConverterTest {
         
         final AlphabetConverter reconstructedAlphabetConverter = AlphabetConverter.createConverterFromMap(ac.getOriginalToEncoded());
         
-        Assert.assertEquals(ac, reconstructedAlphabetConverter);
-        Assert.assertEquals(ac.hashCode(), reconstructedAlphabetConverter.hashCode());
-        Assert.assertEquals(ac.toString(), reconstructedAlphabetConverter.toString());
-        Assert.assertNull(ac.encode(null)); // test null conversions
-        Assert.assertEquals("", ac.encode("")); // test empty conversion
+        assertEquals(ac, reconstructedAlphabetConverter);
+        assertEquals(ac.hashCode(), reconstructedAlphabetConverter.hashCode());
+        assertEquals(ac.toString(), reconstructedAlphabetConverter.toString());
+        assertNull(ac.encode(null)); // test null conversions
+        assertEquals("", ac.encode("")); // test empty conversion
 
         // test all the trial strings
         for (final String s : strings) {
@@ -193,7 +193,7 @@ public class AlphabetConverterTest {
             // test that only encoding chars are used
             final List<Character> originalEncodingChars = Arrays.asList(encodingChars);
             for (int i = 0; i < encoded.length(); i++) {
-                Assert.assertTrue(originalEncodingChars.contains(encoded.charAt(i)));
+                assertTrue(originalEncodingChars.contains(encoded.charAt(i)));
             }
 
             final String decoded = ac.decode(encoded);
@@ -201,10 +201,10 @@ public class AlphabetConverterTest {
             // test that only the original alphabet is used after decoding
             final List<Character> originalCharsList = Arrays.asList(originalChars);
             for (int i = 0; i < decoded.length(); i++) {
-                Assert.assertTrue(originalCharsList.contains(decoded.charAt(i)));
+                assertTrue(originalCharsList.contains(decoded.charAt(i)));
             }
             
-            Assert.assertEquals("Encoded '" + s + "' into '" + encoded + "', but decoded into '" + decoded + "'", s, decoded);
+            assertEquals("Encoded '" + s + "' into '" + encoded + "', but decoded into '" + decoded + "'", s, decoded);
         }
     }
 

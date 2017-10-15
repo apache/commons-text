@@ -16,13 +16,13 @@
  */
 package org.apache.commons.text.translate;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.PipedReader;
 import java.io.PipedWriter;
 
+import static org.junit.Assert.assertEquals;
 
 public class CodePointTranslatorTest {
 
@@ -34,7 +34,7 @@ public class CodePointTranslatorTest {
     final PipedReader pipedReader = new PipedReader();
     final PipedWriter pipedWriter = new PipedWriter(pipedReader);
 
-    Assert.assertEquals(1, numericEntityEscaper.translate(string, 0, pipedWriter));
+    assertEquals(1, numericEntityEscaper.translate(string, 0, pipedWriter));
   }
 
 }
