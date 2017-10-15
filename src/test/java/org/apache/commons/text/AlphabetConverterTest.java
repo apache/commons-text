@@ -26,10 +26,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link AlphabetConverter}.
@@ -110,11 +107,11 @@ public class AlphabetConverterTest {
     public void javadocExampleTest() throws UnsupportedEncodingException {
         final AlphabetConverter ac = createJavadocExample();
 
-        assertEquals("00", ac.encode("a"));
-        assertEquals("01", ac.encode("b"));
-        assertEquals("0d", ac.encode("c"));
-        assertEquals("d", ac.encode("d"));
-        assertEquals("00010dd", ac.encode("abcd"));
+        assertThat(ac.encode("a")).isEqualTo("00");
+        assertThat(ac.encode("b")).isEqualTo("01");
+        assertThat(ac.encode("c")).isEqualTo("0d");
+        assertThat(ac.encode("d")).isEqualTo("d");
+        assertThat(ac.encode("abcd")).isEqualTo("00010dd");
     }
 
     @Test
@@ -147,14 +144,14 @@ public class AlphabetConverterTest {
         final AlphabetConverter ac = AlphabetConverter.createConverter(unicode, lowerCaseEnglishCodepoints,
                 doNotEncodeCodepoints);
 
-        assertEquals(2, ac.getEncodedCharLength());
+        assertThat(ac.getEncodedCharLength()).isEqualTo(2);
 
         final String original = "\u8a43\u8a45 \u8dce ab \u8dc3 c \u8983";
         final String encoded = ac.encode(original);
         final String decoded = ac.decode(encoded);
 
-        assertEquals("Encoded '" + original + "' into '" + encoded + "', but decoded into '" + decoded + "'", original,
-                decoded);
+        assertThat(decoded).as("Encoded '" + original + "' into '" + encoded + "', but decoded into '" + decoded + "'")
+            .isEqualTo(original);
     }
 
     @Test
@@ -203,11 +200,11 @@ public class AlphabetConverterTest {
         final AlphabetConverter reconstructedAlphabetConverter = AlphabetConverter
                 .createConverterFromMap(ac.getOriginalToEncoded());
 
-        assertEquals(ac, reconstructedAlphabetConverter);
-        assertEquals(ac.hashCode(), reconstructedAlphabetConverter.hashCode());
-        assertEquals(ac.toString(), reconstructedAlphabetConverter.toString());
-        assertNull(ac.encode(null)); // test null conversions
-        assertEquals("", ac.encode("")); // test empty conversion
+        assertThat(reconstructedAlphabetConverter).isEqualTo(ac);
+        assertThat(reconstructedAlphabetConverter.hashCode()).isEqualTo(ac.hashCode());
+        assertThat(reconstructedAlphabetConverter.toString()).isEqualTo(ac.toString());
+        assertThat(ac.encode(null)).isNull(); // test null conversions
+        assertThat(ac.encode("")).isEqualTo(""); // test empty conversion
 
         // test all the trial strings
         for (final String s : strings) {
@@ -216,7 +213,7 @@ public class AlphabetConverterTest {
             // test that only encoding chars are used
             final List<Character> originalEncodingChars = Arrays.asList(encodingChars);
             for (int i = 0; i < encoded.length(); i++) {
-                assertTrue(originalEncodingChars.contains(encoded.charAt(i)));
+                assertThat(originalEncodingChars.contains(encoded.charAt(i))).isTrue();
             }
 
             final String decoded = ac.decode(encoded);
@@ -224,10 +221,11 @@ public class AlphabetConverterTest {
             // test that only the original alphabet is used after decoding
             final List<Character> originalCharsList = Arrays.asList(originalChars);
             for (int i = 0; i < decoded.length(); i++) {
-                assertTrue(originalCharsList.contains(decoded.charAt(i)));
+                assertThat(originalCharsList.contains(decoded.charAt(i))).isTrue();
             }
 
-            assertEquals("Encoded '" + s + "' into '" + encoded + "', but decoded into '" + decoded + "'", s, decoded);
+            assertThat(decoded).as("Encoded '" + s + "' into '" + encoded + "', but decoded into '" + decoded + "'")
+                .isEqualTo(s);
         }
     }
 
@@ -248,7 +246,7 @@ public class AlphabetConverterTest {
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
                 characterArray, characterArray);
 
-        assertEquals(1, alphabetConverter.getEncodedCharLength());
+        assertThat(alphabetConverter.getEncodedCharLength()).isEqualTo(1);
     }
 
     @Test
@@ -258,8 +256,8 @@ public class AlphabetConverterTest {
         hashMap.put(0, "CtDs");
         final AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(hashMap);
 
-        assertFalse(alphabetConverter.equals(alphabetConverterTwo));
-        assertEquals(1, alphabetConverter.getEncodedCharLength());
+        assertThat(alphabetConverter.equals(alphabetConverterTwo)).isFalse();
+        assertThat(alphabetConverter.getEncodedCharLength()).isEqualTo(1);
     }
 
     @Test
@@ -273,8 +271,8 @@ public class AlphabetConverterTest {
         final Map<Integer, String> map = new HashMap<>();
         final AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(map);
 
-        assertEquals(1, alphabetConverterTwo.getEncodedCharLength());
-        assertFalse(alphabetConverter.equals(alphabetConverterTwo));
+        assertThat(alphabetConverterTwo.getEncodedCharLength()).isEqualTo(1);
+        assertThat(alphabetConverter.equals(alphabetConverterTwo)).isFalse();
     }
 
     @Test
@@ -286,7 +284,7 @@ public class AlphabetConverterTest {
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
                 characterArray, characterArray);
 
-        assertTrue(alphabetConverter.equals(alphabetConverter));
+        assertThat(alphabetConverter.equals(alphabetConverter)).isTrue();
     }
 
     @Test
@@ -295,7 +293,7 @@ public class AlphabetConverterTest {
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, null,
                 null);
 
-        assertFalse(alphabetConverter.equals(null));
+        assertThat(alphabetConverter.equals(null)).isFalse();
     }
 
     @Test
@@ -308,7 +306,7 @@ public class AlphabetConverterTest {
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
                 characterArray, characterArray);
 
-        assertFalse(alphabetConverter.equals(charOne));
+        assertThat(alphabetConverter.equals(charOne)).isFalse();
     }
 
     @Test
@@ -317,7 +315,7 @@ public class AlphabetConverterTest {
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromMap(map);
         alphabetConverter.decode(null);
 
-        assertEquals(1, alphabetConverter.getEncodedCharLength());
+        assertThat(alphabetConverter.getEncodedCharLength()).isEqualTo(1);
     }
 
 }

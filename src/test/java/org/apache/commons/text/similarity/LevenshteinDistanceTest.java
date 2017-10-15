@@ -18,8 +18,7 @@ package org.apache.commons.text.similarity;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link LevenshteinDistance}.
@@ -30,16 +29,16 @@ public class LevenshteinDistanceTest {
 
     @Test
     public void testGetLevenshteinDistance_StringString() {
-        assertEquals(0, (int) UNLIMITED_DISTANCE.apply("", ""));
-        assertEquals(1, (int) UNLIMITED_DISTANCE.apply("", "a"));
-        assertEquals(7, (int) UNLIMITED_DISTANCE.apply("aaapppp", ""));
-        assertEquals(1, (int) UNLIMITED_DISTANCE.apply("frog", "fog"));
-        assertEquals(3, (int) UNLIMITED_DISTANCE.apply("fly", "ant"));
-        assertEquals(7, (int) UNLIMITED_DISTANCE.apply("elephant", "hippo"));
-        assertEquals(7, (int) UNLIMITED_DISTANCE.apply("hippo", "elephant"));
-        assertEquals(8, (int) UNLIMITED_DISTANCE.apply("hippo", "zzzzzzzz"));
-        assertEquals(8, (int) UNLIMITED_DISTANCE.apply("zzzzzzzz", "hippo"));
-        assertEquals(1, (int) UNLIMITED_DISTANCE.apply("hello", "hallo"));
+        assertThat(UNLIMITED_DISTANCE.apply("", "")).isEqualTo(0);
+        assertThat(UNLIMITED_DISTANCE.apply("", "a")).isEqualTo(1);
+        assertThat(UNLIMITED_DISTANCE.apply("aaapppp", "")).isEqualTo(7);
+        assertThat(UNLIMITED_DISTANCE.apply("frog", "fog")).isEqualTo(1);
+        assertThat(UNLIMITED_DISTANCE.apply("fly", "ant")).isEqualTo(3);
+        assertThat(UNLIMITED_DISTANCE.apply("elephant", "hippo")).isEqualTo(7);
+        assertThat(UNLIMITED_DISTANCE.apply("hippo", "elephant")).isEqualTo(7);
+        assertThat(UNLIMITED_DISTANCE.apply("hippo", "zzzzzzzz")).isEqualTo(8);
+        assertThat(UNLIMITED_DISTANCE.apply("zzzzzzzz", "hippo")).isEqualTo(8);
+        assertThat(UNLIMITED_DISTANCE.apply("hello", "hallo")).isEqualTo(1);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -55,71 +54,65 @@ public class LevenshteinDistanceTest {
     @Test
     public void testGetLevenshteinDistance_StringStringInt() {
         // empty strings
-        assertEquals(0, (int) new LevenshteinDistance(0).apply("", ""));
-        assertEquals(7, (int) new LevenshteinDistance(8).apply("aaapppp", ""));
-        assertEquals(7, (int) new LevenshteinDistance(7).apply("aaapppp", ""));
-        assertEquals(-1, (int) new LevenshteinDistance(6).apply("aaapppp", ""));
+        assertThat(new LevenshteinDistance(0).apply("", "")).isEqualTo(0);
+        assertThat(new LevenshteinDistance(8).apply("aaapppp", "")).isEqualTo(7);
+        assertThat(new LevenshteinDistance(7).apply("aaapppp", "")).isEqualTo(7);
+        assertThat(new LevenshteinDistance(6).apply("aaapppp", "")).isEqualTo(-1);
 
         // unequal strings, zero threshold
-        assertEquals(-1, (int) new LevenshteinDistance(0).apply("b", "a"));
-        assertEquals(-1, (int) new LevenshteinDistance(0).apply("a", "b"));
+        assertThat(new LevenshteinDistance(0).apply("b", "a")).isEqualTo(-1);
+        assertThat(new LevenshteinDistance(0).apply("a", "b")).isEqualTo(-1);
 
         // equal strings
-        assertEquals(0, (int) new LevenshteinDistance(0).apply("aa", "aa"));
-        assertEquals(0, (int) new LevenshteinDistance(2).apply("aa", "aa"));
+        assertThat(new LevenshteinDistance(0).apply("aa", "aa")).isEqualTo(0);
+        assertThat(new LevenshteinDistance(2).apply("aa", "aa")).isEqualTo(0);
 
         // same length
-        assertEquals(-1, (int) new LevenshteinDistance(2).apply("aaa", "bbb"));
-        assertEquals(3, (int) new LevenshteinDistance(3).apply("aaa", "bbb"));
+        assertThat(new LevenshteinDistance(2).apply("aaa", "bbb")).isEqualTo(-1);
+        assertThat(new LevenshteinDistance(3).apply("aaa", "bbb")).isEqualTo(3);
 
         // big stripe
-        assertEquals(6, (int) new LevenshteinDistance(10).apply("aaaaaa", "b"));
+        assertThat(new LevenshteinDistance(10).apply("aaaaaa", "b")).isEqualTo(6);
 
         // distance less than threshold
-        assertEquals(7, (int) new LevenshteinDistance(8).apply("aaapppp", "b"));
-        assertEquals(3, (int) new LevenshteinDistance(4).apply("a", "bbb"));
+        assertThat(new LevenshteinDistance(8).apply("aaapppp", "b")).isEqualTo(7);
+        assertThat(new LevenshteinDistance(4).apply("a", "bbb")).isEqualTo(3);
 
         // distance equal to threshold
-        assertEquals(7, (int) new LevenshteinDistance(7).apply("aaapppp", "b"));
-        assertEquals(3, (int) new LevenshteinDistance(3).apply("a", "bbb"));
+        assertThat(new LevenshteinDistance(7).apply("aaapppp", "b")).isEqualTo(7);
+        assertThat(new LevenshteinDistance(3).apply("a", "bbb")).isEqualTo(3);
 
         // distance greater than threshold
-        assertEquals(-1, (int) new LevenshteinDistance(2).apply("a", "bbb"));
-        assertEquals(-1, (int) new LevenshteinDistance(2).apply("bbb", "a"));
-        assertEquals(-1, (int) new LevenshteinDistance(6).apply("aaapppp", "b"));
+        assertThat(new LevenshteinDistance(2).apply("a", "bbb")).isEqualTo(-1);
+        assertThat(new LevenshteinDistance(2).apply("bbb", "a")).isEqualTo(-1);
+        assertThat(new LevenshteinDistance(6).apply("aaapppp", "b")).isEqualTo(-1);
 
         // stripe runs off array, strings not similar
-        assertEquals(-1, (int) new LevenshteinDistance(1).apply("a", "bbb"));
-        assertEquals(-1, (int) new LevenshteinDistance(1).apply("bbb", "a"));
+        assertThat(new LevenshteinDistance(1).apply("a", "bbb")).isEqualTo(-1);
+        assertThat(new LevenshteinDistance(1).apply("bbb", "a")).isEqualTo(-1);
 
         // stripe runs off array, strings are similar
-        assertEquals(-1, (int) new LevenshteinDistance(1).apply("12345", "1234567"));
-        assertEquals(-1, (int) new LevenshteinDistance(1).apply("1234567", "12345"));
+        assertThat(new LevenshteinDistance(1).apply("12345", "1234567")).isEqualTo(-1);
+        assertThat(new LevenshteinDistance(1).apply("1234567", "12345")).isEqualTo(-1);
 
         // old getLevenshteinDistance test cases
-        assertEquals(1, (int) new LevenshteinDistance(1).apply("frog", "fog"));
-        assertEquals(3, (int) new LevenshteinDistance(3).apply("fly", "ant"));
-        assertEquals(7, (int) new LevenshteinDistance(7).apply("elephant", "hippo"));
-        assertEquals(-1, (int) new LevenshteinDistance(6).apply("elephant", "hippo"));
-        assertEquals(7, (int) new LevenshteinDistance(7).apply("hippo", "elephant"));
-        assertEquals(-1, (int) new LevenshteinDistance(6).apply("hippo", "elephant"));
-        assertEquals(8, (int) new LevenshteinDistance(8).apply("hippo", "zzzzzzzz"));
-        assertEquals(8, (int) new LevenshteinDistance(8).apply("zzzzzzzz", "hippo"));
-        assertEquals(1, (int) new LevenshteinDistance(1).apply("hello", "hallo"));
+        assertThat(new LevenshteinDistance(1).apply("frog", "fog")).isEqualTo(1);
+        assertThat(new LevenshteinDistance(3).apply("fly", "ant")).isEqualTo(3);
+        assertThat(new LevenshteinDistance(7).apply("elephant", "hippo")).isEqualTo(7);
+        assertThat(new LevenshteinDistance(6).apply("elephant", "hippo")).isEqualTo(-1);
+        assertThat(new LevenshteinDistance(7).apply("hippo", "elephant")).isEqualTo(7);
+        assertThat(new LevenshteinDistance(6).apply("hippo", "elephant")).isEqualTo(-1);
+        assertThat(new LevenshteinDistance(8).apply("hippo", "zzzzzzzz")).isEqualTo(8);
+        assertThat(new LevenshteinDistance(8).apply("zzzzzzzz", "hippo")).isEqualTo(8);
+        assertThat(new LevenshteinDistance(1).apply("hello", "hallo")).isEqualTo(1);
 
-        assertEquals(1,
-                (int) new LevenshteinDistance(Integer.MAX_VALUE).apply("frog", "fog"));
-        assertEquals(3, (int) new LevenshteinDistance(Integer.MAX_VALUE).apply("fly", "ant"));
-        assertEquals(7,
-                (int) new LevenshteinDistance(Integer.MAX_VALUE).apply("elephant", "hippo"));
-        assertEquals(7,
-                (int) new LevenshteinDistance(Integer.MAX_VALUE).apply("hippo", "elephant"));
-        assertEquals(8,
-                (int) new LevenshteinDistance(Integer.MAX_VALUE).apply("hippo", "zzzzzzzz"));
-        assertEquals(8,
-                (int) new LevenshteinDistance(Integer.MAX_VALUE).apply("zzzzzzzz", "hippo"));
-        assertEquals(1,
-                (int) new LevenshteinDistance(Integer.MAX_VALUE).apply("hello", "hallo"));
+        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("frog", "fog")).isEqualTo(1);
+        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("fly", "ant")).isEqualTo(3);
+        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("elephant", "hippo")).isEqualTo(7);
+        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("hippo", "elephant")).isEqualTo(7);
+        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("hippo", "zzzzzzzz")).isEqualTo(8);
+        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("zzzzzzzz", "hippo")).isEqualTo(8);
+        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("hello", "hallo")).isEqualTo(1);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -144,7 +137,7 @@ public class LevenshteinDistanceTest {
 
     @Test
     public void testGetThresholdDirectlyAfterObjectInstantiation() {
-        assertNull(new LevenshteinDistance().getThreshold());
+        assertThat(new LevenshteinDistance().getThreshold()).isNull();
     }
 
 }

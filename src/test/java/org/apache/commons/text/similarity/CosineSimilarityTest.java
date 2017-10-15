@@ -21,7 +21,8 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 
 public class CosineSimilarityTest {
@@ -34,7 +35,7 @@ public class CosineSimilarityTest {
         hashMap.put("3J/$3.L", integer);
         final Map<CharSequence, Integer> hashMapTwo = new HashMap<>();
 
-        assertEquals(0.0, cosineSimilarity.cosineSimilarity(hashMap, hashMapTwo), 0.01);
+        assertThat(cosineSimilarity.cosineSimilarity(hashMap, hashMapTwo)).isEqualTo(0.0, within(0.01));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -55,7 +56,7 @@ public class CosineSimilarityTest {
         final CosineSimilarity cosineSimilarity = new CosineSimilarity();
         final Map<CharSequence, Integer> hashMap = new HashMap<>();
 
-        assertEquals(0.0, cosineSimilarity.cosineSimilarity(hashMap, hashMap), 0.01);
+        assertThat(cosineSimilarity.cosineSimilarity(hashMap, hashMap)).isEqualTo(0.0, within(0.01));
     }
 
 }

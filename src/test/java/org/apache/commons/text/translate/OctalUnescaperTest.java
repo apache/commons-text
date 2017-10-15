@@ -19,7 +19,7 @@ package org.apache.commons.text.translate;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link OctalUnescaper}.
@@ -32,51 +32,52 @@ public class OctalUnescaperTest {
 
         String input = "\\45";
         String result = oue.translate(input);
-        assertEquals("Failed to unescape octal characters via the between method", "\45", result);
+        assertThat(result).as("Failed to unescape octal characters via the between method").isEqualTo("\45");
 
         input = "\\377";
         result = oue.translate(input);
-        assertEquals("Failed to unescape octal characters via the between method", "\377", result);
+        assertThat(result).as("Failed to unescape octal characters via the between method").isEqualTo("\377");
 
         input = "\\377 and";
         result = oue.translate(input);
-        assertEquals("Failed to unescape octal characters via the between method", "\377 and", result);
+        assertThat(result).as("Failed to unescape octal characters via the between method").isEqualTo("\377 and");
 
         input = "\\378 and";
         result = oue.translate(input);
-        assertEquals("Failed to unescape octal characters via the between method", "\37" + "8 and", result);
+        assertThat(result).as("Failed to unescape octal characters via the between method").isEqualTo("\37" + "8 and");
 
         input = "\\378";
         result = oue.translate(input);
-        assertEquals("Failed to unescape octal characters via the between method", "\37" + "8", result);
+        assertThat(result).as("Failed to unescape octal characters via the between method").isEqualTo("\37" + "8");
 
         input = "\\1";
         result = oue.translate(input);
-        assertEquals("Failed to unescape octal characters via the between method", "\1", result);
+        assertThat(result).as("Failed to unescape octal characters via the between method").isEqualTo("\1");
 
         input = "\\036";
         result = oue.translate(input);
-        assertEquals("Failed to unescape octal characters via the between method", "\036", result);
+        assertThat(result).as("Failed to unescape octal characters via the between method").isEqualTo("\036");
 
         input = "\\0365";
         result = oue.translate(input);
-        assertEquals("Failed to unescape octal characters via the between method", "\036" + "5", result);
+        assertThat(result).as("Failed to unescape octal characters via the between method").isEqualTo("\036" + "5");
 
         input = "\\003";
         result = oue.translate(input);
-        assertEquals("Failed to unescape octal characters via the between method", "\003", result);
+        assertThat(result).as("Failed to unescape octal characters via the between method").isEqualTo("\003");
 
         input = "\\0003";
         result = oue.translate(input);
-        assertEquals("Failed to unescape octal characters via the between method", "\000" + "3", result);
+        assertThat(result).as("Failed to unescape octal characters via the between method").isEqualTo("\000" + "3");
 
         input = "\\279";
         result = oue.translate(input);
-        assertEquals("Failed to unescape octal characters via the between method", "\279", result);
+        assertThat(result).as("Failed to unescape octal characters via the between method").isEqualTo("\279");
 
         input = "\\999";
         result = oue.translate(input);
-        assertEquals("Failed to ignore an out of range octal character via the between method", "\\999", result);
+        assertThat(result).as("Failed to ignore an out of range octal character via the between method")
+            .isEqualTo("\\999");
     }
 
 }

@@ -17,7 +17,7 @@
 
 package org.apache.commons.text.similarity;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -34,7 +34,7 @@ public class SimilarityScoreFromTest {
         final SimilarityScoreFrom<Integer> similarityScoreFrom =
                 new SimilarityScoreFrom<>(longestCommonSubsequence, "asdf");
 
-        assertEquals(1, (int) similarityScoreFrom.apply("s"));
+        assertThat(similarityScoreFrom.apply("s")).isEqualTo(1);
     }
 
 }

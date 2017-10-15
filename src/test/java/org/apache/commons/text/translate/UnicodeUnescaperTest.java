@@ -19,8 +19,8 @@ package org.apache.commons.text.translate;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 /**
  * Unit tests for {@link UnicodeEscaper}.
@@ -33,7 +33,7 @@ public class UnicodeUnescaperTest {
         final UnicodeUnescaper uu = new UnicodeUnescaper();
 
         final String input = "\\u+0047";
-        assertEquals("Failed to unescape Unicode characters with 'u+' notation", "G", uu.translate(input));
+        assertThat(uu.translate(input)).as("Failed to unescape Unicode characters with 'u+' notation").isEqualTo("G");
     }
 
     @Test
@@ -42,7 +42,7 @@ public class UnicodeUnescaperTest {
 
         final String input = "\\uuuuuuuu0047";
         final String result = uu.translate(input);
-        assertEquals("Failed to unescape Unicode characters with many 'u' characters", "G", result);
+        assertThat(result).as("Failed to unescape Unicode characters with many 'u' characters").isEqualTo("G");
     }
 
     @Test
