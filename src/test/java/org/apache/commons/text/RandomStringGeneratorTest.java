@@ -19,11 +19,9 @@ package org.apache.commons.text;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.fail;
 
 import org.junit.Test;
 
@@ -73,7 +71,7 @@ public class RandomStringGeneratorTest {
         final int length = 99;
         final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
         final String str = generator.generate(length);
-        assertEquals(length, codePointLength(str));
+        assertThat(codePointLength(str)).isEqualTo(length);
     }
 
     @Test
@@ -107,7 +105,7 @@ public class RandomStringGeneratorTest {
         int i = 0;
         do {
             final int codePoint = str.codePointAt(i);
-            assertTrue(codePoint >= minimumCodePoint && codePoint <= maximumCodePoint);
+            assertThat(codePoint >= minimumCodePoint && codePoint <= maximumCodePoint).isTrue();
             i += Character.charCount(codePoint);
         } while (i < str.length());
     }
@@ -131,7 +129,7 @@ public class RandomStringGeneratorTest {
             int i = 0;
             do {
                 final int codePoint = str.codePointAt(i);
-                assertTrue(codePoint >= minimumCodePoint && codePoint <= maximumCodePoint);
+                assertThat(codePoint >= minimumCodePoint && codePoint <= maximumCodePoint).isTrue();
                 i += Character.charCount(codePoint);
             } while (i < str.length());
         }
@@ -147,16 +145,16 @@ public class RandomStringGeneratorTest {
             final char c = str.charAt(i);
 
             if (Character.isLowSurrogate(c)) {
-                assertTrue(Character.isHighSurrogate(lastChar));
+                assertThat(Character.isHighSurrogate(lastChar)).isTrue();
             }
 
             if (Character.isHighSurrogate(lastChar)) {
-                assertTrue(Character.isLowSurrogate(c));
+                assertThat(Character.isLowSurrogate(c)).isTrue();
             }
 
             if (Character.isHighSurrogate(c)) {
                 // test this isn't the last character in the string
-                assertTrue(i + 1 < str.length());
+                assertThat(i + 1 < str.length()).isTrue();
             }
 
             lastChar = c;
@@ -176,7 +174,7 @@ public class RandomStringGeneratorTest {
 
         final String str = new RandomStringGenerator.Builder().usingRandom(testRandom).build().generate(10);
         for (final char c : str.toCharArray()) {
-            assertEquals(testChar, c);
+            assertThat(c).isEqualTo(testChar);
         }
     }
 
@@ -198,7 +196,7 @@ public class RandomStringGeneratorTest {
             }
         }
 
-        assertTrue(aFound && bFound);
+        assertThat(aFound && bFound).isTrue();
     }
 
     @Test
@@ -213,7 +211,7 @@ public class RandomStringGeneratorTest {
         int i = 0;
         do {
             final int codePoint = str.codePointAt(i);
-            assertFalse(Character.getType(codePoint) == Character.PRIVATE_USE);
+            assertThat(Character.getType(codePoint) == Character.PRIVATE_USE).isFalse();
             i += Character.charCount(codePoint);
         } while (i < str.length());
     }
@@ -248,14 +246,14 @@ public class RandomStringGeneratorTest {
         final String str = builder.filteredBy(B_FILTER).build().generate(100);
 
         for (final char c : str.toCharArray()) {
-            assertTrue(c == 'b');
+            assertThat(c == 'b').isTrue();
         }
     }
 
     @Test
     public void testZeroLength() {
         final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
-        assertEquals("", generator.generate(0));
+        assertThat(generator.generate(0)).isEqualTo("");
     }
 
     @Test
@@ -267,7 +265,7 @@ public class RandomStringGeneratorTest {
         final String randomText = generator.generate(5);
 
         for (final char c : randomText.toCharArray()) {
-            assertTrue(str.indexOf(c) != -1);
+            assertThat(str.indexOf(c) != -1).isTrue();
         }
     }
 
@@ -277,7 +275,7 @@ public class RandomStringGeneratorTest {
         final RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFrom('a', 'b', 'c').build();
         final String randomText = generator.generate(5);
         for (final char c : randomText.toCharArray()) {
-            assertTrue(str.indexOf(c) != -1);
+            assertThat(str.indexOf(c) != -1).isTrue();
         }
     }
 

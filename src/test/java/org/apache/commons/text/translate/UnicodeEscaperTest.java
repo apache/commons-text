@@ -19,7 +19,7 @@ package org.apache.commons.text.translate;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link UnicodeEscaper}.
@@ -32,7 +32,8 @@ public class UnicodeEscaperTest  {
 
         final String input = "ADFGZ";
         final String result = ue.translate(input);
-        assertEquals("Failed to escape Unicode characters via the below method", "\\u0041\\u0044FGZ", result);
+        assertThat(result).as("Failed to escape Unicode characters via the below method")
+            .isEqualTo("\\u0041\\u0044FGZ");
     }
 
     @Test
@@ -41,7 +42,8 @@ public class UnicodeEscaperTest  {
 
         final String input = "ADFGZ";
         final String result = ue.translate(input);
-        assertEquals("Failed to escape Unicode characters via the between method", "AD\\u0046\\u0047Z", result);
+        assertThat(result).as("Failed to escape Unicode characters via the between method")
+            .isEqualTo("AD\\u0046\\u0047Z");
     }
 
     @Test
@@ -50,6 +52,7 @@ public class UnicodeEscaperTest  {
 
         final String input = "ADFGZ";
         final String result = ue.translate(input);
-        assertEquals("Failed to escape Unicode characters via the above method", "ADF\\u0047\\u005A", result);
+        assertThat(result).as("Failed to escape Unicode characters via the above method")
+            .isEqualTo("ADF\\u0047\\u005A");
     }
 }

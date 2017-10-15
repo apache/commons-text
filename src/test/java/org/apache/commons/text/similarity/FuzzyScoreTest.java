@@ -16,8 +16,7 @@
  */
 package org.apache.commons.text.similarity;
 
-import static junit.framework.TestCase.assertSame;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Locale;
 
@@ -32,14 +31,13 @@ public class FuzzyScoreTest {
 
     @Test
     public void testGetFuzzyScore() throws Exception {
-        assertEquals(0, (int) ENGLISH_SCORE.fuzzyScore("", ""));
-        assertEquals(0, (int) ENGLISH_SCORE.fuzzyScore("Workshop", "b"));
-        assertEquals(1, (int) ENGLISH_SCORE.fuzzyScore("Room", "o"));
-        assertEquals(1, (int) ENGLISH_SCORE.fuzzyScore("Workshop", "w"));
-        assertEquals(2, (int) ENGLISH_SCORE.fuzzyScore("Workshop", "ws"));
-        assertEquals(4, (int) ENGLISH_SCORE.fuzzyScore("Workshop", "wo"));
-        assertEquals(3, (int) ENGLISH_SCORE.fuzzyScore(
-            "Apache Software Foundation", "asf"));
+        assertThat(ENGLISH_SCORE.fuzzyScore("", "")).isEqualTo(0);
+        assertThat(ENGLISH_SCORE.fuzzyScore("Workshop", "b")).isEqualTo(0);
+        assertThat(ENGLISH_SCORE.fuzzyScore("Room", "o")).isEqualTo(1);
+        assertThat(ENGLISH_SCORE.fuzzyScore("Workshop", "w")).isEqualTo(1);
+        assertThat(ENGLISH_SCORE.fuzzyScore("Workshop", "ws")).isEqualTo(2);
+        assertThat(ENGLISH_SCORE.fuzzyScore("Workshop", "wo")).isEqualTo(4);
+        assertThat(ENGLISH_SCORE.fuzzyScore("Apache Software Foundation", "asf")).isEqualTo(3);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -68,7 +66,7 @@ public class FuzzyScoreTest {
         final FuzzyScore fuzzyScore = new FuzzyScore(locale);
         final Locale localeTwo = fuzzyScore.getLocale();
 
-        assertSame(locale, localeTwo);
+        assertThat(localeTwo).isSameAs(locale);
     }
 
 }

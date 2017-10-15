@@ -16,10 +16,9 @@
  */
 package org.apache.commons.text;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for {@link CharacterPredicates}.
@@ -28,87 +27,87 @@ public class CharacterPredicatesTest {
 
     @Test
     public void testLetters() throws Exception {
-        assertTrue(CharacterPredicates.LETTERS.test('a'));
-        assertTrue(CharacterPredicates.LETTERS.test('Z'));
+        assertThat(CharacterPredicates.LETTERS.test('a')).isTrue();
+        assertThat(CharacterPredicates.LETTERS.test('Z')).isTrue();
 
-        assertFalse(CharacterPredicates.LETTERS.test('1'));
-        assertFalse(CharacterPredicates.LETTERS.test('?'));
-        assertFalse(CharacterPredicates.LETTERS.test('@'));
+        assertThat(CharacterPredicates.LETTERS.test('1')).isFalse();
+        assertThat(CharacterPredicates.LETTERS.test('?')).isFalse();
+        assertThat(CharacterPredicates.LETTERS.test('@')).isFalse();
     }
 
     @Test
     public void testDigits() {
-        assertTrue(CharacterPredicates.DIGITS.test('0'));
-        assertTrue(CharacterPredicates.DIGITS.test('9'));
+        assertThat(CharacterPredicates.DIGITS.test('0')).isTrue();
+        assertThat(CharacterPredicates.DIGITS.test('9')).isTrue();
 
-        assertFalse(CharacterPredicates.DIGITS.test('-'));
-        assertFalse(CharacterPredicates.DIGITS.test('.'));
-        assertFalse(CharacterPredicates.DIGITS.test('L'));
+        assertThat(CharacterPredicates.DIGITS.test('-')).isFalse();
+        assertThat(CharacterPredicates.DIGITS.test('.')).isFalse();
+        assertThat(CharacterPredicates.DIGITS.test('L')).isFalse();
     }
 
     @Test
     public void testArabicNumerals() {
-        assertTrue(CharacterPredicates.ARABIC_NUMERALS.test('0'));
-        assertTrue(CharacterPredicates.ARABIC_NUMERALS.test('1'));
-        assertTrue(CharacterPredicates.ARABIC_NUMERALS.test('9'));
+        assertThat(CharacterPredicates.ARABIC_NUMERALS.test('0')).isTrue();
+        assertThat(CharacterPredicates.ARABIC_NUMERALS.test('1')).isTrue();
+        assertThat(CharacterPredicates.ARABIC_NUMERALS.test('9')).isTrue();
 
-        assertFalse(CharacterPredicates.ARABIC_NUMERALS.test('/'));
-        assertFalse(CharacterPredicates.ARABIC_NUMERALS.test(':'));
-        assertFalse(CharacterPredicates.ARABIC_NUMERALS.test('a'));
+        assertThat(CharacterPredicates.ARABIC_NUMERALS.test('/')).isFalse();
+        assertThat(CharacterPredicates.ARABIC_NUMERALS.test(':')).isFalse();
+        assertThat(CharacterPredicates.ARABIC_NUMERALS.test('a')).isFalse();
     }
 
     @Test
     public void testAsciiLowercaseLetters() {
-        assertTrue(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('a'));
-        assertTrue(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('z'));
+        assertThat(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('a')).isTrue();
+        assertThat(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('z')).isTrue();
 
-        assertFalse(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('9'));
-        assertFalse(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('A'));
-        assertFalse(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('Z'));
-        assertFalse(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('`'));
-        assertFalse(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('{'));
+        assertThat(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('9')).isFalse();
+        assertThat(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('A')).isFalse();
+        assertThat(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('Z')).isFalse();
+        assertThat(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('`')).isFalse();
+        assertThat(CharacterPredicates.ASCII_LOWERCASE_LETTERS.test('{')).isFalse();
     }
 
     @Test
     public void testAsciiUppercaseLetters() {
-        assertTrue(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('A'));
-        assertTrue(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('Z'));
+        assertThat(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('A')).isTrue();
+        assertThat(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('Z')).isTrue();
 
-        assertFalse(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('9'));
-        assertFalse(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('@'));
-        assertFalse(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('['));
-        assertFalse(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('a'));
-        assertFalse(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('z'));
+        assertThat(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('9')).isFalse();
+        assertThat(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('@')).isFalse();
+        assertThat(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('[')).isFalse();
+        assertThat(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('a')).isFalse();
+        assertThat(CharacterPredicates.ASCII_UPPERCASE_LETTERS.test('z')).isFalse();
     }
 
     @Test
     public void testAsciiLetters() {
-        assertTrue(CharacterPredicates.ASCII_LETTERS.test('a'));
-        assertTrue(CharacterPredicates.ASCII_LETTERS.test('z'));
-        assertTrue(CharacterPredicates.ASCII_LETTERS.test('A'));
-        assertTrue(CharacterPredicates.ASCII_LETTERS.test('Z'));
+        assertThat(CharacterPredicates.ASCII_LETTERS.test('a')).isTrue();
+        assertThat(CharacterPredicates.ASCII_LETTERS.test('z')).isTrue();
+        assertThat(CharacterPredicates.ASCII_LETTERS.test('A')).isTrue();
+        assertThat(CharacterPredicates.ASCII_LETTERS.test('Z')).isTrue();
 
-        assertFalse(CharacterPredicates.ASCII_LETTERS.test('9'));
-        assertFalse(CharacterPredicates.ASCII_LETTERS.test('`'));
-        assertFalse(CharacterPredicates.ASCII_LETTERS.test('{'));
-        assertFalse(CharacterPredicates.ASCII_LETTERS.test('@'));
-        assertFalse(CharacterPredicates.ASCII_LETTERS.test('['));
+        assertThat(CharacterPredicates.ASCII_LETTERS.test('9')).isFalse();
+        assertThat(CharacterPredicates.ASCII_LETTERS.test('`')).isFalse();
+        assertThat(CharacterPredicates.ASCII_LETTERS.test('{')).isFalse();
+        assertThat(CharacterPredicates.ASCII_LETTERS.test('@')).isFalse();
+        assertThat(CharacterPredicates.ASCII_LETTERS.test('[')).isFalse();
     }
 
     @Test
     public void testAsciiAlphaNumerals() {
-        assertTrue(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('a'));
-        assertTrue(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('z'));
-        assertTrue(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('A'));
-        assertTrue(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('Z'));
-        assertTrue(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('0'));
-        assertTrue(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('9'));
+        assertThat(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('a')).isTrue();
+        assertThat(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('z')).isTrue();
+        assertThat(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('A')).isTrue();
+        assertThat(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('Z')).isTrue();
+        assertThat(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('0')).isTrue();
+        assertThat(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('9')).isTrue();
 
-        assertFalse(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('`'));
-        assertFalse(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('{'));
-        assertFalse(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('@'));
-        assertFalse(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('['));
-        assertFalse(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('/'));
-        assertFalse(CharacterPredicates.ASCII_ALPHA_NUMERALS.test(':'));
+        assertThat(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('`')).isFalse();
+        assertThat(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('{')).isFalse();
+        assertThat(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('@')).isFalse();
+        assertThat(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('[')).isFalse();
+        assertThat(CharacterPredicates.ASCII_ALPHA_NUMERALS.test('/')).isFalse();
+        assertThat(CharacterPredicates.ASCII_ALPHA_NUMERALS.test(':')).isFalse();
     }
 }

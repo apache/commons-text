@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for {@link SinglePassTranslator}
@@ -45,9 +45,9 @@ public class SinglePassTranslatorTest {
 
     @Test
     public void codePointsAreReturned() throws Exception {
-        assertEquals(0, dummyTranslator.translate("", 0, out));
-        assertEquals(3, dummyTranslator.translate("abc", 0, out));
-        assertEquals(7, dummyTranslator.translate("abcdefg", 0, out));
+        assertThat(dummyTranslator.translate("", 0, out)).isEqualTo(0);
+        assertThat(dummyTranslator.translate("abc", 0, out)).isEqualTo(3);
+        assertThat(dummyTranslator.translate("abcdefg", 0, out)).isEqualTo(7);
     }
 
     @Test(expected = IllegalArgumentException.class)

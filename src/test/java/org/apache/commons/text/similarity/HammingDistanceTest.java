@@ -16,7 +16,7 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,14 +35,14 @@ public class HammingDistanceTest {
 
     @Test
     public void testHammingDistance() {
-        assertEquals(Integer.valueOf(0), distance.apply("", ""));
-        assertEquals(Integer.valueOf(0), distance.apply("pappa", "pappa"));
-        assertEquals(Integer.valueOf(1), distance.apply("papaa", "pappa"));
-        assertEquals(Integer.valueOf(3), distance.apply("karolin", "kathrin"));
-        assertEquals(Integer.valueOf(3), distance.apply("karolin", "kerstin"));
-        assertEquals(Integer.valueOf(2), distance.apply("1011101", "1001001"));
-        assertEquals(Integer.valueOf(3), distance.apply("2173896", "2233796"));
-        assertEquals(Integer.valueOf(2), distance.apply("ATCG", "ACCC"));
+        assertThat(distance.apply("", "")).isEqualTo(0);
+        assertThat(distance.apply("pappa", "pappa")).isEqualTo(0);
+        assertThat(distance.apply("papaa", "pappa")).isEqualTo(1);
+        assertThat(distance.apply("karolin", "kathrin")).isEqualTo(3);
+        assertThat(distance.apply("karolin", "kerstin")).isEqualTo(3);
+        assertThat(distance.apply("1011101", "1001001")).isEqualTo(2);
+        assertThat(distance.apply("2173896", "2233796")).isEqualTo(3);
+        assertThat(distance.apply("ATCG", "ACCC")).isEqualTo(2);
     }
 
     @Test(expected = IllegalArgumentException.class)

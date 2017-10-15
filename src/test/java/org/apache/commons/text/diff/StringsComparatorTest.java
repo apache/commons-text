@@ -22,7 +22,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for the StringsComparator.
@@ -37,7 +37,7 @@ public class StringsComparatorTest {
     public void testLength() {
         for (int i = 0; i < before.size(); ++i) {
             final StringsComparator comparator =  new StringsComparator(before.get(i), after.get(i));
-            assertEquals(length[i], comparator.getScript().getModifications());
+            assertThat(comparator.getScript().getModifications()).isEqualTo(length[i]);
         }
     }
 
@@ -45,7 +45,7 @@ public class StringsComparatorTest {
     public void testLongestCommonSubsequence() {
         for (int i = 0; i < before.size(); ++i) {
             final StringsComparator comparator =  new StringsComparator(before.get(i), after.get(i));
-            assertEquals(lcs[i], comparator.getScript().getLCSLength());
+            assertThat(comparator.getScript().getLCSLength()).isEqualTo(lcs[i]);
         }
     }
 
@@ -54,7 +54,7 @@ public class StringsComparatorTest {
         for (int i = 0; i < before.size(); ++i) {
             final ExecutionVisitor<Character> ev = new ExecutionVisitor<>();
             new StringsComparator(before.get(i), after.get(i)).getScript().visit(ev);
-            assertEquals(after.get(i), ev.getString());
+            assertThat(ev.getString()).isEqualTo(after.get(i));
         }
     }
 
