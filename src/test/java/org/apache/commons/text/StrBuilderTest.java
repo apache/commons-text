@@ -176,7 +176,7 @@ public class StrBuilderTest {
     @Test
     public void testGetSetNewLineText() {
         final StrBuilder sb = new StrBuilder();
-        assertEquals(null, sb.getNewLineText());
+        assertNull(sb.getNewLineText());
 
         sb.setNewLineText("#");
         assertEquals("#", sb.getNewLineText());
@@ -185,26 +185,26 @@ public class StrBuilderTest {
         assertEquals("", sb.getNewLineText());
 
         sb.setNewLineText((String) null);
-        assertEquals(null, sb.getNewLineText());
+        assertNull(sb.getNewLineText());
     }
 
     //-----------------------------------------------------------------------
     @Test
     public void testGetSetNullText() {
         final StrBuilder sb = new StrBuilder();
-        assertEquals(null, sb.getNullText());
+        assertNull(sb.getNullText());
 
         sb.setNullText("null");
         assertEquals("null", sb.getNullText());
 
         sb.setNullText("");
-        assertEquals(null, sb.getNullText());
+        assertNull(sb.getNullText());
 
         sb.setNullText("NULL");
         assertEquals("NULL", sb.getNullText());
 
         sb.setNullText((String) null);
-        assertEquals(null, sb.getNullText());
+        assertNull(sb.getNullText());
     }
 
     //-----------------------------------------------------------------------

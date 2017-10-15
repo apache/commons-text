@@ -24,6 +24,7 @@ import java.lang.reflect.Modifier;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -45,7 +46,7 @@ public class CaseUtilsTest {
     //------------------------------------------------------------------------
     @Test
     public void testToCamelCase() throws Exception {
-        assertEquals(null, CaseUtils.toCamelCase(null, false,null));
+        assertNull(CaseUtils.toCamelCase(null, false,null));
         assertEquals("", CaseUtils.toCamelCase("", true, null));
         assertEquals("  ", CaseUtils.toCamelCase("  ", false, null));
         assertEquals("aBC@def", CaseUtils.toCamelCase("a  b  c  @def", false, null));

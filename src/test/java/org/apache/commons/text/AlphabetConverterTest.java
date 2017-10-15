@@ -183,7 +183,7 @@ public class AlphabetConverterTest {
         Assert.assertEquals(ac, reconstructedAlphabetConverter);
         Assert.assertEquals(ac.hashCode(), reconstructedAlphabetConverter.hashCode());
         Assert.assertEquals(ac.toString(), reconstructedAlphabetConverter.toString());
-        Assert.assertEquals(null, ac.encode(null)); // test null conversions
+        Assert.assertNull(ac.encode(null)); // test null conversions
         Assert.assertEquals("", ac.encode("")); // test empty conversion
 
         // test all the trial strings
