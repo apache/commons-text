@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,9 +16,9 @@
  */
 package org.apache.commons.text;
 
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.text.DateFormat;
 import java.text.FieldPosition;
@@ -33,6 +33,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test case for {@link ExtendedMessageFormat}.
@@ -247,7 +250,8 @@ public class ExtendedMessageFormatTest {
         cal.set(2007, Calendar.JANUARY, 23);
         final Object[] args = new Object[] {cal.getTime()};
         final Locale[] availableLocales = DateFormat.getAvailableLocales();
-        final Map<String, ? extends FormatFactory> dateRegistry = Collections.singletonMap("date", new OverrideShortDateFormatFactory());
+        final Map<String, ? extends FormatFactory> dateRegistry =
+                Collections.singletonMap("date", new OverrideShortDateFormatFactory());
 
         //check the non-overridden builtins:
         checkBuiltInFormat("1: {0,date}", dateRegistry,          args, availableLocales);
@@ -286,8 +290,10 @@ public class ExtendedMessageFormatTest {
      */
     @Test
     public void testEqualsHashcode() {
-        final Map<String, ? extends FormatFactory> fmtRegistry = Collections.singletonMap("testfmt", new LowerCaseFormatFactory());
-        final Map<String, ? extends FormatFactory> otherRegitry = Collections.singletonMap("testfmt", new UpperCaseFormatFactory());
+        final Map<String, ? extends FormatFactory> fmtRegistry =
+                Collections.singletonMap("testfmt", new LowerCaseFormatFactory());
+        final Map<String, ? extends FormatFactory> otherRegitry =
+                Collections.singletonMap("testfmt", new UpperCaseFormatFactory());
 
         final String pattern = "Pattern: {0,testfmt}";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, Locale.US, fmtRegistry);
@@ -343,7 +349,8 @@ public class ExtendedMessageFormatTest {
      * @param args MessageFormat arguments
      * @param locales to test
      */
-    private void checkBuiltInFormat(final String pattern, final Map<String, ?> fmtRegistry, final Object[] args, final Locale[] locales) {
+    private void checkBuiltInFormat(final String pattern, final Map<String, ?> fmtRegistry, final Object[] args,
+            final Locale[] locales) {
         checkBuiltInFormat(pattern, fmtRegistry, args, (Locale) null);
         for (final Locale locale : locales) {
             checkBuiltInFormat(pattern, fmtRegistry, args, locale);
@@ -358,7 +365,8 @@ public class ExtendedMessageFormatTest {
      * @param args Object[]
      * @param locale Locale
      */
-    private void checkBuiltInFormat(final String pattern, final Map<String, ?> registryUnused, final Object[] args, final Locale locale) {
+    private void checkBuiltInFormat(final String pattern, final Map<String, ?> registryUnused, final Object[] args,
+            final Locale locale) {
         final StringBuilder buffer = new StringBuilder();
         buffer.append("Pattern=[");
         buffer.append(pattern);
@@ -443,9 +451,11 @@ public class ExtendedMessageFormatTest {
 
     @Test
     public void testCreatesExtendedMessageFormatTakingString() {
-        final ExtendedMessageFormat extendedMessageFormat = new ExtendedMessageFormat("Unterminated format element at position ");
+        final ExtendedMessageFormat extendedMessageFormat =
+                new ExtendedMessageFormat("Unterminated format element at position ");
         final Map<String, FormatFactory> map = new HashMap<>();
-        final ExtendedMessageFormat extendedMessageFormatTwo = new ExtendedMessageFormat("Unterminated format element at position ", map);
+        final ExtendedMessageFormat extendedMessageFormatTwo =
+                new ExtendedMessageFormat("Unterminated format element at position ", map);
 
         assertEquals("Unterminated format element at position ", extendedMessageFormatTwo.toPattern());
         assertFalse(extendedMessageFormat.equals(extendedMessageFormatTwo));
@@ -461,10 +471,13 @@ public class ExtendedMessageFormatTest {
 
         @Override
         public StringBuffer format(final Object obj, final StringBuffer toAppendTo, final FieldPosition pos) {
-            return toAppendTo.append(((String)obj).toLowerCase(Locale.ROOT));
+            return toAppendTo.append(((String) obj).toLowerCase(Locale.ROOT));
         }
+
         @Override
-        public Object parseObject(final String source, final ParsePosition pos) {throw new UnsupportedOperationException();}
+        public Object parseObject(final String source, final ParsePosition pos) {
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**
@@ -475,10 +488,13 @@ public class ExtendedMessageFormatTest {
 
         @Override
         public StringBuffer format(final Object obj, final StringBuffer toAppendTo, final FieldPosition pos) {
-            return toAppendTo.append(((String)obj).toUpperCase(Locale.ROOT));
+            return toAppendTo.append(((String) obj).toUpperCase(Locale.ROOT));
         }
+
         @Override
-        public Object parseObject(final String source, final ParsePosition pos) {throw new UnsupportedOperationException();}
+        public Object parseObject(final String source, final ParsePosition pos) {
+            throw new UnsupportedOperationException();
+        }
     }
 
 
@@ -522,11 +538,10 @@ public class ExtendedMessageFormatTest {
     private static class OtherExtendedMessageFormat extends ExtendedMessageFormat {
         private static final long serialVersionUID = 1L;
 
-        public OtherExtendedMessageFormat(final String pattern, final Locale locale,
+        OtherExtendedMessageFormat(final String pattern, final Locale locale,
                 final Map<String, ? extends FormatFactory> registry) {
             super(pattern, locale, registry);
         }
-
     }
 
 }

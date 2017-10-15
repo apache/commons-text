@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,14 +17,16 @@
 
 package org.apache.commons.text;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+
+import org.junit.Test;
 
 /**
  * Unit tests for {@link StrBuilder}.
@@ -48,7 +50,7 @@ public class StrBuilderAppendInsertTest {
         StrBuilder sb = new StrBuilder("---");
         sb.appendNewLine().append("+++");
         assertEquals("---" + SEP + "+++", sb.toString());
-        
+
         sb = new StrBuilder("---");
         sb.setNewLineText("#").appendNewLine().setNewLineText(null).appendNewLine();
         assertEquals("---#" + SEP, sb.toString());
@@ -114,7 +116,7 @@ public class StrBuilderAppendInsertTest {
         sb.append(new StringBuilder("bld")); // Check it supports StringBuilder
         assertEquals("foobazyesSeqbld", sb.toString());
     }
-    
+
     //-----------------------------------------------------------------------
     @Test
     public void testAppend_StringBuilder() {
@@ -210,10 +212,10 @@ public class StrBuilderAppendInsertTest {
         sb.append("abcbardef", 3, 3);
         assertEquals("foobar", sb.toString());
 
-        sb.append( (CharSequence)"abcbardef", 4, 3);
+        sb.append((CharSequence) "abcbardef", 4, 3);
         assertEquals("foobarard", sb.toString());
     }
-    
+
     //-----------------------------------------------------------------------
     @Test
     public void testAppend_StringBuilder_int_int() {
@@ -273,7 +275,7 @@ public class StrBuilderAppendInsertTest {
         sb.append(new StringBuilder("abcbardef"), 3, 3);
         assertEquals("foobar", sb.toString());
 
-        sb.append( new StringBuilder("abcbardef"), 4, 3);
+        sb.append(new StringBuilder("abcbardef"), 4, 3);
         assertEquals("foobarard", sb.toString());
     }
 
@@ -823,7 +825,7 @@ public class StrBuilderAppendInsertTest {
         final StrBuilder sb = new StrBuilder();
         sb.appendln(true);
         assertEquals("true" + SEP, sb.toString());
-        
+
         sb.clear();
         sb.appendln(false);
         assertEquals("false" + SEP, sb.toString());
@@ -835,15 +837,15 @@ public class StrBuilderAppendInsertTest {
         final StrBuilder sb = new StrBuilder();
         sb.appendln(0);
         assertEquals("0" + SEP, sb.toString());
-        
+
         sb.clear();
         sb.appendln(1L);
         assertEquals("1" + SEP, sb.toString());
-        
+
         sb.clear();
         sb.appendln(2.3f);
         assertEquals("2.3" + SEP, sb.toString());
-        
+
         sb.clear();
         sb.appendln(4.5d);
         assertEquals("4.5" + SEP, sb.toString());
@@ -1198,7 +1200,7 @@ public class StrBuilderAppendInsertTest {
         sb.appendSeparator(",");
         assertEquals("foo,", sb.toString());
     }
-    
+
     //-----------------------------------------------------------------------
     @Test
     public void testAppendSeparator_String_String() {
@@ -1210,11 +1212,11 @@ public class StrBuilderAppendInsertTest {
         assertEquals("", sb.toString());
         sb.appendSeparator(standardSeparator, null);
         assertEquals("", sb.toString());
-        sb.appendSeparator(standardSeparator, startSeparator); 
+        sb.appendSeparator(standardSeparator, startSeparator);
         assertEquals(startSeparator, sb.toString());
-        sb.appendSeparator(null, null); 
+        sb.appendSeparator(null, null);
         assertEquals(startSeparator, sb.toString());
-        sb.appendSeparator(null, startSeparator); 
+        sb.appendSeparator(null, startSeparator);
         assertEquals(startSeparator, sb.toString());
         sb.append(foo);
         assertEquals(startSeparator + foo, sb.toString());
@@ -1257,7 +1259,7 @@ public class StrBuilderAppendInsertTest {
         assertEquals("foo", sb.toString());
         sb.appendSeparator(",", 1);
         assertEquals("foo,", sb.toString());
-        
+
         sb.appendSeparator(",", -1);  // no effect
         assertEquals("foo,", sb.toString());
     }
@@ -1272,7 +1274,7 @@ public class StrBuilderAppendInsertTest {
         assertEquals("foo", sb.toString());
         sb.appendSeparator(',', 1);
         assertEquals("foo,", sb.toString());
-        
+
         sb.appendSeparator(',', -1);  // no effect
         assertEquals("foo,", sb.toString());
     }

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,8 @@ public class EntityArraysTest  {
     @Test
     public void testForDuplicatedDeclaredMapKeys() throws Exception {
         final String packageDirectory = EntityArraysTest.class.getPackage().getName().replace(".", "/");
-        try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/" + packageDirectory + "/EntityArrays.java"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/" + packageDirectory
+                + "/EntityArrays.java"))) {
             String line;
             int mapDeclarationCounter = 0;
             while ((line = br.readLine()) != null) {
@@ -52,7 +53,8 @@ public class EntityArraysTest  {
                     final String mapVariableName = line.split("=")[0].trim();
                     @SuppressWarnings("unchecked") // This is test code
                     final
-                    Map<String,String> mapValue = (Map<String, String>)EntityArrays.class.getDeclaredField(mapVariableName).get(EntityArrays.class);
+                    Map<String, String> mapValue = (Map<String, String>)
+                        EntityArrays.class.getDeclaredField(mapVariableName).get(EntityArrays.class);
                     // Validate that we are not inserting into the same key twice in the map declaration. If this,
                     // indeed was the case the keySet().size() would be smaller than the number of put() statements
                     assertEquals(mapDeclarationCounter, mapValue.keySet().size());
@@ -126,5 +128,5 @@ public class EntityArraysTest  {
             }
         }
     }
-    
+
 }

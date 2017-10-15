@@ -107,6 +107,7 @@
           <headerLocation>${basedir}/license-header.txt</headerLocation>
           <suppressionsLocation>${basedir}/checkstyle-suppressions.xml</suppressionsLocation>
           <suppressionsFileExpression>${basedir}/checkstyle-suppressions.xml</suppressionsFileExpression>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
         </configuration>
         <dependencies>
           <dependency>
@@ -170,6 +171,7 @@
           <headerLocation>${basedir}/license-header.txt</headerLocation>
           <suppressionsLocation>${basedir}/checkstyle-suppressions.xml</suppressionsLocation>
           <suppressionsFileExpression>${basedir}/checkstyle-suppressions.xml</suppressionsFileExpression>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
         </configuration>
         <reportSets>
           <reportSet>

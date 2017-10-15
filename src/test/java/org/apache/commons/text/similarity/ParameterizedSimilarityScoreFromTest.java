@@ -52,11 +52,11 @@ public class ParameterizedSimilarityScoreFromTest<R> {
 
     @Parameters
     public static Iterable<Object[]> parameters() {
-        return Arrays.asList( new Object[][] {
+        return Arrays.asList(new Object[][] {
 
-                { new LevenshteinDistance(), "elephant", "hippo", 7 },
-                { new LevenshteinDistance(), "hippo", "elephant",  7 },
-                { new LevenshteinDistance(), "hippo", "zzzzzzzz", 8 },
+                {new LevenshteinDistance(), "elephant", "hippo", 7},
+                {new LevenshteinDistance(), "hippo", "elephant",  7},
+                {new LevenshteinDistance(), "hippo", "zzzzzzzz", 8},
 
                 {
                         new SimilarityScore<Boolean>() {
@@ -70,7 +70,7 @@ public class ParameterizedSimilarityScoreFromTest<R> {
                         false
                 }
 
-        } );
+        });
     }
 
     @Test

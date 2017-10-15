@@ -46,7 +46,7 @@ public class CaseUtilsTest {
     //------------------------------------------------------------------------
     @Test
     public void testToCamelCase() throws Exception {
-        assertNull(CaseUtils.toCamelCase(null, false,null));
+        assertNull(CaseUtils.toCamelCase(null, false, null));
         assertEquals("", CaseUtils.toCamelCase("", true, null));
         assertEquals("  ", CaseUtils.toCamelCase("  ", false, null));
         assertEquals("aBC@def", CaseUtils.toCamelCase("a  b  c  @def", false, null));
@@ -54,7 +54,7 @@ public class CaseUtilsTest {
         assertEquals("ABC@def", CaseUtils.toCamelCase("a b c @def", true, new char[]{'-'}));
         assertEquals("ABC@def", CaseUtils.toCamelCase("a b c @def", true, new char[]{'-'}));
 
-        final char[] chars = new char[] { '-', '+', ' ', '@' };
+        final char[] chars = {'-', '+', ' ', '@'};
         assertEquals("-+@ ", CaseUtils.toCamelCase("-+@ ", true, chars));
         assertEquals("toCamelCase", CaseUtils.toCamelCase("   to-CAMEL-cASE", false, chars));
         assertEquals("ToCamelCase", CaseUtils.toCamelCase("@@@@   to+CAMEL@cASE ", true, chars));
@@ -76,6 +76,8 @@ public class CaseUtilsTest {
         assertEquals("tocamelcase", CaseUtils.toCamelCase("tocamelcase", false));
 
         assertEquals("\uD800\uDF00\uD800\uDF02", CaseUtils.toCamelCase("\uD800\uDF00 \uD800\uDF02", true));
-        assertEquals("\uD800\uDF00\uD800\uDF01\uD800\uDF02\uD800\uDF03", CaseUtils.toCamelCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", true, new char[]{'\uD800', '\uDF14'}));
+        assertEquals("\uD800\uDF00\uD800\uDF01\uD800\uDF02\uD800\uDF03",
+                CaseUtils.toCamelCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", true,
+                        new char[]{'\uD800', '\uDF14'}));
     }
 }

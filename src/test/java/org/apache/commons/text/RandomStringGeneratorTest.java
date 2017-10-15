@@ -16,13 +16,16 @@
  */
 package org.apache.commons.text;
 
-import org.junit.Test;
-
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * Tests for {@link RandomStringGenerator}
@@ -97,7 +100,8 @@ public class RandomStringGeneratorTest {
         final int length = 5000;
         final int minimumCodePoint = 'a';
         final int maximumCodePoint = 'z';
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange(minimumCodePoint,maximumCodePoint).build();
+        final RandomStringGenerator generator = new RandomStringGenerator.Builder()
+                .withinRange(minimumCodePoint, maximumCodePoint).build();
         final String str = generator.generate(length);
 
         int i = 0;
@@ -111,18 +115,19 @@ public class RandomStringGeneratorTest {
     @Test
     public void testWithinMultipleRanges() {
         final int length = 5000;
-        final char [][] pairs = {{'a','z'},{'0','9'}};
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange(pairs).build();
+        final char[][] pairs = {{'a', 'z'}, {'0', '9'}};
+        final RandomStringGenerator generator = new RandomStringGenerator.Builder()
+                .withinRange(pairs).build();
         final String str = generator.generate(length);
 
         int minimumCodePoint = 0, maximumCodePoint = 0;
 
-        for (final char [] pair : pairs ) {
+        for (final char[] pair : pairs) {
             minimumCodePoint = Math.min(minimumCodePoint, pair[0]);
             maximumCodePoint = Math.max(maximumCodePoint, pair[1]);
         }
 
-        for (final char [] pair : pairs ) {
+        for (final char[] pair : pairs) {
             int i = 0;
             do {
                 final int codePoint = str.codePointAt(i);
@@ -131,8 +136,6 @@ public class RandomStringGeneratorTest {
             } while (i < str.length());
         }
     }
-
-
 
     @Test
     public void testNoLoneSurrogates() {
@@ -179,7 +182,7 @@ public class RandomStringGeneratorTest {
 
     @Test
     public void testMultipleFilters() {
-        final String str = new RandomStringGenerator.Builder().withinRange('a','d')
+        final String str = new RandomStringGenerator.Builder().withinRange('a', 'd')
                 .filteredBy(A_FILTER, B_FILTER).build().generate(5000);
 
         boolean aFound = false;
@@ -204,7 +207,7 @@ public class RandomStringGeneratorTest {
 
         // Request a string in an area of the Basic Multilingual Plane that is
         // largely occupied by private characters
-        final String str = new RandomStringGenerator.Builder().withinRange(startOfPrivateBMPChars, 
+        final String str = new RandomStringGenerator.Builder().withinRange(startOfPrivateBMPChars,
                 Character.MIN_SUPPLEMENTARY_CODE_POINT - 1).build().generate(5000);
 
         int i = 0;
@@ -270,15 +273,15 @@ public class RandomStringGeneratorTest {
 
     @Test
     public void testSelectFromCharVarargs() {
-        final String str="abc";
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFrom('a','b','c').build();
+        final String str = "abc";
+        final RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFrom('a', 'b', 'c').build();
         final String randomText = generator.generate(5);
         for (final char c : randomText.toCharArray()) {
             assertTrue(str.indexOf(c) != -1);
         }
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testGenerateTakingIntThrowsNullPointerException() {
         final RandomStringGenerator.Builder randomStringGeneratorBuilder = new RandomStringGenerator.Builder();
         final CharacterPredicate[] characterPredicateArray = new CharacterPredicate[2];

@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 public class LongestCommonSubsequenceDistanceTest {
 
     private static LongestCommonSubsequenceDistance subject;
-    
+
     @BeforeClass
     public static void setup() {
         subject = new LongestCommonSubsequenceDistance();
@@ -43,7 +43,8 @@ public class LongestCommonSubsequenceDistanceTest {
         assertEquals(Integer.valueOf(11), subject.apply("elephant", "hippo"));
         assertEquals(Integer.valueOf(7), subject.apply("ABC Corporation", "ABC Corp"));
         assertEquals(Integer.valueOf(4), subject.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."));
-        assertEquals(Integer.valueOf(9), subject.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
+        assertEquals(Integer.valueOf(9),
+                subject.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
         assertEquals(Integer.valueOf(3), subject.apply("PENNSYLVANIA", "PENNCISYLVNIA"));
         assertEquals(Integer.valueOf(7), subject.apply("left", "right"));
         assertEquals(Integer.valueOf(9), subject.apply("leettteft", "ritttght"));
