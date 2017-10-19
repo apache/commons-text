@@ -310,14 +310,14 @@ public class ExtendedMessageFormat extends MessageFormat {
         if (obj == null) {
             return false;
         }
-        if (!super.equals(obj)) {
-            return false;
-        }
         if (!Objects.equals(getClass(), obj.getClass())) {
           return false;
         }
         final ExtendedMessageFormat rhs = (ExtendedMessageFormat) obj;
         if (!Objects.equals(toPattern, rhs.toPattern)) {
+            return false;
+        }
+        if (!super.equals(obj)) {
             return false;
         }
         return Objects.equals(registry, rhs.registry);
