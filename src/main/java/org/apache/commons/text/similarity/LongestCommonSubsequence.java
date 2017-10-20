@@ -113,6 +113,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
     * @return the longest common subsequence found
     * @throws IllegalArgumentException
     *             if either String input {@code null}
+    * @since 1.2
     */
    public CharSequence longestCommonSubsequence(final CharSequence left, final CharSequence right) {
        // Quick return
