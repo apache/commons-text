@@ -620,10 +620,17 @@ public class StringEscapeUtilsTest {
         assertEquals(jsonString, StringEscapeUtils.unescapeJson(jsonString));
     }
 
-    @Ignore("https://issues.apache.org/jira/browse/TEXT-100.")
+    //@Ignore("https://issues.apache.org/jira/browse/TEXT-100.")
     @Test
     public void testUnescapeJsonFoundBug_Issue_Text_100() {
         final String jsonString = "{\"age\":100,\"name\":\"m\\\"kyong.com\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
+
+        assertEquals(jsonString, StringEscapeUtils.unescapeJson(jsonString));
+    }
+
+    @Test
+    public void testUnescapeJsonFoundBug_Issue_Text_100_Fix() {
+        final String jsonString = "{\"age\":100,\"name\":\"n\\\"m\\\"kyong.com\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
 
         assertEquals(jsonString, StringEscapeUtils.unescapeJson(jsonString));
     }
