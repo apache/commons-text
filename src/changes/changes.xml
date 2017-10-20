@@ -60,6 +60,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-67" type="update" dev="kinow">NumericEntityUnescaper.options - fix TODO</action>
     <action issue="TEXT-84" type="update" dev="djones">RandomStringGenerator claims to be immutable, but isn't</action>
     <action issue="TEXT-102" type="add" dev="ggregory">Add StrLookup.resourceBundleLookup(ResourceBundle)</action>
+    <action issue="TEXT-105" type="fix" dev="pschumacher" due-to="Abrasha">Typo in LongestCommonSubsequence#logestCommonSubsequence</action>
   </release>
 
   <release version="1.1" date="2017-05-23" description="Release 1.1">

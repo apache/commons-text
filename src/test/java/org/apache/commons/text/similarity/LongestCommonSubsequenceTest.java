@@ -67,6 +67,39 @@ public class LongestCommonSubsequenceTest {
 
     @Test
     public void testLongestCommonSubsequence() {
+        assertEquals("", subject.longestCommonSubsequence("", ""));
+        assertEquals("", subject.longestCommonSubsequence("left", ""));
+        assertEquals("", subject.longestCommonSubsequence("", "right"));
+        assertEquals("fog", subject.longestCommonSubsequence("frog", "fog"));
+        assertEquals("", subject.longestCommonSubsequence("fly", "ant"));
+        assertEquals("h", subject.longestCommonSubsequence("elephant", "hippo"));
+        assertEquals("ABC Corp", subject.longestCommonSubsequence("ABC Corporation", "ABC Corp"));
+        assertEquals("D  H Enterprises Inc", subject.longestCommonSubsequence("D N H Enterprises Inc", "D & H Enterprises, Inc."));
+        assertEquals("My Gym Childrens Fitness", subject.longestCommonSubsequence("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
+        assertEquals("PENNSYLVNIA", subject.longestCommonSubsequence("PENNSYLVANIA", "PENNCISYLVNIA"));
+        assertEquals("t", subject.longestCommonSubsequence("left", "right"));
+        assertEquals("tttt", subject.longestCommonSubsequence("leettteft", "ritttght"));
+        assertEquals("the same string", subject.longestCommonSubsequence("the same string", "the same string"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGettingLongestCommonSubsequenceNullNull() throws Exception {
+        subject.longestCommonSubsequence(null, null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGettingLongestCommonSubsequenceStringNull() throws Exception {
+        subject.longestCommonSubsequence(" ", null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGettingLongestCommonSubsequenceNullString() throws Exception {
+        subject.longestCommonSubsequence(null, "right");
+    }
+
+    @Test
+    @Deprecated
+    public void testLogestCommonSubsequence() {
         assertEquals("", subject.logestCommonSubsequence("", ""));
         assertEquals("", subject.logestCommonSubsequence("left", ""));
         assertEquals("", subject.logestCommonSubsequence("", "right"));
@@ -83,17 +116,20 @@ public class LongestCommonSubsequenceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingLongestCommonSubsequenceNullNull() throws Exception {
+    @Deprecated
+    public void testGettingLogestCommonSubsequenceNullNull() throws Exception {
         subject.logestCommonSubsequence(null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingLongestCommonSubsequenceStringNull() throws Exception {
+    @Deprecated
+    public void testGettingLogestCommonSubsequenceStringNull() throws Exception {
         subject.logestCommonSubsequence(" ", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingLongestCommonSubsequenceNullString() throws Exception {
+    @Deprecated
+    public void testGettingLogestCommonSubsequenceNullString() throws Exception {
         subject.logestCommonSubsequence(null, "right");
     }
 }
