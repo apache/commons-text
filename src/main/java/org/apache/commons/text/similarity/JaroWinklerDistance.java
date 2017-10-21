@@ -94,7 +94,7 @@ public class JaroWinklerDistance implements SimilarityScore<Double> {
      * This method returns the Jaro-Winkler string matches, transpositions, prefix, max array.
      *
      * @param first the first string to be matched
-     * @param second the second string to be machted
+     * @param second the second string to be matched
      * @return mtp array containing: matches, transpositions, prefix, and max length
      */
     protected static int[] matches(final CharSequence first, final CharSequence second) {

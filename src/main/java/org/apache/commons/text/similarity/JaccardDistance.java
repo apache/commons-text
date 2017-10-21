@@ -18,7 +18,7 @@ package org.apache.commons.text.similarity;
 
 /**
  * Measures the Jaccard distance of two sets of character sequence. Jaccard
- * distance is the dissimilarity between two sets. Its the complementary of
+ * distance is the dissimilarity between two sets. It is the complementary of
  * Jaccard similarity.
  *
  * <p>
