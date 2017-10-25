@@ -16,7 +16,6 @@
  */
 package org.apache.commons.text;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -620,7 +619,6 @@ public class StringEscapeUtilsTest {
         assertEquals(jsonString, StringEscapeUtils.unescapeJson(jsonString));
     }
 
-    //@Ignore("https://issues.apache.org/jira/browse/TEXT-100.")
     @Test
     public void testUnescapeJsonFoundBug_Issue_Text_100() {
         final String jsonString = "{\"age\":100,\"name\":\"m\\\"kyong.com\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
