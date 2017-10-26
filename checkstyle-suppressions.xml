@@ -54,4 +54,12 @@
   <suppress checks="MagicNumber" files="UnicodeUnescaper.java" lines="0-99999" />
 
   <suppress checks="MagicNumber" files="WordUtils.java" lines="0-99999" />
+  
+  <suppress checks="MagicNumber" files=".*[/\\]test[/\\].*" />
+  <suppress checks="MethodName" files=".*[/\\]test[/\\].*" />
+  <suppress checks="Javadoc" files=".*[/\\]test[/\\].*" />
+  <suppress checks="FileLength" files="StrBuilderTest.java" />
+  <suppress checks="MethodLength" files="LevenshteinDetailedDistanceTest.java" />
+  <suppress checks="MethodLength" files="StrBuilderAppendInsertTest.java" />
+  <suppress checks="TodoComment" files="StringEscapeUtilsTest.java" />
 </suppressions>

@@ -24,7 +24,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 
-public class CosineSimilarityTest{
+public class CosineSimilarityTest {
 
     @Test
     public void testCosineSimilarityWithNonEmptyMap() {

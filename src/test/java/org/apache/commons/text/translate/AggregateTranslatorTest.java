@@ -36,7 +36,7 @@ public class AggregateTranslatorTest {
         final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator[]) null);
         assertEquals(testString, subject.translate(testString));
     }
-    
+
     @Test
     public void testNullVarargConstructor() throws Exception {
         final String testString = "foo";
@@ -45,7 +45,7 @@ public class AggregateTranslatorTest {
     }
 
     @Test
-    public void testNonNull() throws IOException{
+    public void testNonNull() throws IOException {
         final Map<CharSequence, CharSequence> oneTwoMap = new HashMap<>();
         oneTwoMap.put("one", "two");
         final Map<CharSequence, CharSequence> threeFourMap = new HashMap<>();

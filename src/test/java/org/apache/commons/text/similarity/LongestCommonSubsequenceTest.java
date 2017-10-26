@@ -43,7 +43,8 @@ public class LongestCommonSubsequenceTest {
         assertEquals(Integer.valueOf(1), subject.apply("elephant", "hippo"));
         assertEquals(Integer.valueOf(8), subject.apply("ABC Corporation", "ABC Corp"));
         assertEquals(Integer.valueOf(20), subject.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."));
-        assertEquals(Integer.valueOf(24), subject.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
+        assertEquals(Integer.valueOf(24),
+                subject.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
         assertEquals(Integer.valueOf(11), subject.apply("PENNSYLVANIA", "PENNCISYLVNIA"));
         assertEquals(Integer.valueOf(1), subject.apply("left", "right"));
         assertEquals(Integer.valueOf(4), subject.apply("leettteft", "ritttght"));
@@ -74,8 +75,10 @@ public class LongestCommonSubsequenceTest {
         assertEquals("", subject.longestCommonSubsequence("fly", "ant"));
         assertEquals("h", subject.longestCommonSubsequence("elephant", "hippo"));
         assertEquals("ABC Corp", subject.longestCommonSubsequence("ABC Corporation", "ABC Corp"));
-        assertEquals("D  H Enterprises Inc", subject.longestCommonSubsequence("D N H Enterprises Inc", "D & H Enterprises, Inc."));
-        assertEquals("My Gym Childrens Fitness", subject.longestCommonSubsequence("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
+        assertEquals("D  H Enterprises Inc",
+                subject.longestCommonSubsequence("D N H Enterprises Inc", "D & H Enterprises, Inc."));
+        assertEquals("My Gym Childrens Fitness",
+                subject.longestCommonSubsequence("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
         assertEquals("PENNSYLVNIA", subject.longestCommonSubsequence("PENNSYLVANIA", "PENNCISYLVNIA"));
         assertEquals("t", subject.longestCommonSubsequence("left", "right"));
         assertEquals("tttt", subject.longestCommonSubsequence("leettteft", "ritttght"));
@@ -107,8 +110,10 @@ public class LongestCommonSubsequenceTest {
         assertEquals("", subject.logestCommonSubsequence("fly", "ant"));
         assertEquals("h", subject.logestCommonSubsequence("elephant", "hippo"));
         assertEquals("ABC Corp", subject.logestCommonSubsequence("ABC Corporation", "ABC Corp"));
-        assertEquals("D  H Enterprises Inc", subject.logestCommonSubsequence("D N H Enterprises Inc", "D & H Enterprises, Inc."));
-        assertEquals("My Gym Childrens Fitness", subject.logestCommonSubsequence("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
+        assertEquals("D  H Enterprises Inc",
+                subject.logestCommonSubsequence("D N H Enterprises Inc", "D & H Enterprises, Inc."));
+        assertEquals("My Gym Childrens Fitness",
+                subject.logestCommonSubsequence("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
         assertEquals("PENNSYLVNIA", subject.logestCommonSubsequence("PENNSYLVANIA", "PENNCISYLVNIA"));
         assertEquals("t", subject.logestCommonSubsequence("left", "right"));
         assertEquals("tttt", subject.logestCommonSubsequence("leettteft", "ritttght"));

@@ -100,7 +100,8 @@ public class StrSubstitutorTest {
     public void testReplaceChangedMap() {
         final StrSubstitutor sub = new StrSubstitutor(values);
         values.put("target", "moon");
-        assertEquals("The quick brown fox jumps over the moon.", sub.replace("The ${animal} jumps over the ${target}."));
+        assertEquals("The quick brown fox jumps over the moon.",
+                sub.replace("The ${animal} jumps over the ${target}."));
     }
 
     /**
@@ -109,7 +110,8 @@ public class StrSubstitutorTest {
     @Test
     public void testReplaceUnknownKey() {
         doTestReplace("The ${person} jumps over the lazy dog.", "The ${person} jumps over the ${target}.", true);
-        doTestReplace("The ${person} jumps over the lazy dog. 1234567890.", "The ${person} jumps over the ${target}. ${undefined.number:-1234567890}.", true);
+        doTestReplace("The ${person} jumps over the lazy dog. 1234567890.",
+                "The ${person} jumps over the ${target}. ${undefined.number:-1234567890}.", true);
     }
 
     /**
@@ -165,7 +167,7 @@ public class StrSubstitutorTest {
         values.put("critterSpeed", "quick");
         values.put("critterColor", "brown");
         values.put("critterType", "fox");
-        doTestReplace(sub,"The ${critter} jumps over the ${pet}.", "The ${animal} jumps over the ${target}.", true);
+        doTestReplace(sub, "The ${critter} jumps over the ${pet}.", "The ${animal} jumps over the ${target}.", true);
     }
 
     /**
@@ -189,8 +191,10 @@ public class StrSubstitutorTest {
      */
     @Test
     public void testReplaceComplexEscaping() {
-        doTestReplace("The ${quick brown fox} jumps over the lazy dog.", "The $${${animal}} jumps over the ${target}.", true);
-        doTestReplace("The ${quick brown fox} jumps over the lazy dog. ${1234567890}.", "The $${${animal}} jumps over the ${target}. $${${undefined.number:-1234567890}}.", true);
+        doTestReplace("The ${quick brown fox} jumps over the lazy dog.",
+                "The $${${animal}} jumps over the ${target}.", true);
+        doTestReplace("The ${quick brown fox} jumps over the lazy dog. ${1234567890}.",
+                "The $${${animal}} jumps over the ${target}. $${${undefined.number:-1234567890}}.", true);
     }
 
     /**
@@ -214,7 +218,8 @@ public class StrSubstitutorTest {
      */
     @Test
     public void testReplacePrefixNoSuffix() {
-        doTestReplace("The ${animal jumps over the ${target} lazy dog.", "The ${animal jumps over the ${target} ${target}.", true);
+        doTestReplace("The ${animal jumps over the ${target} lazy dog.",
+                "The ${animal jumps over the ${target} ${target}.", true);
     }
 
     /**
@@ -333,7 +338,8 @@ public class StrSubstitutorTest {
         assertEquals(
                 "Wrong result (3)",
                 "The fox jumps over the lazy dog.",
-                sub.replace("The ${unknown.animal.${unknown.species:-1}:-fox} jumps over the ${unknow.target:-lazy dog}."));
+                sub.replace("The ${unknown.animal.${unknown.species:-1}:-fox} "
+                        + "jumps over the ${unknow.target:-lazy dog}."));
     }
 
     /**
@@ -421,7 +427,8 @@ public class StrSubstitutorTest {
         map.put("name", "commons");
         final StrSubstitutor sub = new StrSubstitutor(map) {
             @Override
-            protected String resolveVariable(final String variableName, final StrBuilder buf, final int startPos, final int endPos) {
+            protected String resolveVariable(final String variableName, final StrBuilder buf, final int startPos,
+                    final int endPos) {
                 assertEquals("name", variableName);
                 assertSame(builder, buf);
                 assertEquals(3, startPos);
@@ -618,7 +625,7 @@ public class StrSubstitutorTest {
      * Test the replace of a properties object
      */
     @Test
-    public void testSubstituteDefaultProperties(){
+    public void testSubstituteDefaultProperties() {
         final String org = "${doesnotwork}";
         System.setProperty("doesnotwork", "It works!");
 
@@ -659,7 +666,8 @@ public class StrSubstitutorTest {
     }
 
     //-----------------------------------------------------------------------
-    private void doTestReplace(final StrSubstitutor sub, final String expectedResult, final String replaceTemplate, final boolean substring) {
+    private void doTestReplace(final StrSubstitutor sub, final String expectedResult, final String replaceTemplate,
+            final boolean substring) {
         final String expectedShortResult = expectedResult.substring(1, expectedResult.length() - 1);
 
         // replace using String
@@ -759,9 +767,10 @@ public class StrSubstitutorTest {
     @Test
     public void testReplaceInTakingTwoAndThreeIntsReturningFalse() {
         final Map<String, Object> hashMap = new HashMap<>();
-        final StrLookup.MapStrLookup<Object> strLookup_MapStrLookup = new StrLookup.MapStrLookup<>(hashMap);
+        final StrLookup.MapStrLookup<Object> strLookupMapStrLookup = new StrLookup.MapStrLookup<>(hashMap);
         final StrMatcher strMatcher = StrMatcher.tabMatcher();
-        final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup_MapStrLookup, strMatcher, strMatcher, 'b', strMatcher);
+        final StrSubstitutor strSubstitutor =
+                new StrSubstitutor(strLookupMapStrLookup, strMatcher, strMatcher, 'b', strMatcher);
 
         assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, (-1369)));
         assertEquals('b', strSubstitutor.getEscapeChar());
@@ -780,7 +789,8 @@ public class StrSubstitutorTest {
 
     @Test
     public void testReplaceInTakingStringBufferWithNonNull() {
-        final StrSubstitutor strSubstitutor = new StrSubstitutor(new HashMap<String, String>(), "WV@i#y?N*[", "WV@i#y?N*[", '*');
+        final StrSubstitutor strSubstitutor =
+                new StrSubstitutor(new HashMap<String, String>(), "WV@i#y?N*[", "WV@i#y?N*[", '*');
 
         assertFalse(strSubstitutor.isPreserveEscapes());
         assertFalse(strSubstitutor.replaceIn(new StringBuffer("WV@i#y?N*[")));
@@ -790,8 +800,8 @@ public class StrSubstitutorTest {
     @Test
     public void testCreatesStrSubstitutorTakingStrLookupAndCallsReplaceTakingTwoAndThreeInts() {
         final Map<String, CharacterPredicates> map = new HashMap<>();
-        final StrLookup.MapStrLookup<CharacterPredicates> strLookup_MapStrLookup = new StrLookup.MapStrLookup<>(map);
-        final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup_MapStrLookup);
+        final StrLookup.MapStrLookup<CharacterPredicates> strLookupMapStrLookup = new StrLookup.MapStrLookup<>(map);
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookupMapStrLookup);
 
         assertNull(strSubstitutor.replace((CharSequence) null, 0, 0));
         assertEquals('$', strSubstitutor.getEscapeChar());
@@ -801,12 +811,12 @@ public class StrSubstitutorTest {
     public void testReplaceTakingCharSequenceReturningNull() {
         final StrSubstitutor strSubstitutor = new StrSubstitutor((StrLookup<?>) null);
 
-        assertNull( strSubstitutor.replace((CharSequence) null) );
+        assertNull(strSubstitutor.replace((CharSequence) null));
         assertFalse(strSubstitutor.isPreserveEscapes());
         assertEquals('$', strSubstitutor.getEscapeChar());
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testReplaceTakingThreeArgumentsThrowsNullPointerException() {
         StrSubstitutor.replace(null, (Properties) null);
     }

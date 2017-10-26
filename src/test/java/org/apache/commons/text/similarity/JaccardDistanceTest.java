@@ -27,7 +27,7 @@ import org.junit.Test;
 public class JaccardDistanceTest {
 
     private static JaccardDistance classBeingTested;
-    
+
     @BeforeClass
     public static void setUp() {
         classBeingTested = new JaccardDistance();
@@ -43,7 +43,8 @@ public class JaccardDistanceTest {
         assertEquals(0.78d, classBeingTested.apply("elephant", "hippo"), 0.0d);
         assertEquals(0.36d, classBeingTested.apply("ABC Corporation", "ABC Corp"), 0.0d);
         assertEquals(0.24d, classBeingTested.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."), 0.0d);
-        assertEquals(0.11d, classBeingTested.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"), 0.0d);
+        assertEquals(0.11d,
+                classBeingTested.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"), 0.0d);
         assertEquals(0.10d, classBeingTested.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.0d);
         assertEquals(0.87d, classBeingTested.apply("left", "right"), 0.0d);
         assertEquals(0.87d, classBeingTested.apply("leettteft", "ritttght"), 0.0d);

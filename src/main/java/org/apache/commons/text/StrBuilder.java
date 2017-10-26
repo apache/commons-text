@@ -1283,7 +1283,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * This method is useful for adding a separator each time around the
      * loop except the first.
      * <pre>
-     * for (Iterator it = list.iterator(); it.hasNext(); ) {
+     * for (Iterator it = list.iterator(); it.hasNext();){
      *   appendSeparator(",");
      *   append(it.next());
      * }
@@ -1339,7 +1339,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * This method is useful for adding a separator each time around the
      * loop except the first.
      * <pre>
-     * for (Iterator it = list.iterator(); it.hasNext(); ) {
+     * for (Iterator it = list.iterator(); it.hasNext();){
      *   appendSeparator(',');
      *   append(it.next());
      * }

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -72,23 +72,25 @@ public class NumericEntityUnescaperTest  {
         try {
             result = neu.translate(input);
             fail("IllegalArgumentException expected");
-        } catch(final IllegalArgumentException iae) {
+        } catch (final IllegalArgumentException iae) {
             // expected
         }
     }
 
     @Test
     public void testCreatesNumericEntityUnescaperOne() {
-        final NumericEntityUnescaper.OPTION[] numericEntityUnescaper_OPTIONArray = new NumericEntityUnescaper.OPTION[0];
-        final NumericEntityUnescaper numericEntityUnescaper = new NumericEntityUnescaper(numericEntityUnescaper_OPTIONArray);
+        final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = new NumericEntityUnescaper.OPTION[0];
+        final NumericEntityUnescaper numericEntityUnescaper =
+                new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
 
         assertEquals("2|y|O7y`&#uVWj", numericEntityUnescaper.translate("2|y|O7y`&#uVWj"));
     }
 
     @Test
     public void testCreatesNumericEntityUnescaperTwo() {
-        final NumericEntityUnescaper.OPTION[] numericEntityUnescaper_OPTIONArray = new NumericEntityUnescaper.OPTION[0];
-        final NumericEntityUnescaper numericEntityUnescaper = new NumericEntityUnescaper(numericEntityUnescaper_OPTIONArray);
+        final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = new NumericEntityUnescaper.OPTION[0];
+        final NumericEntityUnescaper numericEntityUnescaper =
+                new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
 
         assertEquals("Ws2v8|O=7NR&#cB", numericEntityUnescaper.translate("Ws2v8|O=7NR&#cB"));
     }
