@@ -23,7 +23,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link AggregateTranslator}.
@@ -34,14 +34,14 @@ public class AggregateTranslatorTest {
     public void testNullConstructor() throws Exception {
         final String testString = "foo";
         final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator[]) null);
-        assertEquals(testString, subject.translate(testString));
+        assertThat(subject.translate(testString)).isEqualTo(testString);
     }
 
     @Test
     public void testNullVarargConstructor() throws Exception {
         final String testString = "foo";
         final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator) null);
-        assertEquals(testString, subject.translate(testString));
+        assertThat(subject.translate(testString)).isEqualTo(testString);
     }
 
     @Test
@@ -55,12 +55,12 @@ public class AggregateTranslatorTest {
         final AggregateTranslator subject = new AggregateTranslator(translator1, translator2);
         final StringWriter out1 = new StringWriter();
         final int result1 = subject.translate(new StringBuffer("one"), 0, out1);
-        assertEquals("Incorrect codepoint consumption", 3, result1);
-        assertEquals("Incorrect value", "two", out1.toString());
+        assertThat(result1).as("Incorrect codepoint consumption").isEqualTo(3);
+        assertThat(out1.toString()).as("Incorrect value").isEqualTo("two");
         final StringWriter out2 = new StringWriter();
         final int result2 = subject.translate(new StringBuffer("three"), 0, out2);
-        assertEquals("Incorrect codepoint consumption", 5, result2);
-        assertEquals("Incorrect value", "four", out2.toString());
+        assertThat(result2).as("Incorrect codepoint consumption").isEqualTo(5);
+        assertThat(out2.toString()).as("Incorrect value").isEqualTo("four");
     }
 
 }

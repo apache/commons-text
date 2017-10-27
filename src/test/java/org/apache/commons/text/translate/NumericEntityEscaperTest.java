@@ -19,7 +19,7 @@ package org.apache.commons.text.translate;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link NumericEntityEscaper}.
@@ -32,7 +32,7 @@ public class NumericEntityEscaperTest  {
 
         final String input = "ADFGZ";
         final String result = nee.translate(input);
-        assertEquals("Failed to escape numeric entities via the below method", "&#65;&#68;FGZ", result);
+        assertThat(result).as("Failed to escape numeric entities via the below method").isEqualTo("&#65;&#68;FGZ");
     }
 
     @Test
@@ -41,7 +41,7 @@ public class NumericEntityEscaperTest  {
 
         final String input = "ADFGZ";
         final String result = nee.translate(input);
-        assertEquals("Failed to escape numeric entities via the between method", "AD&#70;&#71;Z", result);
+        assertThat(result).as("Failed to escape numeric entities via the between method").isEqualTo("AD&#70;&#71;Z");
     }
 
     @Test
@@ -50,7 +50,7 @@ public class NumericEntityEscaperTest  {
 
         final String input = "ADFGZ";
         final String result = nee.translate(input);
-        assertEquals("Failed to escape numeric entities via the above method", "ADF&#71;&#90;", result);
+        assertThat(result).as("Failed to escape numeric entities via the above method").isEqualTo("ADF&#71;&#90;");
     }
 
     // See LANG-617
@@ -61,7 +61,7 @@ public class NumericEntityEscaperTest  {
         final String expected = "&#68642;";
 
         final String result = nee.translate(input);
-        assertEquals("Failed to escape numeric entities supplementary characters", expected, result);
+        assertThat(result).as("Failed to escape numeric entities supplementary characters").isEqualTo(expected);
 
     }
 

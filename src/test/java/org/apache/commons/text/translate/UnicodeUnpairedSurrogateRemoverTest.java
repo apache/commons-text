@@ -21,9 +21,7 @@ import org.junit.Test;
 import java.io.CharArrayWriter;
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link UnicodeUnpairedSurrogateRemover}.
@@ -34,16 +32,16 @@ public class UnicodeUnpairedSurrogateRemoverTest {
 
     @Test
     public void testValidCharacters() throws IOException {
-        assertFalse(subject.translate(0xd7ff, writer));
-        assertFalse(subject.translate(0xe000, writer));
-        assertEquals(0, writer.size());
+        assertThat(subject.translate(0xd7ff, writer)).isFalse();
+        assertThat(subject.translate(0xe000, writer)).isFalse();
+        assertThat(writer.size()).isZero();
     }
 
     @Test
     public void testInvalidCharacters() throws IOException {
-        assertTrue(subject.translate(0xd800, writer));
-        assertTrue(subject.translate(0xdfff, writer));
-        assertEquals(0, writer.size());
+        assertThat(subject.translate(0xd800, writer)).isTrue();
+        assertThat(subject.translate(0xdfff, writer)).isTrue();
+        assertThat(writer.size()).isZero();
     }
 }
 

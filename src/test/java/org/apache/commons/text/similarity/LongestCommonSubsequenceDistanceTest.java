@@ -19,7 +19,7 @@ package org.apache.commons.text.similarity;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link LongestCommonSubsequenceDistance}.
@@ -35,20 +35,19 @@ public class LongestCommonSubsequenceDistanceTest {
 
     @Test
     public void testGettingLogestCommonSubsequenceDistacne() {
-        assertEquals(Integer.valueOf(0), subject.apply("", ""));
-        assertEquals(Integer.valueOf(4), subject.apply("left", ""));
-        assertEquals(Integer.valueOf(5), subject.apply("", "right"));
-        assertEquals(Integer.valueOf(1), subject.apply("frog", "fog"));
-        assertEquals(Integer.valueOf(6), subject.apply("fly", "ant"));
-        assertEquals(Integer.valueOf(11), subject.apply("elephant", "hippo"));
-        assertEquals(Integer.valueOf(7), subject.apply("ABC Corporation", "ABC Corp"));
-        assertEquals(Integer.valueOf(4), subject.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."));
-        assertEquals(Integer.valueOf(9),
-                subject.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
-        assertEquals(Integer.valueOf(3), subject.apply("PENNSYLVANIA", "PENNCISYLVNIA"));
-        assertEquals(Integer.valueOf(7), subject.apply("left", "right"));
-        assertEquals(Integer.valueOf(9), subject.apply("leettteft", "ritttght"));
-        assertEquals(Integer.valueOf(0), subject.apply("the same string", "the same string"));
+        assertThat(subject.apply("", "")).isEqualTo(0);
+        assertThat(subject.apply("left", "")).isEqualTo(4);
+        assertThat(subject.apply("", "right")).isEqualTo(5);
+        assertThat(subject.apply("frog", "fog")).isEqualTo(1);
+        assertThat(subject.apply("fly", "ant")).isEqualTo(6);
+        assertThat(subject.apply("elephant", "hippo")).isEqualTo(11);
+        assertThat(subject.apply("ABC Corporation", "ABC Corp")).isEqualTo(7);
+        assertThat(subject.apply("D N H Enterprises Inc", "D & H Enterprises, Inc.")).isEqualTo(4);
+        assertThat(subject.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness")).isEqualTo(9);
+        assertThat(subject.apply("PENNSYLVANIA", "PENNCISYLVNIA")).isEqualTo(3);
+        assertThat(subject.apply("left", "right")).isEqualTo(7);
+        assertThat(subject.apply("leettteft", "ritttght")).isEqualTo(9);
+        assertThat(subject.apply("the same string", "the same string")).isEqualTo(0);
     }
 
     @Test(expected = IllegalArgumentException.class)

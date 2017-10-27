@@ -20,7 +20,7 @@ import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link JavaUnicodeEscaper}.
@@ -33,7 +33,8 @@ public class JavaUnicodeEscaperTest {
 
         final String input = "ADFGZ";
         final String result = jue.translate(input);
-        assertEquals("Failed to escape Unicode characters via the below method", "\\u0041\\u0044FGZ", result);
+        assertThat(result).as("Failed to escape Unicode characters via the below method")
+            .isEqualTo("\\u0041\\u0044FGZ");
     }
 
     @Test
@@ -42,7 +43,8 @@ public class JavaUnicodeEscaperTest {
 
         final String input = "ADFGZ";
         final String result = jue.translate(input);
-        assertEquals("Failed to escape Unicode characters via the between method", "AD\\u0046\\u0047Z", result);
+        assertThat(result).as("Failed to escape Unicode characters via the between method")
+            .isEqualTo("AD\\u0046\\u0047Z");
     }
 
     @Test
@@ -51,7 +53,8 @@ public class JavaUnicodeEscaperTest {
 
         final String input = "ADFGZ";
         final String result = jue.translate(input);
-        assertEquals("Failed to escape Unicode characters via the above method", "ADF\\u0047\\u005A", result);
+        assertThat(result).as("Failed to escape Unicode characters via the above method")
+            .isEqualTo("ADF\\u0047\\u005A");
     }
 
     @Test
@@ -61,6 +64,6 @@ public class JavaUnicodeEscaperTest {
         // Character ?, U+24B62, Binary Code Point 0010 0100 1011 0110 0010,
         // Binary UTF-167 1101 1000 0101 0010 1101 1111 0110 0010, UTF-16 Hex Code Units D852 DF62
         final String encoding = jue.toUtf16Escape(Integer.parseInt("024B62", 16));
-        assertEquals("\\uD852\\uDF62", encoding);
+        assertThat(encoding).isEqualTo("\\uD852\\uDF62");
     }
 }

@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.PipedReader;
 import java.io.PipedWriter;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CodePointTranslatorTest {
 
@@ -34,7 +34,7 @@ public class CodePointTranslatorTest {
     final PipedReader pipedReader = new PipedReader();
     final PipedWriter pipedWriter = new PipedWriter(pipedReader);
 
-    assertEquals(1, numericEntityEscaper.translate(string, 0, pipedWriter));
+    assertThat(numericEntityEscaper.translate(string, 0, pipedWriter)).isEqualTo(1);
   }
 
 }

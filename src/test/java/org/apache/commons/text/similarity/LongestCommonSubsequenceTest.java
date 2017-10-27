@@ -19,7 +19,7 @@ package org.apache.commons.text.similarity;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link LongestCommonSubsequence}.
@@ -35,20 +35,19 @@ public class LongestCommonSubsequenceTest {
 
     @Test
     public void testLongestCommonSubsequenceApply() {
-        assertEquals(Integer.valueOf(0), subject.apply("", ""));
-        assertEquals(Integer.valueOf(0), subject.apply("left", ""));
-        assertEquals(Integer.valueOf(0), subject.apply("", "right"));
-        assertEquals(Integer.valueOf(3), subject.apply("frog", "fog"));
-        assertEquals(Integer.valueOf(0), subject.apply("fly", "ant"));
-        assertEquals(Integer.valueOf(1), subject.apply("elephant", "hippo"));
-        assertEquals(Integer.valueOf(8), subject.apply("ABC Corporation", "ABC Corp"));
-        assertEquals(Integer.valueOf(20), subject.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."));
-        assertEquals(Integer.valueOf(24),
-                subject.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
-        assertEquals(Integer.valueOf(11), subject.apply("PENNSYLVANIA", "PENNCISYLVNIA"));
-        assertEquals(Integer.valueOf(1), subject.apply("left", "right"));
-        assertEquals(Integer.valueOf(4), subject.apply("leettteft", "ritttght"));
-        assertEquals(Integer.valueOf(15), subject.apply("the same string", "the same string"));
+        assertThat(subject.apply("", "")).isEqualTo(0);
+        assertThat(subject.apply("left", "")).isEqualTo(0);
+        assertThat(subject.apply("", "right")).isEqualTo(0);
+        assertThat(subject.apply("frog", "fog")).isEqualTo(3);
+        assertThat(subject.apply("fly", "ant")).isEqualTo(0);
+        assertThat(subject.apply("elephant", "hippo")).isEqualTo(1);
+        assertThat(subject.apply("ABC Corporation", "ABC Corp")).isEqualTo(8);
+        assertThat(subject.apply("D N H Enterprises Inc", "D & H Enterprises, Inc.")).isEqualTo(20);
+        assertThat(subject.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness")).isEqualTo(24);
+        assertThat(subject.apply("PENNSYLVANIA", "PENNCISYLVNIA")).isEqualTo(11);
+        assertThat(subject.apply("left", "right")).isEqualTo(1);
+        assertThat(subject.apply("leettteft", "ritttght")).isEqualTo(4);
+        assertThat(subject.apply("the same string", "the same string")).isEqualTo(15);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -68,21 +67,21 @@ public class LongestCommonSubsequenceTest {
 
     @Test
     public void testLongestCommonSubsequence() {
-        assertEquals("", subject.longestCommonSubsequence("", ""));
-        assertEquals("", subject.longestCommonSubsequence("left", ""));
-        assertEquals("", subject.longestCommonSubsequence("", "right"));
-        assertEquals("fog", subject.longestCommonSubsequence("frog", "fog"));
-        assertEquals("", subject.longestCommonSubsequence("fly", "ant"));
-        assertEquals("h", subject.longestCommonSubsequence("elephant", "hippo"));
-        assertEquals("ABC Corp", subject.longestCommonSubsequence("ABC Corporation", "ABC Corp"));
-        assertEquals("D  H Enterprises Inc",
-                subject.longestCommonSubsequence("D N H Enterprises Inc", "D & H Enterprises, Inc."));
-        assertEquals("My Gym Childrens Fitness",
-                subject.longestCommonSubsequence("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
-        assertEquals("PENNSYLVNIA", subject.longestCommonSubsequence("PENNSYLVANIA", "PENNCISYLVNIA"));
-        assertEquals("t", subject.longestCommonSubsequence("left", "right"));
-        assertEquals("tttt", subject.longestCommonSubsequence("leettteft", "ritttght"));
-        assertEquals("the same string", subject.longestCommonSubsequence("the same string", "the same string"));
+        assertThat(subject.longestCommonSubsequence("", "")).isEqualTo("");
+        assertThat(subject.longestCommonSubsequence("left", "")).isEqualTo("");
+        assertThat(subject.longestCommonSubsequence("", "right")).isEqualTo("");
+        assertThat(subject.longestCommonSubsequence("frog", "fog")).isEqualTo("fog");
+        assertThat(subject.longestCommonSubsequence("fly", "ant")).isEqualTo("");
+        assertThat(subject.longestCommonSubsequence("elephant", "hippo")).isEqualTo("h");
+        assertThat(subject.longestCommonSubsequence("ABC Corporation", "ABC Corp")).isEqualTo("ABC Corp");
+        assertThat(subject.longestCommonSubsequence("D N H Enterprises Inc", "D & H Enterprises, Inc."))
+            .isEqualTo("D  H Enterprises Inc");
+        assertThat(subject.longestCommonSubsequence("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"))
+            .isEqualTo("My Gym Childrens Fitness");
+        assertThat(subject.longestCommonSubsequence("PENNSYLVANIA", "PENNCISYLVNIA")).isEqualTo("PENNSYLVNIA");
+        assertThat(subject.longestCommonSubsequence("left", "right")).isEqualTo("t");
+        assertThat(subject.longestCommonSubsequence("leettteft", "ritttght")).isEqualTo("tttt");
+        assertThat(subject.longestCommonSubsequence("the same string", "the same string")).isEqualTo("the same string");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -103,21 +102,21 @@ public class LongestCommonSubsequenceTest {
     @Test
     @Deprecated
     public void testLogestCommonSubsequence() {
-        assertEquals("", subject.logestCommonSubsequence("", ""));
-        assertEquals("", subject.logestCommonSubsequence("left", ""));
-        assertEquals("", subject.logestCommonSubsequence("", "right"));
-        assertEquals("fog", subject.logestCommonSubsequence("frog", "fog"));
-        assertEquals("", subject.logestCommonSubsequence("fly", "ant"));
-        assertEquals("h", subject.logestCommonSubsequence("elephant", "hippo"));
-        assertEquals("ABC Corp", subject.logestCommonSubsequence("ABC Corporation", "ABC Corp"));
-        assertEquals("D  H Enterprises Inc",
-                subject.logestCommonSubsequence("D N H Enterprises Inc", "D & H Enterprises, Inc."));
-        assertEquals("My Gym Childrens Fitness",
-                subject.logestCommonSubsequence("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
-        assertEquals("PENNSYLVNIA", subject.logestCommonSubsequence("PENNSYLVANIA", "PENNCISYLVNIA"));
-        assertEquals("t", subject.logestCommonSubsequence("left", "right"));
-        assertEquals("tttt", subject.logestCommonSubsequence("leettteft", "ritttght"));
-        assertEquals("the same string", subject.logestCommonSubsequence("the same string", "the same string"));
+        assertThat(subject.logestCommonSubsequence("", "")).isEqualTo("");
+        assertThat(subject.logestCommonSubsequence("left", "")).isEqualTo("");
+        assertThat(subject.logestCommonSubsequence("", "right")).isEqualTo("");
+        assertThat(subject.logestCommonSubsequence("frog", "fog")).isEqualTo("fog");
+        assertThat(subject.logestCommonSubsequence("fly", "ant")).isEqualTo("");
+        assertThat(subject.logestCommonSubsequence("elephant", "hippo")).isEqualTo("h");
+        assertThat(subject.logestCommonSubsequence("ABC Corporation", "ABC Corp")).isEqualTo("ABC Corp");
+        assertThat(subject.logestCommonSubsequence("D N H Enterprises Inc", "D & H Enterprises, Inc."))
+            .isEqualTo("D  H Enterprises Inc");
+        assertThat(subject.logestCommonSubsequence("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"))
+            .isEqualTo("My Gym Childrens Fitness");
+        assertThat(subject.logestCommonSubsequence("PENNSYLVANIA", "PENNCISYLVNIA")).isEqualTo("PENNSYLVNIA");
+        assertThat(subject.logestCommonSubsequence("left", "right")).isEqualTo("t");
+        assertThat(subject.logestCommonSubsequence("leettteft", "ritttght")).isEqualTo("tttt");
+        assertThat(subject.logestCommonSubsequence("the same string", "the same string")).isEqualTo("the same string");
     }
 
     @Test(expected = IllegalArgumentException.class)

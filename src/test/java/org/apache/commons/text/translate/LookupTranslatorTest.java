@@ -25,7 +25,7 @@ import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link LookupTranslator}.
@@ -39,8 +39,8 @@ public class LookupTranslatorTest  {
         final LookupTranslator lt = new LookupTranslator(translatorMap);
         final StringWriter out = new StringWriter();
         final int result = lt.translate("one", 0, out);
-        assertEquals("Incorrect codepoint consumption", 3, result);
-        assertEquals("Incorrect value", "two", out.toString());
+        assertThat(result).as("Incorrect codepoint consumption").isEqualTo(3);
+        assertThat(out.toString()).as("Incorrect value").isEqualTo("two");
     }
 
     // Tests: https://issues.apache.org/jira/browse/LANG-882
@@ -51,8 +51,8 @@ public class LookupTranslatorTest  {
         final LookupTranslator lt = new LookupTranslator(translatorMap);
         final StringWriter out = new StringWriter();
         final int result = lt.translate(new StringBuffer("one"), 0, out);
-        assertEquals("Incorrect codepoint consumption", 3, result);
-        assertEquals("Incorrect value", "two", out.toString());
+        assertThat(result).as("Incorrect codepoint consumption").isEqualTo(3);
+        assertThat(out.toString()).as("Incorrect value").isEqualTo("two");
     }
 
     @Test(expected = InvalidParameterException.class)
