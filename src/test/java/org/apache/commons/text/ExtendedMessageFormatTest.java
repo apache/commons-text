@@ -102,14 +102,15 @@ public class ExtendedMessageFormatTest {
     }
 
     /**
-     * Test Bug TEXT-106 - Exception while using ExtendedMessageFormat and choice format element with quote just before brace end
+     * Test Bug TEXT-106 - Exception while using ExtendedMessageFormat and choice format element with quote just
+     * before brace end
      */
     @Test
     public void testChoiceQuoteJustBeforeBraceEnd_TEXT_106() {
-        final String pattern2 = "Message with choice format element with quote just before brace end ''{0,choice,0#0|0<'1'}''";
+        final String pattern2 = "Choice format element with quote just before brace end ''{0,choice,0#0|0<'1'}''";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern2, registry);
-        assertEquals("Message with choice format element with quote just before brace end '0'", emf.format(new Object[] {0}));
-        assertEquals("Message with choice format element with quote just before brace end '1'", emf.format(new Object[] {1}));
+        assertEquals("Choice format element with quote just before brace end '0'", emf.format(new Object[] {0}));
+        assertEquals("Choice format element with quote just before brace end '1'", emf.format(new Object[] {1}));
     }
 
     /**
