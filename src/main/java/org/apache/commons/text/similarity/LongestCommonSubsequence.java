@@ -58,7 +58,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Inputs must not be null");
         }
-        return logestCommonSubsequence(left, right).length();
+        return longestCommonSubsequence(left, right).length();
     }
 
     /**
