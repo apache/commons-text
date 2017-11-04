@@ -30,7 +30,7 @@ public class FuzzyScoreTest {
     private static final FuzzyScore ENGLISH_SCORE = new FuzzyScore(Locale.ENGLISH);
 
     @Test
-    public void testGetFuzzyScore() throws Exception {
+    public void testGetFuzzyScore() {
         assertThat(ENGLISH_SCORE.fuzzyScore("", "")).isEqualTo(0);
         assertThat(ENGLISH_SCORE.fuzzyScore("Workshop", "b")).isEqualTo(0);
         assertThat(ENGLISH_SCORE.fuzzyScore("Room", "o")).isEqualTo(1);
@@ -41,22 +41,22 @@ public class FuzzyScoreTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetFuzzyScore_StringNullLocale() throws Exception {
+    public void testGetFuzzyScore_StringNullLocale() {
         ENGLISH_SCORE.fuzzyScore("not null", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetFuzzyScore_NullStringLocale() throws Exception {
+    public void testGetFuzzyScore_NullStringLocale() {
         ENGLISH_SCORE.fuzzyScore(null, "not null");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetFuzzyScore_NullNullLocale() throws Exception {
+    public void testGetFuzzyScore_NullNullLocale() {
         ENGLISH_SCORE.fuzzyScore(null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testMissingLocale() throws Exception {
+    public void testMissingLocale() {
         new FuzzyScore((Locale) null);
     }
 

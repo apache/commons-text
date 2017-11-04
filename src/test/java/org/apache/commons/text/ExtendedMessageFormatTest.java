@@ -45,7 +45,7 @@ public class ExtendedMessageFormatTest {
     private final Map<String, FormatFactory> registry = new HashMap<>();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         registry.put("lower", new LowerCaseFormatFactory());
         registry.put("upper", new UpperCaseFormatFactory());
     }

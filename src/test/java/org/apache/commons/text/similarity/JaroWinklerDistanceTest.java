@@ -47,17 +47,17 @@ public class JaroWinklerDistanceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetJaroWinklerDistance_NullNull() throws Exception {
+    public void testGetJaroWinklerDistance_NullNull() {
         distance.apply(null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetJaroWinklerDistance_StringNull() throws Exception {
+    public void testGetJaroWinklerDistance_StringNull() {
         distance.apply(" ", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetJaroWinklerDistance_NullString() throws Exception {
+    public void testGetJaroWinklerDistance_NullString() {
         distance.apply(null, "clear");
     }
 

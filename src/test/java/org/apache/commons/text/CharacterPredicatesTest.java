@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CharacterPredicatesTest {
 
     @Test
-    public void testLetters() throws Exception {
+    public void testLetters() {
         assertThat(CharacterPredicates.LETTERS.test('a')).isTrue();
         assertThat(CharacterPredicates.LETTERS.test('Z')).isTrue();
 

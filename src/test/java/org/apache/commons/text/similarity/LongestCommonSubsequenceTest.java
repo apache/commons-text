@@ -51,17 +51,17 @@ public class LongestCommonSubsequenceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingLongestCommonSubsequenceApplyNullNull() throws Exception {
+    public void testGettingLongestCommonSubsequenceApplyNullNull() {
         subject.apply(null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingLongestCommonSubsequenceApplyStringNull() throws Exception {
+    public void testGettingLongestCommonSubsequenceApplyStringNull() {
         subject.apply(" ", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingLongestCommonSubsequenceApplyNullString() throws Exception {
+    public void testGettingLongestCommonSubsequenceApplyNullString() {
         subject.apply(null, "right");
     }
 
@@ -85,17 +85,17 @@ public class LongestCommonSubsequenceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingLongestCommonSubsequenceNullNull() throws Exception {
+    public void testGettingLongestCommonSubsequenceNullNull() {
         subject.longestCommonSubsequence(null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingLongestCommonSubsequenceStringNull() throws Exception {
+    public void testGettingLongestCommonSubsequenceStringNull() {
         subject.longestCommonSubsequence(" ", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingLongestCommonSubsequenceNullString() throws Exception {
+    public void testGettingLongestCommonSubsequenceNullString() {
         subject.longestCommonSubsequence(null, "right");
     }
 
@@ -121,19 +121,19 @@ public class LongestCommonSubsequenceTest {
 
     @Test(expected = IllegalArgumentException.class)
     @Deprecated
-    public void testGettingLogestCommonSubsequenceNullNull() throws Exception {
+    public void testGettingLogestCommonSubsequenceNullNull() {
         subject.logestCommonSubsequence(null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     @Deprecated
-    public void testGettingLogestCommonSubsequenceStringNull() throws Exception {
+    public void testGettingLogestCommonSubsequenceStringNull() {
         subject.logestCommonSubsequence(" ", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     @Deprecated
-    public void testGettingLogestCommonSubsequenceNullString() throws Exception {
+    public void testGettingLogestCommonSubsequenceNullString() {
         subject.logestCommonSubsequence(null, "right");
     }
 }

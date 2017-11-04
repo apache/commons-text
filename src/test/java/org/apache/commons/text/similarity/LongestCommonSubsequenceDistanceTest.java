@@ -51,17 +51,17 @@ public class LongestCommonSubsequenceDistanceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingLongestCommonSubsequenceDistanceNullNull() throws Exception {
+    public void testGettingLongestCommonSubsequenceDistanceNullNull() {
         subject.apply(null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingLongestCommonSubsequenceDistanceStringNull() throws Exception {
+    public void testGettingLongestCommonSubsequenceDistanceStringNull() {
         subject.apply(" ", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingLongestCommonSubsequenceDistanceNullString() throws Exception {
+    public void testGettingLongestCommonSubsequenceDistanceNullString() {
         subject.apply(null, "right");
     }
 

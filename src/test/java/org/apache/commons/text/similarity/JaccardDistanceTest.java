@@ -52,17 +52,17 @@ public class JaccardDistanceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingJaccardDistanceNullNull() throws Exception {
+    public void testGettingJaccardDistanceNullNull() {
         classBeingTested.apply(null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingJaccardDistanceStringNull() throws Exception {
+    public void testGettingJaccardDistanceStringNull() {
         classBeingTested.apply(" ", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingJaccardDistanceNullString() throws Exception {
+    public void testGettingJaccardDistanceNullString() {
         classBeingTested.apply(null, "right");
     }
 }

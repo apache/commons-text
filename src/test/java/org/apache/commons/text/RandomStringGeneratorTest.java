@@ -217,7 +217,7 @@ public class RandomStringGeneratorTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testBadMinAndMax() throws Exception {
+    public void testBadMinAndMax() {
         new RandomStringGenerator.Builder().withinRange(2, 1);
     }
 

@@ -31,14 +31,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AggregateTranslatorTest {
 
     @Test
-    public void testNullConstructor() throws Exception {
+    public void testNullConstructor() {
         final String testString = "foo";
         final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator[]) null);
         assertThat(subject.translate(testString)).isEqualTo(testString);
     }
 
     @Test
-    public void testNullVarargConstructor() throws Exception {
+    public void testNullVarargConstructor() {
         final String testString = "foo";
         final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator) null);
         assertThat(subject.translate(testString)).isEqualTo(testString);

@@ -42,12 +42,12 @@ public class LevenshteinDistanceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetLevenshteinDistance_NullString() throws Exception {
+    public void testGetLevenshteinDistance_NullString() {
         UNLIMITED_DISTANCE.apply("a", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetLevenshteinDistance_StringNull() throws Exception {
+    public void testGetLevenshteinDistance_StringNull() {
         UNLIMITED_DISTANCE.apply(null, "a");
     }
 
@@ -116,17 +116,17 @@ public class LevenshteinDistanceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetLevenshteinDistance_NullStringInt() throws Exception {
+    public void testGetLevenshteinDistance_NullStringInt() {
         UNLIMITED_DISTANCE.apply(null, "a");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetLevenshteinDistance_StringNullInt() throws Exception {
+    public void testGetLevenshteinDistance_StringNullInt() {
         UNLIMITED_DISTANCE.apply("a", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testConstructorWithNegativeThreshold() throws Exception {
+    public void testConstructorWithNegativeThreshold() {
         new LevenshteinDistance(-1);
     }
 

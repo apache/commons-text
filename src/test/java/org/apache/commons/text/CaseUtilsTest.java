@@ -41,7 +41,7 @@ public class CaseUtilsTest {
 
     //------------------------------------------------------------------------
     @Test
-    public void testToCamelCase() throws Exception {
+    public void testToCamelCase() {
         assertThat(CaseUtils.toCamelCase(null, false, null)).isNull();
         assertThat(CaseUtils.toCamelCase("", true, null)).isEqualTo("");
         assertThat(CaseUtils.toCamelCase("  ", false, null)).isEqualTo("  ");

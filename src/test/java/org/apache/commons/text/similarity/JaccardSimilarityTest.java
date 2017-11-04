@@ -52,17 +52,17 @@ public class JaccardSimilarityTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingJaccardSimilarityNullNull() throws Exception {
+    public void testGettingJaccardSimilarityNullNull() {
         classBeingTested.apply(null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingJaccardSimilarityStringNull() throws Exception {
+    public void testGettingJaccardSimilarityStringNull() {
         classBeingTested.apply(" ", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGettingJaccardSimilarityNullString() throws Exception {
+    public void testGettingJaccardSimilarityNullString() {
         classBeingTested.apply(null, "right");
     }
 }

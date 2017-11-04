@@ -508,14 +508,14 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testLANG673() throws Exception {
+    public void testLANG673() {
         assertThat(WordUtils.abbreviate("01 23 45 67 89", 0, 40, "")).isEqualTo("01");
         assertThat(WordUtils.abbreviate("01 23 45 67 89", 10, 40, "")).isEqualTo("01 23 45 67");
         assertThat(WordUtils.abbreviate("01 23 45 67 89", 40, 40, "")).isEqualTo("01 23 45 67 89");
     }
 
     @Test
-    public void testLANG1292() throws Exception {
+    public void testLANG1292() {
         // Prior to fix, this was throwing StringIndexOutOfBoundsException
         WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
                 + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
