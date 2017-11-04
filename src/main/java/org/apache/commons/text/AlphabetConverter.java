@@ -48,17 +48,17 @@ import java.util.Set;
  * <h3>Sample usage</h3>
  *
  * <pre>
- * Character[] originals; // a, b, c, d
- * Character[] encoding; // 0, 1, d
+ * Character[] originals;   // a, b, c, d
+ * Character[] encoding;    // 0, 1, d
  * Character[] doNotEncode; // d
  *
  * AlphabetConverter ac = AlphabetConverter.createConverterFromChars(originals,
  * encoding, doNotEncode);
  *
- * ac.encode("a"); // 00
- * ac.encode("b"); // 01
- * ac.encode("c"); // 0d
- * ac.encode("d"); // d
+ * ac.encode("a");    // 00
+ * ac.encode("b");    // 01
+ * ac.encode("c");    // 0d
+ * ac.encode("d");    // d
  * ac.encode("abcd"); // 00010dd
  * </pre>
  *
