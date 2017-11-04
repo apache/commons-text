@@ -24,8 +24,8 @@ public class LevenshteinResultsTest {
 
     @Test
     public void testEqualsReturningFalse() {
-        final Integer integerOne = new Integer(1662);
-        final Integer integerTwo = new Integer(1164);
+        final Integer integerOne = 1662;
+        final Integer integerTwo = 1164;
         final LevenshteinResults levenshteinResults =
                 new LevenshteinResults(integerOne, integerOne, integerOne, integerOne);
         final LevenshteinResults levenshteinResultsTwo =
@@ -36,7 +36,7 @@ public class LevenshteinResultsTest {
 
     @Test
     public void testEqualsWithNonNull() {
-        final Integer integer = new Integer(1);
+        final Integer integer = 1;
         final LevenshteinResults levenshteinResults = new LevenshteinResults(null, integer, integer, null);
         final LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(null, null, null, null);
 
@@ -45,7 +45,7 @@ public class LevenshteinResultsTest {
 
     @Test
     public void testEqualsWithNull() {
-        final Integer integer = new Integer((-647));
+        final Integer integer = -647;
         final LevenshteinResults levenshteinResults = new LevenshteinResults(integer, null, null, integer);
 
         assertThat(levenshteinResults.equals(null)).isFalse();
@@ -53,7 +53,7 @@ public class LevenshteinResultsTest {
 
     @Test
     public void testEqualsDifferenceInSubstitutionCount() {
-        final Integer integer = new Integer(1662);
+        final Integer integer = 1662;
         final LevenshteinResults levenshteinResults = new LevenshteinResults(integer, integer, integer, integer);
         final LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(integer, integer, integer, null);
 
@@ -62,7 +62,7 @@ public class LevenshteinResultsTest {
 
     @Test
     public void testEqualsSameObject() {
-        final Integer integer = new Integer(1662);
+        final Integer integer = 1662;
         final LevenshteinResults levenshteinResults = new LevenshteinResults(integer, integer, integer, null);
 
         assertThat(levenshteinResults.equals(levenshteinResults)).isTrue();
