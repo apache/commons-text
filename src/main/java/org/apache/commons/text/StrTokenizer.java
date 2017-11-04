@@ -444,9 +444,8 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
     public List<String> getTokenList() {
         checkTokenized();
         final List<String> list = new ArrayList<>(tokens.length);
-        for (final String element : tokens) {
-            list.add(element);
-        }
+        Collections.addAll(list, tokens);
+
         return list;
     }
 

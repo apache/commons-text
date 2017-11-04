@@ -232,7 +232,7 @@ public class AlphabetConverterTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateConverterFromCharsWithNullAndNull() {
         final Character[] characterArray = new Character[2];
-        characterArray[0] = Character.valueOf('$');
+        characterArray[0] = '$';
         characterArray[1] = characterArray[0];
 
         AlphabetConverter.createConverterFromChars(characterArray, null, null);
@@ -241,7 +241,7 @@ public class AlphabetConverterTest {
     @Test
     public void testCreateConverterFromCharsOne() {
         final Character[] characterArray = new Character[2];
-        characterArray[0] = new Character('5');
+        characterArray[0] = '5';
         characterArray[1] = characterArray[0];
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
                 characterArray, characterArray);
@@ -263,7 +263,7 @@ public class AlphabetConverterTest {
     @Test
     public void testEquals() {
         final Character[] characterArray = new Character[2];
-        final Character character = new Character('R');
+        final Character character = 'R';
         characterArray[0] = character;
         characterArray[1] = character;
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
@@ -278,7 +278,7 @@ public class AlphabetConverterTest {
     @Test
     public void testEqualsWithSameObject() {
         final Character[] characterArray = new Character[2];
-        final Character character = new Character('R');
+        final Character character = 'R';
         characterArray[0] = character;
         characterArray[1] = character;
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
@@ -300,7 +300,7 @@ public class AlphabetConverterTest {
     public void testCreateConverterFromCharsAndEquals() {
         final Character[] characterArray = new Character[2];
         final char charOne = '+';
-        final Character character = new Character('+');
+        final Character character = '+';
         characterArray[0] = character;
         characterArray[1] = characterArray[0];
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,

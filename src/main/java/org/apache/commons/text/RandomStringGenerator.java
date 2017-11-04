@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -341,7 +342,7 @@ public final class RandomStringGenerator {
          * @return {@code this}, to allow method chaining.
          */
         public Builder withinRange(final char[] ... pairs) {
-            characterList = new ArrayList<Character>();
+            characterList = new ArrayList<>();
             for (final char[] pair :  pairs) {
                 Validate.isTrue(pair.length == 2,
                       "Each pair must contain minimum and maximum code point");
@@ -386,9 +387,7 @@ public final class RandomStringGenerator {
                 inclusivePredicates.clear();
             }
 
-            for (final CharacterPredicate predicate : predicates) {
-                inclusivePredicates.add(predicate);
-            }
+            Collections.addAll(inclusivePredicates, predicates);
 
             return this;
         }

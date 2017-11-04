@@ -31,7 +31,7 @@ public class CosineSimilarityTest {
     public void testCosineSimilarityWithNonEmptyMap() {
         final CosineSimilarity cosineSimilarity = new CosineSimilarity();
         final Map<CharSequence, Integer> hashMap = new HashMap<>();
-        final Integer integer = new Integer((-397));
+        final Integer integer = -397;
         hashMap.put("3J/$3.L", integer);
         final Map<CharSequence, Integer> hashMapTwo = new HashMap<>();
 

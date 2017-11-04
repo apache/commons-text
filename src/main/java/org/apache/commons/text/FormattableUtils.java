@@ -133,7 +133,7 @@ public class FormattableUtils {
             throw new IllegalArgumentException(
                     String.format("Specified ellipsis '%1$s' exceeds precision of %2$s",
                             ellipsis,
-                            Integer.valueOf(precision)));
+                            precision));
         }
         final StringBuilder buf = new StringBuilder(seq);
         if (precision >= 0 && precision < seq.length()) {
