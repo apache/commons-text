@@ -18,7 +18,6 @@ package org.apache.commons.text.translate;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -434,9 +433,7 @@ public class EntityArrays {
      */
     public static Map<CharSequence, CharSequence> invert(final Map<CharSequence, CharSequence> map) {
         final Map<CharSequence, CharSequence> newMap = new HashMap<>();
-        final Iterator<Map.Entry<CharSequence, CharSequence>> it = map.entrySet().iterator();
-        while (it.hasNext()) {
-            final Map.Entry<CharSequence, CharSequence> pair = it.next();
+        for (Map.Entry<CharSequence, CharSequence> pair : map.entrySet()) {
             newMap.put(pair.getValue(), pair.getKey());
         }
         return newMap;
