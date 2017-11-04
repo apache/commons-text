@@ -131,7 +131,7 @@ public class FormattableUtils {
             final int precision, final char padChar, final CharSequence ellipsis) {
         if (!(ellipsis == null || precision < 0 || ellipsis.length() <= precision)) {
             throw new IllegalArgumentException(
-                    String.format("Specified ellipsis '%1$s' exceeds precision of %2$s",
+                    String.format("Specified ellipsis '%s' exceeds precision of %s",
                             ellipsis,
                             precision));
         }
