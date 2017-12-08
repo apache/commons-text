@@ -46,6 +46,7 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
 
   <release version="1.2" date="2017-MM-DD" description="Release 1.2">
+    <action issue="TEXT-106" type="fix" dev="kinow" due-to="Benoit Moreau">Exception thrown in ExtendedMessageFormat using quotes with custom registry</action>
     <action issue="TEXT-100" type="fix" dev="kinow" due-to="Don Jeba">StringEscapeUtils#UnEscapeJson doesn't recognize escape signs correctly</action>
     <action issue="TEXT-74" type="add" dev="chtompki" due-to="Ioannis Sermetziadis">StrSubstitutor: Ability to turn off substitution in values</action>
     <action issue="TEXT-97" type="add" dev="chtompki" due-to="Amey Jadiye">RandomStringGenerator able to pass multiple ranges to .withinRange()</action>
