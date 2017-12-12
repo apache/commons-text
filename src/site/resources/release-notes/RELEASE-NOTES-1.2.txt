@@ -17,9 +17,10 @@ Apache Commons Text is a library focused on algorithms working on strings.
 JAVA 9 SUPPORT
 ==============
 
-At our time of release of 1.1, our build succeeds with Java 9-ea build 159,
-and we believe all of our features to be Java 9 compatible. However, when we
-run "mvn clean site" we have failures.
+At our time of release of 1.2, our build, "mvn clean site," succeeds with
+Java 9.0.1 build 9.0.1+11, and we believe all of our features to be Java 9
+compatible. However, when we run the build there are substantive warnings
+particularly with the maven-changes-plugin:jira-report.
 
 NEW FEATURES
 =============

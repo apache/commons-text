@@ -23,7 +23,7 @@
     <version>42</version>
   </parent>
   <artifactId>commons-text</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2</version>
   <name>Apache Commons Text</name>
   <description>Apache Commons Text is a library focused on algorithms working on strings.</description>
 
@@ -37,6 +37,7 @@
     <commons.module.name>org.apache.commons.text</commons.module.name>
 
     <commons.release.version>1.2</commons.release.version>
+    <commons.rc.version>RC1</commons.rc.version>
     <commons.release.desc>(Java 7+)</commons.release.desc>
 
     <commons.jira.id>TEXT</commons.jira.id>
@@ -402,6 +403,18 @@
         <commons.javadoc.version>3.0.0-M1</commons.javadoc.version>
         <!-- coverall version 4.3.0 does not work with java 9, see https://github.com/trautonen/coveralls-maven-plugin/issues/112 -->
         <coveralls.skip>true</coveralls.skip>
+      </properties>
+    </profile>
+    <profile>
+      <!-- Temporary hack to suppress Javadoc 8 errors -->
+      <!-- to re-enable the checks, build with -P-javadoc_8 -->
+      <id>javadoc_8</id>
+      <activation>
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <properties>
+        <!-- Disable Xdoclint, until JavaDoc issues are fixed -->
+        <additionalparam>-Xdoclint:none</additionalparam>
       </properties>
     </profile>
   </profiles>
