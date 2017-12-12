@@ -23,7 +23,7 @@
     <version>42</version>
   </parent>
   <artifactId>commons-text</artifactId>
-  <version>1.2</version>
+  <version>1.3-SNAPSHOT</version>
   <name>Apache Commons Text</name>
   <description>Apache Commons Text is a library focused on algorithms working on strings.</description>
 
@@ -36,8 +36,7 @@
     <commons.componentid>text</commons.componentid>
     <commons.module.name>org.apache.commons.text</commons.module.name>
 
-    <commons.release.version>1.2</commons.release.version>
-    <commons.rc.version>RC1</commons.rc.version>
+    <commons.release.version>1.3</commons.release.version>
     <commons.release.desc>(Java 7+)</commons.release.desc>
 
     <commons.jira.id>TEXT</commons.jira.id>
