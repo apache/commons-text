@@ -23,7 +23,7 @@
     <version>42</version>
   </parent>
   <artifactId>commons-text</artifactId>
-  <version>1.3-SNAPSHOT</version>
+  <version>1.3</version>
   <name>Apache Commons Text</name>
   <description>Apache Commons Text is a library focused on algorithms working on strings.</description>
 
@@ -333,6 +333,7 @@
     <connection>scm:git:http://git-wip-us.apache.org/repos/asf/commons-text.git</connection>
     <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/commons-text.git</developerConnection>
     <url>https://git-wip-us.apache.org/repos/asf?p=commons-text.git</url>
+    <tag>commons-text-1.3</tag>
   </scm>
 
   <issueManagement>
@@ -371,18 +372,18 @@
                 <configuration>
                   <tasks>
                     <exec executable="svn">
-                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}"/>
+                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}" />
                     </exec>
 
                     <exec executable="svn">
-                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs"/>
+                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs" />
                     </exec>
 
                     <pathconvert pathsep=" " property="dirs">
-                      <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*"/>
+                      <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*" />
                     </pathconvert>
                     <exec executable="svn">
-                      <arg line="update --set-depth infinity ${dirs}"/>
+                      <arg line="update --set-depth infinity ${dirs}" />
                     </exec>
                   </tasks>
                 </configuration>
