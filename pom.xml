@@ -20,7 +20,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>42</version>
+    <version>43</version>
   </parent>
   <artifactId>commons-text</artifactId>
   <version>1.3-SNAPSHOT</version>
@@ -46,16 +46,8 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
-    <!-- Use clirr version that works on Java 8 -->
-    <commons.clirr.version>2.8</commons.clirr.version>
-
     <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
     <checkstyle.version>6.19</checkstyle.version>
-
-    <!-- Overrides for Java 9 compatibility until commons-parent 43 comes out. -->
-    <commons.jacoco.version>0.7.9</commons.jacoco.version>
-    <!-- Needs an update to the underlying findbugs project for Java 9 -->
-    <commons.findbugs.version>3.0.5</commons.findbugs.version>
   </properties>
 
   <dependencies>
@@ -398,22 +390,8 @@
         <jdk>9</jdk>
       </activation>
       <properties>
-        <!-- versions below 3.0.0 do not work with java 9 -->
-        <commons.javadoc.version>3.0.0-M1</commons.javadoc.version>
         <!-- coverall version 4.3.0 does not work with java 9, see https://github.com/trautonen/coveralls-maven-plugin/issues/112 -->
         <coveralls.skip>true</coveralls.skip>
-      </properties>
-    </profile>
-    <profile>
-      <!-- Temporary hack to suppress Javadoc 8 errors -->
-      <!-- to re-enable the checks, build with -P-javadoc_8 -->
-      <id>javadoc_8</id>
-      <activation>
-        <jdk>[1.8,)</jdk>
-      </activation>
-      <properties>
-        <!-- Disable Xdoclint, until JavaDoc issues are fixed -->
-        <additionalparam>-Xdoclint:none</additionalparam>
       </properties>
     </profile>
   </profiles>
