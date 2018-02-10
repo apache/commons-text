@@ -128,14 +128,17 @@ public class StrSubstitutor {
      * Constant for the default escape character.
      */
     public static final char DEFAULT_ESCAPE = '$';
+
     /**
      * Constant for the default variable prefix.
      */
     public static final StrMatcher DEFAULT_PREFIX = StrMatcher.stringMatcher("${");
+    
     /**
      * Constant for the default variable suffix.
      */
     public static final StrMatcher DEFAULT_SUFFIX = StrMatcher.stringMatcher("}");
+    
     /**
      * Constant for the default value delimiter of a variable.
      */
@@ -145,30 +148,37 @@ public class StrSubstitutor {
      * Stores the escape character.
      */
     private char escapeChar;
+    
     /**
      * Stores the variable prefix.
      */
     private StrMatcher prefixMatcher;
+    
     /**
      * Stores the variable suffix.
      */
     private StrMatcher suffixMatcher;
+    
     /**
      * Stores the default variable value delimiter.
      */
     private StrMatcher valueDelimiterMatcher;
+    
     /**
      * Variable resolution is delegated to an implementor of VariableResolver.
      */
     private StrLookup<?> variableResolver;
+    
     /**
      * The flag whether substitution in variable names is enabled.
      */
     private boolean enableSubstitutionInVariables;
+    
     /**
      * Whether escapes should be preserved.  Default is false;
      */
     private boolean preserveEscapes = false;
+    
     /**
      * The flag whether substitution in variable values is disabled.
      */
