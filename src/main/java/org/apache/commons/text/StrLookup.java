@@ -19,6 +19,8 @@ package org.apache.commons.text;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.apache.commons.text.lookup.StringLookup;
+
 /**
  * Lookup a String key to a String value.
  * <p>
@@ -34,7 +36,7 @@ import java.util.ResourceBundle;
  * @param <V> the type of the values supported by the lookup
  * @since 1.0
  */
-public abstract class StrLookup<V> {
+public abstract class StrLookup<V> implements StringLookup {
 
     /**
      * Lookup that always returns null.
@@ -103,30 +105,6 @@ public abstract class StrLookup<V> {
     protected StrLookup() {
         super();
     }
-
-    /**
-     * Looks up a String key to a String value.
-     * <p>
-     * The internal implementation may use any mechanism to return the value. The simplest implementation is to use a
-     * Map. However, virtually any implementation is possible.
-     * <p>
-     * For example, it would be possible to implement a lookup that used the key as a primary key, and looked up the
-     * value on demand from the database Or, a numeric based implementation could be created that treats the key as an
-     * integer, increments the value and return the result as a string - converting 1 to 2, 15 to 16 etc.
-     * <p>
-     * The {@link #lookup(String)} method always returns a String, regardless of the underlying data, by converting it
-     * as necessary. For example:
-     *
-     * <pre>
-     * Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();
-     * map.put("number", Integer.valueOf(2));
-     * assertEquals("2", StrLookup.mapLookup(map).lookup("number"));
-     * </pre>
-     *
-     * @param key the key to be looked up, may be null
-     * @return the matching value, null if no match
-     */
-    public abstract String lookup(String key);
 
     // -----------------------------------------------------------------------
     /**
