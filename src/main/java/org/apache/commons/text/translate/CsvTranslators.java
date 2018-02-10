@@ -21,13 +21,15 @@ import java.io.Writer;
 
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
+
 /**
- * <p>This class holds inner classes for escaping/unescaping Comma Separated Values.<p>
+ * This class holds inner classes for escaping/unescaping Comma Separated Values.
+ * <p>
+ * In general the use a high level API like <a href="http://commons.apache.org/proper/commons-csv/">Apache Commons
+ * CSV</a> should be preferred over these low level classes.
+ * </p>
  *
- * In general the use a high level API like commons-csv should be preferred over these
- * low level classes.
- *
- * @see <a href="http://commons.apache.org/proper/commons-csv/apidocs/index.html">commons-csv</a>
+ * @see <a href="http://commons.apache.org/proper/commons-csv/apidocs/index.html">Apache Commons CSV</a>
  */
 public final class CsvTranslators {
 
