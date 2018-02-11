@@ -22,12 +22,12 @@ package org.apache.commons.text.lookup;
  * 
  * @since 1.3
  */
-public final class NullStringLookup extends AbstractStringLookup {
+final class NullStringLookup extends AbstractStringLookup {
 
     /**
      * Defines the singleton for this class.
      */
-    public static final NullStringLookup INSTANCE = new NullStringLookup();
+    public static final StringLookup INSTANCE = new NullStringLookup();
 
     /**
      * No need to build instances for now.

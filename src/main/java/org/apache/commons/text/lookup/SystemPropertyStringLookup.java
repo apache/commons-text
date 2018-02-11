@@ -21,12 +21,12 @@ package org.apache.commons.text.lookup;
  * 
  * @since 1.3
  */
-public final class SystemPropertyStringLookup extends AbstractStringLookup {
+final class SystemPropertyStringLookup extends AbstractStringLookup {
 
     /**
      * Defines the singleton for this class.
      */
-    public static final SystemPropertyStringLookup INSTANCE = new SystemPropertyStringLookup();
+    public static final StringLookup INSTANCE = new SystemPropertyStringLookup();
     
     /**
      * No need to build instances for now.

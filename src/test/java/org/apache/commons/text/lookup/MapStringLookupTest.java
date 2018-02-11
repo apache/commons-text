@@ -31,7 +31,7 @@ public class MapStringLookupTest {
         final String value = "value";
         final Map<String, String> map = new HashMap<>();
         map.put(key, value);
-        Assert.assertEquals(value, new MapStringLookup<>(map).lookup(key));
+        Assert.assertEquals(value, MapStringLookup.on(map).lookup(key));
     }
 
 }

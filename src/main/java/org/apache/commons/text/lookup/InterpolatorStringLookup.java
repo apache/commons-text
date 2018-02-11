@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * Proxies other {@link StringLookup}s using a keys within ${} markers using the format "${StringLookup:Key}".
  */
-public class InterpolatorStringLookup extends AbstractStringLookup {
+class InterpolatorStringLookup extends AbstractStringLookup {
 
     /** Constant for the prefix separator. */
     private static final char PREFIX_SEPARATOR = ':';
@@ -63,8 +63,8 @@ public class InterpolatorStringLookup extends AbstractStringLookup {
      * @param defaultMap
      *            the default map for string lookups.
      */
-    public InterpolatorStringLookup(final Map<String, String> defaultMap) {
-        this(new MapStringLookup<>(defaultMap == null ? new HashMap<String, String>() : defaultMap));
+    public <V> InterpolatorStringLookup(final Map<String, V> defaultMap) {
+        this(MapStringLookup.on(defaultMap == null ? new HashMap<String, V>() : defaultMap));
         // TODO: Use a service loader
         stringLookupMap.put("sys", SystemPropertyStringLookup.INSTANCE);
         stringLookupMap.put("env", EnvironmentVariableStringLookup.INSTANCE);

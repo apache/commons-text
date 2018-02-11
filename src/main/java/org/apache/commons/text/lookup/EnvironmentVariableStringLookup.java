@@ -21,12 +21,12 @@ package org.apache.commons.text.lookup;
  * 
  * @since 1.3
  */
-public final class EnvironmentVariableStringLookup extends AbstractStringLookup {
+final class EnvironmentVariableStringLookup extends AbstractStringLookup {
 
     /**
      * Defines the singleton for this class.
      */
-    public static final EnvironmentVariableStringLookup INSTANCE = new EnvironmentVariableStringLookup();
+    public static final StringLookup INSTANCE = new EnvironmentVariableStringLookup();
 
     /**
      * No need to build instances for now.

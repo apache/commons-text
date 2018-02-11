@@ -23,12 +23,12 @@ import java.util.Locale;
  * 
  * @since 1.3
  */
-public final class JavaPlatformStringLookup extends AbstractStringLookup {
+final class JavaPlatformStringLookup extends AbstractStringLookup {
 
     /**
      * Defines the singleton for this class.
      */
-    public static final JavaPlatformStringLookup INSTANCE = new JavaPlatformStringLookup();
+    public static final StringLookup INSTANCE = new JavaPlatformStringLookup();
 
     /**
      * No need to build instances for now.

@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.commons.text.lookup;
+package org.apache.commons.text;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.text.StrSubstitutor;
+import org.apache.commons.text.lookup.StringLookupFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class StrSubstitutorWithInterpolatorTest {
+public class StrSubstitutorWithInterpolatorStringLookupTest {
 
     @Test
     public void testMapAndSystemProperty() {
@@ -32,7 +32,7 @@ public class StrSubstitutorWithInterpolatorTest {
         final String value = "value";
         final Map<String, String> map = new HashMap<>();
         map.put(key, value);
-        final StrSubstitutor strSubst = new StrSubstitutor(new InterpolatorStringLookup(map));
+        final StrSubstitutor strSubst = new StrSubstitutor(StringLookupFactory.INSTANCE.interpolatorStringLookup(map));
         final String spKey = "user.name";
         Assert.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
         Assert.assertEquals(value, strSubst.replace("${" + key + "}"));
@@ -40,7 +40,7 @@ public class StrSubstitutorWithInterpolatorTest {
 
     @Test
     public void testSystemProperty() {
-        final StrSubstitutor strSubst = new StrSubstitutor(new InterpolatorStringLookup());
+        final StrSubstitutor strSubst = new StrSubstitutor(StringLookupFactory.INSTANCE.interpolatorStringLookup());
         final String spKey = "user.name";
         Assert.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
     }

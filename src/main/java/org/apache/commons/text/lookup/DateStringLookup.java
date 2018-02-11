@@ -23,12 +23,12 @@ import java.util.Date;
 /**
  * Formats the current date or the date in the LogEvent. The "key" is used as the format String.
  */
-public final class DateStringLookup extends AbstractStringLookup {
+final class DateStringLookup extends AbstractStringLookup {
 
     /**
      * Defines the singleton for this class.
      */
-    public static final DateStringLookup INSTANCE = new DateStringLookup();
+    public static final StringLookup INSTANCE = new DateStringLookup();
 
     /**
      * No need to build instances for now.

@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.text.lookup.StringLookup;
+import org.apache.commons.text.lookup.StringLookupFactory;
 
 /**
  * Substitutes variables within a string by values.
@@ -167,7 +169,7 @@ public class StrSubstitutor {
     /**
      * Variable resolution is delegated to an implementor of VariableResolver.
      */
-    private StrLookup<?> variableResolver;
+    private StringLookup variableResolver;
     
     /**
      * The flag whether substitution in variable names is enabled.
@@ -248,7 +250,7 @@ public class StrSubstitutor {
      * @return the result of the replace operation
      */
     public static String replaceSystemProperties(final Object source) {
-        return new StrSubstitutor(StrLookup.systemPropertiesLookup()).replace(source);
+        return new StrSubstitutor(StringLookupFactory.INSTANCE.systemPropertyStringLookup()).replace(source);
     }
 
     //-----------------------------------------------------------------------
@@ -319,7 +321,9 @@ public class StrSubstitutor {
      * Creates a new instance and initializes it.
      *
      * @param variableResolver  the variable resolver, may be null
+     * @deprecated Use the StringLookup version of this constructor.
      */
+    @Deprecated
     public StrSubstitutor(final StrLookup<?> variableResolver) {
         this(variableResolver, DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);
     }
@@ -332,7 +336,9 @@ public class StrSubstitutor {
      * @param suffix  the suffix for variables, not null
      * @param escape  the escape character
      * @throws IllegalArgumentException if the prefix or suffix is null
+     * @deprecated Use the StringLookup version of this constructor.
      */
+    @Deprecated
     public StrSubstitutor(final StrLookup<?> variableResolver, final String prefix, final String suffix,
                           final char escape) {
         this.setVariableResolver(variableResolver);
@@ -351,8 +357,95 @@ public class StrSubstitutor {
      * @param escape  the escape character
      * @param valueDelimiter  the variable default value delimiter string, may be null
      * @throws IllegalArgumentException if the prefix or suffix is null
+     * @deprecated Use the StringLookup version of this constructor.
      */
+    @Deprecated
     public StrSubstitutor(final StrLookup<?> variableResolver, final String prefix, final String suffix,
+                          final char escape, final String valueDelimiter) {
+        this.setVariableResolver(variableResolver);
+        this.setVariablePrefix(prefix);
+        this.setVariableSuffix(suffix);
+        this.setEscapeChar(escape);
+        this.setValueDelimiter(valueDelimiter);
+    }
+
+    /**
+     * Creates a new instance and initializes it.
+     *
+     * @param variableResolver  the variable resolver, may be null
+     * @param prefixMatcher  the prefix for variables, not null
+     * @param suffixMatcher  the suffix for variables, not null
+     * @param escape  the escape character
+     * @throws IllegalArgumentException if the prefix or suffix is null
+     * @deprecated Use the StringLookup version of this constructor.
+     */
+    @Deprecated
+    public StrSubstitutor(
+            final StrLookup<?> variableResolver, final StrMatcher prefixMatcher, final StrMatcher suffixMatcher,
+            final char escape) {
+        this(variableResolver, prefixMatcher, suffixMatcher, escape, DEFAULT_VALUE_DELIMITER);
+    }
+
+    /**
+     * Creates a new instance and initializes it.
+     *
+     * @param variableResolver  the variable resolver, may be null
+     * @param prefixMatcher  the prefix for variables, not null
+     * @param suffixMatcher  the suffix for variables, not null
+     * @param escape  the escape character
+     * @param valueDelimiterMatcher  the variable default value delimiter matcher, may be null
+     * @throws IllegalArgumentException if the prefix or suffix is null
+     * @deprecated Use the StringLookup version of this constructor.
+     */
+    @Deprecated
+    public StrSubstitutor(
+            final StrLookup<?> variableResolver, final StrMatcher prefixMatcher, final StrMatcher suffixMatcher,
+            final char escape, final StrMatcher valueDelimiterMatcher) {
+        this.setVariableResolver(variableResolver);
+        this.setVariablePrefixMatcher(prefixMatcher);
+        this.setVariableSuffixMatcher(suffixMatcher);
+        this.setEscapeChar(escape);
+        this.setValueDelimiterMatcher(valueDelimiterMatcher);
+    }
+
+    /**
+     * Creates a new instance and initializes it.
+     *
+     * @param variableResolver  the variable resolver, may be null
+     */
+    public StrSubstitutor(final StringLookup variableResolver) {
+        this(variableResolver, DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);
+    }
+
+    /**
+     * Creates a new instance and initializes it.
+     *
+     * @param variableResolver  the variable resolver, may be null
+     * @param prefix  the prefix for variables, not null
+     * @param suffix  the suffix for variables, not null
+     * @param escape  the escape character
+     * @throws IllegalArgumentException if the prefix or suffix is null
+     */
+    public StrSubstitutor(final StringLookup variableResolver, final String prefix, final String suffix,
+                          final char escape) {
+        this.setVariableResolver(variableResolver);
+        this.setVariablePrefix(prefix);
+        this.setVariableSuffix(suffix);
+        this.setEscapeChar(escape);
+        this.setValueDelimiterMatcher(DEFAULT_VALUE_DELIMITER);
+    }
+
+    /**
+     * Creates a new instance and initializes it.
+     *
+     * @param variableResolver  the variable resolver, may be null
+     * @param prefix  the prefix for variables, not null
+     * @param suffix  the suffix for variables, not null
+     * @param escape  the escape character
+     * @param valueDelimiter  the variable default value delimiter string, may be null
+     * @throws IllegalArgumentException if the prefix or suffix is null
+     */
+    public StrSubstitutor(final StringLookup variableResolver, final String prefix, final String suffix,
                           final char escape, final String valueDelimiter) {
         this.setVariableResolver(variableResolver);
         this.setVariablePrefix(prefix);
@@ -371,7 +464,7 @@ public class StrSubstitutor {
      * @throws IllegalArgumentException if the prefix or suffix is null
      */
     public StrSubstitutor(
-            final StrLookup<?> variableResolver, final StrMatcher prefixMatcher, final StrMatcher suffixMatcher,
+            final StringLookup variableResolver, final StrMatcher prefixMatcher, final StrMatcher suffixMatcher,
             final char escape) {
         this(variableResolver, prefixMatcher, suffixMatcher, escape, DEFAULT_VALUE_DELIMITER);
     }
@@ -387,7 +480,7 @@ public class StrSubstitutor {
      * @throws IllegalArgumentException if the prefix or suffix is null
      */
     public StrSubstitutor(
-            final StrLookup<?> variableResolver, final StrMatcher prefixMatcher, final StrMatcher suffixMatcher,
+            final StringLookup variableResolver, final StrMatcher prefixMatcher, final StrMatcher suffixMatcher,
             final char escape, final StrMatcher valueDelimiterMatcher) {
         this.setVariableResolver(variableResolver);
         this.setVariablePrefixMatcher(prefixMatcher);
@@ -1174,7 +1267,7 @@ public class StrSubstitutor {
      * @return the VariableResolver
      */
     public StrLookup<?> getVariableResolver() {
-        return this.variableResolver;
+        return (StrLookup<?>) this.variableResolver;
     }
 
     /**
@@ -1183,6 +1276,15 @@ public class StrSubstitutor {
      * @param variableResolver  the VariableResolver
      */
     public void setVariableResolver(final StrLookup<?> variableResolver) {
+        this.variableResolver = variableResolver;
+    }
+
+    /**
+     * Sets the VariableResolver that is used to lookup variables.
+     *
+     * @param variableResolver  the VariableResolver
+     */
+    public void setVariableResolver(final StringLookup variableResolver) {
         this.variableResolver = variableResolver;
     }
 

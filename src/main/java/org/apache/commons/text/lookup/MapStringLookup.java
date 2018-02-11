@@ -29,6 +29,17 @@ import java.util.Map;
 public final class MapStringLookup<V> implements StringLookup {
 
     /**
+     * Creates a new instance backed by a Map. Used by the default lookup.
+     *
+     * @param map
+     *            the map of keys to values, may be null.
+     * @return a new instance backed by the given map.
+     */
+    public static <T> MapStringLookup<T> on(final Map<String, T> map) {
+        return new MapStringLookup<>(map);
+    }
+
+    /**
      * Map keys are variable names and value.
      */
     private final Map<String, V> map;
@@ -37,9 +48,9 @@ public final class MapStringLookup<V> implements StringLookup {
      * Creates a new instance backed by a Map. Used by the default lookup.
      *
      * @param map
-     *            the map of keys to values, may be null
+     *            the map of keys to values, may be null.
      */
-    public MapStringLookup(final Map<String, V> map) {
+    private MapStringLookup(final Map<String, V> map) {
         this.map = map;
     }
 
@@ -54,7 +65,7 @@ public final class MapStringLookup<V> implements StringLookup {
      * </p>
      *
      * @param key
-     *            the key to be looked up, may be null
+     *            the key to be looked up, may be null.
      * @return the matching value, null if no match
      */
     @Override
