@@ -33,14 +33,23 @@ public class InterpolatorStringLookup extends AbstractStringLookup {
     private final Map<String, StringLookup> stringLookupMap = new HashMap<>();
 
     /**
-     * Create the default Interpolator using only Lookups that work without an event.
+     * Creates an instance using only lookups that work without initial properties and are stateless.
+     * <p>
+     * The following lookups are installed:
+     * </p>
+     * <ul>
+     * <li>"sys" for the SystemPropertyStringLookup.</li>
+     * <li>"env" for the EnvironmentVariableStringLookup.</li>
+     * <li>"java" for the JavaPlatformStringLookup.</li>
+     * <li>"date" for the DateStringLookup.</li>
+     * </ul>
      */
     public InterpolatorStringLookup() {
         this((Map<String, String>) null);
     }
 
     /**
-     * Creates the Interpolator using only Lookups that work without an event and initial properties.
+     * Creates an instance using only lookups that work without initial properties and are stateless.
      * <p>
      * The following lookups are installed:
      * </p>
@@ -63,11 +72,22 @@ public class InterpolatorStringLookup extends AbstractStringLookup {
         stringLookupMap.put("date", DateStringLookup.INSTANCE);
     }
 
+    /**
+     * Creates an instance with the given lookup.
+     * 
+     * @param defaultStringLookup
+     *            the default lookup.
+     */
     public InterpolatorStringLookup(final StringLookup defaultStringLookup) {
         this.defaultStringLookup = defaultStringLookup;
     }
 
-    public Map<String, StringLookup> getStrLookupMap() {
+    /**
+     * Gets the lookup map.
+     * 
+     * @return the lookup map.
+     */
+    public Map<String, StringLookup> getStringLookupMap() {
         return stringLookupMap;
     }
 
