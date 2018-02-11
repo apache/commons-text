@@ -18,7 +18,7 @@ package org.apache.commons.text.lookup;
 
 /**
  * Looks up keys from environment variables.
- * 
+ *
  * @since 1.3
  */
 final class EnvironmentVariableStringLookup extends AbstractStringLookup {
@@ -37,7 +37,7 @@ final class EnvironmentVariableStringLookup extends AbstractStringLookup {
 
     /**
      * Looks up the value of the given environment variable.
-     * 
+     *
      * @param key
      *            the key to be looked up, may be null
      * @return The value of the environment variable.

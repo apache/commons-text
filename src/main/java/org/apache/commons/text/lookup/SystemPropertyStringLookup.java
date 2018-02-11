@@ -18,7 +18,7 @@ package org.apache.commons.text.lookup;
 
 /**
  * Looks up keys from system properties.
- * 
+ *
  * @since 1.3
  */
 final class SystemPropertyStringLookup extends AbstractStringLookup {
@@ -27,7 +27,7 @@ final class SystemPropertyStringLookup extends AbstractStringLookup {
      * Defines the singleton for this class.
      */
     public static final StringLookup INSTANCE = new SystemPropertyStringLookup();
-    
+
     /**
      * No need to build instances for now.
      */
@@ -37,7 +37,7 @@ final class SystemPropertyStringLookup extends AbstractStringLookup {
 
     /**
      * Looks up the value for the key from system properties.
-     * 
+     *
      * @param key
      *            the key to be looked up, may be null
      * @return The value associated with the key.

@@ -23,7 +23,7 @@ package org.apache.commons.text.lookup;
  * Unfortunately, the type {@link org.apache.commons.text.StrLookup} was defined as class and not an interface, which is
  * why this package introduces the interface {@link StringLookup}.
  * </p>
- * 
+ *
  * @since 1.3
  */
 public abstract class AbstractStringLookup implements StringLookup {

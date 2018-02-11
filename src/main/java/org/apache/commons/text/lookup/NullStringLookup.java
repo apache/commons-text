@@ -19,7 +19,7 @@ package org.apache.commons.text.lookup;
 
 /**
  * Always returns null.
- * 
+ *
  * @since 1.3
  */
 final class NullStringLookup extends AbstractStringLookup {

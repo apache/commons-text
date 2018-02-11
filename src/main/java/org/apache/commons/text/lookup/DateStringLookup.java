@@ -54,9 +54,9 @@ final class DateStringLookup extends AbstractStringLookup {
 
     /**
      * Looks up the value of the environment variable.
-     * 
+     *
      * @param key
-     *            the format to use. If null, the default DateFormat will be used.
+     *            the format to use. If null, the default {@link DateFormat} will be used.
      * @return The value of the environment variable.
      */
     @Override

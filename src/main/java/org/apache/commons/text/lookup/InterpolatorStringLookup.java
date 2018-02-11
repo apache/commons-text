@@ -59,7 +59,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"java" for the JavaPlatformStringLookup.</li>
      * <li>"date" for the DateStringLookup.</li>
      * </ul>
-     * 
+     *
      * @param defaultMap
      *            the default map for string lookups.
      */
@@ -74,7 +74,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
 
     /**
      * Creates an instance with the given lookup.
-     * 
+     *
      * @param defaultStringLookup
      *            the default lookup.
      */
@@ -84,7 +84,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
 
     /**
      * Gets the lookup map.
-     * 
+     *
      * @return the lookup map.
      */
     public Map<String, StringLookup> getStringLookupMap() {

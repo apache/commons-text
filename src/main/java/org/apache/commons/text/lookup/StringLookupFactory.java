@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * Provides access to lookups defined in this package.
- * 
+ *
  * @since 1.3
  */
 public class StringLookupFactory {

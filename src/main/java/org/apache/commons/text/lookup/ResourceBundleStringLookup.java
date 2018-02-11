@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 
 /**
  * Looks up keys from resource bundles.
- * 
+ *
  * @see ResourceBundle
  * @since 1.3
  */
@@ -31,7 +31,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
      * Defines the singleton for this class.
      */
     public static final StringLookup INSTANCE = new ResourceBundleStringLookup();
-    
+
     /**
      * No need to build instances for now.
      */

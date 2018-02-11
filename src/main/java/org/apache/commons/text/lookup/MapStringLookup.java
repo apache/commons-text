@@ -20,10 +20,10 @@ import java.util.Map;
 
 /**
  * A map-based lookup.
- * 
+ *
  * @param <V>
  *            A map's value type
- * 
+ *
  * @since 1.3
  */
 public final class MapStringLookup<V> implements StringLookup {

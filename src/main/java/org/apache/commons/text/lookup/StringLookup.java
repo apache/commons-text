@@ -29,9 +29,9 @@ package org.apache.commons.text.lookup;
  * </p>
  * <p>
  * Unfortunately, the type {@link org.apache.commons.text.StrLookup} was defined as class and not an interface, which is
- * why this package introduces the interface {@link StringLookup}. In time, some deprecation strategy should be created.
+ * why this package introduces the interface {@link StringLookup}.
  * </p>
- * 
+ *
  * @since 1.3
  */
 public interface StringLookup {
@@ -51,15 +51,15 @@ public interface StringLookup {
      * This method always returns a String, regardless of the underlying data, by converting it as necessary. For
      * example:
      * </p>
-     * 
+     *
      * <pre>
      * Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();
      * map.put("number", new Integer(2));
      * assertEquals("2", StrLookup.mapLookup(map).lookup("number"));
      * </pre>
-     * 
+     *
      * @param key
-     *            the key to be looked up, may be null
+     *            the key to look up, may be null
      * @return the matching value, null if no match
      */
     String lookup(String key);

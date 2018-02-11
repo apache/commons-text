@@ -20,7 +20,7 @@ import java.util.Locale;
 
 /**
  * Looks up keys related to Java: Java version, JRE version, VM version, and so on.
- * 
+ *
  * @since 1.3
  */
 final class JavaPlatformStringLookup extends AbstractStringLookup {

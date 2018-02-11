@@ -19,7 +19,7 @@ package org.apache.commons.text.lookup;
 
 /**
  * Shorthands creating {@link IllegalArgumentException} instances using formatted strings.
- * 
+ *
  * @since 1.3
  */
 final class IllegalArgumentExceptions {
