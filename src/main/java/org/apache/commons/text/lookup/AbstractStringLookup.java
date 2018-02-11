@@ -17,18 +17,16 @@
 
 package org.apache.commons.text.lookup;
 
-import org.apache.commons.text.StrLookup;
-
 /**
  * A default lookup for others to extend in this package.
  * <p>
  * Unfortunately, the type {@link org.apache.commons.text.StrLookup} was defined as class and not an interface, which is
- * why this package introduces the interface {@link StringLookup}. In time, some deprecation strategy should be created.
+ * why this package introduces the interface {@link StringLookup}.
  * </p>
  * 
  * @since 1.3
  */
-public abstract class AbstractStringLookup extends StrLookup<String> {
+public abstract class AbstractStringLookup implements StringLookup {
 
     protected static final String EMPTY = "";
 
