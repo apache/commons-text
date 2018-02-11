@@ -106,10 +106,9 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
             if (!semiNext) {
                 if (isSet(OPTION.semiColonRequired)) {
                     return 0;
-                } else {
-                    if (isSet(OPTION.errorIfNoSemiColon)) {
-                        throw new IllegalArgumentException("Semi-colon required at end of numeric entity");
-                    }
+                }
+                if (isSet(OPTION.errorIfNoSemiColon)) {
+                    throw new IllegalArgumentException("Semi-colon required at end of numeric entity");
                 }
             }
 

@@ -107,9 +107,8 @@ public class CaseUtils {
         }
         if (outOffset != 0) {
             return new String(newCodePoints, 0, outOffset);
-        } else {
-            return str;
         }
+        return str;
     }
 
     /**
