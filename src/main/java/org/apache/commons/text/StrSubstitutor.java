@@ -1026,7 +1026,7 @@ public class StrSubstitutor {
      * Writers of subclasses can override this method if they need to alter
      * how each substitution occurs. The method is passed the variable's name
      * and must return the corresponding value. This implementation uses the
-     * {@link #getVariableResolver()} with the variable's name as the key.
+     * {@link #getStringLookup()} with the variable's name as the key.
      *
      * @param variableName  the name of the variable, not null
      * @param buf  the buffer where the substitution is occurring, not null
@@ -1038,7 +1038,7 @@ public class StrSubstitutor {
                                      final StrBuilder buf,
                                      final int startPos,
                                      final int endPos) {
-        final StrLookup<?> resolver = getVariableResolver();
+        final StringLookup resolver = getStringLookup();
         if (resolver == null) {
             return null;
         }
@@ -1262,10 +1262,21 @@ public class StrSubstitutor {
     // Resolver
     //-----------------------------------------------------------------------
     /**
+     * Gets the StringLookup that is used to lookup variables.
+     *
+     * @return the StringLookup
+     */
+    public StringLookup getStringLookup() {
+        return this.variableResolver;
+    }
+
+    /**
      * Gets the VariableResolver that is used to lookup variables.
      *
      * @return the VariableResolver
+     * @deprecated Use {@link #getStringLookup()}.
      */
+    @Deprecated
     public StrLookup<?> getVariableResolver() {
         return (StrLookup<?>) this.variableResolver;
     }

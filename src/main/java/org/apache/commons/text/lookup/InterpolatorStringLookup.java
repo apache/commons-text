@@ -44,7 +44,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"date" for the DateStringLookup.</li>
      * </ul>
      */
-    public InterpolatorStringLookup() {
+    InterpolatorStringLookup() {
         this((Map<String, String>) null);
     }
 
@@ -63,7 +63,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * @param defaultMap
      *            the default map for string lookups.
      */
-    public <V> InterpolatorStringLookup(final Map<String, V> defaultMap) {
+    <V> InterpolatorStringLookup(final Map<String, V> defaultMap) {
         this(MapStringLookup.on(defaultMap == null ? new HashMap<String, V>() : defaultMap));
         // TODO: Use a service loader
         stringLookupMap.put("sys", SystemPropertyStringLookup.INSTANCE);
@@ -78,7 +78,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * @param defaultStringLookup
      *            the default lookup.
      */
-    public InterpolatorStringLookup(final StringLookup defaultStringLookup) {
+    InterpolatorStringLookup(final StringLookup defaultStringLookup) {
         this.defaultStringLookup = defaultStringLookup;
     }
 
