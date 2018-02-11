@@ -56,10 +56,12 @@ public class ReplacementsFinder<T> implements CommandVisitor<T> {
      * List of pending insertions.
      */
     private final List<T> pendingInsertions;
+    
     /**
      * List of pending deletions.
      */
     private final List<T> pendingDeletions;
+    
     /**
      * Count of elements skipped.
      */
