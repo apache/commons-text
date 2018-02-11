@@ -167,7 +167,7 @@ public class StrSubstitutor {
     private StrMatcher valueDelimiterMatcher;
 
     /**
-     * Variable resolution is delegated to an implementor of VariableResolver.
+     * Variable resolution is delegated to an implementor of {@link StringLookup}.
      */
     private StringLookup variableResolver;
 
@@ -259,7 +259,7 @@ public class StrSubstitutor {
      * and the escaping character.
      */
     public StrSubstitutor() {
-        this((StrLookup<?>) null, DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);
+        this((StringLookup) null, DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);
     }
 
     /**
@@ -270,7 +270,7 @@ public class StrSubstitutor {
      * @param valueMap  the map with the variables' values, may be null
      */
     public <V> StrSubstitutor(final Map<String, V> valueMap) {
-        this(StrLookup.mapLookup(valueMap), DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);
+        this(StringLookupFactory.INSTANCE.mapStringLookup(valueMap), DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);
     }
 
     /**
@@ -283,7 +283,7 @@ public class StrSubstitutor {
      * @throws IllegalArgumentException if the prefix or suffix is null
      */
     public <V> StrSubstitutor(final Map<String, V> valueMap, final String prefix, final String suffix) {
-        this(StrLookup.mapLookup(valueMap), prefix, suffix, DEFAULT_ESCAPE);
+        this(StringLookupFactory.INSTANCE.mapStringLookup(valueMap), prefix, suffix, DEFAULT_ESCAPE);
     }
 
     /**
@@ -298,7 +298,7 @@ public class StrSubstitutor {
      */
     public <V> StrSubstitutor(final Map<String, V> valueMap, final String prefix, final String suffix,
                               final char escape) {
-        this(StrLookup.mapLookup(valueMap), prefix, suffix, escape);
+        this(StringLookupFactory.INSTANCE.mapStringLookup(valueMap), prefix, suffix, escape);
     }
 
     /**
@@ -314,7 +314,7 @@ public class StrSubstitutor {
      */
     public <V> StrSubstitutor(final Map<String, V> valueMap, final String prefix, final String suffix,
                               final char escape, final String valueDelimiter) {
-        this(StrLookup.mapLookup(valueMap), prefix, suffix, escape, valueDelimiter);
+        this(StringLookupFactory.INSTANCE.mapStringLookup(valueMap), prefix, suffix, escape, valueDelimiter);
     }
 
     /**
@@ -1285,7 +1285,9 @@ public class StrSubstitutor {
      * Sets the VariableResolver that is used to lookup variables.
      *
      * @param variableResolver  the VariableResolver
+     * @deprecated Use {@link #StrSubstitutor(StringLookup)}.
      */
+    @Deprecated
     public void setVariableResolver(final StrLookup<?> variableResolver) {
         this.variableResolver = variableResolver;
     }

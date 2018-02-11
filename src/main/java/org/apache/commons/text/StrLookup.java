@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.commons.text.lookup.StringLookup;
+import org.apache.commons.text.lookup.StringLookupFactory;
 
 /**
  * Lookup a String key to a String value.
@@ -35,7 +36,9 @@ import org.apache.commons.text.lookup.StringLookup;
  *
  * @param <V> the type of the values supported by the lookup
  * @since 1.0
+ * @deprecated Use {@link StringLookupFactory}.
  */
+@Deprecated
 public abstract class StrLookup<V> implements StringLookup {
 
     /**
