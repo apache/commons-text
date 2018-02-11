@@ -24,7 +24,7 @@ import java.util.Map;
  *
  * @since 1.3
  */
-public class StringLookupFactory {
+public final class StringLookupFactory {
 
     /**
      * Defines the singleton for this class.

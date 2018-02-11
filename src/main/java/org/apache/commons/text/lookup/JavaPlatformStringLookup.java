@@ -18,6 +18,8 @@ package org.apache.commons.text.lookup;
 
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Looks up keys related to Java: Java version, JRE version, VM version, and so on.
  *
@@ -28,7 +30,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
     /**
      * Defines the singleton for this class.
      */
-    public static final StringLookup INSTANCE = new JavaPlatformStringLookup();
+    static final JavaPlatformStringLookup INSTANCE = new JavaPlatformStringLookup();
 
     /**
      * No need to build instances for now.
@@ -39,9 +41,10 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
 
     /**
      * Accessible through the Lookup key {@code hardware}.
+     *
      * @return hardware processor information.
      */
-    public String getHardware() {
+    String getHardware() {
         return "processors: " + Runtime.getRuntime().availableProcessors() + ", architecture: "
                 + getSystemProperty("os.arch") + this.getSystemProperty("-", "sun.arch.data.model")
                 + this.getSystemProperty(", instruction sets: ", "sun.cpu.isalist");
@@ -49,17 +52,19 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
 
     /**
      * Accessible through the Lookup key {@code locale}.
+     *
      * @return system locale and file encoding information.
      */
-    public String getLocale() {
+    String getLocale() {
         return "default locale: " + Locale.getDefault() + ", platform encoding: " + getSystemProperty("file.encoding");
     }
 
     /**
      * Accessible through the Lookup key {@code os}.
+     *
      * @return operating system information.
      */
-    public String getOperatingSystem() {
+    String getOperatingSystem() {
         return getSystemProperty("os.name") + " " + getSystemProperty("os.version")
                 + getSystemProperty(" ", "sun.os.patch.level") + ", architecture: " + getSystemProperty("os.arch")
                 + getSystemProperty("-", "sun.arch.data.model");
@@ -67,30 +72,48 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
 
     /**
      * Accessible through the Lookup key {@code runtime}.
+     *
      * @return Java Runtime Environment information.
      */
-    public String getRuntime() {
+    String getRuntime() {
         return getSystemProperty("java.runtime.name") + " (build " + getSystemProperty("java.runtime.version")
                 + ") from " + getSystemProperty("java.vendor");
     }
 
+    /**
+     * Gets the given system property.
+     *
+     * @param name
+     *            a system property name.
+     * @return a system property value.
+     */
     private String getSystemProperty(final String name) {
         return SystemPropertyStringLookup.INSTANCE.lookup(name);
     }
 
+    /**
+     * Gets the given system property.
+     *
+     * @param prefix
+     *            the prefix to use for the result string
+     * @param name
+     *            a system property name.
+     * @return the prefix + a system property value.
+     */
     private String getSystemProperty(final String prefix, final String name) {
         final String value = getSystemProperty(name);
-        if (isEmpty(value)) {
-            return EMPTY;
+        if (StringUtils.isEmpty(value)) {
+            return StringUtils.EMPTY;
         }
         return prefix + value;
     }
 
     /**
      * Accessible through the Lookup key {@code vm}.
+     *
      * @return Java Virtual Machine information.
      */
-    public String getVirtualMachine() {
+    String getVirtualMachine() {
         return getSystemProperty("java.vm.name") + " (build " + getSystemProperty("java.vm.version") + ", "
                 + getSystemProperty("java.vm.info") + ")";
     }
@@ -99,7 +122,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      * Looks up the value of the Java platform key.
      *
      * @param key
-     *        the key to be looked up, may be null
+     *            the key to be looked up, may be null
      * @return The value of the environment variable.
      */
     @Override

@@ -28,7 +28,7 @@ final class DateStringLookup extends AbstractStringLookup {
     /**
      * Defines the singleton for this class.
      */
-    public static final StringLookup INSTANCE = new DateStringLookup();
+    static final DateStringLookup INSTANCE = new DateStringLookup();
 
     /**
      * No need to build instances for now.
@@ -37,6 +37,15 @@ final class DateStringLookup extends AbstractStringLookup {
         // empty
     }
 
+    /**
+     * Formats the given {@code date} long with the given {@code format}.
+     *
+     * @param date
+     *            the date to format
+     * @param format
+     *            the format string for {@link SimpleDateFormat}.
+     * @return the formatted date
+     */
     private String formatDate(final long date, final String format) {
         DateFormat dateFormat = null;
         if (format != null) {

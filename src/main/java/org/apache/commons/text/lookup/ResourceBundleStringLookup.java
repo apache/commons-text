@@ -30,7 +30,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
     /**
      * Defines the singleton for this class.
      */
-    public static final StringLookup INSTANCE = new ResourceBundleStringLookup();
+    static final ResourceBundleStringLookup INSTANCE = new ResourceBundleStringLookup();
 
     /**
      * No need to build instances for now.

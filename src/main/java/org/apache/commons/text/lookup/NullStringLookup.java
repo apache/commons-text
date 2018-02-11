@@ -27,7 +27,7 @@ final class NullStringLookup extends AbstractStringLookup {
     /**
      * Defines the singleton for this class.
      */
-    public static final StringLookup INSTANCE = new NullStringLookup();
+    static final NullStringLookup INSTANCE = new NullStringLookup();
 
     /**
      * No need to build instances for now.

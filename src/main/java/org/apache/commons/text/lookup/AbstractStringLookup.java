@@ -27,11 +27,5 @@ package org.apache.commons.text.lookup;
  * @since 1.3
  */
 public abstract class AbstractStringLookup implements StringLookup {
-
-    protected static final String EMPTY = "";
-
-    protected boolean isEmpty(final String value) {
-        return value == null ? true : value.isEmpty();
-    }
-
+    // nothing yet
 }

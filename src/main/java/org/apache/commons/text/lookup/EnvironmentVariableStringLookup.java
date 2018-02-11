@@ -26,7 +26,7 @@ final class EnvironmentVariableStringLookup extends AbstractStringLookup {
     /**
      * Defines the singleton for this class.
      */
-    public static final StringLookup INSTANCE = new EnvironmentVariableStringLookup();
+    static final EnvironmentVariableStringLookup INSTANCE = new EnvironmentVariableStringLookup();
 
     /**
      * No need to build instances for now.

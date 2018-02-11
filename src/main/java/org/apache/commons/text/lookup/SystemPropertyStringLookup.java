@@ -26,7 +26,7 @@ final class SystemPropertyStringLookup extends AbstractStringLookup {
     /**
      * Defines the singleton for this class.
      */
-    public static final StringLookup INSTANCE = new SystemPropertyStringLookup();
+    static final SystemPropertyStringLookup INSTANCE = new SystemPropertyStringLookup();
 
     /**
      * No need to build instances for now.

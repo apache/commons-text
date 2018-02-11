@@ -31,6 +31,8 @@ public final class MapStringLookup<V> implements StringLookup {
     /**
      * Creates a new instance backed by a Map. Used by the default lookup.
      *
+     * @param <T>
+     *            the map's value type.
      * @param map
      *            the map of keys to values, may be null.
      * @return a new instance backed by the given map.
@@ -54,7 +56,12 @@ public final class MapStringLookup<V> implements StringLookup {
         this.map = map;
     }
 
-    protected Map<String, V> getMap() {
+    /**
+     * Gets the map used in lookups.
+     *
+     * @return the map used in lookups.
+     */
+    Map<String, V> getMap() {
         return map;
     }
 

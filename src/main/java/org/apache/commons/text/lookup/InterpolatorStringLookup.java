@@ -28,8 +28,10 @@ class InterpolatorStringLookup extends AbstractStringLookup {
     /** Constant for the prefix separator. */
     private static final char PREFIX_SEPARATOR = ':';
 
+    /** The default string lookup. */
     private final StringLookup defaultStringLookup;
 
+    /** The map of String lookups keyed by prefix. */
     private final Map<String, StringLookup> stringLookupMap = new HashMap<>();
 
     /**
@@ -60,6 +62,8 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"date" for the DateStringLookup.</li>
      * </ul>
      *
+     * @param <V>
+     *            the map's value type.
      * @param defaultMap
      *            the default map for string lookups.
      */
