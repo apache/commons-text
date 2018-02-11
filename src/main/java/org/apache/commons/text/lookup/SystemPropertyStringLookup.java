@@ -41,6 +41,7 @@ public final class SystemPropertyStringLookup extends AbstractStringLookup {
      * @param key
      *            the key to be looked up, may be null
      * @return The value associated with the key.
+     * @see System#getProperty(String)
      */
     @Override
     public String lookup(final String key) {

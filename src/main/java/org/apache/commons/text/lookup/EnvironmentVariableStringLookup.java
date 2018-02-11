@@ -41,6 +41,7 @@ public final class EnvironmentVariableStringLookup extends AbstractStringLookup 
      * @param key
      *            the key to be looked up, may be null
      * @return The value of the environment variable.
+     * @see System#getenv(String)
      */
     @Override
     public String lookup(final String key) {

@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 /**
  * Looks up keys from resource bundles.
  * 
+ * @see ResourceBundle
  * @since 1.3
  */
 public final class ResourceBundleStringLookup extends AbstractStringLookup {
@@ -46,6 +47,9 @@ public final class ResourceBundleStringLookup extends AbstractStringLookup {
      * @param key
      *            the key to be looked up, may be null
      * @return The value associated with the key.
+     * @see ResourceBundle
+     * @see ResourceBundle#getBundle(String)
+     * @see ResourceBundle#getString(String)
      */
     @Override
     public String lookup(final String key) {
