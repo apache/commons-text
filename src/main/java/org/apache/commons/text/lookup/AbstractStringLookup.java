@@ -26,6 +26,6 @@ package org.apache.commons.text.lookup;
  *
  * @since 1.3
  */
-public abstract class AbstractStringLookup implements StringLookup {
+abstract class AbstractStringLookup implements StringLookup {
     // nothing yet
 }

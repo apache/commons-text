@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.apache.commons.text.lookup.MapStringLookup;
 import org.apache.commons.text.lookup.StringLookup;
 import org.apache.commons.text.lookup.StringLookupFactory;
 import org.junit.After;
@@ -770,10 +769,10 @@ public class StrSubstitutorTest {
     @Test
     public void testReplaceInTakingTwoAndThreeIntsReturningFalse() {
         final Map<String, Object> hashMap = new HashMap<>();
-        final MapStringLookup<Object> strLookupMapStrLookup = MapStringLookup.on(hashMap);
+        final StringLookup mapStringLookup = StringLookupFactory.INSTANCE.mapStringLookup(hashMap);
         final StrMatcher strMatcher = StrMatcher.tabMatcher();
         final StrSubstitutor strSubstitutor =
-                new StrSubstitutor(strLookupMapStrLookup, strMatcher, strMatcher, 'b', strMatcher);
+                new StrSubstitutor(mapStringLookup, strMatcher, strMatcher, 'b', strMatcher);
 
         assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, (-1369)));
         assertEquals('b', strSubstitutor.getEscapeChar());
@@ -783,10 +782,10 @@ public class StrSubstitutorTest {
     @Test
     public void testReplaceInTakingTwoAndThreeIntsReturningFalse_deprecated() {
         final Map<String, Object> hashMap = new HashMap<>();
-        final StrLookup.MapStrLookup<Object> strLookupMapStrLookup = new StrLookup.MapStrLookup<>(hashMap);
+        final StrLookup.MapStrLookup<Object> mapStrLookup = new StrLookup.MapStrLookup<>(hashMap);
         final StrMatcher strMatcher = StrMatcher.tabMatcher();
         final StrSubstitutor strSubstitutor =
-                new StrSubstitutor(strLookupMapStrLookup, strMatcher, strMatcher, 'b', strMatcher);
+                new StrSubstitutor(mapStrLookup, strMatcher, strMatcher, 'b', strMatcher);
 
         assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, (-1369)));
         assertEquals('b', strSubstitutor.getEscapeChar());
@@ -826,8 +825,8 @@ public class StrSubstitutorTest {
     @Test
     public void testCreatesStrSubstitutorTakingStrLookupAndCallsReplaceTakingTwoAndThreeInts() {
         final Map<String, CharacterPredicates> map = new HashMap<>();
-        final MapStringLookup<CharacterPredicates> strLookupMapStrLookup = MapStringLookup.on(map);
-        final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookupMapStrLookup);
+        final StringLookup mapStringLookup = StringLookupFactory.INSTANCE.mapStringLookup(map);
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(mapStringLookup);
 
         assertNull(strSubstitutor.replace((CharSequence) null, 0, 0));
         assertEquals('$', strSubstitutor.getEscapeChar());
@@ -836,8 +835,8 @@ public class StrSubstitutorTest {
     @Test
     public void testCreatesStrSubstitutorTakingStrLookupAndCallsReplaceTakingTwoAndThreeInts_deprecated() {
         final Map<String, CharacterPredicates> map = new HashMap<>();
-        final StrLookup.MapStrLookup<CharacterPredicates> strLookupMapStrLookup = new StrLookup.MapStrLookup<>(map);
-        final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookupMapStrLookup);
+        final StrLookup.MapStrLookup<CharacterPredicates> mapStrLookup = new StrLookup.MapStrLookup<>(map);
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(mapStrLookup);
 
         assertNull(strSubstitutor.replace((CharSequence) null, 0, 0));
         assertEquals('$', strSubstitutor.getEscapeChar());

@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @since 1.3
  */
-public final class MapStringLookup<V> implements StringLookup {
+final class MapStringLookup<V> implements StringLookup {
 
     /**
      * Creates a new instance backed by a Map. Used by the default lookup.
@@ -37,7 +37,7 @@ public final class MapStringLookup<V> implements StringLookup {
      *            the map of keys to values, may be null.
      * @return a new instance backed by the given map.
      */
-    public static <T> MapStringLookup<T> on(final Map<String, T> map) {
+    static <T> MapStringLookup<T> on(final Map<String, T> map) {
         return new MapStringLookup<>(map);
     }
 

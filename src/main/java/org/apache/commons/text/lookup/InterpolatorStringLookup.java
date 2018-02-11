@@ -69,7 +69,6 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      */
     <V> InterpolatorStringLookup(final Map<String, V> defaultMap) {
         this(MapStringLookup.on(defaultMap == null ? new HashMap<String, V>() : defaultMap));
-        // TODO: Use a service loader
         stringLookupMap.put("sys", SystemPropertyStringLookup.INSTANCE);
         stringLookupMap.put("env", EnvironmentVariableStringLookup.INSTANCE);
         stringLookupMap.put("java", JavaPlatformStringLookup.INSTANCE);
