@@ -230,7 +230,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
 
     //-----------------------------------------------------------------------
     /**
-     * Constructs a tokenizer splitting on space, tab, newline and formfeed
+     * Constructs a tokenizer splitting on space, tab, newline and form feed
      * as per StringTokenizer, but with no text to tokenize.
      * <p>
      * This constructor is normally used with {@link #reset(String)}.
@@ -241,7 +241,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
     }
 
     /**
-     * Constructs a tokenizer splitting on space, tab, newline and formfeed
+     * Constructs a tokenizer splitting on space, tab, newline and form feed
      * as per StringTokenizer.
      *
      * @param input  the string which is to be parsed
@@ -315,7 +315,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
     }
 
     /**
-     * Constructs a tokenizer splitting on space, tab, newline and formfeed
+     * Constructs a tokenizer splitting on space, tab, newline and form feed
      * as per StringTokenizer.
      *
      * @param input  the string which is to be parsed, not cloned

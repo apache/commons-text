@@ -46,7 +46,7 @@ public abstract class StrMatcher {
 
     /**
      * Matches the same characters as StringTokenizer,
-     * namely space, tab, newline, formfeed.
+     * namely space, tab, newline, form feed.
      */
     private static final StrMatcher SPLIT_MATCHER = new CharSetMatcher(" \t\n\r\f".toCharArray());
 
@@ -106,7 +106,7 @@ public abstract class StrMatcher {
 
     /**
      * Matches the same characters as StringTokenizer,
-     * namely space, tab, newline and formfeed.
+     * namely space, tab, newline and form feed.
      *
      * @return the split matcher
      */

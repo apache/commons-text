@@ -2611,7 +2611,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * <p>
      * This method allows the contents of this builder to be tokenized.
      * The tokenizer will be setup by default to tokenize on space, tab,
-     * newline and formfeed (as per StringTokenizer). These values can be
+     * newline and form feed (as per StringTokenizer). These values can be
      * changed on the tokenizer class, before retrieving the tokens.
      * <p>
      * The returned tokenizer is linked to this builder. You may intermix
