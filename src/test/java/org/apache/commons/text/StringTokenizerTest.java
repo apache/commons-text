@@ -58,7 +58,7 @@ public class StringTokenizerTest {
         tok.setIgnoreEmptyTokens(false);
         final String[] tokens = tok.getTokenArray();
 
-        final String[] expected = { "a", "b", "c", "d;\"e", "f", "", "", "" };
+        final String[] expected = {"a", "b", "c", "d;\"e", "f", "", "", "" };
 
         assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
@@ -79,7 +79,7 @@ public class StringTokenizerTest {
         tok.setIgnoreEmptyTokens(false);
         final String[] tokens = tok.getTokenArray();
 
-        final String[] expected = { "a", "b", "c ", "d;\"e", "f", " ", " ", "" };
+        final String[] expected = {"a", "b", "c ", "d;\"e", "f", " ", " ", "" };
 
         assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
@@ -100,7 +100,7 @@ public class StringTokenizerTest {
         tok.setIgnoreEmptyTokens(false);
         final String[] tokens = tok.getTokenArray();
 
-        final String[] expected = { "a", "b", " c", "d;\"e", "f", " ", " ", "" };
+        final String[] expected = {"a", "b", " c", "d;\"e", "f", " ", " ", "" };
 
         assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
@@ -121,7 +121,7 @@ public class StringTokenizerTest {
         tok.setIgnoreEmptyTokens(true);
         final String[] tokens = tok.getTokenArray();
 
-        final String[] expected = { "a", "b", "c", "d;\"e", "f" };
+        final String[] expected = {"a", "b", "c", "d;\"e", "f" };
 
         assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
@@ -143,7 +143,7 @@ public class StringTokenizerTest {
         tok.setEmptyTokenAsNull(true);
         final String[] tokens = tok.getTokenArray();
 
-        final String[] expected = { "a", "b", "c", "d;\"e", "f", null, null, null };
+        final String[] expected = {"a", "b", "c", "d;\"e", "f", null, null, null };
 
         assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
@@ -165,7 +165,7 @@ public class StringTokenizerTest {
         // tok.setTreatingEmptyAsNull(true);
         final String[] tokens = tok.getTokenArray();
 
-        final String[] expected = { "a", "b", " c", "d;\"e", "f", null, null, null };
+        final String[] expected = {"a", "b", " c", "d;\"e", "f", null, null, null };
 
         int nextCount = 0;
         while (tok.hasNext()) {
@@ -200,7 +200,7 @@ public class StringTokenizerTest {
         tok.setIgnoreEmptyTokens(false);
         final String[] tokens = tok.getTokenArray();
 
-        final String[] expected = { "a", "", "", "b", "c", "d e", "f", "" };
+        final String[] expected = {"a", "", "", "b", "c", "d e", "f", "" };
 
         assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
@@ -221,7 +221,7 @@ public class StringTokenizerTest {
         tok.setIgnoreEmptyTokens(true);
         final String[] tokens = tok.getTokenArray();
 
-        final String[] expected = { "a", "b", "c", "d e", "f" };
+        final String[] expected = {"a", "b", "c", "d e", "f" };
 
         assertEquals(Arrays.toString(tokens), expected.length, tokens.length);
         for (int i = 0; i < expected.length; i++) {
@@ -313,7 +313,7 @@ public class StringTokenizerTest {
     @Test
     public void testDelimMatcher() {
         final String input = "a/b\\c";
-        final StringMatcher delimMatcher = StringMatcherFactory.INSTANCE.charSetMatcher(new char[] { '/', '\\' });
+        final StringMatcher delimMatcher = StringMatcherFactory.INSTANCE.charSetMatcher(new char[] {'/', '\\' });
 
         final StringTokenizer tok = new StringTokenizer(input, delimMatcher);
         assertEquals("a", tok.next());
@@ -325,8 +325,8 @@ public class StringTokenizerTest {
     @Test
     public void testDelimMatcherQuoteMatcher() {
         final String input = "`a`;`b`;`c`";
-        final StringMatcher delimMatcher = StringMatcherFactory.INSTANCE.charSetMatcher(new char[] { ';' });
-        final StringMatcher quoteMatcher = StringMatcherFactory.INSTANCE.charSetMatcher(new char[] { '`' });
+        final StringMatcher delimMatcher = StringMatcherFactory.INSTANCE.charSetMatcher(new char[] {';' });
+        final StringMatcher quoteMatcher = StringMatcherFactory.INSTANCE.charSetMatcher(new char[] {'`' });
 
         final StringTokenizer tok = new StringTokenizer(input, delimMatcher, quoteMatcher);
         assertEquals("a", tok.next());
@@ -647,7 +647,7 @@ public class StringTokenizerTest {
 
     @Test
     public void testCloneReset() {
-        final char[] input = new char[] { 'a' };
+        final char[] input = new char[] {'a' };
         final StringTokenizer tokenizer = new StringTokenizer(input);
         // Start sanity check
         assertEquals("a", tokenizer.nextToken());
@@ -791,7 +791,7 @@ public class StringTokenizerTest {
     public void testReset_charArray() {
         final StringTokenizer tok = new StringTokenizer("x x x");
 
-        final char[] array = new char[] { 'a', 'b', 'c' };
+        final char[] array = new char[] {'a', 'b', 'c' };
         tok.reset(array);
         assertEquals("abc", tok.next());
         assertFalse(tok.hasNext());
@@ -928,7 +928,7 @@ public class StringTokenizerTest {
     // -----------------------------------------------------------------------
     @Test
     public void testStringTokenizerStringMatcher() {
-        final char[] chars = { 'a', 'b', 'c', 'd' };
+        final char[] chars = {'a', 'b', 'c', 'd' };
         final StringTokenizer tokens = new StringTokenizer(chars, "bc");
         assertEquals("a", tokens.next());
         assertEquals("d", tokens.next());
@@ -937,7 +937,7 @@ public class StringTokenizerTest {
     // -----------------------------------------------------------------------
     @Test
     public void testStringTokenizerStrMatcher() {
-        final char[] chars = { 'a', ',', 'c' };
+        final char[] chars = {'a', ',', 'c' };
         final StringTokenizer tokens = new StringTokenizer(chars, StringMatcherFactory.INSTANCE.commaMatcher());
         assertEquals("a", tokens.next());
         assertEquals("c", tokens.next());
@@ -946,7 +946,7 @@ public class StringTokenizerTest {
     // -----------------------------------------------------------------------
     @Test
     public void testStringTokenizerQuoteMatcher() {
-        final char[] chars = { '\'', 'a', 'c', '\'', 'd' };
+        final char[] chars = {'\'', 'a', 'c', '\'', 'd' };
         final StringTokenizer tokens = new StringTokenizer(chars, StringMatcherFactory.INSTANCE.commaMatcher(),
                 StringMatcherFactory.INSTANCE.quoteMatcher());
         assertEquals("acd", tokens.next());

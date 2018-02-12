@@ -536,7 +536,7 @@ public class TextStringBuilderTest {
         sb.append("junit");
         a = sb.getChars(input);
         assertSame(input, a);
-        assertTrue(Arrays.equals(new char[] { 'j', 'u', 'n', 'i', 't', 0, 0, 0, 0, 0 }, a));
+        assertTrue(Arrays.equals(new char[] {'j', 'u', 'n', 'i', 't', 0, 0, 0, 0, 0 }, a));
 
         a = sb.getChars(null);
         assertNotSame(input, a);
@@ -559,11 +559,11 @@ public class TextStringBuilderTest {
         sb.append("junit");
         char[] a = new char[5];
         sb.getChars(0, 5, a, 0);
-        assertTrue(Arrays.equals(new char[] { 'j', 'u', 'n', 'i', 't' }, a));
+        assertTrue(Arrays.equals(new char[] {'j', 'u', 'n', 'i', 't' }, a));
 
         a = new char[5];
         sb.getChars(0, 2, a, 3);
-        assertTrue(Arrays.equals(new char[] { 0, 0, 0, 'j', 'u' }, a));
+        assertTrue(Arrays.equals(new char[] {0, 0, 0, 'j', 'u' }, a));
 
         try {
             sb.getChars(-1, 0, a, 0);
@@ -1810,10 +1810,10 @@ public class TextStringBuilderTest {
         writer.write('l');
         assertEquals("basel", sb.toString());
 
-        writer.write(new char[] { 'i', 'n' });
+        writer.write(new char[] {'i', 'n' });
         assertEquals("baselin", sb.toString());
 
-        writer.write(new char[] { 'n', 'e', 'r' }, 1, 2);
+        writer.write(new char[] {'n', 'e', 'r' }, 1, 2);
         assertEquals("baseliner", sb.toString());
 
         writer.write(" rout");
