@@ -33,35 +33,43 @@ public abstract class StrMatcher {
      * Matches the comma character.
      */
     private static final StrMatcher COMMA_MATCHER = new CharMatcher(',');
+    
     /**
      * Matches the tab character.
      */
     private static final StrMatcher TAB_MATCHER = new CharMatcher('\t');
+    
     /**
      * Matches the space character.
      */
     private static final StrMatcher SPACE_MATCHER = new CharMatcher(' ');
+    
     /**
      * Matches the same characters as StringTokenizer,
      * namely space, tab, newline, formfeed.
      */
     private static final StrMatcher SPLIT_MATCHER = new CharSetMatcher(" \t\n\r\f".toCharArray());
+    
     /**
      * Matches the String trim() whitespace characters.
      */
     private static final StrMatcher TRIM_MATCHER = new TrimMatcher();
+    
     /**
      * Matches the double quote character.
      */
     private static final StrMatcher SINGLE_QUOTE_MATCHER = new CharMatcher('\'');
+    
     /**
      * Matches the double quote character.
      */
     private static final StrMatcher DOUBLE_QUOTE_MATCHER = new CharMatcher('"');
+    
     /**
      * Matches the single or double quote character.
      */
     private static final StrMatcher QUOTE_MATCHER = new CharSetMatcher("'\"".toCharArray());
+    
     /**
      * Matches no characters.
      */
