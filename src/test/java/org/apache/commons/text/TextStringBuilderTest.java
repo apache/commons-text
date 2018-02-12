@@ -1691,7 +1691,7 @@ public class TextStringBuilderTest {
         // from Javadoc
         final TextStringBuilder b = new TextStringBuilder();
         b.append("a b ");
-        final StrTokenizer t = b.asTokenizer();
+        final StringTokenizer t = b.asTokenizer();
 
         final String[] tokens1 = t.getTokenArray();
         assertEquals(2, tokens1.length);

@@ -29,7 +29,10 @@ import org.junit.Test;
 
 /**
  * Test class for {@link StrLookup}.
+ *
+ * @deprecated This class will be removed in 2.0.
  */
+@Deprecated
 public class StrLookupTest  {
 
     //-----------------------------------------------------------------------

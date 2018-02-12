@@ -30,7 +30,10 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link StrBuilder}.
+ *
+ * @deprecated This class will be removed in 2.0.
  */
+@Deprecated
 public class StrBuilderAppendInsertTest {
 
     /** The system line separator. */

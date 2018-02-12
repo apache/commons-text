@@ -2779,7 +2779,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * <p>
      * The returned tokenizer is linked to this builder. You may intermix calls to the builder and tokenizer within
      * certain limits, however there is no synchronization. Once the tokenizer has been used once, it must be
-     * {@link StrTokenizer#reset() reset} to pickup the latest changes in the builder. For example:
+     * {@link StringTokenizer#reset() reset} to pickup the latest changes in the builder. For example:
      *
      * <pre>
      * StrBuilder b = new StrBuilder();
@@ -2795,13 +2795,13 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * In addition to simply intermixing appends and tokenization, you can also call the set methods on the tokenizer to
      * alter how it tokenizes. Just remember to call reset when you want to pickup builder changes.
      * <p>
-     * Calling {@link StrTokenizer#reset(String)} or {@link StrTokenizer#reset(char[])} with a non-null value will break
-     * the link with the builder.
+     * Calling {@link StringTokenizer#reset(String)} or {@link StringTokenizer#reset(char[])} with a non-null value will
+     * break the link with the builder.
      *
      * @return a tokenizer that is linked to this builder
      */
-    public StrTokenizer asTokenizer() {
-        return new StrBuilderTokenizer();
+    public StringTokenizer asTokenizer() {
+        return new TextStringBuilderTokenizer();
     }
 
     // -----------------------------------------------------------------------
@@ -3038,12 +3038,12 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inner class to allow StrBuilder to operate as a tokenizer.
      */
-    class StrBuilderTokenizer extends StrTokenizer {
+    class TextStringBuilderTokenizer extends StringTokenizer {
 
         /**
          * Default constructor.
          */
-        StrBuilderTokenizer() {
+        TextStringBuilderTokenizer() {
             super();
         }
 

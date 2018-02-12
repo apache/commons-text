@@ -51,6 +51,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-113" type="add" dev="ggregory">Add an interpolator string lookup</action>
     <action issue="TEXT-114" type="add" dev="ggregory">Add a StrSubstitutor replacement based on interfaces: StringSubstitutor</action>
     <action issue="TEXT-115" type="add" dev="ggregory">Add a StrBuilder replacement based on the StringMatcher interface: TextStringBuilder</action>
+    <action issue="TEXT-116" type="add" dev="ggregory">Add a StrTokenizer replacement based on the StringMatcher interface: StringTokenizer</action>
   </release>
 
   <release version="1.2" date="2017-12-12" description="Release 1.2">
