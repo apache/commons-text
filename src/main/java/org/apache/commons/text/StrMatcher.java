@@ -33,43 +33,43 @@ public abstract class StrMatcher {
      * Matches the comma character.
      */
     private static final StrMatcher COMMA_MATCHER = new CharMatcher(',');
-    
+
     /**
      * Matches the tab character.
      */
     private static final StrMatcher TAB_MATCHER = new CharMatcher('\t');
-    
+
     /**
      * Matches the space character.
      */
     private static final StrMatcher SPACE_MATCHER = new CharMatcher(' ');
-    
+
     /**
      * Matches the same characters as StringTokenizer,
      * namely space, tab, newline, formfeed.
      */
     private static final StrMatcher SPLIT_MATCHER = new CharSetMatcher(" \t\n\r\f".toCharArray());
-    
+
     /**
      * Matches the String trim() whitespace characters.
      */
     private static final StrMatcher TRIM_MATCHER = new TrimMatcher();
-    
+
     /**
      * Matches the double quote character.
      */
     private static final StrMatcher SINGLE_QUOTE_MATCHER = new CharMatcher('\'');
-    
+
     /**
      * Matches the double quote character.
      */
     private static final StrMatcher DOUBLE_QUOTE_MATCHER = new CharMatcher('"');
-    
+
     /**
      * Matches the single or double quote character.
      */
     private static final StrMatcher QUOTE_MATCHER = new CharSetMatcher("'\"".toCharArray());
-    
+
     /**
      * Matches no characters.
      */
@@ -160,7 +160,7 @@ public abstract class StrMatcher {
     }
 
     /**
-     * Constructor that creates a matcher from a character.
+     * Creates a matcher from a character.
      *
      * @param ch  the character to match, must not be null
      * @return a new Matcher for the given char
@@ -170,7 +170,7 @@ public abstract class StrMatcher {
     }
 
     /**
-     * Constructor that creates a matcher from a set of characters.
+     * Creates a matcher from a set of characters.
      *
      * @param chars  the characters to match, null or empty matches nothing
      * @return a new matcher for the given char[]
@@ -186,7 +186,7 @@ public abstract class StrMatcher {
     }
 
     /**
-     * Constructor that creates a matcher from a string representing a set of characters.
+     * Creates a matcher from a string representing a set of characters.
      *
      * @param chars  the characters to match, null or empty matches nothing
      * @return a new Matcher for the given characters
@@ -202,7 +202,7 @@ public abstract class StrMatcher {
     }
 
     /**
-     * Constructor that creates a matcher from a string.
+     * Creates a matcher from a string.
      *
      * @param str  the string to match, null or empty matches nothing
      * @return a new Matcher for the given String
