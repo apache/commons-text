@@ -19,7 +19,7 @@ package org.apache.commons.text.lookup;
 import java.util.Map;
 
 /**
- * A map-based lookup.
+ * A map-based lookup where the request for a lookup is answered with the value for that key.
  *
  * @param <V>
  *            A map's value type

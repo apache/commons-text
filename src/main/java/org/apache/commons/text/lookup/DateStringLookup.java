@@ -23,7 +23,8 @@ import java.util.Date;
 import org.apache.commons.lang3.time.FastDateFormat;
 
 /**
- * Formats the current date or the date in the LogEvent. The "key" is used as the format String.
+ * Formats the current date with the format given in the key in a format compatible with
+ * {@link java.text.SimpleDateFormat}.
  */
 final class DateStringLookup extends AbstractStringLookup {
 
@@ -64,7 +65,8 @@ final class DateStringLookup extends AbstractStringLookup {
     }
 
     /**
-     * Looks up the value of the environment variable.
+     * Formats the current date with the format given in the key in a format compatible with
+     * {@link java.text.SimpleDateFormat}.
      *
      * @param key
      *            the format to use. If null, the default {@link DateFormat} will be used.

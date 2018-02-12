@@ -39,7 +39,8 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the DateStringLookup singleton instance.
+     * Returns the DateStringLookup singleton instance to format the current date with the format given in the key in a
+     * format compatible with {@link java.text.SimpleDateFormat}.
      *
      * @return the DateStringLookup singleton instance.
      */
@@ -58,6 +59,15 @@ public final class StringLookupFactory {
 
     /**
      * Returns a new InterpolatorStringLookup.
+     * <p>
+     * The following lookups are used by default:
+     * </p>
+     * <ul>
+     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
+     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"date" for the {@link DateStringLookup}.</li>
+     * </ul>
      *
      * @return a new InterpolatorStringLookup.
      */
@@ -67,8 +77,18 @@ public final class StringLookupFactory {
 
     /**
      * Returns a new InterpolatorStringLookup.
+     * <p>
+     * The following lookups are used by default:
+     * </p>
+     * <ul>
+     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
+     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"date" for the {@link DateStringLookup}.</li>
+     * </ul>
      *
-     * @param <V> the value type the default string lookup's map.
+     * @param <V>
+     *            the value type the default string lookup's map.
      * @param map
      *            the default map for string lookups.
      * @return a new InterpolatorStringLookup.
@@ -79,6 +99,15 @@ public final class StringLookupFactory {
 
     /**
      * Returns a new InterpolatorStringLookup.
+     * <p>
+     * The following lookups are used by default:
+     * </p>
+     * <ul>
+     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
+     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"date" for the {@link DateStringLookup}.</li>
+     * </ul>
      *
      * @param defaultStringLookup
      *            the default string lookup.
@@ -98,9 +127,10 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns a new MapStringLookup.
+     * Returns a new map-based lookup where the request for a lookup is answered with the value for that key.
      *
-     * @param <V> the map value type.
+     * @param <V>
+     *            the map value type.
      * @param map
      *            the map.
      * @return a new MapStringLookup.
@@ -110,7 +140,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the NullStringLookup singleton instance.
+     * Returns the NullStringLookup singleton instance which always returns null.
      *
      * @return the NullStringLookup singleton instance.
      */
@@ -120,6 +150,12 @@ public final class StringLookupFactory {
 
     /**
      * Returns the ResourceBundleStringLookup singleton instance.
+     * <p>
+     * Looks up the value for a given key in the format "BundleName:BundleKey".
+     * </p>
+     * <p>
+     * For example: "com.domain.messages:MyKey".
+     * </p>
      *
      * @return the ResourceBundleStringLookup singleton instance.
      */
@@ -128,7 +164,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the SystemPropertyStringLookup singleton instance.
+     * Returns the SystemPropertyStringLookup singleton instance where the key is a system property name.
      *
      * @return the SystemPropertyStringLookup singleton instance.
      */

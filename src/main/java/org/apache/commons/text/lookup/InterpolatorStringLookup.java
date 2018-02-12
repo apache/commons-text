@@ -22,6 +22,15 @@ import java.util.Map;
 
 /**
  * Proxies other {@link StringLookup}s using a keys within ${} markers using the format "${StringLookup:Key}".
+ * <p>
+ * The following lookups are used by default:
+ * </p>
+ * <ul>
+ * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
+ * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+ * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+ * <li>"date" for the {@link DateStringLookup}.</li>
+ * </ul>
  */
 class InterpolatorStringLookup extends AbstractStringLookup {
 
@@ -40,10 +49,10 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * The following lookups are installed:
      * </p>
      * <ul>
-     * <li>"sys" for the SystemPropertyStringLookup.</li>
-     * <li>"env" for the EnvironmentVariableStringLookup.</li>
-     * <li>"java" for the JavaPlatformStringLookup.</li>
-     * <li>"date" for the DateStringLookup.</li>
+     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
+     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"date" for the {@link DateStringLookup}.</li>
      * </ul>
      */
     InterpolatorStringLookup() {
@@ -56,10 +65,10 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * The following lookups are installed:
      * </p>
      * <ul>
-     * <li>"sys" for the SystemPropertyStringLookup.</li>
-     * <li>"env" for the EnvironmentVariableStringLookup.</li>
-     * <li>"java" for the JavaPlatformStringLookup.</li>
-     * <li>"date" for the DateStringLookup.</li>
+     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
+     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"date" for the {@link DateStringLookup}.</li>
      * </ul>
      *
      * @param <V>

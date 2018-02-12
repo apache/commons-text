@@ -17,7 +17,7 @@
 package org.apache.commons.text.lookup;
 
 /**
- * Looks up keys from system properties.
+ * Looks up keys from system properties where the key is a system property name.
  *
  * @since 1.3
  */
@@ -36,10 +36,10 @@ final class SystemPropertyStringLookup extends AbstractStringLookup {
     }
 
     /**
-     * Looks up the value for the key from system properties.
+     * Looks up the value for the key from system properties where the key is a system property name.
      *
      * @param key
-     *            the key to be looked up, may be null
+     *            the key to be looked up where the key is a system property name, may be null
      * @return The value associated with the key.
      * @see System#getProperty(String)
      */

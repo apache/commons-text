@@ -21,6 +21,12 @@ import java.util.ResourceBundle;
 
 /**
  * Looks up keys from resource bundles.
+ * <p>
+ * Looks up the value for a given key in the format "BundleName:BundleKey".
+ * </p>
+ * <p>
+ * For example: "com.domain.messages:MyKey".
+ * </p>
  *
  * @see ResourceBundle
  * @since 1.3
