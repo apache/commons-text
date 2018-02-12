@@ -59,7 +59,7 @@ public class LookupTranslator extends CharSequenceTranslator {
         int currentShortest = Integer.MAX_VALUE;
         int currentLongest = 0;
 
-        for (Map.Entry<CharSequence, CharSequence> pair : lookupMap.entrySet()) {
+        for (final Map.Entry<CharSequence, CharSequence> pair : lookupMap.entrySet()) {
             this.lookupMap.put(pair.getKey().toString(), pair.getValue().toString());
             this.prefixSet.add(pair.getKey().charAt(0));
             final int sz = pair.getKey().length();
