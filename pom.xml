@@ -46,7 +46,7 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
-    <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
+    <checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
     <checkstyle.version>6.19</checkstyle.version>
   </properties>
 
