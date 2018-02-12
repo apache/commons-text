@@ -20,6 +20,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.lang3.time.FastDateFormat;
+
 /**
  * Formats the current date or the date in the LogEvent. The "key" is used as the format String.
  */
@@ -47,16 +49,16 @@ final class DateStringLookup extends AbstractStringLookup {
      * @return the formatted date
      */
     private String formatDate(final long date, final String format) {
-        DateFormat dateFormat = null;
+        FastDateFormat dateFormat = null;
         if (format != null) {
             try {
-                dateFormat = new SimpleDateFormat(format);
+                dateFormat = FastDateFormat.getInstance(format);
             } catch (final Exception ex) {
                 throw IllegalArgumentExceptions.format(ex, "Invalid date format: [%s], using default", format);
             }
         }
         if (dateFormat == null) {
-            dateFormat = DateFormat.getInstance();
+            dateFormat = FastDateFormat.getInstance();
         }
         return dateFormat.format(new Date(date));
     }
