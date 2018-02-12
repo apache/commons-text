@@ -341,7 +341,7 @@ public final class RandomStringGenerator {
          * @param pairs array of characters array, expected is to pass min, max pairs through this arg.
          * @return {@code this}, to allow method chaining.
          */
-        public Builder withinRange(final char[] ... pairs) {
+        public Builder withinRange(final char[]... pairs) {
             characterList = new ArrayList<>();
             for (final char[] pair :  pairs) {
                 Validate.isTrue(pair.length == 2,
@@ -445,7 +445,7 @@ public final class RandomStringGenerator {
          * @return {@code this}, to allow method chaining
          * @since 1.2
          */
-        public Builder selectFrom(final char ... chars) {
+        public Builder selectFrom(final char... chars) {
             characterList = new ArrayList<>();
             for (final char c : chars) {
                 characterList.add(c);
