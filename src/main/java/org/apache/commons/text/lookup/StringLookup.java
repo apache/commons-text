@@ -27,10 +27,6 @@ package org.apache.commons.text.lookup;
  * For example, it would be possible to implement a lookup that used the key as a primary key, and looked up the value
  * on demand from the database
  * </p>
- * <p>
- * Unfortunately, the type {@link org.apache.commons.text.StrLookup} was defined as class and not an interface, which is
- * why this package introduces the interface {@link StringLookup}.
- * </p>
  *
  * @since 1.3
  */

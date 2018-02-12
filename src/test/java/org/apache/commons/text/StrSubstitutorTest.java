@@ -29,8 +29,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.apache.commons.text.lookup.StringLookup;
-import org.apache.commons.text.lookup.StringLookupFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -769,23 +767,10 @@ public class StrSubstitutorTest {
     @Test
     public void testReplaceInTakingTwoAndThreeIntsReturningFalse() {
         final Map<String, Object> hashMap = new HashMap<>();
-        final StringLookup mapStringLookup = StringLookupFactory.INSTANCE.mapStringLookup(hashMap);
+        final StrLookup.MapStrLookup<Object> strLookupMapStrLookup = new StrLookup.MapStrLookup<>(hashMap);
         final StrMatcher strMatcher = StrMatcher.tabMatcher();
         final StrSubstitutor strSubstitutor =
-                new StrSubstitutor(mapStringLookup, strMatcher, strMatcher, 'b', strMatcher);
-
-        assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, (-1369)));
-        assertEquals('b', strSubstitutor.getEscapeChar());
-        assertFalse(strSubstitutor.isPreserveEscapes());
-    }
-
-    @Test
-    public void testReplaceInTakingTwoAndThreeIntsReturningFalse_deprecated() {
-        final Map<String, Object> hashMap = new HashMap<>();
-        final StrLookup.MapStrLookup<Object> mapStrLookup = new StrLookup.MapStrLookup<>(hashMap);
-        final StrMatcher strMatcher = StrMatcher.tabMatcher();
-        final StrSubstitutor strSubstitutor =
-                new StrSubstitutor(mapStrLookup, strMatcher, strMatcher, 'b', strMatcher);
+                new StrSubstitutor(strLookupMapStrLookup, strMatcher, strMatcher, 'b', strMatcher);
 
         assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, (-1369)));
         assertEquals('b', strSubstitutor.getEscapeChar());
@@ -794,16 +779,6 @@ public class StrSubstitutorTest {
 
     @Test
     public void testReplaceInTakingStringBuilderWithNonNull() {
-        final StringLookup strLookup = StringLookupFactory.INSTANCE.systemPropertyStringLookup();
-        final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup, "b<H", "b<H", '\'');
-        final StringBuilder stringBuilder = new StringBuilder((CharSequence) "b<H");
-
-        assertEquals('\'', strSubstitutor.getEscapeChar());
-        assertFalse(strSubstitutor.replaceIn(stringBuilder));
-    }
-
-    @Test
-    public void testReplaceInTakingStringBuilderWithNonNull_deprecated() {
         final StrLookup<String> strLookup = StrLookup.systemPropertiesLookup();
         final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookup, "b<H", "b<H", '\'');
         final StringBuilder stringBuilder = new StringBuilder((CharSequence) "b<H");
@@ -825,18 +800,8 @@ public class StrSubstitutorTest {
     @Test
     public void testCreatesStrSubstitutorTakingStrLookupAndCallsReplaceTakingTwoAndThreeInts() {
         final Map<String, CharacterPredicates> map = new HashMap<>();
-        final StringLookup mapStringLookup = StringLookupFactory.INSTANCE.mapStringLookup(map);
-        final StrSubstitutor strSubstitutor = new StrSubstitutor(mapStringLookup);
-
-        assertNull(strSubstitutor.replace((CharSequence) null, 0, 0));
-        assertEquals('$', strSubstitutor.getEscapeChar());
-    }
-
-    @Test
-    public void testCreatesStrSubstitutorTakingStrLookupAndCallsReplaceTakingTwoAndThreeInts_deprecated() {
-        final Map<String, CharacterPredicates> map = new HashMap<>();
-        final StrLookup.MapStrLookup<CharacterPredicates> mapStrLookup = new StrLookup.MapStrLookup<>(map);
-        final StrSubstitutor strSubstitutor = new StrSubstitutor(mapStrLookup);
+        final StrLookup.MapStrLookup<CharacterPredicates> strLookupMapStrLookup = new StrLookup.MapStrLookup<>(map);
+        final StrSubstitutor strSubstitutor = new StrSubstitutor(strLookupMapStrLookup);
 
         assertNull(strSubstitutor.replace((CharSequence) null, 0, 0));
         assertEquals('$', strSubstitutor.getEscapeChar());
@@ -844,15 +809,6 @@ public class StrSubstitutorTest {
 
     @Test
     public void testReplaceTakingCharSequenceReturningNull() {
-        final StrSubstitutor strSubstitutor = new StrSubstitutor((StringLookup) null);
-
-        assertNull(strSubstitutor.replace((CharSequence) null));
-        assertFalse(strSubstitutor.isPreserveEscapes());
-        assertEquals('$', strSubstitutor.getEscapeChar());
-    }
-
-    @Test
-    public void testReplaceTakingCharSequenceReturningNull_deprecated() {
         final StrSubstitutor strSubstitutor = new StrSubstitutor((StrLookup<?>) null);
 
         assertNull(strSubstitutor.replace((CharSequence) null));

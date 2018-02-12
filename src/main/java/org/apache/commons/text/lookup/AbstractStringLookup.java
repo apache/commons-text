@@ -19,10 +19,6 @@ package org.apache.commons.text.lookup;
 
 /**
  * A default lookup for others to extend in this package.
- * <p>
- * Unfortunately, the type {@link org.apache.commons.text.StrLookup} was defined as class and not an interface, which is
- * why this package introduces the interface {@link StringLookup}.
- * </p>
  *
  * @since 1.3
  */

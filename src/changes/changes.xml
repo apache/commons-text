@@ -49,6 +49,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-110" type="add" dev="pschumacher">Add Automatic-Module-Name MANIFEST entry for Java 9 compatibility</action>
     <action issue="TEXT-70" type="fix" dev="pschumacher">Build failure with java 9-ea+159</action>
     <action issue="TEXT-113" type="add" dev="ggregory">Add an interpolator string lookup</action>
+    <action issue="TEXT-114" type="add" dev="ggregory">Add a replacement for StrSubstitutor based on interfaces: StringSubstitutor</action>
   </release>
 
   <release version="1.2" date="2017-12-12" description="Release 1.2">

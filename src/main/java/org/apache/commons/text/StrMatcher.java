@@ -18,6 +18,8 @@ package org.apache.commons.text;
 
 import java.util.Arrays;
 
+import org.apache.commons.text.matcher.StringMatcherFactory;
+
 /**
  * A matcher class that can be queried to determine if a character array
  * portion matches.
@@ -26,7 +28,9 @@ import java.util.Arrays;
  * If these do not suffice, you can subclass and implement your own matcher.
  *
  * @since 1.0
+ * @deprecated Use {@link StringMatcherFactory}. This class will be removed in 2.0.
  */
+@Deprecated
 public abstract class StrMatcher {
 
     /**
@@ -223,7 +227,7 @@ public abstract class StrMatcher {
     }
 
     /**
-     * Returns the number of matching characters, zero for no match.
+     * Returns the number of matching characters, or zero if there is no match.
      * <p>
      * This method is called to check for a match.
      * The parameter <code>pos</code> represents the current position to be
@@ -245,12 +249,12 @@ public abstract class StrMatcher {
      * @param pos  the starting position for the match, valid for buffer
      * @param bufferStart  the first active index in the buffer, valid for buffer
      * @param bufferEnd  the end index (exclusive) of the active buffer, valid for buffer
-     * @return the number of matching characters, zero for no match
+     * @return the number of matching characters, or zero if there is no match
      */
     public abstract int isMatch(char[] buffer, int pos, int bufferStart, int bufferEnd);
 
     /**
-     * Returns the number of matching characters, zero for no match.
+     * Returns the number of matching characters, or zero if there is no match.
      * <p>
      * This method is called to check for a match.
      * The parameter <code>pos</code> represents the current position to be
@@ -266,7 +270,7 @@ public abstract class StrMatcher {
      *
      * @param buffer  the text content to match against, do not change
      * @param pos  the starting position for the match, valid for buffer
-     * @return the number of matching characters, zero for no match
+     * @return the number of matching characters, or zero if there is no match
      */
     public int isMatch(final char[] buffer, final int pos) {
         return isMatch(buffer, pos, 0, buffer.length);
@@ -298,7 +302,7 @@ public abstract class StrMatcher {
          * @param pos  the starting position for the match, valid for buffer
          * @param bufferStart  the first active index in the buffer, valid for buffer
          * @param bufferEnd  the end index of the active buffer, valid for buffer
-         * @return the number of matching characters, zero for no match
+         * @return the number of matching characters, or zero if there is no match
          */
         @Override
         public int isMatch(final char[] buffer, final int pos, final int bufferStart, final int bufferEnd) {
@@ -331,7 +335,7 @@ public abstract class StrMatcher {
          * @param pos  the starting position for the match, valid for buffer
          * @param bufferStart  the first active index in the buffer, valid for buffer
          * @param bufferEnd  the end index of the active buffer, valid for buffer
-         * @return the number of matching characters, zero for no match
+         * @return the number of matching characters, or zero if there is no match
          */
         @Override
         public int isMatch(final char[] buffer, final int pos, final int bufferStart, final int bufferEnd) {
@@ -364,7 +368,7 @@ public abstract class StrMatcher {
          * @param pos  the starting position for the match, valid for buffer
          * @param bufferStart  the first active index in the buffer, valid for buffer
          * @param bufferEnd  the end index of the active buffer, valid for buffer
-         * @return the number of matching characters, zero for no match
+         * @return the number of matching characters, or zero if there is no match
          */
         @Override
         public int isMatch(final char[] buffer, int pos, final int bufferStart, final int bufferEnd) {
@@ -407,7 +411,7 @@ public abstract class StrMatcher {
          * @param pos  the starting position for the match, valid for buffer
          * @param bufferStart  the first active index in the buffer, valid for buffer
          * @param bufferEnd  the end index of the active buffer, valid for buffer
-         * @return the number of matching characters, zero for no match
+         * @return the number of matching characters, or zero if there is no match
          */
         @Override
         public int isMatch(final char[] buffer, final int pos, final int bufferStart, final int bufferEnd) {
@@ -435,7 +439,7 @@ public abstract class StrMatcher {
          * @param pos  the starting position for the match, valid for buffer
          * @param bufferStart  the first active index in the buffer, valid for buffer
          * @param bufferEnd  the end index of the active buffer, valid for buffer
-         * @return the number of matching characters, zero for no match
+         * @return the number of matching characters, or zero if there is no match
          */
         @Override
         public int isMatch(final char[] buffer, final int pos, final int bufferStart, final int bufferEnd) {

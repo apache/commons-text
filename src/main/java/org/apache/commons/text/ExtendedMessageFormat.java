@@ -27,6 +27,8 @@ import java.util.Locale.Category;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.commons.text.matcher.StringMatcherFactory;
+
 /**
  * Extends <code>java.text.MessageFormat</code> to allow pluggable/additional formatting
  * options for embedded format elements.  Client code should specify a registry
@@ -490,7 +492,7 @@ public class ExtendedMessageFormat extends MessageFormat {
         int len = 0;
         final char[] buffer = pattern.toCharArray();
         do {
-            len = StrMatcher.splitMatcher().isMatch(buffer, pos.getIndex());
+            len = StringMatcherFactory.INSTANCE.splitMatcher().isMatch(buffer, pos.getIndex(), 0, buffer.length);
             pos.setIndex(pos.getIndex() + len);
         } while (len > 0 && pos.getIndex() < pattern.length());
     }

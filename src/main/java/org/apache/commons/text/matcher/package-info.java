@@ -16,14 +16,10 @@
  */
 /**
  * <p>
- * Provides algorithms for looking up strings for use with a {@link org.apache.commons.text.StringSubstitutor}. The main
- * class here is {@link org.apache.commons.text.lookup.StringLookupFactory}
- * </p>
- *
- * <p>
- * The initial implementation was adapted from Apache Commons Log4j 2.10.1-SNAPSHOT.
+ * Provides algorithms for matching up strings for use with a {@link org.apache.commons.text.StringSubstitutor}. The
+ * main class here is {@link org.apache.commons.text.matcher.StringMatcherFactory}
  * </p>
  *
  * @since 1.3
  */
-package org.apache.commons.text.lookup;
+package org.apache.commons.text.matcher;
