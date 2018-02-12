@@ -18,7 +18,7 @@ package org.apache.commons.text.similarity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.commons.text.StrBuilder;
+import org.apache.commons.text.TextStringBuilder;
 import org.junit.Test;
 
 public class LevenshteinDetailedDistanceTest {
@@ -439,7 +439,7 @@ public class LevenshteinDetailedDistanceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDetailedDistanceTakingInteger() {
         final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
-        final CharSequence charSequence = new StrBuilder();
+        final CharSequence charSequence = new TextStringBuilder();
 
         levenshteinDetailedDistance.apply(charSequence, null);
     }

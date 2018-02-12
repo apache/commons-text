@@ -466,7 +466,7 @@ public class StringSubstitutor {
         if (!priorVariables.contains(varName)) {
             return;
         }
-        final StrBuilder buf = new StrBuilder(256);
+        final TextStringBuilder buf = new TextStringBuilder(256);
         buf.append("Infinite loop in property interpolation of ");
         buf.append(priorVariables.remove(0));
         buf.append(": ");
@@ -599,7 +599,7 @@ public class StringSubstitutor {
         if (source == null) {
             return null;
         }
-        final StrBuilder buf = new StrBuilder(source.length).append(source);
+        final TextStringBuilder buf = new TextStringBuilder(source.length).append(source);
         substitute(buf, 0, source.length);
         return buf.toString();
     }
@@ -623,7 +623,7 @@ public class StringSubstitutor {
         if (source == null) {
             return null;
         }
-        final StrBuilder buf = new StrBuilder(length).append(source, offset, length);
+        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);
         substitute(buf, 0, length);
         return buf.toString();
     }
@@ -662,7 +662,7 @@ public class StringSubstitutor {
         if (source == null) {
             return null;
         }
-        final StrBuilder buf = new StrBuilder(length).append(source, offset, length);
+        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);
         substitute(buf, 0, length);
         return buf.toString();
     }
@@ -680,7 +680,7 @@ public class StringSubstitutor {
         if (source == null) {
             return null;
         }
-        final StrBuilder buf = new StrBuilder().append(source);
+        final TextStringBuilder buf = new TextStringBuilder().append(source);
         substitute(buf, 0, buf.length());
         return buf.toString();
     }
@@ -694,11 +694,11 @@ public class StringSubstitutor {
      *            the builder to use as a template, not changed, null returns null
      * @return the result of the replace operation
      */
-    public String replace(final StrBuilder source) {
+    public String replace(final TextStringBuilder source) {
         if (source == null) {
             return null;
         }
-        final StrBuilder buf = new StrBuilder(source.length()).append(source);
+        final TextStringBuilder buf = new TextStringBuilder(source.length()).append(source);
         substitute(buf, 0, buf.length());
         return buf.toString();
     }
@@ -718,11 +718,11 @@ public class StringSubstitutor {
      *            the length within the array to be processed, must be valid
      * @return the result of the replace operation
      */
-    public String replace(final StrBuilder source, final int offset, final int length) {
+    public String replace(final TextStringBuilder source, final int offset, final int length) {
         if (source == null) {
             return null;
         }
-        final StrBuilder buf = new StrBuilder(length).append(source, offset, length);
+        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);
         substitute(buf, 0, length);
         return buf.toString();
     }
@@ -740,7 +740,7 @@ public class StringSubstitutor {
         if (source == null) {
             return null;
         }
-        final StrBuilder buf = new StrBuilder(source);
+        final TextStringBuilder buf = new TextStringBuilder(source);
         if (!substitute(buf, 0, source.length())) {
             return source;
         }
@@ -766,7 +766,7 @@ public class StringSubstitutor {
         if (source == null) {
             return null;
         }
-        final StrBuilder buf = new StrBuilder(length).append(source, offset, length);
+        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);
         if (!substitute(buf, 0, length)) {
             return source.substring(offset, offset + length);
         }
@@ -786,7 +786,7 @@ public class StringSubstitutor {
         if (source == null) {
             return null;
         }
-        final StrBuilder buf = new StrBuilder(source.length()).append(source);
+        final TextStringBuilder buf = new TextStringBuilder(source.length()).append(source);
         substitute(buf, 0, buf.length());
         return buf.toString();
     }
@@ -810,7 +810,7 @@ public class StringSubstitutor {
         if (source == null) {
             return null;
         }
-        final StrBuilder buf = new StrBuilder(length).append(source, offset, length);
+        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);
         substitute(buf, 0, length);
         return buf.toString();
     }
@@ -824,7 +824,7 @@ public class StringSubstitutor {
      *            the builder to replace in, updated, null returns zero
      * @return true if altered
      */
-    public boolean replaceIn(final StrBuilder source) {
+    public boolean replaceIn(final TextStringBuilder source) {
         if (source == null) {
             return false;
         }
@@ -846,7 +846,7 @@ public class StringSubstitutor {
      *            the length within the builder to be processed, must be valid
      * @return true if altered
      */
-    public boolean replaceIn(final StrBuilder source, final int offset, final int length) {
+    public boolean replaceIn(final TextStringBuilder source, final int offset, final int length) {
         if (source == null) {
             return false;
         }
@@ -888,7 +888,7 @@ public class StringSubstitutor {
         if (source == null) {
             return false;
         }
-        final StrBuilder buf = new StrBuilder(length).append(source, offset, length);
+        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);
         if (!substitute(buf, 0, length)) {
             return false;
         }
@@ -931,7 +931,7 @@ public class StringSubstitutor {
         if (source == null) {
             return false;
         }
-        final StrBuilder buf = new StrBuilder(length).append(source, offset, length);
+        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);
         if (!substitute(buf, 0, length)) {
             return false;
         }
@@ -959,7 +959,7 @@ public class StringSubstitutor {
      *            the end position of the variable including the suffix, valid
      * @return the variable's value or <b>null</b> if the variable is unknown
      */
-    protected String resolveVariable(final String variableName, final StrBuilder buf, final int startPos,
+    protected String resolveVariable(final String variableName, final TextStringBuilder buf, final int startPos,
             final int endPos) {
         final StringLookup resolver = getStringLookup();
         if (resolver == null) {
@@ -1204,7 +1204,7 @@ public class StringSubstitutor {
      *            the length within the builder to be processed, must be valid
      * @return true if altered
      */
-    protected boolean substitute(final StrBuilder buf, final int offset, final int length) {
+    protected boolean substitute(final TextStringBuilder buf, final int offset, final int length) {
         return substitute(buf, offset, length, null) > 0;
     }
 
@@ -1223,7 +1223,8 @@ public class StringSubstitutor {
      * @return the length change that occurs, unless priorVariables is null when the int represents a boolean flag as to
      *         whether any change occurred.
      */
-    private int substitute(final StrBuilder buf, final int offset, final int length, List<String> priorVariables) {
+    private int substitute(final TextStringBuilder buf, final int offset, final int length,
+            List<String> priorVariables) {
         final StringMatcher pfxMatcher = getVariablePrefixMatcher();
         final StringMatcher suffMatcher = getVariableSuffixMatcher();
         final char escape = getEscapeChar();
@@ -1278,7 +1279,7 @@ public class StringSubstitutor {
                                 String varNameExpr = new String(chars, startPos + startMatchLen,
                                         pos - startPos - startMatchLen);
                                 if (substitutionInVariablesEnabled) {
-                                    final StrBuilder bufName = new StrBuilder(varNameExpr);
+                                    final TextStringBuilder bufName = new TextStringBuilder(varNameExpr);
                                     substitute(bufName, 0, bufName.length());
                                     varNameExpr = bufName.toString();
                                 }

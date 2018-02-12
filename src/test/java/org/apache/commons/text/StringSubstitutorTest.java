@@ -22,6 +22,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -52,16 +53,16 @@ public class StringSubstitutorTest {
             assertNull(sub.replace((char[]) null, 0, 100));
             assertNull(sub.replace((StringBuffer) null));
             assertNull(sub.replace((StringBuffer) null, 0, 100));
-            assertNull(sub.replace((StrBuilder) null));
-            assertNull(sub.replace((StrBuilder) null, 0, 100));
+            assertNull(sub.replace((TextStringBuilder) null));
+            assertNull(sub.replace((TextStringBuilder) null, 0, 100));
             assertNull(sub.replace((Object) null));
             assertFalse(sub.replaceIn((StringBuffer) null));
             assertFalse(sub.replaceIn((StringBuffer) null, 0, 100));
-            assertFalse(sub.replaceIn((StrBuilder) null));
-            assertFalse(sub.replaceIn((StrBuilder) null, 0, 100));
+            assertFalse(sub.replaceIn((TextStringBuilder) null));
+            assertFalse(sub.replaceIn((TextStringBuilder) null, 0, 100));
         } else {
             assertEquals(replaceTemplate, sub.replace(replaceTemplate));
-            final StrBuilder bld = new StrBuilder(replaceTemplate);
+            final TextStringBuilder bld = new TextStringBuilder(replaceTemplate);
             assertFalse(sub.replaceIn(bld));
             assertEquals(replaceTemplate, bld.toString());
         }
@@ -72,7 +73,7 @@ public class StringSubstitutorTest {
         doTestReplace(sub, expectedResult, replaceTemplate, substring);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     private void doTestReplace(final StringSubstitutor sub, final String expectedResult, final String replaceTemplate,
             final boolean substring) {
         final String expectedShortResult = expectedResult.substring(1, expectedResult.length() - 1);
@@ -104,15 +105,15 @@ public class StringSubstitutorTest {
             assertEquals(expectedShortResult, sub.replace(builder, 1, builder.length() - 2));
         }
 
-        // replace using StrBuilder
-        StrBuilder bld = new StrBuilder(replaceTemplate);
+        // replace using TextStringBuilder
+        TextStringBuilder bld = new TextStringBuilder(replaceTemplate);
         assertEquals(expectedResult, sub.replace(bld));
         if (substring) {
             assertEquals(expectedShortResult, sub.replace(bld, 1, bld.length() - 2));
         }
 
         // replace using object
-        final MutableObject<String> obj = new MutableObject<>(replaceTemplate);  // toString returns template
+        final MutableObject<String> obj = new MutableObject<>(replaceTemplate); // toString returns template
         assertEquals(expectedResult, sub.replace(obj));
 
         // replace in StringBuffer
@@ -122,7 +123,7 @@ public class StringSubstitutorTest {
         if (substring) {
             buf = new StringBuffer(replaceTemplate);
             assertTrue(sub.replaceIn(buf, 1, buf.length() - 2));
-            assertEquals(expectedResult, buf.toString());  // expect full result as remainder is untouched
+            assertEquals(expectedResult, buf.toString()); // expect full result as remainder is untouched
         }
 
         // replace in StringBuilder
@@ -132,17 +133,17 @@ public class StringSubstitutorTest {
         if (substring) {
             builder = new StringBuilder(replaceTemplate);
             assertTrue(sub.replaceIn(builder, 1, builder.length() - 2));
-            assertEquals(expectedResult, builder.toString());  // expect full result as remainder is untouched
+            assertEquals(expectedResult, builder.toString()); // expect full result as remainder is untouched
         }
 
-        // replace in StrBuilder
-        bld = new StrBuilder(replaceTemplate);
+        // replace in TextStringBuilder
+        bld = new TextStringBuilder(replaceTemplate);
         assertTrue(sub.replaceIn(bld));
         assertEquals(expectedResult, bld.toString());
         if (substring) {
-            bld = new StrBuilder(replaceTemplate);
+            bld = new TextStringBuilder(replaceTemplate);
             assertTrue(sub.replaceIn(bld, 1, bld.length() - 2));
-            assertEquals(expectedResult, bld.toString());  // expect full result as remainder is untouched
+            assertEquals(expectedResult, bld.toString()); // expect full result as remainder is untouched
         }
     }
 
@@ -158,7 +159,7 @@ public class StringSubstitutorTest {
         values = null;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Tests get set.
      */
@@ -220,8 +221,8 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceComplexEscaping() {
-        doTestReplace("The ${quick brown fox} jumps over the lazy dog.",
-                "The $${${animal}} jumps over the ${target}.", true);
+        doTestReplace("The ${quick brown fox} jumps over the lazy dog.", "The $${${animal}} jumps over the ${target}.",
+                true);
         doTestReplace("The ${quick brown fox} jumps over the lazy dog. ${1234567890}.",
                 "The $${${animal}} jumps over the ${target}. $${${undefined.number:-1234567890}}.", true);
     }
@@ -261,8 +262,8 @@ public class StringSubstitutorTest {
 
     @Test
     public void testReplaceInTakingStringBufferWithNonNull() {
-        final StringSubstitutor strSubstitutor =
-                new StringSubstitutor(new HashMap<String, String>(), "WV@i#y?N*[", "WV@i#y?N*[", '*');
+        final StringSubstitutor strSubstitutor = new StringSubstitutor(new HashMap<String, String>(), "WV@i#y?N*[",
+                "WV@i#y?N*[", '*');
 
         assertFalse(strSubstitutor.isPreserveEscapes());
         assertFalse(strSubstitutor.replaceIn(new StringBuffer("WV@i#y?N*[")));
@@ -292,8 +293,8 @@ public class StringSubstitutorTest {
         final Map<String, Object> hashMap = new HashMap<>();
         final StringLookup mapStringLookup = StringLookupFactory.INSTANCE.mapStringLookup(hashMap);
         final StringMatcher strMatcher = StringMatcherFactory.INSTANCE.tabMatcher();
-        final StringSubstitutor strSubstitutor =
-                new StringSubstitutor(mapStringLookup, strMatcher, strMatcher, 'b', strMatcher);
+        final StringSubstitutor strSubstitutor = new StringSubstitutor(mapStringLookup, strMatcher, strMatcher, 'b',
+                strMatcher);
 
         assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, (-1369)));
         assertEquals('b', strSubstitutor.getEscapeChar());
@@ -310,20 +311,13 @@ public class StringSubstitutorTest {
         values.put("species", "2");
         final StringSubstitutor sub = new StringSubstitutor(values);
         sub.setEnableSubstitutionInVariables(true);
-        assertEquals(
-                "Wrong result (1)",
-                "The mouse jumps over the lazy dog.",
+        assertEquals("Wrong result (1)", "The mouse jumps over the lazy dog.",
                 sub.replace("The ${animal.${species}} jumps over the ${target}."));
         values.put("species", "1");
-        assertEquals(
-                "Wrong result (2)",
-                "The fox jumps over the lazy dog.",
+        assertEquals("Wrong result (2)", "The fox jumps over the lazy dog.",
                 sub.replace("The ${animal.${species}} jumps over the ${target}."));
-        assertEquals(
-                "Wrong result (3)",
-                "The fox jumps over the lazy dog.",
-                sub.replace("The ${unknown.animal.${unknown.species:-1}:-fox} "
-                        + "jumps over the ${unknow.target:-lazy dog}."));
+        assertEquals("Wrong result (3)", "The fox jumps over the lazy dog.", sub.replace(
+                "The ${unknown.animal.${unknown.species:-1}:-fox} " + "jumps over the ${unknow.target:-lazy dog}."));
     }
 
     /**
@@ -335,13 +329,9 @@ public class StringSubstitutorTest {
         values.put("animal.2", "mouse");
         values.put("species", "2");
         final StringSubstitutor sub = new StringSubstitutor(values);
-        assertEquals(
-                "Wrong result (1)",
-                "The ${animal.${species}} jumps over the lazy dog.",
+        assertEquals("Wrong result (1)", "The ${animal.${species}} jumps over the lazy dog.",
                 sub.replace("The ${animal.${species}} jumps over the ${target}."));
-        assertEquals(
-                "Wrong result (2)",
-                "The ${animal.${species:-1}} jumps over the lazy dog.",
+        assertEquals("Wrong result (2)", "The ${animal.${species:-1}} jumps over the lazy dog.",
                 sub.replace("The ${animal.${species:-1}} jumps over the ${target}."));
     }
 
@@ -357,13 +347,9 @@ public class StringSubstitutorTest {
         values.put("species.brown", "2");
         final StringSubstitutor sub = new StringSubstitutor(values);
         sub.setEnableSubstitutionInVariables(true);
-        assertEquals(
-                "Wrong result (1)",
-                "The white mouse jumps over the lazy dog.",
+        assertEquals("Wrong result (1)", "The white mouse jumps over the lazy dog.",
                 sub.replace("The ${animal.${species.${color}}} jumps over the ${target}."));
-        assertEquals(
-                "Wrong result (2)",
-                "The brown fox jumps over the lazy dog.",
+        assertEquals("Wrong result (2)", "The brown fox jumps over the lazy dog.",
                 sub.replace("The ${animal.${species.${unknownColor:-brown}}} jumps over the ${target}."));
     }
 
@@ -436,7 +422,7 @@ public class StringSubstitutorTest {
         doTestReplace("The quick brown fox jumps over the lazy dog.", "The ${animal} jumps over the ${target}.", true);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Tests simple key replace.
      */
@@ -519,18 +505,18 @@ public class StringSubstitutorTest {
         doTestNoReplace("${${ }}");
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Tests protected.
      */
     @Test
     public void testResolveVariable() {
-        final StrBuilder builder = new StrBuilder("Hi ${name}!");
+        final TextStringBuilder builder = new TextStringBuilder("Hi ${name}!");
         final Map<String, String> map = new HashMap<>();
         map.put("name", "commons");
         final StringSubstitutor sub = new StringSubstitutor(map) {
             @Override
-            protected String resolveVariable(final String variableName, final StrBuilder buf, final int startPos,
+            protected String resolveVariable(final String variableName, final TextStringBuilder buf, final int startPos,
                     final int endPos) {
                 assertEquals("name", variableName);
                 assertSame(builder, buf);
@@ -553,7 +539,7 @@ public class StringSubstitutorTest {
         assertEquals("Hello there commons!", StringSubstitutor.replace("@greeting@ there @name@!", map, "@", "@"));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Tests static.
      */
@@ -579,15 +565,14 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testStaticReplaceSystemProperties() {
-        final StrBuilder buf = new StrBuilder();
+        final TextStringBuilder buf = new TextStringBuilder();
         buf.append("Hi ").append(System.getProperty("user.name"));
         buf.append(", you are working with ");
         buf.append(System.getProperty("os.name"));
         buf.append(", your home directory is ");
         buf.append(System.getProperty("user.home")).append('.');
-        assertEquals(buf.toString(), StringSubstitutor.replaceSystemProperties("Hi ${user.name}, you are "
-            + "working with ${os.name}, your home "
-            + "directory is ${user.home}."));
+        assertEquals(buf.toString(), StringSubstitutor.replaceSystemProperties(
+                "Hi ${user.name}, you are " + "working with ${os.name}, your home " + "directory is ${user.home}."));
     }
 
     /**
