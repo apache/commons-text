@@ -65,7 +65,6 @@ import java.util.Objects;
  * </p>
  *
  * @since 1.0
- *
  */
 public class StrBuilder implements CharSequence, Appendable, Serializable, Builder<String> {
 
