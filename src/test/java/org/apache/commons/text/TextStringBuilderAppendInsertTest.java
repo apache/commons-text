@@ -561,7 +561,7 @@ public class TextStringBuilderAppendInsertTest {
         };
         sb.appendln("Hello %s", "Alice");
         assertThat(sb.toString()).isEqualTo("Hello Alice" + SEP);
-        assertThat(count[0]);  // appendNewLine() calls append(String).isEqualTo(2)
+        assertThat(count[0]).isEqualTo(2); // appendNewLine() calls append(String)
         assertThat(count[1]).isEqualTo(1);
     }
 
@@ -599,7 +599,7 @@ public class TextStringBuilderAppendInsertTest {
         };
         sb.appendln("foo");
         assertThat(sb.toString()).isEqualTo("foo" + SEP);
-        assertThat(count[0]);  // appendNewLine() calls append(String).isEqualTo(2)
+        assertThat(count[0]).isEqualTo(2); // appendNewLine() calls append(String)
         assertThat(count[1]).isEqualTo(1);
     }
 
