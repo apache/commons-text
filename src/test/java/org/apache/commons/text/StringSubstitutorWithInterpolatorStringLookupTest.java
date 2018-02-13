@@ -17,6 +17,8 @@
 
 package org.apache.commons.text;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +27,28 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class StringSubstitutorWithInterpolatorStringLookupTest {
+
+    @Test
+    public void testLocalHostLookup_Address() throws UnknownHostException {
+        final StringSubstitutor strSubst = new StringSubstitutor(
+                StringLookupFactory.INSTANCE.interpolatorStringLookup());
+        Assert.assertEquals(InetAddress.getLocalHost().getHostAddress(), strSubst.replace("${localhost:address}"));
+    }
+
+    @Test
+    public void testLocalHostLookup_CanonicalName() throws UnknownHostException {
+        final StringSubstitutor strSubst = new StringSubstitutor(
+                StringLookupFactory.INSTANCE.interpolatorStringLookup());
+        Assert.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(),
+                strSubst.replace("${localhost:canonical-name}"));
+    }
+
+    @Test
+    public void testLocalHostLookup_Name() throws UnknownHostException {
+        final StringSubstitutor strSubst = new StringSubstitutor(
+                StringLookupFactory.INSTANCE.interpolatorStringLookup());
+        Assert.assertEquals(InetAddress.getLocalHost().getHostName(), strSubst.replace("${localhost:name}"));
+    }
 
     @Test
     public void testMapAndSystemProperty() {

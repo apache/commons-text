@@ -49,7 +49,8 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the EnvironmentVariableStringLookup singleton instance.
+     * Returns the EnvironmentVariableStringLookup singleton instance where the lookup key is an environment variable
+     * name.
      *
      * @return the EnvironmentVariableStringLookup singleton instance.
      */
@@ -67,6 +68,7 @@ public final class StringLookupFactory {
      * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
      * </ul>
      *
      * @return a new InterpolatorStringLookup.
@@ -85,6 +87,7 @@ public final class StringLookupFactory {
      * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
      * </ul>
      *
      * @param <V>
@@ -107,6 +110,7 @@ public final class StringLookupFactory {
      * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
      * </ul>
      *
      * @param defaultStringLookup
@@ -124,6 +128,20 @@ public final class StringLookupFactory {
      */
     public StringLookup javaPlatformStringLookup() {
         return JavaPlatformStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the LocalHostStringLookup singleton instance where the lookup key is one of:
+     * <ul>
+     * <li><b>name</b>: for the local host name, for example {@code EXAMPLE}.</li>
+     * <li><b>canonical-name</b>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
+     * <li><b>address</b>: for the local host address, for example {@code 192.168.56.1}.</li>
+     * </ul>
+     *
+     * @return the DateStringLookup singleton instance.
+     */
+    public StringLookup localHostStringLookup() {
+        return LocalHostStringLookup.INSTANCE;
     }
 
     /**
@@ -164,7 +182,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the SystemPropertyStringLookup singleton instance where the key is a system property name.
+     * Returns the SystemPropertyStringLookup singleton instance where the lookup key is a system property name.
      *
      * @return the SystemPropertyStringLookup singleton instance.
      */

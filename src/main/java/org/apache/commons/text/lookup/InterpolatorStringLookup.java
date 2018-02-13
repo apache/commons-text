@@ -82,6 +82,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
         stringLookupMap.put("env", EnvironmentVariableStringLookup.INSTANCE);
         stringLookupMap.put("java", JavaPlatformStringLookup.INSTANCE);
         stringLookupMap.put("date", DateStringLookup.INSTANCE);
+        stringLookupMap.put("localhost", LocalHostStringLookup.INSTANCE);
     }
 
     /**
