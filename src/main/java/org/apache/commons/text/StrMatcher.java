@@ -28,7 +28,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * If these do not suffice, you can subclass and implement your own matcher.
  *
  * @since 1.0
- * @deprecated Use {@link StringMatcherFactory}. This class will be removed in 2.0.
+ * @deprecated Deprecated as of 1.3, use {@link StringMatcherFactory} instead. This class will be removed in 2.0.
  */
 @Deprecated
 public abstract class StrMatcher {

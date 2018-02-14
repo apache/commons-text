@@ -65,7 +65,7 @@ import java.util.Objects;
  * </p>
  *
  * @since 1.0
- * @deprecated Use {@link TextStringBuilder}. This class will be removed in 2.0.
+ * @deprecated Deprecated as of 1.3, use {@link TextStringBuilder} instead. This class will be removed in 2.0.
  */
 @Deprecated
 public class StrBuilder implements CharSequence, Appendable, Serializable, Builder<String> {

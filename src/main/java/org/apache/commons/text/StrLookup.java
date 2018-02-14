@@ -36,7 +36,7 @@ import org.apache.commons.text.lookup.StringLookupFactory;
  *
  * @param <V> the type of the values supported by the lookup
  * @since 1.0
- * @deprecated Use {@link StringLookupFactory}. This class will be removed in 2.0.
+ * @deprecated Deprecated as of 1.3, use {@link StringLookupFactory} instead. This class will be removed in 2.0.
  */
 @Deprecated
 public abstract class StrLookup<V> implements StringLookup {

@@ -121,7 +121,7 @@ import org.apache.commons.lang3.Validate;
  * <p>This class is <b>not</b> thread safe.</p>
  *
  * @since 1.0
- * @deprecated Use {@link StringSubstitutor}. This class will be removed in 2.0.
+ * @deprecated Deprecated as of 1.3, use {@link StringSubstitutor} instead. This class will be removed in 2.0.
  */
 @Deprecated
 public class StrSubstitutor {

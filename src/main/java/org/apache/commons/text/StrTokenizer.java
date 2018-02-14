@@ -80,7 +80,7 @@ import java.util.NoSuchElementException;
  * </table>
  *
  * @since 1.0
- * @deprecated Use {@link StringTokenizer}. This class will be removed in 2.0.
+ * @deprecated Deprecated as of 1.3, use {@link StringTokenizer} instead. This class will be removed in 2.0.
  */
 @Deprecated
 public class StrTokenizer implements ListIterator<String>, Cloneable {
