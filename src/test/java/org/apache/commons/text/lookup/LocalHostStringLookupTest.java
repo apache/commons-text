@@ -27,19 +27,20 @@ public class LocalHostStringLookupTest {
 
     @Test
     public void testAddress() throws UnknownHostException {
-        Assert.assertEquals(LocalHostStringLookup.INSTANCE.lookup("address"),
-                InetAddress.getLocalHost().getHostAddress());
+        Assert.assertEquals(InetAddress.getLocalHost().getHostAddress(),
+                LocalHostStringLookup.INSTANCE.lookup("address"));
     }
 
     @Test
     public void testCanonicalName() throws UnknownHostException {
-        Assert.assertEquals(LocalHostStringLookup.INSTANCE.lookup("canonical-name"),
-                InetAddress.getLocalHost().getCanonicalHostName());
+        Assert.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(),
+                LocalHostStringLookup.INSTANCE.lookup("canonical-name"));
     }
 
     @Test
     public void testName() throws UnknownHostException {
-        Assert.assertEquals(LocalHostStringLookup.INSTANCE.lookup("name"), InetAddress.getLocalHost().getHostName());
+        Assert.assertEquals(InetAddress.getLocalHost().getHostName(),
+                LocalHostStringLookup.INSTANCE.lookup("name"));
     }
 
 }
