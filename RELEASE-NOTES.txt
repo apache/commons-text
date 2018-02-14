@@ -26,6 +26,7 @@ FIXED BUGS
 ==========
 
 o Build failure with java 9-ea+159  Issue: TEXT-70. 
+o StrLookup API confusing  Issue: TEXT-80. 
 
 =============================================================================
 
