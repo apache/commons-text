@@ -117,8 +117,8 @@ Get the code
 ------------
 ```java
 git clone https://github.com/NhatDinh/commons-text.git
-git fetch( optional)
-git checkout annotated-version (optional)
+git fetch
+git checkout annotated-version 
 mvn install
 mvn -Pchecker compile
 ```
