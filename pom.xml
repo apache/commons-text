@@ -415,13 +415,13 @@
         <dependency>
           <groupId>org.checkerframework</groupId>
           <artifactId>checker</artifactId>
-          <version>1.9.13</version>
+          <version>2.4.0</version>
           <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.checkerframework</groupId>
           <artifactId>jdk8</artifactId>
-          <version>1.9.13</version>
+          <version>2.4.0</version>
           <scope>provided</scope>
         </dependency>
       </dependencies>
@@ -447,7 +447,7 @@
               <source>${java.version}</source>
               <target>${java.version}</target>
               <annotationProcessors>
-                <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+                <annotationProcessor>org.checkerframework.checker.index.IndexChecker</annotationProcessor>
               </annotationProcessors>
               <compilerArgs>
                 <arg>-Xbootclasspath/p:${org.checkerframework:jdk8:jar}</arg>
