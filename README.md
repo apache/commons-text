@@ -102,3 +102,42 @@ Additional Resources
 + `#apache-commons` IRC channel on `irc.freenode.org`
 
 [ml]:https://commons.apache.org/mail-lists.html
+
+annotated-version
+=================
+
+Setup
+-----
+Ensure you have the following installed and running:
++ Java 8
++ Maven
++ An IDE or text editor
+
+Get the code
+------------
+```java
+git clone https://github.com/NhatDinh/commons-text.git
+git fetch
+git checkout annotated-version 
+mvn install
+mvn -Pchecker compile
+```
+Current expected output:
+```
+100 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 52.713 s
+[INFO] Finished at: 2018-03-11T10:53:21-07:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] /Users/Nhat/Desktop/Github/commons-text/src/main/java/org/apache/commons/text/similarity/CosineSimilarity.java:[97,41] [unboxing.of.nullable] unboxing a possibly-null reference leftVector.get(key)
+[ERROR] /Users/Nhat/Desktop/Github/commons-text/src/main/java/org/apache/commons/text/similarity/CosineSimilarity.java:[97,64] [unboxing.of.nullable] unboxing a possibly-null reference rightVector.get(key)
+[ERROR] /Users/Nhat/Desktop/Github/commons-text/src/main/java/org/apache/commons/text/StrBuilder.java:[107,12] [initialization.fields.uninitialized] the constructor does not initialize fields: newLine, nullText
+[ERROR] /Users/Nhat/Desktop/Github/commons-text/src/main/java/org/apache/commons/text/StrBuilder.java:[121,12] [initialization.fields.uninitialized] the constructor does not initialize fields: newLine, nullText
+.....
+```
+
+
+
