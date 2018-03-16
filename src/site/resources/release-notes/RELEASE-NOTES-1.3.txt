@@ -1,0 +1,252 @@
+                          Apache Commons Text
+                              Version 1.3
+                             Release Notes
+
+INTRODUCTION
+============
+
+This document contains the release notes for the 1.3 version of Apache Commons
+Text. Commons Text is a set of utility functions and reusable components for 
+the purpose of processing and manipulating text that should be of use in a Java
+environment.
+
+This component requires Java 7.
+
+NEW FEATURES
+=============
+
+o Add Automatic-Module-Name MANIFEST entry for Java 9 compatibility  Issue: TEXT-110. 
+o Add an interpolator string lookup: StringLookupFactory#interpolatorStringLookup()  Issue: TEXT-113. 
+o Add a StrSubstitutor replacement based on interfaces: StringSubstitutor  Issue: TEXT-114. 
+o Add a StrBuilder replacement based on the StringMatcher interface: TextStringBuilder  Issue: TEXT-115. 
+o Add a StrTokenizer replacement based on the StringMatcher interface: StringTokenizer  Issue: TEXT-116. 
+o Add a local host string lookup: LocalHostStringLookup  Issue: TEXT-117. 
+
+FIXED BUGS
+==========
+
+o Build failure with java 9-ea+159  Issue: TEXT-70. 
+o StrLookup API confusing  Issue: TEXT-80. 
+
+=============================================================================
+
+                          Apache Commons Text
+                              Version 1.2
+                             Release Notes
+
+INTRODUCTION
+============
+
+This document contains the release notes for the 1.2 version of Apache Commons
+Text. Commons Text is a set of utility functions and reusable components for 
+the purpose of processing and manipulating text that should be of use in a Java
+environment.
+
+This component requires Java 7.
+
+JAVA 9 SUPPORT
+==============
+
+At our time of release of 1.1, our build succeeds with Java 9-ea build 159,
+and we believe all of our features to be Java 9 compatible. However, when we
+run "mvn clean site" we have failures.
+
+NEW FEATURES
+=============
+
+o TEXT-74:   StrSubstitutor: Ability to turn off substitution in values. Thanks to Ioannis Sermetziadis.
+o TEXT-97:   RandomStringGenerator able to pass multiple ranges to .withinRange(). Thanks to Amey Jadiye.
+o TEXT-89:   WordUtils.initials support for UTF-16 surrogate pairs. Thanks to Arun Vinud S S.
+o TEXT-90:   Add CharacterPredicates for ASCII letters (uppercase/lowercase) and arabic numerals.
+o TEXT-85:   Added CaseUtils class with camel case conversion support. Thanks to Arun Vinud S S.
+o TEXT-91:   RandomStringGenerator should be able to generate a String with a random length.
+o TEXT-102:  Add StrLookup.resourceBundleLookup(ResourceBundle).
+
+FIXED BUGS
+==========
+
+o TEXT-106:  Exception thrown in ExtendedMessageFormat using quotes with custom registry. Thanks to Benoit Moreau.
+o TEXT-100:  StringEscapeUtils#UnEscapeJson doesn't recognize escape signs correctly. Thanks to Don Jeba.
+o TEXT-105:  Typo in LongestCommonSubsequence#logestCommonSubsequence. Thanks to Abrasha.
+
+CHANGES
+=======
+
+o TEXT-107:  Upversion commons-lang to 3.7.
+o TEXT-98:   Deprecate isDelimiter and use HashSets for delimiter checks. Thanks to Arun Vinud S S.
+o TEXT-88:   WordUtils should treat an empty delimiter array as no delimiters. Thanks to Amey Jadiye.
+o TEXT-93:   Update RandomStringGenerator to accept a list of valid characters. Thanks to Amey Jadiye.
+o TEXT-92:   Update commons-lang dependency to version 3.6.
+o TEXT-83:   Document that commons-csv should be used in preference to CsvTranslators. Thanks to Amey Jadiye.
+o TEXT-67:   NumericEntityUnescaper.options - fix TODO.
+o TEXT-84:   RandomStringGenerator claims to be immutable, but isn't.
+
+=============================================================================
+
+                        Release Notes for version 1.1
+
+JAVA 9 SUPPORT
+==============
+
+At our time of release of 1.1, our build succeeds with Java 9-ea build 159,
+and we believe all of our features to be Java 9 compatible. However, when we 
+run "mvn clean site" we have failures.
+
+NEW FEATURES
+============
+
+o TEXT-41:   WordUtils.abbreviate support Thanks to Amey Jadiye.
+o TEXT-82:   Putting WordUtils back in to the codebase Thanks to Amey Jadiye.
+o TEXT-81:   Add RandomStringGenerator Thanks to djones.
+o TEXT-36:   RandomStringGenerator: allow users to provide source of randomness
+             Thanks to Raymond DeCampo.
+                
+FIXED BUGS
+==========
+
+o TEXT-76:   Correct round issue in Jaro Winkler implementation
+o TEXT-72:   Similar to LANG-1025, clirr fails site build.
+                
+CHANGES
+=======
+
+o TEXT-39:   WordUtils should use toXxxxCase(int) rather than toXxxxCase(char) 
+             Thanks to Amey Jadiye.
+
+=============================================================================
+
+                        Release Notes for version 1.0
+
+INCOMPATIBLE CHANGES
+====================
+
+All package names changed from org.apache.commons.text.beta in 1.0-beta-1 to
+org.apache.commons.text in 1.0.
+
+Methods StringEscapeUtils#escapeHtml3Once and StringEscapeUtils#escapeHtml4Once
+have been removed; see TEXT-40
+
+JAVA 9 SUPPORT
+==============
+
+At our time of release of 1.0, our build succeeds with Java 9-ea build 158,
+and we believe all of our features to be Java 9 compatible. However, when we run
+"mvn clean site" we have failures.
+
+FIXED BUGS
+==========
+
+o TEXT-64:   Investigate locale issue in ExtendedMessageFormatTest. Thanks to
+             chtompki.
+o TEXT-69:   Resolve PMD/CMD Violations
+o TEXT-65:   Fixing the 200 checkstyle errors present in 1.0-beta-1.
+o TEXT-63:   Mutable fields should be private.
+
+REMOVED
+=======
+
+o TEXT-40:   Escape HTML characters only once: revert.
+
+=============================================================================
+
+                        Release Notes for version 1.0-beta-1
+
+
+A NOTE ON THE HISTORY OF THE CODE
+=================================
+
+The codebase began in the fall of 2014 as a location for housing algorithms for
+operating on Strings that seemed to have a more complex nature than those which
+would be considered a needed extension to java.lang. Thus, a new component,
+different from Apache Commons Lang was warranted. As the project evolved, it was
+noticed that Commons Lang had considerable more text manipulation tools than
+the average Java application developer would need or even want. So, we have
+decided to move the more esoteric String processing algorithms out of Commons
+Lang into Commons Text.
+
+JAVA 9 SUPPORT
+==============
+
+At our time of release of 1.0-beta-1, our build succeeds with Java 9-ea build 153,
+and we believe all of our features to be Java 9 compatible.
+
+NEW FEATURES
+============
+
+o TEXT-56:   Move CvsTranslators out of StringEscapeUtils and make them DRY
+             Thanks to Jarek Strzeleck.
+o TEXT-40:   Escape HTML characters only once Thanks to Sampanna Kahu.
+o TEXT-32:   Add LCS similarity and distance
+o TEXT-34:   Add class to generate random strings
+o TEXT-29:   Add a builder to StringEscapeUtils
+o TEXT-28:   Add shell/XSI escape/unescape support
+o TEXT-2:    Add Jaccard Index and Jaccard Distance Thanks to Don Jeba.
+o TEXT-27:   Move org.apache.commons.lang3.StringEscapeUtils.java into text
+o TEXT-23:   Moving from commons-lang, the package org.apache.commons.lang3.text
+o TEXT-10:   A more complex Levenshtein distance Thanks to Don Jeba.
+o TEXT-24:   Add coveralls and Travis.ci integration
+o TEXT-19:   Add alphabet converter Thanks to Eyal Allweil.
+o TEXT-13:   Create Commons Text logo
+o TEXT-7:    Write user guide
+o TEXT-15:   Human name parser
+o TEXT-3:    Add Cosine Similarity and Cosine Distance
+o TEXT-4:    Port Myers algorithm from [collections]
+o TEXT-1:    Add Hamming distance
+o TEXT-9:    Incorporate String algorithms from Commons Lang Thanks to britter.
+
+FIXED BUGS
+==========
+
+Note. We recognize the curiosity of a new component having "fixed bugs," but a
+considerable number of files were migrated over from Commons Lang, some of which
+needed fixes.
+
+o TEXT-62:   Incorporate suggestions from RC2 into 1.0 release.
+o TEXT-60:   Upgrading Jacoco for Java 9-ea compatibility. Thanks to Lee Adcock.
+o TEXT-52:   Possible attacks through StringEscapeUtils.escapeEcmaScrip better
+             javadoc
+o TEXT-37:   Global vs local source of randomness
+o TEXT-38:   Fluent API in "RandomStringBuilder"
+o TEXT-26:   Fix JaroWinklerDistance in the manner of LUCENE-1297
+o TEXT-35:   Unfinished class Javadoc for CosineDistance
+o TEXT-22:   LevenshteinDistance reduce memory consumption
+o TEXT-5:    IP clearance for the names package
+o TEXT-11:   Work on the string metric, distance, and similarity definitions for
+             the project
+o TEXT-12:   Create StringDistanceFrom class that contains a StringMetric and
+             the "left" side string. This would have a method that accepts the
+             "right" side string to test. Thanks to Jonathan baker.
+o TEXT-8:    Change (R) StringMetric.compare(CS left, CS right) to "apply" so
+             that it is consistent with BiFunction. Thanks to Jonathan Baker.
+o TEXT-6:    Allow extra information (e.g. Levenshtein threshold) to be stored
+             as (final) fields in the StringMetric instance. Thanks to Jonathan
+             Baker.
+
+CHANGES
+=======
+
+o TEXT-61:   Naming packages org.apache.commons.text.beta Thanks to Lee Adcock.
+o TEXT-58:   Refactor EntityArrays to have unmodifiableMaps in leu of String[][]
+o TEXT-53:   Prepare site for 1.0 release
+o TEXT-50:   Upgrade from commons-parent version 41 to version 42
+o TEXT-33:   Consolidating since tags at 1.0, removing deprecated methods
+o TEXT-16:   Improve HumanNameParser
+
+REMOVED
+=======
+
+o TEXT-55:   Remove WordUtils to be added back in an upcoming 1.X release
+o TEXT-51:   Remove RandomStringGenerator to be added back in the 1.1 release
+o TEXT-31:   Remove org.apache.commons.text.names, for later release than 1.0
+
+
+Historical list of changes: http://commons.apache.org/text/changes-report.html
+
+For complete information on Apache Commons Text, including instructions on how
+to submit bug reports, patches, or suggestions for improvement, see the Apache
+Apache Commons Text website:
+
+http://commons.apache.org/text/
+
+Have fun!
+-Apache Commons Text team
