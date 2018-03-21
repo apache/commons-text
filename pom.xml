@@ -23,7 +23,7 @@
     <version>45</version>
   </parent>
   <artifactId>commons-text</artifactId>
-  <version>1.3-SNAPSHOT</version>
+  <version>1.3</version>
   <name>Apache Commons Text</name>
   <description>Apache Commons Text is a library focused on algorithms working on strings.</description>
 
@@ -45,6 +45,8 @@
     <commons.site.path>text</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
+    <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/text/</commons.distSvnStagingUrl>
+    <commons.release.isDistModule>true</commons.release.isDistModule>
 
     <checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
     <checkstyle.version>6.19</checkstyle.version>
