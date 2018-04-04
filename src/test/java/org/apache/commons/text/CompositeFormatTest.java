@@ -17,7 +17,7 @@
 
 package org.apache.commons.text;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.FieldPosition;
 import java.text.Format;
@@ -25,7 +25,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link CompositeFormat}.
@@ -70,8 +70,8 @@ public class CompositeFormatTest {
 
         composite.parseObject("", null);
         composite.format(new Object(), new StringBuffer(), null);
-        assertEquals("Parser get method incorrectly implemented", parser, composite.getParser());
-        assertEquals("Formatter get method incorrectly implemented", formatter, composite.getFormatter());
+        assertEquals(parser, composite.getParser(), "Parser get method incorrectly implemented");
+        assertEquals(formatter, composite.getFormatter(), "Formatter get method incorrectly implemented");
     }
 
     @Test

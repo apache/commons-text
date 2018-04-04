@@ -16,14 +16,15 @@
  */
 package org.apache.commons.text.translate;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit test for {@link SinglePassTranslator}
@@ -38,7 +39,7 @@ public class SinglePassTranslatorTest {
 
     private StringWriter out;
 
-    @Before
+    @BeforeEach
     public void before() {
          out = new StringWriter();
     }
@@ -50,14 +51,14 @@ public class SinglePassTranslatorTest {
         assertThat(dummyTranslator.translate("abcdefg", 0, out)).isEqualTo(7);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void indexIsValidated() throws Exception {
-        dummyTranslator.translate("abc", 1, out);
+        assertThatIllegalArgumentException().isThrownBy(() -> dummyTranslator.translate("abc", 1, out));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testTranslateThrowsIllegalArgumentException() throws IOException {
-        dummyTranslator.translate("(,Fk", 647, null);
+        assertThatIllegalArgumentException().isThrownBy(() -> dummyTranslator.translate("(,Fk", 647, null));
     }
 
 }

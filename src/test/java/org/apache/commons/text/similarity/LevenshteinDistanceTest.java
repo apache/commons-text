@@ -16,9 +16,10 @@
  */
 package org.apache.commons.text.similarity;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link LevenshteinDistance}.
@@ -41,14 +42,14 @@ public class LevenshteinDistanceTest {
         assertThat(UNLIMITED_DISTANCE.apply("hello", "hallo")).isEqualTo(1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetLevenshteinDistance_NullString() {
-        UNLIMITED_DISTANCE.apply("a", null);
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetLevenshteinDistance_StringNull() {
-        UNLIMITED_DISTANCE.apply(null, "a");
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
     }
 
     @Test
@@ -115,24 +116,24 @@ public class LevenshteinDistanceTest {
         assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("hello", "hallo")).isEqualTo(1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetLevenshteinDistance_NullStringInt() {
-        UNLIMITED_DISTANCE.apply(null, "a");
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetLevenshteinDistance_StringNullInt() {
-        UNLIMITED_DISTANCE.apply("a", null);
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructorWithNegativeThreshold() {
-        new LevenshteinDistance(-1);
+        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDistance(-1));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDistanceTakingInteger() {
-        new LevenshteinDistance(0).apply(null, null);
+        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDistance(0).apply(null, null));
     }
 
     @Test

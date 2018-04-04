@@ -16,10 +16,11 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link JaccardSimilarity}.
@@ -28,41 +29,48 @@ public class JaccardSimilarityTest {
 
     private static JaccardSimilarity classBeingTested;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         classBeingTested = new JaccardSimilarity();
     }
 
     @Test
     public void testGettingJaccardSimilarity() {
-        assertEquals(0.00d, classBeingTested.apply("", ""), 0.0d);
-        assertEquals(0.00d, classBeingTested.apply("left", ""), 0.0d);
-        assertEquals(0.00d, classBeingTested.apply("", "right"), 0.0d);
-        assertEquals(0.75d, classBeingTested.apply("frog", "fog"), 0.0d);
-        assertEquals(0.00d, classBeingTested.apply("fly", "ant"), 0.0d);
-        assertEquals(0.22d, classBeingTested.apply("elephant", "hippo"), 0.0d);
-        assertEquals(0.64d, classBeingTested.apply("ABC Corporation", "ABC Corp"), 0.0d);
-        assertEquals(0.76d, classBeingTested.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."), 0.0d);
-        assertEquals(0.89d,
-                classBeingTested.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"), 0.0d);
-        assertEquals(0.9d, classBeingTested.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.0d);
-        assertEquals(0.13d, classBeingTested.apply("left", "right"), 0.0d);
-        assertEquals(0.13d, classBeingTested.apply("leettteft", "ritttght"), 0.0d);
-        assertEquals(1.0d, classBeingTested.apply("the same string", "the same string"), 0.0d);
+        assertEquals(0.00d, classBeingTested.apply("", ""), 0.00000000000000000001d);
+        assertEquals(0.00d, classBeingTested.apply("left", ""), 0.00000000000000000001d);
+        assertEquals(0.00d, classBeingTested.apply("", "right"), 0.00000000000000000001d);
+        assertEquals(0.75d, classBeingTested.apply("frog", "fog"), 0.00000000000000000001d);
+        assertEquals(0.00d, classBeingTested.apply("fly", "ant"), 0.00000000000000000001d);
+        assertEquals(0.22d, classBeingTested.apply("elephant", "hippo"), 0.00000000000000000001d);
+        assertEquals(0.64d, classBeingTested.apply("ABC Corporation", "ABC Corp"), 0.00000000000000000001d);
+        assertEquals(0.76d, classBeingTested.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."),
+                0.00000000000000000001d);
+        assertEquals(0.89d, classBeingTested.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"),
+                0.00000000000000000001d);
+        assertEquals(0.9d, classBeingTested.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.00000000000000000001d);
+        assertEquals(0.13d, classBeingTested.apply("left", "right"), 0.00000000000000000001d);
+        assertEquals(0.13d, classBeingTested.apply("leettteft", "ritttght"), 0.00000000000000000001d);
+        assertEquals(1.0d, classBeingTested.apply("the same string", "the same string"), 0.00000000000000000001d);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGettingJaccardSimilarityNullNull() {
-        classBeingTested.apply(null, null);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            classBeingTested.apply(null, null);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGettingJaccardSimilarityStringNull() {
-        classBeingTested.apply(" ", null);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            classBeingTested.apply(" ", null);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGettingJaccardSimilarityNullString() {
-        classBeingTested.apply(null, "right");
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            classBeingTested.apply(null, "right");
+        });
     }
 }

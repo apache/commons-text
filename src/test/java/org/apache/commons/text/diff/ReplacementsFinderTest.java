@@ -15,73 +15,57 @@
  * limitations under the License.
  */
 package org.apache.commons.text.diff;
-import static org.junit.Assert.assertArrayEquals;
-import static org.assertj.core.api.Assertions.assertThat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
 /**
  * Tests for the ReplacementsFinder.
  */
-@RunWith(Parameterized.class)
 public class ReplacementsFinderTest {
-    private SimpleHandler handler = null;
-    private final String left;
-    private final String right;
-    private final int skipped;
-    private final Character[] from;
-    private final Character[] to;
 
-    @Before
+    private SimpleHandler handler = null;
+
+    @BeforeEach
     public void setUp() {
         handler = new SimpleHandler();
     }
 
-    @Parameters
-    public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][] {
-            {
+    public static Stream<Arguments> parameters() {
+        return Stream.of(
+            Arguments.of(
                 "branco",
                 "blanco",
                 1,
                 new Character[] {'r'},
-                new Character[] {'l'}},
-            {
+                new Character[] {'l'}),
+            Arguments.of(
                 "test the blocks before you use it",
                 "try the blocks before you put it",
                 25,
                 new Character[] {'e', 's', 't', 's', 'e'},
                 new Character[] {'r', 'y', 'p', 't'}
-            }
-        });
+            ));
     }
 
-    public ReplacementsFinderTest(final String left, final String right, final int skipped,
-            final Character[] from, final Character[] to) {
-        this.left = left;
-        this.right = right;
-        this.skipped = skipped;
-        this.from = from;
-        this.to = to;
-    }
-
-    @Test
-    public void testReplacementsHandler() {
+    @ParameterizedTest
+    @MethodSource("parameters")
+    public void testReplacementsHandler(String left, String right, int skipped, Character[] from, Character[] to) {
         final StringsComparator sc = new StringsComparator(left, right);
         final ReplacementsFinder<Character> replacementFinder = new ReplacementsFinder<>(handler);
         sc.getScript().visit(replacementFinder);
         assertThat(handler.getSkipped()).as("Skipped characters do not match").isEqualTo(skipped);
-        assertArrayEquals("From characters do not match", from,
-                handler.getFrom().toArray(new Character[0]));
-        assertArrayEquals("To characters do not match", to,
-                handler.getTo().toArray(new Character[0]));
+        assertArrayEquals(handler.getFrom().toArray(new Character[0]), from, "From characters do not match");
+        assertArrayEquals(to, handler.getTo().toArray(new Character[0]), "To characters do not match");
     }
 
     // Helper RecplacementsHandler implementation for testing

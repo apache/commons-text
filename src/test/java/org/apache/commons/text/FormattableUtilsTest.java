@@ -18,11 +18,13 @@ package org.apache.commons.text;
 
 import static java.util.FormattableFlags.LEFT_JUSTIFY;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 import java.util.Formattable;
 import java.util.Formatter;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests {@link FormattableUtils}.
@@ -107,9 +109,11 @@ public class FormattableUtilsTest {
             .isEqualTo("+*   ");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testIllegalEllipsis() {
-        FormattableUtils.append("foo", new Formatter(), 0, -1, 1, "xx");
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            FormattableUtils.append("foo", new Formatter(), 0, -1, 1, "xx");
+        });
     }
 
     @Test
@@ -146,9 +150,9 @@ public class FormattableUtilsTest {
             .isEqualTo("+*___");
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testAppendWithNullFormatterAndIntsThrowsNullPointerException() {
-        FormattableUtils.append("", null, 0, 0, 0, '}');
+        assertThatNullPointerException().isThrownBy(() -> FormattableUtils.append("", null, 0, 0, 0, '}'));
     }
 
     static class SimplestFormattable implements Formattable {

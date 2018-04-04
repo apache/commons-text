@@ -17,12 +17,13 @@
 package org.apache.commons.text;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link WordUtils} class.
@@ -497,14 +498,18 @@ public class WordUtilsTest {
         assertThat(WordUtils.abbreviate("01 23 45 67 89", 9, 10, "")).isEqualTo("01 23 45 6");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAbbreviateForLowerThanMinusOneValues() {
-        assertThat(WordUtils.abbreviate("01 23 45 67 89", 9, -10, null)).isEqualTo("01 23 45 67");
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            assertThat(WordUtils.abbreviate("01 23 45 67 89", 9, -10, null)).isEqualTo("01 23 45 67");
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAbbreviateUpperLessThanLowerValues() {
-        assertThat(WordUtils.abbreviate("0123456789", 5, 2, "")).isEqualTo("01234");
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            assertThat(WordUtils.abbreviate("0123456789", 5, 2, "")).isEqualTo("01234");
+        });
     }
 
     @Test

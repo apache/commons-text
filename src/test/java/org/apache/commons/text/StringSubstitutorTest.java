@@ -17,11 +17,12 @@
 
 package org.apache.commons.text;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,9 +33,9 @@ import org.apache.commons.text.lookup.StringLookup;
 import org.apache.commons.text.lookup.StringLookupFactory;
 import org.apache.commons.text.matcher.StringMatcher;
 import org.apache.commons.text.matcher.StringMatcherFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link StringSubstitutor}.
@@ -147,14 +148,14 @@ public class StringSubstitutorTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         values = new HashMap<>();
         values.put("animal", "quick brown fox");
         values.put("target", "lazy dog");
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         values = null;
     }
@@ -311,12 +312,12 @@ public class StringSubstitutorTest {
         values.put("species", "2");
         final StringSubstitutor sub = new StringSubstitutor(values);
         sub.setEnableSubstitutionInVariables(true);
-        assertEquals("Wrong result (1)", "The mouse jumps over the lazy dog.",
+        assertEquals("The mouse jumps over the lazy dog.",
                 sub.replace("The ${animal.${species}} jumps over the ${target}."));
         values.put("species", "1");
-        assertEquals("Wrong result (2)", "The fox jumps over the lazy dog.",
+        assertEquals("The fox jumps over the lazy dog.",
                 sub.replace("The ${animal.${species}} jumps over the ${target}."));
-        assertEquals("Wrong result (3)", "The fox jumps over the lazy dog.", sub.replace(
+        assertEquals("The fox jumps over the lazy dog.", sub.replace(
                 "The ${unknown.animal.${unknown.species:-1}:-fox} " + "jumps over the ${unknow.target:-lazy dog}."));
     }
 
@@ -329,9 +330,9 @@ public class StringSubstitutorTest {
         values.put("animal.2", "mouse");
         values.put("species", "2");
         final StringSubstitutor sub = new StringSubstitutor(values);
-        assertEquals("Wrong result (1)", "The ${animal.${species}} jumps over the lazy dog.",
+        assertEquals("The ${animal.${species}} jumps over the lazy dog.",
                 sub.replace("The ${animal.${species}} jumps over the ${target}."));
-        assertEquals("Wrong result (2)", "The ${animal.${species:-1}} jumps over the lazy dog.",
+        assertEquals("The ${animal.${species:-1}} jumps over the lazy dog.",
                 sub.replace("The ${animal.${species:-1}} jumps over the ${target}."));
     }
 
@@ -347,9 +348,9 @@ public class StringSubstitutorTest {
         values.put("species.brown", "2");
         final StringSubstitutor sub = new StringSubstitutor(values);
         sub.setEnableSubstitutionInVariables(true);
-        assertEquals("Wrong result (1)", "The white mouse jumps over the lazy dog.",
+        assertEquals("The white mouse jumps over the lazy dog.",
                 sub.replace("The ${animal.${species.${color}}} jumps over the ${target}."));
-        assertEquals("Wrong result (2)", "The brown fox jumps over the lazy dog.",
+        assertEquals("The brown fox jumps over the lazy dog.",
                 sub.replace("The ${animal.${species.${unknownColor:-brown}}} jumps over the ${target}."));
     }
 
@@ -456,9 +457,9 @@ public class StringSubstitutorTest {
         assertEquals('$', strSubstitutor.getEscapeChar());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testReplaceTakingThreeArgumentsThrowsNullPointerException() {
-        StringSubstitutor.replace(null, (Properties) null);
+        assertThatNullPointerException().isThrownBy(() -> StringSubstitutor.replace(null, (Properties) null));
     }
 
     /**

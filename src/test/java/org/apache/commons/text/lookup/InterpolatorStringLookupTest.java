@@ -16,40 +16,34 @@
  */
 package org.apache.commons.text.lookup;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.rules.ExternalResource;
-import org.junit.rules.RuleChain;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-/**
- *
- */
 public class InterpolatorStringLookupTest {
 
-    @ClassRule
-    public static RuleChain rules = RuleChain.outerRule(new ExternalResource() {
-        @Override
-        protected void after() {
-            System.clearProperty(TESTKEY);
-            System.clearProperty(TESTKEY2);
-        }
+    @BeforeAll
+    public static void beforeAll() throws Throwable {
+        System.setProperty(TESTKEY, TESTVAL);
+        System.setProperty(TESTKEY2, TESTVAL);
+    }
 
-        @Override
-        protected void before() throws Throwable {
-            System.setProperty(TESTKEY, TESTVAL);
-            System.setProperty(TESTKEY2, TESTVAL);
-        }
-    });
+    @AfterAll
+    public static void afterAll() throws Throwable {
+        System.clearProperty(TESTKEY);
+        System.clearProperty(TESTKEY2);
+    }
+
     private static final String TESTKEY = "TestKey";
     private static final String TESTKEY2 = "TestKey2";
 
