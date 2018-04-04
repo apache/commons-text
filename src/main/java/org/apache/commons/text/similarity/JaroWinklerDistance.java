@@ -67,17 +67,17 @@ public class JaroWinklerDistance implements SimilarityScore<Double> {
      * distance.apply("PENNSYLVANIA", "PENNCISYLVNIA")    = 0.88
      * </pre>
      *
-     * @param left the first String, must not be null
-     * @param right the second String, must not be null
+     * @param left the first CharSequence, must not be null
+     * @param right the second CharSequence, must not be null
      * @return result distance
-     * @throws IllegalArgumentException if either String input {@code null}
+     * @throws IllegalArgumentException if either CharSequence input is {@code null}
      */
     @Override
     public Double apply(final CharSequence left, final CharSequence right) {
         final double defaultScalingFactor = 0.1;
 
         if (left == null || right == null) {
-            throw new IllegalArgumentException("Strings must not be null");
+            throw new IllegalArgumentException("CharSequences must not be null");
         }
 
         final int[] mtp = matches(left, right);

@@ -150,8 +150,8 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * limitedCompare("hippo", "elephant", 6) = -1
      * </pre>
      *
-     * @param left the first string, must not be null
-     * @param right the second string, must not be null
+     * @param left the first CharSequence, must not be null
+     * @param right the second CharSequence, must not be null
      * @param threshold the target threshold, must not be negative
      * @return result distance, or -1
      */
@@ -159,7 +159,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
                                                      CharSequence right,
                                                      final int threshold) { //NOPMD
         if (left == null || right == null) {
-            throw new IllegalArgumentException("Strings must not be null");
+            throw new IllegalArgumentException("CharSequences must not be null");
         }
         if (threshold < 0) {
             throw new IllegalArgumentException("Threshold must not be negative");
@@ -331,14 +331,14 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * unlimitedCompare("hello", "hallo")    = 1
      * </pre>
      *
-     * @param left the first String, must not be null
-     * @param right the second String, must not be null
+     * @param left the first CharSequence, must not be null
+     * @param right the second CharSequence, must not be null
      * @return result distance, or -1
-     * @throws IllegalArgumentException if either String input {@code null}
+     * @throws IllegalArgumentException if either CharSequence input is {@code null}
      */
     private static LevenshteinResults unlimitedCompare(CharSequence left, CharSequence right) {
         if (left == null || right == null) {
-            throw new IllegalArgumentException("Strings must not be null");
+            throw new IllegalArgumentException("CharSequences must not be null");
         }
 
         /*
