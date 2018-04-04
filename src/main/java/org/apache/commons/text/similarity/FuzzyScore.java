@@ -77,12 +77,11 @@ public class FuzzyScore {
      * @param query the query that will be matched against a term, must not be
      *            null
      * @return result score
-     * @throws IllegalArgumentException if either String input {@code null} or
-     *             Locale input {@code null}
+     * @throws IllegalArgumentException if either CharSequence input is {@code null}
      */
     public Integer fuzzyScore(final CharSequence term, final CharSequence query) {
         if (term == null || query == null) {
-            throw new IllegalArgumentException("Strings must not be null");
+            throw new IllegalArgumentException("CharSequences must not be null");
         }
 
         // fuzzy logic is case insensitive. We normalize the Strings to lower
