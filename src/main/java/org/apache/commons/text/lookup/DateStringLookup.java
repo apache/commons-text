@@ -55,7 +55,7 @@ final class DateStringLookup extends AbstractStringLookup {
             try {
                 dateFormat = FastDateFormat.getInstance(format);
             } catch (final Exception ex) {
-                throw IllegalArgumentExceptions.format(ex, "Invalid date format: [%s], using default", format);
+                throw IllegalArgumentExceptions.format(ex, "Invalid date format: [%s]", format);
             }
         }
         if (dateFormat == null) {
