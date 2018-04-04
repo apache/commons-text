@@ -16,75 +16,53 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Arrays;
+import java.util.stream.Stream;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
 
 /**
  * Unit tests for {@link EditDistanceFrom}.
  *
  * @param <R> The {@link EditDistance} return type.
  */
-@RunWith(Parameterized.class)
 public class ParameterizedEditDistanceFromTest<R> {
 
-    private final EditDistance<R> editDistance;
-    private final CharSequence left;
-    private final CharSequence right;
-    private final R distance;
+    public static Stream<Arguments> parameters() {
+        return Stream.of(
+                Arguments.of(new HammingDistance(), "Sam I am.", "Ham I am.", 1),
+                Arguments.of(new HammingDistance(), "Japtheth, Ham, Shem", "Japtheth, HAM, Shem", 2),
+                Arguments.of(new HammingDistance(), "Hamming", "Hamming", 0),
 
-    public ParameterizedEditDistanceFromTest(
-        final EditDistance<R> editDistance,
-        final CharSequence left, final CharSequence right,
-        final R distance) {
+                Arguments.of(new LevenshteinDistance(), "Apache", "a patchy", 4),
+                Arguments.of(new LevenshteinDistance(), "go", "no go", 3),
+                Arguments.of(new LevenshteinDistance(), "go", "go", 0),
 
-        this.editDistance = editDistance;
-        this.left = left;
-        this.right = right;
-        this.distance = distance;
+                Arguments.of(new LevenshteinDistance(4), "Apache", "a patchy", 4),
+                Arguments.of(new LevenshteinDistance(4), "go", "no go", 3),
+                Arguments.of(new LevenshteinDistance(0), "go", "go", 0),
+
+                Arguments.of(
+                    new EditDistance<Boolean>() {
+                        @Override
+                        public Boolean apply(final CharSequence left, final CharSequence right) {
+                            return left == right || (left != null && left.equals(right));
+                        }
+                    },
+                    "Bob's your uncle.",
+                    "Every good boy does fine.",
+                    false));
     }
 
-    @Parameters
-    public static Iterable<Object[]> parameters() {
-        return Arrays.asList(new Object[][] {
-
-            {new HammingDistance(), "Sam I am.", "Ham I am.", 1},
-            {new HammingDistance(), "Japtheth, Ham, Shem", "Japtheth, HAM, Shem", 2},
-            {new HammingDistance(), "Hamming", "Hamming", 0},
-
-            {new LevenshteinDistance(), "Apache", "a patchy", 4},
-            {new LevenshteinDistance(), "go", "no go", 3},
-            {new LevenshteinDistance(), "go", "go", 0},
-
-            {new LevenshteinDistance(4), "Apache", "a patchy", 4},
-            {new LevenshteinDistance(4), "go", "no go", 3},
-            {new LevenshteinDistance(0), "go", "go", 0},
-
-            {
-                new EditDistance<Boolean>() {
-                    @Override
-                    public Boolean apply(final CharSequence left, final CharSequence right) {
-                        return left == right || (left != null && left.equals(right));
-                    }
-                },
-                "Bob's your uncle.",
-                "Every good boy does fine.",
-                false
-            }
-
-        });
-    }
-
-    @Test
-    public void test() {
+    @ParameterizedTest
+    @MethodSource("parameters")
+    public void test(EditDistance<R> editDistance, CharSequence left, CharSequence right, R distance) {
         final EditDistanceFrom<R> editDistanceFrom = new EditDistanceFrom<>(editDistance, left);
-        assertThat(editDistanceFrom.apply(right), equalTo(distance));
+        assertThat(editDistanceFrom.apply(right)).isEqualTo(distance);
     }
 
 }

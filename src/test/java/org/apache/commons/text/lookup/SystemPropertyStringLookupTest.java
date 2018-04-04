@@ -17,15 +17,15 @@
 
 package org.apache.commons.text.lookup;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SystemPropertyStringLookupTest {
 
     @Test
     public void testUserName() {
         final String key = "user.name";
-        Assert.assertEquals(System.getProperty(key), SystemPropertyStringLookup.INSTANCE.lookup(key));
+        Assertions.assertEquals(System.getProperty(key), SystemPropertyStringLookup.INSTANCE.lookup(key));
     }
 
 }

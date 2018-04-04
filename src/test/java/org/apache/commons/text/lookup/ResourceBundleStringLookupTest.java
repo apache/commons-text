@@ -19,8 +19,8 @@ package org.apache.commons.text.lookup;
 
 import java.util.ResourceBundle;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ResourceBundleStringLookupTest {
 
@@ -28,7 +28,7 @@ public class ResourceBundleStringLookupTest {
     public void testOne() {
         final String bundleName = "testResourceBundleLookup";
         final String bundleKey = "key";
-        Assert.assertEquals(ResourceBundle.getBundle(bundleName).getString(bundleKey),
+        Assertions.assertEquals(ResourceBundle.getBundle(bundleName).getString(bundleKey),
                 ResourceBundleStringLookup.INSTANCE.lookup(bundleName + ":" + bundleKey));
     }
 

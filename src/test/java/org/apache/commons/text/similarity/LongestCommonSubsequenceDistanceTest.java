@@ -16,10 +16,11 @@
  */
 package org.apache.commons.text.similarity;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link LongestCommonSubsequenceDistance}.
@@ -28,7 +29,7 @@ public class LongestCommonSubsequenceDistanceTest {
 
     private static LongestCommonSubsequenceDistance subject;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         subject = new LongestCommonSubsequenceDistance();
     }
@@ -50,19 +51,19 @@ public class LongestCommonSubsequenceDistanceTest {
         assertThat(subject.apply("the same string", "the same string")).isEqualTo(0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGettingLongestCommonSubsequenceDistanceNullNull() {
-        subject.apply(null, null);
+        assertThatIllegalArgumentException().isThrownBy(() -> subject.apply(null, null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGettingLongestCommonSubsequenceDistanceStringNull() {
-        subject.apply(" ", null);
+        assertThatIllegalArgumentException().isThrownBy(() -> subject.apply(" ", null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGettingLongestCommonSubsequenceDistanceNullString() {
-        subject.apply(null, "right");
+        assertThatIllegalArgumentException().isThrownBy(() -> subject.apply(null, "right"));
     }
 
 }

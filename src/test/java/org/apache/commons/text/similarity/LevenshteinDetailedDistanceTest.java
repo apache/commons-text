@@ -17,9 +17,10 @@
 package org.apache.commons.text.similarity;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import org.apache.commons.text.TextStringBuilder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LevenshteinDetailedDistanceTest {
 
@@ -137,14 +138,14 @@ public class LevenshteinDetailedDistanceTest {
      assertThat(expectedResult.toString()).isEqualTo(actualResult.toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetLevenshteinDetailedDistance_NullString() {
-        UNLIMITED_DISTANCE.apply("a", null);
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetLevenshteinDetailedDistance_StringNull() {
-        UNLIMITED_DISTANCE.apply(null, "a");
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
     }
 
     @Test
@@ -386,19 +387,19 @@ public class LevenshteinDetailedDistanceTest {
         assertThat(result.getSubstituteCount()).isEqualTo(1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetLevenshteinDetailedDistance_NullStringInt() {
-        UNLIMITED_DISTANCE.apply(null, "a");
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetLevenshteinDetailedDistance_StringNullInt() {
-        UNLIMITED_DISTANCE.apply("a", null);
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructorWithNegativeThreshold() {
-        new LevenshteinDetailedDistance(-1);
+        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDetailedDistance(-1));
     }
 
     @Test
@@ -436,17 +437,19 @@ public class LevenshteinDetailedDistanceTest {
         assertThat(levenshteinResults.getDistance()).isEqualTo(-1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDetailedDistanceTakingInteger() {
-        final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
-        final CharSequence charSequence = new TextStringBuilder();
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
+            final CharSequence charSequence = new TextStringBuilder();
 
-        levenshteinDetailedDistance.apply(charSequence, null);
+            levenshteinDetailedDistance.apply(charSequence, null);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testApplyWithNull() {
-        new LevenshteinDetailedDistance(0).apply(null, null);
+        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDetailedDistance(0).apply(null, null));
     }
 
     @Test

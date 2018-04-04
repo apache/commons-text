@@ -17,14 +17,14 @@
 
 package org.apache.commons.text.lookup;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class NullStringLookupTest {
 
     @Test
     public void test() {
-        Assert.assertEquals(null, NullStringLookup.INSTANCE.lookup("EverythingIsNull"));
+        Assertions.assertEquals(null, NullStringLookup.INSTANCE.lookup("EverythingIsNull"));
     }
 
 }

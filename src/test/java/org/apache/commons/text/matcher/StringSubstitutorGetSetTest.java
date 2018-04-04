@@ -17,13 +17,13 @@
 
 package org.apache.commons.text.matcher;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.apache.commons.text.StringSubstitutor;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link StringSubstitutor}.
@@ -44,7 +44,7 @@ public class StringSubstitutorGetSetTest {
         assertTrue(sub.getVariablePrefixMatcher() instanceof AbstractStringMatcher.StringMatcher);
         try {
             sub.setVariablePrefix((String) null);
-            fail();
+            fail("Exception expected!");
         } catch (final IllegalArgumentException ex) {
             // expected
         }
@@ -55,7 +55,7 @@ public class StringSubstitutorGetSetTest {
         assertSame(matcher, sub.getVariablePrefixMatcher());
         try {
             sub.setVariablePrefixMatcher((StringMatcher) null);
-            fail();
+            fail("Exception expected!");
         } catch (final IllegalArgumentException ex) {
             // expected
         }
@@ -76,7 +76,7 @@ public class StringSubstitutorGetSetTest {
         assertTrue(sub.getVariableSuffixMatcher() instanceof AbstractStringMatcher.StringMatcher);
         try {
             sub.setVariableSuffix((String) null);
-            fail();
+            fail("Exception expected!");
         } catch (final IllegalArgumentException ex) {
             // expected
         }
@@ -87,7 +87,7 @@ public class StringSubstitutorGetSetTest {
         assertSame(matcher, sub.getVariableSuffixMatcher());
         try {
             sub.setVariableSuffixMatcher((StringMatcher) null);
-            fail();
+            fail("Exception expected!");
         } catch (final IllegalArgumentException ex) {
             // expected
         }

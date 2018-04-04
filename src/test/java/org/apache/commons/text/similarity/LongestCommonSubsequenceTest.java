@@ -16,10 +16,11 @@
  */
 package org.apache.commons.text.similarity;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link LongestCommonSubsequence}.
@@ -28,7 +29,7 @@ public class LongestCommonSubsequenceTest {
 
     private static LongestCommonSubsequence subject;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         subject = new LongestCommonSubsequence();
     }
@@ -50,19 +51,19 @@ public class LongestCommonSubsequenceTest {
         assertThat(subject.apply("the same string", "the same string")).isEqualTo(15);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGettingLongestCommonSubsequenceApplyNullNull() {
-        subject.apply(null, null);
+        assertThatIllegalArgumentException().isThrownBy(() -> subject.apply(null, null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGettingLongestCommonSubsequenceApplyStringNull() {
-        subject.apply(" ", null);
+        assertThatIllegalArgumentException().isThrownBy(() -> subject.apply(" ", null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGettingLongestCommonSubsequenceApplyNullString() {
-        subject.apply(null, "right");
+        assertThatIllegalArgumentException().isThrownBy(() -> subject.apply(null, "right"));
     }
 
     @Test
@@ -84,19 +85,19 @@ public class LongestCommonSubsequenceTest {
         assertThat(subject.longestCommonSubsequence("the same string", "the same string")).isEqualTo("the same string");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGettingLongestCommonSubsequenceNullNull() {
-        subject.longestCommonSubsequence(null, null);
+        assertThatIllegalArgumentException().isThrownBy(() -> subject.longestCommonSubsequence(null, null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGettingLongestCommonSubsequenceStringNull() {
-        subject.longestCommonSubsequence(" ", null);
+        assertThatIllegalArgumentException().isThrownBy(() -> subject.longestCommonSubsequence(" ", null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGettingLongestCommonSubsequenceNullString() {
-        subject.longestCommonSubsequence(null, "right");
+        assertThatIllegalArgumentException().isThrownBy(() -> subject.longestCommonSubsequence(null, "right"));
     }
 
     @Test
@@ -119,21 +120,21 @@ public class LongestCommonSubsequenceTest {
         assertThat(subject.logestCommonSubsequence("the same string", "the same string")).isEqualTo("the same string");
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    @Deprecated
+    @Test
+    @SuppressWarnings("deprecation")
     public void testGettingLogestCommonSubsequenceNullNull() {
-        subject.logestCommonSubsequence(null, null);
+        assertThatIllegalArgumentException().isThrownBy(() -> subject.logestCommonSubsequence(null, null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    @Deprecated
+    @Test
+    @SuppressWarnings("deprecation")
     public void testGettingLogestCommonSubsequenceStringNull() {
-        subject.logestCommonSubsequence(" ", null);
+        assertThatIllegalArgumentException().isThrownBy(() -> subject.logestCommonSubsequence(" ", null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    @Deprecated
+    @Test
+    @SuppressWarnings("deprecation")
     public void testGettingLogestCommonSubsequenceNullString() {
-        subject.logestCommonSubsequence(null, "right");
+        assertThatIllegalArgumentException().isThrownBy(() -> subject.logestCommonSubsequence(null, "right"));
     }
 }

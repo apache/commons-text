@@ -17,9 +17,10 @@
 package org.apache.commons.text.similarity;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link HammingDistance}.
@@ -28,7 +29,7 @@ public class HammingDistanceTest {
 
     private static HammingDistance distance;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         distance = new HammingDistance();
     }
@@ -45,14 +46,18 @@ public class HammingDistanceTest {
         assertThat(distance.apply("ATCG", "ACCC")).isEqualTo(2);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testHammingDistance_nullLeftValue() {
-        distance.apply(null, "");
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            distance.apply(null, "");
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testHammingDistance_nullRightValue() {
-        distance.apply("", null);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            distance.apply("", null);
+        });
     }
 
 }

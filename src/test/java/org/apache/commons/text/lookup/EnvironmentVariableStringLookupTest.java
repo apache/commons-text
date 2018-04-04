@@ -18,8 +18,8 @@
 package org.apache.commons.text.lookup;
 
 import org.apache.commons.lang3.SystemUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class EnvironmentVariableStringLookupTest {
 
@@ -27,10 +27,10 @@ public class EnvironmentVariableStringLookupTest {
     public void testOne() {
         if (SystemUtils.IS_OS_WINDOWS) {
             final String key = "PATH";
-            Assert.assertEquals(System.getenv(key), EnvironmentVariableStringLookup.INSTANCE.lookup(key));
+            Assertions.assertEquals(System.getenv(key), EnvironmentVariableStringLookup.INSTANCE.lookup(key));
         } else if (SystemUtils.IS_OS_LINUX) {
             final String key = "USER";
-            Assert.assertEquals(System.getenv(key), EnvironmentVariableStringLookup.INSTANCE.lookup(key));
+            Assertions.assertEquals(System.getenv(key), EnvironmentVariableStringLookup.INSTANCE.lookup(key));
         }
     }
 
