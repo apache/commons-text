@@ -16,14 +16,12 @@
  */
 package org.apache.commons.text;
 
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.fail;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link RandomStringGenerator}
@@ -44,22 +42,28 @@ public class RandomStringGeneratorTest {
         }
     };
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testInvalidLength() {
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
-        generator.generate(-1);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+            generator.generate(-1);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGenerateMinMaxLengthInvalidLength() {
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
-        generator.generate(-1, 0);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+            generator.generate(-1, 0);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGenerateMinMaxLengthMinGreaterThanMax() {
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
-        generator.generate(1, 0);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+            generator.generate(1, 0);
+        });
     }
 
     private static int codePointLength(final String s) {
@@ -80,17 +84,21 @@ public class RandomStringGeneratorTest {
         final int maxLength = 3;
         final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
         final String str = generator.generate(minLength, maxLength);
-        assertThat(codePointLength(str), allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(3)));
+        assertThat(codePointLength(str)).isBetween(0, 3);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testBadMinimumCodePoint() {
-        new RandomStringGenerator.Builder().withinRange(-1, 1);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            new RandomStringGenerator.Builder().withinRange(-1, 1);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testBadMaximumCodePoint() {
-        new RandomStringGenerator.Builder().withinRange(0, Character.MAX_CODE_POINT + 1);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            new RandomStringGenerator.Builder().withinRange(0, Character.MAX_CODE_POINT + 1);
+        });
     }
 
     @Test
@@ -216,9 +224,11 @@ public class RandomStringGeneratorTest {
         } while (i < str.length());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testBadMinAndMax() {
-        new RandomStringGenerator.Builder().withinRange(2, 1);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            new RandomStringGenerator.Builder().withinRange(2, 1);
+        });
     }
 
     @Test
@@ -279,13 +289,15 @@ public class RandomStringGeneratorTest {
         }
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGenerateTakingIntThrowsNullPointerException() {
-        final RandomStringGenerator.Builder randomStringGeneratorBuilder = new RandomStringGenerator.Builder();
-        final CharacterPredicate[] characterPredicateArray = new CharacterPredicate[2];
-        randomStringGeneratorBuilder.filteredBy(characterPredicateArray);
-        final RandomStringGenerator randomStringGenerator = randomStringGeneratorBuilder.build();
+        assertThatNullPointerException().isThrownBy(() -> {
+            final RandomStringGenerator.Builder randomStringGeneratorBuilder = new RandomStringGenerator.Builder();
+            final CharacterPredicate[] characterPredicateArray = new CharacterPredicate[2];
+            randomStringGeneratorBuilder.filteredBy(characterPredicateArray);
+            final RandomStringGenerator randomStringGenerator = randomStringGeneratorBuilder.build();
 
-        randomStringGenerator.generate(18);
+            randomStringGenerator.generate(18);
+        });
     }
 }

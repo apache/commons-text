@@ -17,7 +17,7 @@
 
 package org.apache.commons.text.translate;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link LookupTranslator}.
@@ -55,9 +56,9 @@ public class LookupTranslatorTest  {
         assertThat(out.toString()).as("Incorrect value").isEqualTo("two");
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test
     public void testFailsToCreateLookupTranslatorThrowsInvalidParameterException() {
-        new LookupTranslator(null);
+        assertThatExceptionOfType(InvalidParameterException.class).isThrownBy(() -> new LookupTranslator(null));
     }
 
 }

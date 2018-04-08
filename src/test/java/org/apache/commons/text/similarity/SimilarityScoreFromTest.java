@@ -18,14 +18,15 @@
 package org.apache.commons.text.similarity;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SimilarityScoreFromTest {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testFailsToCreateSimilarityScoreFromThrowsIllegalArgumentException() {
-        new SimilarityScoreFrom<>(null, "");
+        assertThatIllegalArgumentException().isThrownBy(() -> new SimilarityScoreFrom<>(null, ""));
     }
 
     @Test

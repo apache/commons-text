@@ -16,10 +16,10 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link EditDistanceFrom}.
@@ -34,8 +34,8 @@ public class StringMetricFromTest {
         final Integer distance = 4;
         final EditDistanceFrom<Integer> metricFrom = new EditDistanceFrom<>(metric, left);
 
-        assertThat(metricFrom.apply(right), equalTo(distance));
-        assertThat(metricFrom.apply(right), equalTo(metric.apply(left, right)));
+        assertThat(metricFrom.apply(right)).isEqualTo(distance);
+        assertThat(metricFrom.apply(right)).isEqualTo(metric.apply(left, right));
     }
 
     @Test
@@ -54,13 +54,13 @@ public class StringMetricFromTest {
                 mostSimilar = test;
             }
         }
-        assertThat(mostSimilar, equalTo("a patchy"));
-        assertThat(shortestDistance, equalTo(4));
+        assertThat(mostSimilar).isEqualTo("a patchy");
+        assertThat(shortestDistance).isEqualTo(4);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testMissingMetric() {
-        new EditDistanceFrom<Number>(null, "no go");
+        assertThatIllegalArgumentException().isThrownBy(() -> new EditDistanceFrom<Number>(null, "no go"));
     }
 
 }

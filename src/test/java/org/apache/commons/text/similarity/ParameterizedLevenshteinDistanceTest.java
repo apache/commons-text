@@ -16,109 +16,88 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Arrays;
+import java.util.stream.Stream;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Unit tests for {@link LevenshteinDistance}.
  */
-@RunWith(Parameterized.class)
 public class ParameterizedLevenshteinDistanceTest {
 
-    private final Integer distance;
-    private final CharSequence left;
-    private final CharSequence right;
-    private final Integer threshold;
-
-    public ParameterizedLevenshteinDistanceTest(
-        final Integer threshold,
-        final CharSequence left, final CharSequence right,
-        final Integer distance) {
-
-        this.threshold = threshold;
-        this.left = left;
-        this.right = right;
-        this.distance = distance;
-    }
-
-    @Parameters
-    public static Iterable<Object[]> parameters() {
-        return Arrays.asList(new Object[][] {
-
+    public static Stream<Arguments> parameters() {
+        return Stream.of(
             /* empty strings */
-            {0, "", "", 0},
-            {8, "aaapppp", "", 7},
-            {7, "aaapppp", "", 7},
-            {6, "aaapppp", "", -1},
+            Arguments.of(0, "", "", 0),
+            Arguments.of(8, "aaapppp", "", 7),
+            Arguments.of(7, "aaapppp", "", 7),
+            Arguments.of(6, "aaapppp", "", -1),
 
             /* unequal strings, zero threshold */
-            {0, "b", "a", -1},
-            {0, "a", "b", -1},
+            Arguments.of(0, "b", "a", -1),
+            Arguments.of(0, "a", "b", -1),
 
             /* equal strings */
-            {0, "aa", "aa", 0},
-            {2, "aa", "aa", 0},
+            Arguments.of(0, "aa", "aa", 0),
+            Arguments.of(2, "aa", "aa", 0),
 
             /* same length */
-            {2, "aaa", "bbb", -1},
-            {3, "aaa", "bbb", 3},
+            Arguments.of(2, "aaa", "bbb", -1),
+            Arguments.of(3, "aaa", "bbb", 3),
 
             /* big stripe */
-            {10, "aaaaaa", "b", 6},
+            Arguments.of(10, "aaaaaa", "b", 6),
 
             /* distance less than threshold */
-            {8, "aaapppp", "b", 7},
-            {4, "a", "bbb", 3},
+            Arguments.of(8, "aaapppp", "b", 7),
+            Arguments.of(4, "a", "bbb", 3),
 
             /* distance equal to threshold */
-            {7, "aaapppp", "b", 7},
-            {3, "a", "bbb", 3},
+            Arguments.of(7, "aaapppp", "b", 7),
+            Arguments.of(3, "a", "bbb", 3),
 
             /* distance greater than threshold */
-            {2, "a", "bbb", -1},
-            {2, "bbb", "a", -1},
-            {6, "aaapppp", "b", -1},
+            Arguments.of(2, "a", "bbb", -1),
+            Arguments.of(2, "bbb", "a", -1),
+            Arguments.of(6, "aaapppp", "b", -1),
 
             /* stripe runs off array, strings not similar */
-            {1, "a", "bbb", -1},
-            {1, "bbb", "a", -1},
+            Arguments.of(1, "a", "bbb", -1),
+            Arguments.of(1, "bbb", "a", -1),
 
             /* stripe runs off array, strings are similar */
-            {1, "12345", "1234567", -1},
-            {1, "1234567", "12345", -1},
+            Arguments.of(1, "12345", "1234567", -1),
+            Arguments.of(1, "1234567", "12345", -1),
 
             /* old getLevenshteinDistance test cases */
-            {1, "frog", "fog", 1},
-            {3, "fly", "ant", 3},
-            {7, "elephant", "hippo", 7},
-            {6, "elephant", "hippo", -1},
-            {7, "hippo", "elephant", 7},
-            {6, "hippo", "elephant", -1},
-            {8, "hippo", "zzzzzzzz", 8},
-            {8, "zzzzzzzz", "hippo", 8},
-            {1, "hello", "hallo", 1},
+            Arguments.of(1, "frog", "fog", 1),
+            Arguments.of(3, "fly", "ant", 3),
+            Arguments.of(7, "elephant", "hippo", 7),
+            Arguments.of(6, "elephant", "hippo", -1),
+            Arguments.of(7, "hippo", "elephant", 7),
+            Arguments.of(6, "hippo", "elephant", -1),
+            Arguments.of(8, "hippo", "zzzzzzzz", 8),
+            Arguments.of(8, "zzzzzzzz", "hippo", 8),
+            Arguments.of(1, "hello", "hallo", 1),
 
-            {Integer.MAX_VALUE, "frog", "fog", 1},
-            {Integer.MAX_VALUE, "fly", "ant", 3},
-            {Integer.MAX_VALUE, "elephant", "hippo", 7},
-            {Integer.MAX_VALUE, "hippo", "elephant", 7},
-            {Integer.MAX_VALUE, "hippo", "zzzzzzzz", 8},
-            {Integer.MAX_VALUE, "zzzzzzzz", "hippo", 8},
-            {Integer.MAX_VALUE, "hello", "hallo", 1}
-        });
+            Arguments.of(Integer.MAX_VALUE, "frog", "fog", 1),
+            Arguments.of(Integer.MAX_VALUE, "fly", "ant", 3),
+            Arguments.of(Integer.MAX_VALUE, "elephant", "hippo", 7),
+            Arguments.of(Integer.MAX_VALUE, "hippo", "elephant", 7),
+            Arguments.of(Integer.MAX_VALUE, "hippo", "zzzzzzzz", 8),
+            Arguments.of(Integer.MAX_VALUE, "zzzzzzzz", "hippo", 8),
+            Arguments.of(Integer.MAX_VALUE, "hello", "hallo", 1));
     }
 
-    @Test
-    public void test() {
+    @ParameterizedTest
+    @MethodSource("parameters")
+    public void test(Integer threshold, CharSequence left, CharSequence right, Integer distance) {
         final LevenshteinDistance metric = new LevenshteinDistance(threshold);
-        assertThat(metric.apply(left, right), equalTo(distance));
+        assertThat(metric.apply(left, right)).isEqualTo(distance);
     }
 
 }

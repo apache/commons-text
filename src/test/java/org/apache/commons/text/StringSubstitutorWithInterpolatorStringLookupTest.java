@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.text.lookup.StringLookupFactory;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class StringSubstitutorWithInterpolatorStringLookupTest {
 
@@ -32,14 +32,14 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     public void testLocalHostLookup_Address() throws UnknownHostException {
         final StringSubstitutor strSubst = new StringSubstitutor(
                 StringLookupFactory.INSTANCE.interpolatorStringLookup());
-        Assert.assertEquals(InetAddress.getLocalHost().getHostAddress(), strSubst.replace("${localhost:address}"));
+        Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(), strSubst.replace("${localhost:address}"));
     }
 
     @Test
     public void testLocalHostLookup_CanonicalName() throws UnknownHostException {
         final StringSubstitutor strSubst = new StringSubstitutor(
                 StringLookupFactory.INSTANCE.interpolatorStringLookup());
-        Assert.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(),
+        Assertions.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(),
                 strSubst.replace("${localhost:canonical-name}"));
     }
 
@@ -47,7 +47,7 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     public void testLocalHostLookup_Name() throws UnknownHostException {
         final StringSubstitutor strSubst = new StringSubstitutor(
                 StringLookupFactory.INSTANCE.interpolatorStringLookup());
-        Assert.assertEquals(InetAddress.getLocalHost().getHostName(), strSubst.replace("${localhost:name}"));
+        Assertions.assertEquals(InetAddress.getLocalHost().getHostName(), strSubst.replace("${localhost:name}"));
     }
 
     @Test
@@ -59,8 +59,8 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         final StringSubstitutor strSubst = new StringSubstitutor(
                 StringLookupFactory.INSTANCE.interpolatorStringLookup(map));
         final String spKey = "user.name";
-        Assert.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
-        Assert.assertEquals(value, strSubst.replace("${" + key + "}"));
+        Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
+        Assertions.assertEquals(value, strSubst.replace("${" + key + "}"));
     }
 
     @Test
@@ -68,6 +68,6 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         final StringSubstitutor strSubst = new StringSubstitutor(
                 StringLookupFactory.INSTANCE.interpolatorStringLookup());
         final String spKey = "user.name";
-        Assert.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
+        Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
     }
 }

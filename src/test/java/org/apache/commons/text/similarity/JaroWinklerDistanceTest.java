@@ -16,10 +16,11 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link JaroWinklerDistance}.
@@ -28,7 +29,7 @@ public class JaroWinklerDistanceTest {
 
     private static JaroWinklerDistance distance;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         distance = new JaroWinklerDistance();
     }
@@ -36,7 +37,7 @@ public class JaroWinklerDistanceTest {
     @Test
     public void testGetJaroWinklerDistance_StringString() {
         assertEquals(0.92499d, distance.apply("frog", "fog"), 0.00001d);
-        assertEquals(0.0d, distance.apply("fly", "ant"), 0.0d);
+        assertEquals(0.0d, distance.apply("fly", "ant"), 0.00000000000000000001d);
         assertEquals(0.44166d, distance.apply("elephant", "hippo"), 0.00001d);
         assertEquals(0.92740d, distance.apply("ABC Corporation", "ABC Corp"), 0.00001d);
         assertEquals(0.94580d, distance.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."), 0.00001d);
@@ -46,19 +47,25 @@ public class JaroWinklerDistanceTest {
         assertEquals(0.996598d, distance.apply("/opt/software1", "/opt/software2"), 0.00001d);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetJaroWinklerDistance_NullNull() {
-        distance.apply(null, null);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            distance.apply(null, null);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetJaroWinklerDistance_StringNull() {
-        distance.apply(" ", null);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            distance.apply(" ", null);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetJaroWinklerDistance_NullString() {
-        distance.apply(null, "clear");
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            distance.apply(null, "clear");
+        });
     }
 
 }

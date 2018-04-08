@@ -18,9 +18,9 @@ package org.apache.commons.text.diff;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -78,7 +78,7 @@ public class StringsComparatorTest {
             return v.toString();
         }
     }
-    @Before
+    @BeforeEach
     public void setUp() {
         before = Arrays.asList(
             "bottle",
@@ -123,7 +123,7 @@ public class StringsComparatorTest {
             2
         };
     }
-    @After
+    @AfterEach
     public void tearDown() {
         before = null;
         after  = null;

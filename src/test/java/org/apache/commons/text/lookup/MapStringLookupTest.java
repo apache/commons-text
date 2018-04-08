@@ -20,8 +20,8 @@ package org.apache.commons.text.lookup;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class MapStringLookupTest {
 
@@ -31,7 +31,7 @@ public class MapStringLookupTest {
         final String value = "value";
         final Map<String, String> map = new HashMap<>();
         map.put(key, value);
-        Assert.assertEquals(value, MapStringLookup.on(map).lookup(key));
+        Assertions.assertEquals(value, MapStringLookup.on(map).lookup(key));
     }
 
 }

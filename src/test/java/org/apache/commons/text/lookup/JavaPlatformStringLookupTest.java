@@ -17,15 +17,16 @@
 
 package org.apache.commons.text.lookup;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 public class JavaPlatformStringLookupTest {
 
     @Test
     public void testVm() {
         final String key = "vm";
-        Assert.assertTrue(JavaPlatformStringLookup.INSTANCE.lookup(key).contains(System.getProperty("java.vm.name")));
+        assertTrue(JavaPlatformStringLookup.INSTANCE.lookup(key).contains(System.getProperty("java.vm.name")));
     }
 
 }

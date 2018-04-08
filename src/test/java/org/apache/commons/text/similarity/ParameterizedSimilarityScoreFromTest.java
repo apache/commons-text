@@ -16,49 +16,28 @@
  */
 package org.apache.commons.text.similarity;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Arrays;
+import java.util.stream.Stream;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Unit tests for {@link SimilarityScoreFrom}.
  *
  * @param <R> The {@link SimilarityScore} return type.
  */
-@RunWith(Parameterized.class)
 public class ParameterizedSimilarityScoreFromTest<R> {
 
-    private final SimilarityScore<R> similarityScore;
-    private final CharSequence left;
-    private final CharSequence right;
-    private final R distance;
+    public static Stream<Arguments> parameters() {
+        return Stream.of(
+                Arguments.of(new LevenshteinDistance(), "elephant", "hippo", 7),
+                Arguments.of(new LevenshteinDistance(), "hippo", "elephant", 7),
+                Arguments.of(new LevenshteinDistance(), "hippo", "zzzzzzzz", 8),
 
-    public ParameterizedSimilarityScoreFromTest(
-            final SimilarityScore<R> similarityScore,
-            final CharSequence left, final CharSequence right,
-            final R distance) {
-
-        this.similarityScore = similarityScore;
-        this.left = left;
-        this.right = right;
-        this.distance = distance;
-    }
-
-    @Parameters
-    public static Iterable<Object[]> parameters() {
-        return Arrays.asList(new Object[][] {
-
-                {new LevenshteinDistance(), "elephant", "hippo", 7},
-                {new LevenshteinDistance(), "hippo", "elephant",  7},
-                {new LevenshteinDistance(), "hippo", "zzzzzzzz", 8},
-
-                {
+                Arguments.of(
                         new SimilarityScore<Boolean>() {
                             @Override
                             public Boolean apply(final CharSequence left, final CharSequence right) {
@@ -68,14 +47,13 @@ public class ParameterizedSimilarityScoreFromTest<R> {
                         "Bob's your uncle.",
                         "Every good boy does fine.",
                         false
-                }
-
-        });
+                ));
     }
 
-    @Test
-    public void test() {
+    @ParameterizedTest
+    @MethodSource("parameters")
+    public void test(SimilarityScore<R> similarityScore, CharSequence left, CharSequence right, R distance) {
         final SimilarityScoreFrom<R> similarityScoreFrom = new SimilarityScoreFrom<>(similarityScore, left);
-        assertThat(similarityScoreFrom.apply(right), equalTo(distance));
+        assertThat(similarityScoreFrom.apply(right)).isEqualTo(distance);
     }
 }

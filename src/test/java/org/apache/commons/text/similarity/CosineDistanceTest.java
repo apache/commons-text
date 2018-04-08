@@ -21,8 +21,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link CosineSimilarity}.
@@ -37,7 +37,7 @@ public class CosineDistanceTest {
     /**
      * Creates the cosine distance object used throughout the tests.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         cosineDistance = new CosineDistance();
     }

@@ -17,11 +17,12 @@
 
 package org.apache.commons.text.similarity;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.within;
 
 
@@ -38,17 +39,21 @@ public class CosineSimilarityTest {
         assertThat(cosineSimilarity.cosineSimilarity(hashMap, hashMapTwo)).isEqualTo(0.0, within(0.01));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCosineSimilarityThrowsIllegalArgumentException() {
-        final CosineSimilarity cosineSimilarity = new CosineSimilarity();
-        final Map<CharSequence, Integer> map = new HashMap<>();
-        cosineSimilarity.cosineSimilarity(map, null);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            final CosineSimilarity cosineSimilarity = new CosineSimilarity();
+            final Map<CharSequence, Integer> map = new HashMap<>();
+            cosineSimilarity.cosineSimilarity(map, null);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCosineSimilarityWithNull() {
-        final CosineSimilarity cosineSimilarity = new CosineSimilarity();
-        cosineSimilarity.cosineSimilarity(null, null);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            final CosineSimilarity cosineSimilarity = new CosineSimilarity();
+            cosineSimilarity.cosineSimilarity(null, null);
+        });
     }
 
     @Test

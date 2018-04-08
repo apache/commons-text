@@ -16,9 +16,11 @@
  */
 package org.apache.commons.text;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.text.DateFormat;
 import java.text.FieldPosition;
@@ -34,8 +36,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link ExtendedMessageFormat}.
@@ -44,7 +46,7 @@ public class ExtendedMessageFormatTest {
 
     private final Map<String, FormatFactory> registry = new HashMap<>();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         registry.put("lower", new LowerCaseFormatFactory());
         registry.put("upper", new UpperCaseFormatFactory());
@@ -57,7 +59,7 @@ public class ExtendedMessageFormatTest {
     public void testExtendedFormats() {
         final String pattern = "Lower: {0,lower} Upper: {1,upper}";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, registry);
-        assertEquals("TOPATTERN", pattern, emf.toPattern());
+        assertEquals(pattern, emf.toPattern(), "TOPATTERN");
         assertEquals("Lower: foo Upper: BAR", emf.format(new Object[] {"foo", "bar"}));
         assertEquals("Lower: foo Upper: BAR", emf.format(new Object[] {"Foo", "Bar"}));
         assertEquals("Lower: foo Upper: BAR", emf.format(new Object[] {"FOO", "BAR"}));
@@ -152,8 +154,8 @@ public class ExtendedMessageFormatTest {
             expected.append(df.format(args[1]));
             expected.append(" Salary: ");
             expected.append(nf.format(args[2]));
-            assertEquals("pattern comparison for locale " + locale, expectedPattern, emf.toPattern());
-            assertEquals(String.valueOf(locale), expected.toString(), emf.format(args));
+            assertEquals(expectedPattern, emf.toPattern(), "pattern comparison for locale " + locale);
+            assertEquals(expected.toString(), emf.format(args), String.valueOf(locale));
         }
     }
 
@@ -278,8 +280,8 @@ public class ExtendedMessageFormatTest {
             final MessageFormat dateDefault = createMessageFormat("{0,date}", locale);
             final String pattern = "{0,date,short}";
             final ExtendedMessageFormat dateShort = new ExtendedMessageFormat(pattern, locale, dateRegistry);
-            assertEquals("overridden date,short format", dateDefault.format(args), dateShort.format(args));
-            assertEquals("overridden date,short pattern", pattern, dateShort.toPattern());
+            assertEquals(dateDefault.format(args), dateShort.format(args), "overridden date,short format");
+            assertEquals(pattern, dateShort.toPattern(), "overridden date,short pattern");
         }
     }
 
@@ -290,11 +292,11 @@ public class ExtendedMessageFormatTest {
     public void testBuiltInNumberFormat() {
         final Object[] args = new Object[] {Double.valueOf("6543.21")};
         final Locale[] availableLocales = NumberFormat.getAvailableLocales();
-        checkBuiltInFormat("1: {0,number}",            args, availableLocales);
-        checkBuiltInFormat("2: {0,number,integer}",    args, availableLocales);
-        checkBuiltInFormat("3: {0,number,currency}",   args, availableLocales);
-        checkBuiltInFormat("4: {0,number,percent}",    args, availableLocales);
-        checkBuiltInFormat("5: {0,number,00000.000}",  args, availableLocales);
+        checkBuiltInFormat("1: {0,number}",           args, availableLocales);
+        checkBuiltInFormat("2: {0,number,integer}",   args, availableLocales);
+        checkBuiltInFormat("3: {0,number,currency}",  args, availableLocales);
+        checkBuiltInFormat("4: {0,number,percent}",   args, availableLocales);
+        checkBuiltInFormat("5: {0,number,00000.000}", args, availableLocales);
     }
 
     /**
@@ -313,35 +315,35 @@ public class ExtendedMessageFormatTest {
         ExtendedMessageFormat other = null;
 
         // Same object
-        assertTrue("same, equals()",   emf.equals(emf));
-        assertTrue("same, hashcode()", emf.hashCode() == emf.hashCode());
+        assertTrue(emf.equals(emf), "same, equals()");
+        assertEquals(emf.hashCode(), emf.hashCode(), "same, hashcode()");
 
-        assertFalse("null, equals", emf.equals(null));
+        assertFalse(emf.equals(null), "null, equals");
 
         // Equal Object
         other = new ExtendedMessageFormat(pattern, Locale.US, fmtRegistry);
-        assertTrue("equal, equals()",   emf.equals(other));
-        assertTrue("equal, hashcode()", emf.hashCode() == other.hashCode());
+        assertTrue(emf.equals(other), "equal, equals()");
+        assertTrue(emf.hashCode() == other.hashCode(), "equal, hashcode()");
 
         // Different Class
         other = new OtherExtendedMessageFormat(pattern, Locale.US, fmtRegistry);
-        assertFalse("class, equals()",  emf.equals(other));
-        assertTrue("class, hashcode()", emf.hashCode() == other.hashCode()); // same hashcode
+        assertFalse(emf.equals(other), "class, equals()");
+        assertTrue(emf.hashCode() == other.hashCode(), "class, hashcode()"); // same hashcode
 
         // Different pattern
         other = new ExtendedMessageFormat("X" + pattern, Locale.US, fmtRegistry);
-        assertFalse("pattern, equals()",   emf.equals(other));
-        assertFalse("pattern, hashcode()", emf.hashCode() == other.hashCode());
+        assertFalse(emf.equals(other), "pattern, equals()");
+        assertFalse(emf.hashCode() == other.hashCode(), "pattern, hashcode()");
 
         // Different registry
         other = new ExtendedMessageFormat(pattern, Locale.US, otherRegitry);
-        assertFalse("registry, equals()",   emf.equals(other));
-        assertFalse("registry, hashcode()", emf.hashCode() == other.hashCode());
+        assertFalse(emf.equals(other), "registry, equals()");
+        assertFalse(emf.hashCode() == other.hashCode(), "registry, hashcode()");
 
         // Different Locale
         other = new ExtendedMessageFormat(pattern, Locale.FRANCE, fmtRegistry);
-        assertFalse("locale, equals()",  emf.equals(other));
-        assertTrue("locale, hashcode()", emf.hashCode() == other.hashCode()); // same hashcode
+        assertFalse(emf.equals(other), "locale, equals()");
+        assertTrue(emf.hashCode() == other.hashCode(), "locale, hashcode()"); // same hashcode
     }
 
     /**
@@ -393,8 +395,8 @@ public class ExtendedMessageFormatTest {
         } else {
             emf = new ExtendedMessageFormat(pattern, locale);
         }
-        assertEquals("format "    + buffer.toString(), mf.format(args), emf.format(args));
-        assertEquals("toPattern " + buffer.toString(), mf.toPattern(), emf.toPattern());
+        assertEquals(mf.format(args), emf.format(args), "format "    + buffer.toString());
+        assertEquals(mf.toPattern(), emf.toPattern(), "toPattern " + buffer.toString());
     }
 
     /**
@@ -412,53 +414,71 @@ public class ExtendedMessageFormatTest {
         return result;
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSetFormatIsUnsupported() {
-        final ExtendedMessageFormat emf = new ExtendedMessageFormat("");
-        emf.setFormat(0, new LowerCaseFormat());
+        assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> {
+            final ExtendedMessageFormat emf = new ExtendedMessageFormat("");
+            emf.setFormat(0, new LowerCaseFormat());
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSetFormatByArgumentIndexIsUnsupported() {
-        final ExtendedMessageFormat emf = new ExtendedMessageFormat("");
-        emf.setFormatByArgumentIndex(0, new LowerCaseFormat());
+        assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> {
+            final ExtendedMessageFormat emf = new ExtendedMessageFormat("");
+            emf.setFormatByArgumentIndex(0, new LowerCaseFormat());
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSetFormatsIsUnsupported() {
-        final ExtendedMessageFormat emf = new ExtendedMessageFormat("");
-        emf.setFormats(new Format[]{new LowerCaseFormat(), new UpperCaseFormat()});
+        assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> {
+            final ExtendedMessageFormat emf = new ExtendedMessageFormat("");
+            emf.setFormats(new Format[] {new LowerCaseFormat(), new UpperCaseFormat()});
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testSetFormatsByArgumentIndex() {
-        final ExtendedMessageFormat emf = new ExtendedMessageFormat("");
-        emf.setFormatsByArgumentIndex(new Format[]{new LowerCaseFormat(), new UpperCaseFormat()});
+        assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> {
+            final ExtendedMessageFormat emf = new ExtendedMessageFormat("");
+            emf.setFormatsByArgumentIndex(new Format[] {new LowerCaseFormat(), new UpperCaseFormat()});
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionOne() {
-        new ExtendedMessageFormat("agdXdkR;T1{9 ^,LzXf?", new HashMap<String, FormatFactory>());
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            new ExtendedMessageFormat("agdXdkR;T1{9 ^,LzXf?", new HashMap<String, FormatFactory>());
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionTwo() {
-        new ExtendedMessageFormat("a5XdkR;T1{9 ,LzXf?", new HashMap<String, FormatFactory>());
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            new ExtendedMessageFormat("a5XdkR;T1{9 ,LzXf?", new HashMap<String, FormatFactory>());
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionThree() {
-        new ExtendedMessageFormat("9jLh_D9{ ", new HashMap<String, FormatFactory>());
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            new ExtendedMessageFormat("9jLh_D9{ ", new HashMap<String, FormatFactory>());
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFour() {
-        new ExtendedMessageFormat("RD,nXhM{}{", new HashMap<String, FormatFactory>());
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            new ExtendedMessageFormat("RD,nXhM{}{", new HashMap<String, FormatFactory>());
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFive() {
-        new ExtendedMessageFormat("j/[_D9{0,\"&'+0o", new HashMap<String, FormatFactory>());
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            new ExtendedMessageFormat("j/[_D9{0,\"&'+0o", new HashMap<String, FormatFactory>());
+        });
     }
 
     @Test

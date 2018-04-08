@@ -20,26 +20,26 @@ package org.apache.commons.text.lookup;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class LocalHostStringLookupTest {
 
     @Test
     public void testAddress() throws UnknownHostException {
-        Assert.assertEquals(InetAddress.getLocalHost().getHostAddress(),
+        Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(),
                 LocalHostStringLookup.INSTANCE.lookup("address"));
     }
 
     @Test
     public void testCanonicalName() throws UnknownHostException {
-        Assert.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(),
+        Assertions.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(),
                 LocalHostStringLookup.INSTANCE.lookup("canonical-name"));
     }
 
     @Test
     public void testName() throws UnknownHostException {
-        Assert.assertEquals(InetAddress.getLocalHost().getHostName(),
+        Assertions.assertEquals(InetAddress.getLocalHost().getHostName(),
                 LocalHostStringLookup.INSTANCE.lookup("name"));
     }
 
