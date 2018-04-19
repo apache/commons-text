@@ -19,6 +19,7 @@ package org.apache.commons.text.lookup;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Proxies other {@link StringLookup}s using a keys within ${} markers using the format "${StringLookup:Key}".
@@ -41,7 +42,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
     private final StringLookup defaultStringLookup;
 
     /** The map of String lookups keyed by prefix. */
-    private final Map<String, StringLookup> stringLookupMap = new HashMap<>();
+    private final Map<String, StringLookup> stringLookupMap;
 
     /**
      * Creates an instance using only lookups that work without initial properties and are stateless.
@@ -78,11 +79,6 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      */
     <V> InterpolatorStringLookup(final Map<String, V> defaultMap) {
         this(MapStringLookup.on(defaultMap == null ? new HashMap<String, V>() : defaultMap));
-        stringLookupMap.put("sys", SystemPropertyStringLookup.INSTANCE);
-        stringLookupMap.put("env", EnvironmentVariableStringLookup.INSTANCE);
-        stringLookupMap.put("java", JavaPlatformStringLookup.INSTANCE);
-        stringLookupMap.put("date", DateStringLookup.INSTANCE);
-        stringLookupMap.put("localhost", LocalHostStringLookup.INSTANCE);
     }
 
     /**
@@ -92,7 +88,27 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      *            the default lookup.
      */
     InterpolatorStringLookup(final StringLookup defaultStringLookup) {
+        this(new HashMap<>(), defaultStringLookup, true);
+    }
+
+    /**
+     * Creates a fully customized instance.
+     */
+    InterpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup,
+            final boolean addDefaultLookups) {
+        super();
         this.defaultStringLookup = defaultStringLookup;
+        this.stringLookupMap = new HashMap<>(stringLookupMap.size());
+        for (final Entry<String, StringLookup> entry : stringLookupMap.entrySet()) {
+            this.stringLookupMap.put(entry.getKey().toLowerCase(Locale.ROOT), entry.getValue());
+        }
+        if (addDefaultLookups) {
+            this.stringLookupMap.put("sys", SystemPropertyStringLookup.INSTANCE);
+            this.stringLookupMap.put("env", EnvironmentVariableStringLookup.INSTANCE);
+            this.stringLookupMap.put("java", JavaPlatformStringLookup.INSTANCE);
+            this.stringLookupMap.put("date", DateStringLookup.INSTANCE);
+            this.stringLookupMap.put("localhost", LocalHostStringLookup.INSTANCE);
+        }
     }
 
     /**
@@ -122,7 +138,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
 
         final int prefixPos = var.indexOf(PREFIX_SEPARATOR);
         if (prefixPos >= 0) {
-            final String prefix = var.substring(0, prefixPos).toLowerCase(Locale.US);
+            final String prefix = var.substring(0, prefixPos).toLowerCase(Locale.ROOT);
             final String name = var.substring(prefixPos + 1);
             final StringLookup lookup = stringLookupMap.get(prefix);
             String value = null;

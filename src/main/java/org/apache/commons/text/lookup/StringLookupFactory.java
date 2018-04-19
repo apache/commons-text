@@ -122,6 +122,34 @@ public final class StringLookupFactory {
     }
 
     /**
+     * Returns a new InterpolatorStringLookup.
+     * <p>
+     * If {@code addDefaultLookups} is true, the following lookups are used in addition to the ones provided in
+     * {@code stringLookupMap}:
+     * </p>
+     * <ul>
+     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
+     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"date" for the {@link DateStringLookup}.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
+     * </ul>
+     * 
+     * @param stringLookupMap
+     *            the map of string lookups.
+     * @param defaultStringLookup
+     *            the default string lookup.
+     * @param addDefaultLookups
+     *            whether to use lookups as described above.
+     * @return a new InterpolatorStringLookup.
+     * @since 1.4
+     */
+    public StringLookup interpolatorStringLookup(Map<String, StringLookup> stringLookupMap,
+            final StringLookup defaultStringLookup, final boolean addDefaultLookups) {
+        return new InterpolatorStringLookup(stringLookupMap, defaultStringLookup, addDefaultLookups);
+    }
+
+    /**
      * Returns the JavaPlatformStringLookup singleton instance.
      *
      * @return the JavaPlatformStringLookup singleton instance.
