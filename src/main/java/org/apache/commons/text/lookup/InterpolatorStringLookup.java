@@ -93,6 +93,13 @@ class InterpolatorStringLookup extends AbstractStringLookup {
 
     /**
      * Creates a fully customized instance.
+     *
+     * @param stringLookupMap
+     *            the map of string lookups.
+     * @param defaultStringLookup
+     *            the default string lookup.
+     * @param addDefaultLookups
+     *            whether the default lookups should be used.
      */
     InterpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup,
             final boolean addDefaultLookups) {

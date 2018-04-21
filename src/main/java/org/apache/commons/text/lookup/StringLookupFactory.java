@@ -134,7 +134,7 @@ public final class StringLookupFactory {
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
      * </ul>
-     * 
+     *
      * @param stringLookupMap
      *            the map of string lookups.
      * @param defaultStringLookup
