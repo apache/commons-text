@@ -62,7 +62,8 @@ public class WordUtils {
      * <p>Leading spaces on a new line are stripped.
      * Trailing spaces are not stripped.</p>
      *
-     * <table border="1" summary="Wrap Results">
+     * <table border="1">
+     *  <caption>Examples</caption>
      *  <tr>
      *   <th>input</th>
      *   <th>wrapLength</th>
@@ -111,7 +112,8 @@ public class WordUtils {
      * <p>Leading spaces on a new line are stripped.
      * Trailing spaces are not stripped.</p>
      *
-     * <table border="1" summary="Wrap Results">
+     * <table border="1">
+     *  <caption>Examples</caption>
      *  <tr>
      *   <th>input</th>
      *   <th>wrapLength</th>
@@ -192,7 +194,8 @@ public class WordUtils {
      * <p>Leading spaces on a new line are stripped.
      * Trailing spaces are not stripped.</p>
      *
-     * <table border="1" summary="Wrap Results">
+     * <table border="1">
+     *  <caption>Examples</caption>
      *  <tr>
      *   <th>input</th>
      *   <th>wrapLength</th>

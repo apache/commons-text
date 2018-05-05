@@ -54,11 +54,9 @@ import java.util.NoSuchElementException;
  * " a, b , c "    - Three tokens "a","b","c"   (default CSV processing trims whitespace)
  * "a, ", b ,", c" - Three tokens "a, " , " b ", ", c" (quoted text untouched)
  * </pre>
- * <p>
  *
- * This tokenizer has the following properties and options:
- *
- * <table summary="Tokenizer Properties">
+ * <table>
+ *  <caption>StrTokenizer properties and options</caption>
  *  <tr>
  *   <th>Property</th><th>Type</th><th>Default</th>
  *  </tr>
