@@ -430,6 +430,8 @@
       <properties>
         <!-- jacoco does not work with java 11 yet, see https://github.com/jacoco/jacoco/issues/663 -->
         <jacoco.skip>true</jacoco.skip>
+        <!-- spotbugs does not work with java 11 yet, because ASM does not yet support the java 11 class file format -->
+        <spotbugs.skip>true</spotbugs.skip>
       </properties>
     </profile>
   </profiles>
