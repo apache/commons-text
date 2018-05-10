@@ -53,6 +53,8 @@
 
     <checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
     <checkstyle.version>8.9</checkstyle.version>
+
+    <spotbugs.plugin.version>3.1.3.1</spotbugs.plugin.version>
   </properties>
 
   <dependencies>
@@ -89,7 +91,7 @@
   </dependencies>
 
   <build>
-    <defaultGoal>clean verify apache-rat:check clirr:check checkstyle:check findbugs:check javadoc:javadoc</defaultGoal>
+    <defaultGoal>clean verify apache-rat:check clirr:check checkstyle:check spotbugs:check javadoc:javadoc</defaultGoal>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -137,12 +139,11 @@
         </dependencies>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <!-- Use version from parent pom as that is adjusted according to the Java version used to run Maven -->
-        <version>${commons.findbugs.version}</version>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${spotbugs.plugin.version}</version>
         <configuration>
-          <excludeFilterFile>${basedir}/fb-excludes.xml</excludeFilterFile>
+          <excludeFilterFile>${basedir}/sb-excludes.xml</excludeFilterFile>
         </configuration>
       </plugin>
       <plugin>
@@ -209,12 +210,11 @@
       </plugin>
       <!-- Requires setting 'export MAVEN_OPTS="-Xmx512m" ' -->
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <!-- Use version from parent pom as that is adjusted according to the Java version used to run Maven -->
-        <version>${commons.findbugs.version}</version>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${spotbugs.plugin.version}</version>
         <configuration>
-          <excludeFilterFile>${basedir}/fb-excludes.xml</excludeFilterFile>
+          <excludeFilterFile>${basedir}/sb-excludes.xml</excludeFilterFile>
         </configuration>
       </plugin>
       <plugin>
