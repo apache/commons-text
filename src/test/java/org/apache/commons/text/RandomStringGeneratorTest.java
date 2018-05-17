@@ -133,14 +133,12 @@ public class RandomStringGeneratorTest {
             maximumCodePoint = Math.max(maximumCodePoint, pair[1]);
         }
 
-        for (final char[] pair : pairs) {
-            int i = 0;
-            do {
-                final int codePoint = str.codePointAt(i);
-                assertThat(codePoint >= minimumCodePoint && codePoint <= maximumCodePoint).isTrue();
-                i += Character.charCount(codePoint);
-            } while (i < str.length());
-        }
+        int i = 0;
+        do {
+            final int codePoint = str.codePointAt(i);
+            assertThat(codePoint >= minimumCodePoint && codePoint <= maximumCodePoint).isTrue();
+            i += Character.charCount(codePoint);
+        } while (i < str.length());
     }
 
     @Test
