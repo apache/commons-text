@@ -302,14 +302,7 @@ public class StringEscapeUtils {
      * object allows the Json unescaping functionality to be used
      * as the foundation for a custom translator.
      */
-    public static final CharSequenceTranslator UNESCAPE_JSON;
-    static {
-        UNESCAPE_JSON = new AggregateTranslator(
-                new OctalUnescaper(),     // .between('\1', '\377'),
-                new UnicodeUnescaper(),
-                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_UNESCAPE)
-        );
-    }
+    public static final CharSequenceTranslator UNESCAPE_JSON = UNESCAPE_JAVA;
 
     /**
      * Translator object for unescaping escaped HTML 3.0.
