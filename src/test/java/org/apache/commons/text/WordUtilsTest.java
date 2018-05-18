@@ -528,7 +528,7 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testLANG1397() throws Exception {
+    public void testText123() throws Exception {
         // Prior to fix, this was throwing StringIndexOutOfBoundsException
         WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
                 + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", Integer.MAX_VALUE);
