@@ -528,6 +528,13 @@ public class WordUtilsTest {
     }
 
     @Test
+    public void testLANG1397() throws Exception {
+        // Prior to fix, this was throwing StringIndexOutOfBoundsException
+        WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
+                + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", Integer.MAX_VALUE);
+    }
+
+    @Test
     public void testContainsAllWordsWithNull() {
         assertThat(WordUtils.containsAllWords("M", null)).isFalse();
     }

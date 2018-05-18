@@ -50,6 +50,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-119" type="fix" dev="pschumacher">Remove mention of SQL escaping from user guide</action>
     <action issue="TEXT-121" type="update" dev="ggregory" due-to="pschumacher">Update Java requirement from version 7 to 8.</action>
     <action issue="TEXT-122" type="update" dev="ggregory">Allow full customization with new API org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup(Map&lt;String, StringLookup>, StringLookup, boolean).</action>    
+    <action issue="LANG-123" type="fix" dev="ggregory" due-to="Takanobu Asanuma">WordUtils.wrap throws StringIndexOutOfBoundsException when wrapLength is Integer.MAX_VALUE.</action>   
   </release>
 
   <release version="1.3" date="2018-03-16" description="Release 1.3">
