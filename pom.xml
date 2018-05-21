@@ -26,6 +26,7 @@
   <version>1.4-SNAPSHOT</version>
   <name>Apache Commons Text</name>
   <description>Apache Commons Text is a library focused on algorithms working on strings.</description>
+  <url>http://commons.apache.org/proper/commons-text</url>
 
   <properties>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
