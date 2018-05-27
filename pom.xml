@@ -292,8 +292,6 @@
     </plugins>
   </reporting>
 
-  <url>http://commons.apache.org/proper/commons-text/</url>
-
   <inceptionYear>2014</inceptionYear>
 
   <developers>
