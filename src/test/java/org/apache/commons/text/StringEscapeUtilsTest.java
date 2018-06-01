@@ -628,8 +628,8 @@ public class StringEscapeUtilsTest {
 
     @Test // TEXT-120
     public void testUnescapeJsonDoubleQuoteAndForwardSlash() {
-      String escapedJsonString = "double quote: \\\" and a forward slash: \\/";
-      String jsonString = "double quote: \" and a forward slash: /";
+      final String escapedJsonString = "double quote: \\\" and a forward slash: \\/";
+      final String jsonString = "double quote: \" and a forward slash: /";
 
       assertEquals(jsonString, StringEscapeUtils.unescapeJson(escapedJsonString));
     }

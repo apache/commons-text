@@ -144,7 +144,7 @@ public final class StringLookupFactory {
      * @return a new InterpolatorStringLookup.
      * @since 1.4
      */
-    public StringLookup interpolatorStringLookup(Map<String, StringLookup> stringLookupMap,
+    public StringLookup interpolatorStringLookup(final Map<String, StringLookup> stringLookupMap,
             final StringLookup defaultStringLookup, final boolean addDefaultLookups) {
         return new InterpolatorStringLookup(stringLookupMap, defaultStringLookup, addDefaultLookups);
     }
