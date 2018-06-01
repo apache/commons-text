@@ -51,7 +51,7 @@ public interface StringLookup {
      * <pre>
      * Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();
      * map.put("number", new Integer(2));
-     * assertEquals("2", StrLookup.mapLookup(map).lookup("number"));
+     * assertEquals("2", StringLookupFactory.mapStringLookup(map).lookup("number"));
      * </pre>
      *
      * @param key
