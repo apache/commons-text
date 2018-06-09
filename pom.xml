@@ -46,8 +46,6 @@
     <commons.site.path>text</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
-    <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/text/</commons.distSvnStagingUrl>
-    <commons.release.isDistModule>true</commons.release.isDistModule>
 
     <junit.version>5.2.0</junit.version>
     <junit.platform.version>1.2.0</junit.platform.version>
@@ -56,6 +54,13 @@
     <checkstyle.version>8.10.1</checkstyle.version>
 
     <spotbugs.plugin.version>3.1.3.1</spotbugs.plugin.version>
+    
+    <!-- Commons Release Plugin -->
+    <commons.bc.version>1.3</commons.bc.version>
+    <commons.release.isDistModule>true</commons.release.isDistModule>
+    <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
+    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>    
+    <commons.releaseManagerKey>86FDC7E2A11262CB</commons.releaseManagerKey>    
   </properties>
 
   <dependencies>
