@@ -43,11 +43,12 @@
 Apache Commons Text
 ===================
 
-[![Build Status](https://travis-ci.org/apache/commons-text.svg?branch=master)](https://travis-ci.org/apache/commons-text)
-[![Coverage Status](https://coveralls.io/repos/apache/commons-text/badge.svg?branch=master)](https://coveralls.io/r/apache/commons-text)
+[![Build Status](https://travis-ci.org/apache/commons-text.svg)](https://travis-ci.org/apache/commons-text)
+[![Coverage Status](https://coveralls.io/repos/apache/commons-text/badge.svg)](https://coveralls.io/r/apache/commons-text)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/)
+[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-text/1.4.svg)](https://javadoc.io/doc/org.apache.commons/commons-text/1.4)
 
-Apache Commons Text is a library focused on algorithms working on strings.
+${project.description}
 
 Documentation
 -------------
@@ -66,7 +67,7 @@ Alternatively you can pull it from the central Maven repositories:
 <dependency>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-text</artifactId>
-  <version>1.3</version>
+  <version>1.4</version>
 </dependency>
 ```
 
