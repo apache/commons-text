@@ -5,7 +5,7 @@
 INTRODUCTION
 ============
 
-This document contains the release notes for the 1.3 version of Apache Commons
+This document contains the release notes for the 1.4 version of Apache Commons
 Text. Commons Text is a set of utility functions and reusable components for 
 the purpose of processing and manipulating text that should be of use in a Java
 environment.
