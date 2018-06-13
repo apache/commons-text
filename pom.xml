@@ -60,7 +60,7 @@
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
     <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>    
-    <commons.releaseManagerKey>2DB4F1EF0FA761ECC4EA935C86FDC7E2A11262CB</commons.releaseManagerKey>    
+    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>    
   </properties>
 
   <dependencies>
