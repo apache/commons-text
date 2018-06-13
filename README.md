@@ -48,7 +48,7 @@ Apache Commons Text
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/)
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-text/1.4.svg)](https://javadoc.io/doc/org.apache.commons/commons-text/1.4)
 
-${project.description}
+Apache Commons Text is a library focused on algorithms working on strings.
 
 Documentation
 -------------
