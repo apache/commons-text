@@ -49,7 +49,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * String randomLetters = generator.generate(20);
  * </pre>
  * <p>
- * {@code RandomStringBuilder} instances are thread-safe when using the
+ * {@code RandomStringGenerator} instances are thread-safe when using the
  * default random number generator (RNG). If a custom RNG is set by calling the method
  * {@link Builder#usingRandom(TextRandomProvider) Builder.usingRandom(TextRandomProvider)}, thread-safety
  * must be ensured externally.
