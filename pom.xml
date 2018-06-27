@@ -53,13 +53,13 @@
     <checkstyle.version>8.10.1</checkstyle.version>
 
     <spotbugs.plugin.version>3.1.5</spotbugs.plugin.version>
-    
+
     <!-- Commons Release Plugin -->
     <commons.bc.version>1.4</commons.bc.version>
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
-    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>    
-    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>    
+    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>
+    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>
   </properties>
 
     <dependencyManagement>
@@ -192,7 +192,6 @@
         </configuration>
       </plugin>
     </plugins>
-
   </build>
 
   <reporting>
@@ -402,11 +401,9 @@
                     <exec executable="svn">
                       <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}"/>
                     </exec>
-
                     <exec executable="svn">
                       <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs"/>
                     </exec>
-
                     <pathconvert pathsep=" " property="dirs">
                       <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*"/>
                     </pathconvert>
