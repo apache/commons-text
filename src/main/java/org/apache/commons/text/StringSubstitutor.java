@@ -41,7 +41,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * The simplest example is to use this class to replace Java System properties. For example:
  *
  * <pre>
- * StrSubstitutor
+ * StringSubstitutor
  *         .replaceSystemProperties("You are running with java.version = ${java.version} and os.name = ${os.name}.");
  * </pre>
  * <p>
@@ -56,7 +56,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * valuesMap.put(&quot;animal&quot;, &quot;quick brown fox&quot;);
  * valuesMap.put(&quot;target&quot;, &quot;lazy dog&quot;);
  * String templateString = &quot;The ${animal} jumped over the ${target}.&quot;;
- * StrSubstitutor sub = new StrSubstitutor(valuesMap);
+ * StringSubstitutor sub = new StringSubstitutor(valuesMap);
  * String resolvedString = sub.replace(templateString);
  * </pre>
  *
@@ -78,7 +78,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * valuesMap.put(&quot;animal&quot;, &quot;quick brown fox&quot;);
  * valuesMap.put(&quot;target&quot;, &quot;lazy dog&quot;);
  * String templateString = &quot;The ${animal} jumped over the ${target}. ${undefined.number:-1234567890}.&quot;;
- * StrSubstitutor sub = new StrSubstitutor(valuesMap);
+ * StringSubstitutor sub = new StringSubstitutor(valuesMap);
  * String resolvedString = sub.replace(templateString);
  * </pre>
  *
@@ -123,7 +123,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * ${jre-${java.specification.version}}
  * </pre>
  *
- * <code>StrSubstitutor</code> supports this recursive substitution in variable names, but it has to be enabled
+ * <code>StringSubstitutor</code> supports this recursive substitution in variable names, but it has to be enabled
  * explicitly by setting the {@link #setEnableSubstitutionInVariables(boolean) enableSubstitutionInVariables} property
  * to <b>true</b>.
  * <p>
