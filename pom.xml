@@ -48,7 +48,6 @@
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
     <junit.version>5.2.0</junit.version>
-    <junit.platform.version>1.2.0</junit.platform.version>
 
     <checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
     <checkstyle.version>8.10.1</checkstyle.version>
@@ -63,6 +62,18 @@
     <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>    
   </properties>
 
+    <dependencyManagement>
+      <dependencies>
+        <dependency>
+          <groupId>org.junit</groupId>
+          <artifactId>junit-bom</artifactId>
+          <version>${junit.version}</version>
+          <type>pom</type>
+          <scope>import</scope>
+        </dependency>
+      </dependencies>
+    </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -73,19 +84,16 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
-      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-launcher</artifactId>
-      <version>${junit.platform.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -117,13 +125,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-          <dependencies>
-             <dependency>
-               <groupId>org.junit.platform</groupId>
-               <artifactId>junit-platform-surefire-provider</artifactId>
-               <version>${junit.platform.version}</version>
-           </dependency>
-        </dependencies>
+        <version>2.22.0</version>
       </plugin>
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
