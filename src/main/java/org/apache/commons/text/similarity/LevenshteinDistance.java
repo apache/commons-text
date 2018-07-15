@@ -270,12 +270,6 @@ public class LevenshteinDistance implements EditDistance<Integer> {
             final int max = j > Integer.MAX_VALUE - threshold ? n : Math.min(
                     n, j + threshold);
 
-            // the stripe may lead off of the table if s and t are of different
-            // sizes
-            if (min > max) {
-                return -1;
-            }
-
             // ignore entry left of leftmost
             if (min > 1) {
                 d[min - 1] = Integer.MAX_VALUE;
