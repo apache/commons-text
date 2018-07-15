@@ -241,6 +241,11 @@ public class LevenshteinDistance implements EditDistance<Integer> {
             m = right.length();
         }
 
+        // the edit distance cannot be less than the length difference
+        if (m - n > threshold) {
+            return -1;
+        }
+
         int[] p = new int[n + 1]; // 'previous' cost array, horizontally
         int[] d = new int[n + 1]; // cost array, horizontally
         int[] tempD; // placeholder to assist in swapping p and d
