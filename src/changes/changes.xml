@@ -45,7 +45,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
 
-  <release version="1.4" date="2018-MM-DD" description="Release 1.4">
+  <release version="1.4.1" date="2018-MM-DD" description="Release 1.4.1">
+  </release>
+
+  <release version="1.4" date="2018-06-12" description="Release 1.4">
     <action issue="TEXT-120" type="fix" dev="pschumacher">StringEscapeUtils#unescapeJson does not unescape double quotes and forward slash</action>
     <action issue="TEXT-119" type="fix" dev="pschumacher">Remove mention of SQL escaping from user guide</action>
     <action issue="TEXT-121" type="update" dev="ggregory" due-to="pschumacher">Update Java requirement from version 7 to 8.</action>
