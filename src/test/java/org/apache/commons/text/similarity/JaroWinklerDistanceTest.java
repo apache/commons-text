@@ -45,6 +45,7 @@ public class JaroWinklerDistanceTest {
                 distance.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"), 0.00001d);
         assertEquals(0.882329d, distance.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.00001d);
         assertEquals(0.996598d, distance.apply("/opt/software1", "/opt/software2"), 0.00001d);
+        assertEquals(0.941666d, distance.apply("aaabcd", "aaacdb"), 0.00001d);
     }
 
     @Test
