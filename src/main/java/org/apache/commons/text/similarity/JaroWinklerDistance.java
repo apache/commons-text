@@ -86,16 +86,16 @@ public class JaroWinklerDistance implements SimilarityScore<Double> {
             return 0D;
         }
         final double j = ((m / left.length() + m / right.length() + (m - (double) mtp[1] / 2) / m)) / 3;
-        final double jw = j < 0.7D ? j : j + Math.min(defaultScalingFactor, 1D / mtp[3]) * mtp[2] * (1D - j);
+        final double jw = j < 0.7D ? j : j + defaultScalingFactor * mtp[2] * (1D - j);
         return jw;
     }
 
     /**
-     * This method returns the Jaro-Winkler string matches, half transpositions, prefix, max array.
+     * This method returns the Jaro-Winkler string matches, half transpositions, prefix array.
      *
      * @param first the first string to be matched
      * @param second the second string to be matched
-     * @return mtp array containing: matches, half transpositions, prefix, and max length
+     * @return mtp array containing: matches, half transpositions, and prefix
      */
     protected static int[] matches(final CharSequence first, final CharSequence second) {
         CharSequence max, min;
@@ -143,14 +143,14 @@ public class JaroWinklerDistance implements SimilarityScore<Double> {
             }
         }
         int prefix = 0;
-        for (int mi = 0; mi < min.length(); mi++) {
+        for (int mi = 0; mi < Math.min(4, min.length()); mi++) {
             if (first.charAt(mi) == second.charAt(mi)) {
                 prefix++;
             } else {
                 break;
             }
         }
-        return new int[] {matches, halfTranspositions, prefix, max.length()};
+        return new int[] {matches, halfTranspositions, prefix};
     }
 
 }
