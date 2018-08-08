@@ -241,6 +241,11 @@ public class LevenshteinDistance implements EditDistance<Integer> {
             m = right.length();
         }
 
+        // the edit distance cannot be less than the length difference
+        if (m - n > threshold) {
+            return -1;
+        }
+
         int[] p = new int[n + 1]; // 'previous' cost array, horizontally
         int[] d = new int[n + 1]; // cost array, horizontally
         int[] tempD; // placeholder to assist in swapping p and d
@@ -264,12 +269,6 @@ public class LevenshteinDistance implements EditDistance<Integer> {
             final int min = Math.max(1, j - threshold);
             final int max = j > Integer.MAX_VALUE - threshold ? n : Math.min(
                     n, j + threshold);
-
-            // the stripe may lead off of the table if s and t are of different
-            // sizes
-            if (min > max) {
-                return -1;
-            }
 
             // ignore entry left of leftmost
             if (min > 1) {
