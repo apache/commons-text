@@ -39,12 +39,14 @@ public class JaroWinklerDistanceTest {
         assertEquals(0.92499d, distance.apply("frog", "fog"), 0.00001d);
         assertEquals(0.0d, distance.apply("fly", "ant"), 0.00000000000000000001d);
         assertEquals(0.44166d, distance.apply("elephant", "hippo"), 0.00001d);
-        assertEquals(0.92740d, distance.apply("ABC Corporation", "ABC Corp"), 0.00001d);
-        assertEquals(0.94580d, distance.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."), 0.00001d);
-        assertEquals(0.921458d,
+        assertEquals(0.90666d, distance.apply("ABC Corporation", "ABC Corp"), 0.00001d);
+        assertEquals(0.95251d, distance.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."), 0.00001d);
+        assertEquals(0.942d,
                 distance.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"), 0.00001d);
-        assertEquals(0.882329d, distance.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.00001d);
-        assertEquals(0.996598d, distance.apply("/opt/software1", "/opt/software2"), 0.00001d);
+        assertEquals(0.898018d, distance.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.00001d);
+        assertEquals(0.971428d, distance.apply("/opt/software1", "/opt/software2"), 0.00001d);
+        assertEquals(0.941666d, distance.apply("aaabcd", "aaacdb"), 0.00001d);
+        assertEquals(0.911111d, distance.apply("John Horn", "John Hopkins"), 0.00001d);
     }
 
     @Test
