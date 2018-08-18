@@ -859,7 +859,7 @@ public class WordUtils {
         final int index = StringUtils.indexOf(str, " ", lower);
         if (index == -1) {
             result.append(str, 0, upper);
-            // only if abbreviation has occured do we append the appendToEnd value
+            // only if abbreviation has occurred do we append the appendToEnd value
             if (upper != str.length()) {
                 result.append(StringUtils.defaultString(appendToEnd));
             }
