@@ -36,8 +36,8 @@ final class FileStringLookup extends AbstractStringLookup {
     /**
      * Defines the singleton for this class.
      */
-    static final FileStringLookup INSTANCE = new FileStringLookup();
-
+    static final AbstractStringLookup INSTANCE = new FileStringLookup();
+    
     /**
      * No need to build instances for now.
      */
@@ -60,14 +60,14 @@ final class FileStringLookup extends AbstractStringLookup {
         if (key == null) {
             return null;
         }
-        final String[] keys = key.split(":");
+        final String[] keys = key.split(String.valueOf(SPLIT_CH));
         final int keyLen = keys.length;
-        if (keyLen != 2) {
+        if (keyLen < 2) {
             throw IllegalArgumentExceptions.format("Bad file key format [%s], expected format is DocumentPath:Key.",
                     key);
         }
         final String charsetName = keys[0];
-        final String fileName = keys[1];
+        final String fileName = substringAfter(key, SPLIT_CH);
         try {
             return new String(Files.readAllBytes(Paths.get(fileName)), charsetName);
         } catch (final Exception e) {

@@ -64,14 +64,14 @@ final class XmlStringLookup extends AbstractStringLookup {
         if (key == null) {
             return null;
         }
-        final String[] keys = key.split(":");
+        final String[] keys = key.split(SPLIT_STR);
         final int keyLen = keys.length;
         if (keyLen != 2) {
             throw IllegalArgumentExceptions.format("Bad XML key format [%s]; expected format is DocumentPath:XPath.",
                     key);
         }
         final String documentPath = keys[0];
-        final String xpath = keys[1];
+        final String xpath = substringAfter(key, SPLIT_CH);
         try {
             return XPathFactory.newInstance().newXPath().evaluate(xpath,
                     new InputSource(Files.newInputStream(Paths.get(documentPath))));

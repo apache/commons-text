@@ -23,5 +23,21 @@ package org.apache.commons.text.lookup;
  * @since 1.3
  */
 abstract class AbstractStringLookup implements StringLookup {
-    // nothing yet
+
+    protected static final char SPLIT_CH = ':';
+    protected static final String SPLIT_STR = String.valueOf(SPLIT_CH);
+
+    /**
+     * Returns the substring after the first occurrence of <code>ch</code> in <code>value</code>.
+     * 
+     * @param value
+     *            The source string.
+     * @param ch
+     *            The character to search.
+     * @return a new string.
+     */
+    protected String substringAfter(final String value, final char ch) {
+        final int indexOf = value.indexOf(ch);
+        return indexOf > -1 ? value.substring(indexOf + 1) : "";
+    }
 }
