@@ -69,6 +69,7 @@ public final class StringLookupFactory {
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
+     * <li>"xml" for the {@link XmlStringLookup}.</li>
      * </ul>
      *
      * @return a new InterpolatorStringLookup.
@@ -88,6 +89,7 @@ public final class StringLookupFactory {
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
+     * <li>"xml" for the {@link XmlStringLookup}.</li>
      * </ul>
      *
      * @param <V>
@@ -111,6 +113,7 @@ public final class StringLookupFactory {
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
+     * <li>"xml" for the {@link XmlStringLookup}.</li>
      * </ul>
      *
      * @param defaultStringLookup
@@ -133,6 +136,7 @@ public final class StringLookupFactory {
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
+     * <li>"xml" for the {@link XmlStringLookup}.</li>
      * </ul>
      *
      * @param stringLookupMap
@@ -217,4 +221,21 @@ public final class StringLookupFactory {
     public StringLookup systemPropertyStringLookup() {
         return SystemPropertyStringLookup.INSTANCE;
     }
+
+    /**
+     * Returns the ResourceBundleStringLookup singleton instance.
+     * <p>
+     * Looks up the value for the key in the format "DocumentPath:XPath".
+     * </p>
+     * <p>
+     * For example: "com/domain/document.xml:/path/to/node".
+     * </p>
+     *
+     * @return the XmlStringLookup singleton instance.
+     * @since 1.5
+     */
+    public StringLookup xmlStringLookup() {
+        return XmlStringLookup.INSTANCE;
+    }
+
 }

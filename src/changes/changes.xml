@@ -49,6 +49,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-130" type="fix" dev="chtompki" due-to="Jan Martin Keil">Fixes JaroWinklerDistance: Wrong results due to precision of transpositions</action>
     <action issue="TEXT-131" type="fix" dev="chtompki" due-to="Jan Martin Keil">JaroWinklerDistance: Calculation deviates from definition</action>
     <action issue="TEXT-132" type="update" dev="ggregory">Update Apache Commons Lang from 3.7 to 3.8.</action>
+    <action issue="TEXT-133" type="update" dev="ggregory">Add a XML XPath string lookup.</action>
   </release>
 
   <release version="1.4" date="2018-06-12" description="Release 1.4">

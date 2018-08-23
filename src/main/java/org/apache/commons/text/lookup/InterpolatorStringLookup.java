@@ -31,6 +31,8 @@ import java.util.Map.Entry;
  * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
  * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
  * <li>"date" for the {@link DateStringLookup}.</li>
+ * <li>"localhost" for the {@link LocalHostStringLookup}.</li>
+ * <li>"xml" for the {@link XmlStringLookup}.</li>
  * </ul>
  */
 class InterpolatorStringLookup extends AbstractStringLookup {
@@ -54,6 +56,8 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup}.</li>
+     * <li>"xml" for the {@link XmlStringLookup}.</li>
      * </ul>
      */
     InterpolatorStringLookup() {
@@ -70,6 +74,8 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup}.</li>
+     * <li>"xml" for the {@link XmlStringLookup}.</li>
      * </ul>
      *
      * @param <V>
@@ -115,6 +121,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
             this.stringLookupMap.put("java", JavaPlatformStringLookup.INSTANCE);
             this.stringLookupMap.put("date", DateStringLookup.INSTANCE);
             this.stringLookupMap.put("localhost", LocalHostStringLookup.INSTANCE);
+            this.stringLookupMap.put("xml", XmlStringLookup.INSTANCE);
         }
     }
 
