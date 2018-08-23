@@ -33,6 +33,7 @@ import java.util.Map.Entry;
  * <li>"date" for the {@link DateStringLookup}.</li>
  * <li>"localhost" for the {@link LocalHostStringLookup}.</li>
  * <li>"xml" for the {@link XmlStringLookup}.</li>
+ * <li>"properties" for the {@link PropertiesStringLookup}.</li>
  * </ul>
  */
 class InterpolatorStringLookup extends AbstractStringLookup {
@@ -58,6 +59,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}.</li>
      * <li>"xml" for the {@link XmlStringLookup}.</li>
+     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * </ul>
      */
     InterpolatorStringLookup() {
@@ -76,6 +78,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}.</li>
      * <li>"xml" for the {@link XmlStringLookup}.</li>
+     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * </ul>
      *
      * @param <V>
@@ -122,6 +125,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
             this.stringLookupMap.put("date", DateStringLookup.INSTANCE);
             this.stringLookupMap.put("localhost", LocalHostStringLookup.INSTANCE);
             this.stringLookupMap.put("xml", XmlStringLookup.INSTANCE);
+            this.stringLookupMap.put("properties", PropertiesStringLookup.INSTANCE);
         }
     }
 

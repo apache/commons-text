@@ -70,6 +70,7 @@ public final class StringLookupFactory {
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
      * <li>"xml" for the {@link XmlStringLookup}.</li>
+     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * </ul>
      *
      * @return a new InterpolatorStringLookup.
@@ -90,6 +91,7 @@ public final class StringLookupFactory {
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
      * <li>"xml" for the {@link XmlStringLookup}.</li>
+     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * </ul>
      *
      * @param <V>
@@ -114,6 +116,7 @@ public final class StringLookupFactory {
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
      * <li>"xml" for the {@link XmlStringLookup}.</li>
+     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * </ul>
      *
      * @param defaultStringLookup
@@ -137,6 +140,7 @@ public final class StringLookupFactory {
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
      * <li>"xml" for the {@link XmlStringLookup}.</li>
+     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * </ul>
      *
      * @param stringLookupMap
@@ -223,7 +227,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the ResourceBundleStringLookup singleton instance.
+     * Returns the XmlStringLookup singleton instance.
      * <p>
      * Looks up the value for the key in the format "DocumentPath:XPath".
      * </p>
@@ -236,6 +240,22 @@ public final class StringLookupFactory {
      */
     public StringLookup xmlStringLookup() {
         return XmlStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the PropertiesStringLookup singleton instance.
+     * <p>
+     * Looks up the value for the key in the format "DocumentPath:Key".
+     * </p>
+     * <p>
+     * For example: "com/domain/document.properties:Key".
+     * </p>
+     *
+     * @return the PropertiesStringLookup singleton instance.
+     * @since 1.5
+     */
+    public StringLookup propertiesStringLookup() {
+        return PropertiesStringLookup.INSTANCE;
     }
 
 }
