@@ -19,7 +19,6 @@ package org.apache.commons.text.lookup;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ResourceBundle;
 
 import javax.xml.xpath.XPathFactory;
 
