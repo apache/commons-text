@@ -37,7 +37,7 @@ final class FileStringLookup extends AbstractStringLookup {
      * Defines the singleton for this class.
      */
     static final AbstractStringLookup INSTANCE = new FileStringLookup();
-    
+
     /**
      * No need to build instances for now.
      */
@@ -50,7 +50,7 @@ final class FileStringLookup extends AbstractStringLookup {
      * <p>
      * For example: "com/domain/document.xml:/path/to/node".
      * </p>
-     * 
+     *
      * @param key
      *            the key to be looked up, may be null
      * @return The value associated with the key.

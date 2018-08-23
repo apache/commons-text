@@ -29,7 +29,7 @@ abstract class AbstractStringLookup implements StringLookup {
 
     /**
      * Returns the substring after the first occurrence of <code>ch</code> in <code>value</code>.
-     * 
+     *
      * @param value
      *            The source string.
      * @param ch

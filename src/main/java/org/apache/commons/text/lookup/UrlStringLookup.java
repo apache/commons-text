@@ -54,7 +54,7 @@ final class UrlStringLookup extends AbstractStringLookup {
      * <p>
      * For example: "com/domain/document.xml:/path/to/node".
      * </p>
-     * 
+     *
      * @param key
      *            the key to be looked up, may be null
      * @return The value associated with the key.
@@ -75,7 +75,7 @@ final class UrlStringLookup extends AbstractStringLookup {
         try {
             final URL url = new URL(urlStr);
             final StringWriter writer = new StringWriter(8192);
-            char[] buffer = new char[8192];
+            final char[] buffer = new char[8192];
             try (InputStreamReader reader = new InputStreamReader(new BufferedInputStream(url.openStream()),
                     charsetName)) {
                 int n;

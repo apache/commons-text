@@ -54,7 +54,7 @@ final class XmlStringLookup extends AbstractStringLookup {
      * <p>
      * For example: "com/domain/document.xml:/path/to/node".
      * </p>
-     * 
+     *
      * @param key
      *            the key to be looked up, may be null
      * @return The value associated with the key.

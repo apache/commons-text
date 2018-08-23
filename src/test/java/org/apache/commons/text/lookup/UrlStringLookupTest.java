@@ -34,7 +34,7 @@ public class UrlStringLookupTest {
         final URI uri = path.toUri();
         System.out.println(uri);
         final byte[] expectedBytes = Files.readAllBytes(path);
-        String expectedString = new String(expectedBytes, StandardCharsets.UTF_8);
+        final String expectedString = new String(expectedBytes, StandardCharsets.UTF_8);
         Assertions.assertEquals(expectedString, UrlStringLookup.INSTANCE.lookup("UTF-8:" + uri.toString()));
     }
 
