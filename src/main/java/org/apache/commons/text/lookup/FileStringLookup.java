@@ -17,7 +17,6 @@
 
 package org.apache.commons.text.lookup;
 
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
