@@ -67,7 +67,7 @@ final class XmlStringLookup extends AbstractStringLookup {
         final String[] keys = key.split(":");
         final int keyLen = keys.length;
         if (keyLen != 2) {
-            throw IllegalArgumentExceptions.format("Bad XML key format [%s]. Expected format is DocumentPath:XPath.",
+            throw IllegalArgumentExceptions.format("Bad XML key format [%s]; expected format is DocumentPath:XPath.",
                     key);
         }
         final String documentPath = keys[0];
@@ -76,7 +76,8 @@ final class XmlStringLookup extends AbstractStringLookup {
             return XPathFactory.newInstance().newXPath().evaluate(xpath,
                     new InputSource(Files.newInputStream(Paths.get(documentPath))));
         } catch (final Exception e) {
-            throw IllegalArgumentExceptions.format(e, "Error looking up XML [%s] and XPath [%s].", documentPath, xpath);
+            throw IllegalArgumentExceptions.format(e, "Error looking up XML document [%s] and XPath [%s].",
+                    documentPath, xpath);
         }
     }
 

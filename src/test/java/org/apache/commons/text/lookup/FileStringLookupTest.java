@@ -34,4 +34,12 @@ public class FileStringLookupTest {
                 FileStringLookup.INSTANCE.lookup("UTF-8:src/test/resources/document.properties"));
     }
 
+    @Test
+    public void testUrl() throws Exception {
+        final byte[] expectedBytes = Files.readAllBytes(Paths.get("src/test/resources/document.properties"));
+        String expectedString = new String(expectedBytes, StandardCharsets.UTF_8);
+        Assertions.assertEquals(expectedString,
+                FileStringLookup.INSTANCE.lookup("UTF-8:http://google.com"));
+    }
+
 }

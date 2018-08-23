@@ -66,7 +66,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
         final int keyLen = keys.length;
         if (keyLen != 2) {
             throw IllegalArgumentExceptions
-                    .format("Bad ResourceBundle key format [%s]. Expected format is BundleName:KeyName.", key);
+                    .format("Bad resource bundle key format [%s]; expected format is BundleName:KeyName.", key);
         }
         final String bundleName = keys[0];
         final String bundleKey = keys[1];
@@ -74,7 +74,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
             // The ResourceBundle class caches bundles, no need to cache here.
             return ResourceBundle.getBundle(bundleName).getString(bundleKey);
         } catch (final Exception e) {
-            throw IllegalArgumentExceptions.format(e, "Error looking up ResourceBundle [%s] and key [%s].", bundleName,
+            throw IllegalArgumentExceptions.format(e, "Error looking up resource bundle [%s] and key [%s].", bundleName,
                     bundleKey);
         }
     }

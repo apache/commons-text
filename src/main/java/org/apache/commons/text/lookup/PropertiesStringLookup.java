@@ -65,7 +65,7 @@ final class PropertiesStringLookup extends AbstractStringLookup {
         final int keyLen = keys.length;
         if (keyLen != 2) {
             throw IllegalArgumentExceptions
-                    .format("Bad Properties key format [%s]. Expected format is DocumentPath:Key.", key);
+                    .format("Bad properties key format [%s]; expected format is DocumentPath:Key.", key);
         }
         final String documentPath = keys[0];
         final String propertyKey = keys[1];
@@ -74,7 +74,7 @@ final class PropertiesStringLookup extends AbstractStringLookup {
             properties.load(Files.newInputStream(Paths.get(documentPath)));
             return properties.getProperty(propertyKey);
         } catch (final Exception e) {
-            throw IllegalArgumentExceptions.format(e, "Error looking up Properties [%s] and Key [%s].", documentPath,
+            throw IllegalArgumentExceptions.format(e, "Error looking up properties [%s] and key [%s].", documentPath,
                     propertyKey);
         }
     }

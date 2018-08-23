@@ -66,7 +66,7 @@ final class ScriptStringLookup extends AbstractStringLookup {
         final int keyLen = keys.length;
         if (keyLen != 2) {
             throw IllegalArgumentExceptions
-                    .format("Bad Properties key format [%s]. Expected format is DocumentPath:Key.", key);
+                    .format("Bad script key format [%s]; expected format is DocumentPath:Key.", key);
         }
         final String engineName = keys[0];
         final String script = keys[1];
@@ -78,7 +78,7 @@ final class ScriptStringLookup extends AbstractStringLookup {
             final Object eval = scriptEngine.eval(script);
             return Objects.toString(eval, null);
         } catch (final Exception e) {
-            throw IllegalArgumentExceptions.format(e, "Error looking up Properties [%s] and Key [%s].", engineName,
+            throw IllegalArgumentExceptions.format(e, "Error looking up script engine [%s] for script [%s].", engineName,
                     script);
         }
     }
