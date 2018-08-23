@@ -72,6 +72,7 @@ public final class StringLookupFactory {
      * <li>"xml" for the {@link XmlStringLookup}.</li>
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * <li>"script" for the {@link ScriptStringLookup}.</li>
+     * <li>"file" for the {@link FileStringLookup}.</li>
      * </ul>
      *
      * @return a new InterpolatorStringLookup.
@@ -94,6 +95,7 @@ public final class StringLookupFactory {
      * <li>"xml" for the {@link XmlStringLookup}.</li>
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * <li>"script" for the {@link ScriptStringLookup}.</li>
+     * <li>"file" for the {@link FileStringLookup}.</li>
      * </ul>
      *
      * @param <V>
@@ -120,6 +122,7 @@ public final class StringLookupFactory {
      * <li>"xml" for the {@link XmlStringLookup}.</li>
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * <li>"script" for the {@link ScriptStringLookup}.</li>
+     * <li>"file" for the {@link FileStringLookup}.</li>
      * </ul>
      *
      * @param defaultStringLookup
@@ -145,6 +148,7 @@ public final class StringLookupFactory {
      * <li>"xml" for the {@link XmlStringLookup}.</li>
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * <li>"script" for the {@link ScriptStringLookup}.</li>
+     * <li>"file" for the {@link FileStringLookup}.</li>
      * </ul>
      *
      * @param stringLookupMap
@@ -271,11 +275,27 @@ public final class StringLookupFactory {
      * For example: "javascript:\"HelloWorld\"".
      * </p>
      *
-     * @return the PropertiesStringLookup singleton instance.
+     * @return the ScriptStringLookup singleton instance.
      * @since 1.5
      */
     public StringLookup scriptStringLookup() {
         return ScriptStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the FileStringLookup singleton instance.
+     * <p>
+     * Looks up the value for the key in the format "CharsetName:Path".
+     * </p>
+     * <p>
+     * For example: "UTF-8:com/domain/document.properties".
+     * </p>
+     *
+     * @return the FileStringLookup singleton instance.
+     * @since 1.5
+     */
+    public StringLookup fileStringLookup() {
+        return FileStringLookup.INSTANCE;
     }
 
 }
