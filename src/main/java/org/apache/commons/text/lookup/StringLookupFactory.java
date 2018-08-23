@@ -73,6 +73,7 @@ public final class StringLookupFactory {
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * <li>"script" for the {@link ScriptStringLookup}.</li>
      * <li>"file" for the {@link FileStringLookup}.</li>
+     * <li>"url" for the {@link UrlStringLookup}.</li>
      * </ul>
      *
      * @return a new InterpolatorStringLookup.
@@ -96,6 +97,7 @@ public final class StringLookupFactory {
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * <li>"script" for the {@link ScriptStringLookup}.</li>
      * <li>"file" for the {@link FileStringLookup}.</li>
+     * <li>"url" for the {@link UrlStringLookup}.</li>
      * </ul>
      *
      * @param <V>
@@ -123,6 +125,7 @@ public final class StringLookupFactory {
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * <li>"script" for the {@link ScriptStringLookup}.</li>
      * <li>"file" for the {@link FileStringLookup}.</li>
+     * <li>"url" for the {@link UrlStringLookup}.</li>
      * </ul>
      *
      * @param defaultStringLookup
@@ -149,6 +152,7 @@ public final class StringLookupFactory {
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * <li>"script" for the {@link ScriptStringLookup}.</li>
      * <li>"file" for the {@link FileStringLookup}.</li>
+     * <li>"url" for the {@link UrlStringLookup}.</li>
      * </ul>
      *
      * @param stringLookupMap
@@ -296,6 +300,26 @@ public final class StringLookupFactory {
      */
     public StringLookup fileStringLookup() {
         return FileStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the UrlStringLookup singleton instance.
+     * <p>
+     * Looks up the value for the key in the format "CharsetName:URL".
+     * </p>
+     * <p>
+     * For example, using the HTTP scheme: "UTF-8:http://www.google.com"
+     * </p>
+     * <p>
+     * For example, using the file scheme:
+     * "UTF-8:file:///C:/somehome/commons/commons-text/src/test/resources/document.properties"
+     * </p>
+     *
+     * @return the UrlStringLookup singleton instance.
+     * @since 1.5
+     */
+    public StringLookup urlStringLookup() {
+        return UrlStringLookup.INSTANCE;
     }
 
 }

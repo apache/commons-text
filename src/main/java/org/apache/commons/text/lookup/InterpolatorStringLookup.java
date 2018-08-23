@@ -35,6 +35,7 @@ import java.util.Map.Entry;
  * <li>"xml" for the {@link XmlStringLookup}.</li>
  * <li>"properties" for the {@link PropertiesStringLookup}.</li>
  * <li>"file" for the {@link FileStringLookup}.</li>
+ * <li>"url" for the {@link UrlStringLookup}.</li>
  * </ul>
  */
 class InterpolatorStringLookup extends AbstractStringLookup {
@@ -62,6 +63,8 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"xml" for the {@link XmlStringLookup}.</li>
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * <li>"script" for the {@link ScriptStringLookup}.</li>
+     * <li>"file" for the {@link FileStringLookup}.</li>
+     * <li>"url" for the {@link UrlStringLookup}.</li>
      * </ul>
      */
     InterpolatorStringLookup() {
@@ -83,6 +86,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
      * <li>"script" for the {@link ScriptStringLookup}.</li>
      * <li>"file" for the {@link FileStringLookup}.</li>
+     * <li>"url" for the {@link UrlStringLookup}.</li>
      * </ul>
      *
      * @param <V>
@@ -132,6 +136,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
             this.stringLookupMap.put("properties", PropertiesStringLookup.INSTANCE);
             this.stringLookupMap.put("script", ScriptStringLookup.INSTANCE);
             this.stringLookupMap.put("file", FileStringLookup.INSTANCE);
+            this.stringLookupMap.put("url", UrlStringLookup.INSTANCE);
         }
     }
 
