@@ -71,6 +71,7 @@ public final class StringLookupFactory {
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
      * <li>"xml" for the {@link XmlStringLookup}.</li>
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
+     * <li>"script" for the {@link ScriptStringLookup}.</li>
      * </ul>
      *
      * @return a new InterpolatorStringLookup.
@@ -92,6 +93,7 @@ public final class StringLookupFactory {
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
      * <li>"xml" for the {@link XmlStringLookup}.</li>
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
+     * <li>"script" for the {@link ScriptStringLookup}.</li>
      * </ul>
      *
      * @param <V>
@@ -117,6 +119,7 @@ public final class StringLookupFactory {
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
      * <li>"xml" for the {@link XmlStringLookup}.</li>
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
+     * <li>"script" for the {@link ScriptStringLookup}.</li>
      * </ul>
      *
      * @param defaultStringLookup
@@ -141,6 +144,7 @@ public final class StringLookupFactory {
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
      * <li>"xml" for the {@link XmlStringLookup}.</li>
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
+     * <li>"script" for the {@link ScriptStringLookup}.</li>
      * </ul>
      *
      * @param stringLookupMap
@@ -256,6 +260,22 @@ public final class StringLookupFactory {
      */
     public StringLookup propertiesStringLookup() {
         return PropertiesStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the ScriptStringLookup singleton instance.
+     * <p>
+     * Looks up the value for the key in the format "ScriptEngineName:Script".
+     * </p>
+     * <p>
+     * For example: "javascript:\"HelloWorld\"".
+     * </p>
+     *
+     * @return the PropertiesStringLookup singleton instance.
+     * @since 1.5
+     */
+    public StringLookup scriptStringLookup() {
+        return ScriptStringLookup.INSTANCE;
     }
 
 }

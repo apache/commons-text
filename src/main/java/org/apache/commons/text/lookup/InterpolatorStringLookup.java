@@ -60,6 +60,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"localhost" for the {@link LocalHostStringLookup}.</li>
      * <li>"xml" for the {@link XmlStringLookup}.</li>
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
+     * <li>"script" for the {@link ScriptStringLookup}.</li>
      * </ul>
      */
     InterpolatorStringLookup() {
@@ -79,6 +80,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"localhost" for the {@link LocalHostStringLookup}.</li>
      * <li>"xml" for the {@link XmlStringLookup}.</li>
      * <li>"properties" for the {@link PropertiesStringLookup}.</li>
+     * <li>"script" for the {@link ScriptStringLookup}.</li>
      * </ul>
      *
      * @param <V>
@@ -126,6 +128,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
             this.stringLookupMap.put("localhost", LocalHostStringLookup.INSTANCE);
             this.stringLookupMap.put("xml", XmlStringLookup.INSTANCE);
             this.stringLookupMap.put("properties", PropertiesStringLookup.INSTANCE);
+            this.stringLookupMap.put("script", ScriptStringLookup.INSTANCE);
         }
     }
 
