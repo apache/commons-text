@@ -81,7 +81,7 @@ public class InterpolatorStringLookupTest {
         value = lookup.lookup("env:PATH");
         assertNotNull(value);
         value = lookup.lookup("date:yyyy-MM-dd");
-        assertNotNull("No Date", value);
+        assertNotNull(value, "No Date");
         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         final String today = format.format(new Date());
         assertEquals(value, today);

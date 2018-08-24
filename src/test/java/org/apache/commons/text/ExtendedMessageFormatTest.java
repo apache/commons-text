@@ -84,7 +84,7 @@ public class ExtendedMessageFormatTest {
     public void testEmbeddedPatternInChoice() {
         final String pattern = "Hi {0,lower}, got {1,choice,0#none|1#one|1<{1,number}}, {2,upper}!";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, registry);
-        assertEquals(emf.format(new Object[] {"there", 3, "great"}), "Hi there, got 3, GREAT!");
+        assertEquals("Hi there, got 3, GREAT!", emf.format(new Object[] {"there", 3, "great"}));
     }
 
     /**

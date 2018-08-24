@@ -40,7 +40,7 @@ public class DateStringLookupTest {
     public void testFormat() {
         final String fomat = "yyyy-MM-dd";
         final String value = DateStringLookup.INSTANCE.lookup(fomat);
-        assertNotNull("No Date", value);
+        assertNotNull(value, "No Date");
         final SimpleDateFormat format = new SimpleDateFormat(fomat);
         final String today = format.format(new Date());
         assertEquals(value, today);
