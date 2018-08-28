@@ -59,6 +59,22 @@ public final class StringLookupFactory {
     }
 
     /**
+     * Returns the FileStringLookup singleton instance.
+     * <p>
+     * Looks up the value for the key in the format "CharsetName:Path".
+     * </p>
+     * <p>
+     * For example: "UTF-8:com/domain/document.properties".
+     * </p>
+     *
+     * @return the FileStringLookup singleton instance.
+     * @since 1.5
+     */
+    public StringLookup fileStringLookup() {
+        return FileStringLookup.INSTANCE;
+    }
+
+    /**
      * Returns a new InterpolatorStringLookup.
      * <p>
      * The following lookups are used by default:
@@ -80,6 +96,39 @@ public final class StringLookupFactory {
      */
     public StringLookup interpolatorStringLookup() {
         return new InterpolatorStringLookup();
+    }
+
+    /**
+     * Returns a new InterpolatorStringLookup.
+     * <p>
+     * If {@code addDefaultLookups} is true, the following lookups are used in addition to the ones provided in
+     * {@code stringLookupMap}:
+     * </p>
+     * <ul>
+     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
+     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"date" for the {@link DateStringLookup}.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
+     * <li>"xml" for the {@link XmlStringLookup}.</li>
+     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
+     * <li>"script" for the {@link ScriptStringLookup}.</li>
+     * <li>"file" for the {@link FileStringLookup}.</li>
+     * <li>"url" for the {@link UrlStringLookup}.</li>
+     * </ul>
+     *
+     * @param stringLookupMap
+     *            the map of string lookups.
+     * @param defaultStringLookup
+     *            the default string lookup.
+     * @param addDefaultLookups
+     *            whether to use lookups as described above.
+     * @return a new InterpolatorStringLookup.
+     * @since 1.4
+     */
+    public StringLookup interpolatorStringLookup(final Map<String, StringLookup> stringLookupMap,
+            final StringLookup defaultStringLookup, final boolean addDefaultLookups) {
+        return new InterpolatorStringLookup(stringLookupMap, defaultStringLookup, addDefaultLookups);
     }
 
     /**
@@ -137,39 +186,6 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns a new InterpolatorStringLookup.
-     * <p>
-     * If {@code addDefaultLookups} is true, the following lookups are used in addition to the ones provided in
-     * {@code stringLookupMap}:
-     * </p>
-     * <ul>
-     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
-     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
-     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
-     * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
-     * <li>"xml" for the {@link XmlStringLookup}.</li>
-     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
-     * <li>"script" for the {@link ScriptStringLookup}.</li>
-     * <li>"file" for the {@link FileStringLookup}.</li>
-     * <li>"url" for the {@link UrlStringLookup}.</li>
-     * </ul>
-     *
-     * @param stringLookupMap
-     *            the map of string lookups.
-     * @param defaultStringLookup
-     *            the default string lookup.
-     * @param addDefaultLookups
-     *            whether to use lookups as described above.
-     * @return a new InterpolatorStringLookup.
-     * @since 1.4
-     */
-    public StringLookup interpolatorStringLookup(final Map<String, StringLookup> stringLookupMap,
-            final StringLookup defaultStringLookup, final boolean addDefaultLookups) {
-        return new InterpolatorStringLookup(stringLookupMap, defaultStringLookup, addDefaultLookups);
-    }
-
-    /**
      * Returns the JavaPlatformStringLookup singleton instance.
      *
      * @return the JavaPlatformStringLookup singleton instance.
@@ -215,46 +231,6 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the ResourceBundleStringLookup singleton instance.
-     * <p>
-     * Looks up the value for a given key in the format "BundleName:BundleKey".
-     * </p>
-     * <p>
-     * For example: "com.domain.messages:MyKey".
-     * </p>
-     *
-     * @return the ResourceBundleStringLookup singleton instance.
-     */
-    public StringLookup resourceBundleStringLookup() {
-        return ResourceBundleStringLookup.INSTANCE;
-    }
-
-    /**
-     * Returns the SystemPropertyStringLookup singleton instance where the lookup key is a system property name.
-     *
-     * @return the SystemPropertyStringLookup singleton instance.
-     */
-    public StringLookup systemPropertyStringLookup() {
-        return SystemPropertyStringLookup.INSTANCE;
-    }
-
-    /**
-     * Returns the XmlStringLookup singleton instance.
-     * <p>
-     * Looks up the value for the key in the format "DocumentPath:XPath".
-     * </p>
-     * <p>
-     * For example: "com/domain/document.xml:/path/to/node".
-     * </p>
-     *
-     * @return the XmlStringLookup singleton instance.
-     * @since 1.5
-     */
-    public StringLookup xmlStringLookup() {
-        return XmlStringLookup.INSTANCE;
-    }
-
-    /**
      * Returns the PropertiesStringLookup singleton instance.
      * <p>
      * Looks up the value for the key in the format "DocumentPath:Key".
@@ -268,6 +244,21 @@ public final class StringLookupFactory {
      */
     public StringLookup propertiesStringLookup() {
         return PropertiesStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the ResourceBundleStringLookup singleton instance.
+     * <p>
+     * Looks up the value for a given key in the format "BundleName:BundleKey".
+     * </p>
+     * <p>
+     * For example: "com.domain.messages:MyKey".
+     * </p>
+     *
+     * @return the ResourceBundleStringLookup singleton instance.
+     */
+    public StringLookup resourceBundleStringLookup() {
+        return ResourceBundleStringLookup.INSTANCE;
     }
 
     /**
@@ -287,19 +278,12 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the FileStringLookup singleton instance.
-     * <p>
-     * Looks up the value for the key in the format "CharsetName:Path".
-     * </p>
-     * <p>
-     * For example: "UTF-8:com/domain/document.properties".
-     * </p>
+     * Returns the SystemPropertyStringLookup singleton instance where the lookup key is a system property name.
      *
-     * @return the FileStringLookup singleton instance.
-     * @since 1.5
+     * @return the SystemPropertyStringLookup singleton instance.
      */
-    public StringLookup fileStringLookup() {
-        return FileStringLookup.INSTANCE;
+    public StringLookup systemPropertyStringLookup() {
+        return SystemPropertyStringLookup.INSTANCE;
     }
 
     /**
@@ -320,6 +304,22 @@ public final class StringLookupFactory {
      */
     public StringLookup urlStringLookup() {
         return UrlStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the XmlStringLookup singleton instance.
+     * <p>
+     * Looks up the value for the key in the format "DocumentPath:XPath".
+     * </p>
+     * <p>
+     * For example: "com/domain/document.xml:/path/to/node".
+     * </p>
+     *
+     * @return the XmlStringLookup singleton instance.
+     * @since 1.5
+     */
+    public StringLookup xmlStringLookup() {
+        return XmlStringLookup.INSTANCE;
     }
 
 }
