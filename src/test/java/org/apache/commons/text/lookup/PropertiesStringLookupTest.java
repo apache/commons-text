@@ -17,16 +17,40 @@
 
 package org.apache.commons.text.lookup;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.text.StringSubstitutor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class PropertiesStringLookupTest {
 
+    private static final String DOC_PATH = "src/test/resources/document.properties";
+    private static final String KEY = "mykey";
+    private static final String KEY_PATH = DOC_PATH + ":" + KEY;
+
     @Test
     public void testOne() {
-        final String docName = "src/test/resources/document.properties";
-        final String xpath = "mykey";
-        Assertions.assertEquals("Hello World!", PropertiesStringLookup.INSTANCE.lookup(docName + ":" + xpath));
+        Assertions.assertEquals("Hello World!", PropertiesStringLookup.INSTANCE.lookup(KEY_PATH));
+    }
+
+    @Test
+    public void testInterpolator() {
+        final StringSubstitutor stringSubstitutor = new StringSubstitutor(
+                StringLookupFactory.INSTANCE.interpolatorStringLookup());
+        Assertions.assertEquals("Hello World!", stringSubstitutor.replace("${properties:" + KEY_PATH + "}"));
+    }
+
+    @Test
+    public void testInterpolatorWithParameterizedKey() {
+        final Map<String, String> map = new HashMap<>();
+        map.put("KeyIsHere", KEY);
+        final StringSubstitutor stringSubstitutor = new StringSubstitutor(
+                StringLookupFactory.INSTANCE.interpolatorStringLookup(map));
+        final String replaced = stringSubstitutor.replace("$${properties:" + DOC_PATH + ":${KeyIsHere}}");
+        Assertions.assertEquals("${properties:" + DOC_PATH + ":mykey}", replaced);
+        Assertions.assertEquals("Hello World!", stringSubstitutor.replace(replaced));
     }
 
 }
