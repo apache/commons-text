@@ -47,9 +47,11 @@ public class PropertiesStringLookupTest {
         final StringSubstitutor stringSubstitutor = new StringSubstitutor(
                 StringLookupFactory.INSTANCE.interpolatorStringLookup());
         // Need to handle "C:" in the sys prop user.dir.
+        final String replaced = stringSubstitutor.replace("$${properties:${sys:user.dir}/" + KEY_PATH + "}");
         Assertions.assertEquals(
                 "${properties:" + System.getProperty("user.dir") + "/src/test/resources/document.properties::mykey}",
-                stringSubstitutor.replace("$${properties:${sys:user.dir}/" + KEY_PATH + "}"));
+                replaced);
+        Assertions.assertEquals("Hello World!", stringSubstitutor.replace(replaced));
     }
 
     @Test
