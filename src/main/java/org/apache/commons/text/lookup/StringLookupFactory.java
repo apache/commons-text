@@ -39,6 +39,39 @@ public final class StringLookupFactory {
     }
 
     /**
+     * The following lookups are installed:
+     * <ul>
+     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
+     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"date" for the {@link DateStringLookup}.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup}.</li>
+     * <li>"xml" for the {@link XmlStringLookup}.</li>
+     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
+     * <li>"script" for the {@link ScriptStringLookup}.</li>
+     * <li>"file" for the {@link FileStringLookup}.</li>
+     * <li>"url" for the {@link UrlStringLookup}.</li>
+     * </ul>
+     *
+     * @param stringLookupMap
+     * @since 1.5
+     */
+    public void addDefaultStringLookups(final Map<String, StringLookup> stringLookupMap) {
+        if (stringLookupMap != null) {
+            stringLookupMap.put("sys", SystemPropertyStringLookup.INSTANCE);
+            stringLookupMap.put("env", EnvironmentVariableStringLookup.INSTANCE);
+            stringLookupMap.put("java", JavaPlatformStringLookup.INSTANCE);
+            stringLookupMap.put("date", DateStringLookup.INSTANCE);
+            stringLookupMap.put("localhost", LocalHostStringLookup.INSTANCE);
+            stringLookupMap.put("xml", XmlStringLookup.INSTANCE);
+            stringLookupMap.put("properties", PropertiesStringLookup.INSTANCE);
+            stringLookupMap.put("script", ScriptStringLookup.INSTANCE);
+            stringLookupMap.put("file", FileStringLookup.INSTANCE);
+            stringLookupMap.put("url", UrlStringLookup.INSTANCE);
+        }
+    }
+
+    /**
      * Returns the DateStringLookup singleton instance to format the current date with the format given in the key in a
      * format compatible with {@link java.text.SimpleDateFormat}.
      *

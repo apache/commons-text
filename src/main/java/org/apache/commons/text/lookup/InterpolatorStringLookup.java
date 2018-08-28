@@ -127,16 +127,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
             this.stringLookupMap.put(entry.getKey().toLowerCase(Locale.ROOT), entry.getValue());
         }
         if (addDefaultLookups) {
-            this.stringLookupMap.put("sys", SystemPropertyStringLookup.INSTANCE);
-            this.stringLookupMap.put("env", EnvironmentVariableStringLookup.INSTANCE);
-            this.stringLookupMap.put("java", JavaPlatformStringLookup.INSTANCE);
-            this.stringLookupMap.put("date", DateStringLookup.INSTANCE);
-            this.stringLookupMap.put("localhost", LocalHostStringLookup.INSTANCE);
-            this.stringLookupMap.put("xml", XmlStringLookup.INSTANCE);
-            this.stringLookupMap.put("properties", PropertiesStringLookup.INSTANCE);
-            this.stringLookupMap.put("script", ScriptStringLookup.INSTANCE);
-            this.stringLookupMap.put("file", FileStringLookup.INSTANCE);
-            this.stringLookupMap.put("url", UrlStringLookup.INSTANCE);
+            StringLookupFactory.INSTANCE.addDefaultStringLookups(stringLookupMap);
         }
     }
 
