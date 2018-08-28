@@ -24,7 +24,10 @@ import java.util.Properties;
 /**
  * Looks up keys from an XML document.
  * <p>
- * Looks up the value for a given key in the format "Document:Key".
+ * Looks up the value for a given key in the format "Document::Key".
+ * </p>
+ * <p>
+ * Note the use of "::" instead of ":" to allow for "C:" drive letters in paths.
  * </p>
  * <p>
  * For example: "com/domain/document.properties:key".
@@ -49,7 +52,10 @@ final class PropertiesStringLookup extends AbstractStringLookup {
     /**
      * Looks up the value for the key in the format "DocumentPath:XPath".
      * <p>
-     * For example: "com/domain/document.xml:/path/to/node".
+     * For example: "com/domain/document.xml::/path/to/node".
+     * </p>
+     * <p>
+     * Note the use of "::" instead of ":" to allow for "C:" drive letters in paths.
      * </p>
      *
      * @param key
@@ -61,14 +67,14 @@ final class PropertiesStringLookup extends AbstractStringLookup {
         if (key == null) {
             return null;
         }
-        final String[] keys = key.split(SPLIT_STR);
+        final String[] keys = key.split("::");
         final int keyLen = keys.length;
         if (keyLen < 2) {
             throw IllegalArgumentExceptions
-                    .format("Bad properties key format [%s]; expected format is DocumentPath:Key.", key);
+                    .format("Bad properties key format [%s]; expected format is DocumentPath::Key.", key);
         }
         final String documentPath = keys[0];
-        final String propertyKey = substringAfter(key, SPLIT_CH);
+        final String propertyKey = substringAfter(key, "::");
         try {
             final Properties properties = new Properties();
             properties.load(Files.newInputStream(Paths.get(documentPath)));

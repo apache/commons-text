@@ -40,4 +40,18 @@ abstract class AbstractStringLookup implements StringLookup {
         final int indexOf = value.indexOf(ch);
         return indexOf > -1 ? value.substring(indexOf + 1) : "";
     }
+
+    /**
+     * Returns the substring after the first occurrence of <code>str</code> in <code>value</code>.
+     *
+     * @param value
+     *            The source string.
+     * @param str
+     *            The string to search.
+     * @return a new string.
+     */
+    protected String substringAfter(final String value, final String str) {
+        final int indexOf = value.indexOf(str);
+        return indexOf > -1 ? value.substring(indexOf + str.length()) : "";
+    }
 }

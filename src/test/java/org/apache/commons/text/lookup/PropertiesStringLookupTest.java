@@ -28,7 +28,7 @@ public class PropertiesStringLookupTest {
 
     private static final String DOC_PATH = "src/test/resources/document.properties";
     private static final String KEY = "mykey";
-    private static final String KEY_PATH = DOC_PATH + ":" + KEY;
+    private static final String KEY_PATH = DOC_PATH + "::" + KEY;
 
     @Test
     public void testOne() {
@@ -43,13 +43,36 @@ public class PropertiesStringLookupTest {
     }
 
     @Test
+    public void testInterpolatorNestedColon() {
+        final StringSubstitutor stringSubstitutor = new StringSubstitutor(
+                StringLookupFactory.INSTANCE.interpolatorStringLookup());
+        // Need to handle "C:" in the sys prop user.dir.
+        Assertions.assertEquals(
+                "${properties:" + System.getProperty("user.dir") + "/src/test/resources/document.properties::mykey}",
+                stringSubstitutor.replace("$${properties:${sys:user.dir}/" + KEY_PATH + "}"));
+    }
+
+    @Test
     public void testInterpolatorWithParameterizedKey() {
         final Map<String, String> map = new HashMap<>();
         map.put("KeyIsHere", KEY);
         final StringSubstitutor stringSubstitutor = new StringSubstitutor(
                 StringLookupFactory.INSTANCE.interpolatorStringLookup(map));
-        final String replaced = stringSubstitutor.replace("$${properties:" + DOC_PATH + ":${KeyIsHere}}");
-        Assertions.assertEquals("${properties:" + DOC_PATH + ":mykey}", replaced);
+        final String replaced = stringSubstitutor.replace("$${properties:" + DOC_PATH + "::${KeyIsHere}}");
+        Assertions.assertEquals("${properties:" + DOC_PATH + "::mykey}", replaced);
+        Assertions.assertEquals("Hello World!", stringSubstitutor.replace(replaced));
+    }
+
+    @Test
+    public void testInterpolatorWithParameterizedKey2() {
+        final Map<String, String> map = new HashMap<>();
+        map.put("KeyIsHere", KEY);
+        final StringSubstitutor stringSubstitutor = new StringSubstitutor(
+                StringLookupFactory.INSTANCE.interpolatorStringLookup(map));
+        final String replaced = stringSubstitutor
+                .replace("$${properties:${sys:user.dir}/" + DOC_PATH + "::${KeyIsHere}}");
+        Assertions.assertEquals("${properties:" + System.getProperty("user.dir") + "/" + DOC_PATH + "::mykey}",
+                replaced);
         Assertions.assertEquals("Hello World!", stringSubstitutor.replace(replaced));
     }
 
