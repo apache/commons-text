@@ -127,7 +127,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
             this.stringLookupMap.put(entry.getKey().toLowerCase(Locale.ROOT), entry.getValue());
         }
         if (addDefaultLookups) {
-            StringLookupFactory.INSTANCE.addDefaultStringLookups(stringLookupMap);
+            StringLookupFactory.INSTANCE.addDefaultStringLookups(this.stringLookupMap);
         }
     }
 
