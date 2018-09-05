@@ -18,11 +18,9 @@
 package org.apache.commons.text.lookup;
 
 import java.io.BufferedInputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.URL;
-import java.nio.file.Files;
 
 /**
  * Looks up keys from an XML document.
