@@ -54,6 +54,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-135" type="add" dev="ggregory">Add a script string lookup.</action>
     <action issue="TEXT-136" type="add" dev="ggregory">Add a file string lookup.</action>
     <action issue="TEXT-137" type="add" dev="ggregory">Add a URL string lookup.</action>
+    <action issue="TEXT-140" type="add" dev="ggregory">Add a Base64 string lookup.</action>
   </release>
 
   <release version="1.4" date="2018-06-12" description="Release 1.4">

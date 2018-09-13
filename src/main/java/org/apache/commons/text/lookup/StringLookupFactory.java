@@ -51,6 +51,7 @@ public final class StringLookupFactory {
      * <li>"script" for the {@link ScriptStringLookup}.</li>
      * <li>"file" for the {@link FileStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup}.</li>
+     * <li>"base64" for the {@link Base64StringLookup}.</li>
      * </ul>
      *
      * @param stringLookupMap
@@ -69,6 +70,16 @@ public final class StringLookupFactory {
             stringLookupMap.put("file", FileStringLookup.INSTANCE);
             stringLookupMap.put("url", UrlStringLookup.INSTANCE);
         }
+    }
+
+    /**
+     * Returns the DateStringLookup singleton instance to format the current date with the format given in the key in a
+     * format compatible with {@link java.text.SimpleDateFormat}.
+     *
+     * @return the DateStringLookup singleton instance.
+     */
+    public StringLookup base64StringLookup() {
+        return Base64StringLookup.INSTANCE;
     }
 
     /**
@@ -123,6 +134,7 @@ public final class StringLookupFactory {
      * <li>"script" for the {@link ScriptStringLookup}.</li>
      * <li>"file" for the {@link FileStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup}.</li>
+     * <li>"base64" for the {@link Base64StringLookup}.</li>
      * </ul>
      *
      * @return a new InterpolatorStringLookup.
@@ -148,6 +160,7 @@ public final class StringLookupFactory {
      * <li>"script" for the {@link ScriptStringLookup}.</li>
      * <li>"file" for the {@link FileStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup}.</li>
+     * <li>"base64" for the {@link Base64StringLookup}.</li>
      * </ul>
      *
      * @param stringLookupMap
@@ -180,6 +193,7 @@ public final class StringLookupFactory {
      * <li>"script" for the {@link ScriptStringLookup}.</li>
      * <li>"file" for the {@link FileStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup}.</li>
+     * <li>"base64" for the {@link Base64StringLookup}.</li>
      * </ul>
      *
      * @param <V>
@@ -208,6 +222,7 @@ public final class StringLookupFactory {
      * <li>"script" for the {@link ScriptStringLookup}.</li>
      * <li>"file" for the {@link FileStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup}.</li>
+     * <li>"base64" for the {@link Base64StringLookup}.</li>
      * </ul>
      *
      * @param defaultStringLookup

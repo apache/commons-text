@@ -65,6 +65,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"script" for the {@link ScriptStringLookup}.</li>
      * <li>"file" for the {@link FileStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup}.</li>
+     * <li>"base64" for the {@link Base64StringLookup}.</li>
      * </ul>
      */
     InterpolatorStringLookup() {
@@ -87,6 +88,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"script" for the {@link ScriptStringLookup}.</li>
      * <li>"file" for the {@link FileStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup}.</li>
+     * <li>"base64" for the {@link Base64StringLookup}.</li>
      * </ul>
      *
      * @param <V>
