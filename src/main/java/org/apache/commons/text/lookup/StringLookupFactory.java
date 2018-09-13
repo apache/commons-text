@@ -69,6 +69,7 @@ public final class StringLookupFactory {
             stringLookupMap.put("script", ScriptStringLookup.INSTANCE);
             stringLookupMap.put("file", FileStringLookup.INSTANCE);
             stringLookupMap.put("url", UrlStringLookup.INSTANCE);
+            stringLookupMap.put("base64", Base64StringLookup.INSTANCE);
         }
     }
 
