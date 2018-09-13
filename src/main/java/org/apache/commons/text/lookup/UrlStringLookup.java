@@ -62,7 +62,7 @@ final class UrlStringLookup extends AbstractStringLookup {
         if (key == null) {
             return null;
         }
-        final String[] keys = key.split(":");
+        final String[] keys = key.split(SPLIT_STR);
         final int keyLen = keys.length;
         if (keyLen < 2) {
             throw IllegalArgumentExceptions.format("Bad URL key format [%s]; expected format is DocumentPath:Key.",
