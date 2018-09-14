@@ -78,8 +78,8 @@ final class ScriptStringLookup extends AbstractStringLookup {
             final Object eval = scriptEngine.eval(script);
             return Objects.toString(eval, null);
         } catch (final Exception e) {
-            throw IllegalArgumentExceptions.format(e, "Error looking up script engine [%s] for script [%s].", engineName,
-                    script);
+            throw IllegalArgumentExceptions.format(e, "Error looking up script engine [%s] for script [%s].",
+                engineName, script);
         }
     }
 
