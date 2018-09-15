@@ -20,7 +20,7 @@ package org.apache.commons.text.lookup;
 import java.util.Base64;
 
 /**
- * Always returns null.
+ * Decodes Base64 Strings.
  *
  * @since 1.3
  */
