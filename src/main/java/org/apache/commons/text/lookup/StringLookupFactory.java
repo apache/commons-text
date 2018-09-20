@@ -311,6 +311,22 @@ public final class StringLookupFactory {
     }
 
     /**
+     * Returns a ResourceBundleStringLookup instance for the given bundle name.
+     * <p>
+     * Looks up the value for a given key in the format "BundleKey".
+     * </p>
+     * <p>
+     * For example: "MyKey".
+     * </p>
+     * @param bundleName Only lookup in this bundle. 
+     * @return a ResourceBundleStringLookup instance for the given bundle name.
+     * @since 1.5
+     */
+    public StringLookup resourceBundleStringLookup(String bundleName) {
+        return new ResourceBundleStringLookup(bundleName);
+    }
+
+    /**
      * Returns the ScriptStringLookup singleton instance.
      * <p>
      * Looks up the value for the key in the format "ScriptEngineName:Script".

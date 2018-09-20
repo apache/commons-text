@@ -33,6 +33,8 @@ import java.util.ResourceBundle;
  */
 final class ResourceBundleStringLookup extends AbstractStringLookup {
 
+    private final String bundleName;
+
     /**
      * Defines the singleton for this class.
      */
@@ -42,7 +44,16 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
      * No need to build instances for now.
      */
     private ResourceBundleStringLookup() {
-        // empty
+        this(null);
+    }
+
+    /**
+     * Constructs an instance that only works for the given bundle.
+     * 
+     * @since 1.5
+     */
+    ResourceBundleStringLookup(final String bundleName) {
+        this.bundleName = bundleName;
     }
 
     /**
@@ -64,18 +75,22 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
         }
         final String[] keys = key.split(SPLIT_STR);
         final int keyLen = keys.length;
-        if (keyLen != 2) {
+        final boolean anyBundle = bundleName == null;
+        if (anyBundle && keyLen != 2) {
             throw IllegalArgumentExceptions
                     .format("Bad resource bundle key format [%s]; expected format is BundleName:KeyName.", key);
+        } else if (bundleName != null && keyLen != 1) {
+            throw IllegalArgumentExceptions.format("Bad resource bundle key format [%s]; expected format is KeyName.",
+                    key);
         }
-        final String bundleName = keys[0];
-        final String bundleKey = keys[1];
+        final String keyBundleName = anyBundle ? keys[0] : bundleName;
+        final String bundleKey = anyBundle ? keys[1] : keys[0];
         try {
             // The ResourceBundle class caches bundles, no need to cache here.
-            return ResourceBundle.getBundle(bundleName).getString(bundleKey);
+            return ResourceBundle.getBundle(keyBundleName).getString(bundleKey);
         } catch (final Exception e) {
-            throw IllegalArgumentExceptions.format(e, "Error looking up resource bundle [%s] and key [%s].", bundleName,
-                    bundleKey);
+            throw IllegalArgumentExceptions.format(e, "Error looking up resource bundle [%s] and key [%s].",
+                    keyBundleName, bundleKey);
         }
     }
 

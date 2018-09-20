@@ -25,11 +25,19 @@ import org.junit.jupiter.api.Test;
 public class ResourceBundleStringLookupTest {
 
     @Test
-    public void testOne() {
+    public void testAny() {
         final String bundleName = "testResourceBundleLookup";
         final String bundleKey = "key";
         Assertions.assertEquals(ResourceBundle.getBundle(bundleName).getString(bundleKey),
                 ResourceBundleStringLookup.INSTANCE.lookup(bundleName + ":" + bundleKey));
+    }
+
+    @Test
+    public void testOne() {
+        final String bundleName = "testResourceBundleLookup";
+        final String bundleKey = "key";
+        Assertions.assertEquals(ResourceBundle.getBundle(bundleName).getString(bundleKey),
+                new ResourceBundleStringLookup(bundleName).lookup(bundleKey));
     }
 
 }

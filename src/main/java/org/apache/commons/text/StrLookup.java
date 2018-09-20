@@ -96,6 +96,7 @@ public abstract class StrLookup<V> implements StringLookup {
      *
      * @param resourceBundle the map of keys to values, may be null
      * @return a lookup using the map, not null
+     * @see StringLookupFactory#resourceBundleStringLookup(String)
      */
     public static StrLookup<String> resourceBundleLookup(final ResourceBundle resourceBundle) {
         return new ResourceBundleLookup(resourceBundle);
