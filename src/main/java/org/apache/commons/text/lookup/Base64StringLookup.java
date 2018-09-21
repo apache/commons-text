@@ -38,9 +38,6 @@ final class Base64StringLookup extends AbstractStringLookup {
         // empty
     }
 
-    /**
-     * Always returns null.
-     */
     @Override
     public String lookup(final String key) {
         return new String(Base64.getDecoder().decode(key));
