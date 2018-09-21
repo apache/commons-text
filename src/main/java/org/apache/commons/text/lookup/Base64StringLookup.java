@@ -22,7 +22,7 @@ import java.util.Base64;
 /**
  * Decodes Base64 Strings.
  *
- * @since 1.3
+ * @since 1.5
  */
 final class Base64StringLookup extends AbstractStringLookup {
 
