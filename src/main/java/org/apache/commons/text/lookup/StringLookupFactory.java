@@ -46,12 +46,14 @@ public final class StringLookupFactory {
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}.</li>
-     * <li>"xml" for the {@link XmlStringLookup}.</li>
-     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
-     * <li>"script" for the {@link ScriptStringLookup}.</li>
-     * <li>"file" for the {@link FileStringLookup}.</li>
-     * <li>"url" for the {@link UrlStringLookup}.</li>
-     * <li>"base64" for the {@link Base64StringLookup}.</li>
+     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
+     * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
+     * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
+     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
+     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
+     * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
      * </ul>
      *
      * @param stringLookupMap
@@ -70,6 +72,8 @@ public final class StringLookupFactory {
             stringLookupMap.put("file", FileStringLookup.INSTANCE);
             stringLookupMap.put("url", UrlStringLookup.INSTANCE);
             stringLookupMap.put("base64", Base64StringLookup.INSTANCE);
+            stringLookupMap.put("urlEncode", UrlEncoderStringLookup.INSTANCE);
+            stringLookupMap.put("urlDecode", UrlDecoderStringLookup.INSTANCE);
         }
     }
 
@@ -130,12 +134,14 @@ public final class StringLookupFactory {
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
-     * <li>"xml" for the {@link XmlStringLookup}.</li>
-     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
-     * <li>"script" for the {@link ScriptStringLookup}.</li>
-     * <li>"file" for the {@link FileStringLookup}.</li>
-     * <li>"url" for the {@link UrlStringLookup}.</li>
-     * <li>"base64" for the {@link Base64StringLookup}.</li>
+     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
+     * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
+     * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
+     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
+     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
+     * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
      * </ul>
      *
      * @return a new InterpolatorStringLookup.
@@ -156,12 +162,14 @@ public final class StringLookupFactory {
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
-     * <li>"xml" for the {@link XmlStringLookup}.</li>
-     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
-     * <li>"script" for the {@link ScriptStringLookup}.</li>
-     * <li>"file" for the {@link FileStringLookup}.</li>
-     * <li>"url" for the {@link UrlStringLookup}.</li>
-     * <li>"base64" for the {@link Base64StringLookup}.</li>
+     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
+     * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
+     * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
+     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
+     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
+     * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
      * </ul>
      *
      * @param stringLookupMap
@@ -189,12 +197,14 @@ public final class StringLookupFactory {
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
-     * <li>"xml" for the {@link XmlStringLookup}.</li>
-     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
-     * <li>"script" for the {@link ScriptStringLookup}.</li>
-     * <li>"file" for the {@link FileStringLookup}.</li>
-     * <li>"url" for the {@link UrlStringLookup}.</li>
-     * <li>"base64" for the {@link Base64StringLookup}.</li>
+     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
+     * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
+     * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
+     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
+     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
+     * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
      * </ul>
      *
      * @param <V>
@@ -218,12 +228,14 @@ public final class StringLookupFactory {
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names.</li>
-     * <li>"xml" for the {@link XmlStringLookup}.</li>
-     * <li>"properties" for the {@link PropertiesStringLookup}.</li>
-     * <li>"script" for the {@link ScriptStringLookup}.</li>
-     * <li>"file" for the {@link FileStringLookup}.</li>
-     * <li>"url" for the {@link UrlStringLookup}.</li>
-     * <li>"base64" for the {@link Base64StringLookup}.</li>
+     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
+     * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
+     * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
+     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
+     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
+     * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
      * </ul>
      *
      * @param defaultStringLookup
