@@ -135,6 +135,27 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
 public class StringSubstitutor {
 
     /**
+     * The default variable default separator.
+     * 
+     * @since 1.5.
+     */
+    public static final String DEFAULT_VAR_DEFAULT = ":-";
+
+    /**
+     * The default variable end separator.
+     * 
+     * @since 1.5.
+     */
+    public static final String DEFAULT_VAR_END = "}";
+
+    /**
+     * The default variable start separator.
+     * 
+     * @since 1.5.
+     */
+    public static final String DEFAULT_VAR_START = "${";
+
+    /**
      * Constant for the default escape character.
      */
     public static final char DEFAULT_ESCAPE = '$';
@@ -142,17 +163,17 @@ public class StringSubstitutor {
     /**
      * Constant for the default variable prefix.
      */
-    public static final StringMatcher DEFAULT_PREFIX = StringMatcherFactory.INSTANCE.stringMatcher("${");
+    public static final StringMatcher DEFAULT_PREFIX = StringMatcherFactory.INSTANCE.stringMatcher(DEFAULT_VAR_START);
 
     /**
      * Constant for the default variable suffix.
      */
-    public static final StringMatcher DEFAULT_SUFFIX = StringMatcherFactory.INSTANCE.stringMatcher("}");
+    public static final StringMatcher DEFAULT_SUFFIX = StringMatcherFactory.INSTANCE.stringMatcher(DEFAULT_VAR_END);
 
     /**
      * Constant for the default value delimiter of a variable.
      */
-    public static final StringMatcher DEFAULT_VALUE_DELIMITER = StringMatcherFactory.INSTANCE.stringMatcher(":-");
+    public static final StringMatcher DEFAULT_VALUE_DELIMITER = StringMatcherFactory.INSTANCE.stringMatcher(DEFAULT_VAR_DEFAULT);
 
     // -----------------------------------------------------------------------
     /**
