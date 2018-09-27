@@ -63,7 +63,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup}.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup} since 1.3.</li>
      * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
@@ -89,7 +89,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup}.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup} since 1.3.</li>
      * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
