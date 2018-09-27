@@ -57,6 +57,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-140" type="add" dev="ggregory">Add a Base64 string lookup.</action>
     <action issue="TEXT-141" type="add" dev="ggregory">Add org.apache.commons.text.lookup.StringLookupFactory.resourceBundleStringLookup(String).</action>
     <action issue="TEXT-142" type="add" dev="ggregory">Add URL encoder and decoder string lookups.</action>
+    <action issue="TEXT-143" type="add" dev="ggregory">Add constant string lookup like the one in Apache Commons Configuration.</action>
   </release>
 
   <release version="1.4" date="2018-06-12" description="Release 1.4">

@@ -72,6 +72,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
      * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
+     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
      * </ul>
      */
     InterpolatorStringLookup() {
@@ -97,6 +98,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
      * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
+     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
      * </ul>
      *
      * @param <V>

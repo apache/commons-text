@@ -32,6 +32,15 @@ public final class StringLookupFactory {
     public static final StringLookupFactory INSTANCE = new StringLookupFactory();
 
     /**
+     * Clears any static resources.
+     * 
+     * @since 1.5
+     */
+    public static void clear() {
+        ConstantStringLookup.clear();
+    }
+    
+    /**
      * No need to build instances for now.
      */
     private StringLookupFactory() {
@@ -54,6 +63,7 @@ public final class StringLookupFactory {
      * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
      * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
+     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
      * </ul>
      *
      * @param stringLookupMap
@@ -74,6 +84,7 @@ public final class StringLookupFactory {
             stringLookupMap.put("base64", Base64StringLookup.INSTANCE);
             stringLookupMap.put("urlEncode", UrlEncoderStringLookup.INSTANCE);
             stringLookupMap.put("urlDecode", UrlDecoderStringLookup.INSTANCE);
+            stringLookupMap.put("const", ConstantStringLookup.INSTANCE);
         }
     }
 
@@ -85,6 +96,16 @@ public final class StringLookupFactory {
      */
     public StringLookup base64StringLookup() {
         return Base64StringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the ConstantStringLookup singleton instance to get the value of a fully-qualified static final value.
+     *
+     * @return the DateStringLookup singleton instance.
+     * @since 1.5
+     */
+    public StringLookup constantStringLookup() {
+        return ConstantStringLookup.INSTANCE;
     }
 
     /**
@@ -142,6 +163,7 @@ public final class StringLookupFactory {
      * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
      * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
+     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
      * </ul>
      *
      * @return a new InterpolatorStringLookup.
@@ -170,6 +192,7 @@ public final class StringLookupFactory {
      * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
      * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
+     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
      * </ul>
      *
      * @param stringLookupMap
@@ -205,6 +228,7 @@ public final class StringLookupFactory {
      * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
      * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
+     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
      * </ul>
      *
      * @param <V>
@@ -236,6 +260,7 @@ public final class StringLookupFactory {
      * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
      * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
+     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
      * </ul>
      *
      * @param defaultStringLookup
