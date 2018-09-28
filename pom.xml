@@ -52,14 +52,21 @@
     <checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
     <checkstyle.version>8.12</checkstyle.version>
 
-    <spotbugs.plugin.version>3.1.5</spotbugs.plugin.version>
+    <spotbugs.plugin.version>3.1.6</spotbugs.plugin.version>
+
+    <!-- generate report even if there are binary incompatible changes -->
+    <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>false</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
+    <!-- 0.12.0 dies with a NullPointerException -->
+    <commons.japicmp.version>0.13.0</commons.japicmp.version>
+    <japicmp.skip>false</japicmp.skip>
 
     <!-- Commons Release Plugin -->
     <commons.bc.version>1.4</commons.bc.version>
+    <commons.rc.version>RC1</commons.rc.version>
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
-    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>
-    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>
+    <commons.releaseManagerName>Rob Tompkins</commons.releaseManagerName>
+    <commons.releaseManagerKey>B6E73D84EA4FCC47166087253FAAD2CD5ECBB314</commons.releaseManagerKey>
   </properties>
 
     <dependencyManagement>
@@ -119,7 +126,15 @@
               <exclude>src/site/resources/release-notes/RELEASE-NOTES-*.txt</exclude>
             </excludes>
           </configuration>
+        </plugin><!-- override skip property of parent pom -->
+        <plugin>
+          <groupId>com.github.siom79.japicmp</groupId>
+          <artifactId>japicmp-maven-plugin</artifactId>
+          <configuration>
+            <skip>false</skip>
+          </configuration>
         </plugin>
+
       </plugins>
     </pluginManagement>
     <plugins>
