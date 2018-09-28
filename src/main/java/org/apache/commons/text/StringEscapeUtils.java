@@ -108,7 +108,7 @@ public class StringEscapeUtils {
         ESCAPE_JSON = new AggregateTranslator(
                 new LookupTranslator(Collections.unmodifiableMap(escapeJsonMap)),
                 new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE),
-                JavaUnicodeEscaper.outsideOf(32, 0x7f)
+                JavaUnicodeEscaper.outsideOf(32, 0x7e)
         );
     }
 

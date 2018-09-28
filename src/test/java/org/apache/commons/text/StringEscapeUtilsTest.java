@@ -633,4 +633,10 @@ public class StringEscapeUtilsTest {
 
       assertEquals(jsonString, StringEscapeUtils.unescapeJson(escapedJsonString));
     }
+
+    @Test
+    public void testDeleteCharacter() {
+      String deleteString = "Delete: \u007F";
+      assertEquals("Delete: \\u007F", StringEscapeUtils.escapeJson(deleteString));
+    }
 }
