@@ -33,7 +33,7 @@ public final class StringLookupFactory {
 
     /**
      * Clears any static resources.
-     * 
+     *
      * @since 1.5
      */
     public static void clear() {
@@ -289,7 +289,7 @@ public final class StringLookupFactory {
      * <li><b>hardware</b>: "processors: 4, architecture: amd64-64, instruction sets: amd64"</li>
      * <li><b>locale</b>: "default locale: en_US, platform encoding: iso-8859-1"</li>
      * </ul>
-     * 
+     *
      * @return the JavaPlatformStringLookup singleton instance.
      */
     public StringLookup javaPlatformStringLookup() {
@@ -371,7 +371,7 @@ public final class StringLookupFactory {
      * <p>
      * For example: "MyKey".
      * </p>
-     * 
+     *
      * @param bundleName
      *            Only lookup in this bundle.
      * @return a ResourceBundleStringLookup instance for the given bundle name.

@@ -49,7 +49,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
 
     /**
      * Constructs an instance that only works for the given bundle.
-     * 
+     *
      * @since 1.5
      */
     ResourceBundleStringLookup(final String bundleName) {

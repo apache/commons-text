@@ -136,21 +136,21 @@ public class StringSubstitutor {
 
     /**
      * The default variable default separator.
-     * 
+     *
      * @since 1.5.
      */
     public static final String DEFAULT_VAR_DEFAULT = ":-";
 
     /**
      * The default variable end separator.
-     * 
+     *
      * @since 1.5.
      */
     public static final String DEFAULT_VAR_END = "}";
 
     /**
      * The default variable start separator.
-     * 
+     *
      * @since 1.5.
      */
     public static final String DEFAULT_VAR_START = "${";
