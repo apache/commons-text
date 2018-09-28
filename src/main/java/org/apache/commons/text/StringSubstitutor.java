@@ -173,7 +173,8 @@ public class StringSubstitutor {
     /**
      * Constant for the default value delimiter of a variable.
      */
-    public static final StringMatcher DEFAULT_VALUE_DELIMITER = StringMatcherFactory.INSTANCE.stringMatcher(DEFAULT_VAR_DEFAULT);
+    public static final StringMatcher DEFAULT_VALUE_DELIMITER =
+            StringMatcherFactory.INSTANCE.stringMatcher(DEFAULT_VAR_DEFAULT);
 
     // -----------------------------------------------------------------------
     /**

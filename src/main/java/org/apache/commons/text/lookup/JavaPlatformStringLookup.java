@@ -38,11 +38,17 @@ import org.apache.commons.lang3.StringUtils;
  */
 final class JavaPlatformStringLookup extends AbstractStringLookup {
 
+    /** <code>locale</code> key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_LOCALE = "locale";
+    /** <code>hardware</code> key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_HARDWARE = "hardware";
+    /** <code>os</code> key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_OS = "os";
+    /** <code>vm</code> key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_VM = "vm";
+    /** <code>runtime</code> key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_RUNTIME = "runtime";
+    /** <code>version</code> key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_VERSION = "version";
 
     /**
@@ -50,6 +56,11 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      */
     static final JavaPlatformStringLookup INSTANCE = new JavaPlatformStringLookup();
 
+    /**
+     * The main method for running the JavaPlatformStringLookup.
+     *
+     * @param args the standard java main method parameter which is unused for our running of this class.
+     */
     public static void main(String[] args) {
         System.out.println(JavaPlatformStringLookup.class);
         System.out.printf("%s = %s\n", KEY_VERSION, JavaPlatformStringLookup.INSTANCE.lookup(KEY_VERSION));

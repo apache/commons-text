@@ -33,6 +33,9 @@ import java.util.ResourceBundle;
  */
 final class ResourceBundleStringLookup extends AbstractStringLookup {
 
+    /**
+     * The name of the resource bundle from which to look something up.
+     */
     private final String bundleName;
 
     /**
@@ -50,6 +53,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
     /**
      * Constructs an instance that only works for the given bundle.
      *
+     * @param bundleName the name of the resource bundle from which we will look keys up.
      * @since 1.5
      */
     ResourceBundleStringLookup(final String bundleName) {
