@@ -67,6 +67,7 @@ public final class StringLookupFactory {
      * </ul>
      *
      * @param stringLookupMap
+     *            the map of string lookups.
      * @since 1.5
      */
     public void addDefaultStringLookups(final Map<String, StringLookup> stringLookupMap) {

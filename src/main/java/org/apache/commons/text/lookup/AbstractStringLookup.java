@@ -24,8 +24,20 @@ package org.apache.commons.text.lookup;
  */
 abstract class AbstractStringLookup implements StringLookup {
 
+
+    /**
+     * The empty string.
+     */
     private static final String EMPTY = "";
+
+    /**
+     * The default split char.
+     */
     protected static final char SPLIT_CH = ':';
+
+    /**
+     * The default split string.
+     */
     protected static final String SPLIT_STR = String.valueOf(SPLIT_CH);
 
     /**

@@ -62,27 +62,22 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
      * @return index
      */
     private Double calculateJaccardSimilarity(final CharSequence left, final CharSequence right) {
-        final Set<String> intersectionSet = new HashSet<>();
-        final Set<String> unionSet = new HashSet<>();
-        boolean unionFilled = false;
         final int leftLength = left.length();
         final int rightLength = right.length();
         if (leftLength == 0 || rightLength == 0) {
             return 0d;
         }
-
-        for (int leftIndex = 0; leftIndex < leftLength; leftIndex++) {
-            unionSet.add(String.valueOf(left.charAt(leftIndex)));
-            for (int rightIndex = 0; rightIndex < rightLength; rightIndex++) {
-                if (!unionFilled) {
-                    unionSet.add(String.valueOf(right.charAt(rightIndex)));
-                }
-                if (left.charAt(leftIndex) == right.charAt(rightIndex)) {
-                    intersectionSet.add(String.valueOf(left.charAt(leftIndex)));
-                }
-            }
-            unionFilled = true;
+        final Set<Character> leftSet = new HashSet<>();
+        for (int i = 0; i < leftLength; i++) {
+            leftSet.add(left.charAt(i));
         }
-        return Double.valueOf(intersectionSet.size()) / Double.valueOf(unionSet.size());
+        final Set<Character> rightSet = new HashSet<>();
+        for (int i = 0; i < rightLength; i++) {
+            rightSet.add(right.charAt(i));
+        }
+        final Set<Character> unionSet = new HashSet<>(leftSet);
+        unionSet.addAll(rightSet);
+        final int intersectionSize = leftSet.size() + rightSet.size() - unionSet.size();
+        return 1.0d * intersectionSize / unionSet.size();
     }
 }
