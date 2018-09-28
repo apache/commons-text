@@ -39,7 +39,7 @@ public final class StringLookupFactory {
     public static void clear() {
         ConstantStringLookup.clear();
     }
-    
+
     /**
      * No need to build instances for now.
      */
@@ -154,7 +154,8 @@ public final class StringLookupFactory {
      * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since 1.3.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
+     * 1.3.</li>
      * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
@@ -183,7 +184,8 @@ public final class StringLookupFactory {
      * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since 1.3.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
+     * 1.3.</li>
      * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
@@ -219,7 +221,8 @@ public final class StringLookupFactory {
      * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since 1.3.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
+     * 1.3.</li>
      * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
@@ -251,7 +254,8 @@ public final class StringLookupFactory {
      * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
      * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since 1.3.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
+     * 1.3.</li>
      * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
@@ -272,8 +276,20 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the JavaPlatformStringLookup singleton instance.
-     *
+     * Returns the JavaPlatformStringLookup singleton instance. Looks up keys related to Java: Java version, JRE
+     * version, VM version, and so on.
+     * <p>
+     * The lookup keys with examples are:
+     * </p>
+     * <ul>
+     * <li><b>version</b>: "Java version 1.8.0_181"</li>
+     * <li><b>runtime</b>: "Java(TM) SE Runtime Environment (build 1.8.0_181-b13) from Oracle Corporation"</li>
+     * <li><b>vm</b>: "Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)"</li>
+     * <li><b>os</b>: "Windows 10 10.0, architecture: amd64-64"</li>
+     * <li><b>hardware</b>: "processors: 4, architecture: amd64-64, instruction sets: amd64"</li>
+     * <li><b>locale</b>: "default locale: en_US, platform encoding: iso-8859-1"</li>
+     * </ul>
+     * 
      * @return the JavaPlatformStringLookup singleton instance.
      */
     public StringLookup javaPlatformStringLookup() {
@@ -355,7 +371,9 @@ public final class StringLookupFactory {
      * <p>
      * For example: "MyKey".
      * </p>
-     * @param bundleName Only lookup in this bundle. 
+     * 
+     * @param bundleName
+     *            Only lookup in this bundle.
      * @return a ResourceBundleStringLookup instance for the given bundle name.
      * @since 1.5
      */

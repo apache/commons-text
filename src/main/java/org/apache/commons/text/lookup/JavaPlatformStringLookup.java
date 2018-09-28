@@ -22,15 +22,43 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Looks up keys related to Java: Java version, JRE version, VM version, and so on.
- *
+ * <p>
+ * The lookup keys with examples are:
+ * </p>
+ * <ul>
+ * <li><b>version</b>: "Java version 1.8.0_181"</li>
+ * <li><b>runtime</b>: "Java(TM) SE Runtime Environment (build 1.8.0_181-b13) from Oracle Corporation"</li>
+ * <li><b>vm</b>: "Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)"</li>
+ * <li><b>os</b>: "Windows 10 10.0, architecture: amd64-64"</li>
+ * <li><b>hardware</b>: "processors: 4, architecture: amd64-64, instruction sets: amd64"</li>
+ * <li><b>locale</b>: "default locale: en_US, platform encoding: iso-8859-1"</li>
+ * </ul>
+ * 
  * @since 1.3
  */
 final class JavaPlatformStringLookup extends AbstractStringLookup {
+
+    private static final String KEY_LOCALE = "locale";
+    private static final String KEY_HARDWARE = "hardware";
+    private static final String KEY_OS = "os";
+    private static final String KEY_VM = "vm";
+    private static final String KEY_RUNTIME = "runtime";
+    private static final String KEY_VERSION = "version";
 
     /**
      * Defines the singleton for this class.
      */
     static final JavaPlatformStringLookup INSTANCE = new JavaPlatformStringLookup();
+
+    public static void main(String[] args) {
+        System.out.println(JavaPlatformStringLookup.class);
+        System.out.printf("%s = %s\n", KEY_VERSION, JavaPlatformStringLookup.INSTANCE.lookup(KEY_VERSION));
+        System.out.printf("%s = %s\n", KEY_RUNTIME, JavaPlatformStringLookup.INSTANCE.lookup(KEY_RUNTIME));
+        System.out.printf("%s = %s\n", KEY_VM, JavaPlatformStringLookup.INSTANCE.lookup(KEY_VM));
+        System.out.printf("%s = %s\n", KEY_OS, JavaPlatformStringLookup.INSTANCE.lookup(KEY_OS));
+        System.out.printf("%s = %s\n", KEY_HARDWARE, JavaPlatformStringLookup.INSTANCE.lookup(KEY_HARDWARE));
+        System.out.printf("%s = %s\n", KEY_LOCALE, JavaPlatformStringLookup.INSTANCE.lookup(KEY_LOCALE));
+    }
 
     /**
      * No need to build instances for now.
@@ -120,6 +148,17 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
 
     /**
      * Looks up the value of the Java platform key.
+     * <p>
+     * The lookup keys with examples are:
+     * </p>
+     * <ul>
+     * <li><b>version</b>: "Java version 1.8.0_181"</li>
+     * <li><b>runtime</b>: "Java(TM) SE Runtime Environment (build 1.8.0_181-b13) from Oracle Corporation"</li>
+     * <li><b>vm</b>: "Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)"</li>
+     * <li><b>os</b>: "Windows 10 10.0, architecture: amd64-64"</li>
+     * <li><b>hardware</b>: "processors: 4, architecture: amd64-64, instruction sets: amd64"</li>
+     * <li><b>locale</b>: "default locale: en_US, platform encoding: iso-8859-1"</li>
+     * </ul>
      *
      * @param key
      *            the key to be looked up, may be null
@@ -128,17 +167,17 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
     @Override
     public String lookup(final String key) {
         switch (key) {
-        case "version":
+        case KEY_VERSION:
             return "Java version " + getSystemProperty("java.version");
-        case "runtime":
+        case KEY_RUNTIME:
             return getRuntime();
-        case "vm":
+        case KEY_VM:
             return getVirtualMachine();
-        case "os":
+        case KEY_OS:
             return getOperatingSystem();
-        case "hardware":
+        case KEY_HARDWARE:
             return getHardware();
-        case "locale":
+        case KEY_LOCALE:
             return getLocale();
         default:
             throw new IllegalArgumentException(key);
