@@ -359,7 +359,7 @@ public final class StringLookupFactory {
      * @return a ResourceBundleStringLookup instance for the given bundle name.
      * @since 1.5
      */
-    public StringLookup resourceBundleStringLookup(String bundleName) {
+    public StringLookup resourceBundleStringLookup(final String bundleName) {
         return new ResourceBundleStringLookup(bundleName);
     }
 
