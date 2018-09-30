@@ -459,6 +459,8 @@
       <properties>
         <!-- jacoco does not work with java 11 yet, see https://github.com/jacoco/jacoco/issues/663 -->
         <jacoco.skip>true</jacoco.skip>
+        <!-- spotbugs maven plugin does not work with java 11 yet, see https://github.com/spotbugs/spotbugs-maven-plugin/issues/83 -->
+        <spotbugs.skip>true</spotbugs.skip>
       </properties>
     </profile>
   </profiles>
