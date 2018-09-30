@@ -45,7 +45,7 @@ final class UrlEncoderStringLookup extends AbstractStringLookup {
     public String lookup(final String key) {
         final String enc = StandardCharsets.UTF_8.name();
         try {
-            return new String(URLEncoder.encode(key, enc));
+            return URLEncoder.encode(key, enc);
         } catch (final UnsupportedEncodingException e) {
             throw IllegalArgumentExceptions.format(e, "%s: source=%s, encoding=%s", e, key, enc);
         }

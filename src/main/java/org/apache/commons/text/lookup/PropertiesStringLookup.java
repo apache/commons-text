@@ -17,6 +17,7 @@
 
 package org.apache.commons.text.lookup;
 
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
@@ -77,7 +78,9 @@ final class PropertiesStringLookup extends AbstractStringLookup {
         final String propertyKey = substringAfter(key, "::");
         try {
             final Properties properties = new Properties();
-            properties.load(Files.newInputStream(Paths.get(documentPath)));
+            try (final InputStream inputStream = Files.newInputStream(Paths.get(documentPath))) {
+                properties.load(inputStream);
+            }
             return properties.getProperty(propertyKey);
         } catch (final Exception e) {
             throw IllegalArgumentExceptions.format(e, "Error looking up properties [%s] and key [%s].", documentPath,
