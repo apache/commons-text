@@ -17,6 +17,7 @@
 
 package org.apache.commons.text.lookup;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
@@ -40,7 +41,7 @@ final class Base64StringLookup extends AbstractStringLookup {
 
     @Override
     public String lookup(final String key) {
-        return new String(Base64.getDecoder().decode(key));
+        return new String(Base64.getDecoder().decode(key), StandardCharsets.ISO_8859_1);
     }
 
 }

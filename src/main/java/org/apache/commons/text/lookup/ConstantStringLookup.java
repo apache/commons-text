@@ -120,8 +120,7 @@ class ConstantStringLookup extends AbstractStringLookup {
         if (clazz == null) {
             return null;
         }
-        final Field field = clazz.getField(fieldName);
-        return field == null ? null : field.get(null);
+        return clazz.getField(fieldName).get(null);
     }
 
     /**
