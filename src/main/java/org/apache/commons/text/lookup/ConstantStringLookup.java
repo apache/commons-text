@@ -17,7 +17,6 @@
 
 package org.apache.commons.text.lookup;
 
-import java.lang.reflect.Field;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 

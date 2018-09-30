@@ -78,7 +78,7 @@ final class PropertiesStringLookup extends AbstractStringLookup {
         final String propertyKey = substringAfter(key, "::");
         try {
             final Properties properties = new Properties();
-            try (final InputStream inputStream = Files.newInputStream(Paths.get(documentPath))) {
+            try (InputStream inputStream = Files.newInputStream(Paths.get(documentPath))) {
                 properties.load(inputStream);
             }
             return properties.getProperty(propertyKey);
