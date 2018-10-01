@@ -27,7 +27,7 @@
                 <include>checkstyle.xml</include>
                 <include>checkstyle-suppressions.xml</include>
                 <include>CONTRIBUTING.md</include>
-                <include>fb-excludes.xml</include>
+                <include>sb-excludes.xml</include>
                 <include>LICENSE.txt</include>
                 <include>license-header.txt</include>
                 <include>NOTICE.txt</include>
