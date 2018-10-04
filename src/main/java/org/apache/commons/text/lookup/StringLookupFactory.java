@@ -22,20 +22,21 @@ import java.util.Map;
 /**
  * Provides access to lookups defined in this package.
  * <ul>
- * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
- * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
- * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+ * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+ * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
  * <li>"date" for the {@link DateStringLookup}.</li>
- * <li>"localhost" for the {@link LocalHostStringLookup} since 1.3.</li>
- * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
+ * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+ * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+ * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+ * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
+ * 1.3.</li>
  * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
  * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
- * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+ * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
  * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
- * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
- * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
  * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
- * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
+ * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
+ * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
  * </ul>
  *
  * @since 1.3
@@ -66,20 +67,21 @@ public final class StringLookupFactory {
     /**
      * The following lookups are installed:
      * <ul>
-     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
-     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
-     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup} since 1.3.</li>
-     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
+     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
+     * 1.3.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
-     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
-     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
-     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
+     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
+     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * </ul>
      *
      * @param stringLookupMap
@@ -167,21 +169,21 @@ public final class StringLookupFactory {
      * The following lookups are used by default:
      * </p>
      * <ul>
-     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
-     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
-     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
+     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
      * 1.3.</li>
-     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
-     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
-     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
-     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
+     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
+     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * </ul>
      *
      * @return a new InterpolatorStringLookup.
@@ -197,21 +199,21 @@ public final class StringLookupFactory {
      * {@code stringLookupMap}:
      * </p>
      * <ul>
-     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
-     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
-     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
+     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
      * 1.3.</li>
-     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
-     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
-     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
-     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
+     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
+     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * </ul>
      *
      * @param stringLookupMap
@@ -234,21 +236,21 @@ public final class StringLookupFactory {
      * The following lookups are used by default:
      * </p>
      * <ul>
-     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
-     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
-     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
+     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
      * 1.3.</li>
-     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
-     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
-     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
-     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
+     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
+     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * </ul>
      *
      * @param <V>
@@ -267,21 +269,21 @@ public final class StringLookupFactory {
      * The following lookups are used by default:
      * </p>
      * <ul>
-     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
-     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
-     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
+     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
      * <li>"date" for the {@link DateStringLookup}.</li>
+     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
+     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
      * 1.3.</li>
-     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
-     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
+     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
-     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
-     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
+     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
+     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
      * </ul>
      *
      * @param defaultStringLookup
