@@ -45,6 +45,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
 
+  <release version="1.6" date="2018-MM-DD" description="Release 1.6">
+  </release>
+
   <release version="1.5" date="2018-09-29" description="Release 1.5">
     <action issue="TEXT-139" type="fix" dev="chtompki" due-to="Nick Wong">Improve JaccardSimilarity computational cost</action>
     <action issue="TEXT-118" type="fix" dev="chtompki" due-to="Nandor Kollar">JSON escaping incorrect for the delete control character</action>
