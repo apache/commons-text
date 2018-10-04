@@ -31,6 +31,7 @@ import java.util.Map;
  * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
  * 1.3.</li>
  * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
+ * <li>"resourceBundle" for the {@link ResourceBundleStringLookup} since 1.6.</li>
  * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
  * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
  * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
@@ -76,6 +77,7 @@ public final class StringLookupFactory {
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
      * 1.3.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
+     * <li>"resourceBundle" for the {@link ResourceBundleStringLookup} since 1.6.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
      * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
@@ -97,6 +99,7 @@ public final class StringLookupFactory {
             stringLookupMap.put("localhost", LocalHostStringLookup.INSTANCE);
             stringLookupMap.put("xml", XmlStringLookup.INSTANCE);
             stringLookupMap.put("properties", PropertiesStringLookup.INSTANCE);
+            stringLookupMap.put("resourceBundle", ResourceBundleStringLookup.INSTANCE);
             stringLookupMap.put("script", ScriptStringLookup.INSTANCE);
             stringLookupMap.put("file", FileStringLookup.INSTANCE);
             stringLookupMap.put("url", UrlStringLookup.INSTANCE);
@@ -178,6 +181,7 @@ public final class StringLookupFactory {
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
      * 1.3.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
+     * <li>"resourceBundle" for the {@link ResourceBundleStringLookup} since 1.6.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
      * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
@@ -208,6 +212,7 @@ public final class StringLookupFactory {
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
      * 1.3.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
+     * <li>"resourceBundle" for the {@link ResourceBundleStringLookup} since 1.6.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
      * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
@@ -245,6 +250,7 @@ public final class StringLookupFactory {
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
      * 1.3.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
+     * <li>"resourceBundle" for the {@link ResourceBundleStringLookup} since 1.6.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
      * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
@@ -278,6 +284,7 @@ public final class StringLookupFactory {
      * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
      * 1.3.</li>
      * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
+     * <li>"resourceBundle" for the {@link ResourceBundleStringLookup} since 1.6.</li>
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
      * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
      * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
