@@ -44,6 +44,13 @@ import java.util.Map.Entry;
  */
 class InterpolatorStringLookup extends AbstractStringLookup {
 
+    /**
+     * Defines the singleton for this class.
+     * 
+     * @since 1.6
+     */
+    static final AbstractStringLookup INSTANCE = new InterpolatorStringLookup();
+
     /** Constant for the prefix separator. */
     private static final char PREFIX_SEPARATOR = ':';
 

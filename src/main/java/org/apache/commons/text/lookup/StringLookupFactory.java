@@ -193,7 +193,7 @@ public final class StringLookupFactory {
      * @return a new InterpolatorStringLookup.
      */
     public StringLookup interpolatorStringLookup() {
-        return new InterpolatorStringLookup();
+        return InterpolatorStringLookup.INSTANCE;
     }
 
     /**
