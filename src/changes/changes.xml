@@ -47,6 +47,7 @@ The <action> type attribute can be add,update,fix,remove.
 
   <release version="1.6" date="2018-MM-DD" description="Release 1.6">
     <action issue="TEXT-144" type="update" dev="ggregory">Add the resource string bundle string lookup to the default set of lookups</action>
+    <action issue="TEXT-145" type="update" dev="ggregory">Add StringLookupFactory methods for the URL encoder and decoder string lookups</action>
   </release>
 
   <release version="1.5" date="2018-09-29" description="Release 1.5">

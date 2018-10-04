@@ -433,6 +433,38 @@ public final class StringLookupFactory {
     }
 
     /**
+     * Returns the UrlDecoderStringLookup singleton instance.
+     * <p>
+     *  Decodes URL Strings using the UTF-8 encoding.
+     * </p>
+     * <p>
+     * For example: "Hello%20World%21" becomes "Hello World!".
+     * </p>
+     *
+     * @return the UrlStringLookup singleton instance.
+     * @since 1.6
+     */
+    public StringLookup urlDecoderStringLookup() {
+        return UrlDecoderStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the UrlDecoderStringLookup singleton instance.
+     * <p>
+     *  Decodes URL Strings using the UTF-8 encoding.
+     * </p>
+     * <p>
+     * For example: "Hello World!" becomes "Hello+World%21".
+     * </p>
+     *
+     * @return the UrlStringLookup singleton instance.
+     * @since 1.6
+     */
+    public StringLookup urlEncoderStringLookup() {
+        return UrlEncoderStringLookup.INSTANCE;
+    }
+
+    /**
      * Returns the UrlStringLookup singleton instance.
      * <p>
      * Looks up the value for the key in the format "CharsetName:URL".
