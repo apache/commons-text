@@ -20,11 +20,14 @@ package org.apache.commons.text.lookup;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class Base64StringLookupTest {
+/**
+ * Tests {@link Base64EncoderStringLookup}.
+ */
+public class Base64EncoderStringLookupTest {
 
     @Test
     public void test() {
-        Assertions.assertEquals("HelloWorld!", Base64StringLookup.INSTANCE.lookup("SGVsbG9Xb3JsZCE="));
+        Assertions.assertEquals("HelloWorld!", Base64EncoderStringLookup.INSTANCE.lookup("SGVsbG9Xb3JsZCE="));
     }
 
 }

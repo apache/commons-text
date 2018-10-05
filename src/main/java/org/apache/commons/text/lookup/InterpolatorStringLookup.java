@@ -37,7 +37,7 @@ import java.util.Map.Entry;
  * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
  * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
  * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
- * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+ * <li>"base64" for the {@link Base64DecoderStringLookup} since 1.5.</li>
  * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
  * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
  * </ul>
@@ -76,7 +76,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
      * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
      * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+     * <li>"base64" for the {@link Base64DecoderStringLookup} since 1.5.</li>
      * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
      * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
@@ -102,7 +102,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
      * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
      * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
+     * <li>"base64" for the {@link Base64DecoderStringLookup} since 1.5.</li>
      * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
      * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
      * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>

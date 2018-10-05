@@ -21,24 +21,114 @@ import java.util.Map;
 
 /**
  * Provides access to lookups defined in this package.
- * <ul>
- * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
- * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
- * <li>"date" for the {@link DateStringLookup}.</li>
- * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
- * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
- * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
- * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
- * 1.3.</li>
- * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
- * <li>"resourceBundle" for the {@link ResourceBundleStringLookup} since 1.6.</li>
- * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
- * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
- * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
- * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
- * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
- * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
- * </ul>
+ * <p>
+ * The default lookups are:
+ * </p>
+ * <table>
+ * <caption>Default String Lookups</caption>
+ * <tr>
+ * <th>Key</th>
+ * <th>Implementation</th>
+ * <th>Factory Method</th>
+ * <th>Since</th>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_BASE64_DECODER}</td>
+ * <td>{@link Base64DecoderStringLookup}</td>
+ * <td>{@link #base64DecoderStringLookup()}</td>
+ * <td>1.6</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_BASE64_ENCODER}</td>
+ * <td>{@link Base64EncoderStringLookup}</td>
+ * <td>{@link #base64EncoderStringLookup()}</td>
+ * <td>1.6</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_CONST}</td>
+ * <td>{@link ConstantStringLookup}</td>
+ * <td>{@link #constantStringLookup()}</td>
+ * <td>1.5</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_DATE}</td>
+ * <td>{@link DateStringLookup}</td>
+ * <td>{@link #dateStringLookup()}</td>
+ * <td>1.5</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_ENV}</td>
+ * <td>{@link EnvironmentVariableStringLookup}</td>
+ * <td>{@link #environmentVariableStringLookup()}</td>
+ * <td>1.3</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_FILE}</td>
+ * <td>{@link FileStringLookup}</td>
+ * <td>{@link #fileStringLookup()}</td>
+ * <td>1.5</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_JAVA}</td>
+ * <td>{@link JavaPlatformStringLookup}</td>
+ * <td>{@link #javaPlatformStringLookup()}</td>
+ * <td>1.5</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_LOCALHOST}</td>
+ * <td>{@link LocalHostStringLookup}</td>
+ * <td>{@link #localHostStringLookup()}</td>
+ * <td>1.3</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_PROPERTIES}</td>
+ * <td>{@link PropertiesStringLookup}</td>
+ * <td>{@link #propertiesStringLookup()}</td>
+ * <td>1.5</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_RESOURCE_BUNDLE}</td>
+ * <td>{@link ResourceBundleStringLookup}</td>
+ * <td>{@link #resourceBundleStringLookup()}</td>
+ * <td>1.6</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_SCRIPT}</td>
+ * <td>{@link ScriptStringLookup}</td>
+ * <td>{@link #scriptStringLookup()}</td>
+ * <td>1.5</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_SYS}</td>
+ * <td>{@link SystemPropertyStringLookup}</td>
+ * <td>{@link #systemPropertyStringLookup()}</td>
+ * <td>1.3</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_URL}</td>
+ * <td>{@link UrlStringLookup}</td>
+ * <td>{@link #urlStringLookup()}</td>
+ * <td>1.5</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_URL_DECODER}</td>
+ * <td>{@link UrlDecoderStringLookup}</td>
+ * <td>{@link #urlDecoderStringLookup()}</td>
+ * <td>1.5</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_URL_ENCODER}</td>
+ * <td>{@link UrlEncoderStringLookup}</td>
+ * <td>{@link #urlEncoderStringLookup()}</td>
+ * <td>1.5</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_XML}</td>
+ * <td>{@link XmlStringLookup}</td>
+ * <td>{@link #xmlStringLookup()}</td>
+ * <td>1.5</td>
+ * </tr>
+ * </table>
  *
  * @since 1.3
  */
@@ -48,6 +138,118 @@ public final class StringLookupFactory {
      * Defines the singleton for this class.
      */
     public static final StringLookupFactory INSTANCE = new StringLookupFactory();
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_BASE64_DECODER = "base64Decoder";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_BASE64_ENCODER = "base64Encoder";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_CONST = "const";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_DATE = "date";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_ENV = "env";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_FILE = "file";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_JAVA = "java";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_LOCALHOST = "localhost";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_PROPERTIES = "properties";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_RESOURCE_BUNDLE = "resourceBundle";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_SCRIPT = "script";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_SYS = "sys";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_URL = "url";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_URL_DECODER = "urlDecoder";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_URL_ENCODER = "urlEncoder";
+
+    /**
+     * Default lookup key for interpolation.
+     * 
+     * @since 1.6
+     */
+    public static final String KEY_XML = "xml";
 
     /**
      * Clears any static resources.
@@ -66,25 +268,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * The following lookups are installed:
-     * <ul>
-     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
-     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
-     * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
-     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
-     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
-     * 1.3.</li>
-     * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
-     * <li>"resourceBundle" for the {@link ResourceBundleStringLookup} since 1.6.</li>
-     * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
-     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
-     * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
-     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
-     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
-     * </ul>
+     * Adds the {@link StringLookupFactory default lookups}.
      *
      * @param stringLookupMap
      *            the map of string lookups.
@@ -92,32 +276,60 @@ public final class StringLookupFactory {
      */
     public void addDefaultStringLookups(final Map<String, StringLookup> stringLookupMap) {
         if (stringLookupMap != null) {
-            stringLookupMap.put("sys", SystemPropertyStringLookup.INSTANCE);
-            stringLookupMap.put("env", EnvironmentVariableStringLookup.INSTANCE);
-            stringLookupMap.put("java", JavaPlatformStringLookup.INSTANCE);
-            stringLookupMap.put("date", DateStringLookup.INSTANCE);
-            stringLookupMap.put("localhost", LocalHostStringLookup.INSTANCE);
-            stringLookupMap.put("xml", XmlStringLookup.INSTANCE);
-            stringLookupMap.put("properties", PropertiesStringLookup.INSTANCE);
-            stringLookupMap.put("resourceBundle", ResourceBundleStringLookup.INSTANCE);
-            stringLookupMap.put("script", ScriptStringLookup.INSTANCE);
-            stringLookupMap.put("file", FileStringLookup.INSTANCE);
-            stringLookupMap.put("url", UrlStringLookup.INSTANCE);
-            stringLookupMap.put("base64", Base64StringLookup.INSTANCE);
-            stringLookupMap.put("urlEncode", UrlEncoderStringLookup.INSTANCE);
-            stringLookupMap.put("urlDecode", UrlDecoderStringLookup.INSTANCE);
-            stringLookupMap.put("const", ConstantStringLookup.INSTANCE);
+            // "base64" is deprecated in favor of KEY_BASE64_DECODER.
+            stringLookupMap.put("base64", Base64DecoderStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_BASE64_DECODER, Base64DecoderStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_BASE64_ENCODER, Base64EncoderStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_CONST, ConstantStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_DATE, DateStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_ENV, EnvironmentVariableStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_FILE, FileStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_JAVA, JavaPlatformStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_LOCALHOST, LocalHostStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_PROPERTIES, PropertiesStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_RESOURCE_BUNDLE, ResourceBundleStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_SCRIPT, ScriptStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_SYS, SystemPropertyStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_URL, UrlStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_URL_DECODER, UrlDecoderStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_URL_ENCODER, UrlEncoderStringLookup.INSTANCE);
+            stringLookupMap.put(KEY_XML, XmlStringLookup.INSTANCE);
         }
     }
 
     /**
-     * Returns the DateStringLookup singleton instance to format the current date with the format given in the key in a
-     * format compatible with {@link java.text.SimpleDateFormat}.
+     * Returns the Base64StringLookup singleton instance to format the current date with the format given in the key in
+     * a format compatible with {@link java.text.SimpleDateFormat}.
      *
      * @return the DateStringLookup singleton instance.
+     * @since 1.5
      */
+    public StringLookup base64DecoderStringLookup() {
+        return Base64DecoderStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the Base64StringLookup singleton instance to format the current date with the format given in the key in
+     * a format compatible with {@link java.text.SimpleDateFormat}.
+     *
+     * @return the DateStringLookup singleton instance.
+     * @since 1.6
+     */
+    public StringLookup base64EncoderStringLookup() {
+        return Base64EncoderStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the Base64StringLookup singleton instance to format the current date with the format given in the key in
+     * a format compatible with {@link java.text.SimpleDateFormat}.
+     *
+     * @return the DateStringLookup singleton instance.
+     * @since 1.5
+     * @deprecated Use {@link #base64DecoderStringLookup()}.
+     */
+    @Deprecated
     public StringLookup base64StringLookup() {
-        return Base64StringLookup.INSTANCE;
+        return Base64DecoderStringLookup.INSTANCE;
     }
 
     /**
@@ -167,28 +379,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns a new InterpolatorStringLookup.
-     * <p>
-     * The following lookups are used by default:
-     * </p>
-     * <ul>
-     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
-     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
-     * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
-     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
-     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
-     * 1.3.</li>
-     * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
-     * <li>"resourceBundle" for the {@link ResourceBundleStringLookup} since 1.6.</li>
-     * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
-     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
-     * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
-     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
-     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
-     * </ul>
+     * Returns a new InterpolatorStringLookup using the {@link StringLookupFactory default lookups}.
      *
      * @return a new InterpolatorStringLookup.
      */
@@ -197,29 +388,11 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns a new InterpolatorStringLookup.
+     * Returns a new InterpolatorStringLookup using the {@link StringLookupFactory default lookups}.
      * <p>
      * If {@code addDefaultLookups} is true, the following lookups are used in addition to the ones provided in
      * {@code stringLookupMap}:
      * </p>
-     * <ul>
-     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
-     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
-     * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
-     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
-     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
-     * 1.3.</li>
-     * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
-     * <li>"resourceBundle" for the {@link ResourceBundleStringLookup} since 1.6.</li>
-     * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
-     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
-     * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
-     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
-     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
-     * </ul>
      *
      * @param stringLookupMap
      *            the map of string lookups.
@@ -236,28 +409,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns a new InterpolatorStringLookup.
-     * <p>
-     * The following lookups are used by default:
-     * </p>
-     * <ul>
-     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
-     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
-     * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
-     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
-     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
-     * 1.3.</li>
-     * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
-     * <li>"resourceBundle" for the {@link ResourceBundleStringLookup} since 1.6.</li>
-     * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
-     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
-     * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
-     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
-     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
-     * </ul>
+     * Returns a new InterpolatorStringLookup using the {@link StringLookupFactory default lookups}.
      *
      * @param <V>
      *            the value type the default string lookup's map.
@@ -270,28 +422,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns a new InterpolatorStringLookup.
-     * <p>
-     * The following lookups are used by default:
-     * </p>
-     * <ul>
-     * <li>"base64" for the {@link Base64StringLookup} since 1.5.</li>
-     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
-     * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
-     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
-     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup}, see {@link #localHostStringLookup()} for key names; since
-     * 1.3.</li>
-     * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
-     * <li>"resourceBundle" for the {@link ResourceBundleStringLookup} since 1.6.</li>
-     * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
-     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
-     * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
-     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
-     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
-     * </ul>
+     * Returns a new InterpolatorStringLookup using the {@link StringLookupFactory default lookups}.
      *
      * @param defaultStringLookup
      *            the default string lookup.
@@ -435,7 +566,7 @@ public final class StringLookupFactory {
     /**
      * Returns the UrlDecoderStringLookup singleton instance.
      * <p>
-     *  Decodes URL Strings using the UTF-8 encoding.
+     * Decodes URL Strings using the UTF-8 encoding.
      * </p>
      * <p>
      * For example: "Hello%20World%21" becomes "Hello World!".
@@ -451,7 +582,7 @@ public final class StringLookupFactory {
     /**
      * Returns the UrlDecoderStringLookup singleton instance.
      * <p>
-     *  Decodes URL Strings using the UTF-8 encoding.
+     * Decodes URL Strings using the UTF-8 encoding.
      * </p>
      * <p>
      * For example: "Hello World!" becomes "Hello+World%21".

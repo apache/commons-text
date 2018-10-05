@@ -49,6 +49,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-144" type="update" dev="ggregory">Add the resource string bundle string lookup to the default set of lookups</action>
     <action issue="TEXT-145" type="update" dev="ggregory">Add StringLookupFactory methods for the URL encoder and decoder string lookups</action>
     <action issue="TEXT-146" type="update" dev="ggregory">org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup() should reuse a singleton instance</action>
+    <action issue="TEXT-147" type="update" dev="ggregory">Add a Base64 encoder string lookup.</action>
   </release>
 
   <release version="1.5" date="2018-09-29" description="Release 1.5">

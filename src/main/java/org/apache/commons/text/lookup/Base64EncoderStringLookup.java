@@ -21,27 +21,27 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
- * Decodes Base64 Strings.
+ * Encodes Base64 Strings.
  *
- * @since 1.5
+ * @since 1.6
  */
-final class Base64StringLookup extends AbstractStringLookup {
+final class Base64EncoderStringLookup extends AbstractStringLookup {
 
     /**
      * Defines the singleton for this class.
      */
-    static final Base64StringLookup INSTANCE = new Base64StringLookup();
+    static final Base64EncoderStringLookup INSTANCE = new Base64EncoderStringLookup();
 
     /**
      * No need to build instances for now.
      */
-    private Base64StringLookup() {
+    private Base64EncoderStringLookup() {
         // empty
     }
 
     @Override
     public String lookup(final String key) {
-        return new String(Base64.getDecoder().decode(key), StandardCharsets.ISO_8859_1);
+        return new String(Base64.getEncoder().encodeToString(key.getBytes(StandardCharsets.ISO_8859_1)));
     }
 
 }
