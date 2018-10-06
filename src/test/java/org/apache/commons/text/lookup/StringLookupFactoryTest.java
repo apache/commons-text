@@ -30,8 +30,8 @@ public class StringLookupFactoryTest {
     @Test
     public void testSingletons() {
         final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
-        Assertions.assertEquals(Base64DecoderStringLookup.INSTANCE, stringLookupFactory.base64StringLookup());
-        Assertions.assertEquals(Base64EncoderStringLookup.INSTANCE, stringLookupFactory.base64StringLookup());
+        Assertions.assertEquals(Base64DecoderStringLookup.INSTANCE, stringLookupFactory.base64DecoderStringLookup());
+        Assertions.assertEquals(Base64EncoderStringLookup.INSTANCE, stringLookupFactory.base64EncoderStringLookup());
         Assertions.assertEquals(ConstantStringLookup.INSTANCE, stringLookupFactory.constantStringLookup());
         Assertions.assertEquals(DateStringLookup.INSTANCE, stringLookupFactory.dateStringLookup());
         Assertions.assertEquals(EnvironmentVariableStringLookup.INSTANCE,
