@@ -30,22 +30,22 @@ public class StringLookupFactoryTest {
     @Test
     public void testSingletons() {
         final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
-        Assertions.assertEquals(Base64DecoderStringLookup.INSTANCE, stringLookupFactory.base64DecoderStringLookup());
-        Assertions.assertEquals(Base64EncoderStringLookup.INSTANCE, stringLookupFactory.base64EncoderStringLookup());
-        Assertions.assertEquals(ConstantStringLookup.INSTANCE, stringLookupFactory.constantStringLookup());
-        Assertions.assertEquals(DateStringLookup.INSTANCE, stringLookupFactory.dateStringLookup());
-        Assertions.assertEquals(EnvironmentVariableStringLookup.INSTANCE,
+        Assertions.assertSame(Base64DecoderStringLookup.INSTANCE, stringLookupFactory.base64DecoderStringLookup());
+        Assertions.assertSame(Base64EncoderStringLookup.INSTANCE, stringLookupFactory.base64EncoderStringLookup());
+        Assertions.assertSame(ConstantStringLookup.INSTANCE, stringLookupFactory.constantStringLookup());
+        Assertions.assertSame(DateStringLookup.INSTANCE, stringLookupFactory.dateStringLookup());
+        Assertions.assertSame(EnvironmentVariableStringLookup.INSTANCE,
                 stringLookupFactory.environmentVariableStringLookup());
-        Assertions.assertEquals(InterpolatorStringLookup.INSTANCE, stringLookupFactory.interpolatorStringLookup());
-        Assertions.assertEquals(JavaPlatformStringLookup.INSTANCE, stringLookupFactory.javaPlatformStringLookup());
-        Assertions.assertEquals(LocalHostStringLookup.INSTANCE, stringLookupFactory.localHostStringLookup());
-        Assertions.assertEquals(NullStringLookup.INSTANCE, stringLookupFactory.nullStringLookup());
-        Assertions.assertEquals(ResourceBundleStringLookup.INSTANCE, stringLookupFactory.resourceBundleStringLookup());
-        Assertions.assertEquals(ScriptStringLookup.INSTANCE, stringLookupFactory.scriptStringLookup());
-        Assertions.assertEquals(SystemPropertyStringLookup.INSTANCE, stringLookupFactory.systemPropertyStringLookup());
-        Assertions.assertEquals(UrlDecoderStringLookup.INSTANCE, stringLookupFactory.urlDecoderStringLookup());
-        Assertions.assertEquals(UrlEncoderStringLookup.INSTANCE, stringLookupFactory.urlEncoderStringLookup());
-        Assertions.assertEquals(UrlStringLookup.INSTANCE, stringLookupFactory.urlStringLookup());
-        Assertions.assertEquals(XmlStringLookup.INSTANCE, stringLookupFactory.xmlStringLookup());
+        Assertions.assertSame(InterpolatorStringLookup.INSTANCE, stringLookupFactory.interpolatorStringLookup());
+        Assertions.assertSame(JavaPlatformStringLookup.INSTANCE, stringLookupFactory.javaPlatformStringLookup());
+        Assertions.assertSame(LocalHostStringLookup.INSTANCE, stringLookupFactory.localHostStringLookup());
+        Assertions.assertSame(NullStringLookup.INSTANCE, stringLookupFactory.nullStringLookup());
+        Assertions.assertSame(ResourceBundleStringLookup.INSTANCE, stringLookupFactory.resourceBundleStringLookup());
+        Assertions.assertSame(ScriptStringLookup.INSTANCE, stringLookupFactory.scriptStringLookup());
+        Assertions.assertSame(SystemPropertyStringLookup.INSTANCE, stringLookupFactory.systemPropertyStringLookup());
+        Assertions.assertSame(UrlDecoderStringLookup.INSTANCE, stringLookupFactory.urlDecoderStringLookup());
+        Assertions.assertSame(UrlEncoderStringLookup.INSTANCE, stringLookupFactory.urlEncoderStringLookup());
+        Assertions.assertSame(UrlStringLookup.INSTANCE, stringLookupFactory.urlStringLookup());
+        Assertions.assertSame(XmlStringLookup.INSTANCE, stringLookupFactory.xmlStringLookup());
     }
 }
