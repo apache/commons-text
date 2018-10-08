@@ -27,7 +27,7 @@ public class Base64DecoderStringLookupTest {
 
     @Test
     public void test() {
-        Assertions.assertEquals("SGVsbG9Xb3JsZCE=", Base64DecoderStringLookup.INSTANCE.lookup("HelloWorld!"));
+        Assertions.assertEquals("HelloWorld!", Base64DecoderStringLookup.INSTANCE.lookup("SGVsbG9Xb3JsZCE="));
     }
 
 }
