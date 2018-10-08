@@ -20,14 +20,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -76,25 +74,10 @@ public class InterpolatorStringLookupTest {
     }
 
     @Test
-    public void testLookupKey() {
+    public void testLookupKeys() {
         final InterpolatorStringLookup lookup = new InterpolatorStringLookup((Map<String, Object>) null);
         final Map<String, StringLookup> stringLookupMap = lookup.getStringLookupMap();
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_BASE64_DECODER));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_BASE64_ENCODER));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_CONST));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_DATE));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_ENV));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_FILE));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_JAVA));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_LOCALHOST));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_PROPERTIES));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_RESOURCE_BUNDLE));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_SCRIPT));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_SYS));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_DECODER));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_ENCODER));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_XML));
+        StringLookupFactoryTest.assertDefaultKeys(stringLookupMap);
     }
 
     @Test

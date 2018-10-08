@@ -17,11 +17,25 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 
 public class JavaPlatformStringLookupTest {
+
+    @Test
+    public void testBadKey() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            JavaPlatformStringLookup.INSTANCE.lookup("BADKEY");
+        });
+    }
+
+    @Test
+    void testMain() {
+        JavaPlatformStringLookup.main(ArrayUtils.EMPTY_STRING_ARRAY);
+    }
 
     @Test
     public void testVm() {
