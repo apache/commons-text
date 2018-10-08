@@ -20,34 +20,36 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class InterpolatorStringLookupTest {
 
-    @BeforeAll
-    public static void beforeAll() throws Throwable {
-        System.setProperty(TESTKEY, TESTVAL);
-        System.setProperty(TESTKEY2, TESTVAL);
-    }
+    private static final String TESTKEY = "TestKey";
 
+    private static final String TESTKEY2 = "TestKey2";
+
+    private static final String TESTVAL = "TestValue";
     @AfterAll
     public static void afterAll() throws Throwable {
         System.clearProperty(TESTKEY);
         System.clearProperty(TESTKEY2);
     }
 
-    private static final String TESTKEY = "TestKey";
-    private static final String TESTKEY2 = "TestKey2";
-
-    private static final String TESTVAL = "TestValue";
+    @BeforeAll
+    public static void beforeAll() throws Throwable {
+        System.setProperty(TESTKEY, TESTVAL);
+        System.setProperty(TESTKEY2, TESTVAL);
+    }
 
     private void assertLookupNotEmpty(final StringLookup lookup, final String key) {
         final String value = lookup.lookup(key);
@@ -71,6 +73,28 @@ public class InterpolatorStringLookupTest {
         assertNull(value);
         value = lookup.lookup("ctx:" + TESTKEY);
         assertEquals(TESTVAL, value);
+    }
+
+    @Test
+    public void testLookupKey() {
+        final InterpolatorStringLookup lookup = new InterpolatorStringLookup((Map<String, Object>) null);
+        final Map<String, StringLookup> stringLookupMap = lookup.getStringLookupMap();
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_BASE64_DECODER));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_BASE64_ENCODER));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_CONST));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_DATE));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_ENV));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_FILE));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_JAVA));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_LOCALHOST));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_PROPERTIES));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_RESOURCE_BUNDLE));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_SCRIPT));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_SYS));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_DECODER));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_ENCODER));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_XML));
     }
 
     @Test
