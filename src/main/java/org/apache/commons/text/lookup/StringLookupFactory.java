@@ -141,112 +141,112 @@ public final class StringLookupFactory {
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_BASE64_DECODER = "base64Decoder";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_BASE64_ENCODER = "base64Encoder";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_CONST = "const";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_DATE = "date";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_ENV = "env";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_FILE = "file";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_JAVA = "java";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_LOCALHOST = "localhost";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_PROPERTIES = "properties";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_RESOURCE_BUNDLE = "resourceBundle";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_SCRIPT = "script";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_SYS = "sys";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_URL = "url";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_URL_DECODER = "urlDecoder";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_URL_ENCODER = "urlEncoder";
 
     /**
      * Default lookup key for interpolation.
-     * 
+     *
      * @since 1.6
      */
     public static final String KEY_XML = "xml";

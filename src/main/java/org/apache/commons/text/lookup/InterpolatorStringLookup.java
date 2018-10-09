@@ -46,7 +46,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
 
     /**
      * Defines the singleton for this class.
-     * 
+     *
      * @since 1.6
      */
     static final AbstractStringLookup INSTANCE = new InterpolatorStringLookup();
