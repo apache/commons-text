@@ -44,7 +44,7 @@ final class Base64EncoderStringLookup extends AbstractStringLookup {
         if (key == null) {
             return null;
         }
-        return new String(Base64.getEncoder().encodeToString(key.getBytes(StandardCharsets.ISO_8859_1)));
+        return Base64.getEncoder().encodeToString(key.getBytes(StandardCharsets.ISO_8859_1));
     }
 
 }
