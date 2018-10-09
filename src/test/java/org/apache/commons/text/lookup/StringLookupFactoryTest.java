@@ -29,6 +29,37 @@ import org.junit.jupiter.api.Test;
  */
 public class StringLookupFactoryTest {
 
+    public static void assertDefaultKeys(final Map<String, StringLookup> stringLookupMap) {
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_BASE64_DECODER));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_BASE64_ENCODER));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_CONST));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_DATE));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_ENV));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_FILE));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_JAVA));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_LOCALHOST));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_PROPERTIES));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_RESOURCE_BUNDLE));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_SCRIPT));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_SYS));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_DECODER));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_ENCODER));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_XML));
+    }
+
+    @Test
+    public void addDefaultStringLookupsMap() {
+        final Map<String, StringLookup> stringLookupMap = new HashMap<>();
+        StringLookupFactory.INSTANCE.addDefaultStringLookups(stringLookupMap);
+        assertDefaultKeys(stringLookupMap);
+    }
+
+    @Test
+    public void addDefaultStringLookupsNull() {
+        StringLookupFactory.INSTANCE.addDefaultStringLookups(null);
+    }
+
     /**
      * Tests that we return the singleton.
      */
@@ -52,36 +83,5 @@ public class StringLookupFactoryTest {
         Assertions.assertSame(UrlEncoderStringLookup.INSTANCE, stringLookupFactory.urlEncoderStringLookup());
         Assertions.assertSame(UrlStringLookup.INSTANCE, stringLookupFactory.urlStringLookup());
         Assertions.assertSame(XmlStringLookup.INSTANCE, stringLookupFactory.xmlStringLookup());
-    }
-
-    @Test
-    public void addDefaultStringLookupsNull() {
-        StringLookupFactory.INSTANCE.addDefaultStringLookups(null);
-    }
-
-    @Test
-    public void addDefaultStringLookupsMap() {
-        final Map<String, StringLookup> stringLookupMap = new HashMap<>();
-        StringLookupFactory.INSTANCE.addDefaultStringLookups(stringLookupMap);
-        assertDefaultKeys(stringLookupMap);
-    }
-
-    public static void assertDefaultKeys(final Map<String, StringLookup> stringLookupMap) {
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_BASE64_DECODER));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_BASE64_ENCODER));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_CONST));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_DATE));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_ENV));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_FILE));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_JAVA));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_LOCALHOST));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_PROPERTIES));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_RESOURCE_BUNDLE));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_SCRIPT));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_SYS));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_DECODER));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_ENCODER));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_XML));
     }
 }

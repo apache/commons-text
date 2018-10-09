@@ -28,7 +28,24 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests {@link UrlStringLookup}.
+ */
 public class UrlStringLookupTest {
+
+    @Test
+    public void testBadCharsetName() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            UrlStringLookup.INSTANCE.lookup("BAD_CHARSET_NAME:BAD_URL");
+        });
+    }
+
+    @Test
+    public void testBadUrl() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            UrlStringLookup.INSTANCE.lookup("UTF-8:BAD_URL");
+        });
+    }
 
     @Test
     public void testFileScheme() throws Exception {
@@ -48,13 +65,6 @@ public class UrlStringLookupTest {
     @Test
     public void testNull() {
         Assertions.assertNull(UrlStringLookup.INSTANCE.lookup(null));
-    }
-
-    @Test
-    public void testBadUrl() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            UrlStringLookup.INSTANCE.lookup("UTF-8:BAD_URL");
-        });
     }
 
 }

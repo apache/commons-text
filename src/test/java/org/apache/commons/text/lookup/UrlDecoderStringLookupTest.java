@@ -17,8 +17,6 @@
 
 package org.apache.commons.text.lookup;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -38,13 +36,13 @@ public class UrlDecoderStringLookupTest {
     }
 
     @Test
-    public void testPlus() {
-        Assertions.assertEquals("Hello World!", UrlDecoderStringLookup.INSTANCE.lookup("Hello+World!"));
+    public void testNull() {
+        Assertions.assertNull(UrlDecoderStringLookup.INSTANCE.lookup(null));
     }
 
     @Test
-    public void testNull() {
-        Assertions.assertNull(UrlDecoderStringLookup.INSTANCE.lookup(null));
+    public void testPlus() {
+        Assertions.assertEquals("Hello World!", UrlDecoderStringLookup.INSTANCE.lookup("Hello+World!"));
     }
 
 }

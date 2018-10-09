@@ -20,7 +20,15 @@ package org.apache.commons.text.lookup;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests {@link XmlStringLookup}.
+ */
 public class XmlStringLookupTest {
+
+    @Test
+    public void testNull() {
+        Assertions.assertNull(XmlStringLookup.INSTANCE.lookup(null));
+    }
 
     @Test
     public void testOne() {

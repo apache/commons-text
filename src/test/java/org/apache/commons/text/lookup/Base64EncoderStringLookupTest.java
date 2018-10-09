@@ -30,4 +30,9 @@ public class Base64EncoderStringLookupTest {
         Assertions.assertEquals("SGVsbG9Xb3JsZCE=", Base64EncoderStringLookup.INSTANCE.lookup("HelloWorld!"));
     }
 
+    @Test
+    public void testNull() {
+        Assertions.assertNull(Base64EncoderStringLookup.INSTANCE.lookup(null));
+    }
+
 }

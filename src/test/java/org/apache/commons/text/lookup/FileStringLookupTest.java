@@ -17,6 +17,8 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -24,7 +26,29 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests {@link FileStringLookup}.
+ */
 public class FileStringLookupTest {
+
+    @Test
+    public void testBadCharsetName() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            FileStringLookup.INSTANCE.lookup("BAD_CHARSET_NAME:src/test/resources/document.properties");
+        });
+    }
+
+    @Test
+    public void testBadDocumentPath() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            FileStringLookup.INSTANCE.lookup("BAD_CHARSET_NAME:src/test/resources/DOCUMENT_NOT_FOUND.TXT");
+        });
+    }
+
+    @Test
+    public void testNull() {
+        Assertions.assertNull(FileStringLookup.INSTANCE.lookup(null));
+    }
 
     @Test
     public void testOne() throws Exception {
@@ -33,5 +57,4 @@ public class FileStringLookupTest {
         Assertions.assertEquals(expectedString,
                 FileStringLookup.INSTANCE.lookup("UTF-8:src/test/resources/document.properties"));
     }
-
 }

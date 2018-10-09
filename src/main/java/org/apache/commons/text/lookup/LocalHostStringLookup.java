@@ -55,6 +55,9 @@ final class LocalHostStringLookup extends AbstractStringLookup {
      */
     @Override
     public String lookup(final String key) {
+        if (key == null) {
+            return null;
+        }
         switch (key) {
         case "name":
             try {

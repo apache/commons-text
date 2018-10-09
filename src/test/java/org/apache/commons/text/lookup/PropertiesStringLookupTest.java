@@ -24,16 +24,14 @@ import org.apache.commons.text.StringSubstitutor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests {@link PropertiesStringLookup}.
+ */
 public class PropertiesStringLookupTest {
 
     private static final String DOC_PATH = "src/test/resources/document.properties";
     private static final String KEY = "mykey";
     private static final String KEY_PATH = DOC_PATH + "::" + KEY;
-
-    @Test
-    public void testOne() {
-        Assertions.assertEquals("Hello World!", PropertiesStringLookup.INSTANCE.lookup(KEY_PATH));
-    }
 
     @Test
     public void testInterpolator() {
@@ -76,6 +74,16 @@ public class PropertiesStringLookupTest {
         Assertions.assertEquals("${properties:" + System.getProperty("user.dir") + "/" + DOC_PATH + "::mykey}",
                 replaced);
         Assertions.assertEquals("Hello World!", stringSubstitutor.replace(replaced));
+    }
+
+    @Test
+    public void testNull() {
+        Assertions.assertNull(PropertiesStringLookup.INSTANCE.lookup(null));
+    }
+
+    @Test
+    public void testOne() {
+        Assertions.assertEquals("Hello World!", PropertiesStringLookup.INSTANCE.lookup(KEY_PATH));
     }
 
 }

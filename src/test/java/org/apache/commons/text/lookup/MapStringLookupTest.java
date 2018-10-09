@@ -19,11 +19,25 @@ package org.apache.commons.text.lookup;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests {@link MapStringLookup}.
+ */
 public class MapStringLookupTest {
+
+    @Test
+    public void testConcurrentHashMapNull() {
+        Assertions.assertNull(MapStringLookup.on(new ConcurrentHashMap<String, Object>()).lookup(null));
+    }
+
+    @Test
+    public void testHashMapNull() {
+        Assertions.assertNull(MapStringLookup.on(new HashMap<String, Object>()).lookup(null));
+    }
 
     @Test
     public void testOne() {

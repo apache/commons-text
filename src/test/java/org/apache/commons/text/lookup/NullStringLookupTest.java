@@ -20,6 +20,9 @@ package org.apache.commons.text.lookup;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests {@link NullStringLookup}.
+ */
 public class NullStringLookupTest {
 
     @Test

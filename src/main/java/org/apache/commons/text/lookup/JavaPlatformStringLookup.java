@@ -177,6 +177,9 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      */
     @Override
     public String lookup(final String key) {
+        if (key == null) {
+            return null;
+        }
         switch (key) {
         case KEY_VERSION:
             return "Java version " + getSystemProperty("java.version");

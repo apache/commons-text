@@ -27,9 +27,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests {@link InterpolatorStringLookup}.
+ */
 public class InterpolatorStringLookupTest {
 
     private static final String TESTKEY = "TestKey";
@@ -37,6 +41,7 @@ public class InterpolatorStringLookupTest {
     private static final String TESTKEY2 = "TestKey2";
 
     private static final String TESTVAL = "TestValue";
+
     @AfterAll
     public static void afterAll() throws Throwable {
         System.clearProperty(TESTKEY);
@@ -98,5 +103,10 @@ public class InterpolatorStringLookupTest {
         assertLookupNotEmpty(lookup, "java:os");
         assertLookupNotEmpty(lookup, "java:locale");
         assertLookupNotEmpty(lookup, "java:hardware");
+    }
+
+    @Test
+    public void testNull() {
+        Assertions.assertNull(InterpolatorStringLookup.INSTANCE.lookup(null));
     }
 }

@@ -20,7 +20,15 @@ package org.apache.commons.text.lookup;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests {@link SystemPropertyStringLookup}.
+ */
 public class SystemPropertyStringLookupTest {
+
+    @Test
+    public void testNull() {
+        Assertions.assertNull(SystemPropertyStringLookup.INSTANCE.lookup(null));
+    }
 
     @Test
     public void testUserName() {

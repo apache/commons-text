@@ -21,8 +21,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests {@link JavaPlatformStringLookup}.
+ */
 public class JavaPlatformStringLookupTest {
 
     @Test
@@ -35,6 +39,11 @@ public class JavaPlatformStringLookupTest {
     @Test
     void testMain() {
         JavaPlatformStringLookup.main(ArrayUtils.EMPTY_STRING_ARRAY);
+    }
+
+    @Test
+    public void testNull() {
+        Assertions.assertNull(JavaPlatformStringLookup.INSTANCE.lookup(null));
     }
 
     @Test

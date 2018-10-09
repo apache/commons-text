@@ -23,6 +23,9 @@ import java.net.UnknownHostException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests {@link LocalHostStringLookup}.
+ */
 public class LocalHostStringLookupTest {
 
     @Test
@@ -41,6 +44,11 @@ public class LocalHostStringLookupTest {
     public void testName() throws UnknownHostException {
         Assertions.assertEquals(InetAddress.getLocalHost().getHostName(),
                 LocalHostStringLookup.INSTANCE.lookup("name"));
+    }
+
+    @Test
+    public void testNull() {
+        Assertions.assertNull(LocalHostStringLookup.INSTANCE.lookup(null));
     }
 
 }

@@ -41,6 +41,9 @@ final class Base64DecoderStringLookup extends AbstractStringLookup {
 
     @Override
     public String lookup(final String key) {
+        if (key == null) {
+            return null;
+        }
         return new String(Base64.getDecoder().decode(key), StandardCharsets.ISO_8859_1);
     }
 

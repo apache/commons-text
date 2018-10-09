@@ -27,6 +27,9 @@ import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests {@link DateStringLookup}.
+ */
 public class DateStringLookupTest {
 
     @Test

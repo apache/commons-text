@@ -21,7 +21,15 @@ import org.apache.commons.lang3.SystemUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests {@link EnvironmentVariableStringLookup}.
+ */
 public class EnvironmentVariableStringLookupTest {
+
+    @Test
+    public void testNull() {
+        Assertions.assertNull(EnvironmentVariableStringLookup.INSTANCE.lookup(null));
+    }
 
     @Test
     public void testOne() {

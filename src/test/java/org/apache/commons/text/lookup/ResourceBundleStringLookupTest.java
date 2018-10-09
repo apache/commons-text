@@ -24,6 +24,9 @@ import java.util.ResourceBundle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests {@link ResourceBundleStringLookup}.
+ */
 public class ResourceBundleStringLookupTest {
 
     private static final String TEST_RESOURCE_BUNDLE = "testResourceBundleLookup";
@@ -49,17 +52,17 @@ public class ResourceBundleStringLookupTest {
     }
 
     @Test
-    public void testMissingKeyInSpec() {
-        final String bundleName = TEST_RESOURCE_BUNDLE;
+    public void testBadName() {
         assertThrows(IllegalArgumentException.class, () -> {
-            ResourceBundleStringLookup.INSTANCE.lookup(bundleName + ":");
+            ResourceBundleStringLookup.INSTANCE.lookup("BAD_RESOURCE_BUNDLE_NAME:KEY");
         });
     }
 
     @Test
-    public void testBadName() {
+    public void testMissingKeyInSpec() {
+        final String bundleName = TEST_RESOURCE_BUNDLE;
         assertThrows(IllegalArgumentException.class, () -> {
-            ResourceBundleStringLookup.INSTANCE.lookup("BAD_RESOURCE_BUNDLE_NAME:KEY");
+            ResourceBundleStringLookup.INSTANCE.lookup(bundleName + ":");
         });
     }
 

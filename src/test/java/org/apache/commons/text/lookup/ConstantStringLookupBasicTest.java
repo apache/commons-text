@@ -49,6 +49,11 @@ public class ConstantStringLookupBasicTest {
     }
 
     @Test
+    public void testNull() {
+        Assertions.assertNull(ConstantStringLookup.INSTANCE.lookup(null));
+    }
+
+    @Test
     public void testOne() {
         Assertions.assertEquals(STRING_FIXTURE, ConstantStringLookup.INSTANCE
                 .lookup(ConstantStringLookupBasicTest.class.getName() + ".STRING_FIXTURE"));
