@@ -63,8 +63,8 @@ final class FileStringLookup extends AbstractStringLookup {
         final String[] keys = key.split(String.valueOf(SPLIT_CH));
         final int keyLen = keys.length;
         if (keyLen < 2) {
-            throw IllegalArgumentExceptions.format("Bad file key format [%s], expected format is CharsetName:DocumentPath.",
-                    key);
+            throw IllegalArgumentExceptions
+                    .format("Bad file key format [%s], expected format is CharsetName:DocumentPath.", key);
         }
         final String charsetName = keys[0];
         final String fileName = substringAfter(key, SPLIT_CH);
