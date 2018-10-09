@@ -49,6 +49,14 @@ public class ResourceBundleStringLookupTest {
     }
 
     @Test
+    public void testMissingKeyInSpec() {
+        final String bundleName = TEST_RESOURCE_BUNDLE;
+        assertThrows(IllegalArgumentException.class, () -> {
+            ResourceBundleStringLookup.INSTANCE.lookup(bundleName + ":");
+        });
+    }
+
+    @Test
     public void testName() {
         assertThrows(IllegalArgumentException.class, () -> {
             ResourceBundleStringLookup.INSTANCE.lookup("BAD_RESOURCE_BUNDLE_NAME:KEY");
