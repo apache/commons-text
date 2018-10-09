@@ -17,6 +17,8 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.ResourceBundle;
 
 import org.junit.jupiter.api.Assertions;
@@ -24,17 +26,43 @@ import org.junit.jupiter.api.Test;
 
 public class ResourceBundleStringLookupTest {
 
+    private static final String TEST_RESOURCE_BUNDLE = "testResourceBundleLookup";
+
     @Test
     public void testAny() {
-        final String bundleName = "testResourceBundleLookup";
+        final String bundleName = TEST_RESOURCE_BUNDLE;
         final String bundleKey = "key";
         Assertions.assertEquals(ResourceBundle.getBundle(bundleName).getString(bundleKey),
                 ResourceBundleStringLookup.INSTANCE.lookup(bundleName + ":" + bundleKey));
     }
 
     @Test
+    public void testBadKey() {
+        final String bundleName = TEST_RESOURCE_BUNDLE;
+        final String bundleKey = "bad_key";
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ResourceBundleStringLookup(bundleName).lookup(bundleKey);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            ResourceBundleStringLookup.INSTANCE.lookup(bundleName + ":" + bundleKey);
+        });
+    }
+
+    @Test
+    public void testName() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            ResourceBundleStringLookup.INSTANCE.lookup("BAD_RESOURCE_BUNDLE_NAME:KEY");
+        });
+    }
+
+    @Test
+    public void testNull() {
+        Assertions.assertNull(ResourceBundleStringLookup.INSTANCE.lookup(null));
+    }
+
+    @Test
     public void testOne() {
-        final String bundleName = "testResourceBundleLookup";
+        final String bundleName = TEST_RESOURCE_BUNDLE;
         final String bundleKey = "key";
         Assertions.assertEquals(ResourceBundle.getBundle(bundleName).getString(bundleKey),
                 new ResourceBundleStringLookup(bundleName).lookup(bundleKey));
