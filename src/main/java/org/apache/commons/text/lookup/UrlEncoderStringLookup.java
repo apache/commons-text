@@ -43,6 +43,9 @@ final class UrlEncoderStringLookup extends AbstractStringLookup {
 
     @Override
     public String lookup(final String key) {
+        if (key == null) {
+            return null;
+        }
         final String enc = StandardCharsets.UTF_8.name();
         try {
             return URLEncoder.encode(key, enc);

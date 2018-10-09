@@ -30,4 +30,10 @@ public class UrlEncoderStringLookupTest {
         Assertions.assertEquals("Hello+World%21", UrlEncoderStringLookup.INSTANCE.lookup("Hello World!"));
     }
 
+    @Test
+    public void testNull() {
+        Assertions.assertNull(UrlEncoderStringLookup.INSTANCE.lookup(null));
+    }
+
+
 }

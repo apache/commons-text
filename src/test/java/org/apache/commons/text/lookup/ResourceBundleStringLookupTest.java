@@ -57,7 +57,7 @@ public class ResourceBundleStringLookupTest {
     }
 
     @Test
-    public void testName() {
+    public void testBadName() {
         assertThrows(IllegalArgumentException.class, () -> {
             ResourceBundleStringLookup.INSTANCE.lookup("BAD_RESOURCE_BUNDLE_NAME:KEY");
         });

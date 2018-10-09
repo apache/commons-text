@@ -17,6 +17,8 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -41,6 +43,18 @@ public class UrlStringLookupTest {
     @Test
     public void testHttpScheme() throws Exception {
         Assertions.assertNotNull(UrlStringLookup.INSTANCE.lookup("UTF-8:http://www.google.com"));
+    }
+
+    @Test
+    public void testNull() {
+        Assertions.assertNull(UrlStringLookup.INSTANCE.lookup(null));
+    }
+
+    @Test
+    public void testBadUrl() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            UrlStringLookup.INSTANCE.lookup("UTF-8:BAD_URL");
+        });
     }
 
 }
