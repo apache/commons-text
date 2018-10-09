@@ -17,10 +17,38 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ScriptStringLookupTest {
+
+    @Test
+    public void testBadEngineName() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            ScriptStringLookup.INSTANCE.lookup("BAD_ENGINE_NAME:\"Hello World!\"");
+        });
+    }
+
+    @Test
+    public void testBadScript() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            ScriptStringLookup.INSTANCE.lookup("javascript:X");
+        });
+    }
+
+    @Test
+    public void testNoScript() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            ScriptStringLookup.INSTANCE.lookup("ENGINE_NAME:");
+        });
+    }
+
+    @Test
+    public void testNull() {
+        Assertions.assertNull(ScriptStringLookup.INSTANCE.lookup(null));
+    }
 
     @Test
     public void testOne() {

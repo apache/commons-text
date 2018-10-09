@@ -65,8 +65,8 @@ final class ScriptStringLookup extends AbstractStringLookup {
         final String[] keys = key.split(SPLIT_STR);
         final int keyLen = keys.length;
         if (keyLen != 2) {
-            throw IllegalArgumentExceptions
-                    .format("Bad script key format [%s]; expected format is DocumentPath:Key.", key);
+            throw IllegalArgumentExceptions.format("Bad script key format [%s]; expected format is DocumentPath:Key.",
+                    key);
         }
         final String engineName = keys[0];
         final String script = keys[1];
@@ -75,11 +75,10 @@ final class ScriptStringLookup extends AbstractStringLookup {
             if (scriptEngine == null) {
                 throw new IllegalArgumentException("No script engine named " + engineName);
             }
-            final Object eval = scriptEngine.eval(script);
-            return Objects.toString(eval, null);
+            return Objects.toString(scriptEngine.eval(script), null);
         } catch (final Exception e) {
-            throw IllegalArgumentExceptions.format(e, "Error looking up script engine [%s] for script [%s].",
-                engineName, script);
+            throw IllegalArgumentExceptions.format(e, "Error in script engine [%s] evaluating script [%s].", engineName,
+                    script);
         }
     }
 
