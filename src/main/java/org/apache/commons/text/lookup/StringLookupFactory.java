@@ -298,8 +298,8 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the Base64StringLookup singleton instance to format the current date with the format given in the key in
-     * a format compatible with {@link java.text.SimpleDateFormat}.
+     * Returns the Base64DecoderStringLookup singleton instance to format the current date with the format given in the
+     * key in a format compatible with {@link java.text.SimpleDateFormat}.
      *
      * @return the DateStringLookup singleton instance.
      * @since 1.5
@@ -309,8 +309,8 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the Base64StringLookup singleton instance to format the current date with the format given in the key in
-     * a format compatible with {@link java.text.SimpleDateFormat}.
+     * Returns the Base64EncoderStringLookup singleton instance to format the current date with the format given in the
+     * key in a format compatible with {@link java.text.SimpleDateFormat}.
      *
      * @return the DateStringLookup singleton instance.
      * @since 1.6
@@ -320,8 +320,8 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the Base64StringLookup singleton instance to format the current date with the format given in the key in
-     * a format compatible with {@link java.text.SimpleDateFormat}.
+     * Returns the Base64DecoderStringLookup singleton instance to format the current date with the format given in the
+     * key in a format compatible with {@link java.text.SimpleDateFormat}.
      *
      * @return the DateStringLookup singleton instance.
      * @since 1.5
