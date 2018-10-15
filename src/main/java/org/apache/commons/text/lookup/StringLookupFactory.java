@@ -278,22 +278,9 @@ public final class StringLookupFactory {
         if (stringLookupMap != null) {
             // "base64" is deprecated in favor of KEY_BASE64_DECODER.
             stringLookupMap.put("base64", Base64DecoderStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_BASE64_DECODER, Base64DecoderStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_BASE64_ENCODER, Base64EncoderStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_CONST, ConstantStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_DATE, DateStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_ENV, EnvironmentVariableStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_FILE, FileStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_JAVA, JavaPlatformStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_LOCALHOST, LocalHostStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_PROPERTIES, PropertiesStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_RESOURCE_BUNDLE, ResourceBundleStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_SCRIPT, ScriptStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_SYS, SystemPropertyStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_URL, UrlStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_URL_DECODER, UrlDecoderStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_URL_ENCODER, UrlEncoderStringLookup.INSTANCE);
-            stringLookupMap.put(KEY_XML, XmlStringLookup.INSTANCE);
+            for (DefaultStringLookup stringLookup : DefaultStringLookup.values()) {
+                stringLookupMap.put(stringLookup.getKey(), stringLookup.getStringLookup());
+            }
         }
     }
 
