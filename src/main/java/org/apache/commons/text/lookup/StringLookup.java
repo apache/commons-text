@@ -18,14 +18,14 @@
 package org.apache.commons.text.lookup;
 
 /**
- * Lookup a String key to a String value.
+ * Lookups a String key for a String value.
  * <p>
  * This class represents the simplest form of a string to string map. It has a benefit over a map in that it can create
  * the result on demand based on the key.
  * </p>
  * <p>
  * For example, it would be possible to implement a lookup that used the key as a primary key, and looked up the value
- * on demand from the database
+ * on demand from the database.
  * </p>
  *
  * @since 1.3

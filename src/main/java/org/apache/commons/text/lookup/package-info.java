@@ -17,7 +17,7 @@
 /**
  * <p>
  * Provides algorithms for looking up strings for use with a {@link org.apache.commons.text.StringSubstitutor}. The main
- * class here is {@link org.apache.commons.text.lookup.StringLookupFactory}
+ * class here is {@link org.apache.commons.text.lookup.StringLookupFactory}.
  * </p>
  *
  * <p>

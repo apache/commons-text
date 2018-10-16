@@ -49,14 +49,14 @@ public class StringLookupFactoryTest {
     }
 
     @Test
-    public void addDefaultStringLookupsMap() {
+    public void testAddDefaultStringLookupsMap() {
         final Map<String, StringLookup> stringLookupMap = new HashMap<>();
         StringLookupFactory.INSTANCE.addDefaultStringLookups(stringLookupMap);
         assertDefaultKeys(stringLookupMap);
     }
 
     @Test
-    public void addDefaultStringLookupsNull() {
+    public void testAddDefaultStringLookupsNull() {
         StringLookupFactory.INSTANCE.addDefaultStringLookups(null);
     }
 

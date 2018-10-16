@@ -24,23 +24,8 @@ import java.util.Map.Entry;
 /**
  * Proxies other {@link StringLookup}s using a keys within ${} markers using the format "${StringLookup:Key}".
  * <p>
- * The following lookups are used by default:
+ * Uses the {@link StringLookupFactory default lookups}.
  * </p>
- * <ul>
- * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
- * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
- * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
- * <li>"date" for the {@link DateStringLookup}.</li>
- * <li>"localhost" for the {@link LocalHostStringLookup}.</li>
- * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
- * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
- * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
- * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
- * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
- * <li>"base64" for the {@link Base64DecoderStringLookup} since 1.5.</li>
- * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
- * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
- * </ul>
  */
 class InterpolatorStringLookup extends AbstractStringLookup {
 
@@ -63,24 +48,8 @@ class InterpolatorStringLookup extends AbstractStringLookup {
     /**
      * Creates an instance using only lookups that work without initial properties and are stateless.
      * <p>
-     * The following lookups are installed:
+     * Uses the {@link StringLookupFactory default lookups}.
      * </p>
-     * <ul>
-     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
-     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
-     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
-     * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup} since 1.3.</li>
-     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
-     * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
-     * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
-     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
-     * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"base64" for the {@link Base64DecoderStringLookup} since 1.5.</li>
-     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
-     * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
-     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
-     * </ul>
      */
     InterpolatorStringLookup() {
         this((Map<String, String>) null);
@@ -89,24 +58,8 @@ class InterpolatorStringLookup extends AbstractStringLookup {
     /**
      * Creates an instance using only lookups that work without initial properties and are stateless.
      * <p>
-     * The following lookups are installed:
+     * Uses the {@link StringLookupFactory default lookups}.
      * </p>
-     * <ul>
-     * <li>"sys" for the {@link SystemPropertyStringLookup}.</li>
-     * <li>"env" for the {@link EnvironmentVariableStringLookup}.</li>
-     * <li>"java" for the {@link JavaPlatformStringLookup}.</li>
-     * <li>"date" for the {@link DateStringLookup}.</li>
-     * <li>"localhost" for the {@link LocalHostStringLookup} since 1.3.</li>
-     * <li>"xml" for the {@link XmlStringLookup} since 1.5.</li>
-     * <li>"properties" for the {@link PropertiesStringLookup} since 1.5.</li>
-     * <li>"script" for the {@link ScriptStringLookup} since 1.5.</li>
-     * <li>"file" for the {@link FileStringLookup} since 1.5.</li>
-     * <li>"url" for the {@link UrlStringLookup} since 1.5.</li>
-     * <li>"base64" for the {@link Base64DecoderStringLookup} since 1.5.</li>
-     * <li>"urlEncode" for the {@link UrlEncoderStringLookup} since 1.5.</li>
-     * <li>"urlDecode" for the {@link UrlDecoderStringLookup} since 1.5.</li>
-     * <li>"const" for the {@link ConstantStringLookup} since 1.5.</li>
-     * </ul>
      *
      * @param <V>
      *            the map's value type.
