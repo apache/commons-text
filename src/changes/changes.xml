@@ -46,6 +46,7 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
 
   <release version="1.7" date="2018-MM-DD" description="Release 1.7">
+    <action issue="TEXT-148" type="add" dev="ggregory">Add an enum to the lookup package that lists all StringLookups</action>
   </release>
 
   <release version="1.6" date="2018-10-12" description="Release 1.6">
