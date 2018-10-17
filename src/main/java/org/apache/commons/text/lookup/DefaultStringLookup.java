@@ -21,7 +21,7 @@ package org.apache.commons.text.lookup;
  * <p>
  * This enum was adapted from Apache Commons Configuration 2.4-SNAPSHOT.
  * </p>
- * 
+ *
  * @see StringLookupFactory
  * @see StringLookup
  * @since 1.7
@@ -122,7 +122,7 @@ public enum DefaultStringLookup {
      * @param lookup
      *            the {@link StringLookup} instance
      */
-    private DefaultStringLookup(final String prefix, final StringLookup lookup) {
+    DefaultStringLookup(final String prefix, final StringLookup lookup) {
         this.key = prefix;
         this.lookup = lookup;
     }
