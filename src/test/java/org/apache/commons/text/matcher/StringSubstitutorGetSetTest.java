@@ -17,10 +17,10 @@
 
 package org.apache.commons.text.matcher;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import org.apache.commons.text.StringSubstitutor;
 import org.junit.jupiter.api.Test;
@@ -42,23 +42,13 @@ public class StringSubstitutorGetSetTest {
 
         sub.setVariablePrefix("<<");
         assertTrue(sub.getVariablePrefixMatcher() instanceof AbstractStringMatcher.StringMatcher);
-        try {
-            sub.setVariablePrefix((String) null);
-            fail("Exception expected!");
-        } catch (final IllegalArgumentException ex) {
-            // expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> sub.setVariablePrefix((String) null));
         assertTrue(sub.getVariablePrefixMatcher() instanceof AbstractStringMatcher.StringMatcher);
 
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.commaMatcher();
         sub.setVariablePrefixMatcher(matcher);
         assertSame(matcher, sub.getVariablePrefixMatcher());
-        try {
-            sub.setVariablePrefixMatcher((StringMatcher) null);
-            fail("Exception expected!");
-        } catch (final IllegalArgumentException ex) {
-            // expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> sub.setVariablePrefixMatcher((StringMatcher) null));
         assertSame(matcher, sub.getVariablePrefixMatcher());
     }
 
@@ -74,23 +64,13 @@ public class StringSubstitutorGetSetTest {
 
         sub.setVariableSuffix("<<");
         assertTrue(sub.getVariableSuffixMatcher() instanceof AbstractStringMatcher.StringMatcher);
-        try {
-            sub.setVariableSuffix((String) null);
-            fail("Exception expected!");
-        } catch (final IllegalArgumentException ex) {
-            // expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> sub.setVariableSuffix((String) null));
         assertTrue(sub.getVariableSuffixMatcher() instanceof AbstractStringMatcher.StringMatcher);
 
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.commaMatcher();
         sub.setVariableSuffixMatcher(matcher);
         assertSame(matcher, sub.getVariableSuffixMatcher());
-        try {
-            sub.setVariableSuffixMatcher((StringMatcher) null);
-            fail("Exception expected!");
-        } catch (final IllegalArgumentException ex) {
-            // expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> sub.setVariableSuffixMatcher((StringMatcher) null));
         assertSame(matcher, sub.getVariableSuffixMatcher());
     }
 

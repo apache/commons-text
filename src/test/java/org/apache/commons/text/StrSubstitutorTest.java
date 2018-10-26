@@ -18,12 +18,12 @@
 package org.apache.commons.text;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -269,22 +269,12 @@ public class StrSubstitutorTest {
         map.put("critterColor", "brown");
         map.put("critterType", "${animal}");
         StrSubstitutor sub = new StrSubstitutor(map);
-        try {
-            sub.replace("The ${animal} jumps over the ${target}.");
-            fail("Cyclic replacement was not detected!");
-        } catch (final IllegalStateException ex) {
-            // expected
-        }
+        assertThrows(IllegalStateException.class, () -> sub.replace("The ${animal} jumps over the ${target}."));
 
         // also check even when default value is set.
         map.put("critterType", "${animal:-fox}");
-        sub = new StrSubstitutor(map);
-        try {
-            sub.replace("The ${animal} jumps over the ${target}.");
-            fail("Cyclic replacement was not detected!");
-        } catch (final IllegalStateException ex) {
-            // expected
-        }
+        assertThrows(IllegalStateException.class,
+                () -> new StrSubstitutor(map).replace("The ${animal} jumps over the ${target}."));
     }
 
     /**
@@ -495,23 +485,13 @@ public class StrSubstitutorTest {
 
         sub.setVariablePrefix("<<");
         assertTrue(sub.getVariablePrefixMatcher() instanceof StrMatcher.StringMatcher);
-        try {
-            sub.setVariablePrefix((String) null);
-            fail("Exception expected!");
-        } catch (final IllegalArgumentException ex) {
-            // expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> sub.setVariablePrefix((String) null));
         assertTrue(sub.getVariablePrefixMatcher() instanceof StrMatcher.StringMatcher);
 
         final StrMatcher matcher = StrMatcher.commaMatcher();
         sub.setVariablePrefixMatcher(matcher);
         assertSame(matcher, sub.getVariablePrefixMatcher());
-        try {
-            sub.setVariablePrefixMatcher((StrMatcher) null);
-            fail("Exception expected!");
-        } catch (final IllegalArgumentException ex) {
-            // expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> sub.setVariablePrefixMatcher((StrMatcher) null));
         assertSame(matcher, sub.getVariablePrefixMatcher());
     }
 
@@ -527,23 +507,13 @@ public class StrSubstitutorTest {
 
         sub.setVariableSuffix("<<");
         assertTrue(sub.getVariableSuffixMatcher() instanceof StrMatcher.StringMatcher);
-        try {
-            sub.setVariableSuffix((String) null);
-            fail("Exception expected!");
-        } catch (final IllegalArgumentException ex) {
-            // expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> sub.setVariableSuffix((String) null));
         assertTrue(sub.getVariableSuffixMatcher() instanceof StrMatcher.StringMatcher);
 
         final StrMatcher matcher = StrMatcher.commaMatcher();
         sub.setVariableSuffixMatcher(matcher);
         assertSame(matcher, sub.getVariableSuffixMatcher());
-        try {
-            sub.setVariableSuffixMatcher((StrMatcher) null);
-            fail("Exception expected!");
-        } catch (final IllegalArgumentException ex) {
-            // expected
-        }
+        assertThrows(IllegalArgumentException.class, () -> sub.setVariableSuffixMatcher((StrMatcher) null));
         assertSame(matcher, sub.getVariableSuffixMatcher());
     }
 

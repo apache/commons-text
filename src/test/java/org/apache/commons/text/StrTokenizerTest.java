@@ -17,11 +17,11 @@
 
 package org.apache.commons.text;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -574,11 +574,7 @@ public class StrTokenizerTest {
         assertFalse(tokenizer.hasPrevious());
         assertNull(tokenizer.nextToken());
         assertEquals(0, tokenizer.size());
-        try {
-            tokenizer.next();
-            fail("Exception expected!");
-        } catch (final NoSuchElementException ex) {
-        }
+        assertThrows(NoSuchElementException.class, () -> tokenizer.next());
     }
 
     @Test
@@ -840,29 +836,13 @@ public class StrTokenizerTest {
     public void testIteration() {
         final StrTokenizer tkn = new StrTokenizer("a b c");
         assertFalse(tkn.hasPrevious());
-        try {
-            tkn.previous();
-            fail("Exception expected!");
-        } catch (final NoSuchElementException ex) {
-        }
+        assertThrows(NoSuchElementException.class, () -> tkn.previous());
         assertTrue(tkn.hasNext());
 
         assertEquals("a", tkn.next());
-        try {
-            tkn.remove();
-            fail("Exception expected!");
-        } catch (final UnsupportedOperationException ex) {
-        }
-        try {
-            tkn.set("x");
-            fail("Exception expected!");
-        } catch (final UnsupportedOperationException ex) {
-        }
-        try {
-            tkn.add("y");
-            fail("Exception expected!");
-        } catch (final UnsupportedOperationException ex) {
-        }
+        assertThrows(UnsupportedOperationException.class, () -> tkn.remove());
+        assertThrows(UnsupportedOperationException.class, () -> tkn.set("x"));
+        assertThrows(UnsupportedOperationException.class, () -> tkn.add("y"));
         assertTrue(tkn.hasPrevious());
         assertTrue(tkn.hasNext());
 
@@ -874,11 +854,7 @@ public class StrTokenizerTest {
         assertTrue(tkn.hasPrevious());
         assertFalse(tkn.hasNext());
 
-        try {
-            tkn.next();
-            fail("Exception expected!");
-        } catch (final NoSuchElementException ex) {
-        }
+        assertThrows(NoSuchElementException.class, () -> tkn.next());
         assertTrue(tkn.hasPrevious());
         assertFalse(tkn.hasNext());
     }
