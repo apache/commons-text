@@ -128,7 +128,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * to <b>true</b>.
  *
  * <code>StringSubstitutor</code> supports to throw exception if there are any resolved variables, this functionality
- * has to be enabled explicitly by setting the {@link #setFailOnUndefinedVariable(boolean) failOnUndefinedVariable} 
+ * has to be enabled explicitly by setting the {@link #setFailOnUndefinedVariable(boolean) failOnUndefinedVariable}
  * property to <b>true</b>.
  * <p>
  * This class is <b>not</b> thread safe.
