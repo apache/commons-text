@@ -128,8 +128,8 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * to <b>true</b>.
  *
  * <code>StringSubstitutor</code> supports to throw exception if there are any resolved variables, this functionality
- * has to be enabled explicitly by setting the {@link #setFailOnUndefinedVariable(boolean) failOnUndefinedVariable} property
- * to <b>true</b>.
+ * has to be enabled explicitly by setting the {@link #setFailOnUndefinedVariable(boolean) failOnUndefinedVariable} 
+ * property to <b>true</b>.
  * <p>
  * This class is <b>not</b> thread safe.
  * </p>
@@ -1425,10 +1425,8 @@ public class StringSubstitutor {
                                     lengthChange += change;
                                     chars = buf.buffer; // in case buffer was
                                                         // altered
-                                }
-                                else if (failOnUndefinedVariable){
-                                    throw new IllegalArgumentException
-                                    ("Not able to resolve all variables.");
+                                } else if (failOnUndefinedVariable) {
+                                    throw new IllegalArgumentException("Not able to resolve all variables.");
                                 }
 
                                 // remove variable from the cyclic stack
