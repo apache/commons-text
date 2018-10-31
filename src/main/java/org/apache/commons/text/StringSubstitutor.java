@@ -47,7 +47,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * <p>
  * Typical usage of this class follows the following pattern: First an instance is created and initialized with the map
  * that contains the values for the available variables. If a prefix and/or suffix for variables should be used other
- * than the default ones, the appropriate settings can be performed. After that the <code>replace()</code> method can be
+ * than the default ones, the appropriate settings can be performed. After that the {@code replace()} method can be
  * called passing in the source text for interpolation. In the returned text all variable references (as long as their
  * values are known) will be resolved. The following example demonstrates this:
  *
@@ -102,7 +102,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * </pre>
  *
  * Here only the variable's name referred to in the text should be replaced resulting in the text (assuming that the
- * value of the <code>name</code> variable is <code>x</code>):
+ * value of the {@code name} variable is {@code x}):
  *
  * <pre>
  *   The variable ${x} must be used.
@@ -123,9 +123,14 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * ${jre-${java.specification.version}}
  * </pre>
  *
- * <code>StringSubstitutor</code> supports this recursive substitution in variable names, but it has to be enabled
- * explicitly by setting the {@link #setEnableSubstitutionInVariables(boolean) enableSubstitutionInVariables} property
- * to <b>true</b>.
+ * <p>
+ * {@code StringSubstitutor} supports this recursive substitution in variable names, but it has to be enabled
+ * explicitly by calling {@link #setEnableSubstitutionInVariables(boolean)} with {@code true}.
+ * </p>
+ * <p>
+ * {@code StringSubstitutor} supports throwing exceptions for unresolved variables, you enable this by setting
+ * calling {@link #setEnableUndefinedVariableException(boolean)} with {@code true}.
+ * </p>
  * <p>
  * This class is <b>not</b> thread safe.
  * </p>
@@ -187,6 +192,8 @@ public class StringSubstitutor {
      * @param valueMap
      *            the map with the values, may be null
      * @return the result of the replace operation
+     * @throws IllegalArgumentException
+     *             if a variable is not found and enableUndefinedVariableException is true
      */
     public static <V> String replace(final Object source, final Map<String, V> valueMap) {
         return new StringSubstitutor(valueMap).replace(source);
@@ -209,6 +216,8 @@ public class StringSubstitutor {
      * @return the result of the replace operation
      * @throws IllegalArgumentException
      *             if the prefix or suffix is null
+     * @throws IllegalArgumentException
+     *             if a variable is not found and enableUndefinedVariableException is true
      */
     public static <V> String replace(final Object source, final Map<String, V> valueMap, final String prefix,
             final String suffix) {
@@ -224,6 +233,8 @@ public class StringSubstitutor {
      * @param valueProperties
      *            the properties with values, may be null
      * @return the result of the replace operation
+     * @throws IllegalArgumentException
+     *             if a variable is not found and enableUndefinedVariableException is true
      */
     public static String replace(final Object source, final Properties valueProperties) {
         if (valueProperties == null) {
@@ -246,6 +257,8 @@ public class StringSubstitutor {
      * @param source
      *            the source text containing the variables to substitute, null returns null
      * @return the result of the replace operation
+     * @throws IllegalArgumentException
+     *             if a variable is not found and enableUndefinedVariableException is true
      */
     public static String replaceSystemProperties(final Object source) {
         return new StringSubstitutor(StringLookupFactory.INSTANCE.systemPropertyStringLookup()).replace(source);
@@ -284,12 +297,17 @@ public class StringSubstitutor {
     /**
      * Whether escapes should be preserved. Default is false;
      */
-    private boolean preserveEscapes = false;
+    private boolean preserveEscapes;
 
     /**
      * The flag whether substitution in variable values is disabled.
      */
     private boolean disableSubstitutionInValues;
+
+    /**
+     * The flag whether exception should be thrown on undefined variable.
+     */
+    private boolean enableUndefinedVariableException;
 
     // -----------------------------------------------------------------------
     /**
@@ -600,6 +618,16 @@ public class StringSubstitutor {
     }
 
     /**
+     * Returns a flag whether exception can be thrown upon undefined
+     * variable.
+     *
+     * @return the fail on undefined variable flag
+     */
+    public boolean isEnableUndefinedVariableException() {
+        return enableUndefinedVariableException;
+    }
+
+    /**
      * Returns the flag controlling whether escapes are preserved during substitution.
      *
      * @return the preserve escape flag
@@ -616,6 +644,8 @@ public class StringSubstitutor {
      * @param source
      *            the character array to replace in, not altered, null returns null
      * @return the result of the replace operation
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public String replace(final char[] source) {
         if (source == null) {
@@ -640,6 +670,8 @@ public class StringSubstitutor {
      * @param length
      *            the length within the array to be processed, must be valid
      * @return the result of the replace operation
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public String replace(final char[] source, final int offset, final int length) {
         if (source == null) {
@@ -657,6 +689,8 @@ public class StringSubstitutor {
      * @param source
      *            the buffer to use as a template, not changed, null returns null
      * @return the result of the replace operation
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public String replace(final CharSequence source) {
         if (source == null) {
@@ -679,6 +713,8 @@ public class StringSubstitutor {
      * @param length
      *            the length within the array to be processed, must be valid
      * @return the result of the replace operation
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public String replace(final CharSequence source, final int offset, final int length) {
         if (source == null) {
@@ -697,6 +733,8 @@ public class StringSubstitutor {
      * @param source
      *            the source to replace in, null returns null
      * @return the result of the replace operation
+     * @throws IllegalArgumentException
+     *             if a variable is not found and enableUndefinedVariableException is true
      */
     public String replace(final Object source) {
         if (source == null) {
@@ -715,6 +753,8 @@ public class StringSubstitutor {
      * @param source
      *            the builder to use as a template, not changed, null returns null
      * @return the result of the replace operation
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public String replace(final TextStringBuilder source) {
         if (source == null) {
@@ -739,6 +779,8 @@ public class StringSubstitutor {
      * @param length
      *            the length within the array to be processed, must be valid
      * @return the result of the replace operation
+      * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public String replace(final TextStringBuilder source, final int offset, final int length) {
         if (source == null) {
@@ -757,6 +799,8 @@ public class StringSubstitutor {
      * @param source
      *            the string to replace in, null returns null
      * @return the result of the replace operation
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public String replace(final String source) {
         if (source == null) {
@@ -783,6 +827,8 @@ public class StringSubstitutor {
      * @param length
      *            the length within the array to be processed, must be valid
      * @return the result of the replace operation
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public String replace(final String source, final int offset, final int length) {
         if (source == null) {
@@ -803,6 +849,8 @@ public class StringSubstitutor {
      * @param source
      *            the buffer to use as a template, not changed, null returns null
      * @return the result of the replace operation
+      * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public String replace(final StringBuffer source) {
         if (source == null) {
@@ -827,6 +875,8 @@ public class StringSubstitutor {
      * @param length
      *            the length within the array to be processed, must be valid
      * @return the result of the replace operation
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public String replace(final StringBuffer source, final int offset, final int length) {
         if (source == null) {
@@ -845,6 +895,8 @@ public class StringSubstitutor {
      * @param source
      *            the builder to replace in, updated, null returns zero
      * @return true if altered
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public boolean replaceIn(final TextStringBuilder source) {
         if (source == null) {
@@ -867,6 +919,8 @@ public class StringSubstitutor {
      * @param length
      *            the length within the builder to be processed, must be valid
      * @return true if altered
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public boolean replaceIn(final TextStringBuilder source, final int offset, final int length) {
         if (source == null) {
@@ -905,6 +959,8 @@ public class StringSubstitutor {
      * @param length
      *            the length within the buffer to be processed, must be valid
      * @return true if altered
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public boolean replaceIn(final StringBuffer source, final int offset, final int length) {
         if (source == null) {
@@ -948,6 +1004,8 @@ public class StringSubstitutor {
      * @param length
      *            the length within the buffer to be processed, must be valid
      * @return true if altered
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     public boolean replaceIn(final StringBuilder source, final int offset, final int length) {
         if (source == null) {
@@ -999,6 +1057,18 @@ public class StringSubstitutor {
      */
     public StringSubstitutor setDisableSubstitutionInValues(final boolean disableSubstitutionInValues) {
         this.disableSubstitutionInValues = disableSubstitutionInValues;
+        return this;
+    }
+
+    /**
+     * Sets a flag whether exception should be thrown if any variable is undefined.
+     *
+     * @param failOnUndefinedVariable
+     *            true if exception should be thrown on undefined variable
+     * @return this, to enable chaining
+     */
+    public StringSubstitutor setEnableUndefinedVariableException(final boolean failOnUndefinedVariable) {
+        this.enableUndefinedVariableException = failOnUndefinedVariable;
         return this;
     }
 
@@ -1244,6 +1314,8 @@ public class StringSubstitutor {
      *            the stack keeping track of the replaced variables, may be null
      * @return the length change that occurs, unless priorVariables is null when the int represents a boolean flag as to
      *         whether any change occurred.
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
      */
     private int substitute(final TextStringBuilder buf, final int offset, final int length,
             List<String> priorVariables) {
@@ -1253,6 +1325,7 @@ public class StringSubstitutor {
         final StringMatcher valueDelimMatcher = getValueDelimiterMatcher();
         final boolean substitutionInVariablesEnabled = isEnableSubstitutionInVariables();
         final boolean substitutionInValuesDisabled = isDisableSubstitutionInValues();
+        final boolean undefinedVariableException = isEnableUndefinedVariableException();
 
         final boolean top = priorVariables == null;
         boolean altered = false;
@@ -1359,8 +1432,11 @@ public class StringSubstitutor {
                                     pos += change;
                                     bufEnd += change;
                                     lengthChange += change;
-                                    chars = buf.buffer; // in case buffer was
-                                                        // altered
+                                    chars = buf.buffer; // in case buffer was altered
+                                } else if (undefinedVariableException) {
+                                    throw new IllegalArgumentException(String.format(
+                                            "Cannot resolve variable '%s' (enableSubstitutionInVariables=%s).", varName,
+                                            enableSubstitutionInVariables));
                                 }
 
                                 // remove variable from the cyclic stack
