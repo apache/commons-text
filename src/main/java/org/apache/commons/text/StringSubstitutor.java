@@ -720,7 +720,7 @@ public class StringSubstitutor {
         if (source == null) {
             return null;
         }
-        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);
+        final TextStringBuilder buf = new TextStringBuilder(length).append(source.toString(), offset, length);
         substitute(buf, 0, length);
         return buf.toString();
     }

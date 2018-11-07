@@ -207,13 +207,41 @@ public class TextStringBuilderAppendInsertTest {
             // expected
         }
 
+        try {
+            sb.append((CharSequence) "bar", 2, 1);
+            fail("append(char[], 2, 1) expected IndexOutOfBoundsException");
+        } catch (final IndexOutOfBoundsException e) {
+            // expected
+        }
+
+        try {
+            sb.append((CharSequence) "bar", 2, 2);
+            fail("append(char[], 2, 2) expected IndexOutOfBoundsException");
+        } catch (final IndexOutOfBoundsException e) {
+            // expected
+        }
+
+        try {
+            sb.append((CharSequence) "bar", 2, -2);
+            fail("append(char[], 2, -2) expected IndexOutOfBoundsException");
+        } catch (final IndexOutOfBoundsException e) {
+            // expected
+        }
+
+        try {
+            sb.append((CharSequence) "bar", 2, 0);
+            fail("append(char[], 2, 0) expected IndexOutOfBoundsException");
+        } catch (final IndexOutOfBoundsException e) {
+            // expected
+        }
+
         sb.append("bar", 3, 0);
         assertThat(sb.toString()).isEqualTo("foo");
 
         sb.append("abcbardef", 3, 3);
         assertThat(sb.toString()).isEqualTo("foobar");
 
-        sb.append((CharSequence) "abcbardef", 4, 3);
+        sb.append((CharSequence) "abcbardef", 4, 7);
         assertThat(sb.toString()).isEqualTo("foobarard");
     }
 
