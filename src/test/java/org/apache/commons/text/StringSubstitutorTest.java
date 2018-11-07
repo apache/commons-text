@@ -346,7 +346,6 @@ public class StringSubstitutorTest {
         values.put("animal.2", "mouse");
         values.put("species", "2");
         final StringSubstitutor sub = new StringSubstitutor(values);
-
         sub.setEnableUndefinedVariableException(true);
 
         assertThatIllegalArgumentException().isThrownBy(() ->
@@ -383,7 +382,6 @@ public class StringSubstitutorTest {
         values.put("word", "variable");
         values.put("testok.2", "statement");
         final StringSubstitutor sub = new StringSubstitutor(values);
-
         sub.setEnableUndefinedVariableException(true);
         sub.setEnableSubstitutionInVariables(true);
 
