@@ -16,7 +16,15 @@
  */
 package org.apache.commons.text;
 
-import org.junit.jupiter.api.Test;
+import static org.apache.commons.text.StringEscapeUtils.escapeXSI;
+import static org.apache.commons.text.StringEscapeUtils.unescapeXSI;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -27,14 +35,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static org.apache.commons.text.StringEscapeUtils.escapeXSI;
-import static org.apache.commons.text.StringEscapeUtils.unescapeXSI;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link StringEscapeUtils}.
@@ -143,11 +144,7 @@ public class StringEscapeUtilsTest {
             fail("Exception expected!");
         } catch (final IllegalArgumentException ex) {
         }
-        try {
-            StringEscapeUtils.unescapeJava("\\u02-3");
-            fail("Exception expected!");
-        } catch (final RuntimeException ex) {
-        }
+        assertThrows(RuntimeException.class, () -> StringEscapeUtils.unescapeJava("\\u02-3"));
 
         assertUnescapeJava("", "");
         assertUnescapeJava("test", "test");

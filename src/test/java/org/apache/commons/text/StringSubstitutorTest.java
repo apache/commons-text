@@ -298,7 +298,7 @@ public class StringSubstitutorTest {
         final StringSubstitutor strSubstitutor = new StringSubstitutor(mapStringLookup, strMatcher, strMatcher, 'b',
                 strMatcher);
 
-        assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, (-1369)));
+        assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, -1369));
         assertEquals('b', strSubstitutor.getEscapeChar());
         assertFalse(strSubstitutor.isPreserveEscapes());
     }
@@ -346,19 +346,20 @@ public class StringSubstitutorTest {
         values.put("animal.2", "mouse");
         values.put("species", "2");
         final StringSubstitutor sub = new StringSubstitutor(values);
-        sub.setFailOnUndefinedVariable(true);
+
+        sub.setEnableUndefinedVariableException(true);
 
         assertThatIllegalArgumentException().isThrownBy(() ->
         sub.replace("The ${animal.${species}} jumps over the ${target}.")).
-        withMessage("Not able to resolve all variables.");
+        withMessage("Cannot resolve variable 'animal.${species' (enableSubstitutionInVariables=false).");
 
         assertThatIllegalArgumentException().isThrownBy(() ->
         sub.replace("The ${animal.${species:-1}} jumps over the ${target}.")).
-        withMessage("Not able to resolve all variables.");
+        withMessage("Cannot resolve variable 'animal.${species:-1' (enableSubstitutionInVariables=false).");
 
         assertThatIllegalArgumentException().isThrownBy(() ->
         sub.replace("The ${test:-statement} is a sample for missing ${unknown}.")).
-        withMessage("Not able to resolve all variables.");
+        withMessage("Cannot resolve variable 'unknown' (enableSubstitutionInVariables=false).");
 
         //if default value is available, exception will not be thrown
         assertEquals("The statement is a sample for missing variable.",
@@ -382,7 +383,8 @@ public class StringSubstitutorTest {
         values.put("word", "variable");
         values.put("testok.2", "statement");
         final StringSubstitutor sub = new StringSubstitutor(values);
-        sub.setFailOnUndefinedVariable(true);
+
+        sub.setEnableUndefinedVariableException(true);
         sub.setEnableSubstitutionInVariables(true);
 
         assertEquals("The mouse jumps over the lazy dog.",
@@ -394,12 +396,12 @@ public class StringSubstitutorTest {
         //exception is thrown here because variable with name test.1 is missing
         assertThatIllegalArgumentException().isThrownBy(() ->
         sub.replace("The ${test.${statement}} is a sample for missing ${word}.")).
-        withMessage("Not able to resolve all variables.");
+        withMessage("Cannot resolve variable 'statement' (enableSubstitutionInVariables=true).");
 
         //exception is thrown here because variable with name test.2 is missing
         assertThatIllegalArgumentException().isThrownBy(() ->
         sub.replace("The ${test.${statement.${recursive}}} is a sample for missing ${word}.")).
-        withMessage("Not able to resolve all variables.");
+        withMessage("Cannot resolve variable 'test.2' (enableSubstitutionInVariables=true).");
 
         assertEquals("The statement is a sample for missing variable.",
                 sub.replace("The ${testok.${statement.${recursive}}} is a sample for missing ${word}."));

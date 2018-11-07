@@ -19,6 +19,7 @@ package org.apache.commons.text;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
@@ -1315,19 +1316,9 @@ public class TextStringBuilderAppendInsertTest {
         sb.append("barbaz");
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        try {
-            sb.insert(-1, FOO);
-            fail("insert(-1, Object) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, FOO));
 
-        try {
-            sb.insert(7, FOO);
-            fail("insert(7, Object) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(7, FOO));
 
         sb.insert(0, (Object) null);
         assertThat(sb.toString()).isEqualTo("barbaz");
@@ -1339,19 +1330,9 @@ public class TextStringBuilderAppendInsertTest {
         sb.append("barbaz");
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        try {
-            sb.insert(-1, "foo");
-            fail("insert(-1, String) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, "foo"));
 
-        try {
-            sb.insert(7, "foo");
-            fail("insert(7, String) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(7, "foo"));
 
         sb.insert(0, (String) null);
         assertThat(sb.toString()).isEqualTo("barbaz");
@@ -1363,19 +1344,9 @@ public class TextStringBuilderAppendInsertTest {
         sb.append("barbaz");
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        try {
-            sb.insert(-1, new char[]{'f', 'o', 'o'});
-            fail("insert(-1, char[]) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, new char[]{'f', 'o', 'o'}));
 
-        try {
-            sb.insert(7, new char[]{'f', 'o', 'o'});
-            fail("insert(7, char[]) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(7, new char[]{'f', 'o', 'o'}));
 
         sb.insert(0, (char[]) null);
         assertThat(sb.toString()).isEqualTo("barbaz");
@@ -1390,19 +1361,11 @@ public class TextStringBuilderAppendInsertTest {
         sb.append("barbaz");
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        try {
-            sb.insert(-1, new char[]{'a', 'b', 'c', 'f', 'o', 'o', 'd', 'e', 'f'}, 3, 3);
-            fail("insert(-1, char[], 3, 3) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> sb.insert(-1, new char[]{'a', 'b', 'c', 'f', 'o', 'o', 'd', 'e', 'f'}, 3, 3));
 
-        try {
-            sb.insert(7, new char[]{'a', 'b', 'c', 'f', 'o', 'o', 'd', 'e', 'f'}, 3, 3);
-            fail("insert(7, char[], 3, 3) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> sb.insert(7, new char[]{'a', 'b', 'c', 'f', 'o', 'o', 'd', 'e', 'f'}, 3, 3));
 
         sb.insert(0, (char[]) null, 0, 0);
         assertThat(sb.toString()).isEqualTo("barbaz");
@@ -1410,33 +1373,17 @@ public class TextStringBuilderAppendInsertTest {
         sb.insert(0, new char[0], 0, 0);
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        try {
-            sb.insert(0, new char[]{'a', 'b', 'c', 'f', 'o', 'o', 'd', 'e', 'f'}, -1, 3);
-            fail("insert(0, char[], -1, 3) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> sb.insert(0, new char[]{'a', 'b', 'c', 'f', 'o', 'o', 'd', 'e', 'f'}, -1, 3));
 
-        try {
-            sb.insert(0, new char[]{'a', 'b', 'c', 'f', 'o', 'o', 'd', 'e', 'f'}, 10, 3);
-            fail("insert(0, char[], 10, 3) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> sb.insert(0, new char[]{'a', 'b', 'c', 'f', 'o', 'o', 'd', 'e', 'f'}, 10, 3));
 
-        try {
-            sb.insert(0, new char[]{'a', 'b', 'c', 'f', 'o', 'o', 'd', 'e', 'f'}, 0, -1);
-            fail("insert(0, char[], 0, -1) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> sb.insert(0, new char[]{'a', 'b', 'c', 'f', 'o', 'o', 'd', 'e', 'f'}, 0, -1));
 
-        try {
-            sb.insert(0, new char[]{'a', 'b', 'c', 'f', 'o', 'o', 'd', 'e', 'f'}, 0, 10);
-            fail("insert(0, char[], 0, 10) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> sb.insert(0, new char[]{'a', 'b', 'c', 'f', 'o', 'o', 'd', 'e', 'f'}, 0, 10));
 
         sb.insert(0, new char[]{'a', 'b', 'c', 'f', 'o', 'o', 'd', 'e', 'f'}, 0, 0);
         assertThat(sb.toString()).isEqualTo("barbaz");
@@ -1448,19 +1395,9 @@ public class TextStringBuilderAppendInsertTest {
         sb.append("barbaz");
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        try {
-            sb.insert(-1, true);
-            fail("insert(-1, boolean) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, true));
 
-        try {
-            sb.insert(7, true);
-            fail("insert(7, boolean) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(7, true));
 
         sb.insert(0, true);
         assertThat(sb.toString()).isEqualTo("truebarbaz");
@@ -1472,19 +1409,9 @@ public class TextStringBuilderAppendInsertTest {
         sb.append("barbaz");
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        try {
-            sb.insert(-1, '!');
-            fail("insert(-1, char) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, '!'));
 
-        try {
-            sb.insert(7, '!');
-            fail("insert(7, char) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(7, '!'));
 
         sb.insert(0, '!');
         assertThat(sb.toString()).isEqualTo("!barbaz");
@@ -1493,19 +1420,9 @@ public class TextStringBuilderAppendInsertTest {
         sb.append("barbaz");
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        try {
-            sb.insert(-1, 0);
-            fail("insert(-1, int) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, 0));
 
-        try {
-            sb.insert(7, 0);
-            fail("insert(7, int) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(7, 0));
 
         sb.insert(0, '0');
         assertThat(sb.toString()).isEqualTo("0barbaz");
@@ -1514,19 +1431,9 @@ public class TextStringBuilderAppendInsertTest {
         sb.append("barbaz");
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        try {
-            sb.insert(-1, 1L);
-            fail("insert(-1, long) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, 1L));
 
-        try {
-            sb.insert(7, 1L);
-            fail("insert(7, long) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(7, 1L));
 
         sb.insert(0, 1L);
         assertThat(sb.toString()).isEqualTo("1barbaz");
@@ -1535,19 +1442,9 @@ public class TextStringBuilderAppendInsertTest {
         sb.append("barbaz");
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        try {
-            sb.insert(-1, 2.3F);
-            fail("insert(-1, float) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, 2.3F));
 
-        try {
-            sb.insert(7, 2.3F);
-            fail("insert(7, float) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(7, 2.3F));
 
         sb.insert(0, 2.3F);
         assertThat(sb.toString()).isEqualTo("2.3barbaz");
@@ -1556,19 +1453,9 @@ public class TextStringBuilderAppendInsertTest {
         sb.append("barbaz");
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        try {
-            sb.insert(-1, 4.5D);
-            fail("insert(-1, double) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, 4.5D));
 
-        try {
-            sb.insert(7, 4.5D);
-            fail("insert(7, double) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(7, 4.5D));
 
         sb.insert(0, 4.5D);
         assertThat(sb.toString()).isEqualTo("4.5barbaz");
@@ -1582,19 +1469,9 @@ public class TextStringBuilderAppendInsertTest {
         sb.append("barbaz");
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        try {
-            sb.insert(-1, FOO);
-            fail("insert(-1, Object) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, FOO));
 
-        try {
-            sb.insert(7, FOO);
-            fail("insert(7, Object) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(7, FOO));
 
         sb.insert(0, (Object) null);
         assertThat(sb.toString()).isEqualTo("nullbarbaz");
@@ -1606,19 +1483,9 @@ public class TextStringBuilderAppendInsertTest {
         sb.append("barbaz");
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        try {
-            sb.insert(-1, "foo");
-            fail("insert(-1, String) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, "foo"));
 
-        try {
-            sb.insert(7, "foo");
-            fail("insert(7, String) expected StringIndexOutOfBoundsException");
-        } catch (final IndexOutOfBoundsException e) {
-            // expected
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(7, "foo"));
 
         sb.insert(0, (String) null);
         assertThat(sb.toString()).isEqualTo("nullbarbaz");

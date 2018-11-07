@@ -52,7 +52,7 @@
     <checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
     <checkstyle.version>8.13</checkstyle.version>
 
-    <spotbugs.plugin.version>3.1.6</spotbugs.plugin.version>
+    <spotbugs.plugin.version>3.1.7</spotbugs.plugin.version>
 
     <!-- generate report even if there are binary incompatible changes -->
     <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>false</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
@@ -459,8 +459,6 @@
       <properties>
         <!-- jacoco does not work with java 11 yet, see https://github.com/jacoco/jacoco/issues/663 -->
         <jacoco.skip>true</jacoco.skip>
-        <!-- spotbugs maven plugin does not work with java 11 yet, see https://github.com/spotbugs/spotbugs-maven-plugin/issues/83 -->
-        <spotbugs.skip>true</spotbugs.skip>
       </properties>
     </profile>
     <profile>
@@ -471,6 +469,8 @@
       <properties>
         <!-- currently fails with "javadoc: error - The code being documented uses modules but the packages defined in https://docs.oracle.com/javase/8/docs/api/ are in the unnamed module." -->
         <maven.javadoc.skip>true</maven.javadoc.skip>
+        <!-- spotbugs does not work on java 12 yet, "java.lang.IllegalArgumentException: Unsupported class file major version 56" -->
+        <spotbugs.skip>true</spotbugs.skip>
       </properties>
     </profile>
   </profiles>
