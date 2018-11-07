@@ -571,16 +571,22 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *            the CharSequence to append
      * @param startIndex
      *            the start index, inclusive, must be valid
-     * @param length
-     *            the length to append, must be valid
+     * @param endIndex
+     *            the end index, exclusive, must be valid
      * @return this, to enable chaining
      */
     @Override
-    public TextStringBuilder append(final CharSequence seq, final int startIndex, final int length) {
+    public TextStringBuilder append(final CharSequence seq, final int startIndex, final int endIndex) {
         if (seq == null) {
             return appendNull();
         }
-        return append(seq.toString(), startIndex, length);
+        if (endIndex <= 0) {
+            throw new StringIndexOutOfBoundsException("endIndex must be valid");
+        }
+        if (startIndex >= endIndex) {
+            throw new StringIndexOutOfBoundsException("endIndex must be greater than startIndex");
+        }
+        return append(seq.toString(), startIndex, endIndex - startIndex);
     }
 
     /**
