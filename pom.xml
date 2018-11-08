@@ -53,6 +53,8 @@
     <checkstyle.version>8.13</checkstyle.version>
 
     <spotbugs.plugin.version>3.1.7</spotbugs.plugin.version>
+    
+    <commons.jacoco.version>0.8.2</commons.jacoco.version>
 
     <!-- generate report even if there are binary incompatible changes -->
     <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>false</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
