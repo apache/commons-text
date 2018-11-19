@@ -407,9 +407,9 @@ public final class AlphabetConverter {
             final Integer[] original,
             final Integer[] encoding,
             final Integer[] doNotEncode) {
-        final Set<Integer> originalCopy = new LinkedHashSet<>(Arrays.<Integer> asList(original));
-        final Set<Integer> encodingCopy = new LinkedHashSet<>(Arrays.<Integer> asList(encoding));
-        final Set<Integer> doNotEncodeCopy = new LinkedHashSet<>(Arrays.<Integer> asList(doNotEncode));
+        final Set<Integer> originalCopy = new LinkedHashSet<>(Arrays.asList(original));
+        final Set<Integer> encodingCopy = new LinkedHashSet<>(Arrays.asList(encoding));
+        final Set<Integer> doNotEncodeCopy = new LinkedHashSet<>(Arrays.asList(doNotEncode));
 
         final Map<Integer, String> originalToEncoded = new LinkedHashMap<>();
         final Map<String, String> encodedToOriginal = new LinkedHashMap<>();
