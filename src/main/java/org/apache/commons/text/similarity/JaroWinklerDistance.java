@@ -28,27 +28,27 @@ public class JaroWinklerDistance implements EditDistance<Double> {
      * Computes the Jaro Winkler Distance between two character sequences.
      *
      * <pre>
-     * sim.apply(null, null)          = IllegalArgumentException
-     * sim.apply("foo", null)         = IllegalArgumentException
-     * sim.apply(null, "foo")         = IllegalArgumentException
-     * sim.apply("", "")              = 0.0
-     * sim.apply("foo", "foo")        = 0.0
-     * sim.apply("foo", "foo ")       = 0.06
-     * sim.apply("foo", "foo  ")      = 0.09
-     * sim.apply("foo", " foo ")      = 0.13
-     * sim.apply("foo", "  foo")      = 0.49
-     * sim.apply("", "a")             = 1.0
-     * sim.apply("aaapppp", "")       = 1.0
-     * sim.apply("frog", "fog")       = 0.07
-     * sim.apply("fly", "ant")        = 1.0
-     * sim.apply("elephant", "hippo") = 0.56
-     * sim.apply("hippo", "elephant") = 0.56
-     * sim.apply("hippo", "zzzzzzzz") = 1.0
-     * sim.apply("hello", "hallo")    = 0.12
-     * sim.apply("ABC Corporation", "ABC Corp") = 0.07
-     * sim.apply("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.05
-     * sim.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.08
-     * sim.apply("PENNSYLVANIA", "PENNCISYLVNIA") = 0.12
+     * distance.apply(null, null)          = IllegalArgumentException
+     * distance.apply("foo", null)         = IllegalArgumentException
+     * distance.apply(null, "foo")         = IllegalArgumentException
+     * distance.apply("", "")              = 0.0
+     * distance.apply("foo", "foo")        = 0.0
+     * distance.apply("foo", "foo ")       = 0.06
+     * distance.apply("foo", "foo  ")      = 0.09
+     * distance.apply("foo", " foo ")      = 0.13
+     * distance.apply("foo", "  foo")      = 0.49
+     * distance.apply("", "a")             = 1.0
+     * distance.apply("aaapppp", "")       = 1.0
+     * distance.apply("frog", "fog")       = 0.07
+     * distance.apply("fly", "ant")        = 1.0
+     * distance.apply("elephant", "hippo") = 0.56
+     * distance.apply("hippo", "elephant") = 0.56
+     * distance.apply("hippo", "zzzzzzzz") = 1.0
+     * distance.apply("hello", "hallo")    = 0.12
+     * distance.apply("ABC Corporation", "ABC Corp") = 0.07
+     * distance.apply("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.05
+     * distance.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.08
+     * distance.apply("PENNSYLVANIA", "PENNCISYLVNIA") = 0.12
      * </pre>
      *
      * @param left the first CharSequence, must not be null
