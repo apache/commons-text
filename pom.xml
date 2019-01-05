@@ -463,5 +463,15 @@
         <maven.javadoc.skip>true</maven.javadoc.skip>
       </properties>
     </profile>
+    <profile>
+      <id>java13+</id>
+      <activation>
+        <jdk>[13,)</jdk>
+      </activation>
+      <properties>
+        <!-- jacoco does not work with java 13 yet -->
+        <jacoco.skip>true</jacoco.skip>
+      </properties>
+    </profile>
   </profiles>
 </project>
