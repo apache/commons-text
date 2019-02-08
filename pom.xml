@@ -47,8 +47,6 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
-    <junit.version>5.3.1</junit.version>
-
     <checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
     <checkstyle.version>8.14</checkstyle.version>
 
@@ -71,18 +69,6 @@
     <commons.releaseManagerKey>B6E73D84EA4FCC47166087253FAAD2CD5ECBB314</commons.releaseManagerKey>
   </properties>
 
-    <dependencyManagement>
-      <dependencies>
-        <dependency>
-          <groupId>org.junit</groupId>
-          <artifactId>junit-bom</artifactId>
-          <version>${junit.version}</version>
-          <type>pom</type>
-          <scope>import</scope>
-        </dependency>
-      </dependencies>
-    </dependencyManagement>
-
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -92,17 +78,8 @@
     <!-- testing -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-params</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-launcher</artifactId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.4.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
