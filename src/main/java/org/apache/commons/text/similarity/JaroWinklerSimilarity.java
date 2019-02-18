@@ -82,16 +82,16 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
         }
 
         if (left.equals(right)) {
-            return 1D;
+            return 1d;
         }
 
         final int[] mtp = matches(left, right);
         final double m = mtp[0];
         if (m == 0) {
-            return 0D;
+            return 0d;
         }
         final double j = ((m / left.length() + m / right.length() + (m - (double) mtp[1] / 2) / m)) / 3;
-        final double jw = j < 0.7D ? j : j + defaultScalingFactor * mtp[2] * (1D - j);
+        final double jw = j < 0.7d ? j : j + defaultScalingFactor * mtp[2] * (1d - j);
         return jw;
     }
 
