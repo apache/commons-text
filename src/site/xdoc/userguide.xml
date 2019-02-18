@@ -112,7 +112,8 @@ limitations under the License.
           <ul>
             <li>Cosine Similarity,</li>
             <li>Fuzzy Score Similarity,</li>
-            <li>Jaccard Similarity, and</li>
+            <li>Jaccard Similarity,</li>
+            <li>Jaro-Winkler Similarity, and</li>               
             <li>Longest Common Subsequence Similarity.</li>
           </ul>
         </p>
@@ -181,6 +182,9 @@ limitations under the License.
         <li>
           <code>JaroWinklerDistance</code>
         </li>
+        <li>
+          <code>JaroWinklerSimilarity</code>
+        </li>           
         <li>
           <code>LevenshteinDistance</code>
         </li>
