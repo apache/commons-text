@@ -63,7 +63,7 @@ public class JaroWinklerDistance implements EditDistance<Double> {
             throw new IllegalArgumentException("CharSequences must not be null");
         }
 
-        JaroWinklerSimilarity jwSim = new JaroWinklerSimilarity();
-        return 1 - jwSim.apply(left, right);
+        JaroWinklerSimilarity similarity = new JaroWinklerSimilarity();
+        return 1 - similarity.apply(left, right);
     }
 }
