@@ -19,35 +19,35 @@
    limitations under the License.
 -->
 <suppressions>
-  <suppress checks="AvoidInlineConditionals" files=".+\.java" lines="0-99999" />
-  <suppress checks="FinalParameters" files=".+\.java" lines="0-99999" />
-  <suppress checks="HiddenField" files=".+\.java" lines="0-99999" />
-  <suppress checks="DesignForExtension" files=".+\.java" lines="0-99999" />
-  <suppress checks="HideUtilityClassConstructor" files=".+\.java" lines="0-99999" />
-  <suppress checks="VisibilityModifier" files=".+\.java" lines="0-99999" />
-  <suppress checks="EmptyBlock" files="ExtendedMessageFormat.java" lines="0-99999" />
-  <suppress checks="LocalFinalVariableName" files="FormattableUtils.java" lines="0-99999" />
-  <suppress checks="MagicNumber" files="JaccardDistance.java" lines="0-99999" />
-  <suppress checks="MagicNumber" files="JaccardSimilarity.java" lines="0-99999" />
-  <suppress checks="MagicNumber" files="JaroWinklerDistance.java" lines="0-99999" />
+  <suppress checks="AvoidInlineConditionals" files=".+\.java" />
+  <suppress checks="FinalParameters" files=".+\.java" />
+  <suppress checks="HiddenField" files=".+\.java" />
+  <suppress checks="DesignForExtension" files=".+\.java" />
+  <suppress checks="HideUtilityClassConstructor" files=".+\.java" />
+  <suppress checks="VisibilityModifier" files=".+\.java" />
+  <suppress checks="EmptyBlock" files="ExtendedMessageFormat.java" />
+  <suppress checks="LocalFinalVariableName" files="FormattableUtils.java" />
+  <suppress checks="MagicNumber" files="JaccardDistance.java" />
+  <suppress checks="MagicNumber" files="JaccardSimilarity.java" />
+  <suppress checks="MagicNumber" files="JaroWinklerDistance.java" />
   <suppress checks="MagicNumber" files="JaroWinklerSimilarity.java" />
-  <suppress checks="MagicNumber" files="StrBuilder.java" lines="0-99999" />
-  <suppress checks="MagicNumber" files="TextStringBuilder.java" lines="0-99999" />
-  <suppress checks="MagicNumber" files="StringEscapeUtils.java" lines="0-99999" />
-  <suppress checks="MagicNumber" files="StrMatcher.java" lines="0-99999" />
-  <suppress checks="MagicNumber" files="NumericEntityEscaper.java" lines="0-99999" />
-  <suppress checks="MagicNumber" files="NumericEntityUnescaper.java" lines="0-99999" />
-  <suppress checks="MagicNumber" files="OctalUnescaper.java" lines="0-99999" />
-  <suppress checks="MagicNumber" files="UnicodeEscaper.java" lines="0-99999" />
-  <suppress checks="MagicNumber" files="UnicodeUnescaper.java" lines="0-99999" />
-  <suppress checks="MagicNumber" files="WordUtils.java" lines="0-99999" />
+  <suppress checks="MagicNumber" files="StrBuilder.java" />
+  <suppress checks="MagicNumber" files="TextStringBuilder.java" />
+  <suppress checks="MagicNumber" files="StringEscapeUtils.java" />
+  <suppress checks="MagicNumber" files="StrMatcher.java" />
+  <suppress checks="MagicNumber" files="NumericEntityEscaper.java" />
+  <suppress checks="MagicNumber" files="NumericEntityUnescaper.java" />
+  <suppress checks="MagicNumber" files="OctalUnescaper.java" />
+  <suppress checks="MagicNumber" files="UnicodeEscaper.java" />
+  <suppress checks="MagicNumber" files="UnicodeUnescaper.java" />
+  <suppress checks="MagicNumber" files="WordUtils.java" />
   <suppress checks="MagicNumber" files=".*[/\\]test[/\\].*" />
   <suppress checks="MethodName" files=".*[/\\]test[/\\].*" />
   <suppress checks="Javadoc" files=".*[/\\]test[/\\].*" />
   <suppress checks="FileLength" files="StrBuilderTest.java" />
-  <suppress checks="FileLength" files="StrBuilder.java" lines="0-99999" />
+  <suppress checks="FileLength" files="StrBuilder.java" />
   <suppress checks="FileLength" files="TextStringBuilderTest.java" />
-  <suppress checks="FileLength" files="TextStringBuilder.java" lines="0-99999" />
+  <suppress checks="FileLength" files="TextStringBuilder.java" />
   <suppress checks="MethodLength" files="LevenshteinDetailedDistanceTest.java" />
   <suppress checks="MethodLength" files="StrBuilderAppendInsertTest.java" />
   <suppress checks="MethodLength" files="TextStringBuilderAppendInsertTest.java" />
