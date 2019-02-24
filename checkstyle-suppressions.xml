@@ -19,12 +19,6 @@
    limitations under the License.
 -->
 <suppressions>
-  <suppress checks="AvoidInlineConditionals" files=".+\.java" />
-  <suppress checks="FinalParameters" files=".+\.java" />
-  <suppress checks="HiddenField" files=".+\.java" />
-  <suppress checks="DesignForExtension" files=".+\.java" />
-  <suppress checks="HideUtilityClassConstructor" files=".+\.java" />
-  <suppress checks="VisibilityModifier" files=".+\.java" />
   <suppress checks="LocalFinalVariableName" files="FormattableUtils.java" />
   <suppress checks="MagicNumber" files="JaccardDistance.java" />
   <suppress checks="MagicNumber" files="JaccardSimilarity.java" />
