@@ -30,6 +30,7 @@
   <suppress checks="MagicNumber" files="JaccardDistance.java" lines="0-99999" />
   <suppress checks="MagicNumber" files="JaccardSimilarity.java" lines="0-99999" />
   <suppress checks="MagicNumber" files="JaroWinklerDistance.java" lines="0-99999" />
+  <suppress checks="MagicNumber" files="JaroWinklerSimilarity.java" />
   <suppress checks="MagicNumber" files="StrBuilder.java" lines="0-99999" />
   <suppress checks="MagicNumber" files="TextStringBuilder.java" lines="0-99999" />
   <suppress checks="MagicNumber" files="StringEscapeUtils.java" lines="0-99999" />
@@ -51,4 +52,5 @@
   <suppress checks="MethodLength" files="StrBuilderAppendInsertTest.java" />
   <suppress checks="MethodLength" files="TextStringBuilderAppendInsertTest.java" />
   <suppress checks="TodoComment" files="StringEscapeUtilsTest.java" />
+  <suppress checks="TodoComment" files="JaroWinklerDistance.*.java" />
 </suppressions>
