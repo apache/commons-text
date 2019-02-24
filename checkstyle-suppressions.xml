@@ -25,7 +25,6 @@
   <suppress checks="DesignForExtension" files=".+\.java" />
   <suppress checks="HideUtilityClassConstructor" files=".+\.java" />
   <suppress checks="VisibilityModifier" files=".+\.java" />
-  <suppress checks="EmptyBlock" files="ExtendedMessageFormat.java" />
   <suppress checks="LocalFinalVariableName" files="FormattableUtils.java" />
   <suppress checks="MagicNumber" files="JaccardDistance.java" />
   <suppress checks="MagicNumber" files="JaccardSimilarity.java" />
