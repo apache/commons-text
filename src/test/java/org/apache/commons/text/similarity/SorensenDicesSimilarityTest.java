@@ -35,7 +35,12 @@ public class SorensenDicesSimilarityTest {
     }
 
     @Test
-    public void testGetJaroWinklerSimilarity_StringString() {
+    public void test() {
+        assertEquals(0.25d, similarity.apply("night", "nacht"));
+    }
+
+    @Test
+    public void testGetSorensenDicesSimilarity_StringString() {
 
         assertEquals(1d, similarity.apply("", ""));
         assertEquals(1.0d, similarity.apply("foo", "foo"));
@@ -58,21 +63,21 @@ public class SorensenDicesSimilarityTest {
     }
 
     @Test
-    public void testGetDicesCoefficientSimilarity_NullNull() {
+    public void testGetSorensenDicesSimilarity_NullNull() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
             similarity.apply(null, null);
         });
     }
 
     @Test
-    public void testGetDicesCoefficientSimilarity_StringNull() {
+    public void testGetSorensenDicesSimilarity_StringNull() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
             similarity.apply(" ", null);
         });
     }
 
     @Test
-    public void testGetDicesCoefficientSimilarity_NullString() {
+    public void testGetSorensenDicesSimilarity_NullString() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
             similarity.apply(null, "clear");
         });
