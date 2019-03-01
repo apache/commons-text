@@ -43,6 +43,8 @@ public class SorensenDicesSimilarityTest {
     public void testGetSorensenDicesSimilarity_StringString() {
 
         assertEquals(1d, similarity.apply("", ""));
+        assertEquals(0d, similarity.apply("", "a"));
+        assertEquals(0d, similarity.apply("a", ""));
         assertEquals(1.0d, similarity.apply("foo", "foo"));
         assertEquals(0.8d, similarity.apply("foo", "foo "));
         assertEquals(0.4d, similarity.apply("frog", "fog"));

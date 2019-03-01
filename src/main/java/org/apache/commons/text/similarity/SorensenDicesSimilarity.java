@@ -85,7 +85,7 @@ public class SorensenDicesSimilarity implements SimilarityScore<Double> {
             return 1d;
         }
 
-        if ("".equals(left) || "".equals(right)) {
+        if (left.length() == 0 || right.length() == 0) {
             return 0d;
         }
 
