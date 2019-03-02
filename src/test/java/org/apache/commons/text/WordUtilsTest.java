@@ -16,14 +16,14 @@
  */
 package org.apache.commons.text;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
-import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
  * Unit tests for {@link WordUtils} class.
@@ -538,5 +538,11 @@ public class WordUtilsTest {
     public void testContainsAllWordsWithNull() {
         assertThat(WordUtils.containsAllWords("M", null)).isFalse();
     }
+
+    @Test
+    public void testWrapWithRegexMatchOfLength0() {
+        assertThat(WordUtils.wrap("abcdef", 2, "\n", false, "(?=d)")).isEqualTo("abc\ndef");
+    }
+
 
 }
