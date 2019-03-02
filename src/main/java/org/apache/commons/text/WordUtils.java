@@ -16,14 +16,14 @@
  */
 package org.apache.commons.text;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
 
 /**
  * <p>
@@ -301,6 +301,7 @@ public class WordUtils {
         final int inputLineLength = str.length();
         int offset = 0;
         final StringBuilder wrappedLine = new StringBuilder(inputLineLength + 32);
+        int matcherSize = -1;
 
         while (offset < inputLineLength) {
             int spaceToWrapAt = -1;
@@ -308,6 +309,7 @@ public class WordUtils {
                     Math.min((int) Math.min(Integer.MAX_VALUE, offset + wrapLength + 1L), inputLineLength)));
             if (matcher.find()) {
                 if (matcher.start() == 0) {
+                    matcherSize = matcher.end() - matcher.start();
                     offset += matcher.end();
                     continue;
                 }
@@ -336,10 +338,12 @@ public class WordUtils {
                     wrappedLine.append(str, offset, wrapLength + offset);
                     wrappedLine.append(newLineStr);
                     offset += wrapLength;
+                    matcherSize = -1;
                 } else {
                     // do not wrap really long word, just extend beyond limit
                     matcher = patternToWrapOn.matcher(str.substring(offset + wrapLength));
                     if (matcher.find()) {
+                        matcherSize = matcher.end() - matcher.start();
                         spaceToWrapAt = matcher.start() + offset + wrapLength;
                     }
 
@@ -350,9 +354,14 @@ public class WordUtils {
                     } else {
                         wrappedLine.append(str, offset, str.length());
                         offset = inputLineLength;
+                        matcherSize = -1;
                     }
                 }
             }
+        }
+
+        if (matcherSize == 0) {
+            offset--;
         }
 
         // Whatever is left in line is short enough to just pass through
