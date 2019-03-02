@@ -848,6 +848,16 @@ public class StrBuilderTest {
         assertEquals("Dear 012345678901234567, hello 012345678901234567.", sb.toString());
     }
 
+    // -----------------------------------------------------------------------
+    @Test
+    public void testReplaceAll_Char_String() {
+        StrBuilder sb = new StrBuilder("atesta");
+        sb.replaceAll("a"," this is a ");
+        assertEquals(" this is a test this is a ",sb.toString());
+    }
+
+    // -----------------------------------------------------------------------
+
     @Test
     public void testReplaceFirst_StrMatcher_String() {
         StrBuilder sb = new StrBuilder("abcbccba");
