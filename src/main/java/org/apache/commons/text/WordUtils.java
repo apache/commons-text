@@ -310,8 +310,13 @@ public class WordUtils {
             if (matcher.find()) {
                 if (matcher.start() == 0) {
                     matcherSize = matcher.end() - matcher.start();
-                    offset += matcher.end();
-                    continue;
+                    if (matcherSize != 0) {
+                        offset += matcher.end();
+                        continue;
+                    }
+                    else {
+                        offset += 1;
+                    }
                 }
                 spaceToWrapAt = matcher.start() + offset;
             }
@@ -334,6 +339,9 @@ public class WordUtils {
             } else {
                 // really long word or URL
                 if (wrapLongWords) {
+                    if (matcherSize == 0) {
+                        offset--;
+                    }
                     // wrap really long word one line at a time
                     wrappedLine.append(str, offset, wrapLength + offset);
                     wrappedLine.append(newLineStr);
@@ -348,10 +356,16 @@ public class WordUtils {
                     }
 
                     if (spaceToWrapAt >= 0) {
+                        if (matcherSize == 0 && offset != 0) {
+                            offset--;
+                        }
                         wrappedLine.append(str, offset, spaceToWrapAt);
                         wrappedLine.append(newLineStr);
                         offset = spaceToWrapAt + 1;
                     } else {
+                        if (matcherSize == 0 && offset != 0) {
+                            offset--;
+                        }
                         wrappedLine.append(str, offset, str.length());
                         offset = inputLineLength;
                         matcherSize = -1;
@@ -360,7 +374,7 @@ public class WordUtils {
             }
         }
 
-        if (matcherSize == 0) {
+        if (matcherSize == 0 && offset < inputLineLength) {
             offset--;
         }
 
