@@ -37,6 +37,7 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -855,10 +856,133 @@ public class StrBuilderTest {
         sb.replaceAll('b', "xy");
         assertEquals("aaaxyxyxyccc dddeexyxyac", sb.toString());
 
+        StrBuilder sb2 = new StrBuilder("aaabbbccc dddeebbac");
+        sb.replaceAll('y', "xy");
+        assertEquals("aaabbbccc dddeebbac", sb2.toString());
+
         sb = new StrBuilder("abcbccba");
         sb.replaceAll((StrMatcher) null, null);
         assertEquals("abcbccba", sb.toString());
 
+
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testTrim_buffer() {
+
+        StrBuilder sb = new StrBuilder("aaabbbccc dddeebbac");
+
+        char[] trimmedBuffer = sb.trimBuffer(sb.buffer);
+        boolean hasNullValues = false;
+
+        for (int i = 0; i < sb.buffer.length; i++) {
+            if (sb.buffer[i] == 0) {
+                hasNullValues = true;
+            }
+        }
+
+        assertTrue(hasNullValues);
+
+        hasNullValues = false;
+        for (int i = 0; i < trimmedBuffer.length; i++) {
+            if (trimmedBuffer[i] == 0) {
+                hasNullValues = true;
+            }
+        }
+        assertFalse(hasNullValues);
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testReplaceCharForString() {
+
+        StrBuilder sb = new StrBuilder("");
+        char[] testBuffer = {'a', 0, 0, 'b', 'c'};
+        String replace = "bbb";
+        char[] stringChar = replace.toCharArray();
+        sb.replaceCharForString(testBuffer, 'a', stringChar);
+
+        boolean isEqual = true;
+        for (int i = 0; i < stringChar.length; i++) {
+            if (testBuffer[i] != stringChar[i]) {
+                isEqual = false;
+            }
+        }
+        assertTrue(isEqual);
+
+        char[] expected = {'b', 'b', 'b', 'b', 'c'};
+        for (int i = 0; i < testBuffer.length; i++) {
+            if (testBuffer[i] != expected[i]) {
+                isEqual = false;
+            }
+        }
+
+        assertTrue(isEqual);
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testShiftBufferForString() {
+
+        StrBuilder sb = new StrBuilder("ab");
+        char[] trimmedBuffer = sb.trimBuffer(sb.buffer);
+        sb.buffer = trimmedBuffer;
+        assertEquals(sb.buffer.length, 2);
+
+        char[] testBuffer = new char[sb.buffer.length + 4];
+
+        String stringToAdd = "test";
+
+        boolean threeEmptyValuesBetweenAandB = false;
+        int count = 0;
+        for (int i = 0; i < testBuffer.length; i++) {
+            if (testBuffer[i] == 0) {
+                count++;
+                if (count == 3) {
+                    threeEmptyValuesBetweenAandB = true;
+                    break;
+                }
+            } else {
+                count = 0;
+            }
+        }
+
+        assertEquals(true,threeEmptyValuesBetweenAandB);
+
+
+        sb.shiftBufferForString(testBuffer, 'a', stringToAdd.length());
+
+
+       count=0;
+        for (int i = 0; i < testBuffer.length; i++) {
+            if (testBuffer[i] == 0) {
+                count++;
+                if (count == 3) {
+                    threeEmptyValuesBetweenAandB = true;
+                    break;
+                }
+            } else {
+                count = 0;
+            }
+        }
+
+        assertEquals(threeEmptyValuesBetweenAandB, true);
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testCountCharOccurrence() {
+
+        StrBuilder sb = new StrBuilder("test");
+
+        int count = sb.countCharOccurrence('t');
+        assertEquals(count,2);
+
+        StrBuilder sb2 = new StrBuilder("");
+        int count2 = sb.countCharOccurrence('b');
+
+        assertEquals(count2,0);
 
     }
 
@@ -1576,13 +1700,13 @@ public class StrBuilderTest {
         sb.append(" A1 junction with A2");
         assertEquals(-1, sb.lastIndexOf(A_NUMBER_MATCHER, 5));
         assertEquals(-1, sb.lastIndexOf(A_NUMBER_MATCHER, 6)); // A matches, 1
-                                                               // is outside
-                                                               // bounds
+        // is outside
+        // bounds
         assertEquals(6, sb.lastIndexOf(A_NUMBER_MATCHER, 7));
         assertEquals(6, sb.lastIndexOf(A_NUMBER_MATCHER, 22));
         assertEquals(6, sb.lastIndexOf(A_NUMBER_MATCHER, 23)); // A matches, 2
-                                                               // is outside
-                                                               // bounds
+        // is outside
+        // bounds
         assertEquals(23, sb.lastIndexOf(A_NUMBER_MATCHER, 24));
     }
 
@@ -1725,10 +1849,10 @@ public class StrBuilderTest {
         writer.write('l');
         assertEquals("basel", sb.toString());
 
-        writer.write(new char[] {'i', 'n' });
+        writer.write(new char[]{'i', 'n'});
         assertEquals("baselin", sb.toString());
 
-        writer.write(new char[] {'n', 'e', 'r' }, 1, 2);
+        writer.write(new char[]{'n', 'e', 'r'}, 1, 2);
         assertEquals("baseliner", sb.toString());
 
         writer.write(" rout");

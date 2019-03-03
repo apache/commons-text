@@ -1941,62 +1941,123 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
         return this;
     }
 
+
+    /**
+     * Replaces the search character with the replace string
+     * throughout the builder.
+     *
+     * @param search  the search character
+     * @param replaceStr the replace String
+     * @return this, to enable chaining
+     */
     public StrBuilder replaceAll(final char search, final String replaceStr) {
 
-        int strLength = replaceStr.length();
-        int count = 0;
+        char[] replaceStrArray = replaceStr.toCharArray();
+        int charOccurrence = 0;
         char[] auxBuffer;
         int auxBufferSize = 0;
-        char[] replaceStrArray = replaceStr.toCharArray();
+
+        charOccurrence = countCharOccurrence(search);
+
+        auxBufferSize = this.buffer.length + (charOccurrence * replaceStr.length());
+
+        auxBuffer = new char[auxBufferSize];
+
+        shiftBufferForString(auxBuffer, search, replaceStr.length());
+
+        replaceCharForString(auxBuffer, search, replaceStrArray);
+
+        char[] replaceBuffer = trimBuffer(auxBuffer);
+
+        this.buffer = replaceBuffer;
+        this.size = replaceBuffer.length;
+
+        return this;
+    }
+
+    /**
+     * Removes the buffer of all empty values
+     *
+     * @param buffer the buffer to trim
+     * @return replaceBuffer, a similar object without empty values
+     */
+    protected char[] trimBuffer(char[] buffer) {
+
+        int count = 0;
+
+        for (int i = 0; i < buffer.length; i++) {
+            if (buffer[i] == 0) {
+                count++;
+            }
+        }
+
+        char[] replaceBuffer = new char[buffer.length - count];
+
+        for (int i = 0; i < replaceBuffer.length; i++) {
+
+            replaceBuffer[i] = buffer[i];
+        }
+
+        return replaceBuffer;
+    }
+
+    /**
+     * Replaces a char in the buffer for a String
+     *
+     * @param buffer the buffer in which the desired char values will be replaced for Strings
+     * @param search the char to be replaced
+     * @param replaceStrArray the String to place in the buffer, divided in a char array
+     * @return replaceBuffer, a similar object without empty values
+     */
+    protected void replaceCharForString(char[] buffer, char search, char[] replaceStrArray) {
+        for (int i = 0; i < buffer.length; i++) {
+            int cont = 0;
+            if (buffer[i] == search) {
+                while (cont != replaceStrArray.length) {
+                    buffer[i + cont] = replaceStrArray[cont];
+                    cont++;
+                }
+                i = i + cont - 1;
+            }
+        }
+    }
+
+    /**
+     * Shifts the elements in the buffer array for a String to be placed in place of a char
+     *
+     * @param auxBuffer the buffer in which the
+     * @param search the char to be replaced
+     * @param strLength the size of the string to place in the array
+
+     */
+    protected void shiftBufferForString(char[] auxBuffer, char search, int strLength) {
+        int count = 0;
+
+        for (int i = 0; i < buffer.length; i++) {
+            if (buffer[i] == search) {
+                auxBuffer[count] = buffer[i];
+                count = count + strLength;
+            } else {
+                auxBuffer[count] = buffer[i];
+                count++;
+            }
+        }
+    }
+
+    /**
+     * Counts the number of times a char appears in the buffer
+     *
+     * @param search the char to be counted
+         */
+    protected int countCharOccurrence(char search) {
+        int count = 0;
 
         for (int i = 0; i < this.buffer.length; i++) {
             if (buffer[i] == search) {
                 count++;
             }
         }
-
-        auxBufferSize = this.buffer.length + (count * strLength);
-        auxBuffer = new char[auxBufferSize];
-        int test = 0;
-
-        for (int i = 0; i < buffer.length; i++) {
-
-            if (buffer[i] == search) {
-                auxBuffer[test] = buffer[i];
-                test = test + strLength;
-            } else {
-                auxBuffer[test] = buffer[i];
-                test++;
-            }
-        }
-
-        for (int i = 0; i < auxBuffer.length; i++) {
-            int cont = 0;
-            if (auxBuffer[i] == search) {
-                while (cont != strLength) {
-                    auxBuffer[i + cont] = replaceStrArray[cont];
-                    cont++;
-                }
-                i = i + cont - 1;
-            }
-        }
-
-        int cont = 0;
-        for (int i = 0; i < auxBufferSize; i++) {
-            if (auxBuffer[i] == 0) {
-                cont++;
-            }
-        }
-
-        char[] replaceBuffer = new char[auxBuffer.length - cont];
-        for (int i = 0; i < replaceBuffer.length; i++) {
-
-            replaceBuffer[i] = auxBuffer[i];
-        }
-
-        this.buffer = replaceBuffer;
-        this.size = replaceBuffer.length;
-        return this;
+        return count;
     }
 
 
