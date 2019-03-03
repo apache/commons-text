@@ -1977,6 +1977,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
 
         int strLength = replaceStr.length();
         int count = 0;
+
         char[] auxBuffer;
         int rpBufferSize = 0;
         char[] replaceStrArray = replaceStr.toCharArray();
