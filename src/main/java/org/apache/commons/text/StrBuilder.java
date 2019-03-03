@@ -1941,6 +1941,65 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
         return this;
     }
 
+    public StrBuilder replaceAll(final char search, final String replaceStr) {
+
+        int strLength = replaceStr.length();
+        int count = 0;
+        char[] auxBuffer;
+        int auxBufferSize = 0;
+        char[] replaceStrArray = replaceStr.toCharArray();
+
+        for (int i = 0; i < this.buffer.length; i++) {
+            if (buffer[i] == search) {
+                count++;
+            }
+        }
+
+        auxBufferSize = this.buffer.length + (count * strLength);
+        auxBuffer = new char[auxBufferSize];
+        int test = 0;
+
+        for (int i = 0; i < buffer.length; i++) {
+
+            if (buffer[i] == search) {
+                auxBuffer[test] = buffer[i];
+                test = test + strLength;
+            } else {
+                auxBuffer[test] = buffer[i];
+                test++;
+            }
+        }
+
+        for (int i = 0; i < auxBuffer.length; i++) {
+            int cont = 0;
+            if (auxBuffer[i] == search) {
+                while (cont != strLength) {
+                    auxBuffer[i + cont] = replaceStrArray[cont];
+                    cont++;
+                }
+                i = i + cont - 1;
+            }
+        }
+
+        int cont = 0;
+        for (int i = 0; i < auxBufferSize; i++) {
+            if (auxBuffer[i] == 0) {
+                cont++;
+            }
+        }
+
+        char[] replaceBuffer = new char[auxBuffer.length - cont];
+        for (int i = 0; i < replaceBuffer.length; i++) {
+
+            replaceBuffer[i] = auxBuffer[i];
+        }
+
+        this.buffer = replaceBuffer;
+        this.size = replaceBuffer.length;
+        return this;
+    }
+
+
     /**
      * Replaces the first instance of the search character with the
      * replace character in the builder.
