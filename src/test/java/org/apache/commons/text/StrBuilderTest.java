@@ -505,11 +505,11 @@ public class StrBuilderTest {
         sb.append("junit");
         char[] a = new char[5];
         sb.getChars(0, 5, a, 0);
-        assertTrue(Arrays.equals(new char[] {'j', 'u', 'n', 'i', 't' }, a));
+        assertTrue(Arrays.equals(new char[]{'j', 'u', 'n', 'i', 't'}, a));
 
         a = new char[5];
         sb.getChars(0, 2, a, 3);
-        assertTrue(Arrays.equals(new char[] {0, 0, 0, 'j', 'u' }, a));
+        assertTrue(Arrays.equals(new char[]{0, 0, 0, 'j', 'u'}, a));
 
         try {
             sb.getChars(-1, 0, a, 0);
@@ -948,13 +948,13 @@ public class StrBuilderTest {
             }
         }
 
-        assertEquals(true,threeEmptyValuesBetweenAandB);
+        assertEquals(true, threeEmptyValuesBetweenAandB);
 
 
         sb.shiftBufferForString(testBuffer, 'a', stringToAdd.length());
 
 
-       count=0;
+       count = 0;
         for (int i = 0; i < testBuffer.length; i++) {
             if (testBuffer[i] == 0) {
                 count++;
@@ -977,12 +977,12 @@ public class StrBuilderTest {
         StrBuilder sb = new StrBuilder("test");
 
         int count = sb.countCharOccurrence('t');
-        assertEquals(count,2);
+        assertEquals(count, 2);
 
         StrBuilder sb2 = new StrBuilder("");
         int count2 = sb.countCharOccurrence('b');
 
-        assertEquals(count2,0);
+        assertEquals(count2, 0);
 
     }
 

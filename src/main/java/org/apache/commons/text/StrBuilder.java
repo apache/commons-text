@@ -1927,7 +1927,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * throughout the builder.
      *
      * @param search  the search character
-     * @param replace  the replace character
+     * @param replace the replace character
      * @return this, to enable chaining
      */
     public StrBuilder replaceAll(final char search, final char replace) {
@@ -1943,7 +1943,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
 
 
     /**
-     * Replaces the search character with the replace string
+     * Replaces the search character with the replace string.
      * throughout the builder.
      *
      * @param search  the search character
@@ -1976,7 +1976,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Removes the buffer of all empty values
+     * Removes the buffer of all empty values.
      *
      * @param buffer the buffer to trim
      * @return replaceBuffer, a similar object without empty values
@@ -2002,12 +2002,11 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Replaces a char in the buffer for a String
+     * Replaces a char in the buffer for a String.
      *
      * @param buffer the buffer in which the desired char values will be replaced for Strings
      * @param search the char to be replaced
      * @param replaceStrArray the String to place in the buffer, divided in a char array
-     * @return replaceBuffer, a similar object without empty values
      */
     protected void replaceCharForString(char[] buffer, char search, char[] replaceStrArray) {
         for (int i = 0; i < buffer.length; i++) {
@@ -2023,7 +2022,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Shifts the elements in the buffer array for a String to be placed in place of a char
+     * Shifts the elements in the buffer array for a String to be placed in place of a char.
      *
      * @param auxBuffer the buffer in which the
      * @param search the char to be replaced
@@ -2045,9 +2044,10 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Counts the number of times a char appears in the buffer
+     * Counts the number of times a char appears in the buffer.
      *
      * @param search the char to be counted
+     * @return count, number of occurrences of the char in the array
          */
     protected int countCharOccurrence(char search) {
         int count = 0;
