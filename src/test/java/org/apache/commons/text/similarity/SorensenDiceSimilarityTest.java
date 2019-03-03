@@ -25,13 +25,13 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit tests for {@link SorensenDicesSimilarity}.
  */
-public class SorensenDicesSimilarityTest {
+public class SorensenDiceSimilarityTest {
 
-    private static SorensenDicesSimilarity similarity;
+    private static SorensenDiceSimilarity similarity;
 
     @BeforeAll
     public static void setUp() {
-        similarity = new SorensenDicesSimilarity();
+        similarity = new SorensenDiceSimilarity();
     }
 
     @Test
@@ -45,6 +45,8 @@ public class SorensenDicesSimilarityTest {
         assertEquals(1d, similarity.apply("", ""));
         assertEquals(0d, similarity.apply("", "a"));
         assertEquals(0d, similarity.apply("a", ""));
+        assertEquals(1d, similarity.apply("a", "a"));
+        assertEquals(0d, similarity.apply("a", "b"));
         assertEquals(1.0d, similarity.apply("foo", "foo"));
         assertEquals(0.8d, similarity.apply("foo", "foo "));
         assertEquals(0.4d, similarity.apply("frog", "fog"));

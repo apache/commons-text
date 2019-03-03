@@ -18,24 +18,27 @@ package org.apache.commons.text.similarity;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A similarity algorithm indicating the percentage of matched characters
  * between two character sequences.
  *
  * <p>
- * The Sørensen–Dice coefficient is a statistic used for comparing the
+ * The S&#248;rensen–Dice coefficient is a statistic used for comparing the
  * similarity of two samples. It was independently developed by the botanists
- * Thorvald Sørensen and Lee Raymond Dice, who published in 1948 and 1945
+ * Thorvald S&#248;rensen and Lee Raymond Dice, who published in 1948 and 1945
  * respectively. The index is known by several other names, especially
- * Sørensen–Dice index, Sørensen index and Dice's coefficient. Other variations
- * include the "similarity coefficient" or "index", such as Dice similarity
- * coefficient (DSC).
+ * S&#248;rensen–Dice index, S&#248;rensen index and Dice's coefficient. Other
+ * variations include the "similarity coefficient" or "index", such as Dice
+ * similarity coefficient (DSC).
  * </p>
  *
  * <p>
- * This implementation is based on the Sørensen–Dice similarity algorithm from
- * <a href=
+ * This implementation is based on the S&#248;rensen–Dice similarity algorithm
+ * from <a href=
  * "http://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient">
  * http://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient</a>.
  *
@@ -44,11 +47,17 @@ import java.util.Set;
  *
  * @since 1.7
  */
-public class SorensenDicesSimilarity implements SimilarityScore<Double> {
+public class SorensenDiceSimilarity implements SimilarityScore<Double> {
 
     /**
+     * Calculates Sorensen-Dice Similarity of two character sequences passed as
+     * input.
      *
      * <pre>
+     * similarity.apply(null, null)                 = IllegalArgumentException
+     * similarity.apply("foo", null)                = IllegalArgumentException
+     * similarity.apply(null, "foo")                = IllegalArgumentException
+     * similarity.apply("night", "nacht")           = 0.25
      * similarity.apply("", "")                     = 1.0
      * similarity.apply("foo", "foo")               = 1.0
      * similarity.apply("foo", "foo ")              = 0.8
@@ -81,11 +90,11 @@ public class SorensenDicesSimilarity implements SimilarityScore<Double> {
             throw new IllegalArgumentException("CharSequences must not be null");
         }
 
-        if (left.equals(right)) {
+        if (StringUtils.equals(left, right)) {
             return 1d;
         }
 
-        if (left.length() == 0 || right.length() == 0) {
+        if (left.length() < 2 || right.length() < 2) {
             return 0d;
         }
 
@@ -93,15 +102,15 @@ public class SorensenDicesSimilarity implements SimilarityScore<Double> {
         Set<String> nRight = createBigrams(right);
 
         final int total = nLeft.size() + nRight.size();
-        nLeft.retainAll(nRight);
-        final int intersection = nLeft.size();
+        final long intersection = nLeft.stream().filter(nRight::contains).collect(Collectors.counting());
 
         return (2.0d * intersection) / total;
     }
 
     /**
-     * Method for creating Bigrams, bigrams are nothing but set of two consecutive
-     * characters.
+     * Method for creating bigrams - two consecutive characters. Returns a set of
+     * bigrams.
+     *
      * @param charSequence The char sequence for which we need set of bigrams.
      * @return set of bigrams.
      */
