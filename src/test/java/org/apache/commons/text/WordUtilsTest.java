@@ -545,4 +545,20 @@ public class WordUtilsTest {
     }
 
 
+
+    @Test
+    public void testWrapAtStartAndEnd() {
+        assertThat(WordUtils.wrap("nabcdefabcdefn", 2, "\n", false, "(?=n)")).isEqualTo("\nabcdefabcdef\n");
+    }
+
+    @Test
+    public void testWrapWithMultipleRegexMatchOfLength0() {
+        assertThat(WordUtils.wrap("abcdefabcdef", 2, "\n", false, "(?=d)")).isEqualTo("abc\ndefabc\ndef");
+    }
+
+    @Test
+    public void testWrapAtMiddleTwice() {
+        assertThat(WordUtils.wrap("abcdefggabcdef", 2, "\n", false, "(?=g)")).isEqualTo("abcdef\n\nabcdef");
+    }
+
 }
