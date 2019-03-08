@@ -54,6 +54,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-152" type="add" dev="" due-to="@CAPS50">Fix possible infinite loop in WordUtils.wrap for a regex pattern that would trigger on a match of 0 length</action>
     <action issue="TEXT-153" type="update" dev="" due-to="amirhadadi">Make prefixSet in LookupTranslator a BitSet</action>
     <action issue="TEXT-156" type="update" dev="aherbert">Fix the RegexTokenizer to use a static Pattern</action>
+    <action issue="TEXT-157" type="update" dev="aherbert">Remove rounding from JaccardDistance and JaccardSimilarity</action>
   </release>
 
   <release version="1.6" date="2018-10-12" description="Release 1.6">
