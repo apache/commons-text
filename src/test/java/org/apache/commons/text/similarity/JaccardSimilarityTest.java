@@ -36,22 +36,21 @@ public class JaccardSimilarityTest {
 
     @Test
     public void testGettingJaccardSimilarity() {
-        // Results generated using the python distance library using:
-        // 1 - distance.jaccard(seq1, seq2)
+        // Expected Jaccard similarity = (intersect / union)
         assertEquals(0.0, classBeingTested.apply("", ""));
         assertEquals(0.0, classBeingTested.apply("left", ""));
         assertEquals(0.0, classBeingTested.apply("", "right"));
-        assertEquals(0.75, classBeingTested.apply("frog", "fog"));
+        assertEquals(3.0 / 4, classBeingTested.apply("frog", "fog"));
         assertEquals(0.0, classBeingTested.apply("fly", "ant"));
-        assertEquals(0.2222222222222222, classBeingTested.apply("elephant", "hippo"));
-        assertEquals(0.6363636363636364, classBeingTested.apply("ABC Corporation", "ABC Corp"));
-        assertEquals(0.7647058823529411,
+        assertEquals(2.0 / 9, classBeingTested.apply("elephant", "hippo"));
+        assertEquals(7.0 / 11, classBeingTested.apply("ABC Corporation", "ABC Corp"));
+        assertEquals(13.0 / 17,
                 classBeingTested.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."));
-        assertEquals(0.8888888888888888,
+        assertEquals(16.0 / 18,
                 classBeingTested.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
-        assertEquals(0.9, classBeingTested.apply("PENNSYLVANIA", "PENNCISYLVNIA"));
-        assertEquals(0.125, classBeingTested.apply("left", "right"));
-        assertEquals(0.125, classBeingTested.apply("leettteft", "ritttght"));
+        assertEquals(9.0 / 10, classBeingTested.apply("PENNSYLVANIA", "PENNCISYLVNIA"));
+        assertEquals(1.0 / 8, classBeingTested.apply("left", "right"));
+        assertEquals(1.0 / 8, classBeingTested.apply("leettteft", "ritttght"));
         assertEquals(1.0, classBeingTested.apply("the same string", "the same string"));
     }
 
