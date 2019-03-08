@@ -36,21 +36,23 @@ public class JaccardDistanceTest {
 
     @Test
     public void testGettingJaccardDistance() {
-        assertEquals(1.00d, classBeingTested.apply("", ""), 0.00000000000000000001d);
-        assertEquals(1.00d, classBeingTested.apply("left", ""), 0.00000000000000000001d);
-        assertEquals(1.00d, classBeingTested.apply("", "right"), 0.00000000000000000001d);
-        assertEquals(0.25d, classBeingTested.apply("frog", "fog"), 0.00000000000000000001d);
-        assertEquals(1.00d, classBeingTested.apply("fly", "ant"), 0.00000000000000000001d);
-        assertEquals(0.78d, classBeingTested.apply("elephant", "hippo"), 0.00000000000000000001d);
-        assertEquals(0.36d, classBeingTested.apply("ABC Corporation", "ABC Corp"), 0.00000000000000000001d);
-        assertEquals(0.24d, classBeingTested.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."),
-                0.00000000000000000001d);
-        assertEquals(0.11d, classBeingTested.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"),
-                0.00000000000000000001d);
-        assertEquals(0.10d, classBeingTested.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.00000000000000000001d);
-        assertEquals(0.87d, classBeingTested.apply("left", "right"), 0.00000000000000000001d);
-        assertEquals(0.87d, classBeingTested.apply("leettteft", "ritttght"), 0.00000000000000000001d);
-        assertEquals(0.0d, classBeingTested.apply("the same string", "the same string"), 0.00000000000000000001d);
+        // Results generated using the python distance library using:
+        // distance.jaccard(seq1, seq2)
+        assertEquals(1.0, classBeingTested.apply("", ""));
+        assertEquals(1.0, classBeingTested.apply("left", ""));
+        assertEquals(1.0, classBeingTested.apply("", "right"));
+        assertEquals(0.25, classBeingTested.apply("frog", "fog"));
+        assertEquals(1.0, classBeingTested.apply("fly", "ant"));
+        assertEquals(0.7777777777777778, classBeingTested.apply("elephant", "hippo"));
+        assertEquals(0.36363636363636365, classBeingTested.apply("ABC Corporation", "ABC Corp"));
+        assertEquals(0.23529411764705888,
+                classBeingTested.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."));
+        assertEquals(0.11111111111111116,
+                classBeingTested.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
+        assertEquals(0.09999999999999998, classBeingTested.apply("PENNSYLVANIA", "PENNCISYLVNIA"));
+        assertEquals(0.875, classBeingTested.apply("left", "right"));
+        assertEquals(0.875, classBeingTested.apply("leettteft", "ritttght"));
+        assertEquals(0.0, classBeingTested.apply("the same string", "the same string"));
     }
 
     @Test

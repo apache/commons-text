@@ -50,6 +50,6 @@ public class JaccardDistance implements EditDistance<Double> {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Input cannot be null");
         }
-        return Math.round((1 - jaccardSimilarity.apply(left, right)) * 100d) / 100d;
+        return 1.0 - jaccardSimilarity.apply(left, right).doubleValue();
     }
 }
