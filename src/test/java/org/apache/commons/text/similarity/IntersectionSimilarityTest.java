@@ -31,61 +31,57 @@ import java.util.function.Function;
  */
 public class IntersectionSimilarityTest {
     @Test
-    public void testGettingJaccardSimilarity() {
-        // Match the functionality of the JaccardSimilarity class
+    public void testGetJaccardSimilarityUsingChars() {
+        // Match the functionality of the JaccardSimilarity class by dividing
+        // the sequence into single characters
         final Function<CharSequence, Set<Character>> converter = (cs) -> {
-            final Set<Character> set = new HashSet<>();
-            for (int i = 0; i < cs.length(); i++) {
+            final int length = cs.length();
+            final Set<Character> set = new HashSet<>(length);
+            for (int i = 0; i < length; i++) {
                 set.add(cs.charAt(i));
             }
             return set;
         };
         final IntersectionSimilarity<Character> similarity = new IntersectionSimilarity<>(converter);
 
-        assertEquals(0.00d, round(similarity.apply("", "").getJaccard()), 0.00000000000000000001d);
-        assertEquals(0.00d, round(similarity.apply("left", "").getJaccard()), 0.00000000000000000001d);
-        assertEquals(0.00d, round(similarity.apply("", "right").getJaccard()), 0.00000000000000000001d);
-        assertEquals(0.75d, round(similarity.apply("frog", "fog").getJaccard()), 0.00000000000000000001d);
-        assertEquals(0.00d, round(similarity.apply("fly", "ant").getJaccard()), 0.00000000000000000001d);
-        assertEquals(0.22d, round(similarity.apply("elephant", "hippo").getJaccard()), 0.00000000000000000001d);
-        assertEquals(0.64d, round(similarity.apply("ABC Corporation", "ABC Corp").getJaccard()),
-                0.00000000000000000001d);
-        assertEquals(0.76d, round(similarity.apply("D N H Enterprises Inc", "D & H Enterprises, Inc.").getJaccard()),
-                0.00000000000000000001d);
-        assertEquals(0.89d,
-                round(similarity.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness").getJaccard()),
-                0.00000000000000000001d);
-        assertEquals(0.9d, round(similarity.apply("PENNSYLVANIA", "PENNCISYLVNIA").getJaccard()),
-                0.00000000000000000001d);
-        assertEquals(0.13d, round(similarity.apply("left", "right").getJaccard()), 0.00000000000000000001d);
-        assertEquals(0.13d, round(similarity.apply("leettteft", "ritttght").getJaccard()), 0.00000000000000000001d);
-        assertEquals(1.0d, round(similarity.apply("the same string", "the same string").getJaccard()),
-                0.00000000000000000001d);
-    }
-
-    private static double round(double value) {
-        // For some undocumented reason the JaccardSimilarity rounds to 2 D.P.
-        return Math.round(value * 100d) / 100d;
+        // This is explicitly implemented instead of using the JaccardSimilarity
+        // since that class does rounding to 2 D.P.
+        // Results generated using the python distance library using: 1 - distance.jaccard(seq1, seq2)
+        assertEquals(0.0, similarity.apply("", "").getJaccard());
+        assertEquals(0.0, similarity.apply("left", "").getJaccard());
+        assertEquals(0.0, similarity.apply("", "right").getJaccard());
+        assertEquals(0.75, similarity.apply("frog", "fog").getJaccard());
+        assertEquals(0.0, similarity.apply("fly", "ant").getJaccard());
+        assertEquals(0.2222222222222222, similarity.apply("elephant", "hippo").getJaccard());
+        assertEquals(0.6363636363636364, similarity.apply("ABC Corporation", "ABC Corp").getJaccard());
+        assertEquals(0.7647058823529411,
+                similarity.apply("D N H Enterprises Inc", "D & H Enterprises, Inc.").getJaccard());
+        assertEquals(0.8888888888888888,
+                similarity.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness").getJaccard());
+        assertEquals(0.9, similarity.apply("PENNSYLVANIA", "PENNCISYLVNIA").getJaccard());
+        assertEquals(0.125, similarity.apply("left", "right").getJaccard());
+        assertEquals(0.125, similarity.apply("leettteft", "ritttght").getJaccard());
+        assertEquals(1.0, similarity.apply("the same string", "the same string").getJaccard());
     }
 
     @Test
-    public void testGettingF1ScoreUsingBigrams() {
-        // Compute the F1-score using pairs of characters (bigrams)
-        final Function<CharSequence, Set<String>> converter = (cs) -> {
-            final Set<String> set = new HashSet<>();
+    public void testGetF1ScoreUsingBigrams() {
+        // Compute the F1-score using pairs of characters (bigrams).
+        // This can be done using a 32-bit int to store two 16-bit characters
+        final Function<CharSequence, Set<Integer>> converter = (cs) -> {
             final int length = cs.length();
+            final Set<Integer> set = new HashSet<>(length);
             if (length > 1) {
-                final char[] bigram = new char[2];
-                bigram[1] = cs.charAt(0);
-                for (int i = 1; i < cs.length(); i++) {
-                    bigram[0] = bigram[1];
-                    bigram[1] = cs.charAt(i);
-                    set.add(new String(bigram));
+                char ch2 = cs.charAt(0);
+                for (int i = 1; i < length; i++) {
+                    final char ch1 = ch2;
+                    ch2 = cs.charAt(i);
+                    set.add(Integer.valueOf((ch1 << 16) | ch2));
                 }
             }
             return set;
         };
-        final IntersectionSimilarity<String> similarity = new IntersectionSimilarity<>(converter);
+        final IntersectionSimilarity<Integer> similarity = new IntersectionSimilarity<>(converter);
 
         // Note that when there are no bigrams then the similarity is zero.
 
@@ -121,21 +117,21 @@ public class IntersectionSimilarityTest {
     }
 
     @Test
-    public void testGettingSetSimilarityNullNull() {
+    public void testApplyNullNull() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
             new IntersectionSimilarity<>((cs) -> new HashSet<>(Arrays.asList(cs))).apply(null, null);
         });
     }
 
     @Test
-    public void testGettingSetSimilarityStringNull() {
+    public void testApplyStringNull() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
             new IntersectionSimilarity<>((cs) -> new HashSet<>(Arrays.asList(cs))).apply("left", null);
         });
     }
 
     @Test
-    public void testGettingSetSimilarityNullString() {
+    public void testApplyNullString() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
             new IntersectionSimilarity<>((cs) -> new HashSet<>(Arrays.asList(cs))).apply(null, "right");
         });
