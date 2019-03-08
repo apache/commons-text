@@ -16,33 +16,110 @@
  */
 package org.apache.commons.text.similarity;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
- * Measures the intersection of two sets created from a pair of character
- * sequences.
+ * Measures the intersection of two sets created from a pair of character sequences.
  *
- * <p>It is assumed that the type {@code T} correctly conforms to the
- * requirements for storage within a {@link Set}, ideally the type is
- * immutable and implements {@link Object#equals(Object)}.</p>
+ * <p>It is assumed that the type {@code T} correctly conforms to the requirements for storage
+ * within a {@link Set} or {@link HashMap}. Ideally the type is immutable and implements
+ * {@link Object#equals(Object)} and {@link Object#hashCode()}.</p>
  *
- * @param <T> the type of the set extracted from the character sequence
+ * @param <T> the type of the elements extracted from the character sequence
  * @since 1.7
  * @see Set
+ * @see HashMap
  */
 public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionResult> {
-    /** The converter used to create the set elements. */
-    private final Function<CharSequence, Set<T>> converter;
+    /** The converter used to create the elements from the characters. */
+    private final Function<CharSequence, Collection<T>> converter;
+
+    // The following is adapted from commons-collections for a Bag.
+    // A Bag is a collection that can store the count of the number
+    // of copies of each element.
+
+    /**
+     * Mutable counter class for storing the count of elements.
+     */
+    private static class BagCount {
+        /** The count. This is initialised to 1 upon construction. */
+        int count = 1;
+    }
+
+    /**
+     * A minimal implementation of a Bag that can store elements and a count.
+     *
+     * <p>For the intended purpose the Bag does not have to be a {@link Collection}. It does not
+     * even have to know its own size.
+     */
+    private class TinyBag {
+        /** The backing map. */
+        private final Map<T, BagCount> map;
+
+        /**
+         * Create a new tiny bag.
+         *
+         * @param initialCapacity the initial capacity
+         */
+        TinyBag(int initialCapacity) {
+            map = new HashMap<>(initialCapacity);
+        }
+
+        /**
+         * Adds a new element to the bag, incrementing its count in the underlying map.
+         *
+         * @param object the object to add
+         */
+        void add(T object) {
+            final BagCount mut = map.get(object);
+            if (mut == null) {
+                map.put(object, new BagCount());
+            } else {
+                mut.count++;
+            }
+        }
+
+        /**
+         * Returns the number of occurrence of the given element in this bag by
+         * looking up its count in the underlying map.
+         *
+         * @param object the object to search for
+         * @return the number of occurrences of the object, zero if not found
+         */
+        int getCount(final Object object) {
+            final BagCount count = map.get(object);
+            if (count != null) {
+                return count.count;
+            }
+            return 0;
+        }
+
+        /**
+         * Returns a possibly parallel Stream of all the entries in the bag.
+         *
+         * @return the stream
+         */
+        Stream<Map.Entry<T, BagCount>> parallelStream() {
+            return map.entrySet().parallelStream();
+        }
+    }
 
     /**
      * Create a new set similarity using the provided converter.
      *
-     * @param converter the converter used to create the set
+     * <p>If the converter returns a {@link Set} then the intersection result will
+     * not include duplicates. Any other {@link Collection} is used to produce a result
+     * that will include duplicates in the intersect and union.
+     *
+     * @param converter the converter used to create the elements from the characters.
      * @throws IllegalArgumentException if the converter is null
      */
-    public IntersectionSimilarity(Function<CharSequence, Set<T>> converter) {
+    public IntersectionSimilarity(Function<CharSequence, Collection<T>> converter) {
         if (converter == null) {
             throw new IllegalArgumentException("Converter must not be null");
         }
@@ -62,18 +139,59 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
         if (left == null || right == null) {
             throw new IllegalArgumentException("Input cannot be null");
         }
-        final Set<T> setA = converter.apply(left);
-        final Set<T> setB = converter.apply(right);
-        final int sizeA = setA.size();
-        final int sizeB = setB.size();
-        // Short-cut if either set is empty
+
+        // Create the elements from the sequences
+        final Collection<T> objectsA = converter.apply(left);
+        final Collection<T> objectsB = converter.apply(right);
+        final int sizeA = objectsA.size();
+        final int sizeB = objectsB.size();
+
+        // Short-cut if either collection is empty
         if (Math.min(sizeA, sizeB) == 0) {
             // No intersection
             return new IntersectionResult(sizeA, sizeB, 0);
         }
-        // We can use intValue() to convert the Long output from the
-        // collector as the intersection cannot be bigger than either set.
-        final int intersection = setA.stream().filter(setB::contains).collect(Collectors.counting()).intValue();
+
+        // Intersection = count the number of shared elements
+        int intersection;
+        if (objectsA instanceof Set) {
+            // If a Set then the elements will only have a count of 1.
+            // Stream the elements in the set A and check if also in set B.
+            // Note: Even if objectsB is a plain collection this will work
+            // since the contains(Object) method will return true when present.
+            // The fact that objectsA is a Set ensures non duplicate counting.
+            intersection = objectsA.parallelStream()
+                                   .mapToInt(element -> objectsB.contains(element) ? 1 : 0)
+                                   .sum();
+        } else  {
+            // Create a bag for each collection
+            final TinyBag bagA = toBag(objectsA);
+            final TinyBag bagB = toBag(objectsB);
+            // Stream the count of each element in bag A and find the intersection with bag B
+            intersection = bagA.parallelStream()
+                               .mapToInt(entry -> {
+                                   // The intersection of this entry in both bags is the min count
+                                   final T element = entry.getKey();
+                                   final int count = entry.getValue().count;
+                                   return Math.min(count, bagB.getCount(element));
+                               })
+                               .sum();
+        }
+
         return new IntersectionResult(sizeA, sizeB, intersection);
+    }
+
+    /**
+     * Convert the collection to a bag. The bag will contain the count of each element in the collection.
+     *
+     * @param objects the objects
+     * @return the bag
+     */
+    private TinyBag toBag(Collection<T> objects) {
+        final TinyBag bag = new TinyBag(objects.size());
+        for (T t : objects) {
+            bag.add(t);
+        }
+        return bag;
     }
 }

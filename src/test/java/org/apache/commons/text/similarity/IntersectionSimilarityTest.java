@@ -21,8 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -31,10 +34,10 @@ import java.util.function.Function;
  */
 public class IntersectionSimilarityTest {
     @Test
-    public void testGetJaccardSimilarityUsingChars() {
+    public void testJaccardIndexUsingSetCharacter() {
         // Match the functionality of the JaccardSimilarity class by dividing
         // the sequence into single characters
-        final Function<CharSequence, Set<Character>> converter = (cs) -> {
+        final Function<CharSequence, Collection<Character>> converter = (cs) -> {
             final int length = cs.length();
             final Set<Character> set = new HashSet<>(length);
             for (int i = 0; i < length; i++) {
@@ -44,31 +47,63 @@ public class IntersectionSimilarityTest {
         };
         final IntersectionSimilarity<Character> similarity = new IntersectionSimilarity<>(converter);
 
-        // This is explicitly implemented instead of using the JaccardSimilarity
-        // since that class does rounding to 2 D.P.
-        // Results generated using the python distance library using: 1 - distance.jaccard(seq1, seq2)
-        assertEquals(0.0, similarity.apply("", "").getJaccard());
-        assertEquals(0.0, similarity.apply("left", "").getJaccard());
-        assertEquals(0.0, similarity.apply("", "right").getJaccard());
-        assertEquals(0.75, similarity.apply("frog", "fog").getJaccard());
-        assertEquals(0.0, similarity.apply("fly", "ant").getJaccard());
-        assertEquals(0.2222222222222222, similarity.apply("elephant", "hippo").getJaccard());
-        assertEquals(0.6363636363636364, similarity.apply("ABC Corporation", "ABC Corp").getJaccard());
-        assertEquals(0.7647058823529411,
-                similarity.apply("D N H Enterprises Inc", "D & H Enterprises, Inc.").getJaccard());
-        assertEquals(0.8888888888888888,
-                similarity.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness").getJaccard());
-        assertEquals(0.9, similarity.apply("PENNSYLVANIA", "PENNCISYLVNIA").getJaccard());
-        assertEquals(0.125, similarity.apply("left", "right").getJaccard());
-        assertEquals(0.125, similarity.apply("leettteft", "ritttght").getJaccard());
-        assertEquals(1.0, similarity.apply("the same string", "the same string").getJaccard());
+        // Expected Jaccard index = (intersect / union)
+        // intersection = count of unique matching characters (exclude duplicates)
+        // union        = count of unique characters
+        assertEquals(0.0, similarity.apply("", "").getJaccardIndex());
+        assertEquals(0.0, similarity.apply("left", "").getJaccardIndex());
+        assertEquals(0.0, similarity.apply("", "right").getJaccardIndex());
+        assertEquals(3.0 / 4, similarity.apply("frog", "fog").getJaccardIndex());
+        assertEquals(0.0, similarity.apply("fly", "ant").getJaccardIndex());
+        assertEquals(2.0 / 9, similarity.apply("elephant", "hippo").getJaccardIndex());
+        assertEquals(7.0 / 11, similarity.apply("ABC Corporation", "ABC Corp").getJaccardIndex());
+        assertEquals(13.0 / 17, similarity.apply("D N H Enterprises Inc", "D & H Enterprises, Inc.").getJaccardIndex());
+        assertEquals(16.0 / 18,
+            similarity.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness").getJaccardIndex());
+        assertEquals(9.0 / 10, similarity.apply("PENNSYLVANIA", "PENNCISYLVNIA").getJaccardIndex());
+        assertEquals(1.0 / 8, similarity.apply("left", "right").getJaccardIndex());
+        assertEquals(1.0 / 8, similarity.apply("leettteft", "ritttght").getJaccardIndex());
+        assertEquals(1.0, similarity.apply("the same string", "the same string").getJaccardIndex());
     }
 
     @Test
-    public void testGetF1ScoreUsingBigrams() {
-        // Compute the F1-score using pairs of characters (bigrams).
+    public void testJaccardIndexUsingListCharacter() {
+        // This test uses a list and so duplicates should be matched
+        final Function<CharSequence, Collection<Character>> converter = (cs) -> {
+            final int length = cs.length();
+            final List<Character> list = new ArrayList<>(length);
+            for (int i = 0; i < length; i++) {
+                list.add(cs.charAt(i));
+            }
+            return list;
+        };
+        final IntersectionSimilarity<Character> similarity = new IntersectionSimilarity<>(converter);
+
+        // Expected Jaccard index = (intersect / union)
+        // intersection = count of matching characters including duplicates
+        // union = left.length() + right.length() - intersection
+        assertEquals(0.0, similarity.apply("", "").getJaccardIndex());
+        assertEquals(0.0, similarity.apply("left", "").getJaccardIndex());
+        assertEquals(0.0, similarity.apply("", "right").getJaccardIndex());
+        assertEquals(3.0 / (4 + 3 - 3), similarity.apply("frog", "fog").getJaccardIndex());
+        assertEquals(0.0, similarity.apply("fly", "ant").getJaccardIndex());
+        assertEquals(2.0 / (8 + 5 - 2), similarity.apply("elephant", "hippo").getJaccardIndex());
+        assertEquals(8.0 / (15 + 8 - 8), similarity.apply("ABC Corporation", "ABC Corp").getJaccardIndex());
+        assertEquals(20.0 / (21 + 23 - 20),
+            similarity.apply("D N H Enterprises Inc", "D & H Enterprises, Inc.").getJaccardIndex());
+        assertEquals(24.0 / (32 + 25 - 24),
+            similarity.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness").getJaccardIndex());
+        assertEquals(11.0 / (12 + 13 - 11), similarity.apply("PENNSYLVANIA", "PENNCISYLVNIA").getJaccardIndex());
+        assertEquals(1.0 / (4 + 5 - 1), similarity.apply("left", "right").getJaccardIndex());
+        assertEquals(4.0 / (9 + 8 - 4), similarity.apply("leettteft", "ritttght").getJaccardIndex());
+        assertEquals(1.0, similarity.apply("the same string", "the same string").getJaccardIndex());
+    }
+
+    @Test
+    public void testSorensenDiceCoefficientUsingSetBigrams() {
+        // Compute using pairs of characters (bigrams).
         // This can be done using a 32-bit int to store two 16-bit characters
-        final Function<CharSequence, Set<Integer>> converter = (cs) -> {
+        final Function<CharSequence, Collection<Integer>> converter = (cs) -> {
             final int length = cs.length();
             final Set<Integer> set = new HashSet<>(length);
             if (length > 1) {
@@ -83,30 +118,99 @@ public class IntersectionSimilarityTest {
         };
         final IntersectionSimilarity<Integer> similarity = new IntersectionSimilarity<>(converter);
 
-        // Note that when there are no bigrams then the similarity is zero.
+        // Expected Sorensen-Dice = 2 * intersection / (|A| + |B|)
+        // intersection = count of unique matching bigrams (exclude duplicates)
+        // |A|          = count of unique bigrams in A
+        // |B|          = count of unique bigrams in B
+        assertEquals(2.0 * 1 / (1 + 1), similarity.apply("aa", "aa").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 1 / (1 + 1), similarity.apply("aaa", "aa").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 1 / (1 + 1), similarity.apply("aaaa", "aa").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 1 / (1 + 1), similarity.apply("aaaa", "aaa").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 2 / (3 + 2), similarity.apply("abaa", "aba").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 2 / (2 + 2), similarity.apply("ababa", "aba").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 2 / (2 + 2), similarity.apply("ababa", "abab").getSorensenDiceCoefficient());
 
-        assertEquals(0d, similarity.apply("", "").getF1Score());
-        assertEquals(0d, similarity.apply("", "a").getF1Score());
-        assertEquals(0d, similarity.apply("a", "").getF1Score());
-        assertEquals(0d, similarity.apply("a", "a").getF1Score());
-        assertEquals(0d, similarity.apply("a", "b").getF1Score());
-        assertEquals(1.0d, similarity.apply("foo", "foo").getF1Score());
-        assertEquals(0.8d, similarity.apply("foo", "foo ").getF1Score());
-        assertEquals(0.4d, similarity.apply("frog", "fog").getF1Score());
-        assertEquals(0.0d, similarity.apply("fly", "ant").getF1Score());
-        assertEquals(0.0d, similarity.apply("elephant", "hippo").getF1Score());
-        assertEquals(0.0d, similarity.apply("hippo", "elephant").getF1Score());
-        assertEquals(0.0d, similarity.apply("hippo", "zzzzzzzz").getF1Score());
-        assertEquals(0.5d, similarity.apply("hello", "hallo").getF1Score());
-        assertEquals(0.7d, similarity.apply("ABC Corporation", "ABC Corp").getF1Score());
-        assertEquals(0.7391304347826086d,
-                similarity.apply("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.").getF1Score());
-        assertEquals(0.8076923076923077d,
-                similarity.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness").getF1Score());
-        assertEquals(0.6956521739130435, similarity.apply("PENNSYLVANIA", "PENNCISYLVNIA").getF1Score());
-        assertEquals(0.9230769230769231, similarity.apply("/opt/software1", "/opt/software2").getF1Score());
-        assertEquals(0.5d, similarity.apply("aaabcd", "aaacdb").getF1Score());
-        assertEquals(0.631578947368421, similarity.apply("John Horn", "John Hopkins").getF1Score());
+        assertEquals(0.0, similarity.apply("", "").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("", "a").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("a", "").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("a", "a").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("a", "b").getSorensenDiceCoefficient());
+        assertEquals(1.0, similarity.apply("foo", "foo").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 2 / (2 + 3), similarity.apply("foo", "foo ").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 1 / (3 + 2), similarity.apply("frog", "fog").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("fly", "ant").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("elephant", "hippo").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("hippo", "elephant").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("hippo", "zzzzzzzz").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 2 / (4 + 4), similarity.apply("hello", "hallo").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 7 / (13 + 7), similarity.apply("ABC Corporation", "ABC Corp").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 17 / (20 + 26),
+            similarity.apply("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 21 / (28 + 24), similarity
+            .apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 8 / (11 + 12),
+            similarity.apply("PENNSYLVANIA", "PENNCISYLVNIA").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 12 / (13 + 13),
+            similarity.apply("/opt/software1", "/opt/software2").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 2 / (4 + 4), similarity.apply("aaabcd", "aaacdb").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 6 / (8 + 11), similarity.apply("John Horn", "John Hopkins").getSorensenDiceCoefficient());
+    }
+
+    @Test
+    public void testSorensenDiceCoefficientUsingListBigrams() {
+        // Compute using pairs of characters (bigrams).
+        // This can be done using a 32-bit int to store two 16-bit characters
+        final Function<CharSequence, Collection<Integer>> converter = (cs) -> {
+            final int length = cs.length();
+            final List<Integer> set = new ArrayList<>(length);
+            if (length > 1) {
+                char ch2 = cs.charAt(0);
+                for (int i = 1; i < length; i++) {
+                    final char ch1 = ch2;
+                    ch2 = cs.charAt(i);
+                    set.add(Integer.valueOf((ch1 << 16) | ch2));
+                }
+            }
+            return set;
+        };
+        final IntersectionSimilarity<Integer> similarity = new IntersectionSimilarity<>(converter);
+
+        // Expected Sorensen-Dice = 2 * intersection / (|A| + |B|)
+        // intersection = count of matching bigrams including duplicates
+        // |A|          = max(0, left.length() - 1)
+        // |B|          = max(0, right.length() - 1)
+        assertEquals(2.0 * 1 / (1 + 1), similarity.apply("aa", "aa").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 1 / (2 + 1), similarity.apply("aaa", "aa").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 1 / (3 + 1), similarity.apply("aaaa", "aa").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 2 / (3 + 2), similarity.apply("aaaa", "aaa").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 2 / (3 + 2), similarity.apply("abaa", "aba").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 2 / (4 + 2), similarity.apply("ababa", "aba").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 3 / (4 + 3), similarity.apply("ababa", "abab").getSorensenDiceCoefficient());
+
+        assertEquals(0.0, similarity.apply("", "").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("", "a").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("a", "").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("a", "a").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("a", "b").getSorensenDiceCoefficient());
+        assertEquals(1.0, similarity.apply("foo", "foo").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 2 / (2 + 3), similarity.apply("foo", "foo ").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 1 / (3 + 2), similarity.apply("frog", "fog").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("fly", "ant").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("elephant", "hippo").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("hippo", "elephant").getSorensenDiceCoefficient());
+        assertEquals(0.0, similarity.apply("hippo", "zzzzzzzz").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 2 / (4 + 4), similarity.apply("hello", "hallo").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 7 / (14 + 7), similarity.apply("ABC Corporation", "ABC Corp").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 17 / (20 + 26),
+            similarity.apply("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 21 / (31 + 24), similarity
+            .apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 8 / (11 + 12),
+            similarity.apply("PENNSYLVANIA", "PENNCISYLVNIA").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 12 / (13 + 13),
+            similarity.apply("/opt/software1", "/opt/software2").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 3 / (5 + 5), similarity.apply("aaabcd", "aaacdb").getSorensenDiceCoefficient());
+        assertEquals(2.0 * 6 / (8 + 11), similarity.apply("John Horn", "John Hopkins").getSorensenDiceCoefficient());
     }
 
     @Test

@@ -122,28 +122,28 @@ public class IntersectionResultTest {
     }
 
     private static double getJaccard(int sizeA, int sizeB, int intersection) {
-        return new IntersectionResult(sizeA, sizeB, intersection).getJaccard();
+        return new IntersectionResult(sizeA, sizeB, intersection).getJaccardIndex();
     }
 
     @Test
-    public void testF1Score() {
-        // F1-score is 2 * intersection divided by the size of each set
-        Assertions.assertEquals(0, getF1Score(0, 0, 0));
+    public void testSorensenDice() {
+        // Sorensen-Dice is 2 * intersection divided by the size of each set
+        Assertions.assertEquals(0, getSorensenDice(0, 0, 0));
 
-        Assertions.assertEquals(0, getF1Score(1, 0, 0));
-        Assertions.assertEquals(0, getF1Score(1, 1, 0));
-        Assertions.assertEquals(1, getF1Score(1, 1, 1));
+        Assertions.assertEquals(0, getSorensenDice(1, 0, 0));
+        Assertions.assertEquals(0, getSorensenDice(1, 1, 0));
+        Assertions.assertEquals(2.0 * 1 / (1 + 1), getSorensenDice(1, 1, 1));
 
-        Assertions.assertEquals(0, getF1Score(2, 0, 0));
-        Assertions.assertEquals(0, getF1Score(2, 1, 0));
-        Assertions.assertEquals(2 * 1.0 / (2 + 1), getF1Score(2, 1, 1));
-        Assertions.assertEquals(1, getF1Score(2, 2, 2));
+        Assertions.assertEquals(0, getSorensenDice(2, 0, 0));
+        Assertions.assertEquals(0, getSorensenDice(2, 1, 0));
+        Assertions.assertEquals(2.0 * 1 / (2 + 1), getSorensenDice(2, 1, 1));
+        Assertions.assertEquals(2.0 * 2 / (2 + 2), getSorensenDice(2, 2, 2));
 
-        Assertions.assertEquals(2 * 2.0 / (20 + 3), getF1Score(20, 3, 2));
+        Assertions.assertEquals(2.0 * 2 / (20 + 3), getSorensenDice(20, 3, 2));
     }
 
-    private static double getF1Score(int sizeA, int sizeB, int intersection) {
-        return new IntersectionResult(sizeA, sizeB, intersection).getF1Score();
+    private static double getSorensenDice(int sizeA, int sizeB, int intersection) {
+        return new IntersectionResult(sizeA, sizeB, intersection).getSorensenDiceCoefficient();
     }
 
     @Test
@@ -192,11 +192,12 @@ public class IntersectionResultTest {
                 new IntersectionResult(10, 10, 10),
         };
         final HashMap<IntersectionResult, Integer> map = new HashMap<>();
+        final int offset = 123;
         for (int i = 0; i < results.length; i++) {
-            map.put(results[i], i);
+            map.put(results[i], i + offset);
         }
         for (int i = 0; i < results.length; i++) {
-            Assertions.assertEquals(i, map.get(results[i]));
+            Assertions.assertEquals(i + offset, map.get(results[i]));
         }
     }
 
