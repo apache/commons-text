@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 /**
  * Unit tests for {@link IntersectionSimilarity}.
@@ -37,7 +38,7 @@ public class IntersectionSimilarityTest {
     public void testJaccardIndexUsingSetCharacter() {
         // Match the functionality of the JaccardSimilarity class by dividing
         // the sequence into single characters
-        final Function<CharSequence, Collection<Character>> converter = (cs) -> {
+        final Function<CharSequence, Collection<Character>> converter = cs -> {
             final int length = cs.length();
             final Set<Character> set = new HashSet<>(length);
             for (int i = 0; i < length; i++) {
@@ -49,7 +50,7 @@ public class IntersectionSimilarityTest {
 
         // Expected Jaccard index = (intersect / union)
         // intersection = count of unique matching characters (exclude duplicates)
-        // union        = count of unique characters
+        // union = count of unique characters
         assertEquals(0.0, similarity.apply("", "").getJaccardIndex());
         assertEquals(0.0, similarity.apply("left", "").getJaccardIndex());
         assertEquals(0.0, similarity.apply("", "right").getJaccardIndex());
@@ -69,7 +70,7 @@ public class IntersectionSimilarityTest {
     @Test
     public void testJaccardIndexUsingListCharacter() {
         // This test uses a list and so duplicates should be matched
-        final Function<CharSequence, Collection<Character>> converter = (cs) -> {
+        final Function<CharSequence, Collection<Character>> converter = cs -> {
             final int length = cs.length();
             final List<Character> list = new ArrayList<>(length);
             for (int i = 0; i < length; i++) {
@@ -103,7 +104,7 @@ public class IntersectionSimilarityTest {
     public void testSorensenDiceCoefficientUsingSetBigrams() {
         // Compute using pairs of characters (bigrams).
         // This can be done using a 32-bit int to store two 16-bit characters
-        final Function<CharSequence, Collection<Integer>> converter = (cs) -> {
+        final Function<CharSequence, Collection<Integer>> converter = cs -> {
             final int length = cs.length();
             final Set<Integer> set = new HashSet<>(length);
             if (length > 1) {
@@ -120,8 +121,8 @@ public class IntersectionSimilarityTest {
 
         // Expected Sorensen-Dice = 2 * intersection / (|A| + |B|)
         // intersection = count of unique matching bigrams (exclude duplicates)
-        // |A|          = count of unique bigrams in A
-        // |B|          = count of unique bigrams in B
+        // |A| = count of unique bigrams in A
+        // |B| = count of unique bigrams in B
         assertEquals(2.0 * 1 / (1 + 1), similarity.apply("aa", "aa").getSorensenDiceCoefficient());
         assertEquals(2.0 * 1 / (1 + 1), similarity.apply("aaa", "aa").getSorensenDiceCoefficient());
         assertEquals(2.0 * 1 / (1 + 1), similarity.apply("aaaa", "aa").getSorensenDiceCoefficient());
@@ -160,25 +161,25 @@ public class IntersectionSimilarityTest {
     public void testSorensenDiceCoefficientUsingListBigrams() {
         // Compute using pairs of characters (bigrams).
         // This can be done using a 32-bit int to store two 16-bit characters
-        final Function<CharSequence, Collection<Integer>> converter = (cs) -> {
+        final Function<CharSequence, Collection<Integer>> converter = cs -> {
             final int length = cs.length();
-            final List<Integer> set = new ArrayList<>(length);
+            final List<Integer> list = new ArrayList<>(length);
             if (length > 1) {
                 char ch2 = cs.charAt(0);
                 for (int i = 1; i < length; i++) {
                     final char ch1 = ch2;
                     ch2 = cs.charAt(i);
-                    set.add(Integer.valueOf((ch1 << 16) | ch2));
+                    list.add(Integer.valueOf((ch1 << 16) | ch2));
                 }
             }
-            return set;
+            return list;
         };
         final IntersectionSimilarity<Integer> similarity = new IntersectionSimilarity<>(converter);
 
         // Expected Sorensen-Dice = 2 * intersection / (|A| + |B|)
         // intersection = count of matching bigrams including duplicates
-        // |A|          = max(0, left.length() - 1)
-        // |B|          = max(0, right.length() - 1)
+        // |A| = max(0, left.length() - 1)
+        // |B| = max(0, right.length() - 1)
         assertEquals(2.0 * 1 / (1 + 1), similarity.apply("aa", "aa").getSorensenDiceCoefficient());
         assertEquals(2.0 * 1 / (2 + 1), similarity.apply("aaa", "aa").getSorensenDiceCoefficient());
         assertEquals(2.0 * 1 / (3 + 1), similarity.apply("aaaa", "aa").getSorensenDiceCoefficient());
@@ -214,6 +215,75 @@ public class IntersectionSimilarityTest {
     }
 
     @Test
+    public void testSorensenDiceCoefficientUsingListWordBigrams() {
+        // Example of a word letter pairs algorithm:
+        // http://www.catalysoft.com/articles/StrikeAMatch.html
+
+        // Split on whitespace
+        final Pattern pattern = Pattern.compile("\\s+");
+
+        // Compute using pairs of characters (bigrams) for each word.
+        // This can be done using a 32-bit int to store two 16-bit characters
+        final Function<CharSequence, Collection<Integer>> converter = cs -> {
+            final List<Integer> set = new ArrayList<>();
+            for (String word : pattern.split(cs)) {
+                if (word.length() > 1) {
+                    // The strings are converted to upper case
+                    char ch2 = Character.toUpperCase(word.charAt(0));
+                    for (int i = 1; i < word.length(); i++) {
+                        final char ch1 = ch2;
+                        ch2 = Character.toUpperCase(word.charAt(i));
+                        set.add(Integer.valueOf((ch1 << 16) | ch2));
+                    }
+                }
+            }
+            return set;
+        };
+        final IntersectionSimilarity<Integer> similarity = new IntersectionSimilarity<>(converter);
+
+        String bookTitle;
+        final String search1 = "Web Database Applications";
+        final String search2 = "PHP Web Applications";
+        final String search3 = "Web Aplications";
+        bookTitle = "Web Database Applications with PHP & MySQL";
+        assertEquals(82, toPercent(similarity.apply(bookTitle, search1).getSorensenDiceCoefficient()));
+        assertEquals(68, toPercent(similarity.apply(bookTitle, search2).getSorensenDiceCoefficient()));
+        assertEquals(59, toPercent(similarity.apply(bookTitle, search3).getSorensenDiceCoefficient()));
+        bookTitle = "Creating Database Web Applications with PHP and ASP";
+        assertEquals(71, toPercent(similarity.apply(bookTitle, search1).getSorensenDiceCoefficient()));
+        assertEquals(59, toPercent(similarity.apply(bookTitle, search2).getSorensenDiceCoefficient()));
+        assertEquals(50, toPercent(similarity.apply(bookTitle, search3).getSorensenDiceCoefficient()));
+        bookTitle = "Building Database Applications on the Web Using PHP3";
+        assertEquals(70, toPercent(similarity.apply(bookTitle, search1).getSorensenDiceCoefficient()));
+        assertEquals(58, toPercent(similarity.apply(bookTitle, search2).getSorensenDiceCoefficient()));
+        assertEquals(49, toPercent(similarity.apply(bookTitle, search3).getSorensenDiceCoefficient()));
+        bookTitle = "Building Web Database Applications with Visual Studio 6";
+        assertEquals(67, toPercent(similarity.apply(bookTitle, search1).getSorensenDiceCoefficient()));
+        assertEquals(47, toPercent(similarity.apply(bookTitle, search2).getSorensenDiceCoefficient()));
+        assertEquals(46, toPercent(similarity.apply(bookTitle, search3).getSorensenDiceCoefficient()));
+        bookTitle = "Web Application Development With PHP";
+        assertEquals(51, toPercent(similarity.apply(bookTitle, search1).getSorensenDiceCoefficient()));
+        assertEquals(67, toPercent(similarity.apply(bookTitle, search2).getSorensenDiceCoefficient()));
+        assertEquals(56, toPercent(similarity.apply(bookTitle, search3).getSorensenDiceCoefficient()));
+        bookTitle = "WebRAD: Building Database Applications on the Web with Visual FoxPro and Web Connection";
+        assertEquals(49, toPercent(similarity.apply(bookTitle, search1).getSorensenDiceCoefficient()));
+        assertEquals(34, toPercent(similarity.apply(bookTitle, search2).getSorensenDiceCoefficient()));
+        assertEquals(32, toPercent(similarity.apply(bookTitle, search3).getSorensenDiceCoefficient()));
+        bookTitle = "Structural Assessment: The Role of Large and Full-Scale Testing";
+        assertEquals(12, toPercent(similarity.apply(bookTitle, search1).getSorensenDiceCoefficient()));
+        assertEquals(7, toPercent(similarity.apply(bookTitle, search2).getSorensenDiceCoefficient()));
+        assertEquals(7, toPercent(similarity.apply(bookTitle, search3).getSorensenDiceCoefficient()));
+        bookTitle = "How to Find a Scholarship Online";
+        assertEquals(10, toPercent(similarity.apply(bookTitle, search1).getSorensenDiceCoefficient()));
+        assertEquals(11, toPercent(similarity.apply(bookTitle, search2).getSorensenDiceCoefficient()));
+        assertEquals(12, toPercent(similarity.apply(bookTitle, search3).getSorensenDiceCoefficient()));
+    }
+
+    private static int toPercent(double value) {
+        return (int) Math.round(value * 100);
+    }
+
+    @Test
     public void testConstructorWithNullConverterThrows() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
             new IntersectionSimilarity<>(null);
@@ -223,21 +293,21 @@ public class IntersectionSimilarityTest {
     @Test
     public void testApplyNullNull() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
-            new IntersectionSimilarity<>((cs) -> new HashSet<>(Arrays.asList(cs))).apply(null, null);
+            new IntersectionSimilarity<>(cs -> new HashSet<>(Arrays.asList(cs))).apply(null, null);
         });
     }
 
     @Test
     public void testApplyStringNull() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
-            new IntersectionSimilarity<>((cs) -> new HashSet<>(Arrays.asList(cs))).apply("left", null);
+            new IntersectionSimilarity<>(cs -> new HashSet<>(Arrays.asList(cs))).apply("left", null);
         });
     }
 
     @Test
     public void testApplyNullString() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
-            new IntersectionSimilarity<>((cs) -> new HashSet<>(Arrays.asList(cs))).apply(null, "right");
+            new IntersectionSimilarity<>(cs -> new HashSet<>(Arrays.asList(cs))).apply(null, "right");
         });
     }
 }
