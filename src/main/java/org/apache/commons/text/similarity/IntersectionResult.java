@@ -21,7 +21,7 @@ import java.util.Objects;
 /**
  * Container class to store the intersection results between two sets.
  *
- * <p>Stores the size of set A, set B and the intersection of A and B (<code>A &#8745; B</code>).
+ * <p>Stores the size of set A, set B and the intersection of A and B (<code>|A &#8745; B|</code>).
  * The result can be used to produce various similarity metrics, for example the Jaccard index or
  * S&#248;rensen-Dice coefficient (F1 score).</p>
  *
@@ -51,7 +51,7 @@ public class IntersectionResult {
      *
      * @param sizeA the size of set A ({@code |A|})
      * @param sizeB the size of set B ({@code |B|})
-     * @param intersection the size of the intersection of A and B (<code>A &#8745; B</code>)
+     * @param intersection the size of the intersection of A and B (<code>|A &#8745; B|</code>)
      * @throws IllegalArgumentException if the sizes are negative or the intersection is greater
      * than the minimum of the two set sizes
      */
