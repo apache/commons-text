@@ -19,20 +19,20 @@ package org.apache.commons.text.similarity;
 import java.util.Objects;
 
 /**
- * Container class to store the intersection results between two sets.
+ * Container class to store the overlap results between two sets.
  *
- * <p>Stores the size of set A, set B and the intersection of A and B (<code>|A &#8745; B|</code>).
- * The result can be used to produce various similarity metrics, for example the Jaccard index or
- * S&#248;rensen-Dice coefficient (F1 score).</p>
+ * <p>Stores the size of set A ({@code |A|}), set B ({@code |A|}) and the
+ * intersection of A and B (<code>|A &#8745; B|</code>). The result can be used
+ * to produce the union of A and B (<code>|A &#8746; B|</code>).</p>
  *
  * <p>This class is immutable.</p>
  *
  * @since 1.7
- * @see <a href="https://en.wikipedia.org/wiki/Jaccard_index">Jaccard index</a>
- * @see <a href="http://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient">S&#248;rensen Dice coefficient</a>
- * @see <a href="https://en.wikipedia.org/wiki/F1_score">F1 score</a>
+ * @see <a
+ *      href="https://en.wikipedia.org/wiki/Intersection_(set_theory)">Intersection</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Union_(set_theory)">Union</a>
  */
-public class IntersectionResult {
+public class OverlapResult {
     /**
      * The size of set A.
      */
@@ -55,7 +55,7 @@ public class IntersectionResult {
      * @throws IllegalArgumentException if the sizes are negative or the intersection is greater
      * than the minimum of the two set sizes
      */
-    public IntersectionResult(final int sizeA, final int sizeB, final int intersection) {
+    public OverlapResult(final int sizeA, final int sizeB, final int intersection) {
         if (sizeA < 0) {
             throw new IllegalArgumentException("Set size |A| is not positive: " + sizeA);
         }
@@ -105,43 +105,6 @@ public class IntersectionResult {
         return (long) sizeA + sizeB - intersection;
     }
 
-    /**
-     * Gets the Jaccard index. The Jaccard is the intersection divided by the union.
-     *
-     * <pre><code>|A &#8745; B| / |A &#8746; B| </code></pre>
-     *
-     * <p>This implementation defines the result as zero if there is no intersection,
-     * even when the union is zero to avoid a {@link Double#NaN} result.</p>
-     *
-     * @return the Jaccard index
-     * @see <a href="https://en.wikipedia.org/wiki/Jaccard_index">Jaccard index</a>
-     */
-    public double getJaccardIndex() {
-        return intersection == 0 ? 0.0 : (double) intersection / getUnion();
-    }
-
-    /**
-     * Gets the S&#248;rensen-Dice coefficient. The coefficient is twice the size of the intersection
-     * divided by the size of both sets.
-     *
-     * <pre>
-     * <code>2|A &#8745; B| / (|A| + |B|) </code>
-     * </pre>
-     *
-     * <p>This is also known as the F1 score.
-     *
-     * <p>This implementation defines the result as zero if there is no intersection, even when the size
-     * of both sets is zero to avoid a {@link Double#NaN} result.</p>
-     *
-     * @return the S&#248;rensen-Dice coefficient
-     * @see <a href="http://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient">S&#248;rensen
-     * Dice coefficient</a>
-     * @see <a href="https://en.wikipedia.org/wiki/F1_score">F1 score</a>
-     */
-    public double getSorensenDiceCoefficient() {
-        return intersection == 0 ? 0.0 : 2.0 * intersection / ((long) sizeA + sizeB);
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -150,7 +113,7 @@ public class IntersectionResult {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final IntersectionResult result = (IntersectionResult) o;
+        final OverlapResult result = (OverlapResult) o;
         return sizeA == result.sizeA && sizeB == result.sizeB && intersection == result.intersection;
     }
 

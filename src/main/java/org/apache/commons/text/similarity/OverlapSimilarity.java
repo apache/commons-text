@@ -19,12 +19,12 @@ package org.apache.commons.text.similarity;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 /**
- * Measures the intersection of two sets created from a pair of character sequences.
+ * Measures the overlap of two sets created from a pair of character sequences.
  *
  * <p>It is assumed that the type {@code T} correctly conforms to the requirements for storage
  * within a {@link Set} or {@link HashMap}. Ideally the type is immutable and implements
@@ -35,7 +35,7 @@ import java.util.stream.Stream;
  * @see Set
  * @see HashMap
  */
-public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionResult> {
+public class OverlapSimilarity<T> implements SimilarityScore<OverlapResult> {
     /** The converter used to create the elements from the characters. */
     private final Function<CharSequence, Collection<T>> converter;
 
@@ -100,17 +100,17 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
         }
 
         /**
-         * Returns a possibly parallel Stream of all the entries in the bag.
+         * Returns a Set view of the mappings contained in this bag.
          *
-         * @return the stream
+         * @return the Set view
          */
-        Stream<Map.Entry<T, BagCount>> parallelStream() {
-            return map.entrySet().parallelStream();
+        Set<Entry<T, BagCount>> entrySet() {
+            return map.entrySet();
         }
     }
 
     /**
-     * Create a new set similarity using the provided converter.
+     * Create a new overlap similarity using the provided converter.
      *
      * <p>If the converter returns a {@link Set} then the intersection result will
      * not include duplicates. Any other {@link Collection} is used to produce a result
@@ -119,7 +119,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
      * @param converter the converter used to create the elements from the characters.
      * @throws IllegalArgumentException if the converter is null
      */
-    public IntersectionSimilarity(Function<CharSequence, Collection<T>> converter) {
+    public OverlapSimilarity(Function<CharSequence, Collection<T>> converter) {
         if (converter == null) {
             throw new IllegalArgumentException("Converter must not be null");
         }
@@ -135,7 +135,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
      * @throws IllegalArgumentException if either input sequence is {@code null}
      */
     @Override
-    public IntersectionResult apply(final CharSequence left, final CharSequence right) {
+    public OverlapResult apply(final CharSequence left, final CharSequence right) {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Input cannot be null");
         }
@@ -149,36 +149,35 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
         // Short-cut if either collection is empty
         if (Math.min(sizeA, sizeB) == 0) {
             // No intersection
-            return new IntersectionResult(sizeA, sizeB, 0);
+            return new OverlapResult(sizeA, sizeB, 0);
         }
 
         // Intersection = count the number of shared elements
-        int intersection;
+        int intersection = 0;
         if (objectsA instanceof Set) {
             // If a Set then the elements will only have a count of 1.
-            // Stream the elements in the set A and check if also in set B.
             // Note: Even if objectsB is a plain collection this will work
             // since the contains(Object) method will return true when present.
             // The fact that objectsA is a Set ensures non duplicate counting.
-            intersection = objectsA.parallelStream()
-                                   .mapToInt(element -> objectsB.contains(element) ? 1 : 0)
-                                   .sum();
+            for (T element : objectsA) {
+                if (objectsB.contains(element)) {
+                    intersection++;
+                }
+            }
         } else  {
             // Create a bag for each collection
             final TinyBag bagA = toBag(objectsA);
             final TinyBag bagB = toBag(objectsB);
-            // Stream the count of each element in bag A and find the intersection with bag B
-            intersection = bagA.parallelStream()
-                               .mapToInt(entry -> {
-                                   // The intersection of this entry in both bags is the min count
-                                   final T element = entry.getKey();
-                                   final int count = entry.getValue().count;
-                                   return Math.min(count, bagB.getCount(element));
-                               })
-                               .sum();
+            // Find the intersection of each element in bag A with bag B
+            for (Entry<T, BagCount> entry : bagA.entrySet()) {
+                final T element = entry.getKey();
+                final int count = entry.getValue().count;
+                // The intersection of this entry in both bags is the minimum count
+                intersection += Math.min(count, bagB.getCount(element));
+            }
         }
 
-        return new IntersectionResult(sizeA, sizeB, intersection);
+        return new OverlapResult(sizeA, sizeB, intersection);
     }
 
     /**
