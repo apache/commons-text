@@ -26,12 +26,14 @@ import org.apache.commons.lang3.Validate;
 
 /**
  * A simple word tokenizer that utilizes regex to find words. It applies a regex
- * {@code}(\w)+{@code} over the input text to extract words from a given character
+ * {@code (\w)+} over the input text to extract words from a given character
  * sequence.
  *
  * @since 1.0
  */
 class RegexTokenizer implements Tokenizer<CharSequence> {
+    /** The whitespace pattern. */
+    private static final Pattern PATTERN = Pattern.compile("(\\w)+");
 
     /**
      * {@inheritDoc}
@@ -41,8 +43,7 @@ class RegexTokenizer implements Tokenizer<CharSequence> {
     @Override
     public CharSequence[] tokenize(final CharSequence text) {
         Validate.isTrue(StringUtils.isNotBlank(text), "Invalid text");
-        final Pattern pattern = Pattern.compile("(\\w)+");
-        final Matcher matcher = pattern.matcher(text.toString());
+        final Matcher matcher = PATTERN.matcher(text);
         final List<String> tokens = new ArrayList<>();
         while (matcher.find()) {
             tokens.add(matcher.group(0));

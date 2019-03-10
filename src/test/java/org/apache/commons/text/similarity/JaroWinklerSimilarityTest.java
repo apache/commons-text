@@ -36,23 +36,48 @@ public class JaroWinklerSimilarityTest {
 
     @Test
     public void testGetJaroWinklerSimilarity_StringString() {
-        assertEquals(1d, similarity.apply("", ""), 0.00001d);
-        assertEquals(1d, similarity.apply("foo", "foo"), 0.00001d);
-        assertEquals(0.94166d, similarity.apply("foo", "foo "), 0.00001d);
-        assertEquals(0.90666d, similarity.apply("foo", "foo  "), 0.00001d);
-        assertEquals(0.86666d, similarity.apply("foo", " foo "), 0.00001d);
-        assertEquals(0.51111d, similarity.apply("foo", "  foo"), 0.00001d);
-        assertEquals(0.92499d, similarity.apply("frog", "fog"), 0.00001d);
-        assertEquals(0.0d, similarity.apply("fly", "ant"), 0.00000000000000000001d);
-        assertEquals(0.44166d, similarity.apply("elephant", "hippo"), 0.00001d);
-        assertEquals(0.90666d, similarity.apply("ABC Corporation", "ABC Corp"), 0.00001d);
-        assertEquals(0.95251d, similarity.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."), 0.00001d);
+        assertEquals(1d, similarity.apply(wrap(""), ""), 0.00001d);
+        assertEquals(1d, similarity.apply(wrap("foo"), "foo"), 0.00001d);
+        assertEquals(0.94166d, similarity.apply(wrap("foo"), "foo "), 0.00001d);
+        assertEquals(0.90666d, similarity.apply(wrap("foo"), "foo  "), 0.00001d);
+        assertEquals(0.86666d, similarity.apply(wrap("foo"), " foo "), 0.00001d);
+        assertEquals(0.51111d, similarity.apply(wrap("foo"), "  foo"), 0.00001d);
+        assertEquals(0.92499d, similarity.apply(wrap("frog"), "fog"), 0.00001d);
+        assertEquals(0.0d, similarity.apply(wrap("fly"), "ant"), 0.00000000000000000001d);
+        assertEquals(0.44166d, similarity.apply(wrap("elephant"), "hippo"), 0.00001d);
+        assertEquals(0.90666d, similarity.apply(wrap("ABC Corporation"), "ABC Corp"), 0.00001d);
+        assertEquals(0.95251d, similarity.apply(wrap("D N H Enterprises Inc"), "D & H Enterprises, Inc."), 0.00001d);
         assertEquals(0.942d,
-                similarity.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"), 0.00001d);
-        assertEquals(0.898018d, similarity.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.00001d);
-        assertEquals(0.971428d, similarity.apply("/opt/software1", "/opt/software2"), 0.00001d);
-        assertEquals(0.941666d, similarity.apply("aaabcd", "aaacdb"), 0.00001d);
-        assertEquals(0.911111d, similarity.apply("John Horn", "John Hopkins"), 0.00001d);
+                similarity.apply(wrap("My Gym Children's Fitness Center"), "My Gym. Childrens Fitness"), 0.00001d);
+        assertEquals(0.898018d, similarity.apply(wrap("PENNSYLVANIA"), "PENNCISYLVNIA"), 0.00001d);
+        assertEquals(0.971428d, similarity.apply(wrap("/opt/software1"), "/opt/software2"), 0.00001d);
+        assertEquals(0.941666d, similarity.apply(wrap("aaabcd"), "aaacdb"), 0.00001d);
+        assertEquals(0.911111d, similarity.apply(wrap("John Horn"), "John Hopkins"), 0.00001d);
+    }
+
+    /**
+     * Wrap the string to a {@link CharSequence}. This ensures that using the
+     * {@link Object#equals(Object)} method on the input CharSequence to test for
+     * equality will fail.
+     *
+     * @param string the string
+     * @return the char sequence
+     */
+    private static CharSequence wrap(String string) {
+        return new CharSequence() {
+            @Override
+            public int length() {
+                return string.length();
+            }
+            @Override
+            public char charAt(int index) {
+                return string.charAt(index);
+            }
+            @Override
+            public CharSequence subSequence(int start, int end) {
+                return string.subSequence(start, end);
+            }
+        };
     }
 
     @Test

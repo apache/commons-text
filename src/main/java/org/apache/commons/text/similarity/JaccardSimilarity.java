@@ -48,7 +48,7 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Input cannot be null");
         }
-        return Math.round(calculateJaccardSimilarity(left, right) * 100d) / 100d;
+        return calculateJaccardSimilarity(left, right);
     }
 
     /**

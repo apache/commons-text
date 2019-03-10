@@ -36,21 +36,22 @@ public class JaccardSimilarityTest {
 
     @Test
     public void testGettingJaccardSimilarity() {
-        assertEquals(0.00d, classBeingTested.apply("", ""), 0.00000000000000000001d);
-        assertEquals(0.00d, classBeingTested.apply("left", ""), 0.00000000000000000001d);
-        assertEquals(0.00d, classBeingTested.apply("", "right"), 0.00000000000000000001d);
-        assertEquals(0.75d, classBeingTested.apply("frog", "fog"), 0.00000000000000000001d);
-        assertEquals(0.00d, classBeingTested.apply("fly", "ant"), 0.00000000000000000001d);
-        assertEquals(0.22d, classBeingTested.apply("elephant", "hippo"), 0.00000000000000000001d);
-        assertEquals(0.64d, classBeingTested.apply("ABC Corporation", "ABC Corp"), 0.00000000000000000001d);
-        assertEquals(0.76d, classBeingTested.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."),
-                0.00000000000000000001d);
-        assertEquals(0.89d, classBeingTested.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"),
-                0.00000000000000000001d);
-        assertEquals(0.9d, classBeingTested.apply("PENNSYLVANIA", "PENNCISYLVNIA"), 0.00000000000000000001d);
-        assertEquals(0.13d, classBeingTested.apply("left", "right"), 0.00000000000000000001d);
-        assertEquals(0.13d, classBeingTested.apply("leettteft", "ritttght"), 0.00000000000000000001d);
-        assertEquals(1.0d, classBeingTested.apply("the same string", "the same string"), 0.00000000000000000001d);
+        // Expected Jaccard similarity = (intersect / union)
+        assertEquals(0.0, classBeingTested.apply("", ""));
+        assertEquals(0.0, classBeingTested.apply("left", ""));
+        assertEquals(0.0, classBeingTested.apply("", "right"));
+        assertEquals(3.0 / 4, classBeingTested.apply("frog", "fog"));
+        assertEquals(0.0, classBeingTested.apply("fly", "ant"));
+        assertEquals(2.0 / 9, classBeingTested.apply("elephant", "hippo"));
+        assertEquals(7.0 / 11, classBeingTested.apply("ABC Corporation", "ABC Corp"));
+        assertEquals(13.0 / 17,
+                classBeingTested.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."));
+        assertEquals(16.0 / 18,
+                classBeingTested.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
+        assertEquals(9.0 / 10, classBeingTested.apply("PENNSYLVANIA", "PENNCISYLVNIA"));
+        assertEquals(1.0 / 8, classBeingTested.apply("left", "right"));
+        assertEquals(1.0 / 8, classBeingTested.apply("leettteft", "ritttght"));
+        assertEquals(1.0, classBeingTested.apply("the same string", "the same string"));
     }
 
     @Test

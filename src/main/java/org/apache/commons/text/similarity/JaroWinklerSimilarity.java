@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text.similarity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Arrays;
 
 /**
@@ -81,7 +83,7 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
             throw new IllegalArgumentException("CharSequences must not be null");
         }
 
-        if (left.equals(right)) {
+        if (StringUtils.equals(left, right)) {
             return 1d;
         }
 
