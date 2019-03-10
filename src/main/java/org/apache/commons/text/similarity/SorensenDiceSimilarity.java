@@ -146,7 +146,7 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
     /**
      * Converter class for creating Bigrams for SorensenDice similarity.
      */
-    class SorensenDiceConverter implements Function<CharSequence, Collection<Integer>> {
+    static class SorensenDiceConverter implements Function<CharSequence, Collection<Integer>> {
         @Override
         public Collection<Integer> apply(CharSequence cs) {
             final int length = cs.length();

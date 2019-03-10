@@ -84,7 +84,7 @@ public class OverlapSimilarityTest {
         // size A or B = sequence length
         // intersection = count of matching characters (include duplicates)
         // union = count of matching characters (include duplicates) plus unmatched
-        //       = size A + size B - intersection
+        // = size A + size B - intersection
         assertOverlap(similarity, "", "", 0, 0, 0, 0);
         assertOverlap(similarity, "a", "", 1, 0, 0, 1);
         assertOverlap(similarity, "a", "a", 1, 1, 1, 1);
@@ -161,7 +161,7 @@ public class OverlapSimilarityTest {
         // size A or B = sequence length - 1
         // intersection = count of matching bigrams (include duplicates)
         // union = count of matching bigrams (include duplicates)
-        //       = size A + size B - intersection
+        // = size A + size B - intersection
         assertOverlap(similarity, "", "", 0, 0, 0, 0);
         assertOverlap(similarity, "a", "", 0, 0, 0, 0);
         assertOverlap(similarity, "a", "a", 0, 0, 0, 0);
@@ -176,7 +176,7 @@ public class OverlapSimilarityTest {
         assertOverlap(similarity, "abcdefghijklm", "ab_defg ijklm", 12, 12, 8, 16);
     }
 
-    private static <T> void assertOverlap(OverlapSimilarity<T> similarity, CharSequence cs1, CharSequence cs2, 
+    private static <T> void assertOverlap(OverlapSimilarity<T> similarity, CharSequence cs1, CharSequence cs2,
             int sizeA, int sizeB, int intersection, int union) {
         OverlapResult overlap = similarity.apply(cs1, cs2);
         assertEquals(sizeA, overlap.getSizeA(), "Size A error");
@@ -189,7 +189,7 @@ public class OverlapSimilarityTest {
     public void testF1ScoreUsingListWordBigrams() {
         // Example of a word letter pairs algorithm by Simon White:
         // http://www.catalysoft.com/articles/StrikeAMatch.html
-        // This splits into words using whitespace and then computes uppercase 
+        // This splits into words using whitespace and then computes uppercase
         // bigrams for each word.
 
         // Split on whitespace
