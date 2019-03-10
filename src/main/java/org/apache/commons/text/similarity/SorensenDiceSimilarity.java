@@ -16,9 +16,12 @@
  */
 package org.apache.commons.text.similarity;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -48,6 +51,22 @@ import org.apache.commons.lang3.StringUtils;
  * @since 1.7
  */
 public class SorensenDiceSimilarity implements SimilarityScore<Double> {
+
+    /**
+     * For shifting bigrams to fit in single integer.
+     */
+    public static final int SHIFT_NUMBER = 16;
+
+    /**
+     * Converter function for conversion of string to bigrams.
+     */
+    final Function<CharSequence, Collection<Integer>> converter = new SorensenDiceConverter();
+
+    /**
+     * Measures the overlap of two sets created from a pair of character sequences.
+     * {@link OverlapSimilarity}}
+     */
+    final OverlapSimilarity<Integer> similarity = new OverlapSimilarity<>(this.converter);
 
     /**
      * Calculates Sorensen-Dice Similarity of two character sequences passed as
@@ -98,11 +117,10 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
             return 0d;
         }
 
-        Set<String> nLeft = createBigrams(left);
-        Set<String> nRight = createBigrams(right);
+        OverlapResult overlap = similarity.apply(left, right);
 
-        final int total = nLeft.size() + nRight.size();
-        final long intersection = nLeft.stream().filter(nRight::contains).collect(Collectors.counting());
+        final int total = overlap.getSizeA() + overlap.getSizeB();
+        final long intersection = overlap.getIntersection();
 
         return (2.0d * intersection) / total;
     }
@@ -123,5 +141,25 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
             set.add(bi);
         }
         return set;
+    }
+
+    /**
+     * Converter class for creating Bigrams for SorensenDice similarity.
+     */
+    class SorensenDiceConverter implements Function<CharSequence, Collection<Integer>> {
+        @Override
+        public Collection<Integer> apply(CharSequence cs) {
+            final int length = cs.length();
+            final List<Integer> list = new ArrayList<>(length);
+            if (length > 1) {
+                char ch2 = cs.charAt(0);
+                for (int i = 1; i < length; i++) {
+                    final char ch1 = ch2;
+                    ch2 = cs.charAt(i);
+                    list.add(Integer.valueOf((ch1 << SHIFT_NUMBER) | ch2));
+                }
+            }
+            return list;
+        }
     }
 }
