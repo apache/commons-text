@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text.similarity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -62,10 +64,13 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
      * @return index
      */
     private Double calculateJaccardSimilarity(final CharSequence left, final CharSequence right) {
+        if (StringUtils.equals(left, right)) {
+            return 1d;
+        }
         final int leftLength = left.length();
         final int rightLength = right.length();
         if (leftLength == 0 || rightLength == 0) {
-            return leftLength == rightLength ? 1d : 0d;
+            return 0d;
         }
         final Set<Character> leftSet = new HashSet<>();
         for (int i = 0; i < leftLength; i++) {
