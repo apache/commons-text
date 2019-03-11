@@ -37,7 +37,7 @@ public class JaccardDistanceTest {
     @Test
     public void testGettingJaccardDistance() {
         // Expected Jaccard distance = 1.0 - (intersect / union)
-        assertEquals(1.0, classBeingTested.apply("", ""));
+        assertEquals(0.0, classBeingTested.apply("", ""));
         assertEquals(1.0, classBeingTested.apply("left", ""));
         assertEquals(1.0, classBeingTested.apply("", "right"));
         assertEquals(1.0 - (3.0 / 4), classBeingTested.apply("frog", "fog"));

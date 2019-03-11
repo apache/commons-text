@@ -65,7 +65,7 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
         final int leftLength = left.length();
         final int rightLength = right.length();
         if (leftLength == 0 || rightLength == 0) {
-            return 0d;
+            return leftLength == rightLength ? 1d : 0d;
         }
         final Set<Character> leftSet = new HashSet<>();
         for (int i = 0; i < leftLength; i++) {
