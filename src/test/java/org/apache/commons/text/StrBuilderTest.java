@@ -37,7 +37,6 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -482,7 +481,7 @@ public class StrBuilderTest {
         sb.append("junit");
         a = sb.getChars(input);
         assertSame(input, a);
-        assertTrue(Arrays.equals(new char[]{'j', 'u', 'n', 'i', 't', 0, 0, 0, 0, 0}, a));
+        assertTrue(Arrays.equals(new char[] {'j', 'u', 'n', 'i', 't', 0, 0, 0, 0, 0 }, a));
 
         a = sb.getChars(null);
         assertNotSame(input, a);
@@ -505,11 +504,11 @@ public class StrBuilderTest {
         sb.append("junit");
         char[] a = new char[5];
         sb.getChars(0, 5, a, 0);
-        assertTrue(Arrays.equals(new char[]{'j', 'u', 'n', 'i', 't'}, a));
+        assertTrue(Arrays.equals(new char[] {'j', 'u', 'n', 'i', 't' }, a));
 
         a = new char[5];
         sb.getChars(0, 2, a, 3);
-        assertTrue(Arrays.equals(new char[]{0, 0, 0, 'j', 'u'}, a));
+        assertTrue(Arrays.equals(new char[] {0, 0, 0, 'j', 'u' }, a));
 
         try {
             sb.getChars(-1, 0, a, 0);
@@ -848,22 +847,6 @@ public class StrBuilderTest {
         sb.replaceAll(StrMatcher.stringMatcher("X"), "012345678901234567");
         assertEquals("Dear 012345678901234567, hello 012345678901234567.", sb.toString());
     }
-
-    // -----------------------------------------------------------------------
-    @Test
-    public void testReplaceAll_Char_String() {
-        StrBuilder sb = new StrBuilder("aaabbbccc dddeebbac");
-        sb.replaceAll('b', "xy");
-        assertEquals("aaaxyxyxyccc dddeexyxyac", sb.toString());
-
-        sb = new StrBuilder("abcbccba");
-        sb.replaceAll((StrMatcher) null, null);
-        assertEquals("abcbccba", sb.toString());
-
-
-    }
-
-    // -----------------------------------------------------------------------
 
     @Test
     public void testReplaceFirst_StrMatcher_String() {
@@ -1577,13 +1560,13 @@ public class StrBuilderTest {
         sb.append(" A1 junction with A2");
         assertEquals(-1, sb.lastIndexOf(A_NUMBER_MATCHER, 5));
         assertEquals(-1, sb.lastIndexOf(A_NUMBER_MATCHER, 6)); // A matches, 1
-        // is outside
-        // bounds
+                                                               // is outside
+                                                               // bounds
         assertEquals(6, sb.lastIndexOf(A_NUMBER_MATCHER, 7));
         assertEquals(6, sb.lastIndexOf(A_NUMBER_MATCHER, 22));
         assertEquals(6, sb.lastIndexOf(A_NUMBER_MATCHER, 23)); // A matches, 2
-        // is outside
-        // bounds
+                                                               // is outside
+                                                               // bounds
         assertEquals(23, sb.lastIndexOf(A_NUMBER_MATCHER, 24));
     }
 
@@ -1726,10 +1709,10 @@ public class StrBuilderTest {
         writer.write('l');
         assertEquals("basel", sb.toString());
 
-        writer.write(new char[]{'i', 'n'});
+        writer.write(new char[] {'i', 'n' });
         assertEquals("baselin", sb.toString());
 
-        writer.write(new char[]{'n', 'e', 'r'}, 1, 2);
+        writer.write(new char[] {'n', 'e', 'r' }, 1, 2);
         assertEquals("baseliner", sb.toString());
 
         writer.write(" rout");
