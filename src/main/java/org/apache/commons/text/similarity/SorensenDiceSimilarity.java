@@ -66,7 +66,7 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
      * Measures the overlap of two sets created from a pair of character sequences.
      * {@link OverlapSimilarity}}
      */
-    final OverlapSimilarity<Integer> similarity = new OverlapSimilarity<>(this.converter);
+    final IntersectionSimilarity<Integer> similarity = new IntersectionSimilarity<>(this.converter);
 
     /**
      * Calculates Sorensen-Dice Similarity of two character sequences passed as
@@ -117,7 +117,7 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
             return 0d;
         }
 
-        OverlapResult overlap = similarity.apply(left, right);
+        IntersectionResult overlap = similarity.apply(left, right);
 
         final int total = overlap.getSizeA() + overlap.getSizeB();
         final long intersection = overlap.getIntersection();
