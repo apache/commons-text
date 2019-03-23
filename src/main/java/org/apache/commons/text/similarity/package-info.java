@@ -32,7 +32,7 @@
  * <li>{@link org.apache.commons.text.similarity.JaroWinklerSimilarity Jaro-Winkler Similarity}</li>
  * <li>{@link org.apache.commons.text.similarity.LevenshteinDistance Levenshtein Distance}</li>
  * <li>{@link org.apache.commons.text.similarity.LongestCommonSubsequenceDistance
- * Longest Commons Subsequence Distance}</li>
+ * Longest Common Subsequence Distance}</li>
  * </ul>
  *
  * <p>The {@link org.apache.commons.text.similarity.CosineDistance Cosine Distance}
