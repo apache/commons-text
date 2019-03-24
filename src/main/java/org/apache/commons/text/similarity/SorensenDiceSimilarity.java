@@ -18,9 +18,7 @@ package org.apache.commons.text.similarity;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,17 +28,17 @@ import org.apache.commons.lang3.StringUtils;
  * between two character sequences.
  *
  * <p>
- * The S&#248;rensen–Dice coefficient is a statistic used for comparing the
+ * The S&#248;rensen-Dice coefficient is a statistic used for comparing the
  * similarity of two samples. It was independently developed by the botanists
  * Thorvald S&#248;rensen and Lee Raymond Dice, who published in 1948 and 1945
  * respectively. The index is known by several other names, especially
- * S&#248;rensen–Dice index, S&#248;rensen index and Dice's coefficient. Other
+ * S&#248;rensen-Dice index, S&#248;rensen index and Dice's coefficient. Other
  * variations include the "similarity coefficient" or "index", such as Dice
  * similarity coefficient (DSC).
  * </p>
  *
  * <p>
- * This implementation is based on the S&#248;rensen–Dice similarity algorithm
+ * This implementation is based on the S&#248;rensen-Dice similarity algorithm
  * from <a href=
  * "http://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient">
  * http://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient</a>.
@@ -55,18 +53,18 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
     /**
      * For shifting bigrams to fit in single integer.
      */
-    public static final int SHIFT_NUMBER = 16;
+    private static final int SHIFT_NUMBER = 16;
 
     /**
      * Converter function for conversion of string to bigrams.
      */
-    final Function<CharSequence, Collection<Integer>> converter = new SorensenDiceConverter();
+    private final Function<CharSequence, Collection<Integer>> converter = new SorensenDiceConverter();
 
     /**
      * Measures the overlap of two sets created from a pair of character sequences.
      * {@link OverlapSimilarity}}
      */
-    final IntersectionSimilarity<Integer> similarity = new IntersectionSimilarity<>(this.converter);
+    private final IntersectionSimilarity<Integer> similarity = new IntersectionSimilarity<>(this.converter);
 
     /**
      * Calculates Sorensen-Dice Similarity of two character sequences passed as
@@ -113,6 +111,7 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
             return 1d;
         }
 
+        // if bigram is not formed out of any given string, clearly both are not similar.
         if (left.length() < 2 || right.length() < 2) {
             return 0d;
         }
@@ -126,27 +125,9 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
     }
 
     /**
-     * Method for creating bigrams - two consecutive characters. Returns a set of
-     * bigrams.
-     *
-     * @param charSequence The char sequence for which we need set of bigrams.
-     * @return set of bigrams.
-     */
-    protected Set<String> createBigrams(CharSequence charSequence) {
-        Set<String> set = new HashSet<String>();
-        for (int i = 0; i < charSequence.length() - 1; i++) {
-            char chr = charSequence.charAt(i);
-            char nextChr = charSequence.charAt(i + 1);
-            String bi = "" + chr + nextChr;
-            set.add(bi);
-        }
-        return set;
-    }
-
-    /**
      * Converter class for creating Bigrams for SorensenDice similarity.
      */
-    static class SorensenDiceConverter implements Function<CharSequence, Collection<Integer>> {
+    private static class SorensenDiceConverter implements Function<CharSequence, Collection<Integer>> {
         @Override
         public Collection<Integer> apply(CharSequence cs) {
             final int length = cs.length();
