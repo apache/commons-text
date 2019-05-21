@@ -45,7 +45,7 @@ import java.util.Set;
  * chars, which will be of length 1
  * </p>
  *
- * <h3>Sample usage</h3>
+ * <h1>Sample usage</h1>
  *
  * <pre>
  * Character[] originals;   // a, b, c, d
