@@ -27,14 +27,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CodePointTranslatorTest {
 
   @Test
-  public void testAboveReturningNonNull() throws IOException {
-    final NumericEntityEscaper numericEntityEscaper = NumericEntityEscaper.above(0);
-    final UnicodeEscaper unicodeEscaper = new UnicodeEscaper();
-    final String string = unicodeEscaper.toUtf16Escape(0);
-    final PipedReader pipedReader = new PipedReader();
-    final PipedWriter pipedWriter = new PipedWriter(pipedReader);
+    public void testAboveReturningNonNull() throws IOException {
+        final NumericEntityEscaper numericEntityEscaper = NumericEntityEscaper.above(0);
+        final UnicodeEscaper unicodeEscaper = new UnicodeEscaper();
+        final String string = unicodeEscaper.toUtf16Escape(0);
+        try (final PipedReader pipedReader = new PipedReader();
+            final PipedWriter pipedWriter = new PipedWriter(pipedReader)) {
 
-    assertThat(numericEntityEscaper.translate(string, 0, pipedWriter)).isEqualTo(1);
-  }
+            assertThat(numericEntityEscaper.translate(string, 0, pipedWriter)).isEqualTo(1);
+        }
+    }
 
 }

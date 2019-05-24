@@ -32,8 +32,10 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 public class SinglePassTranslatorTest {
 
     private final SinglePassTranslator dummyTranslator = new SinglePassTranslator() {
+
         @Override
         void translateWhole(final CharSequence input, final Writer out) throws IOException {
+            // noop
         }
     };
 
@@ -57,7 +59,7 @@ public class SinglePassTranslatorTest {
     }
 
     @Test
-    public void testTranslateThrowsIllegalArgumentException() throws IOException {
+    public void testTranslateThrowsIllegalArgumentException() {
         assertThatIllegalArgumentException().isThrownBy(() -> dummyTranslator.translate("(,Fk", 647, null));
     }
 

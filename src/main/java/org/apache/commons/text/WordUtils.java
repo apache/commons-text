@@ -313,9 +313,8 @@ public class WordUtils {
                     if (matcherSize != 0) {
                         offset += matcher.end();
                         continue;
-                    } else {
-                        offset += 1;
                     }
+                    offset += 1;
                 }
                 spaceToWrapAt = matcher.start() + offset;
             }

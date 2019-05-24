@@ -163,7 +163,7 @@ public class IntersectionSimilarityTest {
      * @param sequence the sequence
      * @return the set
      */
-    private static Set<Character> toCharacterSet(CharSequence sequence) {
+    private static Set<Character> toCharacterSet(final CharSequence sequence) {
         final int length = sequence.length();
         final Set<Character> set = new HashSet<>(length);
         for (int i = 0; i < length; i++) {
@@ -178,7 +178,7 @@ public class IntersectionSimilarityTest {
      * @param sequence the sequence
      * @return the list
      */
-    private static List<Character> toCharacterList(CharSequence sequence) {
+    private static List<Character> toCharacterList(final CharSequence sequence) {
         final int length = sequence.length();
         final List<Character> list = new ArrayList<>(length);
         for (int i = 0; i < length; i++) {
@@ -194,7 +194,7 @@ public class IntersectionSimilarityTest {
      * @param sequence the sequence
      * @return the set
      */
-    private static Set<Integer> toBigramSet(CharSequence sequence) {
+    private static Set<Integer> toBigramSet(final CharSequence sequence) {
         final int length = sequence.length();
         final Set<Integer> set = new HashSet<>(length);
         if (length > 1) {
@@ -215,7 +215,7 @@ public class IntersectionSimilarityTest {
      * @param sequence the sequence
      * @return the list
      */
-    private static List<Integer> toBigramList(CharSequence sequence) {
+    private static List<Integer> toBigramList(final CharSequence sequence) {
         final int length = sequence.length();
         final List<Integer> list = new ArrayList<>(length);
         if (length > 1) {
@@ -229,8 +229,8 @@ public class IntersectionSimilarityTest {
         return list;
     }
 
-    private static <T> void assertIntersection(IntersectionSimilarity<T> similarity, CharSequence cs1, CharSequence cs2,
-            int sizeA, int sizeB, int intersection) {
+    private static <T> void assertIntersection(final IntersectionSimilarity<T> similarity, final CharSequence cs1, final CharSequence cs2,
+            final int sizeA, final int sizeB, final int intersection) {
         final IntersectionResult result = similarity.apply(cs1, cs2);
         assertEquals(sizeA, result.getSizeA(), "Size A error");
         assertEquals(sizeB, result.getSizeB(), "Size B error");
@@ -251,7 +251,7 @@ public class IntersectionSimilarityTest {
         // This can be done using a 32-bit int to store two 16-bit characters
         final Function<CharSequence, Collection<Integer>> converter = cs -> {
             final List<Integer> set = new ArrayList<>();
-            for (String word : pattern.split(cs)) {
+            for (final String word : pattern.split(cs)) {
                 if (word.length() > 1) {
                     // The strings are converted to upper case
                     char ch2 = Character.toUpperCase(word.charAt(0));
@@ -304,7 +304,7 @@ public class IntersectionSimilarityTest {
         assertEquals(12, toF1ScorePercent(similarity.apply(bookTitle, search3)));
     }
 
-    private static int toF1ScorePercent(IntersectionResult result) {
+    private static int toF1ScorePercent(final IntersectionResult result) {
         final double value = 2.0 * result.getIntersection() / (result.getSizeA() + result.getSizeB());
         // Convert to percentage
         return (int) Math.round(value * 100);

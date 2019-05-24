@@ -63,18 +63,18 @@ public class JaroWinklerSimilarityTest {
      * @param string the string
      * @return the char sequence
      */
-    private static CharSequence wrap(String string) {
+    private static CharSequence wrap(final String string) {
         return new CharSequence() {
             @Override
             public int length() {
                 return string.length();
             }
             @Override
-            public char charAt(int index) {
+            public char charAt(final int index) {
                 return string.charAt(index);
             }
             @Override
-            public CharSequence subSequence(int start, int end) {
+            public CharSequence subSequence(final int start, final int end) {
                 return string.subSequence(start, end);
             }
         };

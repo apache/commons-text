@@ -33,7 +33,7 @@ public class DefaultStringLookupTest {
         final Map<String, StringLookup> stringLookupMap = new HashMap<>();
         StringLookupFactory.INSTANCE.addDefaultStringLookups(stringLookupMap);
         // Loop through all enums
-        for (DefaultStringLookup stringLookup : DefaultStringLookup.values()) {
+        for (final DefaultStringLookup stringLookup : DefaultStringLookup.values()) {
             assertSame(stringLookupMap.get(stringLookup.getKey()), stringLookupMap.get(stringLookup.getKey()));
         }
     }

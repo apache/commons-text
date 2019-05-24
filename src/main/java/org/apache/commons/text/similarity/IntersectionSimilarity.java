@@ -66,7 +66,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
          *
          * @param initialCapacity the initial capacity
          */
-        TinyBag(int initialCapacity) {
+        TinyBag(final int initialCapacity) {
             map = new HashMap<>(initialCapacity);
         }
 
@@ -75,7 +75,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
          *
          * @param object the object to add
          */
-        void add(T object) {
+        void add(final T object) {
             final BagCount mut = map.get(object);
             if (mut == null) {
                 map.put(object, new BagCount());
@@ -128,7 +128,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
      * @param converter the converter used to create the elements from the characters
      * @throws IllegalArgumentException if the converter is null
      */
-    public IntersectionSimilarity(Function<CharSequence, Collection<T>> converter) {
+    public IntersectionSimilarity(final Function<CharSequence, Collection<T>> converter) {
         if (converter == null) {
             throw new IllegalArgumentException("Converter must not be null");
         }
@@ -189,9 +189,9 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
      * @param objects the objects
      * @return the bag
      */
-    private TinyBag toBag(Collection<T> objects) {
+    private TinyBag toBag(final Collection<T> objects) {
         final TinyBag bag = new TinyBag(objects.size());
-        for (T t : objects) {
+        for (final T t : objects) {
             bag.add(t);
         }
         return bag;
@@ -206,9 +206,9 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
      * @param setB the set B
      * @return the intersection
      */
-    private static <T> int getIntersection(Set<T> setA, Set<T> setB) {
+    private static <T> int getIntersection(final Set<T> setA, final Set<T> setB) {
         int intersection = 0;
-        for (T element : setA) {
+        for (final T element : setA) {
             if (setB.contains(element)) {
                 intersection++;
             }
@@ -224,9 +224,9 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
      * @param bagB the bag B
      * @return the intersection
      */
-    private int getIntersection(TinyBag bagA, TinyBag bagB) {
+    private int getIntersection(final TinyBag bagA, final TinyBag bagB) {
         int intersection = 0;
-        for (Entry<T, BagCount> entry : bagA.entrySet()) {
+        for (final Entry<T, BagCount> entry : bagA.entrySet()) {
             final T element = entry.getKey();
             final int count = entry.getValue().count;
             // The intersection of this entry in both bags is the minimum count

@@ -16,11 +16,9 @@
  */
 package org.apache.commons.text.translate;
 
-import org.junit.jupiter.api.Test;
-
-import java.io.UnsupportedEncodingException;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link JavaUnicodeEscaper}.
@@ -58,7 +56,7 @@ public class JavaUnicodeEscaperTest {
     }
 
     @Test
-    public void testToUtf16Escape() throws UnsupportedEncodingException {
+    public void testToUtf16Escape() {
         final JavaUnicodeEscaper jue = JavaUnicodeEscaper.below('F');
         // According to https://en.wikipedia.org/wiki/UTF-16#Code_points_U.2B10000..U.2B10FFFF,
         // Character ?, U+24B62, Binary Code Point 0010 0100 1011 0110 0010,

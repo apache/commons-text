@@ -268,7 +268,7 @@ public class StrSubstitutorTest {
         map.put("critterSpeed", "quick");
         map.put("critterColor", "brown");
         map.put("critterType", "${animal}");
-        StrSubstitutor sub = new StrSubstitutor(map);
+        final StrSubstitutor sub = new StrSubstitutor(map);
         assertThrows(IllegalStateException.class, () -> sub.replace("The ${animal} jumps over the ${target}."));
 
         // also check even when default value is set.
