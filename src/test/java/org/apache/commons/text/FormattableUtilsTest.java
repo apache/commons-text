@@ -31,6 +31,10 @@ import org.junit.jupiter.api.Test;
  */
 public class FormattableUtilsTest {
 
+    private Formatter createFormatter() {
+        return new Formatter();
+    }
+
     @Test
     public void testPublicConstructorExists() {
         new FormattableUtils();
@@ -45,108 +49,108 @@ public class FormattableUtilsTest {
 
     @Test
     public void testDefaultAppend() {
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, -1, -1).toString()).isEqualTo("foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, -1, 2).toString()).isEqualTo("fo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 4, -1).toString()).isEqualTo(" foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 6, -1).toString()).isEqualTo("   foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 3, 2).toString()).isEqualTo(" fo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 5, 2).toString()).isEqualTo("   fo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 4, -1).toString()).isEqualTo("foo ");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 6, -1).toString()).isEqualTo("foo   ");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 3, 2).toString()).isEqualTo("fo ");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 5, 2).toString()).isEqualTo("fo   ");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, -1, -1).toString()).isEqualTo("foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, -1, 2).toString()).isEqualTo("fo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 4, -1).toString()).isEqualTo(" foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 6, -1).toString()).isEqualTo("   foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 3, 2).toString()).isEqualTo(" fo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 5, 2).toString()).isEqualTo("   fo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 4, -1).toString()).isEqualTo("foo ");
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 6, -1).toString()).isEqualTo("foo   ");
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 3, 2).toString()).isEqualTo("fo ");
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 5, 2).toString()).isEqualTo("fo   ");
     }
 
     @Test
     public void testAlternatePadCharacter() {
         final char pad = '_';
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, -1, -1, pad).toString()).isEqualTo("foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, -1, 2, pad).toString()).isEqualTo("fo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 4, -1, pad).toString()).isEqualTo("_foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 6, -1, pad).toString()).isEqualTo("___foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 3, 2, pad).toString()).isEqualTo("_fo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 5, 2, pad).toString()).isEqualTo("___fo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 4, -1, pad).toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, -1, -1, pad).toString()).isEqualTo("foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, -1, 2, pad).toString()).isEqualTo("fo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 4, -1, pad).toString()).isEqualTo("_foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 6, -1, pad).toString()).isEqualTo("___foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 3, 2, pad).toString()).isEqualTo("_fo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 5, 2, pad).toString()).isEqualTo("___fo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 4, -1, pad).toString())
             .isEqualTo("foo_");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 6, -1, pad).toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 6, -1, pad).toString())
             .isEqualTo("foo___");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 3, 2, pad).toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 3, 2, pad).toString())
             .isEqualTo("fo_");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 5, 2, pad).toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 5, 2, pad).toString())
             .isEqualTo("fo___");
     }
 
     @Test
     public void testEllipsis() {
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, -1, -1, "*").toString()).isEqualTo("foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, -1, 2, "*").toString()).isEqualTo("f*");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 4, -1, "*").toString()).isEqualTo(" foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 6, -1, "*").toString()).isEqualTo("   foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 3, 2, "*").toString()).isEqualTo(" f*");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 5, 2, "*").toString()).isEqualTo("   f*");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 4, -1, "*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, -1, -1, "*").toString()).isEqualTo("foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, -1, 2, "*").toString()).isEqualTo("f*");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 4, -1, "*").toString()).isEqualTo(" foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 6, -1, "*").toString()).isEqualTo("   foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 3, 2, "*").toString()).isEqualTo(" f*");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 5, 2, "*").toString()).isEqualTo("   f*");
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 4, -1, "*").toString())
             .isEqualTo("foo ");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 6, -1, "*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 6, -1, "*").toString())
             .isEqualTo("foo   ");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 3, 2, "*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 3, 2, "*").toString())
             .isEqualTo("f* ");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 5, 2, "*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 5, 2, "*").toString())
             .isEqualTo("f*   ");
 
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, -1, -1, "+*").toString()).isEqualTo("foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, -1, 2, "+*").toString()).isEqualTo("+*");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 4, -1, "+*").toString()).isEqualTo(" foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 6, -1, "+*").toString()).isEqualTo("   foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 3, 2, "+*").toString()).isEqualTo(" +*");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 5, 2, "+*").toString()).isEqualTo("   +*");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 4, -1, "+*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, -1, -1, "+*").toString()).isEqualTo("foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, -1, 2, "+*").toString()).isEqualTo("+*");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 4, -1, "+*").toString()).isEqualTo(" foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 6, -1, "+*").toString()).isEqualTo("   foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 3, 2, "+*").toString()).isEqualTo(" +*");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 5, 2, "+*").toString()).isEqualTo("   +*");
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 4, -1, "+*").toString())
             .isEqualTo("foo ");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 6, -1, "+*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 6, -1, "+*").toString())
             .isEqualTo("foo   ");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 3, 2, "+*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 3, 2, "+*").toString())
             .isEqualTo("+* ");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 5, 2, "+*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 5, 2, "+*").toString())
             .isEqualTo("+*   ");
     }
 
     @Test
     public void testIllegalEllipsis() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
-            FormattableUtils.append("foo", new Formatter(), 0, -1, 1, "xx");
+            FormattableUtils.append("foo", createFormatter(), 0, -1, 1, "xx");
         });
     }
 
     @Test
     public void testAlternatePadCharAndEllipsis() {
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, -1, -1, '_', "*").toString()).isEqualTo("foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, -1, 2, '_', "*").toString()).isEqualTo("f*");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 4, -1, '_', "*").toString()).isEqualTo("_foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 6, -1, '_', "*").toString()).isEqualTo("___foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 3, 2, '_', "*").toString()).isEqualTo("_f*");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 5, 2, '_', "*").toString()).isEqualTo("___f*");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 4, -1, '_', "*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, -1, -1, '_', "*").toString()).isEqualTo("foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, -1, 2, '_', "*").toString()).isEqualTo("f*");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 4, -1, '_', "*").toString()).isEqualTo("_foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 6, -1, '_', "*").toString()).isEqualTo("___foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 3, 2, '_', "*").toString()).isEqualTo("_f*");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 5, 2, '_', "*").toString()).isEqualTo("___f*");
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 4, -1, '_', "*").toString())
             .isEqualTo("foo_");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 6, -1, '_', "*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 6, -1, '_', "*").toString())
             .isEqualTo("foo___");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 3, 2, '_', "*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 3, 2, '_', "*").toString())
             .isEqualTo("f*_");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 5, 2, '_', "*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 5, 2, '_', "*").toString())
             .isEqualTo("f*___");
 
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, -1, -1, '_', "+*").toString()).isEqualTo("foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, -1, 2, '_', "+*").toString()).isEqualTo("+*");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 4, -1, '_', "+*").toString()).isEqualTo("_foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 6, -1, '_', "+*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, -1, -1, '_', "+*").toString()).isEqualTo("foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, -1, 2, '_', "+*").toString()).isEqualTo("+*");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 4, -1, '_', "+*").toString()).isEqualTo("_foo");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 6, -1, '_', "+*").toString())
             .isEqualTo("___foo");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 3, 2, '_', "+*").toString()).isEqualTo("_+*");
-        assertThat(FormattableUtils.append("foo", new Formatter(), 0, 5, 2, '_', "+*").toString()).isEqualTo("___+*");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 4, -1, '_', "+*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 3, 2, '_', "+*").toString()).isEqualTo("_+*");
+        assertThat(FormattableUtils.append("foo", createFormatter(), 0, 5, 2, '_', "+*").toString()).isEqualTo("___+*");
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 4, -1, '_', "+*").toString())
             .isEqualTo("foo_");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 6, -1, '_', "+*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 6, -1, '_', "+*").toString())
             .isEqualTo("foo___");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 3, 2, '_', "+*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 3, 2, '_', "+*").toString())
             .isEqualTo("+*_");
-        assertThat(FormattableUtils.append("foo", new Formatter(), LEFT_JUSTIFY, 5, 2, '_', "+*").toString())
+        assertThat(FormattableUtils.append("foo", createFormatter(), LEFT_JUSTIFY, 5, 2, '_', "+*").toString())
             .isEqualTo("+*___");
     }
 
