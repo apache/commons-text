@@ -67,6 +67,7 @@ public class StringEscapeUtilsTest {
         } catch (final IOException ex) {
             fail("Exception expected!");
         } catch (final IllegalArgumentException ex) {
+            // expected
         }
         try {
             StringEscapeUtils.ESCAPE_JAVA.translate("", null);
@@ -74,6 +75,7 @@ public class StringEscapeUtilsTest {
         } catch (final IOException ex) {
             fail("Exception expected!");
         } catch (final IllegalArgumentException ex) {
+            // expected
         }
 
         assertEscapeJava("", "", "empty string");
@@ -136,6 +138,7 @@ public class StringEscapeUtilsTest {
         } catch (final IOException ex) {
             fail("Exception expected!");
         } catch (final IllegalArgumentException ex) {
+            // expected
         }
         try {
             StringEscapeUtils.UNESCAPE_JAVA.translate("", null);
@@ -143,6 +146,7 @@ public class StringEscapeUtilsTest {
         } catch (final IOException ex) {
             fail("Exception expected!");
         } catch (final IllegalArgumentException ex) {
+            // expected
         }
         assertThrows(RuntimeException.class, () -> StringEscapeUtils.unescapeJava("\\u02-3"));
 
@@ -187,6 +191,7 @@ public class StringEscapeUtilsTest {
         } catch (final IOException ex) {
             fail("Exception expected!");
         } catch (final IllegalArgumentException ex) {
+            // expected
         }
         try {
             StringEscapeUtils.ESCAPE_ECMASCRIPT.translate("", null);
@@ -194,6 +199,7 @@ public class StringEscapeUtilsTest {
         } catch (final IOException ex) {
             fail("Exception expected!");
         } catch (final IllegalArgumentException ex) {
+            // expected
         }
 
         assertEquals("He didn\\'t say, \\\"stop!\\\"", StringEscapeUtils.escapeEcmaScript("He didn't say, \"stop!\""));
@@ -232,6 +238,7 @@ public class StringEscapeUtilsTest {
             try {
                 StringEscapeUtils.ESCAPE_HTML3.translate(original, sw);
             } catch (final IOException e) {
+                // expected
             }
             final String actual = original == null ? null : sw.toString();
             assertEquals(expected, actual, message);
@@ -250,6 +257,7 @@ public class StringEscapeUtilsTest {
             try {
                 StringEscapeUtils.UNESCAPE_HTML3.translate(original, sw);
             } catch (final IOException e) {
+                // expected
             }
             final String actual = original == null ? null : sw.toString();
             assertEquals(expected, actual, message);
@@ -276,6 +284,7 @@ public class StringEscapeUtilsTest {
             try {
                 StringEscapeUtils.ESCAPE_HTML4.translate(original, sw);
             } catch (final IOException e) {
+                // expected
             }
             final String actual = original == null ? null : sw.toString();
             assertEquals(expected, actual, message);
@@ -294,6 +303,7 @@ public class StringEscapeUtilsTest {
             try {
                 StringEscapeUtils.UNESCAPE_HTML4.translate(original, sw);
             } catch (final IOException e) {
+                // expected
             }
             final String actual = original == null ? null : sw.toString();
             assertEquals(expected, actual, message);
@@ -554,6 +564,7 @@ public class StringEscapeUtilsTest {
         } catch (final IOException ex) {
             fail("Exception expected!");
         } catch (final IllegalArgumentException ex) {
+            // expected
         }
         try {
             StringEscapeUtils.ESCAPE_JSON.translate("", null);
@@ -561,6 +572,7 @@ public class StringEscapeUtilsTest {
         } catch (final IOException ex) {
             fail("Exception expected!");
         } catch (final IllegalArgumentException ex) {
+            // expected
         }
 
         assertEquals("He didn't say, \\\"stop!\\\"", StringEscapeUtils.escapeJson("He didn't say, \"stop!\""));

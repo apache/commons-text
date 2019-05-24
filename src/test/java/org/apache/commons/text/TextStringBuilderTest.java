@@ -514,24 +514,28 @@ public class TextStringBuilderTest {
             sb.getChars(-1, 0, a, 0);
             fail("no exception");
         } catch (final IndexOutOfBoundsException e) {
+            // expected
         }
 
         try {
             sb.getChars(0, -1, a, 0);
             fail("no exception");
         } catch (final IndexOutOfBoundsException e) {
+            // expected
         }
 
         try {
             sb.getChars(0, 20, a, 0);
             fail("no exception");
         } catch (final IndexOutOfBoundsException e) {
+            // expected
         }
 
         try {
             sb.getChars(4, 2, a, 0);
             fail("no exception");
         } catch (final IndexOutOfBoundsException e) {
+            // expected
         }
     }
 
@@ -701,6 +705,7 @@ public class TextStringBuilderTest {
             sb.replace(2, 1, "anything");
             fail("Expected IndexOutOfBoundsException");
         } catch (final IndexOutOfBoundsException e) {
+            // expected
         }
 
         sb = new TextStringBuilder();
@@ -708,11 +713,13 @@ public class TextStringBuilderTest {
             sb.replace(1, 2, "anything");
             fail("Expected IndexOutOfBoundsException");
         } catch (final IndexOutOfBoundsException e) {
+            // expected
         }
         try {
             sb.replace(-1, 1, "anything");
             fail("Expected IndexOutOfBoundsException");
         } catch (final IndexOutOfBoundsException e) {
+            // expected
         }
     }
 
@@ -978,6 +985,7 @@ public class TextStringBuilderTest {
             sb.replace(StringMatcherFactory.INSTANCE.stringMatcher("aa"), "-", 11, sb.length(), -1);
             fail("Exception expected!");
         } catch (final IndexOutOfBoundsException ex) {
+            // expected
         }
         assertEquals("aaxaaaayaa", sb.toString());
 
@@ -986,6 +994,7 @@ public class TextStringBuilderTest {
             sb.replace(StringMatcherFactory.INSTANCE.stringMatcher("aa"), "-", -1, sb.length(), -1);
             fail("Exception expected!");
         } catch (final IndexOutOfBoundsException ex) {
+            // expected
         }
         assertEquals("aaxaaaayaa", sb.toString());
     }
@@ -1041,6 +1050,7 @@ public class TextStringBuilderTest {
             sb.replace(StringMatcherFactory.INSTANCE.stringMatcher("aa"), "-", 2, 1, -1);
             fail("Exception expected!");
         } catch (final IndexOutOfBoundsException ex) {
+            // expected
         }
         assertEquals("aaxaaaayaa", sb.toString());
     }
@@ -1666,26 +1676,31 @@ public class TextStringBuilderTest {
             reader.read(array, -1, 0);
             fail("Exception expected!");
         } catch (final IndexOutOfBoundsException ex) {
+            // expected
         }
         try {
             reader.read(array, 0, -1);
             fail("Exception expected!");
         } catch (final IndexOutOfBoundsException ex) {
+            // expected
         }
         try {
             reader.read(array, 100, 1);
             fail("Exception expected!");
         } catch (final IndexOutOfBoundsException ex) {
+            // expected
         }
         try {
             reader.read(array, 0, 100);
             fail("Exception expected!");
         } catch (final IndexOutOfBoundsException ex) {
+            // expected
         }
         try {
             reader.read(array, Integer.MAX_VALUE, Integer.MAX_VALUE);
             fail("Exception expected!");
         } catch (final IndexOutOfBoundsException ex) {
+            // expected
         }
 
         assertEquals(0, reader.read(array, 0, 0));
