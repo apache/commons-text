@@ -112,7 +112,7 @@ public class AlphabetConverterTest {
     }
 
     @Test
-    public void unexpectedEndwhileDecodingTest() throws UnsupportedEncodingException {
+    public void unexpectedEndwhileDecodingTest() {
         final String toDecode = "00d01d0";
         assertThatThrownBy(() -> {
             final AlphabetConverter ac = createJavadocExample();
@@ -122,7 +122,7 @@ public class AlphabetConverterTest {
     }
 
     @Test
-    public void unexpectedStringWhileDecodingTest() throws UnsupportedEncodingException {
+    public void unexpectedStringWhileDecodingTest() {
         final String toDecode = "00XX";
         assertThatThrownBy(() -> {
             final AlphabetConverter ac = createJavadocExample();
