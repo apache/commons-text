@@ -102,7 +102,7 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
         Assertions.assertEquals(value, strSubst.replace("${" + key + "}"));
     }
-    
+
     @Test
     public void testSystemProperty() {
         final StringSubstitutor strSubst = new StringSubstitutor(

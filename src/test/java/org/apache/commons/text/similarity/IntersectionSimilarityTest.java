@@ -229,8 +229,8 @@ public class IntersectionSimilarityTest {
         return list;
     }
 
-    private static <T> void assertIntersection(final IntersectionSimilarity<T> similarity, final CharSequence cs1, final CharSequence cs2,
-            final int sizeA, final int sizeB, final int intersection) {
+    private static <T> void assertIntersection(final IntersectionSimilarity<T> similarity,
+            final CharSequence cs1, final CharSequence cs2, final int sizeA, final int sizeB, final int intersection) {
         final IntersectionResult result = similarity.apply(cs1, cs2);
         assertEquals(sizeA, result.getSizeA(), "Size A error");
         assertEquals(sizeB, result.getSizeB(), "Size B error");
