@@ -59,6 +59,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-155" type="add" dev="aherbert">Add a generic IntersectionSimilarity measure</action>
     <action issue="TEXT-162" type="update" dev="ggregory">Update Apache Commons Lang from 3.8.1 to 3.9.</action>
     <action issue="TEXT-165" type="fix" dev="ggregory">ResourceBundleStringLookup.lookup(String) throws MissingResourceException instead of returning null.</action>
+    <action                  type="update" dev="ggregory">Update tests from assertj-core 3.12.1 to 3.12.2.</action>
   </release>
 
   <release version="1.6" date="2018-10-12" description="Release 1.6">
