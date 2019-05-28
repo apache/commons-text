@@ -17,6 +17,7 @@
 
 package org.apache.commons.text.lookup;
 
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
@@ -93,6 +94,9 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
         try {
             // The ResourceBundle class caches bundles, no need to cache here.
             return ResourceBundle.getBundle(keyBundleName).getString(bundleKey);
+        } catch (final MissingResourceException e) {
+            // The key is missing, return null such that an interpolator can supply a default value.
+            return null;
         } catch (final Exception e) {
             throw IllegalArgumentExceptions.format(e, "Error looking up resource bundle [%s] and key [%s].",
                     keyBundleName, bundleKey);

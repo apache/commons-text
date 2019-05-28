@@ -17,6 +17,8 @@
 
 package org.apache.commons.text;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -57,6 +59,16 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     }
 
     @Test
+    public void testDefaultValueForMissingKeyInResourceBundle() {
+        final StringLookup interpolatorStringLookup = StringLookupFactory.INSTANCE.interpolatorStringLookup(
+            StringLookupFactory.INSTANCE.resourceBundleStringLookup("testResourceBundleLookup"));
+        assertEquals("${missingKey:-defaultValue}", interpolatorStringLookup.lookup("keyWithMissingKey"));
+        final StringSubstitutor stringSubstitutor = new StringSubstitutor(interpolatorStringLookup);
+        // The following would throw a MissingResourceException before TEXT-165.
+        assertEquals("defaultValue", stringSubstitutor.replace("${keyWithMissingKey}"));
+    }
+
+    @Test
     public void testLocalHostLookup_Address() throws UnknownHostException {
         final StringSubstitutor strSubst = new StringSubstitutor(
                 StringLookupFactory.INSTANCE.interpolatorStringLookup());
@@ -90,7 +102,7 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
         Assertions.assertEquals(value, strSubst.replace("${" + key + "}"));
     }
-
+    
     @Test
     public void testSystemProperty() {
         final StringSubstitutor strSubst = new StringSubstitutor(
@@ -98,4 +110,5 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         final String spKey = "user.name";
         Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
     }
+
 }

@@ -18,6 +18,7 @@
 package org.apache.commons.text.lookup;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ResourceBundle;
 
@@ -43,19 +44,13 @@ public class ResourceBundleStringLookupTest {
     public void testBadKey() {
         final String bundleName = TEST_RESOURCE_BUNDLE;
         final String bundleKey = "bad_key";
-        assertThrows(IllegalArgumentException.class, () -> {
-            new ResourceBundleStringLookup(bundleName).lookup(bundleKey);
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            ResourceBundleStringLookup.INSTANCE.lookup(bundleName + ":" + bundleKey);
-        });
+        assertNull(new ResourceBundleStringLookup(bundleName).lookup(bundleKey));
+        assertNull(ResourceBundleStringLookup.INSTANCE.lookup(bundleName + ":" + bundleKey));
     }
 
     @Test
     public void testBadName() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ResourceBundleStringLookup.INSTANCE.lookup("BAD_RESOURCE_BUNDLE_NAME:KEY");
-        });
+        assertNull(ResourceBundleStringLookup.INSTANCE.lookup("BAD_RESOURCE_BUNDLE_NAME:KEY"));
     }
 
     @Test
