@@ -1408,7 +1408,7 @@ public class StringSubstitutor {
                                 // on the first call initialize priorVariables
                                 if (priorVariables == null) {
                                     priorVariables = new ArrayList<>();
-                                    priorVariables.add(new String(chars, offset, length));
+                                    priorVariables.add(new String(chars, offset, length + lengthChange));
                                 }
 
                                 // handle cyclic substitution
