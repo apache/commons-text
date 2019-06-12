@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
@@ -539,6 +540,30 @@ public class StringSubstitutorTest {
         values.put("animal", "$${${thing}}");
         values.put("thing", "animal");
         doTestReplace("The ${animal} jumps.", "The ${animal} jumps.", true);
+    }
+
+    /**
+     * Tests a cyclic replace operation.
+     * The cycle should be detected and cause an exception to be thrown.
+     */
+    @Test
+    public void testCyclicReplacement() {
+        final Map<String, String> map = new HashMap<>();
+        map.put("animal", "${critter}");
+        map.put("target", "${pet}");
+        map.put("pet", "${petCharacteristic} dog");
+        map.put("petCharacteristic", "lazy");
+        map.put("critter", "${critterSpeed} ${critterColor} ${critterType}");
+        map.put("critterSpeed", "quick");
+        map.put("critterColor", "brown");
+        map.put("critterType", "${animal}");
+        final StringSubstitutor sub = new StringSubstitutor(map);
+        assertThrows(IllegalStateException.class, () -> sub.replace("The ${animal} jumps over the ${target}."));
+
+        // also check even when default value is set.
+        map.put("critterType", "${animal:-fox}");
+        assertThrows(IllegalStateException.class,
+                () -> new StringSubstitutor(map).replace("The ${animal} jumps over the ${target}."));
     }
 
     /**
