@@ -50,7 +50,7 @@
     <checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
     <checkstyle.version>8.21</checkstyle.version>
 
-    <spotbugs.plugin.version>3.1.10</spotbugs.plugin.version>
+    <spotbugs.plugin.version>3.1.12</spotbugs.plugin.version>
     
     <commons.jacoco.version>0.8.2</commons.jacoco.version>
 
