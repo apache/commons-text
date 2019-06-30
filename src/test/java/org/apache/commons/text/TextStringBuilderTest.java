@@ -1722,15 +1722,15 @@ public class TextStringBuilderTest {
     @Test
     public void testAsWriter() throws Exception {
         final TextStringBuilder sb = new TextStringBuilder("base");
-        try (final Writer writer = sb.asWriter()) {
+        try (Writer writer = sb.asWriter()) {
 
             writer.write('l');
             assertEquals("basel", sb.toString());
 
-            writer.write(new char[] { 'i', 'n' });
+            writer.write(new char[] {'i', 'n'});
             assertEquals("baselin", sb.toString());
 
-            writer.write(new char[] { 'n', 'e', 'r' }, 1, 2);
+            writer.write(new char[] {'n', 'e', 'r'}, 1, 2);
             assertEquals("baseliner", sb.toString());
 
             writer.write(" rout");

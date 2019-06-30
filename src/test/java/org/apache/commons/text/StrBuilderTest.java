@@ -1721,15 +1721,15 @@ public class StrBuilderTest {
     @Test
     public void testAsWriter() throws Exception {
         final StrBuilder sb = new StrBuilder("base");
-        try (final Writer writer = sb.asWriter()) {
+        try (Writer writer = sb.asWriter()) {
 
             writer.write('l');
             assertEquals("basel", sb.toString());
 
-            writer.write(new char[] { 'i', 'n' });
+            writer.write(new char[] {'i', 'n'});
             assertEquals("baselin", sb.toString());
 
-            writer.write(new char[] { 'n', 'e', 'r' }, 1, 2);
+            writer.write(new char[] {'n', 'e', 'r'}, 1, 2);
             assertEquals("baseliner", sb.toString());
 
             writer.write(" rout");
