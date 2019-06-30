@@ -45,7 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
 
-  <release version="1.7" date="2018-MM-DD" description="Release 1.7">
+  <release version="1.7" date="2018-06-30" description="Release 1.7">
     <action issue="TEXT-111" type="fix" dev="kinow" due-to="@CAPS50">WordUtils.wrap must calculate offset increment from wrapOn pattern length</action>
     <action issue="TEXT-104" type="update" dev="kinow" due-to="Sascha Szott">Jaro Winkler Distance refers to similarity</action>
     <action issue="TEXT-148" type="add" dev="ggregory">Add an enum to the lookup package that lists all StringLookups</action>

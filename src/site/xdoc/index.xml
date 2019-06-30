@@ -42,10 +42,10 @@ The <a href="source-repository.html">Git repository</a> can be
 </section>
 <!-- ================================================== -->
 <section name="Release Information">
-<p>The latest stable release of Text is 1.6. You may: </p>
+<p>The latest stable release of Text is 1.7. You may: </p>
 <ul>
-<li>Download <a href="http://commons.apache.org/proper/commons-text/download_text.cgi">1.6</a></li>
-<li>Read the <a href="release-notes/RELEASE-NOTES-1.6.txt">1.6 release notes</a></li>
+<li>Download the <a href="http://commons.apache.org/proper/commons-text/download_text.cgi">current version</a></li>
+<li>Read the <a href="release-notes/RELEASE-NOTES-1.7.txt">release notes</a></li>
 </ul>
 <p>
 Alternatively you can pull it from the central Maven repositories:
@@ -53,7 +53,7 @@ Alternatively you can pull it from the central Maven repositories:
 &lt;dependency&gt;
    &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
    &lt;artifactId&gt;commons-text&lt;/artifactId&gt;
-   &lt;version&gt;1.6&lt;/version&gt;
+   &lt;version&gt;1.7&lt;/version&gt;
 &lt;/dependency&gt;
 </pre>
 </p>
