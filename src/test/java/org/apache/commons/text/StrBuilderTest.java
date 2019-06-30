@@ -1637,117 +1637,120 @@ public class StrBuilderTest {
     @Test
     public void testAsReader() throws Exception {
         final StrBuilder sb = new StrBuilder("some text");
-        Reader reader = sb.asReader();
-        assertTrue(reader.ready());
-        final char[] buf = new char[40];
-        assertEquals(9, reader.read(buf));
-        assertEquals("some text", new String(buf, 0, 9));
+        try (Reader reader = sb.asReader()) {
+            assertTrue(reader.ready());
+            final char[] buf = new char[40];
+            assertEquals(9, reader.read(buf));
+            assertEquals("some text", new String(buf, 0, 9));
 
-        assertEquals(-1, reader.read());
-        assertFalse(reader.ready());
-        assertEquals(0, reader.skip(2));
-        assertEquals(0, reader.skip(-1));
+            assertEquals(-1, reader.read());
+            assertFalse(reader.ready());
+            assertEquals(0, reader.skip(2));
+            assertEquals(0, reader.skip(-1));
 
-        assertTrue(reader.markSupported());
-        reader = sb.asReader();
-        assertEquals('s', reader.read());
-        reader.mark(-1);
-        char[] array = new char[3];
-        assertEquals(3, reader.read(array, 0, 3));
-        assertEquals('o', array[0]);
-        assertEquals('m', array[1]);
-        assertEquals('e', array[2]);
-        reader.reset();
-        assertEquals(1, reader.read(array, 1, 1));
-        assertEquals('o', array[0]);
-        assertEquals('o', array[1]);
-        assertEquals('e', array[2]);
-        assertEquals(2, reader.skip(2));
-        assertEquals(' ', reader.read());
-
-        assertTrue(reader.ready());
-        reader.close();
-        assertTrue(reader.ready());
-
-        reader = sb.asReader();
-        array = new char[3];
-        try {
-            reader.read(array, -1, 0);
-            fail("Exception expected!");
-        } catch (final IndexOutOfBoundsException ex) {
-            // expected
+            assertTrue(reader.markSupported());
         }
-        try {
-            reader.read(array, 0, -1);
-            fail("Exception expected!");
-        } catch (final IndexOutOfBoundsException ex) {
-            // expected
-        }
-        try {
-            reader.read(array, 100, 1);
-            fail("Exception expected!");
-        } catch (final IndexOutOfBoundsException ex) {
-            // expected
-        }
-        try {
-            reader.read(array, 0, 100);
-            fail("Exception expected!");
-        } catch (final IndexOutOfBoundsException ex) {
-            // expected
-        }
-        try {
-            reader.read(array, Integer.MAX_VALUE, Integer.MAX_VALUE);
-            fail("Exception expected!");
-        } catch (final IndexOutOfBoundsException ex) {
-            // expected
-        }
+        try (Reader reader = sb.asReader()) {
+            assertEquals('s', reader.read());
+            reader.mark(-1);
+            char[] array = new char[3];
+            assertEquals(3, reader.read(array, 0, 3));
+            assertEquals('o', array[0]);
+            assertEquals('m', array[1]);
+            assertEquals('e', array[2]);
+            reader.reset();
+            assertEquals(1, reader.read(array, 1, 1));
+            assertEquals('o', array[0]);
+            assertEquals('o', array[1]);
+            assertEquals('e', array[2]);
+            assertEquals(2, reader.skip(2));
+            assertEquals(' ', reader.read());
 
-        assertEquals(0, reader.read(array, 0, 0));
-        assertEquals(0, array[0]);
-        assertEquals(0, array[1]);
-        assertEquals(0, array[2]);
+            assertTrue(reader.ready());
+            reader.close();
+            assertTrue(reader.ready());
+        }
+        try (Reader reader = sb.asReader()) {
+            char[] array = new char[3];
+            try {
+                reader.read(array, -1, 0);
+                fail("Exception expected!");
+            } catch (final IndexOutOfBoundsException ex) {
+                // expected
+            }
+            try {
+                reader.read(array, 0, -1);
+                fail("Exception expected!");
+            } catch (final IndexOutOfBoundsException ex) {
+                // expected
+            }
+            try {
+                reader.read(array, 100, 1);
+                fail("Exception expected!");
+            } catch (final IndexOutOfBoundsException ex) {
+                // expected
+            }
+            try {
+                reader.read(array, 0, 100);
+                fail("Exception expected!");
+            } catch (final IndexOutOfBoundsException ex) {
+                // expected
+            }
+            try {
+                reader.read(array, Integer.MAX_VALUE, Integer.MAX_VALUE);
+                fail("Exception expected!");
+            } catch (final IndexOutOfBoundsException ex) {
+                // expected
+            }
 
-        reader.skip(9);
-        assertEquals(-1, reader.read(array, 0, 1));
+            assertEquals(0, reader.read(array, 0, 0));
+            assertEquals(0, array[0]);
+            assertEquals(0, array[1]);
+            assertEquals(0, array[2]);
 
-        reader.reset();
-        array = new char[30];
-        assertEquals(9, reader.read(array, 0, 30));
+            reader.skip(9);
+            assertEquals(-1, reader.read(array, 0, 1));
+
+            reader.reset();
+            array = new char[30];
+            assertEquals(9, reader.read(array, 0, 30));
+        }
     }
 
     // -----------------------------------------------------------------------
     @Test
     public void testAsWriter() throws Exception {
         final StrBuilder sb = new StrBuilder("base");
-        final Writer writer = sb.asWriter();
+        try (final Writer writer = sb.asWriter()) {
 
-        writer.write('l');
-        assertEquals("basel", sb.toString());
+            writer.write('l');
+            assertEquals("basel", sb.toString());
 
-        writer.write(new char[] {'i', 'n' });
-        assertEquals("baselin", sb.toString());
+            writer.write(new char[] { 'i', 'n' });
+            assertEquals("baselin", sb.toString());
 
-        writer.write(new char[] {'n', 'e', 'r' }, 1, 2);
-        assertEquals("baseliner", sb.toString());
+            writer.write(new char[] { 'n', 'e', 'r' }, 1, 2);
+            assertEquals("baseliner", sb.toString());
 
-        writer.write(" rout");
-        assertEquals("baseliner rout", sb.toString());
+            writer.write(" rout");
+            assertEquals("baseliner rout", sb.toString());
 
-        writer.write("ping that server", 1, 3);
-        assertEquals("baseliner routing", sb.toString());
+            writer.write("ping that server", 1, 3);
+            assertEquals("baseliner routing", sb.toString());
 
-        writer.flush(); // no effect
-        assertEquals("baseliner routing", sb.toString());
+            writer.flush(); // no effect
+            assertEquals("baseliner routing", sb.toString());
 
-        writer.close(); // no effect
-        assertEquals("baseliner routing", sb.toString());
+            writer.close(); // no effect
+            assertEquals("baseliner routing", sb.toString());
 
-        writer.write(" hi"); // works after close
-        assertEquals("baseliner routing hi", sb.toString());
+            writer.write(" hi"); // works after close
+            assertEquals("baseliner routing hi", sb.toString());
 
-        sb.setLength(4); // mix and match
-        writer.write('d');
-        assertEquals("based", sb.toString());
+            sb.setLength(4); // mix and match
+            writer.write('d');
+            assertEquals("based", sb.toString());
+        }
     }
 
     // -----------------------------------------------------------------------

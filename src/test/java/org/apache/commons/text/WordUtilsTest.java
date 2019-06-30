@@ -536,7 +536,7 @@ public class WordUtilsTest {
 
     @Test
     public void testContainsAllWordsWithNull() {
-        assertThat(WordUtils.containsAllWords("M", null)).isFalse();
+        assertThat(WordUtils.containsAllWords("M", (CharSequence) null)).isFalse();
     }
 
     @Test
