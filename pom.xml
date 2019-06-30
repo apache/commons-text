@@ -447,8 +447,6 @@
       <properties>
         <!-- jacoco does not work with java 13 yet -->
         <jacoco.skip>true</jacoco.skip>
-        <!-- spotbugs does not work on java 13 yet, "java.lang.IllegalArgumentException: Unsupported class file major version 57" -->
-        <spotbugs.skip>true</spotbugs.skip>
       </properties>
     </profile>
   </profiles>
