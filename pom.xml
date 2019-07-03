@@ -52,7 +52,7 @@
 
     <spotbugs.plugin.version>3.1.12</spotbugs.plugin.version>
     
-    <commons.jacoco.version>0.8.2</commons.jacoco.version>
+    <commons.jacoco.version>0.8.4</commons.jacoco.version>
 
     <commons.javadoc.version>3.1.0</commons.javadoc.version>
 
@@ -81,7 +81,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>5.4.2</version>
+      <version>5.5.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
