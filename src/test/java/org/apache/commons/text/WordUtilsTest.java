@@ -58,14 +58,14 @@ public class WordUtilsTest {
         assertThat(WordUtils.wrap(input, 20)).isEqualTo(expected);
 
         // long word at end
-        input = "Click here to jump to the commons website - http://commons.apache.org";
+        input = "Click here to jump to the commons website - https://commons.apache.org";
         expected = "Click here to jump" + systemNewLine + "to the commons" + systemNewLine + "website -" + systemNewLine
-                + "http://commons.apache.org";
+                + "https://commons.apache.org";
         assertThat(WordUtils.wrap(input, 20)).isEqualTo(expected);
 
         // long word in middle
-        input = "Click here, http://commons.apache.org, to jump to the commons website";
-        expected = "Click here," + systemNewLine + "http://commons.apache.org," + systemNewLine + "to jump to the"
+        input = "Click here, https://commons.apache.org, to jump to the commons website";
+        expected = "Click here," + systemNewLine + "https://commons.apache.org," + systemNewLine + "to jump to the"
                 + systemNewLine + "commons website";
         assertThat(WordUtils.wrap(input, 20)).isEqualTo(expected);
 
@@ -139,17 +139,17 @@ public class WordUtilsTest {
         assertThat(WordUtils.wrap(input, 20, "\n", true)).isEqualTo(expected);
 
         // difference because of long word
-        input = "Click here to jump to the commons website - http://commons.apache.org";
-        expected = "Click here to jump\nto the commons\nwebsite -\nhttp://commons.apache.org";
+        input = "Click here to jump to the commons website - https://commons.apache.org";
+        expected = "Click here to jump\nto the commons\nwebsite -\nhttps://commons.apache.org";
         assertThat(WordUtils.wrap(input, 20, "\n", false)).isEqualTo(expected);
-        expected = "Click here to jump\nto the commons\nwebsite -\nhttp://commons.apach\ne.org";
+        expected = "Click here to jump\nto the commons\nwebsite -\nhttps://commons.apac\nhe.org";
         assertThat(WordUtils.wrap(input, 20, "\n", true)).isEqualTo(expected);
 
         // difference because of long word in middle
-        input = "Click here, http://commons.apache.org, to jump to the commons website";
-        expected = "Click here,\nhttp://commons.apache.org,\nto jump to the\ncommons website";
+        input = "Click here, https://commons.apache.org, to jump to the commons website";
+        expected = "Click here,\nhttps://commons.apache.org,\nto jump to the\ncommons website";
         assertThat(WordUtils.wrap(input, 20, "\n", false)).isEqualTo(expected);
-        expected = "Click here,\nhttp://commons.apach\ne.org, to jump to\nthe commons website";
+        expected = "Click here,\nhttps://commons.apac\nhe.org, to jump to\nthe commons website";
         assertThat(WordUtils.wrap(input, 20, "\n", true)).isEqualTo(expected);
     }
 

@@ -396,7 +396,7 @@ public final class RandomStringGenerator {
          * <p>
          * Overrides the default source of randomness.  It is highly
          * recommended that a random number generator library like
-         * <a href="http://commons.apache.org/proper/commons-rng/">Apache Commons RNG</a>
+         * <a href="https://commons.apache.org/proper/commons-rng/">Apache Commons RNG</a>
          * be used to provide the random number generation.
          * </p>
          *
