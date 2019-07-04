@@ -36,14 +36,14 @@ o TEXT-162:  Update Apache Commons Lang from 3.8.1 to 3.9.
 o            Update tests from org.assertj:assertj-core 3.12.1 to 3.12.2.
 o            Update site from com.puppycrawl.tools:checkstyle 8.18 to 8.21.
 
-Historical list of changes: http://commons.apache.org/proper/commons-text/changes-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
 
 For complete information on Apache Commons Text, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Apache Commons Text website:
 
-http://commons.apache.org/proper/commons-text
+https://commons.apache.org/proper/commons-text
 
-Download it from http://commons.apache.org/proper/commons-text/download_text.cgi
+Download it from https://commons.apache.org/proper/commons-text/download_text.cgi
 
 
 =============================================================================
@@ -70,12 +70,12 @@ o TEXT-145:  Add StringLookupFactory methods for the URL encoder and decoder str
 o TEXT-146:  org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup() should reuse a singleton instance
 o TEXT-147:  Add a Base64 encoder string lookup.
 
-Historical list of changes: http://commons.apache.org/proper/commons-text/changes-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
 
 For complete information on Apache Commons Text, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Apache Commons Text website:
 
-http://commons.apache.org/proper/commons-text
+https://commons.apache.org/proper/commons-text
 
 =============================================================================
 
@@ -391,13 +391,13 @@ o TEXT-51:   Remove RandomStringGenerator to be added back in the 1.1 release
 o TEXT-31:   Remove org.apache.commons.text.names, for later release than 1.0
 
 
-Historical list of changes: http://commons.apache.org/text/changes-report.html
+Historical list of changes: https://commons.apache.org/text/changes-report.html
 
 For complete information on Apache Commons Text, including instructions on how
 to submit bug reports, patches, or suggestions for improvement, see the Apache
 Apache Commons Text website:
 
-http://commons.apache.org/text/
+https://commons.apache.org/text/
 
 Have fun!
 -Apache Commons Text team
