@@ -1014,7 +1014,7 @@ public class TextStringBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("null-");
     }
 
-    // See: http://issues.apache.org/jira/browse/LANG-299
+    // See: https://issues.apache.org/jira/browse/LANG-299
     @Test
     public void testLang299() {
         final TextStringBuilder sb = new TextStringBuilder(1);

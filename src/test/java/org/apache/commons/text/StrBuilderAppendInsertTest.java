@@ -989,7 +989,7 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("null-");
     }
 
-    // See: http://issues.apache.org/jira/browse/LANG-299
+    // See: https://issues.apache.org/jira/browse/LANG-299
     @Test
     public void testLang299() {
         final StrBuilder sb = new StrBuilder(1);

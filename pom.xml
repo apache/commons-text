@@ -376,7 +376,7 @@
 
   <issueManagement>
     <system>jira</system>
-    <url>http://issues.apache.org/jira/browse/TEXT</url>
+    <url>https://issues.apache.org/jira/browse/TEXT</url>
   </issueManagement>
 
   <distributionManagement>
