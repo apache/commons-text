@@ -46,7 +46,8 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
 
   <release version="1.8" date="2019-MM-DD" description="Release 1.8">
-    <action issue="TEXT-167" type="fix" dev="kinow" due-to="Larry West">commons-text web page missing "RELEASE-NOTES-1.7.txt"</action>
+    <action issue="TEXT-167" type="fix" dev="ggregory" due-to="Larry West">commons-text web page missing "RELEASE-NOTES-1.7.txt"</action>
+    <action issue="TEXT-168" type="fix" dev="ggregory" due-to="luksan47">(doc) Fixed wrong value for Jaro-Winkler example #117</action>
   </release>
   
   <release version="1.7" date="2019-06-30" description="Release 1.7">
