@@ -53,7 +53,7 @@ public class JaroWinklerDistance implements EditDistance<Double> {
      * distance.apply("hippo", "elephant") = 0.56
      * distance.apply("hippo", "zzzzzzzz") = 1.0
      * distance.apply("hello", "hallo")    = 0.12
-     * distance.apply("ABC Corporation", "ABC Corp") = 0.07
+     * distance.apply("ABC Corporation", "ABC Corp") = 0.09
      * distance.apply("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.05
      * distance.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.08
      * distance.apply("PENNSYLVANIA", "PENNCISYLVNIA") = 0.12
