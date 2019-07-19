@@ -64,7 +64,7 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
      * sim.apply("hippo", "elephant") = 0.44
      * sim.apply("hippo", "zzzzzzzz") = 0.0
      * sim.apply("hello", "hallo")    = 0.88
-     * sim.apply("ABC Corporation", "ABC Corp") = 0.93
+     * sim.apply("ABC Corporation", "ABC Corp") = 0.91
      * sim.apply("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.95
      * sim.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.92
      * sim.apply("PENNSYLVANIA", "PENNCISYLVNIA") = 0.88
