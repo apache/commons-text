@@ -36,7 +36,7 @@ The package descriptions in the <a href="javadocs/api-release/index.html">Javado
 and various <a href="project-reports.html">project reports</a> are provided.
 </p>
 <p>
-The <a href="source-repository.html">Git repository</a> can be
+The <a href="scm.html">Git repository</a> can be
 <a href="https://git-wip-us.apache.org/repos/asf?p=commons-text.git">browsed</a>, or you can browse/contribute via <a href="https://github.com/apache/commons-text">GitHub</a>.
 </p>
 </section>
