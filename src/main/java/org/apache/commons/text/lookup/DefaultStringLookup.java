@@ -128,20 +128,20 @@ public enum DefaultStringLookup {
     }
 
     /**
-     * Returns the standard {@link StringLookup} instance of this kind.
-     *
-     * @return the associated {@link StringLookup} object
-     */
-    public StringLookup getStringLookup() {
-        return lookup;
-    }
-
-    /**
      * Returns the standard prefix for the lookup object of this kind.
      *
      * @return the prefix
      */
     public String getKey() {
         return key;
+    }
+
+    /**
+     * Returns the standard {@link StringLookup} instance of this kind.
+     *
+     * @return the associated {@link StringLookup} object
+     */
+    public StringLookup getStringLookup() {
+        return lookup;
     }
 }
