@@ -49,8 +49,7 @@ final class LocalHostStringLookup extends AbstractStringLookup {
     /**
      * Looks up the value of the Java platform key.
      *
-     * @param key
-     *            the key to be looked up, may be null
+     * @param key the key to be looked up, may be null
      * @return The value of the environment variable.
      */
     @Override
@@ -58,27 +57,19 @@ final class LocalHostStringLookup extends AbstractStringLookup {
         if (key == null) {
             return null;
         }
-        switch (key) {
-        case "name":
-            try {
+        try {
+            switch (key) {
+            case "name":
                 return InetAddress.getLocalHost().getHostName();
-            } catch (final UnknownHostException e) {
-                return null;
-            }
-        case "canonical-name":
-            try {
+            case "canonical-name":
                 return InetAddress.getLocalHost().getCanonicalHostName();
-            } catch (final UnknownHostException e) {
-                return null;
-            }
-        case "address":
-            try {
+            case "address":
                 return InetAddress.getLocalHost().getHostAddress();
-            } catch (final UnknownHostException e) {
-                return null;
+            default:
+                throw new IllegalArgumentException(key);
             }
-        default:
-            throw new IllegalArgumentException(key);
+        } catch (UnknownHostException e) {
+            return null;
         }
     }
 }
