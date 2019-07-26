@@ -748,52 +748,6 @@ public class StringSubstitutor {
     // -----------------------------------------------------------------------
     /**
      * Replaces all the occurrences of variables with their matching values from the resolver using the given source
-     * builder as a template. The builder is not altered by this method.
-     *
-     * @param source
-     *            the builder to use as a template, not changed, null returns null
-     * @return the result of the replace operation
-     * @throws IllegalArgumentException
-     *             if variable is not found when its allowed to throw exception
-     */
-    public String replace(final TextStringBuilder source) {
-        if (source == null) {
-            return null;
-        }
-        final TextStringBuilder buf = new TextStringBuilder(source.length()).append(source);
-        substitute(buf, 0, buf.length());
-        return buf.toString();
-    }
-
-    /**
-     * Replaces all the occurrences of variables with their matching values from the resolver using the given source
-     * builder as a template. The builder is not altered by this method.
-     * <p>
-     * Only the specified portion of the builder will be processed. The rest of the builder is not processed, and is not
-     * returned.
-     *
-     * @param source
-     *            the builder to use as a template, not changed, null returns null
-     * @param offset
-     *            the start offset within the array, must be valid
-     * @param length
-     *            the length within the array to be processed, must be valid
-     * @return the result of the replace operation
-      * @throws IllegalArgumentException
-     *             if variable is not found when its allowed to throw exception
-     */
-    public String replace(final TextStringBuilder source, final int offset, final int length) {
-        if (source == null) {
-            return null;
-        }
-        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);
-        substitute(buf, 0, length);
-        return buf.toString();
-    }
-
-    // -----------------------------------------------------------------------
-    /**
-     * Replaces all the occurrences of variables with their matching values from the resolver using the given source
      * string as a template.
      *
      * @param source
@@ -889,44 +843,48 @@ public class StringSubstitutor {
 
     // -----------------------------------------------------------------------
     /**
-     * Replaces all the occurrences of variables within the given source builder with their matching values from the
-     * resolver.
+     * Replaces all the occurrences of variables with their matching values from the resolver using the given source
+     * builder as a template. The builder is not altered by this method.
      *
      * @param source
-     *            the builder to replace in, updated, null returns zero
-     * @return true if altered
+     *            the builder to use as a template, not changed, null returns null
+     * @return the result of the replace operation
      * @throws IllegalArgumentException
      *             if variable is not found when its allowed to throw exception
      */
-    public boolean replaceIn(final TextStringBuilder source) {
+    public String replace(final TextStringBuilder source) {
         if (source == null) {
-            return false;
+            return null;
         }
-        return substitute(source, 0, source.length());
+        final TextStringBuilder buf = new TextStringBuilder(source.length()).append(source);
+        substitute(buf, 0, buf.length());
+        return buf.toString();
     }
 
     /**
-     * Replaces all the occurrences of variables within the given source builder with their matching values from the
-     * resolver.
+     * Replaces all the occurrences of variables with their matching values from the resolver using the given source
+     * builder as a template. The builder is not altered by this method.
      * <p>
-     * Only the specified portion of the builder will be processed. The rest of the builder is not processed, but it is
-     * not deleted.
+     * Only the specified portion of the builder will be processed. The rest of the builder is not processed, and is not
+     * returned.
      *
      * @param source
-     *            the builder to replace in, null returns zero
+     *            the builder to use as a template, not changed, null returns null
      * @param offset
      *            the start offset within the array, must be valid
      * @param length
-     *            the length within the builder to be processed, must be valid
-     * @return true if altered
-     * @throws IllegalArgumentException
+     *            the length within the array to be processed, must be valid
+     * @return the result of the replace operation
+      * @throws IllegalArgumentException
      *             if variable is not found when its allowed to throw exception
      */
-    public boolean replaceIn(final TextStringBuilder source, final int offset, final int length) {
+    public String replace(final TextStringBuilder source, final int offset, final int length) {
         if (source == null) {
-            return false;
+            return null;
         }
-        return substitute(source, offset, length);
+        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);
+        substitute(buf, 0, length);
+        return buf.toString();
     }
 
     // -----------------------------------------------------------------------
@@ -1019,6 +977,48 @@ public class StringSubstitutor {
         return true;
     }
 
+    // -----------------------------------------------------------------------
+    /**
+     * Replaces all the occurrences of variables within the given source builder with their matching values from the
+     * resolver.
+     *
+     * @param source
+     *            the builder to replace in, updated, null returns zero
+     * @return true if altered
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
+     */
+    public boolean replaceIn(final TextStringBuilder source) {
+        if (source == null) {
+            return false;
+        }
+        return substitute(source, 0, source.length());
+    }
+
+    /**
+     * Replaces all the occurrences of variables within the given source builder with their matching values from the
+     * resolver.
+     * <p>
+     * Only the specified portion of the builder will be processed. The rest of the builder is not processed, but it is
+     * not deleted.
+     *
+     * @param source
+     *            the builder to replace in, null returns zero
+     * @param offset
+     *            the start offset within the array, must be valid
+     * @param length
+     *            the length within the builder to be processed, must be valid
+     * @return true if altered
+     * @throws IllegalArgumentException
+     *             if variable is not found when its allowed to throw exception
+     */
+    public boolean replaceIn(final TextStringBuilder source, final int offset, final int length) {
+        if (source == null) {
+            return false;
+        }
+        return substitute(source, offset, length);
+    }
+
     /**
      * Internal method that resolves the value of a variable.
      * <p>
@@ -1061,18 +1061,6 @@ public class StringSubstitutor {
     }
 
     /**
-     * Sets a flag whether exception should be thrown if any variable is undefined.
-     *
-     * @param failOnUndefinedVariable
-     *            true if exception should be thrown on undefined variable
-     * @return this, to enable chaining
-     */
-    public StringSubstitutor setEnableUndefinedVariableException(final boolean failOnUndefinedVariable) {
-        this.enableUndefinedVariableException = failOnUndefinedVariable;
-        return this;
-    }
-
-    /**
      * Sets a flag whether substitution is done in variable names. If set to <b>true</b>, the names of variables can
      * contain other variables which are processed first before the original variable is evaluated, e.g.
      * <code>${jre-${java.version}}</code>. The default value is <b>false</b>.
@@ -1083,6 +1071,18 @@ public class StringSubstitutor {
      */
     public StringSubstitutor setEnableSubstitutionInVariables(final boolean enableSubstitutionInVariables) {
         this.enableSubstitutionInVariables = enableSubstitutionInVariables;
+        return this;
+    }
+
+    /**
+     * Sets a flag whether exception should be thrown if any variable is undefined.
+     *
+     * @param failOnUndefinedVariable
+     *            true if exception should be thrown on undefined variable
+     * @return this, to enable chaining
+     */
+    public StringSubstitutor setEnableUndefinedVariableException(final boolean failOnUndefinedVariable) {
+        this.enableUndefinedVariableException = failOnUndefinedVariable;
         return this;
     }
 
