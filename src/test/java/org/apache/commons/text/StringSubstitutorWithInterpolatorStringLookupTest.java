@@ -70,23 +70,20 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
 
     @Test
     public void testLocalHostLookup_Address() throws UnknownHostException {
-        final StringSubstitutor strSubst = new StringSubstitutor(
-                StringLookupFactory.INSTANCE.interpolatorStringLookup());
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
         Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(), strSubst.replace("${localhost:address}"));
     }
 
     @Test
     public void testLocalHostLookup_CanonicalName() throws UnknownHostException {
-        final StringSubstitutor strSubst = new StringSubstitutor(
-                StringLookupFactory.INSTANCE.interpolatorStringLookup());
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
         Assertions.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(),
                 strSubst.replace("${localhost:canonical-name}"));
     }
 
     @Test
     public void testLocalHostLookup_Name() throws UnknownHostException {
-        final StringSubstitutor strSubst = new StringSubstitutor(
-                StringLookupFactory.INSTANCE.interpolatorStringLookup());
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
         Assertions.assertEquals(InetAddress.getLocalHost().getHostName(), strSubst.replace("${localhost:name}"));
     }
 
@@ -105,8 +102,7 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
 
     @Test
     public void testSystemProperty() {
-        final StringSubstitutor strSubst = new StringSubstitutor(
-                StringLookupFactory.INSTANCE.interpolatorStringLookup());
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
         final String spKey = "user.name";
         Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
     }

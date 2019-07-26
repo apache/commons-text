@@ -35,15 +35,13 @@ public class PropertiesStringLookupTest {
 
     @Test
     public void testInterpolator() {
-        final StringSubstitutor stringSubstitutor = new StringSubstitutor(
-                StringLookupFactory.INSTANCE.interpolatorStringLookup());
+        final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
         Assertions.assertEquals("Hello World!", stringSubstitutor.replace("${properties:" + KEY_PATH + "}"));
     }
 
     @Test
     public void testInterpolatorNestedColon() {
-        final StringSubstitutor stringSubstitutor = new StringSubstitutor(
-                StringLookupFactory.INSTANCE.interpolatorStringLookup());
+        final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
         // Need to handle "C:" in the sys prop user.dir.
         final String replaced = stringSubstitutor.replace("$${properties:${sys:user.dir}/" + KEY_PATH + "}");
         Assertions.assertEquals(

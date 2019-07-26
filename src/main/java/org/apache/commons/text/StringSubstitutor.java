@@ -181,7 +181,17 @@ public class StringSubstitutor {
     public static final StringMatcher DEFAULT_VALUE_DELIMITER =
             StringMatcherFactory.INSTANCE.stringMatcher(DEFAULT_VAR_DEFAULT);
 
-    // -----------------------------------------------------------------------
+    /**
+     * Creates a new instance using the interpolator string lookup {@link StringLookupFactory#interpolatorStringLookup()}.
+     * 
+     * @return a new instance using the interpolator string lookup.
+     * @see StringLookupFactory#interpolatorStringLookup()
+     * @since 1.8
+     */
+    public static StringSubstitutor createInterpolator() {
+        return new StringSubstitutor(StringLookupFactory.INSTANCE.interpolatorStringLookup());
+    }
+    
     /**
      * Replaces all the occurrences of variables in the given source object with their matching values from the map.
      *
