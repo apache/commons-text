@@ -255,6 +255,74 @@ public class StringSubstitutorTest {
     }
 
     /**
+     * Tests replace with fail on undefined variable.
+     */
+    @Test
+    public void testReplaceFailOnUndefinedVariable() {
+        values.put("animal.1", "fox");
+        values.put("animal.2", "mouse");
+        values.put("species", "2");
+        final StringSubstitutor sub = new StringSubstitutor(values);
+        sub.setEnableUndefinedVariableException(true);
+
+        assertThatIllegalArgumentException().isThrownBy(() ->
+        sub.replace("The ${animal.${species}} jumps over the ${target}.")).
+        withMessage("Cannot resolve variable 'animal.${species' (enableSubstitutionInVariables=false).");
+
+        assertThatIllegalArgumentException().isThrownBy(() ->
+        sub.replace("The ${animal.${species:-1}} jumps over the ${target}.")).
+        withMessage("Cannot resolve variable 'animal.${species:-1' (enableSubstitutionInVariables=false).");
+
+        assertThatIllegalArgumentException().isThrownBy(() ->
+        sub.replace("The ${test:-statement} is a sample for missing ${unknown}.")).
+        withMessage("Cannot resolve variable 'unknown' (enableSubstitutionInVariables=false).");
+
+        //if default value is available, exception will not be thrown
+        assertEquals("The statement is a sample for missing variable.",
+                sub.replace("The ${test:-statement} is a sample for missing ${unknown:-variable}."));
+
+        assertEquals("The fox jumps over the lazy dog.",
+                sub.replace("The ${animal.1} jumps over the ${target}."));
+    }
+
+    /**
+     * Tests whether replace with fail on undefined variable with
+     * substitution in variable names enabled.
+     */
+    @Test
+    public void testReplaceFailOnUndefinedVariableWithReplaceInVariable() {
+        values.put("animal.1", "fox");
+        values.put("animal.2", "mouse");
+        values.put("species", "2");
+        values.put("statement.1", "2");
+        values.put("recursive", "1");
+        values.put("word", "variable");
+        values.put("testok.2", "statement");
+        final StringSubstitutor sub = new StringSubstitutor(values);
+        sub.setEnableUndefinedVariableException(true);
+        sub.setEnableSubstitutionInVariables(true);
+
+        assertEquals("The mouse jumps over the lazy dog.",
+                sub.replace("The ${animal.${species}} jumps over the ${target}."));
+        values.put("species", "1");
+        assertEquals("The fox jumps over the lazy dog.",
+                sub.replace("The ${animal.${species}} jumps over the ${target}."));
+
+        //exception is thrown here because variable with name test.1 is missing
+        assertThatIllegalArgumentException().isThrownBy(() ->
+        sub.replace("The ${test.${statement}} is a sample for missing ${word}.")).
+        withMessage("Cannot resolve variable 'statement' (enableSubstitutionInVariables=true).");
+
+        //exception is thrown here because variable with name test.2 is missing
+        assertThatIllegalArgumentException().isThrownBy(() ->
+        sub.replace("The ${test.${statement.${recursive}}} is a sample for missing ${word}.")).
+        withMessage("Cannot resolve variable 'test.2' (enableSubstitutionInVariables=true).");
+
+        assertEquals("The statement is a sample for missing variable.",
+                sub.replace("The ${testok.${statement.${recursive}}} is a sample for missing ${word}."));
+    }
+
+    /**
      * Tests when no incomplete prefix.
      */
     @Test
@@ -335,74 +403,6 @@ public class StringSubstitutorTest {
                 sub.replace("The ${animal.${species}} jumps over the ${target}."));
         assertEquals("The ${animal.${species:-1}} jumps over the lazy dog.",
                 sub.replace("The ${animal.${species:-1}} jumps over the ${target}."));
-    }
-
-    /**
-     * Tests replace with fail on undefined variable.
-     */
-    @Test
-    public void testReplaceFailOnUndefinedVariable() {
-        values.put("animal.1", "fox");
-        values.put("animal.2", "mouse");
-        values.put("species", "2");
-        final StringSubstitutor sub = new StringSubstitutor(values);
-        sub.setEnableUndefinedVariableException(true);
-
-        assertThatIllegalArgumentException().isThrownBy(() ->
-        sub.replace("The ${animal.${species}} jumps over the ${target}.")).
-        withMessage("Cannot resolve variable 'animal.${species' (enableSubstitutionInVariables=false).");
-
-        assertThatIllegalArgumentException().isThrownBy(() ->
-        sub.replace("The ${animal.${species:-1}} jumps over the ${target}.")).
-        withMessage("Cannot resolve variable 'animal.${species:-1' (enableSubstitutionInVariables=false).");
-
-        assertThatIllegalArgumentException().isThrownBy(() ->
-        sub.replace("The ${test:-statement} is a sample for missing ${unknown}.")).
-        withMessage("Cannot resolve variable 'unknown' (enableSubstitutionInVariables=false).");
-
-        //if default value is available, exception will not be thrown
-        assertEquals("The statement is a sample for missing variable.",
-                sub.replace("The ${test:-statement} is a sample for missing ${unknown:-variable}."));
-
-        assertEquals("The fox jumps over the lazy dog.",
-                sub.replace("The ${animal.1} jumps over the ${target}."));
-    }
-
-    /**
-     * Tests whether replace with fail on undefined variable with
-     * substitution in variable names enabled.
-     */
-    @Test
-    public void testReplaceFailOnUndefinedVariableWithReplaceInVariable() {
-        values.put("animal.1", "fox");
-        values.put("animal.2", "mouse");
-        values.put("species", "2");
-        values.put("statement.1", "2");
-        values.put("recursive", "1");
-        values.put("word", "variable");
-        values.put("testok.2", "statement");
-        final StringSubstitutor sub = new StringSubstitutor(values);
-        sub.setEnableUndefinedVariableException(true);
-        sub.setEnableSubstitutionInVariables(true);
-
-        assertEquals("The mouse jumps over the lazy dog.",
-                sub.replace("The ${animal.${species}} jumps over the ${target}."));
-        values.put("species", "1");
-        assertEquals("The fox jumps over the lazy dog.",
-                sub.replace("The ${animal.${species}} jumps over the ${target}."));
-
-        //exception is thrown here because variable with name test.1 is missing
-        assertThatIllegalArgumentException().isThrownBy(() ->
-        sub.replace("The ${test.${statement}} is a sample for missing ${word}.")).
-        withMessage("Cannot resolve variable 'statement' (enableSubstitutionInVariables=true).");
-
-        //exception is thrown here because variable with name test.2 is missing
-        assertThatIllegalArgumentException().isThrownBy(() ->
-        sub.replace("The ${test.${statement.${recursive}}} is a sample for missing ${word}.")).
-        withMessage("Cannot resolve variable 'test.2' (enableSubstitutionInVariables=true).");
-
-        assertEquals("The statement is a sample for missing variable.",
-                sub.replace("The ${testok.${statement.${recursive}}} is a sample for missing ${word}."));
     }
 
     /**
