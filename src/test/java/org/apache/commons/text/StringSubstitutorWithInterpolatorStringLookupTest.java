@@ -61,11 +61,67 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     @Test
     public void testDefaultValueForMissingKeyInResourceBundle() {
         final StringLookup interpolatorStringLookup = StringLookupFactory.INSTANCE.interpolatorStringLookup(
-            StringLookupFactory.INSTANCE.resourceBundleStringLookup("testResourceBundleLookup"));
+                StringLookupFactory.INSTANCE.resourceBundleStringLookup("testResourceBundleLookup"));
         assertEquals("${missingKey:-defaultValue}", interpolatorStringLookup.lookup("keyWithMissingKey"));
         final StringSubstitutor stringSubstitutor = new StringSubstitutor(interpolatorStringLookup);
         // The following would throw a MissingResourceException before TEXT-165.
         assertEquals("defaultValue", stringSubstitutor.replace("${keyWithMissingKey}"));
+    }
+
+    @Test
+    public void testDnsLookup() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        Assertions.assertEquals(InetAddress.getByName("apache.org").getHostAddress(),
+                strSubst.replace("${dns:apache.org}"));
+    }
+
+    @Test
+    public void testDnsLookupAddress() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        Assertions.assertEquals(InetAddress.getByName("apache.org").getHostAddress(),
+                strSubst.replace("${dns:address|apache.org}"));
+    }
+
+    @Test
+    public void testDnsLookupCanonicalNameIpv4() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final InetAddress inetAddress = InetAddress.getByName("127.0.0.1");
+        Assertions.assertEquals(inetAddress.getHostName(), strSubst.replace("${dns:canonical-name|127.0.0.1}"));
+    }
+
+    @Test
+    public void testDnsLookupCanonicalNameIpv6() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final InetAddress inetAddress = InetAddress.getByName("::1");
+        Assertions.assertEquals(inetAddress.getHostName(), strSubst.replace("${dns:canonical-name|::1}"));
+    }
+
+    @Test
+    public void testDnsLookupNameIpv4() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final InetAddress inetAddress = InetAddress.getByName("127.0.0.1");
+        Assertions.assertEquals(inetAddress.getHostName(), strSubst.replace("${dns:name|127.0.0.1}"));
+    }
+
+    @Test
+    public void testDnsLookupNameIpv6() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final InetAddress inetAddress = InetAddress.getByName("::1");
+        Assertions.assertEquals(inetAddress.getHostName(), strSubst.replace("${dns:name|::1}"));
+    }
+
+    @Test
+    public void testDnsLookupNameIpv6Untrimmed() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final InetAddress inetAddress = InetAddress.getByName("::1");
+        Assertions.assertEquals(inetAddress.getHostName(), strSubst.replace("${dns:name| ::1 }"));
+    }
+
+    @Test
+    public void testDnsLookupUnknown() {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final String unknown = "${dns: u n k n o w n}";
+        Assertions.assertEquals(unknown, strSubst.replace(unknown));
     }
 
     @Test

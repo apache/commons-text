@@ -37,7 +37,7 @@
     <commons.componentid>text</commons.componentid>
     <commons.module.name>org.apache.commons.text</commons.module.name>
 
-    <commons.release.version>1.7</commons.release.version>
+    <commons.release.version>1.8</commons.release.version>
     <commons.release.desc>(Java 8+)</commons.release.desc>
 
     <commons.jira.id>TEXT</commons.jira.id>
@@ -58,12 +58,11 @@
 
     <!-- generate report even if there are binary incompatible changes -->
     <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>false</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
-    <!-- 0.12.0 dies with a NullPointerException -->
-    <commons.japicmp.version>0.13.0</commons.japicmp.version>
+    <commons.japicmp.version>0.14.1</commons.japicmp.version>
     <japicmp.skip>false</japicmp.skip>
 
     <!-- Commons Release Plugin -->
-    <commons.bc.version>1.6</commons.bc.version>
+    <commons.bc.version>1.7</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
