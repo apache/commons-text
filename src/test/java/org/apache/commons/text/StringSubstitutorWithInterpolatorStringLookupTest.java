@@ -71,8 +71,9 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     @Test
     public void testDnsLookup() throws UnknownHostException {
         final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
-        Assertions.assertEquals(InetAddress.getByName("apache.org").getHostAddress(),
-            strSubst.replace("${dns:apache.org}"));
+        final String hostName = InetAddress.getLocalHost().getHostName();
+        Assertions.assertEquals(InetAddress.getByName(hostName).getHostAddress(),
+            strSubst.replace("${dns:" + hostName + "}"));
     }
 
     @Test
