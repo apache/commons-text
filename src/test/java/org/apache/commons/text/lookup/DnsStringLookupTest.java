@@ -32,34 +32,35 @@ public class DnsStringLookupTest {
     public void testAddressFromHostAddress() throws UnknownHostException {
         final InetAddress localHost = InetAddress.getLocalHost();
         Assertions.assertEquals(localHost.getHostAddress(),
-                DnsStringLookup.INSTANCE.lookup("address|" + localHost.getHostAddress()));
+            DnsStringLookup.INSTANCE.lookup("address|" + localHost.getHostAddress()));
     }
 
     @Test
     public void testAddressFromHostName() throws UnknownHostException {
         final InetAddress localHost = InetAddress.getLocalHost();
         Assertions.assertEquals(localHost.getHostAddress(),
-                DnsStringLookup.INSTANCE.lookup("address|" + localHost.getHostName()));
+            DnsStringLookup.INSTANCE.lookup("address|" + localHost.getHostName()));
     }
 
     @Test
     public void testCanonicalNameFromHostAddress() throws UnknownHostException {
         final InetAddress localHost = InetAddress.getLocalHost();
         Assertions.assertEquals(localHost.getCanonicalHostName(),
-                DnsStringLookup.INSTANCE.lookup("canonical-name|" + localHost.getHostAddress()));
+            DnsStringLookup.INSTANCE.lookup("canonical-name|" + localHost.getHostAddress()));
     }
 
     @Test
     public void testCanonicalNameFromHostName() throws UnknownHostException {
         final InetAddress localHost = InetAddress.getLocalHost();
         Assertions.assertEquals(localHost.getCanonicalHostName(),
-                DnsStringLookup.INSTANCE.lookup("canonical-name|" + localHost.getHostName()));
+            DnsStringLookup.INSTANCE.lookup("canonical-name|" + localHost.getHostName()));
     }
 
     @Test
     public void testName() throws UnknownHostException {
-        final InetAddress localHost = InetAddress.getByName("127.0.0.1");
-        Assertions.assertEquals(localHost.getHostName(), DnsStringLookup.INSTANCE.lookup("name|127.0.0.1"));
+        final String address = InetAddress.getLocalHost().getHostAddress();
+        final InetAddress localHost = InetAddress.getByName(address);
+        Assertions.assertEquals(localHost.getHostName(), DnsStringLookup.INSTANCE.lookup("name|" + address + ""));
     }
 
     @Test
