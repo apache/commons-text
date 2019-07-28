@@ -60,7 +60,7 @@ import java.util.Map;
  * <td>{@value #KEY_DNS}</td>
  * <td>{@link DnsStringLookup}</td>
  * <td>{@link #dnsStringLookup()}</td>
- * <td>1.5</td>
+ * <td>1.8</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_ENV}</td>
