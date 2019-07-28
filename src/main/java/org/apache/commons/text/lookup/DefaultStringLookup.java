@@ -50,7 +50,7 @@ public enum DefaultStringLookup {
 
     /**
      * The lookup for DNS.
-     * 
+     *
      * @since 1.8
      */
     DNS(StringLookupFactory.KEY_DNS, StringLookupFactory.INSTANCE.dnsStringLookup()),

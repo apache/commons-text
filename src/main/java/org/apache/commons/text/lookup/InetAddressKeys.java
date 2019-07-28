@@ -17,10 +17,28 @@
 
 package org.apache.commons.text.lookup;
 
+import java.net.InetAddress;
+
+/**
+ * Constants for referring to {@link InetAddress} APIs.
+ *
+ * @since 1.8
+ */
 class InetAddressKeys {
 
+    /**
+     * Constants for referring to {@link InetAddress#getAddress()}.
+     */
     static final String KEY_ADDRESS = "address";
+
+    /**
+     * Constants for referring to {@link InetAddress#getCanonicalAddress()}.
+     */
     static final String KEY_CANONICAL_NAME = "canonical-name";
+
+    /**
+     * Constants for referring to {@link InetAddress#getName()}.
+     */
     static final String KEY_NAME = "name";
 
 }
