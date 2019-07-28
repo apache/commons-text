@@ -470,7 +470,7 @@ public final class StringLookupFactory {
     /**
      * Returns the DnsStringLookup singleton instance where the lookup key is one of:
      * <ul>
-     * <li><b>name</b>: for the local host name, for example {@code EXAMPLE}.</li>
+     * <li><b>name</b>: for the local host name, for example {@code EXAMPLE} but also {@code EXAMPLE.apache.org}.</li>
      * <li><b>canonical-name</b>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
      * <li><b>address</b>: for the local host address, for example {@code 192.168.56.1}.</li>
      * </ul>
