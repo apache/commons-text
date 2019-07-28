@@ -88,7 +88,8 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
         final String address = InetAddress.getLocalHost().getHostAddress();
         final InetAddress inetAddress = InetAddress.getByName(address);
-        Assertions.assertEquals(inetAddress.getHostName(), strSubst.replace("${dns:canonical-name|" + address + "}"));
+        Assertions.assertEquals(inetAddress.getCanonicalHostName(),
+            strSubst.replace("${dns:canonical-name|" + address + "}"));
     }
 
     @Test
