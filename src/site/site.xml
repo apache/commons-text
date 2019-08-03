@@ -26,7 +26,7 @@
         <menu name="Text">
             <item name="Overview"                 href="/index.html"/>
             <item name="Download"                 href="/download_text.cgi"/>
-            <item name="User guide"               href="/userguide.html" />
+            <item name="User Guide"               href="/userguide.html" />
             <item name="Release History"          href="/release-history.html"/>
             <item name="Javadoc (Latest release)" href="javadocs/api-release/index.html"/>
         </menu>
@@ -35,7 +35,7 @@
             <item name="Mailing Lists"        href="/mail-lists.html"/>
             <item name="Issue Tracking"       href="/issue-tracking.html"/>
             <item name="Proposal"             href="/proposal.html"/>
-            <item name="Developer guide"      href="/developerguide.html"/>
+            <item name="Developer Guide"      href="/developerguide.html"/>
             <item name="Source Repository"    href="/scm.html"/>
             <item name="Javadoc (latest)"     href="apidocs/index.html"/>
         </menu>

@@ -22,15 +22,22 @@ import java.util.Objects;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import org.apache.commons.text.StringSubstitutor;
+
 /**
  * Looks up keys from an XML document.
  * <p>
  * Looks up the value for a given key in the format "Document:Key".
  * </p>
  * <p>
- * For example: "com/domain/document.properties:key".
+ * For example: {@code "javascript:\"Hello World!\""}.
  * </p>
- *
+ * <p>
+ * Using a {@link StringSubstitutor}:
+ * </p>
+ * <pre>
+ * StringSubstitutor.createInterpolator().replace("${script:javascript:3 + 4}"));
+ * </pre>
  * @since 1.5
  */
 final class ScriptStringLookup extends AbstractStringLookup {

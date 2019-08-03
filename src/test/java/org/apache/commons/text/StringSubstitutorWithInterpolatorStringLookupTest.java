@@ -101,6 +101,14 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     }
 
     @Test
+    void testJavaScript() {
+        Assertions.assertEquals("Hello World!",
+                StringSubstitutor.createInterpolator().replace("${script:javascript:\"Hello World!\"}"));
+        Assertions.assertEquals("7",
+                StringSubstitutor.createInterpolator().replace("${script:javascript:3 + 4}"));
+    }
+    
+    @Test
     public void testSystemProperty() {
         final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
         final String spKey = "user.name";

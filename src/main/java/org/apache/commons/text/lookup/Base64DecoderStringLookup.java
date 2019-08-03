@@ -20,9 +20,19 @@ package org.apache.commons.text.lookup;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import org.apache.commons.text.StringSubstitutor;
+
 /**
  * Decodes Base64 Strings.
- *
+ * <p>
+ * For example: {@code "SGVsbG9Xb3JsZCE="} -> {@code "HelloWorld!"}.
+ * </p>
+ * <p>
+ * Using a {@link StringSubstitutor}:
+ * </p>
+ * <pre>
+ * StringSubstitutor.createInterpolator().replace("${base64Decoder:SGVsbG9Xb3JsZCE=}"));
+ * </pre>
  * @since 1.5
  */
 final class Base64DecoderStringLookup extends AbstractStringLookup {

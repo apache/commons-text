@@ -531,7 +531,7 @@ public final class StringLookupFactory {
      * Looks up the value for the key in the format "ScriptEngineName:Script".
      * </p>
      * <p>
-     * For example: "javascript:\"HelloWorld\"".
+     * For example: "javascript:3+4".
      * </p>
      *
      * @return the ScriptStringLookup singleton instance.

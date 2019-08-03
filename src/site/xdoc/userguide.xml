@@ -24,17 +24,18 @@ limitations under the License.
   <body>
     <!-- $Id$ -->
 
-    <section name='User guide for Commons "Text"'>
+    <section name='User Guide for Commons "Text"'>
       <div align="center">
         <h1>The Commons <em>Text</em> Package
         </h1>
         <h2>Users Guide</h2>
         <br/>
         <a href="#Description">[Description]</a>
-        <a href="#text.">[text.*]</a>
-        <a href="#text.diff.">[text.diff.*]</a>
-        <a href="#text.similarity.">[text.similarity.*]</a>
-        <a href="#text.translate.">[text.translate.*]</a>
+        <a href="#text">[text]</a>
+        <a href="#text.diff">[text.diff]</a>
+        <a href="#text.lookup">[text.lookup]</a>
+        <a href="#text.similarity">[text.similarity]</a>
+        <a href="#text.translate">[text.translate]</a>
         <br/>
         <br/>
       </div>
@@ -48,7 +49,7 @@ limitations under the License.
       </p>
     </section>
 
-    <section name="text.*">
+    <section name="text">
 
       <p>Originally the text package was added in Commons Lang 2.2. However, its
         new home is here. It provides, amongst other
@@ -77,6 +78,32 @@ limitations under the License.
           between such mappings for the sake of doing String escaping. StrTokenizer is
           an improved alternative to java.util.StringTokenizer.
         </p>
+      </subsection>
+
+      <subsection name="StringSubstitutor">
+      <p>
+        The simplest example is to use this class to replace Java System properties. For example: 
+        <pre>              
+        StringSubstitutor.replaceSystemProperties(
+          "You are running with java.version = ${java.version} and os.name = ${os.name}.");
+        </pre>
+      </p>
+      <p>
+        For details see <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">StringSubstitutor</a>.
+      </p>
+      <p>
+        To build a default full-featured substitutor, use:
+      </p>
+      <ul>
+        <li>Commons Text &gt;= 1.8: 
+          <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">org.apache.commons.text.StringSubstitutor.createInterpolator()</a></li>
+        <li>Commons Text &lt; 1.8: 
+          <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">new StringSubstitutor(StringLookupFactory.INSTANCE.interpolatorStringLookup())</a></li>
+      </ul>
+      <p>
+        The available substitutions are defined in 
+        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html">org.apache.commons.text.lookup.StringLookupFactory</a>:
+      </p>
       </subsection>
 
       <subsection name="Similarity and Distance">
@@ -130,7 +157,7 @@ limitations under the License.
 
     </section>
 
-    <section name="text.diff.*">
+    <section name="text.diff">
       <!--
       CommandVisitor
       DeleteCommand
@@ -148,7 +175,16 @@ limitations under the License.
       </p>
     </section>
 
-    <section name="text.similarity.*">
+    <section name="text.lookup">
+      <p>Provides algorithms for looking up strings used by a 
+        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">StringSubstitutor</a>.
+        where you can select which lookup are used from 
+        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html">StringLookupFactory</a>.</p>
+      <p>
+      </p>
+    </section>
+
+    <section name="text.similarity">
       <!--
       Enum
       EnumUtils
