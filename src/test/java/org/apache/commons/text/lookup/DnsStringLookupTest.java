@@ -62,8 +62,9 @@ public class DnsStringLookupTest {
         final InetAddress[] localHostAll = InetAddress.getAllByName(address);
         boolean matched = false;
         for (InetAddress localHost : localHostAll) {
-            if (localHost.getHostName().equals(DnsStringLookup.INSTANCE.lookup("name|" + address + "")))
+            if (localHost.getHostName().equals(DnsStringLookup.INSTANCE.lookup("name|" + address + ""))) {
                 matched = true;
+            }
         }
         Assertions.assertTrue(matched);
     }

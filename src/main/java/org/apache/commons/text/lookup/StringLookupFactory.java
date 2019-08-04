@@ -599,7 +599,8 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${java:version} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "version"} to the current VM version, for example, {@code "Java version 1.8.0_181"}.
+     * The above examples convert {@code "version"} to the current VM version, for example,
+     * {@code "Java version 1.8.0_181"}.
      * </p>
      *
      * @return The JavaPlatformStringLookup singleton instance.
