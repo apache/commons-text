@@ -32,8 +32,8 @@ Apache Commons Text is a library focused on algorithms working on strings.
 <!-- ================================================== -->
 <section name="Documentation">
 <p>
-The package descriptions in the <a href="javadocs/api-release/index.html">Javadoc</a> give an overview of the available features
-and various <a href="project-reports.html">project reports</a> are provided.
+We provide documentation in the form of a <a href="userguide.html">User Guide</a>, 
+<a href="javadocs/api-release/index.html">Javadoc</a>, and <a href="project-reports.html">Project Reports</a>.
 </p>
 <p>
 The <a href="scm.html">Git repository</a> can be
