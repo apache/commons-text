@@ -19,6 +19,8 @@ package org.apache.commons.text.lookup;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import org.apache.commons.text.StringSubstitutor;
+
 /**
  * Looks up keys related to DNS entries like host name, canonical host name, host address.
  * <p>
@@ -33,6 +35,24 @@ import java.net.UnknownHostException;
  * {@code "93.184.216.34"}.</li>
  * <li><b><em>address</em></b>: same as {@code address|hostname}.</li>
  * </ul>
+ *
+ * <p>
+ * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+ * </p>
+ *
+ * <pre>
+ * StringLookupFactory.INSTANCE.dnsStringLookup().lookup("address|apache.org");
+ * </pre>
+ * <p>
+ * Using a {@link StringSubstitutor}:
+ * </p>
+ *
+ * <pre>
+ * StringSubstitutor.createInterpolator().replace("... ${dns:address|apache.org} ..."));
+ * </pre>
+ * <p>
+ * The above examples convert {@code "address|apache.org"} to {@code "95.216.24.32} (or {@code "40.79.78.1"}).
+ * </p>
  *
  * @since 1.8
  */
