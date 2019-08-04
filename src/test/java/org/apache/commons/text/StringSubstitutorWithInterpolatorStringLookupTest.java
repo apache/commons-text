@@ -116,6 +116,14 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     }
 
     @Test
+    void testJavaScript() {
+        Assertions.assertEquals("Hello World!",
+                StringSubstitutor.createInterpolator().replace("${script:javascript:\"Hello World!\"}"));
+        Assertions.assertEquals("7",
+                StringSubstitutor.createInterpolator().replace("${script:javascript:3 + 4}"));
+    }
+
+    @Test
     public void testLocalHostLookup_Address() throws UnknownHostException {
         final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
         Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(), strSubst.replace("${localhost:address}"));
@@ -145,14 +153,6 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         final String spKey = "user.name";
         Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
         Assertions.assertEquals(value, strSubst.replace("${" + key + "}"));
-    }
-
-    @Test
-    void testJavaScript() {
-        Assertions.assertEquals("Hello World!",
-                StringSubstitutor.createInterpolator().replace("${script:javascript:\"Hello World!\"}"));
-        Assertions.assertEquals("7",
-                StringSubstitutor.createInterpolator().replace("${script:javascript:3 + 4}"));
     }
 
     @Test
