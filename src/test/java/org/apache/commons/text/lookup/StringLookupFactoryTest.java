@@ -34,6 +34,7 @@ public class StringLookupFactoryTest {
         assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_BASE64_ENCODER));
         assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_CONST));
         assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_DATE));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_DNS));
         assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_ENV));
         assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_FILE));
         assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_JAVA));
@@ -70,6 +71,7 @@ public class StringLookupFactoryTest {
         Assertions.assertSame(Base64EncoderStringLookup.INSTANCE, stringLookupFactory.base64EncoderStringLookup());
         Assertions.assertSame(ConstantStringLookup.INSTANCE, stringLookupFactory.constantStringLookup());
         Assertions.assertSame(DateStringLookup.INSTANCE, stringLookupFactory.dateStringLookup());
+        Assertions.assertSame(DnsStringLookup.INSTANCE, stringLookupFactory.dnsStringLookup());
         Assertions.assertSame(EnvironmentVariableStringLookup.INSTANCE,
                 stringLookupFactory.environmentVariableStringLookup());
         Assertions.assertSame(InterpolatorStringLookup.INSTANCE, stringLookupFactory.interpolatorStringLookup());

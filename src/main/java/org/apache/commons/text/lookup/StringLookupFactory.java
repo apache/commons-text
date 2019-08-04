@@ -59,6 +59,12 @@ import org.apache.commons.text.StringSubstitutor;
  * <td>1.5</td>
  * </tr>
  * <tr>
+ * <td>{@value #KEY_DNS}</td>
+ * <td>{@link DnsStringLookup}</td>
+ * <td>{@link #dnsStringLookup()}</td>
+ * <td>1.8</td>
+ * </tr>
+ * <tr>
  * <td>{@value #KEY_ENV}</td>
  * <td>{@link EnvironmentVariableStringLookup}</td>
  * <td>{@link #environmentVariableStringLookup()}</td>
@@ -168,6 +174,13 @@ public final class StringLookupFactory {
      * @since 1.6
      */
     public static final String KEY_DATE = "date";
+
+    /**
+     * Default lookup key for interpolation.
+     *
+     * @since 1.8
+     */
+    public static final String KEY_DNS = "dns";
 
     /**
      * Default lookup key for interpolation.
@@ -589,6 +602,21 @@ public final class StringLookupFactory {
      */
     public StringLookup localHostStringLookup() {
         return LocalHostStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the DnsStringLookup singleton instance where the lookup key is one of:
+     * <ul>
+     * <li><b>name</b>: for the local host name, for example {@code EXAMPLE} but also {@code EXAMPLE.apache.org}.</li>
+     * <li><b>canonical-name</b>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
+     * <li><b>address</b>: for the local host address, for example {@code 192.168.56.1}.</li>
+     * </ul>
+     *
+     * @return the DateStringLookup singleton instance.
+     * @since 1.8
+     */
+    public StringLookup dnsStringLookup() {
+        return DnsStringLookup.INSTANCE;
     }
 
     /**

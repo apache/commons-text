@@ -46,6 +46,7 @@ public class DefaultStringLookupTest {
                 StringLookupFactory.INSTANCE.base64EncoderStringLookup());
         assertSame(DefaultStringLookup.CONST.getStringLookup(), StringLookupFactory.INSTANCE.constantStringLookup());
         assertSame(DefaultStringLookup.DATE.getStringLookup(), StringLookupFactory.INSTANCE.dateStringLookup());
+        assertSame(DefaultStringLookup.DNS.getStringLookup(), StringLookupFactory.INSTANCE.dnsStringLookup());
         assertSame(DefaultStringLookup.ENVIRONMENT.getStringLookup(),
                 StringLookupFactory.INSTANCE.environmentVariableStringLookup());
         assertSame(DefaultStringLookup.FILE.getStringLookup(), StringLookupFactory.INSTANCE.fileStringLookup());

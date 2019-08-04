@@ -20,56 +20,66 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * Looks up keys related to the local host: host name, canonical host name, host address.
+ * Looks up keys related to DNS entries like host name, canonical host name, host address.
  * <p>
  * The lookup keys are:
  * </p>
  * <ul>
- * <li><b>name</b>: for the local host name, for example {@code EXAMPLE}.</li>
- * <li><b>canonical-name</b>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
- * <li><b>address</b>: for the local host address, for example {@code 192.168.56.1}.</li>
+ * <li><b>name|<em>address</em></b>: for the host name, for example {@code "name|93.184.216.34"} ->
+ * {@code "example.com"}.</li>
+ * <li><b>canonical-name|<em>address</em></b>: for the canonical host name, for example {@code "name|93.184.216.34"} ->
+ * {@code "example.com"}.</li>
+ * <li><b>address|<em>hostname</em></b>: for the host address, for example {@code "address|example.com"} ->
+ * {@code "93.184.216.34"}.</li>
+ * <li><b><em>address</em></b>: same as {@code address|hostname}.</li>
  * </ul>
  *
- * @since 1.3
+ * @since 1.8
  */
-final class LocalHostStringLookup extends AbstractStringLookup {
+final class DnsStringLookup extends AbstractStringLookup {
 
     /**
      * Defines the singleton for this class.
      */
-    static final LocalHostStringLookup INSTANCE = new LocalHostStringLookup();
+    static final DnsStringLookup INSTANCE = new DnsStringLookup();
 
     /**
      * No need to build instances for now.
      */
-    private LocalHostStringLookup() {
+    private DnsStringLookup() {
         // empty
     }
 
     /**
-     * Looks up the value of a local host key.
+     * Looks up the DNS value of the key.
      *
-     * @param key the key to be looked up, may be null.
-     * @return The value of the environment variable.
+     * @param key the key to be looked up, may be null
+     * @return The DNS value.
      */
     @Override
     public String lookup(final String key) {
         if (key == null) {
             return null;
         }
+        final String[] keys = key.trim().split("\\|");
+        final int keyLen = keys.length;
+        final String subKey = keys[0].trim();
+        final String subValue = keyLen < 2 ? key : keys[1].trim();
         try {
-            switch (key) {
+            final InetAddress inetAddress = InetAddress.getByName(subValue);
+            switch (subKey) {
             case InetAddressKeys.KEY_NAME:
-                return InetAddress.getLocalHost().getHostName();
+                return inetAddress.getHostName();
             case InetAddressKeys.KEY_CANONICAL_NAME:
-                return InetAddress.getLocalHost().getCanonicalHostName();
+                return inetAddress.getCanonicalHostName();
             case InetAddressKeys.KEY_ADDRESS:
-                return InetAddress.getLocalHost().getHostAddress();
+                return inetAddress.getHostAddress();
             default:
-                throw new IllegalArgumentException(key);
+                return inetAddress.getHostAddress();
             }
-        } catch (UnknownHostException e) {
+        } catch (final UnknownHostException e) {
             return null;
         }
     }
+
 }

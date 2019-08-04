@@ -49,6 +49,13 @@ public enum DefaultStringLookup {
     DATE(StringLookupFactory.KEY_DATE, StringLookupFactory.INSTANCE.dateStringLookup()),
 
     /**
+     * The lookup for DNS.
+     *
+     * @since 1.8
+     */
+    DNS(StringLookupFactory.KEY_DNS, StringLookupFactory.INSTANCE.dnsStringLookup()),
+
+    /**
      * The lookup for environment properties.
      */
     ENVIRONMENT(StringLookupFactory.KEY_ENV, StringLookupFactory.INSTANCE.environmentVariableStringLookup()),

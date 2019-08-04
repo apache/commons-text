@@ -45,7 +45,7 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         final Map<String, StringLookup> stringLookupMap = new HashMap<>();
         stringLookupMap.put("customLookup", mapStringLookup);
         final StringSubstitutor strSubst = new StringSubstitutor(
-                StringLookupFactory.INSTANCE.interpolatorStringLookup(stringLookupMap, null, addDefaultLookups));
+            StringLookupFactory.INSTANCE.interpolatorStringLookup(stringLookupMap, null, addDefaultLookups));
         if (addDefaultLookups) {
             final String spKey = "user.name";
             Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
@@ -61,7 +61,7 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     @Test
     public void testDefaultValueForMissingKeyInResourceBundle() {
         final StringLookup interpolatorStringLookup = StringLookupFactory.INSTANCE.interpolatorStringLookup(
-                StringLookupFactory.INSTANCE.resourceBundleStringLookup("testResourceBundleLookup"));
+            StringLookupFactory.INSTANCE.resourceBundleStringLookup("testResourceBundleLookup"));
         assertEquals("${missingKey:-defaultValue}", interpolatorStringLookup.lookup("keyWithMissingKey"));
         final StringSubstitutor stringSubstitutor = new StringSubstitutor(interpolatorStringLookup);
         // The following would throw a MissingResourceException before TEXT-165.
@@ -69,19 +69,50 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     }
 
     @Test
-    void testAll() {
-        // @formatter:off
-        StringSubstitutor.createInterpolator().replace(
-          "OS name: ${sys:os.name}, " + 
-          "3 + 4 = ${script:javascript:3 + 4}");
-        // @formatter:on
+    public void testDnsLookup() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final String hostName = InetAddress.getLocalHost().getHostName();
+        Assertions.assertEquals(InetAddress.getByName(hostName).getHostAddress(),
+            strSubst.replace("${dns:" + hostName + "}"));
     }
 
     @Test
-    public void testJavaScript() {
-        Assertions.assertEquals("Hello World!",
-                StringSubstitutor.createInterpolator().replace("${script:javascript:\"Hello World!\"}"));
-        Assertions.assertEquals("7", StringSubstitutor.createInterpolator().replace("${script:javascript:3 + 4}"));
+    public void testDnsLookupAddress() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        Assertions.assertEquals(InetAddress.getByName("apache.org").getHostAddress(),
+            strSubst.replace("${dns:address|apache.org}"));
+    }
+
+    @Test
+    public void testDnsLookupCanonicalName() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final String address = InetAddress.getLocalHost().getHostAddress();
+        final InetAddress inetAddress = InetAddress.getByName(address);
+        Assertions.assertEquals(inetAddress.getCanonicalHostName(),
+            strSubst.replace("${dns:canonical-name|" + address + "}"));
+    }
+
+    @Test
+    public void testDnsLookupName() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final String address = InetAddress.getLocalHost().getHostAddress();
+        final InetAddress inetAddress = InetAddress.getByName(address);
+        Assertions.assertEquals(inetAddress.getHostName(), strSubst.replace("${dns:name|" + address + "}"));
+    }
+
+    @Test
+    public void testDnsLookupNameUntrimmed() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final String address = InetAddress.getLocalHost().getHostAddress();
+        final InetAddress inetAddress = InetAddress.getByName(address);
+        Assertions.assertEquals(inetAddress.getHostName(), strSubst.replace("${dns:name| " + address + " }"));
+    }
+
+    @Test
+    public void testDnsLookupUnknown() {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final String unknown = "${dns: u n k n o w n}";
+        Assertions.assertEquals(unknown, strSubst.replace(unknown));
     }
 
     @Test
@@ -94,7 +125,7 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     public void testLocalHostLookup_CanonicalName() throws UnknownHostException {
         final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
         Assertions.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(),
-                strSubst.replace("${localhost:canonical-name}"));
+            strSubst.replace("${localhost:canonical-name}"));
     }
 
     @Test
@@ -110,10 +141,18 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         final Map<String, String> map = new HashMap<>();
         map.put(key, value);
         final StringSubstitutor strSubst = new StringSubstitutor(
-                StringLookupFactory.INSTANCE.interpolatorStringLookup(map));
+            StringLookupFactory.INSTANCE.interpolatorStringLookup(map));
         final String spKey = "user.name";
         Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
         Assertions.assertEquals(value, strSubst.replace("${" + key + "}"));
+    }
+
+    @Test
+    void testJavaScript() {
+        Assertions.assertEquals("Hello World!",
+                StringSubstitutor.createInterpolator().replace("${script:javascript:\"Hello World!\"}"));
+        Assertions.assertEquals("7",
+                StringSubstitutor.createInterpolator().replace("${script:javascript:3 + 4}"));
     }
 
     @Test

@@ -49,6 +49,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-167" type="fix" dev="ggregory" due-to="Larry West">commons-text web page missing "RELEASE-NOTES-1.7.txt"</action>
     <action issue="TEXT-168" type="fix" dev="ggregory" due-to="luksan47">(doc) Fixed wrong value for Jaro-Winkler example #117</action>
     <action issue="TEXT-169" type="add" dev="ggregory" due-to="Gary Gregory">Add helper factory method org.apache.commons.text.StringSubstitutor.createInterpolator().</action>
+    <action issue="TEXT-170" type="add" dev="ggregory" due-to="Gary Gregory">Add String lookup for host names and IP addresses (DnsStringLookup).</action>
   </release>
   
   <release version="1.7" date="2019-06-30" description="Release 1.7">
