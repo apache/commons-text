@@ -22,6 +22,10 @@ jdk:
   - openjdk13
   - openjdk-ea
 
+matrix:
+  allow_failures:
+    - jdk: openjdk-ea
+
 script:
   - mvn
 
