@@ -184,6 +184,11 @@ public class StringSubstitutor {
     /**
      * Creates a new instance using the interpolator string lookup
      * {@link StringLookupFactory#interpolatorStringLookup()}.
+     * <p>
+     * This StringSubstitutor lets you perform substituions like:
+     * </p>
+     * <pre>
+     * </pre>
      *
      * @return a new instance using the interpolator string lookup.
      * @see StringLookupFactory#interpolatorStringLookup()
