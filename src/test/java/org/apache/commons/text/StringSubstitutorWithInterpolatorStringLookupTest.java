@@ -61,7 +61,7 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     @Test
     public void testDefaultValueForMissingKeyInResourceBundle() {
         final StringLookup interpolatorStringLookup = StringLookupFactory.INSTANCE.interpolatorStringLookup(
-            StringLookupFactory.INSTANCE.resourceBundleStringLookup("testResourceBundleLookup"));
+                StringLookupFactory.INSTANCE.resourceBundleStringLookup("testResourceBundleLookup"));
         assertEquals("${missingKey:-defaultValue}", interpolatorStringLookup.lookup("keyWithMissingKey"));
         final StringSubstitutor stringSubstitutor = new StringSubstitutor(interpolatorStringLookup);
         // The following would throw a MissingResourceException before TEXT-165.
@@ -69,11 +69,19 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     }
 
     @Test
-    void testJavaScript() {
+    void testAll() {
+        // @formatter:off
+        StringSubstitutor.createInterpolator().replace(
+          "OS name: ${sys:os.name}, " + 
+          "3 + 4 = ${script:javascript:3 + 4}");
+        // @formatter:on
+    }
+
+    @Test
+    public void testJavaScript() {
         Assertions.assertEquals("Hello World!",
                 StringSubstitutor.createInterpolator().replace("${script:javascript:\"Hello World!\"}"));
-        Assertions.assertEquals("7",
-                StringSubstitutor.createInterpolator().replace("${script:javascript:3 + 4}"));
+        Assertions.assertEquals("7", StringSubstitutor.createInterpolator().replace("${script:javascript:3 + 4}"));
     }
 
     @Test

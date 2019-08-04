@@ -58,7 +58,7 @@ public class NumericEntityEscaper extends CodePointTranslator {
      * <p>Constructs a <code>NumericEntityEscaper</code> below the specified value (exclusive). </p>
      *
      * @param codepoint below which to escape
-     * @return the newly created {@code NumericEntityEscaper} instance
+     * @return The newly created {@code NumericEntityEscaper} instance
      */
     public static NumericEntityEscaper below(final int codepoint) {
         return outsideOf(codepoint, Integer.MAX_VALUE);
@@ -68,7 +68,7 @@ public class NumericEntityEscaper extends CodePointTranslator {
      * <p>Constructs a <code>NumericEntityEscaper</code> above the specified value (exclusive). </p>
      *
      * @param codepoint above which to escape
-     * @return the newly created {@code NumericEntityEscaper} instance
+     * @return The newly created {@code NumericEntityEscaper} instance
      */
     public static NumericEntityEscaper above(final int codepoint) {
         return outsideOf(0, codepoint);
@@ -79,7 +79,7 @@ public class NumericEntityEscaper extends CodePointTranslator {
      *
      * @param codepointLow above which to escape
      * @param codepointHigh below which to escape
-     * @return the newly created {@code NumericEntityEscaper} instance
+     * @return The newly created {@code NumericEntityEscaper} instance
      */
     public static NumericEntityEscaper between(final int codepointLow, final int codepointHigh) {
         return new NumericEntityEscaper(codepointLow, codepointHigh, true);
@@ -90,7 +90,7 @@ public class NumericEntityEscaper extends CodePointTranslator {
      *
      * @param codepointLow below which to escape
      * @param codepointHigh above which to escape
-     * @return the newly created {@code NumericEntityEscaper} instance
+     * @return The newly created {@code NumericEntityEscaper} instance
      */
     public static NumericEntityEscaper outsideOf(final int codepointLow, final int codepointHigh) {
         return new NumericEntityEscaper(codepointLow, codepointHigh, false);

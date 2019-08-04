@@ -30,7 +30,7 @@ import org.apache.commons.text.StringSubstitutor;
  * Looks up the value for a given key in the format "Document:Key".
  * </p>
  * <p>
- * For example: {@code "javascript:\"Hello World!\""}.
+ * For example: {@code "javascript:3 + 4"}.
  * </p>
  * <p>
  * Using a {@link StringSubstitutor}:

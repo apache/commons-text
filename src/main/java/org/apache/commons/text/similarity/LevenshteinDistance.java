@@ -117,7 +117,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     /**
      * Gets the default instance.
      *
-     * @return the default instance
+     * @return The default instance
      */
     public static LevenshteinDistance getDefaultInstance() {
         return DEFAULT_INSTANCE;
@@ -126,7 +126,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     /**
      * Gets the distance threshold.
      *
-     * @return the distance threshold
+     * @return The distance threshold
      */
     public Integer getThreshold() {
         return threshold;

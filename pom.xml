@@ -54,7 +54,7 @@
     
     <commons.jacoco.version>0.8.4</commons.jacoco.version>
 
-    <commons.javadoc.version>3.1.0</commons.javadoc.version>
+    <commons.javadoc.version>3.1.1</commons.javadoc.version>
 
     <!-- generate report even if there are binary incompatible changes -->
     <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>false</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>

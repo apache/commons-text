@@ -106,7 +106,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
     /**
      * Gets the lookup map.
      *
-     * @return the lookup map.
+     * @return The lookup map.
      */
     public Map<String, StringLookup> getStringLookupMap() {
         return stringLookupMap;
@@ -120,7 +120,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      *
      * @param var
      *            the name of the variable whose value is to be looked up
-     * @return the value of this variable or <b>null</b> if it cannot be resolved
+     * @return The value of this variable or <b>null</b> if it cannot be resolved
      */
     @Override
     public String lookup(String var) {

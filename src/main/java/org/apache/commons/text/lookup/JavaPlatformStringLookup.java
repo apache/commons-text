@@ -137,7 +137,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      *            the prefix to use for the result string
      * @param name
      *            a system property name.
-     * @return the prefix + a system property value.
+     * @return The prefix + a system property value.
      */
     private String getSystemProperty(final String prefix, final String name) {
         final String value = getSystemProperty(name);

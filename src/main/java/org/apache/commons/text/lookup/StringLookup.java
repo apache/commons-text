@@ -56,7 +56,7 @@ public interface StringLookup {
      *
      * @param key
      *            the key to look up, may be null
-     * @return the matching value, null if no match
+     * @return The matching value, null if no match
      */
     String lookup(String key);
 }

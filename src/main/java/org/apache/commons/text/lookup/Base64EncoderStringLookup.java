@@ -20,9 +20,28 @@ package org.apache.commons.text.lookup;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import org.apache.commons.text.StringSubstitutor;
+
 /**
  * Encodes Base64 Strings.
- *
+ * <p>
+ * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+ * </p>
+ * 
+ * <pre>
+ * StringLookupFactory.INSTANCE.base64EncoderStringLookup().lookup("HelloWorld!");
+ * </pre>
+ * <p>
+ * Using a {@link StringSubstitutor}:
+ * </p>
+ * 
+ * <pre>
+ * StringSubstitutor.createInterpolator().replace("... ${base64Encoder:HelloWorld!} ..."));
+ * </pre>
+ * <p>
+ * The above examples convert {@code "HelloWorld!"} to {@code "SGVsbG9Xb3JsZCE="}.
+ * </p>
+ * 
  * @since 1.6
  */
 final class Base64EncoderStringLookup extends AbstractStringLookup {

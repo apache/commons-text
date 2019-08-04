@@ -188,6 +188,9 @@ public class StringSubstitutor {
      * This StringSubstitutor lets you perform substituions like:
      * </p>
      * <pre>
+     * StringSubstitutor.createInterpolator().replace(
+     *  "OS name: ${sys:os.name}, " +
+     *  "3 + 4 = ${script:javascript:3 + 4}");
      * </pre>
      *
      * @return a new instance using the interpolator string lookup.
@@ -207,7 +210,7 @@ public class StringSubstitutor {
      *            the source text containing the variables to substitute, null returns null
      * @param valueMap
      *            the map with the values, may be null
-     * @return the result of the replace operation
+     * @return The result of the replace operation
      * @throws IllegalArgumentException
      *             if a variable is not found and enableUndefinedVariableException is true
      */
@@ -229,7 +232,7 @@ public class StringSubstitutor {
      *            the prefix of variables, not null
      * @param suffix
      *            the suffix of variables, not null
-     * @return the result of the replace operation
+     * @return The result of the replace operation
      * @throws IllegalArgumentException
      *             if the prefix or suffix is null
      * @throws IllegalArgumentException
@@ -248,7 +251,7 @@ public class StringSubstitutor {
      *            the source text containing the variables to substitute, null returns null
      * @param valueProperties
      *            the properties with values, may be null
-     * @return the result of the replace operation
+     * @return The result of the replace operation
      * @throws IllegalArgumentException
      *             if a variable is not found and enableUndefinedVariableException is true
      */
@@ -272,7 +275,7 @@ public class StringSubstitutor {
      *
      * @param source
      *            the source text containing the variables to substitute, null returns null
-     * @return the result of the replace operation
+     * @return The result of the replace operation
      * @throws IllegalArgumentException
      *             if a variable is not found and enableUndefinedVariableException is true
      */
@@ -535,7 +538,7 @@ public class StringSubstitutor {
     /**
      * Returns the escape character.
      *
-     * @return the character used for escaping variable references
+     * @return The character used for escaping variable references
      */
     public char getEscapeChar() {
         return this.escapeChar;
@@ -546,7 +549,7 @@ public class StringSubstitutor {
     /**
      * Gets the StringLookup that is used to lookup variables.
      *
-     * @return the StringLookup
+     * @return The StringLookup
      */
     public StringLookup getStringLookup() {
         return this.variableResolver;
@@ -563,7 +566,7 @@ public class StringSubstitutor {
      * <p>
      * If it returns null, then the variable default value resolution is disabled.
      *
-     * @return the variable default value delimiter matcher in use, may be null
+     * @return The variable default value delimiter matcher in use, may be null
      */
     public StringMatcher getValueDelimiterMatcher() {
         return valueDelimiterMatcher;
@@ -577,7 +580,7 @@ public class StringSubstitutor {
      * The variable prefix is the character or characters that identify the start of a variable. This prefix is
      * expressed in terms of a matcher allowing advanced prefix matches.
      *
-     * @return the prefix matcher in use
+     * @return The prefix matcher in use
      */
     public StringMatcher getVariablePrefixMatcher() {
         return prefixMatcher;
@@ -591,7 +594,7 @@ public class StringSubstitutor {
      * The variable suffix is the character or characters that identify the end of a variable. This suffix is expressed
      * in terms of a matcher allowing advanced suffix matches.
      *
-     * @return the suffix matcher in use
+     * @return The suffix matcher in use
      */
     public StringMatcher getVariableSuffixMatcher() {
         return suffixMatcher;
@@ -616,7 +619,7 @@ public class StringSubstitutor {
      *      Hi Douglas ${surname}
      * </pre>
      *
-     * @return the substitution in variable values flag
+     * @return The substitution in variable values flag
      */
     public boolean isDisableSubstitutionInValues() {
         return disableSubstitutionInValues;
@@ -627,7 +630,7 @@ public class StringSubstitutor {
     /**
      * Returns a flag whether substitution is done in variable names.
      *
-     * @return the substitution in variable names flag
+     * @return The substitution in variable names flag
      */
     public boolean isEnableSubstitutionInVariables() {
         return enableSubstitutionInVariables;
@@ -637,7 +640,7 @@ public class StringSubstitutor {
      * Returns a flag whether exception can be thrown upon undefined
      * variable.
      *
-     * @return the fail on undefined variable flag
+     * @return The fail on undefined variable flag
      */
     public boolean isEnableUndefinedVariableException() {
         return enableUndefinedVariableException;
@@ -646,7 +649,7 @@ public class StringSubstitutor {
     /**
      * Returns the flag controlling whether escapes are preserved during substitution.
      *
-     * @return the preserve escape flag
+     * @return The preserve escape flag
      */
     public boolean isPreserveEscapes() {
         return preserveEscapes;
@@ -659,7 +662,7 @@ public class StringSubstitutor {
      *
      * @param source
      *            the character array to replace in, not altered, null returns null
-     * @return the result of the replace operation
+     * @return The result of the replace operation
      * @throws IllegalArgumentException
      *             if variable is not found when its allowed to throw exception
      */
@@ -685,7 +688,7 @@ public class StringSubstitutor {
      *            the start offset within the array, must be valid
      * @param length
      *            the length within the array to be processed, must be valid
-     * @return the result of the replace operation
+     * @return The result of the replace operation
      * @throws IllegalArgumentException
      *             if variable is not found when its allowed to throw exception
      */
@@ -704,7 +707,7 @@ public class StringSubstitutor {
      *
      * @param source
      *            the buffer to use as a template, not changed, null returns null
-     * @return the result of the replace operation
+     * @return The result of the replace operation
      * @throws IllegalArgumentException
      *             if variable is not found when its allowed to throw exception
      */
@@ -728,7 +731,7 @@ public class StringSubstitutor {
      *            the start offset within the array, must be valid
      * @param length
      *            the length within the array to be processed, must be valid
-     * @return the result of the replace operation
+     * @return The result of the replace operation
      * @throws IllegalArgumentException
      *             if variable is not found when its allowed to throw exception
      */
@@ -748,7 +751,7 @@ public class StringSubstitutor {
      *
      * @param source
      *            the source to replace in, null returns null
-     * @return the result of the replace operation
+     * @return The result of the replace operation
      * @throws IllegalArgumentException
      *             if a variable is not found and enableUndefinedVariableException is true
      */
@@ -768,7 +771,7 @@ public class StringSubstitutor {
      *
      * @param source
      *            the string to replace in, null returns null
-     * @return the result of the replace operation
+     * @return The result of the replace operation
      * @throws IllegalArgumentException
      *             if variable is not found when its allowed to throw exception
      */
@@ -796,7 +799,7 @@ public class StringSubstitutor {
      *            the start offset within the array, must be valid
      * @param length
      *            the length within the array to be processed, must be valid
-     * @return the result of the replace operation
+     * @return The result of the replace operation
      * @throws IllegalArgumentException
      *             if variable is not found when its allowed to throw exception
      */
@@ -818,7 +821,7 @@ public class StringSubstitutor {
      *
      * @param source
      *            the buffer to use as a template, not changed, null returns null
-     * @return the result of the replace operation
+     * @return The result of the replace operation
       * @throws IllegalArgumentException
      *             if variable is not found when its allowed to throw exception
      */
@@ -844,7 +847,7 @@ public class StringSubstitutor {
      *            the start offset within the array, must be valid
      * @param length
      *            the length within the array to be processed, must be valid
-     * @return the result of the replace operation
+     * @return The result of the replace operation
      * @throws IllegalArgumentException
      *             if variable is not found when its allowed to throw exception
      */
@@ -864,7 +867,7 @@ public class StringSubstitutor {
      *
      * @param source
      *            the builder to use as a template, not changed, null returns null
-     * @return the result of the replace operation
+     * @return The result of the replace operation
      * @throws IllegalArgumentException
      *             if variable is not found when its allowed to throw exception
      */
@@ -890,7 +893,7 @@ public class StringSubstitutor {
      *            the start offset within the array, must be valid
      * @param length
      *            the length within the array to be processed, must be valid
-     * @return the result of the replace operation
+     * @return The result of the replace operation
       * @throws IllegalArgumentException
      *             if variable is not found when its allowed to throw exception
      */
@@ -1053,7 +1056,7 @@ public class StringSubstitutor {
      *            the start position of the variable including the prefix, valid
      * @param endPos
      *            the end position of the variable including the suffix, valid
-     * @return the variable's value or <b>null</b> if the variable is unknown
+     * @return The variable's value or <b>null</b> if the variable is unknown
      */
     protected String resolveVariable(final String variableName, final TextStringBuilder buf, final int startPos,
             final int endPos) {
@@ -1328,7 +1331,7 @@ public class StringSubstitutor {
      *            the length within the builder to be processed, must be valid
      * @param priorVariables
      *            the stack keeping track of the replaced variables, may be null
-     * @return the length change that occurs, unless priorVariables is null when the int represents a boolean flag as to
+     * @return The length change that occurs, unless priorVariables is null when the int represents a boolean flag as to
      *         whether any change occurred.
      * @throws IllegalArgumentException
      *             if variable is not found when its allowed to throw exception

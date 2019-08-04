@@ -136,7 +136,7 @@ public abstract class StrLookup<V> implements StringLookup {
          * If the map is null, then null is returned. The map result object is converted to a string using toString().
          *
          * @param key the key to be looked up, may be null
-         * @return the matching value, null if no match
+         * @return The matching value, null if no match
          */
         @Override
         public String lookup(final String key) {

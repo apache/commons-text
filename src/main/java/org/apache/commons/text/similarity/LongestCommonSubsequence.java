@@ -79,7 +79,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      *
      * @param left first character sequence
      * @param right second character sequence
-     * @return the longest common subsequence found
+     * @return The longest common subsequence found
      * @throws IllegalArgumentException
      *             if either String input {@code null}
      * @deprecated Deprecated as of 1.2 due to a typo in the method name.
@@ -110,7 +110,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
     *
     * @param left first character sequence
     * @param right second character sequence
-    * @return the longest common subsequence found
+    * @return The longest common subsequence found
     * @throws IllegalArgumentException
     *             if either String input {@code null}
     * @since 1.2

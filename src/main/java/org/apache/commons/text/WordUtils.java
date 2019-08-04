@@ -624,7 +624,7 @@ public class WordUtils {
      * </pre>
      *
      * @param str  the String to swap case, may be null
-     * @return the changed String, <code>null</code> if null String input
+     * @return The changed String, <code>null</code> if null String input
      */
     public static String swapCase(final String str) {
         if (StringUtils.isEmpty(str)) {
@@ -835,7 +835,7 @@ public class WordUtils {
      * @param appendToEnd String to be appended to the end of the abbreviated string.
      *                    This is appended ONLY if the string was indeed abbreviated.
      *                    The append does not count towards the lower or upper limits.
-     * @return the abbreviated String.
+     * @return The abbreviated String.
      *
      * <pre>
      * WordUtils.abbreviate("Now is the time for all good men", 0, 40, null));     = "Now"

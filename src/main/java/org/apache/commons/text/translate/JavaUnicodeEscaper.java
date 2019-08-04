@@ -30,7 +30,7 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
      *
      * @param codepoint
      *            above which to escape
-     * @return the newly created {@code UnicodeEscaper} instance
+     * @return The newly created {@code UnicodeEscaper} instance
      */
     public static JavaUnicodeEscaper above(final int codepoint) {
         return outsideOf(0, codepoint);
@@ -43,7 +43,7 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
      *
      * @param codepoint
      *            below which to escape
-     * @return the newly created {@code UnicodeEscaper} instance
+     * @return The newly created {@code UnicodeEscaper} instance
      */
     public static JavaUnicodeEscaper below(final int codepoint) {
         return outsideOf(codepoint, Integer.MAX_VALUE);
@@ -58,7 +58,7 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
      *            above which to escape
      * @param codepointHigh
      *            below which to escape
-     * @return the newly created {@code UnicodeEscaper} instance
+     * @return The newly created {@code UnicodeEscaper} instance
      */
     public static JavaUnicodeEscaper between(final int codepointLow, final int codepointHigh) {
         return new JavaUnicodeEscaper(codepointLow, codepointHigh, true);
@@ -73,7 +73,7 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
      *            below which to escape
      * @param codepointHigh
      *            above which to escape
-     * @return the newly created {@code UnicodeEscaper} instance
+     * @return The newly created {@code UnicodeEscaper} instance
      */
     public static JavaUnicodeEscaper outsideOf(final int codepointLow, final int codepointHigh) {
         return new JavaUnicodeEscaper(codepointLow, codepointHigh, false);
@@ -102,7 +102,7 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
      *
      * @param codepoint
      *            a Unicode code point
-     * @return the hex string for the given codepoint
+     * @return The hex string for the given codepoint
      */
     @Override
     protected String toUtf16Escape(final int codepoint) {

@@ -21,14 +21,15 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.text.StringSubstitutor;
 
 /**
  * <p>
- * A specialized lookup implementation that allows access to constant fields of classes.
+ * Looks up the value of a fully-qualified static final value.
  * </p>
  * <p>
  * Sometimes it is necessary in a configuration file to refer to a constant defined in a class. This can be done with
- * this lookup implementation. Variable names passed in must be of the form {@code apackage.AClass.AFIELD}. The
+ * this lookup implementation. Variable names must be in the format {@code apackage.AClass.AFIELD}. The
  * {@code lookup(String)} method will split the passed in string at the last dot, separating the fully qualified class
  * name and the name of the constant (i.e. <b>static final</b>) member field. Then the class is loaded and the field's
  * value is obtained using reflection.
@@ -36,6 +37,23 @@ import org.apache.commons.lang3.ClassUtils;
  * <p>
  * Once retrieved values are cached for fast access. This class is thread-safe. It can be used as a standard (i.e.
  * global) lookup object and serve multiple clients concurrently.
+ * </p>
+ * <p>
+ * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+ * </p>
+ * 
+ * <pre>
+ * StringLookupFactory.INSTANCE.constantStringLookup().lookup("java.awt.event.KeyEvent.VK_ESCAPE");
+ * </pre>
+ * <p>
+ * Using a {@link StringSubstitutor}:
+ * </p>
+ * 
+ * <pre>
+ * StringSubstitutor.createInterpolator().replace("... ${const:java.awt.event.KeyEvent.VK_ESCAPE} ..."));
+ * </pre>
+ * <p>
+ * The above examples convert {@code java.awt.event.KeyEvent.VK_ESCAPE} to {@code "27"}.
  * </p>
  * <p>
  * This class was adapted from Apache Commons Configuration.
@@ -69,9 +87,8 @@ class ConstantStringLookup extends AbstractStringLookup {
      * cache. Otherwise this method will invoke the {@code resolveField()} method and pass in the name of the class and
      * the field.
      *
-     * @param key
-     *            the name of the variable to be resolved
-     * @return the value of this variable or <b>null</b> if it cannot be resolved
+     * @param key the name of the variable to be resolved
+     * @return The value of this variable or <b>null</b> if it cannot be resolved
      */
     @Override
     public synchronized String lookup(final String key) {
@@ -106,13 +123,10 @@ class ConstantStringLookup extends AbstractStringLookup {
      * {@code fetchClass()} to obtain the {@code java.lang.Class} object for the target class. Then it will use
      * reflection to obtain the field's value. For this to work the field must be accessable.
      *
-     * @param className
-     *            the name of the class
-     * @param fieldName
-     *            the name of the member field of that class to read
-     * @return the field's value
-     * @throws Exception
-     *             if an error occurs
+     * @param className the name of the class
+     * @param fieldName the name of the member field of that class to read
+     * @return The field's value
+     * @throws Exception if an error occurs
      */
     protected Object resolveField(final String className, final String fieldName) throws Exception {
         final Class<?> clazz = fetchClass(className);
@@ -128,11 +142,9 @@ class ConstantStringLookup extends AbstractStringLookup {
      * <code><a href="https://commons.apache.org/lang/api-release/org/apache/commons/lang/ClassUtils.html">
      * ClassUtils</a></code>.
      *
-     * @param className
-     *            the name of the class to be loaded
-     * @return the corresponding class object
-     * @throws ClassNotFoundException
-     *             if the class cannot be loaded
+     * @param className the name of the class to be loaded
+     * @return The corresponding class object
+     * @throws ClassNotFoundException if the class cannot be loaded
      */
     protected Class<?> fetchClass(final String className) throws ClassNotFoundException {
         return ClassUtils.getClass(className);

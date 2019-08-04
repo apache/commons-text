@@ -114,7 +114,7 @@ public final class RandomStringGenerator {
      *            the minimum value allowed
      * @param maxInclusive
      *            the maximum value allowed
-     * @return the random number.
+     * @return The random number.
      */
     private int generateRandomNumber(final int minInclusive, final int maxInclusive) {
         if (random != null) {
@@ -128,7 +128,7 @@ public final class RandomStringGenerator {
      * or the user-supplied source of randomness.
      *
      * @param characterList predefined char list.
-     * @return the random number.
+     * @return The random number.
      */
     private int generateRandomNumber(final List<Character> characterList) {
         final int listSize = characterList.size();
@@ -157,7 +157,7 @@ public final class RandomStringGenerator {
      *
      * @param length
      *            the number of code points to generate
-     * @return the generated string
+     * @return The generated string
      * @throws IllegalArgumentException
      *             if {@code length < 0}
      */
@@ -214,7 +214,7 @@ public final class RandomStringGenerator {
      *            the minimum (inclusive) number of code points to generate
      * @param maxLengthInclusive
      *            the maximum (inclusive) number of code points to generate
-     * @return the generated string
+     * @return The generated string
      * @throws IllegalArgumentException
      *             if {@code minLengthInclusive < 0}, or {@code maxLengthInclusive < minLengthInclusive}
      * @see RandomStringGenerator#generate(int)
@@ -455,7 +455,7 @@ public final class RandomStringGenerator {
 
         /**
          * <p>Builds the {@code RandomStringGenerator} using the properties specified.</p>
-         * @return the configured {@code RandomStringGenerator}
+         * @return The configured {@code RandomStringGenerator}
          */
         @Override
         public RandomStringGenerator build() {

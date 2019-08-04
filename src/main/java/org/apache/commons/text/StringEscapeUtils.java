@@ -483,7 +483,7 @@ public class StringEscapeUtils {
         /**
          * <p>Return the escaped string.</p>
          *
-         * @return the escaped string
+         * @return The escaped string
          */
         @Override
         public String toString() {
@@ -801,7 +801,7 @@ public class StringEscapeUtils {
      * <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a>.
      *
      * @param input the input CSV column String, may be null
-     * @return the input String, enclosed in double quotes if the value contains a comma,
+     * @return The input String, enclosed in double quotes if the value contains a comma,
      * newline or double quote, {@code null} if null string input
      */
     public static final String escapeCsv(final String input) {
@@ -825,7 +825,7 @@ public class StringEscapeUtils {
      * <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a>.
      *
      * @param input the input CSV column String, may be null
-     * @return the input String, with enclosing double quotes removed and embedded double
+     * @return The input String, with enclosing double quotes removed and embedded double
      * quotes unescaped, {@code null} if null string input
      */
     public static final String unescapeCsv(final String input) {

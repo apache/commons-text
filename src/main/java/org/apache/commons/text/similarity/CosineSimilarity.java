@@ -88,7 +88,7 @@ public class CosineSimilarity {
      * @param leftVector left vector
      * @param rightVector right vector
      * @param intersection common elements
-     * @return the dot product
+     * @return The dot product
      */
     private double dot(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector,
             final Set<CharSequence> intersection) {

@@ -19,6 +19,8 @@ package org.apache.commons.text.lookup;
 
 import java.util.Map;
 
+import org.apache.commons.text.StringSubstitutor;
+
 /**
  * Provides access to lookups defined in this package.
  * <p>
@@ -270,8 +272,7 @@ public final class StringLookupFactory {
     /**
      * Adds the {@link StringLookupFactory default lookups}.
      *
-     * @param stringLookupMap
-     *            the map of string lookups.
+     * @param stringLookupMap the map of string lookups.
      * @since 1.5
      */
     public void addDefaultStringLookups(final Map<String, StringLookup> stringLookupMap) {
@@ -285,10 +286,26 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the Base64DecoderStringLookup singleton instance to format the current date with the format given in the
-     * key in a format compatible with {@link java.text.SimpleDateFormat}.
-     *
-     * @return the DateStringLookup singleton instance.
+     * Returns the Base64DecoderStringLookup singleton instance to decode Base64 strings.
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     * 
+     * <pre>
+     * StringLookupFactory.INSTANCE.base64DecoderStringLookup().lookup("SGVsbG9Xb3JsZCE=");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     * 
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${base64Decoder:SGVsbG9Xb3JsZCE=} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "SGVsbG9Xb3JsZCE="} to {@code "HelloWorld!"}.
+     * </p>
+     * 
+     * @return The DateStringLookup singleton instance.
      * @since 1.5
      */
     public StringLookup base64DecoderStringLookup() {
@@ -296,10 +313,26 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the Base64EncoderStringLookup singleton instance to format the current date with the format given in the
-     * key in a format compatible with {@link java.text.SimpleDateFormat}.
-     *
-     * @return the DateStringLookup singleton instance.
+     * Returns the Base64EncoderStringLookup singleton instance to encode strings to Base64.
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     * 
+     * <pre>
+     * StringLookupFactory.INSTANCE.base64EncoderStringLookup().lookup("HelloWorld!");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     * 
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${base64Encoder:HelloWorld!} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code } to {@code "SGVsbG9Xb3JsZCE="}.
+     * </p>
+     * 
+     * @return The DateStringLookup singleton instance.
      * @since 1.6
      */
     public StringLookup base64EncoderStringLookup() {
@@ -307,10 +340,26 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the Base64DecoderStringLookup singleton instance to format the current date with the format given in the
-     * key in a format compatible with {@link java.text.SimpleDateFormat}.
+     * Returns the Base64DecoderStringLookup singleton instance to decode Base64 strings.
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     * 
+     * <pre>
+     * StringLookupFactory.INSTANCE.base64DecoderStringLookup().lookup("SGVsbG9Xb3JsZCE=");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     * 
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${base64Decoder:SGVsbG9Xb3JsZCE=} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "SGVsbG9Xb3JsZCE="} to {@code "HelloWorld!"}.
+     * </p>
      *
-     * @return the DateStringLookup singleton instance.
+     * @return The DateStringLookup singleton instance.
      * @since 1.5
      * @deprecated Use {@link #base64DecoderStringLookup()}.
      */
@@ -320,9 +369,37 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the ConstantStringLookup singleton instance to get the value of a fully-qualified static final value.
-     *
-     * @return the DateStringLookup singleton instance.
+     * Returns the ConstantStringLookup singleton instance to look up the value of a fully-qualified static final value.
+     * <p>
+     * Sometimes it is necessary in a configuration file to refer to a constant defined in a class. This can be done
+     * with this lookup implementation. Variable names must be in the format {@code apackage.AClass.AFIELD}. The
+     * {@code lookup(String)} method will split the passed in string at the last dot, separating the fully qualified
+     * class name and the name of the constant (i.e. <b>static final</b>) member field. Then the class is loaded and the
+     * field's value is obtained using reflection.
+     * </p>
+     * <p>
+     * Once retrieved values are cached for fast access. This class is thread-safe. It can be used as a standard (i.e.
+     * global) lookup object and serve multiple clients concurrently.
+     * </p>
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     * 
+     * <pre>
+     * StringLookupFactory.INSTANCE.constantStringLookup().lookup("java.awt.event.KeyEvent.VK_ESCAPE");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     * 
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${const:java.awt.event.KeyEvent.VK_ESCAPE} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code java.awt.event.KeyEvent.VK_ESCAPE} to {@code "27"}.
+     * </p>
+     * 
+     * @return The DateStringLookup singleton instance.
      * @since 1.5
      */
     public StringLookup constantStringLookup() {
@@ -332,8 +409,25 @@ public final class StringLookupFactory {
     /**
      * Returns the DateStringLookup singleton instance to format the current date with the format given in the key in a
      * format compatible with {@link java.text.SimpleDateFormat}.
-     *
-     * @return the DateStringLookup singleton instance.
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     * 
+     * <pre>
+     * StringLookupFactory.INSTANCE.dateStringLookup().lookup("yyyy-MM-dd");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     * 
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${date:yyyy-MM-dd} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "yyyy-MM-dd"} to todays's date, for example, {@code "2019-08-04"}.
+     * </p>
+     * 
+     * @return The DateStringLookup singleton instance.
      */
     public StringLookup dateStringLookup() {
         return DateStringLookup.INSTANCE;
@@ -342,8 +436,26 @@ public final class StringLookupFactory {
     /**
      * Returns the EnvironmentVariableStringLookup singleton instance where the lookup key is an environment variable
      * name.
-     *
-     * @return the EnvironmentVariableStringLookup singleton instance.
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     * 
+     * <pre>
+     * StringLookupFactory.INSTANCE.dateStringLookup().lookup("USER");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     * 
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${env:USER} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert (on Linux) {@code "USER"} to the current user name. On Windows 10, you would use
+     * {@code "USERNAME"} to the same effect.
+     * </p>
+     * 
+     * @return The EnvironmentVariableStringLookup singleton instance.
      */
     public StringLookup environmentVariableStringLookup() {
         return EnvironmentVariableStringLookup.INSTANCE;
@@ -352,13 +464,24 @@ public final class StringLookupFactory {
     /**
      * Returns the FileStringLookup singleton instance.
      * <p>
-     * Looks up the value for the key in the format "CharsetName:Path".
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
+     * 
+     * <pre>
+     * StringLookupFactory.INSTANCE.fileStringLookup().lookup("UTF-8:com/domain/document.properties");
+     * </pre>
      * <p>
-     * For example: "UTF-8:com/domain/document.properties".
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     * 
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${file:UTF-8:com/domain/document.properties} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "UTF-8:com/domain/document.properties"} to the contents of the file.
      * </p>
      *
-     * @return the FileStringLookup singleton instance.
+     * @return The FileStringLookup singleton instance.
      * @since 1.5
      */
     public StringLookup fileStringLookup() {
@@ -367,6 +490,26 @@ public final class StringLookupFactory {
 
     /**
      * Returns a new InterpolatorStringLookup using the {@link StringLookupFactory default lookups}.
+     * <p>
+     * The lookups available to an interpolator are defined in 
+     * </p>
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     * 
+     * <pre>
+     * StringLookupFactory.INSTANCE.interpolatorStringLookup().lookup("${sys:os.name}, ${env:USER}");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     * 
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${sys:os.name}, ${env:USER} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "${sys:os.name}, ${env:USER}"} to the OS name and Linux user name.
+     * </p>
      *
      * @return a new InterpolatorStringLookup.
      */
@@ -381,12 +524,9 @@ public final class StringLookupFactory {
      * {@code stringLookupMap}:
      * </p>
      *
-     * @param stringLookupMap
-     *            the map of string lookups.
-     * @param defaultStringLookup
-     *            the default string lookup.
-     * @param addDefaultLookups
-     *            whether to use lookups as described above.
+     * @param stringLookupMap     the map of string lookups.
+     * @param defaultStringLookup the default string lookup.
+     * @param addDefaultLookups   whether to use lookups as described above.
      * @return a new InterpolatorStringLookup.
      * @since 1.4
      */
@@ -398,10 +538,8 @@ public final class StringLookupFactory {
     /**
      * Returns a new InterpolatorStringLookup using the {@link StringLookupFactory default lookups}.
      *
-     * @param <V>
-     *            the value type the default string lookup's map.
-     * @param map
-     *            the default map for string lookups.
+     * @param <V> the value type the default string lookup's map.
+     * @param map the default map for string lookups.
      * @return a new InterpolatorStringLookup.
      */
     public <V> StringLookup interpolatorStringLookup(final Map<String, V> map) {
@@ -411,8 +549,7 @@ public final class StringLookupFactory {
     /**
      * Returns a new InterpolatorStringLookup using the {@link StringLookupFactory default lookups}.
      *
-     * @param defaultStringLookup
-     *            the default string lookup.
+     * @param defaultStringLookup the default string lookup.
      * @return a new InterpolatorStringLookup.
      */
     public StringLookup interpolatorStringLookup(final StringLookup defaultStringLookup) {
@@ -434,7 +571,7 @@ public final class StringLookupFactory {
      * <li><b>locale</b>: "default locale: en_US, platform encoding: iso-8859-1"</li>
      * </ul>
      *
-     * @return the JavaPlatformStringLookup singleton instance.
+     * @return The JavaPlatformStringLookup singleton instance.
      */
     public StringLookup javaPlatformStringLookup() {
         return JavaPlatformStringLookup.INSTANCE;
@@ -448,7 +585,7 @@ public final class StringLookupFactory {
      * <li><b>address</b>: for the local host address, for example {@code 192.168.56.1}.</li>
      * </ul>
      *
-     * @return the DateStringLookup singleton instance.
+     * @return The DateStringLookup singleton instance.
      */
     public StringLookup localHostStringLookup() {
         return LocalHostStringLookup.INSTANCE;
@@ -457,10 +594,8 @@ public final class StringLookupFactory {
     /**
      * Returns a new map-based lookup where the request for a lookup is answered with the value for that key.
      *
-     * @param <V>
-     *            the map value type.
-     * @param map
-     *            the map.
+     * @param <V> the map value type.
+     * @param map the map.
      * @return a new MapStringLookup.
      */
     public <V> StringLookup mapStringLookup(final Map<String, V> map) {
@@ -470,7 +605,7 @@ public final class StringLookupFactory {
     /**
      * Returns the NullStringLookup singleton instance which always returns null.
      *
-     * @return the NullStringLookup singleton instance.
+     * @return The NullStringLookup singleton instance.
      */
     public StringLookup nullStringLookup() {
         return NullStringLookup.INSTANCE;
@@ -485,7 +620,7 @@ public final class StringLookupFactory {
      * For example: "com/domain/document.properties:Key".
      * </p>
      *
-     * @return the PropertiesStringLookup singleton instance.
+     * @return The PropertiesStringLookup singleton instance.
      * @since 1.5
      */
     public StringLookup propertiesStringLookup() {
@@ -501,7 +636,7 @@ public final class StringLookupFactory {
      * For example: "com.domain.messages:MyKey".
      * </p>
      *
-     * @return the ResourceBundleStringLookup singleton instance.
+     * @return The ResourceBundleStringLookup singleton instance.
      */
     public StringLookup resourceBundleStringLookup() {
         return ResourceBundleStringLookup.INSTANCE;
@@ -516,8 +651,7 @@ public final class StringLookupFactory {
      * For example: "MyKey".
      * </p>
      *
-     * @param bundleName
-     *            Only lookup in this bundle.
+     * @param bundleName Only lookup in this bundle.
      * @return a ResourceBundleStringLookup instance for the given bundle name.
      * @since 1.5
      */
@@ -534,7 +668,7 @@ public final class StringLookupFactory {
      * For example: "javascript:3+4".
      * </p>
      *
-     * @return the ScriptStringLookup singleton instance.
+     * @return The ScriptStringLookup singleton instance.
      * @since 1.5
      */
     public StringLookup scriptStringLookup() {
@@ -544,7 +678,7 @@ public final class StringLookupFactory {
     /**
      * Returns the SystemPropertyStringLookup singleton instance where the lookup key is a system property name.
      *
-     * @return the SystemPropertyStringLookup singleton instance.
+     * @return The SystemPropertyStringLookup singleton instance.
      */
     public StringLookup systemPropertyStringLookup() {
         return SystemPropertyStringLookup.INSTANCE;
@@ -559,7 +693,7 @@ public final class StringLookupFactory {
      * For example: "Hello%20World%21" becomes "Hello World!".
      * </p>
      *
-     * @return the UrlStringLookup singleton instance.
+     * @return The UrlStringLookup singleton instance.
      * @since 1.6
      */
     public StringLookup urlDecoderStringLookup() {
@@ -575,7 +709,7 @@ public final class StringLookupFactory {
      * For example: "Hello World!" becomes "Hello+World%21".
      * </p>
      *
-     * @return the UrlStringLookup singleton instance.
+     * @return The UrlStringLookup singleton instance.
      * @since 1.6
      */
     public StringLookup urlEncoderStringLookup() {
@@ -595,7 +729,7 @@ public final class StringLookupFactory {
      * "UTF-8:file:///C:/somehome/commons/commons-text/src/test/resources/document.properties"
      * </p>
      *
-     * @return the UrlStringLookup singleton instance.
+     * @return The UrlStringLookup singleton instance.
      * @since 1.5
      */
     public StringLookup urlStringLookup() {
@@ -611,7 +745,7 @@ public final class StringLookupFactory {
      * For example: "com/domain/document.xml:/path/to/node".
      * </p>
      *
-     * @return the XmlStringLookup singleton instance.
+     * @return The XmlStringLookup singleton instance.
      * @since 1.5
      */
     public StringLookup xmlStringLookup() {

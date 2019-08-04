@@ -40,7 +40,7 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
     /**
      * A utility method to be used in the {@link #translate(CharSequence, int, Writer)} method.
      *
-     * @return the name of this or the extending class.
+     * @return The name of this or the extending class.
      */
     private String getClassName() {
         final Class<? extends SinglePassTranslator> clazz = this.getClass();

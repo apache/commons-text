@@ -20,13 +20,26 @@ package org.apache.commons.text.lookup;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.apache.commons.text.StringSubstitutor;
+
 /**
  * Looks up keys from an XML document.
  * <p>
- * Looks up the value for a given key in the format "Charset:Path".
+ * Using a {@link StringLookup} from the {@link StringLookupFactory}:
  * </p>
+ * 
+ * <pre>
+ * StringLookupFactory.INSTANCE.fileStringLookup().lookup(UTF-8:com/domain/document.properties");
+ * </pre>
  * <p>
- * For example: "UTF-8:com/domain/document.properties".
+ * Using a {@link StringSubstitutor}:
+ * </p>
+ * 
+ * <pre>
+ * StringSubstitutor.createInterpolator().replace("... ${file:UTF-8:com/domain/document.properties} ..."));
+ * </pre>
+ * <p>
+ * The above examples convert {@code "UTF-8:SomePath"} to the contents of the file.
  * </p>
  *
  * @since 1.5
@@ -51,8 +64,7 @@ final class FileStringLookup extends AbstractStringLookup {
      * For example: "com/domain/document.xml:/path/to/node".
      * </p>
      *
-     * @param key
-     *            the key to be looked up, may be null
+     * @param key the key to be looked up, may be null
      * @return The value associated with the key.
      */
     @Override

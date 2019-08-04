@@ -16,9 +16,29 @@
  */
 package org.apache.commons.text.lookup;
 
+import org.apache.commons.text.StringSubstitutor;
+
 /**
  * Looks up keys from environment variables.
- *
+ * <p>
+ * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+ * </p>
+ * 
+ * <pre>
+ * StringLookupFactory.INSTANCE.dateStringLookup().lookup("USER");
+ * </pre>
+ * <p>
+ * Using a {@link StringSubstitutor}:
+ * </p>
+ * 
+ * <pre>
+ * StringSubstitutor.createInterpolator().replace("... ${env:USER} ..."));
+ * </pre>
+ * <p>
+ * The above examples convert (on Linux) {@code "USER"} to the current user name. On Windows 10, you would use
+ * {@code "USERNAME"} to the same effect.
+ * </p>
+ * 
  * @since 1.3
  */
 final class EnvironmentVariableStringLookup extends AbstractStringLookup {
@@ -38,8 +58,7 @@ final class EnvironmentVariableStringLookup extends AbstractStringLookup {
     /**
      * Looks up the value of the given environment variable.
      *
-     * @param key
-     *            the key to be looked up, may be null
+     * @param key the key to be looked up, may be null
      * @return The value of the environment variable.
      * @see System#getenv(String)
      */

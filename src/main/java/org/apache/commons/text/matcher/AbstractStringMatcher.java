@@ -58,7 +58,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          *            the first active index in the buffer, valid for buffer
          * @param bufferEnd
          *            the end index of the active buffer, valid for buffer
-         * @return the number of matching characters, zero for no match
+         * @return The number of matching characters, zero for no match
          */
         @Override
         public int isMatch(final char[] buffer, final int pos, final int bufferStart, final int bufferEnd) {
@@ -96,7 +96,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          *            the first active index in the buffer, valid for buffer
          * @param bufferEnd
          *            the end index of the active buffer, valid for buffer
-         * @return the number of matching characters, zero for no match
+         * @return The number of matching characters, zero for no match
          */
         @Override
         public int isMatch(final char[] buffer, final int pos, final int bufferStart, final int bufferEnd) {
@@ -127,7 +127,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          *            the first active index in the buffer, valid for buffer
          * @param bufferEnd
          *            the end index of the active buffer, valid for buffer
-         * @return the number of matching characters, zero for no match
+         * @return The number of matching characters, zero for no match
          */
         @Override
         public int isMatch(final char[] buffer, final int pos, final int bufferStart, final int bufferEnd) {
@@ -164,7 +164,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          *            the first active index in the buffer, valid for buffer
          * @param bufferEnd
          *            the end index of the active buffer, valid for buffer
-         * @return the number of matching characters, zero for no match
+         * @return The number of matching characters, zero for no match
          */
         @Override
         public int isMatch(final char[] buffer, int pos, final int bufferStart, final int bufferEnd) {
@@ -215,7 +215,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          *            the first active index in the buffer, valid for buffer
          * @param bufferEnd
          *            the end index of the active buffer, valid for buffer
-         * @return the number of matching characters, zero for no match
+         * @return The number of matching characters, zero for no match
          */
         @Override
         public int isMatch(final char[] buffer, final int pos, final int bufferStart, final int bufferEnd) {
@@ -247,7 +247,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
      *            the text content to match against, do not change
      * @param pos
      *            the starting position for the match, valid for buffer
-     * @return the number of matching characters, zero for no match
+     * @return The number of matching characters, zero for no match
      */
     public int isMatch(final char[] buffer, final int pos) {
         return isMatch(buffer, pos, 0, buffer.length);

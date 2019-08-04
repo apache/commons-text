@@ -61,7 +61,7 @@ public class UnicodeEscaper extends CodePointTranslator {
      * <p>Constructs a <code>UnicodeEscaper</code> below the specified value (exclusive). </p>
      *
      * @param codepoint below which to escape
-     * @return the newly created {@code UnicodeEscaper} instance
+     * @return The newly created {@code UnicodeEscaper} instance
      */
     public static UnicodeEscaper below(final int codepoint) {
         return outsideOf(codepoint, Integer.MAX_VALUE);
@@ -71,7 +71,7 @@ public class UnicodeEscaper extends CodePointTranslator {
      * <p>Constructs a <code>UnicodeEscaper</code> above the specified value (exclusive). </p>
      *
      * @param codepoint above which to escape
-     * @return the newly created {@code UnicodeEscaper} instance
+     * @return The newly created {@code UnicodeEscaper} instance
      */
     public static UnicodeEscaper above(final int codepoint) {
         return outsideOf(0, codepoint);
@@ -82,7 +82,7 @@ public class UnicodeEscaper extends CodePointTranslator {
      *
      * @param codepointLow below which to escape
      * @param codepointHigh above which to escape
-     * @return the newly created {@code UnicodeEscaper} instance
+     * @return The newly created {@code UnicodeEscaper} instance
      */
     public static UnicodeEscaper outsideOf(final int codepointLow, final int codepointHigh) {
         return new UnicodeEscaper(codepointLow, codepointHigh, false);
@@ -93,7 +93,7 @@ public class UnicodeEscaper extends CodePointTranslator {
      *
      * @param codepointLow above which to escape
      * @param codepointHigh below which to escape
-     * @return the newly created {@code UnicodeEscaper} instance
+     * @return The newly created {@code UnicodeEscaper} instance
      */
     public static UnicodeEscaper between(final int codepointLow, final int codepointHigh) {
         return new UnicodeEscaper(codepointLow, codepointHigh, true);
@@ -131,7 +131,7 @@ public class UnicodeEscaper extends CodePointTranslator {
      *
      * @param codepoint
      *            a Unicode code point
-     * @return the hex string for the given codepoint
+     * @return The hex string for the given codepoint
      *
      */
     protected String toUtf16Escape(final int codepoint) {

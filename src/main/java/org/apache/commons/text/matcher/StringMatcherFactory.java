@@ -187,7 +187,7 @@ public final class StringMatcherFactory {
     /**
      * Matches the same characters as StringTokenizer, namely space, tab, newline and form feed.
      *
-     * @return the split matcher
+     * @return The split matcher
      */
     public StringMatcher splitMatcher() {
         return SPLIT_MATCHER;
@@ -219,7 +219,7 @@ public final class StringMatcherFactory {
     /**
      * Matches the String trim() whitespace characters.
      *
-     * @return the trim matcher
+     * @return The trim matcher
      */
     public StringMatcher trimMatcher() {
         return TRIM_MATCHER;

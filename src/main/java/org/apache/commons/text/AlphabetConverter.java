@@ -109,7 +109,7 @@ public final class AlphabetConverter {
      * Encode a given string.
      *
      * @param original the string to be encoded
-     * @return the encoded string, {@code null} if the given string is null
+     * @return The encoded string, {@code null} if the given string is null
      * @throws UnsupportedEncodingException if chars that are not supported are
      *                                      encountered
      */
@@ -148,7 +148,7 @@ public final class AlphabetConverter {
      *
      * @param encoded a string that has been encoded using this
      *                AlphabetConverter
-     * @return the decoded string, {@code null} if the given string is null
+     * @return The decoded string, {@code null} if the given string is null
      * @throws UnsupportedEncodingException if unexpected characters that
      *                                      cannot be handled are encountered
      */
@@ -194,7 +194,7 @@ public final class AlphabetConverter {
      * for each character in the original
      * alphabet.
      *
-     * @return the length of the encoded char
+     * @return The length of the encoded char
      */
     public int getEncodedCharLength() {
         return encodedLetterLength;
@@ -205,7 +205,7 @@ public final class AlphabetConverter {
      * string. Use to reconstruct converter from
      * serialized map.
      *
-     * @return the original map
+     * @return The original map
      */
     public Map<Integer, String> getOriginalToEncoded() {
         return Collections.unmodifiableMap(originalToEncoded);
@@ -315,7 +315,7 @@ public final class AlphabetConverter {
      * Create a new converter from a map.
      *
      * @param originalToEncoded a map returned from getOriginalToEncoded()
-     * @return the reconstructed AlphabetConverter
+     * @return The reconstructed AlphabetConverter
      * @see AlphabetConverter#getOriginalToEncoded()
      */
     public static AlphabetConverter createConverterFromMap(
@@ -354,7 +354,7 @@ public final class AlphabetConverter {
      * @param doNotEncode an array of chars to be encoded using the original
      *                    alphabet - every char here must appear in
      *                    both the previous params
-     * @return the AlphabetConverter
+     * @return The AlphabetConverter
      * @throws IllegalArgumentException if an AlphabetConverter cannot be
      *                                  constructed
      */
@@ -399,7 +399,7 @@ public final class AlphabetConverter {
      * @param doNotEncode an array of ints representing the chars to be encoded
      *                    using the original alphabet - every char
      *                    here must appear in both the previous params
-     * @return the AlphabetConverter
+     * @return The AlphabetConverter
      * @throws IllegalArgumentException if an AlphabetConverter cannot be
      *                                   constructed
      */

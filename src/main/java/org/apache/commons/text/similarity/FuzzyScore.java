@@ -134,7 +134,7 @@ public class FuzzyScore {
     /**
      * Gets the locale.
      *
-     * @return the locale
+     * @return The locale
      */
     public Locale getLocale() {
         return locale;

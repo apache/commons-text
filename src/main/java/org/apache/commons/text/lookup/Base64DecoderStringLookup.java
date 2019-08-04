@@ -25,14 +25,23 @@ import org.apache.commons.text.StringSubstitutor;
 /**
  * Decodes Base64 Strings.
  * <p>
- * For example: {@code "SGVsbG9Xb3JsZCE="} -> {@code "HelloWorld!"}.
+ * Using a {@link StringLookup} from the {@link StringLookupFactory}:
  * </p>
+ * 
+ * <pre>
+ * StringLookupFactory.INSTANCE.base64DecoderStringLookup().lookup("SGVsbG9Xb3JsZCE=");
+ * </pre>
  * <p>
  * Using a {@link StringSubstitutor}:
  * </p>
+ * 
  * <pre>
- * StringSubstitutor.createInterpolator().replace("${base64Decoder:SGVsbG9Xb3JsZCE=}"));
+ * StringSubstitutor.createInterpolator().replace("... ${base64Decoder:SGVsbG9Xb3JsZCE=} ..."));
  * </pre>
+ * <p>
+ * The above examples convert {@code "SGVsbG9Xb3JsZCE="} to {@code "HelloWorld!"}.
+ * </p>
+ * 
  * @since 1.5
  */
 final class Base64DecoderStringLookup extends AbstractStringLookup {

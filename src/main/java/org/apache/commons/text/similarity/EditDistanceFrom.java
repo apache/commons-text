@@ -85,7 +85,7 @@ public class EditDistanceFrom<R> {
      * </p>
      *
      * @param right the second CharSequence
-     * @return the similarity score between two CharSequences
+     * @return The similarity score between two CharSequences
      */
     public R apply(final CharSequence right) {
         return editDistance.apply(left, right);
@@ -94,7 +94,7 @@ public class EditDistanceFrom<R> {
     /**
      * Gets the left parameter.
      *
-     * @return the left parameter
+     * @return The left parameter
      */
     public CharSequence getLeft() {
         return left;
@@ -103,7 +103,7 @@ public class EditDistanceFrom<R> {
     /**
      * Gets the edit distance.
      *
-     * @return the edit distance
+     * @return The edit distance
      */
     public EditDistance<R> getEditDistance() {
         return editDistance;

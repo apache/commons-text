@@ -59,7 +59,7 @@ final class MapStringLookup<V> implements StringLookup {
     /**
      * Gets the map used in lookups.
      *
-     * @return the map used in lookups.
+     * @return The map used in lookups.
      */
     Map<String, V> getMap() {
         return map;
@@ -73,7 +73,7 @@ final class MapStringLookup<V> implements StringLookup {
      *
      * @param key
      *            the key to be looked up, may be null.
-     * @return the matching value, null if no match
+     * @return The matching value, null if no match
      */
     @Override
     public String lookup(final String key) {

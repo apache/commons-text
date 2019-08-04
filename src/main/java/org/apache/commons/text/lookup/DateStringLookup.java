@@ -21,10 +21,28 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.lang3.time.FastDateFormat;
+import org.apache.commons.text.StringSubstitutor;
 
 /**
  * Formats the current date with the format given in the key in a format compatible with
  * {@link java.text.SimpleDateFormat}.
+ * <p>
+ * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+ * </p>
+ * 
+ * <pre>
+ * StringLookupFactory.INSTANCE.dateStringLookup().lookup("yyyy-MM-dd");
+ * </pre>
+ * <p>
+ * Using a {@link StringSubstitutor}:
+ * </p>
+ * 
+ * <pre>
+ * StringSubstitutor.createInterpolator().replace("... ${date:yyyy-MM-dd} ..."));
+ * </pre>
+ * <p>
+ * The above examples convert {@code "yyyy-MM-dd"} to todays's date, for example, {@code "2019-08-04"}.
+ * </p>
  */
 final class DateStringLookup extends AbstractStringLookup {
 
@@ -43,11 +61,9 @@ final class DateStringLookup extends AbstractStringLookup {
     /**
      * Formats the given {@code date} long with the given {@code format}.
      *
-     * @param date
-     *            the date to format
-     * @param format
-     *            the format string for {@link SimpleDateFormat}.
-     * @return the formatted date
+     * @param date   the date to format
+     * @param format the format string for {@link SimpleDateFormat}.
+     * @return The formatted date
      */
     private String formatDate(final long date, final String format) {
         FastDateFormat dateFormat = null;
@@ -68,8 +84,7 @@ final class DateStringLookup extends AbstractStringLookup {
      * Formats the current date with the format given in the key in a format compatible with
      * {@link java.text.SimpleDateFormat}.
      *
-     * @param key
-     *            the format to use. If null, the default {@link DateFormat} will be used.
+     * @param key the format to use. If null, the default {@link DateFormat} will be used.
      * @return The value of the environment variable.
      */
     @Override
