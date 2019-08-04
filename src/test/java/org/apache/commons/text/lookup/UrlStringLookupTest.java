@@ -59,7 +59,8 @@ public class UrlStringLookupTest {
 
     @Test
     public void testHttpScheme() throws Exception {
-        Assertions.assertNotNull(UrlStringLookup.INSTANCE.lookup("UTF-8:http://www.google.com"));
+        Assertions.assertNotNull(UrlStringLookup.INSTANCE.lookup("UTF-8:https://www.apache.org"));
+        Assertions.assertNotNull(UrlStringLookup.INSTANCE.lookup("UTF-8:https://www.google.com"));
     }
 
     @Test

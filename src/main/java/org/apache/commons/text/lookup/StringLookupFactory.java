@@ -293,7 +293,7 @@ public final class StringLookupFactory {
             // "base64" is deprecated in favor of KEY_BASE64_DECODER.
             stringLookupMap.put("base64", Base64DecoderStringLookup.INSTANCE);
             for (final DefaultStringLookup stringLookup : DefaultStringLookup.values()) {
-                stringLookupMap.put(stringLookup.getKey(), stringLookup.getStringLookup());
+                stringLookupMap.put(InterpolatorStringLookup.toKey(stringLookup.getKey()), stringLookup.getStringLookup());
             }
         }
     }
@@ -698,10 +698,13 @@ public final class StringLookupFactory {
     /**
      * Returns the PropertiesStringLookup singleton instance.
      * <p>
-     * Looks up the value for the key in the format "DocumentPath:MyKey".
+     * Looks up the value for the key in the format "DocumentPath::MyKey".
      * </p>
      * <p>
-     * For example: "com/domain/document.properties:MyKey".
+     * Note the use of "::" instead of ":" to allow for "C:" drive letters in paths.
+     * </p>
+     * <p>
+     * For example: "com/domain/document.properties::MyKey".
      * </p>
      *
      * <p>
@@ -709,18 +712,18 @@ public final class StringLookupFactory {
      * </p>
      *
      * <pre>
-     * StringLookupFactory.INSTANCE.propertiesStringLookup().lookup("com/domain/document.properties:MyKey");
+     * StringLookupFactory.INSTANCE.propertiesStringLookup().lookup("com/domain/document.properties::MyKey");
      * </pre>
      * <p>
      * Using a {@link StringSubstitutor}:
      * </p>
      *
      * <pre>
-     * StringSubstitutor.createInterpolator().replace("... ${properties:com/domain/document.properties:MyKey} ..."));
+     * StringSubstitutor.createInterpolator().replace("... ${properties:com/domain/document.properties::MyKey} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "com/domain/document.properties:MyKey"} to the key value in the properties file
-     * at the path "com/domain/document.properties".
+     * The above examples convert {@code "com/domain/document.properties::MyKey"} to the key value in the properties
+     * file at the path "com/domain/document.properties".
      * </p>
      *
      * @return The PropertiesStringLookup singleton instance.
@@ -832,17 +835,17 @@ public final class StringLookupFactory {
      * </p>
      *
      * <pre>
-     * StringLookupFactory.INSTANCE.systemPropertyStringLookup().lookup("USER");
+     * StringLookupFactory.INSTANCE.systemPropertyStringLookup().lookup("os.name");
      * </pre>
      * <p>
      * Using a {@link StringSubstitutor}:
      * </p>
      *
      * <pre>
-     * StringSubstitutor.createInterpolator().replace("... ${env:USER} ..."));
+     * StringSubstitutor.createInterpolator().replace("... ${sys:os.name} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "USER"} to the current Linux user.
+     * The above examples convert {@code "os.name"} to the operating system name.
      * </p>
      *
      * @return The SystemPropertyStringLookup singleton instance.
@@ -934,17 +937,17 @@ public final class StringLookupFactory {
      * </p>
      *
      * <pre>
-     * StringLookupFactory.INSTANCE.urlStringLookup().lookup("UTF-8:http://www.google.com");
+     * StringLookupFactory.INSTANCE.urlStringLookup().lookup("UTF-8:https://www.apache.org");
      * </pre>
      * <p>
      * Using a {@link StringSubstitutor}:
      * </p>
      *
      * <pre>
-     * StringSubstitutor.createInterpolator().replace("... ${url:UTF-8:http://www.google.com} ..."));
+     * StringSubstitutor.createInterpolator().replace("... ${url:UTF-8:https://www.apache.org} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "UTF-8:http://www.google.com"} to the contents of that page.
+     * The above examples convert {@code "UTF-8:https://www.apache.org"} to the contents of that page.
      * </p>
      *
      * @return The UrlStringLookup singleton instance.

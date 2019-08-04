@@ -96,7 +96,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
         this.defaultStringLookup = defaultStringLookup;
         this.stringLookupMap = new HashMap<>(stringLookupMap.size());
         for (final Entry<String, StringLookup> entry : stringLookupMap.entrySet()) {
-            this.stringLookupMap.put(entry.getKey().toLowerCase(Locale.ROOT), entry.getValue());
+            this.stringLookupMap.put(toKey(entry.getKey()), entry.getValue());
         }
         if (addDefaultLookups) {
             StringLookupFactory.INSTANCE.addDefaultStringLookups(this.stringLookupMap);
@@ -110,6 +110,10 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      */
     public Map<String, StringLookup> getStringLookupMap() {
         return stringLookupMap;
+    }
+
+    static String toKey(final String key) {
+        return key.toLowerCase(Locale.ROOT);
     }
 
     /**
@@ -130,7 +134,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
 
         final int prefixPos = var.indexOf(PREFIX_SEPARATOR);
         if (prefixPos >= 0) {
-            final String prefix = var.substring(0, prefixPos).toLowerCase(Locale.ROOT);
+            final String prefix = toKey(var.substring(0, prefixPos));
             final String name = var.substring(prefixPos + 1);
             final StringLookup lookup = stringLookupMap.get(prefix);
             String value = null;

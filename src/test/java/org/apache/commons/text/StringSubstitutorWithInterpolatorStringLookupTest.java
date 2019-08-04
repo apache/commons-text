@@ -59,9 +59,46 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     }
 
     @Test
+    public void testDefaultInterpolator() {
+        // Used to cut and paste into the docs.
+        // @formatter:off
+        final StringSubstitutor interpolator = StringSubstitutor.createInterpolator();
+        interpolator.setEnableSubstitutionInVariables(true); // Allows for nested $'s.
+        final String text = interpolator.replace(
+                "Base64 Decoder:        ${base64Decoder:SGVsbG9Xb3JsZCE=}\n" +
+                "Base64 Encoder:        ${base64Encoder:HelloWorld!}\n" +
+                "Java Constant:         ${const:java.awt.event.KeyEvent.VK_ESCAPE}\n" +
+                "Date:                  ${date:yyyy-MM-dd}\n" +
+                "DNS:                   ${dns:address|apache.org}\n" +
+                "Environment Variable:  ${env:USERNAME}\n" +
+                "File Content:          ${file:UTF-8:src/test/resources/document.properties}\n" +
+                "Java:                  ${java:version}\n" +
+                "Localhost:             ${localhost:canonical-name}\n" +
+                "Properties File:       ${properties:src/test/resources/document.properties::mykey}\n" +
+                "Resource Bundle:       ${resourceBundle:org.example.testResourceBundleLookup:mykey}\n" +
+                "Script:                ${script:javascript:3 + 4}\n" +
+                "System Property:       ${sys:user.dir}\n" +
+                "URL Decoder:           ${urlDecoder:Hello%20World%21}\n" +
+                "URL Encoder:           ${urlEncoder:Hello World!}\n" +
+                "URL Content (HTTP):    ${url:UTF-8:http://www.apache.org}\n" +
+                "URL Content (HTTPS):   ${url:UTF-8:https://www.apache.org}\n" +
+                "URL Content (File):    ${url:UTF-8:file:///${sys:user.dir}/src/test/resources/document.properties}\n" +
+                "XML XPath:             ${xml:src/test/resources/document.xml:/root/path/to/node}\n"
+        );
+        // @formatter:on
+        Assertions.assertNotNull(text);
+        // TEXT-171:
+        Assertions.assertFalse(text.contains("${base64Decoder:SGVsbG9Xb3JsZCE=}"));
+        Assertions.assertFalse(text.contains("${base64Encoder:HelloWorld!}"));
+        Assertions.assertFalse(text.contains("${urlDecoder:Hello%20World%21}"));
+        Assertions.assertFalse(text.contains("${urlEncoder:Hello World!}"));
+        Assertions.assertFalse(text.contains("${resourceBundle:org.example.testResourceBundleLookup:mykey}"));
+        // System.out.println(text);
+    }
+    @Test
     public void testDefaultValueForMissingKeyInResourceBundle() {
         final StringLookup interpolatorStringLookup = StringLookupFactory.INSTANCE.interpolatorStringLookup(
-            StringLookupFactory.INSTANCE.resourceBundleStringLookup("testResourceBundleLookup"));
+            StringLookupFactory.INSTANCE.resourceBundleStringLookup("org.example.testResourceBundleLookup"));
         assertEquals("${missingKey:-defaultValue}", interpolatorStringLookup.lookup("keyWithMissingKey"));
         final StringSubstitutor stringSubstitutor = new StringSubstitutor(interpolatorStringLookup);
         // The following would throw a MissingResourceException before TEXT-165.

@@ -106,7 +106,7 @@ public class StrLookupTest  {
 
     @Test
     public void testResourceBundleLookup() {
-        final ResourceBundle map = ResourceBundle.getBundle("testResourceBundleLookup");
+        final ResourceBundle map = ResourceBundle.getBundle("org.example.testResourceBundleLookup");
         assertEquals("value", StrLookup.resourceBundleLookup(map).lookup("key"));
         assertEquals("2", StrLookup.resourceBundleLookup(map).lookup("number"));
         assertNull(StrLookup.resourceBundleLookup(map).lookup(null));
