@@ -107,7 +107,7 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         Assertions.assertEquals("7",
                 StringSubstitutor.createInterpolator().replace("${script:javascript:3 + 4}"));
     }
-    
+
     @Test
     public void testSystemProperty() {
         final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
