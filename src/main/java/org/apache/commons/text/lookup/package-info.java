@@ -21,7 +21,7 @@
  * </p>
  *
  * <p>
- * The initial implementation was adapted from Apache Commons Log4j 2.10.1-SNAPSHOT.
+ * The initial implementation was adapted from Apache Commons Log4j 2.11.0.
  * </p>
  *
  * @since 1.3

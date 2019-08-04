@@ -19,6 +19,7 @@ package org.apache.commons.text.lookup;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringSubstitutor;
 
 /**
  * Looks up keys related to Java: Java version, JRE version, VM version, and so on.
@@ -33,6 +34,25 @@ import org.apache.commons.lang3.StringUtils;
  * <li><b>hardware</b>: "processors: 4, architecture: amd64-64, instruction sets: amd64"</li>
  * <li><b>locale</b>: "default locale: en_US, platform encoding: iso-8859-1"</li>
  * </ul>
+ *
+ * <p>
+ * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+ * </p>
+ *
+ * <pre>
+ * StringLookupFactory.INSTANCE.javaPlatformStringLookup().lookup("version");
+ * </pre>
+ * <p>
+ * Using a {@link StringSubstitutor}:
+ * </p>
+ *
+ * <pre>
+ * StringSubstitutor.createInterpolator().replace("... ${java:version} ..."));
+ * </pre>
+ * <p>
+ * The above examples convert {@code "version"} to the current VM version, for example,
+ * {@code "Java version 1.8.0_181"}.
+ * </p>
  *
  * @since 1.3
  */
@@ -122,8 +142,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
     /**
      * Gets the given system property.
      *
-     * @param name
-     *            a system property name.
+     * @param name a system property name.
      * @return a system property value.
      */
     private String getSystemProperty(final String name) {
@@ -133,10 +152,8 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
     /**
      * Gets the given system property.
      *
-     * @param prefix
-     *            the prefix to use for the result string
-     * @param name
-     *            a system property name.
+     * @param prefix the prefix to use for the result string
+     * @param name   a system property name.
      * @return The prefix + a system property value.
      */
     private String getSystemProperty(final String prefix, final String name) {
@@ -171,8 +188,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      * <li><b>locale</b>: "default locale: en_US, platform encoding: iso-8859-1"</li>
      * </ul>
      *
-     * @param key
-     *            the key to be looked up, may be null
+     * @param key the key to be looked up, may be null
      * @return The value of the environment variable.
      */
     @Override

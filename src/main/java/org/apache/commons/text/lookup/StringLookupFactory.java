@@ -148,119 +148,119 @@ public final class StringLookupFactory {
     public static final StringLookupFactory INSTANCE = new StringLookupFactory();
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_BASE64_DECODER}.
      *
      * @since 1.6
      */
     public static final String KEY_BASE64_DECODER = "base64Decoder";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_BASE64_ENCODER}.
      *
      * @since 1.6
      */
     public static final String KEY_BASE64_ENCODER = "base64Encoder";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_CONST}.
      *
      * @since 1.6
      */
     public static final String KEY_CONST = "const";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_DATE}.
      *
      * @since 1.6
      */
     public static final String KEY_DATE = "date";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_DNS}.
      *
      * @since 1.8
      */
     public static final String KEY_DNS = "dns";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_ENV}.
      *
      * @since 1.6
      */
     public static final String KEY_ENV = "env";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_FILE}.
      *
      * @since 1.6
      */
     public static final String KEY_FILE = "file";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_JAVA}.
      *
      * @since 1.6
      */
     public static final String KEY_JAVA = "java";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_LOCALHOST}.
      *
      * @since 1.6
      */
     public static final String KEY_LOCALHOST = "localhost";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_PROPERTIES}.
      *
      * @since 1.6
      */
     public static final String KEY_PROPERTIES = "properties";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_RESOURCE_BUNDLE}.
      *
      * @since 1.6
      */
     public static final String KEY_RESOURCE_BUNDLE = "resourceBundle";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_SCRIPT}.
      *
      * @since 1.6
      */
     public static final String KEY_SCRIPT = "script";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_SYS}.
      *
      * @since 1.6
      */
     public static final String KEY_SYS = "sys";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_URL}.
      *
      * @since 1.6
      */
     public static final String KEY_URL = "url";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_URL_DECODER}.
      *
      * @since 1.6
      */
     public static final String KEY_URL_DECODER = "urlDecoder";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_URL_ENCODER}.
      *
      * @since 1.6
      */
     public static final String KEY_URL_ENCODER = "urlEncoder";
 
     /**
-     * Default lookup key for interpolation.
+     * Default lookup key for interpolation {@value #KEY_XML}.
      *
      * @since 1.6
      */
@@ -303,21 +303,21 @@ public final class StringLookupFactory {
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
-     * 
+     *
      * <pre>
      * StringLookupFactory.INSTANCE.base64DecoderStringLookup().lookup("SGVsbG9Xb3JsZCE=");
      * </pre>
      * <p>
      * Using a {@link StringSubstitutor}:
      * </p>
-     * 
+     *
      * <pre>
      * StringSubstitutor.createInterpolator().replace("... ${base64Decoder:SGVsbG9Xb3JsZCE=} ..."));
      * </pre>
      * <p>
      * The above examples convert {@code "SGVsbG9Xb3JsZCE="} to {@code "HelloWorld!"}.
      * </p>
-     * 
+     *
      * @return The DateStringLookup singleton instance.
      * @since 1.5
      */
@@ -330,21 +330,21 @@ public final class StringLookupFactory {
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
-     * 
+     *
      * <pre>
      * StringLookupFactory.INSTANCE.base64EncoderStringLookup().lookup("HelloWorld!");
      * </pre>
      * <p>
      * Using a {@link StringSubstitutor}:
      * </p>
-     * 
+     *
      * <pre>
      * StringSubstitutor.createInterpolator().replace("... ${base64Encoder:HelloWorld!} ..."));
      * </pre>
      * <p>
      * The above examples convert {@code } to {@code "SGVsbG9Xb3JsZCE="}.
      * </p>
-     * 
+     *
      * @return The DateStringLookup singleton instance.
      * @since 1.6
      */
@@ -357,14 +357,14 @@ public final class StringLookupFactory {
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
-     * 
+     *
      * <pre>
      * StringLookupFactory.INSTANCE.base64DecoderStringLookup().lookup("SGVsbG9Xb3JsZCE=");
      * </pre>
      * <p>
      * Using a {@link StringSubstitutor}:
      * </p>
-     * 
+     *
      * <pre>
      * StringSubstitutor.createInterpolator().replace("... ${base64Decoder:SGVsbG9Xb3JsZCE=} ..."));
      * </pre>
@@ -397,21 +397,21 @@ public final class StringLookupFactory {
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
-     * 
+     *
      * <pre>
      * StringLookupFactory.INSTANCE.constantStringLookup().lookup("java.awt.event.KeyEvent.VK_ESCAPE");
      * </pre>
      * <p>
      * Using a {@link StringSubstitutor}:
      * </p>
-     * 
+     *
      * <pre>
      * StringSubstitutor.createInterpolator().replace("... ${const:java.awt.event.KeyEvent.VK_ESCAPE} ..."));
      * </pre>
      * <p>
      * The above examples convert {@code java.awt.event.KeyEvent.VK_ESCAPE} to {@code "27"}.
      * </p>
-     * 
+     *
      * @return The DateStringLookup singleton instance.
      * @since 1.5
      */
@@ -425,21 +425,21 @@ public final class StringLookupFactory {
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
-     * 
+     *
      * <pre>
      * StringLookupFactory.INSTANCE.dateStringLookup().lookup("yyyy-MM-dd");
      * </pre>
      * <p>
      * Using a {@link StringSubstitutor}:
      * </p>
-     * 
+     *
      * <pre>
      * StringSubstitutor.createInterpolator().replace("... ${date:yyyy-MM-dd} ..."));
      * </pre>
      * <p>
      * The above examples convert {@code "yyyy-MM-dd"} to todays's date, for example, {@code "2019-08-04"}.
      * </p>
-     * 
+     *
      * @return The DateStringLookup singleton instance.
      */
     public StringLookup dateStringLookup() {
@@ -452,14 +452,14 @@ public final class StringLookupFactory {
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
-     * 
+     *
      * <pre>
      * StringLookupFactory.INSTANCE.dateStringLookup().lookup("USER");
      * </pre>
      * <p>
      * Using a {@link StringSubstitutor}:
      * </p>
-     * 
+     *
      * <pre>
      * StringSubstitutor.createInterpolator().replace("... ${env:USER} ..."));
      * </pre>
@@ -467,7 +467,7 @@ public final class StringLookupFactory {
      * The above examples convert (on Linux) {@code "USER"} to the current user name. On Windows 10, you would use
      * {@code "USERNAME"} to the same effect.
      * </p>
-     * 
+     *
      * @return The EnvironmentVariableStringLookup singleton instance.
      */
     public StringLookup environmentVariableStringLookup() {
@@ -479,14 +479,14 @@ public final class StringLookupFactory {
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
-     * 
+     *
      * <pre>
      * StringLookupFactory.INSTANCE.fileStringLookup().lookup("UTF-8:com/domain/document.properties");
      * </pre>
      * <p>
      * Using a {@link StringSubstitutor}:
      * </p>
-     * 
+     *
      * <pre>
      * StringSubstitutor.createInterpolator().replace("... ${file:UTF-8:com/domain/document.properties} ..."));
      * </pre>
@@ -504,19 +504,19 @@ public final class StringLookupFactory {
     /**
      * Returns a new InterpolatorStringLookup using the {@link StringLookupFactory default lookups}.
      * <p>
-     * The lookups available to an interpolator are defined in 
+     * The lookups available to an interpolator are defined in
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
-     * 
+     *
      * <pre>
      * StringLookupFactory.INSTANCE.interpolatorStringLookup().lookup("${sys:os.name}, ${env:USER}");
      * </pre>
      * <p>
      * Using a {@link StringSubstitutor}:
      * </p>
-     * 
+     *
      * <pre>
      * StringSubstitutor.createInterpolator().replace("... ${sys:os.name}, ${env:USER} ..."));
      * </pre>
@@ -583,6 +583,24 @@ public final class StringLookupFactory {
      * <li><b>hardware</b>: "processors: 4, architecture: amd64-64, instruction sets: amd64"</li>
      * <li><b>locale</b>: "default locale: en_US, platform encoding: iso-8859-1"</li>
      * </ul>
+     *
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.javaPlatformStringLookup().lookup("version");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${java:version} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "version"} to the current VM version, for example, {@code "Java version 1.8.0_181"}.
+     * </p>
      *
      * @return The JavaPlatformStringLookup singleton instance.
      */

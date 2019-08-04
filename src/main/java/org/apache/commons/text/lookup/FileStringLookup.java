@@ -27,14 +27,14 @@ import org.apache.commons.text.StringSubstitutor;
  * <p>
  * Using a {@link StringLookup} from the {@link StringLookupFactory}:
  * </p>
- * 
+ *
  * <pre>
  * StringLookupFactory.INSTANCE.fileStringLookup().lookup(UTF-8:com/domain/document.properties");
  * </pre>
  * <p>
  * Using a {@link StringSubstitutor}:
  * </p>
- * 
+ *
  * <pre>
  * StringSubstitutor.createInterpolator().replace("... ${file:UTF-8:com/domain/document.properties} ..."));
  * </pre>

@@ -23,14 +23,14 @@ import org.apache.commons.text.StringSubstitutor;
  * <p>
  * Using a {@link StringLookup} from the {@link StringLookupFactory}:
  * </p>
- * 
+ *
  * <pre>
  * StringLookupFactory.INSTANCE.dateStringLookup().lookup("USER");
  * </pre>
  * <p>
  * Using a {@link StringSubstitutor}:
  * </p>
- * 
+ *
  * <pre>
  * StringSubstitutor.createInterpolator().replace("... ${env:USER} ..."));
  * </pre>
@@ -38,7 +38,7 @@ import org.apache.commons.text.StringSubstitutor;
  * The above examples convert (on Linux) {@code "USER"} to the current user name. On Windows 10, you would use
  * {@code "USERNAME"} to the same effect.
  * </p>
- * 
+ *
  * @since 1.3
  */
 final class EnvironmentVariableStringLookup extends AbstractStringLookup {

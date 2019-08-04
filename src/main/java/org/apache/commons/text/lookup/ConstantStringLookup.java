@@ -41,14 +41,14 @@ import org.apache.commons.text.StringSubstitutor;
  * <p>
  * Using a {@link StringLookup} from the {@link StringLookupFactory}:
  * </p>
- * 
+ *
  * <pre>
  * StringLookupFactory.INSTANCE.constantStringLookup().lookup("java.awt.event.KeyEvent.VK_ESCAPE");
  * </pre>
  * <p>
  * Using a {@link StringSubstitutor}:
  * </p>
- * 
+ *
  * <pre>
  * StringSubstitutor.createInterpolator().replace("... ${const:java.awt.event.KeyEvent.VK_ESCAPE} ..."));
  * </pre>
