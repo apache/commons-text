@@ -59,8 +59,13 @@ public class DnsStringLookupTest {
     @Test
     public void testName() throws UnknownHostException {
         final String address = InetAddress.getLocalHost().getHostAddress();
-        final InetAddress localHost = InetAddress.getByName(address);
-        Assertions.assertEquals(localHost.getHostName(), DnsStringLookup.INSTANCE.lookup("name|" + address + ""));
+        final InetAddress[] localHostAll = InetAddress.getAllByName(address);
+        boolean matched = false;
+        for (InetAddress localHost : localHostAll) {
+            if (localHost.getHostName().equals(DnsStringLookup.INSTANCE.lookup("name|" + address + "")))
+                matched = true;
+        }
+        Assertions.assertTrue(matched);
     }
 
     @Test
