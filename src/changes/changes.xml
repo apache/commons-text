@@ -52,6 +52,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-170" type="add" dev="ggregory" due-to="Gary Gregory">Add String lookup for host names and IP addresses (DnsStringLookup).</action>
     <action issue="TEXT-171" type="fix" dev="ggregory" due-to="Gary Gregory">StringLookupFactory.addDefaultStringLookups(Map) does not convert keys to lower case.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Expand Javadoc for StringSubstitutor and friends.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">[site] checkstyle.version 8.21 -> 8.23.</action>
     
   </release>
   

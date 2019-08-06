@@ -248,7 +248,8 @@ public class StringSubstitutor {
      * </p>
      *
      * <pre>
-     * StringSubstitutor.createInterpolator().replace("OS name: ${sys:os.name}, " + "3 + 4 = ${script:javascript:3 + 4}");
+     * StringSubstitutor.createInterpolator()
+     *   .replace("OS name: ${sys:os.name}, " + "3 + 4 = ${script:javascript:3 + 4}");
      * </pre>
      *
      * @return a new instance using the interpolator string lookup.

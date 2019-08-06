@@ -40,7 +40,8 @@ public class StringLookupFactoryTest {
         assertTrue(stringLookupMap.containsKey(InterpolatorStringLookup.toKey(StringLookupFactory.KEY_JAVA)));
         assertTrue(stringLookupMap.containsKey(InterpolatorStringLookup.toKey(StringLookupFactory.KEY_LOCALHOST)));
         assertTrue(stringLookupMap.containsKey(InterpolatorStringLookup.toKey(StringLookupFactory.KEY_PROPERTIES)));
-        assertTrue(stringLookupMap.containsKey(InterpolatorStringLookup.toKey(StringLookupFactory.KEY_RESOURCE_BUNDLE)));
+        assertTrue(
+                stringLookupMap.containsKey(InterpolatorStringLookup.toKey(StringLookupFactory.KEY_RESOURCE_BUNDLE)));
         assertTrue(stringLookupMap.containsKey(InterpolatorStringLookup.toKey(StringLookupFactory.KEY_SCRIPT)));
         assertTrue(stringLookupMap.containsKey(InterpolatorStringLookup.toKey(StringLookupFactory.KEY_SYS)));
         assertTrue(stringLookupMap.containsKey(InterpolatorStringLookup.toKey(StringLookupFactory.KEY_URL)));

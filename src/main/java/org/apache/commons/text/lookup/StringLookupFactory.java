@@ -293,7 +293,8 @@ public final class StringLookupFactory {
             // "base64" is deprecated in favor of KEY_BASE64_DECODER.
             stringLookupMap.put("base64", Base64DecoderStringLookup.INSTANCE);
             for (final DefaultStringLookup stringLookup : DefaultStringLookup.values()) {
-                stringLookupMap.put(InterpolatorStringLookup.toKey(stringLookup.getKey()), stringLookup.getStringLookup());
+                stringLookupMap.put(InterpolatorStringLookup.toKey(stringLookup.getKey()),
+                        stringLookup.getStringLookup());
             }
         }
     }
