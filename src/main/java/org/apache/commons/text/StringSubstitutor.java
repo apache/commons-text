@@ -47,7 +47,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  *         .replaceSystemProperties("You are running with java.version = ${java.version} and os.name = ${os.name}.");
  * </pre>
  *
- * <h1>Using a Custom Map</h1>
+ * <h2>Using a Custom Map</h2>
  * <p>
  * Typical usage of this class follows the following pattern: First an instance is created and initialized with the map
  * that contains the values for the available variables. If a prefix and/or suffix for variables should be used other
@@ -73,7 +73,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  *      The quick brown fox jumped over the lazy dog.
  * </pre>
  *
- * <h1>Providing Default Values</h1>
+ * <h2>Providing Default Values</h2>
  * <p>
  * This class lets you set a default value for unresolved variables. The default value for a variable can be appended to
  * the variable name after the variable default value delimiter. The default value of the variable default value
@@ -105,7 +105,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * {@link #setEnableUndefinedVariableException(boolean)} with {@code true}.
  * </p>
  *
- * <h1>Reusing Instances</h1>
+ * <h2>Reusing Instances</h2>
  * <p>
  * In addition to this usage pattern there are some static convenience methods that cover the most common use cases.
  * These methods can be used without the need of manually creating an instance. However if multiple replace operations
@@ -115,7 +115,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * This class is <b>not</b> thread safe.
  * </p>
  *
- * <h1>Using Interpolation</h1>
+ * <h2>Using Interpolation</h2>
  * <p>
  * The default interpolator let's you use string lookups like:
  * </p>
@@ -149,7 +149,7 @@ final String text = interpolator.replace(
  * For documentation of each lookup, see {@link StringLookupFactory}.
  * </p>
  *
- * <h1>Using Recursive Variable Replacement</h1>
+ * <h2>Using Recursive Variable Replacement</h2>
  * <p>
  * Variable replacement works in a recursive way. Thus, if a variable value contains a variable then that variable will
  * also be replaced. Cyclic replacements are detected and will cause an exception to be thrown.
