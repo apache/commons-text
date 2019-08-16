@@ -368,9 +368,9 @@
   </contributors>
 
   <scm>
-    <connection>scm:git:http://git-wip-us.apache.org/repos/asf/commons-text.git</connection>
-    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/commons-text.git</developerConnection>
-    <url>https://git-wip-us.apache.org/repos/asf?p=commons-text.git</url>
+    <connection>scm:git:http://gitbox.apache.org/repos/asf/commons-text</connection>
+    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-text</developerConnection>
+    <url>https://gitbox.apache.org/repos/asf?p=commons-text.git</url>
   </scm>
 
   <issueManagement>
