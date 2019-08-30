@@ -21,8 +21,8 @@ Changes in this version include:
   o TEXT-170: Add String lookup for host names and IP addresses (DnsStringLookup). Thanks to Gary Gregory.
     
 - Fixed Bugs
-  o TEXT-167: commons-text web page missing "RELEASE-NOTES-1.7.txt" Thanks to Larry West.
-  o TEXT-168: (doc) Fixed wrong value for Jaro-Winkler example #117 Thanks to luksan47.
+  o TEXT-167: commons-text web page missing "RELEASE-NOTES-1.7.txt". Thanks to Larry West.
+  o TEXT-168: (doc) Fixed wrong value for Jaro-Winkler example #117. Thanks to luksan47.
   o TEXT-171: StringLookupFactory.addDefaultStringLookups(Map) does not convert keys to lower case. Thanks to Gary Gregory.
     
 - Changes
