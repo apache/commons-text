@@ -27,31 +27,34 @@ limitations under the License.
 <table>
 <tr><th>Version</th><th>Release date (YYYY-MM-DD)</th><th>Required Java Version</th><th>Javadoc</th><th>Release notes</th></tr>
 <tr>
-  <td>1.7</td><td>2019-06-30</td><td>8</td><td><a href="javadocs/api-1.7/index.html">api-1.7</a></td><td><a href="release-notes/RELEASE-NOTES-1.7.txt">release notes for 1.6</a></td>
+  <td>1.8</td><td>2019-08-30</td><td>8</td><td><a href="https://javadoc.io/doc/org.apache.commons/commons-text/1.8">1.8</a></td><td><a href="release-notes/RELEASE-NOTES-1.8.txt">release notes for 1.6</a></td>
 </tr>
 <tr>
-  <td>1.6</td><td>2018-10-12</td><td>8</td><td><a href="javadocs/api-1.6/index.html">api-1.6</a></td><td><a href="release-notes/RELEASE-NOTES-1.6.txt">release notes for 1.6</a></td>
+  <td>1.7</td><td>2019-06-30</td><td>8</td><td><a href="https://javadoc.io/doc/org.apache.commons/commons-text/1.7">1.7</a></td><td><a href="release-notes/RELEASE-NOTES-1.7.txt">release notes for 1.6</a></td>
 </tr>
 <tr>
-  <td>1.5</td><td>2018-09-29</td><td>8</td><td><a href="javadocs/api-1.5/index.html">api-1.5</a></td><td><a href="release-notes/RELEASE-NOTES-1.5.txt">release notes for 1.5</a></td>
+  <td>1.6</td><td>2018-10-12</td><td>8</td><td><a href="https://javadoc.io/doc/org.apache.commons/commons-text/1.6">1.6</a></td><td><a href="release-notes/RELEASE-NOTES-1.6.txt">release notes for 1.6</a></td>
 </tr>
 <tr>
-  <td>1.4</td><td>2018-06-12</td><td>8</td><td><a href="javadocs/api-1.4/index.html">api-1.4</a></td><td><a href="release-notes/RELEASE-NOTES-1.4.txt">release notes for 1.4</a></td>
+  <td>1.5</td><td>2018-09-29</td><td>8</td><td><a href="https://javadoc.io/doc/org.apache.commons/commons-text/1.5">1.5</a></td><td><a href="release-notes/RELEASE-NOTES-1.5.txt">release notes for 1.5</a></td>
 </tr>
 <tr>
-  <td>1.3</td><td>2018-03-16</td><td>7</td><td><a href="javadocs/api-1.3/index.html">api-1.3</a></td><td><a href="release-notes/RELEASE-NOTES-1.3.txt">release notes for 1.3</a></td>
+  <td>1.4</td><td>2018-06-12</td><td>8</td><td><a href="https://javadoc.io/doc/org.apache.commons/commons-text/1.4">1.4</a></td><td><a href="release-notes/RELEASE-NOTES-1.4.txt">release notes for 1.4</a></td>
 </tr>
 <tr>
-  <td>1.2</td><td>2017-12-12</td><td>7</td><td><a href="javadocs/api-1.2/index.html">api-1.2</a></td><td><a href="release-notes/RELEASE-NOTES-1.2.txt">release notes for 1.2</a></td>
+  <td>1.3</td><td>2018-03-16</td><td>7</td><td><a href="https://javadoc.io/doc/org.apache.commons/commons-text/1.3">1.3</a></td><td><a href="release-notes/RELEASE-NOTES-1.3.txt">release notes for 1.3</a></td>
 </tr>
 <tr>
-  <td>1.1</td><td>2017-05-23</td><td>7</td><td><a href="javadocs/api-1.1/index.html">api-1.1</a></td><td><a href="release-notes/RELEASE-NOTES-1.1.txt">release notes for 1.1</a></td>
+  <td>1.2</td><td>2017-12-12</td><td>7</td><td><a href="https://javadoc.io/doc/org.apache.commons/commons-text/1.2">1.2</a></td><td><a href="release-notes/RELEASE-NOTES-1.2.txt">release notes for 1.2</a></td>
 </tr>
 <tr>
-  <td>1.0</td><td>2017-03-11</td><td>7</td><td><a href="javadocs/api-1.0/index.html">api-1.0</a></td><td><a href="release-notes/RELEASE-NOTES-1.0.txt">release notes for 1.0</a></td>
+  <td>1.1</td><td>2017-05-23</td><td>7</td><td><a href="https://javadoc.io/doc/org.apache.commons/commons-text/1.1">1.1</a></td><td><a href="release-notes/RELEASE-NOTES-1.1.txt">release notes for 1.1</a></td>
 </tr>
 <tr>
-  <td>1.0-beta-1</td><td>2017-02-09</td><td>7</td><td><a href="javadocs/api-1.0-beta-1/index.html">api-1.0-beta-1</a></td><td><a href="release-notes/RELEASE-NOTES-1.0-beta-1.txt">release notes for 1.0-beta-1</a></td>
+  <td>1.0</td><td>2017-03-11</td><td>7</td><td><a href="https://javadoc.io/doc/org.apache.commons/commons-text/1.0">1.0</a></td><td><a href="release-notes/RELEASE-NOTES-1.0.txt">release notes for 1.0</a></td>
+</tr>
+<tr>
+  <td>1.0-beta-1</td><td>2017-02-09</td><td>7</td><td><a href="https://javadoc.io/doc/org.apache.commons/commons-text/1.0-beta-1">1.0-beta-1</a></td><td><a href="release-notes/RELEASE-NOTES-1.0-beta-1.txt">release notes for 1.0-beta-1</a></td>
 </tr>
 </table>
 
