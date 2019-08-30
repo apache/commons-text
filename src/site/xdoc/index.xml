@@ -45,7 +45,7 @@ The <a href="scm.html">Git repository</a> can be
 <p>The latest stable release of Text is 1.8. You may: </p>
 <ul>
 <li>Download the <a href="https://commons.apache.org/proper/commons-text/download_text.cgi">current version</a></li>
-<li>Read the <a href="release-notes/RELEASE-NOTES-1.8.txt">release notes</a></li>
+<li>Read the <a href="RELEASE-NOTES.txt">release notes</a></li>
 </ul>
 <p>
 Alternatively you can pull it from the central Maven repositories:

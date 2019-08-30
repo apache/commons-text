@@ -1,3 +1,198 @@
+Apache Commons Text
+Version 1.8
+Release Notes
+
+
+INTRODUCTION:
+
+This document contains the release notes for the 1.8 version of Apache Commons Text.
+Commons Text is a set of utility functions and reusable components for the purpose of processing
+and manipulating text that should be of use in a Java environment.
+
+
+Apache Commons Text is a library focused on algorithms working on strings.
+
+Release 1.8
+
+Changes in this version include:
+
+- New Features
+  o TEXT-169: Add helper factory method org.apache.commons.text.StringSubstitutor.createInterpolator(). Thanks to Gary Gregory.
+  o TEXT-170: Add String lookup for host names and IP addresses (DnsStringLookup). Thanks to Gary Gregory.
+    
+- Fixed Bugs
+  o TEXT-167: commons-text web page missing "RELEASE-NOTES-1.7.txt". Thanks to Larry West.
+  o TEXT-168: (doc) Fixed wrong value for Jaro-Winkler example #117. Thanks to luksan47.
+  o TEXT-171: StringLookupFactory.addDefaultStringLookups(Map) does not convert keys to lower case. Thanks to Gary Gregory.
+    
+- Changes
+  o Expand Javadoc for StringSubstitutor and friends. Thanks to Gary Gregory.
+  o [site] checkstyle.version 8.21 -> 8.23. Thanks to Gary Gregory.
+    
+
+Historical list of changes: https://commons.apache.org/proper/commons-textchanges-report.html
+
+For complete information on Apache Commons Text, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons Text website:
+
+https://commons.apache.org/proper/commons-text
+
+Download it from https://commons.apache.org/proper/commons-text/download_text.cgi
+
+
+=============================================================================
+
+Apache Commons Text
+Version 1.7
+Release Notes
+
+INTRODUCTION:
+
+This document contains the release notes for the 1.7 version of Apache Commons Text.
+Commons Text is a set of utility functions and reusable components for the purpose of processing
+and manipulating text that should be of use in a Java environment.
+
+Apache Commons Text is a library focused on algorithms working on strings.
+
+Changes in this version include:
+
+New features:
+
+o TEXT-148:  Add an enum to the lookup package that lists all StringLookups
+o TEXT-127:  Add a toggle to throw an exception when a variable is unknown in StringSubstitutor Thanks to Jean-Baptiste REICH, Sebb, Don Jeba, Gary Gregory.
+o TEXT-138:  TextStringBuilder append sub-sequence not consistent with Appendable. Thanks to Neal Johnson, Don Jeba.
+o TEXT-152:  Fix possible infinite loop in WordUtils.wrap for a regex pattern that would trigger on a match of 0 length Thanks to @CAPS50.
+o TEXT-155:  Add a generic IntersectionSimilarity measure
+
+Fixed Bugs:
+
+o TEXT-111:  WordUtils.wrap must calculate offset increment from wrapOn pattern length Thanks to @CAPS50.
+o TEXT-151:  Fix the JaroWinklerSimilarity to use StringUtils.equals to test for CharSequence equality
+o TEXT-165:  ResourceBundleStringLookup.lookup(String) throws MissingResourceException instead of returning null.
+
+Changes:
+
+o TEXT-104:  Jaro Winkler Distance refers to similarity Thanks to Sascha Szott.
+o TEXT-153:  Make prefixSet in LookupTranslator a BitSet Thanks to amirhadadi.
+o TEXT-156:  Fix the RegexTokenizer to use a static Pattern
+o TEXT-157:  Remove rounding from JaccardDistance and JaccardSimilarity
+o TEXT-162:  Update Apache Commons Lang from 3.8.1 to 3.9.
+o            Update tests from org.assertj:assertj-core 3.12.1 to 3.12.2.
+o            Update site from com.puppycrawl.tools:checkstyle 8.18 to 8.21.
+
+Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
+
+For complete information on Apache Commons Text, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons Text website:
+
+https://commons.apache.org/proper/commons-text
+
+Download it from https://commons.apache.org/proper/commons-text/download_text.cgi
+
+
+=============================================================================
+
+                          Apache Commons Text
+                              Version 1.6
+                             Release Notes
+
+INTRODUCTION
+============
+
+This document contains the release notes for the 1.6 version of Apache Commons
+Text. Commons Text is a set of utility functions and reusable components for
+the purpose of processing and manipulating text that should be of use in a Java
+environment.
+
+This component requires Java 8.
+
+CHANGES
+=======
+
+o TEXT-144:  Add the resource string bundle string lookup to the default set of lookups
+o TEXT-145:  Add StringLookupFactory methods for the URL encoder and decoder string lookups
+o TEXT-146:  org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup() should reuse a singleton instance
+o TEXT-147:  Add a Base64 encoder string lookup.
+
+Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
+
+For complete information on Apache Commons Text, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons Text website:
+
+https://commons.apache.org/proper/commons-text
+
+=============================================================================
+
+                          Apache Commons Text
+                              Version 1.5
+                             Release Notes
+
+INTRODUCTION
+============
+
+This document contains the release notes for the 1.5 version of Apache Commons
+Text. Commons Text is a set of utility functions and reusable components for 
+the purpose of processing and manipulating text that should be of use in a Java
+environment.
+
+This component requires Java 8.
+
+NEW FEATURES
+============
+
+o TEXT-133:  Add a XML file XPath string lookup.
+o TEXT-134:  Add a Properties file string lookup.
+o TEXT-135:  Add a script string lookup.
+o TEXT-136:  Add a file string lookup.
+o TEXT-137:  Add a URL string lookup.
+o TEXT-140:  Add a Base64 string lookup.
+o TEXT-141:  Add org.apache.commons.text.lookup.StringLookupFactory.resourceBundleStringLookup(String).
+o TEXT-142:  Add URL encoder and decoder string lookups.
+o TEXT-143:  Add constant string lookup like the one in Apache Commons Configuration.
+
+FIXED BUGS
+==========
+
+o TEXT-139:  Improve JaccardSimilarity computational cost Thanks to Nick Wong.
+o TEXT-118:  JSON escaping incorrect for the delete control character Thanks to Nandor Kollar.
+o TEXT-130:  Fixes JaroWinklerDistance: Wrong results due to precision of transpositions Thanks to Jan Martin Keil.
+o TEXT-131:  JaroWinklerDistance: Calculation deviates from definition Thanks to Jan Martin Keil.
+
+CHANGES
+=======
+
+o TEXT-132:  Update Apache Commons Lang from 3.7 to 3.8.1
+
+=============================================================================
+
+                          Apache Commons Text
+                              Version 1.4
+                             Release Notes
+
+INTRODUCTION
+============
+
+This document contains the release notes for the 1.4 version of Apache Commons
+Text. Commons Text is a set of utility functions and reusable components for 
+the purpose of processing and manipulating text that should be of use in a Java
+environment.
+
+This component requires Java 8.
+
+
+Changes in this version include:
+    
+Fixed Bugs:
+o TEXT-120:  StringEscapeUtils#unescapeJson does not unescape double quotes and forward slash.
+o TEXT-119:  Remove mention of SQL escaping from user guide.
+o TEXT-123:  WordUtils.wrap throws StringIndexOutOfBoundsException when wrapLength is Integer.MAX_VALUE. Thanks to Takanobu Asanuma.
+                
+Changes:
+o TEXT-121:  Update Java requirement from version 7 to 8. Thanks to pschumacher.
+o TEXT-122:  Allow full customization with new API org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup(Map<String, StringLookup>, StringLookup, boolean).
+
+=============================================================================
+
                           Apache Commons Text
                               Version 1.3
                              Release Notes
