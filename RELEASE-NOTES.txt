@@ -1,4 +1,48 @@
 Apache Commons Text
+Version 1.8-SNAPSHOT
+Release Notes
+
+
+INTRODUCTION:
+
+This document contains the release notes for the 1.8-SNAPSHOT version of Apache Commons Text.
+Commons Text is a set of utility functions and reusable components for the purpose of processing
+and manipulating text that should be of use in a Java environment.
+
+
+Apache Commons Text is a library focused on algorithms working on strings.
+
+Release 1.8
+
+Changes in this version include:
+
+- New Features
+  o TEXT-169:  Add helper factory method org.apache.commons.text.StringSubstitutor.createInterpolator(). Thanks to Gary Gregory.
+  o TEXT-170:  Add String lookup for host names and IP addresses (DnsStringLookup). Thanks to Gary Gregory.
+    
+- Fixed Bugs
+  o TEXT-167:  commons-text web page missing "RELEASE-NOTES-1.7.txt" Thanks to Larry West.
+  o TEXT-168:  (doc) Fixed wrong value for Jaro-Winkler example #117 Thanks to luksan47.
+  o TEXT-171:  StringLookupFactory.addDefaultStringLookups(Map) does not convert keys to lower case. Thanks to Gary Gregory.
+    
+- Changes
+  o Expand Javadoc for StringSubstitutor and friends. Thanks to Gary Gregory.
+  o [site] checkstyle.version 8.21 -> 8.23. Thanks to Gary Gregory.
+    
+
+Historical list of changes: https://commons.apache.org/proper/commons-textchanges-report.html
+
+For complete information on Apache Commons Text, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons Text website:
+
+https://commons.apache.org/proper/commons-text
+
+Download it from https://commons.apache.org/proper/commons-text/download_text.cgi
+
+
+=============================================================================
+
+Apache Commons Text
 Version 1.7
 Release Notes
 
