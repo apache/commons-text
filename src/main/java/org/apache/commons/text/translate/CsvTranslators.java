@@ -87,7 +87,7 @@ public final class CsvTranslators {
                 // deal with escaped quotes; ie) ""
                 out.write(StringUtils.replace(quoteless, CSV_ESCAPED_QUOTE_STR, CSV_QUOTE_STR));
             } else {
-                out.write(input.toString());
+                out.write(quoteless.toString());
             }
         }
     }

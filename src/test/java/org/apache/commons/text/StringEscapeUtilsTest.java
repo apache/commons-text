@@ -460,7 +460,7 @@ public class StringEscapeUtilsTest {
         assertEquals("", StringEscapeUtils.unescapeCsv(""));
         assertNull(StringEscapeUtils.unescapeCsv(null));
 
-        assertEquals("\"foo.bar\"", StringEscapeUtils.unescapeCsv("\"foo.bar\""));
+        assertEquals("foo.bar", StringEscapeUtils.unescapeCsv("\"foo.bar\""));
     }
 
     @Test
@@ -474,7 +474,7 @@ public class StringEscapeUtilsTest {
         checkCsvUnescapeWriter("", null);
         checkCsvUnescapeWriter("", "");
 
-        checkCsvUnescapeWriter("\"foo.bar\"", "\"foo.bar\"");
+        checkCsvUnescapeWriter("foo.bar", "\"foo.bar\"");
     }
 
     private void checkCsvUnescapeWriter(final String expected, final String value) {
