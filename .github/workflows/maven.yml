@@ -15,7 +15,7 @@
 
 name: Java CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -32,4 +32,4 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Build with Maven
-      run: mvn
+      run: mvn -V apache-rat:check javadoc:javadoc -Ddoclint=all package --file pom.xml
