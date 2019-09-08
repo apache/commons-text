@@ -187,6 +187,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <source>${maven.compiler.source}</source>
+          <doclint>all</doclint>
         </configuration>
       </plugin>
     </plugins>
