@@ -45,6 +45,11 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
 
+  <release version="1.8.1" date="2019-MM-DD" description="Release 1.8.1">
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] junit-jupiter 5.5.1 -> 5.5.2.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">com.puppycrawl.tools:checkstyle 8.23 -> 8.24.</action>    
+  </release>
+  
   <release version="1.8" date="2019-08-30" description="Release 1.8">
     <action issue="TEXT-167" type="fix" dev="ggregory" due-to="Larry West">commons-text web page missing "RELEASE-NOTES-1.7.txt"</action>
     <action issue="TEXT-168" type="fix" dev="ggregory" due-to="luksan47">(doc) Fixed wrong value for Jaro-Winkler example #117</action>
@@ -53,7 +58,6 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-171" type="fix" dev="ggregory" due-to="Gary Gregory">StringLookupFactory.addDefaultStringLookups(Map) does not convert keys to lower case.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Expand Javadoc for StringSubstitutor and friends.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[site] checkstyle.version 8.21 -> 8.23.</action>
-    <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] junit-jupiter 5.5.1 -> 5.5.2.</action>
   </release>
   
   <release version="1.7" date="2019-06-30" description="Release 1.7">
