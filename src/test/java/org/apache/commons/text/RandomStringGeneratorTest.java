@@ -28,19 +28,9 @@ import org.junit.jupiter.api.Test;
  */
 public class RandomStringGeneratorTest {
 
-    private static final CharacterPredicate A_FILTER = new CharacterPredicate() {
-        @Override
-        public boolean test(final int codePoint) {
-            return codePoint == 'a';
-        }
-    };
+    private static final CharacterPredicate A_FILTER = codePoint -> codePoint == 'a';
 
-    private static final CharacterPredicate B_FILTER = new CharacterPredicate() {
-        @Override
-        public boolean test(final int codePoint) {
-            return codePoint == 'b';
-        }
-    };
+    private static final CharacterPredicate B_FILTER = codePoint -> codePoint == 'b';
 
     @Test
     public void testInvalidLength() {
@@ -170,13 +160,7 @@ public class RandomStringGeneratorTest {
     @Test
     public void testUsingRandom() {
         final char testChar = 'a';
-        final TextRandomProvider testRandom = new TextRandomProvider() {
-
-            @Override
-            public int nextInt(final int n) {
-                return testChar;
-            }
-        };
+        final TextRandomProvider testRandom = n -> testChar;
 
         final String str = new RandomStringGenerator.Builder().usingRandom(testRandom).build().generate(10);
         for (final char c : str.toCharArray()) {

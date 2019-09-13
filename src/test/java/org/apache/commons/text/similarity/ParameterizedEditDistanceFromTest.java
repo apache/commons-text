@@ -47,12 +47,7 @@ public class ParameterizedEditDistanceFromTest<R> {
                 Arguments.of(new LevenshteinDistance(0), "go", "go", 0),
 
                 Arguments.of(
-                    new EditDistance<Boolean>() {
-                        @Override
-                        public Boolean apply(final CharSequence left, final CharSequence right) {
-                            return left == right || (left != null && left.equals(right));
-                        }
-                    },
+                    (EditDistance<Boolean>) (left, right) -> left == right || (left != null && left.equals(right)),
                     "Bob's your uncle.",
                     "Every good boy does fine.",
                     false));

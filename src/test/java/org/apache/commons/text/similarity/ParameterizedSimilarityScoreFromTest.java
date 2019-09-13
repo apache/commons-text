@@ -38,12 +38,7 @@ public class ParameterizedSimilarityScoreFromTest<R> {
                 Arguments.of(new LevenshteinDistance(), "hippo", "zzzzzzzz", 8),
 
                 Arguments.of(
-                        new SimilarityScore<Boolean>() {
-                            @Override
-                            public Boolean apply(final CharSequence left, final CharSequence right) {
-                                return left == right || (left != null && left.equals(right));
-                            }
-                        },
+                        (SimilarityScore<Boolean>) (left, right) -> left == right || (left != null && left.equals(right)),
                         "Bob's your uncle.",
                         "Every good boy does fine.",
                         false
