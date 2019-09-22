@@ -47,7 +47,8 @@ The <action> type attribute can be add,update,fix,remove.
 
   <release version="1.8.1" date="2019-MM-DD" description="Release 1.8.1">
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] junit-jupiter 5.5.1 -> 5.5.2.</action>
-    <action                  type="update" dev="ggregory" due-to="Gary Gregory">com.puppycrawl.tools:checkstyle 8.23 -> 8.24.</action>    
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">com.puppycrawl.tools:checkstyle 8.23 -> 8.24.</action>
+    <action issue="TEXT-166" type="fix" dev="kinow" due-to="Mikko Maunu">removed non-existing parameter from Javadocs and spelled out parameters in throws</action>
   </release>
   
   <release version="1.8" date="2019-08-30" description="Release 1.8">
