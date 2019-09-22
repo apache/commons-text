@@ -63,21 +63,23 @@ public class FuzzyScore {
      * </p>
      *
      * <pre>
-     * score.fuzzyScore(null, null, null)                                    = IllegalArgumentException
-     * score.fuzzyScore("", "", Locale.ENGLISH)                              = 0
-     * score.fuzzyScore("Workshop", "b", Locale.ENGLISH)                     = 0
-     * score.fuzzyScore("Room", "o", Locale.ENGLISH)                         = 1
-     * score.fuzzyScore("Workshop", "w", Locale.ENGLISH)                     = 1
-     * score.fuzzyScore("Workshop", "ws", Locale.ENGLISH)                    = 2
-     * score.fuzzyScore("Workshop", "wo", Locale.ENGLISH)                    = 4
-     * score.fuzzyScore("Apache Software Foundation", "asf", Locale.ENGLISH) = 3
+     * score.fuzzyScore(null, null)                          = IllegalArgumentException
+     * score.fuzzyScore("not null", null)                    = IllegalArgumentException
+     * score.fuzzyScore(null, "not null")                    = IllegalArgumentException
+     * score.fuzzyScore("", "")                              = 0
+     * score.fuzzyScore("Workshop", "b")                     = 0
+     * score.fuzzyScore("Room", "o")                         = 1
+     * score.fuzzyScore("Workshop", "w")                     = 1
+     * score.fuzzyScore("Workshop", "ws")                    = 2
+     * score.fuzzyScore("Workshop", "wo")                    = 4
+     * score.fuzzyScore("Apache Software Foundation", "asf") = 3
      * </pre>
      *
      * @param term a full term that should be matched against, must not be null
      * @param query the query that will be matched against a term, must not be
      *            null
      * @return result score
-     * @throws IllegalArgumentException if either CharSequence input is {@code null}
+     * @throws IllegalArgumentException if the term or query is {@code null}
      */
     public Integer fuzzyScore(final CharSequence term, final CharSequence query) {
         if (term == null || query == null) {
