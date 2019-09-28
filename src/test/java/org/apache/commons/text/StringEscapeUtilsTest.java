@@ -320,6 +320,12 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
+    public void testEscapeHtml4Apostrophe() {
+        String unescapedChar = StringEscapeUtils.unescapeHtml4 ("&#39;");
+        assertEquals ("&#39;",unescapedChar, StringEscapeUtils.escapeHtml4 (unescapedChar));
+    }
+
+    @Test
     public void testUnescapeHexCharsHtml() {
         // Simple easy to grok test
         assertEquals("\u0080\u009F", StringEscapeUtils.unescapeHtml4("&#x80;&#x9F;"), "hex number unescape");
