@@ -57,7 +57,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * </p>
  *
  * <pre>
- * Map valuesMap = HashMap();
+ * Map&lt;String, String&gt; valuesMap = new HashMap&lt;&gt;();
  * valuesMap.put(&quot;animal&quot;, &quot;quick brown fox&quot;);
  * valuesMap.put(&quot;target&quot;, &quot;lazy dog&quot;);
  * String templateString = &quot;The ${animal} jumped over the ${target}.&quot;;
@@ -84,7 +84,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * </p>
  *
  * <pre>
- * Map valuesMap = HashMap();
+ * Map&lt;String, String&gt; valuesMap = new HashMap&lt;&gt;();
  * valuesMap.put(&quot;animal&quot;, &quot;quick brown fox&quot;);
  * valuesMap.put(&quot;target&quot;, &quot;lazy dog&quot;);
  * String templateString = &quot;The ${animal} jumped over the ${target}. ${undefined.number:-1234567890}.&quot;;
@@ -603,7 +603,7 @@ public class StringSubstitutor {
      * can contain other variables will not be processed and substituted original variable is evaluated, e.g.
      *
      * <pre>
-     * Map valuesMap = HashMap();
+     * Map&lt;String, String&gt; valuesMap = new HashMap&lt;&gt;();
      * valuesMap.put(&quot;name&quot;, &quot;Douglas ${surname}&quot;);
      * valuesMap.put(&quot;surname&quot;, &quot;Crockford&quot;);
      * String templateString = &quot;Hi ${name}&quot;;

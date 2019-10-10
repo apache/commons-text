@@ -49,7 +49,7 @@ import org.apache.commons.lang3.Validate;
  * text all variable references (as long as their values are known) will be resolved.
  * The following example demonstrates this:
  * <pre>
- * Map valuesMap = HashMap();
+ * Map&lt;String, String&gt; valuesMap = new HashMap&lt;&gt;();
  * valuesMap.put(&quot;animal&quot;, &quot;quick brown fox&quot;);
  * valuesMap.put(&quot;target&quot;, &quot;lazy dog&quot;);
  * String templateString = &quot;The ${animal} jumped over the ${target}.&quot;;
@@ -69,7 +69,7 @@ import org.apache.commons.lang3.Validate;
  * {@link #setValueDelimiter(char)} or {@link #setValueDelimiter(String)}.
  * The following shows an example with variable default value settings:
  * <pre>
- * Map valuesMap = HashMap();
+ * Map&lt;String, String&gt; valuesMap = new HashMap&lt;&gt;();
  * valuesMap.put(&quot;animal&quot;, &quot;quick brown fox&quot;);
  * valuesMap.put(&quot;target&quot;, &quot;lazy dog&quot;);
  * String templateString = &quot;The ${animal} jumped over the ${target}. ${undefined.number:-1234567890}.&quot;;
@@ -1217,7 +1217,7 @@ public class StrSubstitutor {
      * <b>true</b>, the values of variables can contain other variables will not be
      * processed and substituted original variable is evaluated, e.g.
      * <pre>
-     * Map valuesMap = HashMap();
+     * Map&lt;String, String&gt; valuesMap = new HashMap&lt;&gt;();
      * valuesMap.put(&quot;name&quot;, &quot;Douglas ${surname}&quot;);
      * valuesMap.put(&quot;surname&quot;, &quot;Crockford&quot;);
      * String templateString = &quot;Hi ${name}&quot;;
