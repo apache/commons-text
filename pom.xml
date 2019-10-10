@@ -47,8 +47,8 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
-    <checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
-    <checkstyle.version>8.24</checkstyle.version>
+    <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
+    <checkstyle.version>8.25</checkstyle.version>
 
     <spotbugs.plugin.version>3.1.12.2</spotbugs.plugin.version>
     
