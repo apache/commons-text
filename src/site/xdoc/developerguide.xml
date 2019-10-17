@@ -20,8 +20,7 @@ limitations under the License.
   </properties>
   <body>
 
-    <!-- $Id$ -->
-
+    
     <section name='Developer guide for Commons "Text"'>
 
       <h1>The Commons <em>Text</em> Package</h1>
