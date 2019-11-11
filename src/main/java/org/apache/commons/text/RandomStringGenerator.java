@@ -338,7 +338,6 @@ public final class RandomStringGenerator {
          *     char [][] pairs = {{'a','z'},{'0','9'}};
          * }
          * </pre>
-         * </p>
          *
          * @param pairs array of characters array, expected is to pass min, max pairs through this arg.
          * @return {@code this}, to allow method chaining.
