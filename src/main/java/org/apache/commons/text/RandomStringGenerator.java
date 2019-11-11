@@ -259,6 +259,11 @@ public final class RandomStringGenerator {
         public static final int DEFAULT_MAXIMUM_CODE_POINT = Character.MAX_CODE_POINT;
 
         /**
+         * The default string length produced by this builder: {@value}.
+         */
+        public static final int DEFAULT_LENGTH = 0;
+
+        /**
          * The default minimum code point allowed: {@value}.
          */
         public static final int DEFAULT_MINIMUM_CODE_POINT = 0;
