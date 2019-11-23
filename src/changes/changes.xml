@@ -52,6 +52,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-149" type="fix" dev="kinow" due-to="Yuji Konishi">StringEscapeUtils.unescapeCsv doesn't remove quotes at begin and end of string.</action>
     <action                  type="update" dev="ggregory" due-to="Johan Hammar">(doc) Fix compiler warnings in Java code example in Javadoc #124.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] org.assertj:assertj-core 3.13.2 -> 3.14.0.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] com.puppycrawl.tools:checkstyle 8.25 -> 8.26.</action>
   </release>
   
   <release version="1.8" date="2019-08-30" description="Release 1.8">
