@@ -33,7 +33,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * Substitutes variables within a string by values.
  * <p>
  * This class takes a piece of text and substitutes all the variables within it. The default definition of a variable is
- * <code>${variableName}</code>. The prefix and suffix can be changed via constructors and set methods.
+ * {@code ${variableName}}. The prefix and suffix can be changed via constructors and set methods.
  * </p>
  * <p>
  * Variable values are typically resolved from a map, but could also be resolved from system properties, or by supplying
@@ -732,7 +732,7 @@ public class StringSubstitutor {
     // -----------------------------------------------------------------------
     /**
      * Replaces all the occurrences of variables in the given source object with their matching values from the
-     * resolver. The input source object is converted to a string using <code>toString</code> and is not altered.
+     * resolver. The input source object is converted to a string using {@code toString} and is not altered.
      *
      * @param source the source to replace in, null returns null
      * @return The result of the replace operation
@@ -1026,7 +1026,7 @@ public class StringSubstitutor {
     /**
      * Sets a flag whether substitution is done in variable names. If set to <b>true</b>, the names of variables can
      * contain other variables which are processed first before the original variable is evaluated, e.g.
-     * <code>${jre-${java.version}}</code>. The default value is <b>false</b>.
+     * {@code ${jre-${java.version}}}. The default value is <b>false</b>.
      *
      * @param enableSubstitutionInVariables the new value of the flag
      * @return this, to enable chaining
@@ -1061,9 +1061,9 @@ public class StringSubstitutor {
 
     /**
      * Sets a flag controlling whether escapes are preserved during substitution. If set to <b>true</b>, the escape
-     * character is retained during substitution (e.g. <code>$${this-is-escaped}</code> remains
-     * <code>$${this-is-escaped}</code>). If set to <b>false</b>, the escape character is removed during substitution
-     * (e.g. <code>$${this-is-escaped}</code> becomes <code>${this-is-escaped}</code>). The default value is
+     * character is retained during substitution (e.g. {@code $${this-is-escaped}} remains
+     * {@code $${this-is-escaped}}). If set to <b>false</b>, the escape character is removed during substitution
+     * (e.g. {@code $${this-is-escaped}} becomes {@code ${this-is-escaped}}). The default value is
      * <b>false</b>
      *
      * @param preserveEscapes true if escapes are to be preserved
@@ -1093,7 +1093,7 @@ public class StringSubstitutor {
      * The variable default value delimiter is the character or characters that delimite the variable name and the
      * variable default value. This method allows a string variable default value delimiter to be easily set.
      * <p>
-     * If the <code>valueDelimiter</code> is null or empty string, then the variable default value resolution becomes
+     * If the {@code valueDelimiter} is null or empty string, then the variable default value resolution becomes
      * disabled.
      *
      * @param valueDelimiter the variable default value delimiter string to use, may be null or empty
@@ -1114,7 +1114,7 @@ public class StringSubstitutor {
      * variable default value. This delimiter is expressed in terms of a matcher allowing advanced variable default
      * value delimiter matches.
      * <p>
-     * If the <code>valueDelimiterMatcher</code> is null, then the variable default value resolution becomes disabled.
+     * If the {@code valueDelimiterMatcher} is null, then the variable default value resolution becomes disabled.
      *
      * @param valueDelimiterMatcher variable default value delimiter matcher to use, may be null
      * @return this, to enable chaining

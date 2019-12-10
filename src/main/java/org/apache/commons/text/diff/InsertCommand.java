@@ -44,7 +44,7 @@ public class InsertCommand<T> extends EditCommand<T> {
     }
 
     /**
-     * Accept a visitor. When an <code>InsertCommand</code> accepts a visitor,
+     * Accept a visitor. When an {@code InsertCommand} accepts a visitor,
      * it calls its {@link CommandVisitor#visitInsertCommand visitInsertCommand}
      * method.
      *

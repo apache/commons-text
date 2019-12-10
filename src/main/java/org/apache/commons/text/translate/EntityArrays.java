@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * Class holding various entity data for HTML and XML - generally for use with
  * the LookupTranslator.
- * All Maps are generated using <code>java.util.Collections.unmodifiableMap()</code>.
+ * All Maps are generated using {@code java.util.Collections.unmodifiableMap()}.
  *
  * @since 1.0
  */

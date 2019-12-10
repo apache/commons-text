@@ -609,7 +609,7 @@ public class StringTokenizerTest {
 
     /**
      * Tests that the {@link StringTokenizer#clone()} clone method catches {@link CloneNotSupportedException} and
-     * returns <code>null</code>.
+     * returns {@code null}.
      */
     @Test
     public void testCloneNotSupportedException() {

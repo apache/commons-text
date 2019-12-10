@@ -64,7 +64,7 @@ final class EnvironmentVariableStringLookup extends AbstractStringLookup {
      */
     @Override
     public String lookup(final String key) {
-        // getenv throws NullPointerException if <code>name</code> is <code>null</code>
+        // getenv throws NullPointerException if {@code name} is {@code null}
         return key != null ? System.getenv(key) : null;
     }
 }

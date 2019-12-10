@@ -20,25 +20,25 @@ package org.apache.commons.text.similarity;
  * Interface for <a href="http://en.wikipedia.org/wiki/Edit_distance">Edit Distances</a>.
  *
  * <p>
- * An edit distance is a formal metric on the Kleene closure (<code>X<sup>*</sup></code>) over an
- * alphabet (<code>X</code>). Note, that a <a href="https://en.wikipedia.org/wiki/Metric_(mathematics)">metric</a>
- * on a set <code>S</code> is a function <code>d: [S * S] -&gt; [0, INFINITY)</code> such
- * that the following hold for <code>x,y,z</code> in
- * the set <code>S</code>:
+ * An edit distance is a formal metric on the Kleene closure ({@code X<sup>*</sup>}) over an
+ * alphabet ({@code X}). Note, that a <a href="https://en.wikipedia.org/wiki/Metric_(mathematics)">metric</a>
+ * on a set {@code S} is a function {@code d: [S * S] -&gt; [0, INFINITY)} such
+ * that the following hold for {@code x,y,z} in
+ * the set {@code S}:
  * </p>
  * <ul>
- *     <li><code>d(x,y) &gt;= 0</code>, non-negativity or separation axiom</li>
- *     <li><code>d(x,y) == 0</code>, if and only if, <code>x == y</code></li>
- *     <li><code>d(x,y) == d(y,x)</code>, symmetry, and</li>
- *     <li><code>d(x,z) &lt;=  d(x,y) + d(y,z)</code>, the triangle inequality</li>
+ *     <li>{@code d(x,y) &gt;= 0}, non-negativity or separation axiom</li>
+ *     <li>{@code d(x,y) == 0}, if and only if, {@code x == y}</li>
+ *     <li>{@code d(x,y) == d(y,x)}, symmetry, and</li>
+ *     <li>{@code d(x,z) &lt;=  d(x,y) + d(y,z)}, the triangle inequality</li>
  * </ul>
  *
  *
  * <p>
  * This is a BiFunction&lt;CharSequence, CharSequence, R&gt;.
- * The <code>apply</code> method
+ * The {@code apply} method
  * accepts a pair of {@link CharSequence} parameters
- * and returns an <code>R</code> type similarity score.
+ * and returns an {@code R} type similarity score.
  * </p>
  *
  * @param <R> The type of similarity score unit used by this EditDistance.

@@ -110,14 +110,14 @@ abstract class AbstractStringMatcher implements StringMatcher {
     static final class NoMatcher extends AbstractStringMatcher {
 
         /**
-         * Constructs a new instance of <code>NoMatcher</code>.
+         * Constructs a new instance of {@code NoMatcher}.
          */
         NoMatcher() {
             super();
         }
 
         /**
-         * Always returns <code>false</code>.
+         * Always returns {@code false}.
          *
          * @param buffer
          *            the text content to match against, do not change
@@ -198,7 +198,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         private static final int SPACE_INT = 32;
 
         /**
-         * Constructs a new instance of <code>TrimMatcher</code>.
+         * Constructs a new instance of {@code TrimMatcher}.
          */
         TrimMatcher() {
             super();
@@ -233,11 +233,11 @@ abstract class AbstractStringMatcher implements StringMatcher {
     /**
      * Returns the number of matching characters, zero for no match.
      * <p>
-     * This method is called to check for a match. The parameter <code>pos</code> represents the current position to be
-     * checked in the string <code>buffer</code> (a character array which must not be changed). The API guarantees that
-     * <code>pos</code> is a valid index for <code>buffer</code>.
+     * This method is called to check for a match. The parameter {@code pos} represents the current position to be
+     * checked in the string {@code buffer} (a character array which must not be changed). The API guarantees that
+     * {@code pos} is a valid index for {@code buffer}.
      * <p>
-     * The matching code may check one character or many. It may check characters preceding <code>pos</code> as well as
+     * The matching code may check one character or many. It may check characters preceding {@code pos} as well as
      * those after.
      * <p>
      * It must return zero for no match, or a positive number if a match was found. The number indicates the number of

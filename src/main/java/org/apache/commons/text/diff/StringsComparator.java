@@ -19,16 +19,16 @@ package org.apache.commons.text.diff;
 /**
  * <p>
  * It is guaranteed that the comparisons will always be done as
- * <code>o1.equals(o2)</code> where <code>o1</code> belongs to the first
- * sequence and <code>o2</code> belongs to the second sequence. This can
+ * {@code o1.equals(o2)} where {@code o1} belongs to the first
+ * sequence and {@code o2} belongs to the second sequence. This can
  * be important if subclassing is used for some elements in the first
- * sequence and the <code>equals</code> method is specialized.
+ * sequence and the {@code equals} method is specialized.
  * </p>
  * <p>
  * Comparison can be seen from two points of view: either as giving the smallest
  * modification allowing to transform the first sequence into the second one, or
  * as giving the longest sequence which is a subsequence of both initial
- * sequences. The <code>equals</code> method is used to compare objects, so any
+ * sequences. The {@code equals} method is used to compare objects, so any
  * object can be put into sequences. Modifications include deleting, inserting
  * or keeping one object, starting from the beginning of the first sequence.
  * </p>
@@ -76,10 +76,10 @@ public class StringsComparator {
      * </p>
      * <p>
      * It is <em>guaranteed</em> that the comparisons will always be done as
-     * <code>o1.equals(o2)</code> where <code>o1</code> belongs to the first
-     * sequence and <code>o2</code> belongs to the second sequence. This can be
+     * {@code o1.equals(o2)} where {@code o1} belongs to the first
+     * sequence and {@code o2} belongs to the second sequence. This can be
      * important if subclassing is used for some elements in the first sequence
-     * and the <code>equals</code> method is specialized.
+     * and the {@code equals} method is specialized.
      * </p>
      *
      * @param left first character sequence to be compared
@@ -102,7 +102,7 @@ public class StringsComparator {
      * embedded in either the {@link DeleteCommand delete commands} or
      * {@link KeepCommand keep commands} come from the first sequence. This can
      * be important if subclassing is used for some elements in the first
-     * sequence and the <code>equals</code> method is specialized.
+     * sequence and the {@code equals} method is specialized.
      * </p>
      *
      * @return The edit script resulting from the comparison of the two

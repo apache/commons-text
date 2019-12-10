@@ -24,7 +24,7 @@ package org.apache.commons.text.similarity;
  * common. Two strings that are entirely different, return a value of 0, and two strings that return a value
  * of the commonly shared length implies that the strings are completely the same in value and position.
  * <i>Note.</i>  Generally this algorithm is fairly inefficient, as for length <i>m</i>, <i>n</i> of the input
- * <code>CharSequence</code>'s <code>left</code> and <code>right</code> respectively, the runtime of the
+ * {@code CharSequence}'s {@code left} and {@code right} respectively, the runtime of the
  * algorithm is <i>O(m*n)</i>.
  * </p>
  *
@@ -43,7 +43,7 @@ package org.apache.commons.text.similarity;
 public class LongestCommonSubsequence implements SimilarityScore<Integer> {
 
     /**
-     * Calculates longest common subsequence similarity score of two <code>CharSequence</code>'s passed as
+     * Calculates longest common subsequence similarity score of two {@code CharSequence}'s passed as
      * input.
      *
      * @param left first character sequence
@@ -62,12 +62,12 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
     }
 
     /**
-     * Computes the longest common subsequence between the two <code>CharSequence</code>'s passed as input.
+     * Computes the longest common subsequence between the two {@code CharSequence}'s passed as input.
      *
      * <p>
-     * Note, a substring and subsequence are not necessarily the same thing. Indeed, <code>abcxyzqrs</code> and
-     * <code>xyzghfm</code> have both the same common substring and subsequence, namely <code>xyz</code>. However,
-     * <code>axbyczqrs</code> and <code>abcxyzqtv</code> have the longest common subsequence <code>xyzq</code> because a
+     * Note, a substring and subsequence are not necessarily the same thing. Indeed, {@code abcxyzqrs} and
+     * {@code xyzghfm} have both the same common substring and subsequence, namely {@code xyz}. However,
+     * {@code axbyczqrs} and {@code abcxyzqtv} have the longest common subsequence {@code xyzq} because a
      * subsequence need not have adjacent characters.
      * </p>
      *
@@ -92,13 +92,13 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
     }
 
    /**
-    * Computes the longest common subsequence between the two <code>CharSequence</code>'s passed as
+    * Computes the longest common subsequence between the two {@code CharSequence}'s passed as
     * input.
     *
     * <p>
-    * Note, a substring and subsequence are not necessarily the same thing. Indeed, <code>abcxyzqrs</code> and
-    * <code>xyzghfm</code> have both the same common substring and subsequence, namely <code>xyz</code>. However,
-    * <code>axbyczqrs</code> and <code>abcxyzqtv</code> have the longest common subsequence <code>xyzq</code> because a
+    * Note, a substring and subsequence are not necessarily the same thing. Indeed, {@code abcxyzqrs} and
+    * {@code xyzghfm} have both the same common substring and subsequence, namely {@code xyz}. However,
+    * {@code axbyczqrs} and {@code abcxyzqtv} have the longest common subsequence {@code xyzq} because a
     * subsequence need not have adjacent characters.
     * </p>
     *

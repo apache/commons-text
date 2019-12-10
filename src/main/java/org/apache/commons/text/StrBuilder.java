@@ -268,7 +268,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * This method is the same as checking {@link #length()} and is provided to match the
      * API of Collections.
      *
-     * @return <code>true</code> if the size is <code>0</code>.
+     * @return {@code true} if the size is {@code 0}.
      */
     public boolean isEmpty() {
         return size == 0;
@@ -278,7 +278,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * Clears the string builder (convenience Collections API style method).
      * <p>
      * This method does not reduce the size of the internal character buffer.
-     * To do that, call <code>clear()</code> followed by {@link #minimizeCapacity()}.
+     * To do that, call {@code clear()} followed by {@link #minimizeCapacity()}.
      * <p>
      * This method is the same as {@link #setLength(int)} called with zero
      * and is provided to match the API of Collections.
@@ -480,7 +480,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Appends the text representing <code>null</code> to this string builder.
+     * Appends the text representing {@code null} to this string builder.
      *
      * @return this, to enable chaining
      */
@@ -903,7 +903,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Appends an int value to the string builder using <code>String.valueOf</code>.
+     * Appends an int value to the string builder using {@code String.valueOf}.
      *
      * @param value  the value to append
      * @return this, to enable chaining
@@ -913,7 +913,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Appends a long value to the string builder using <code>String.valueOf</code>.
+     * Appends a long value to the string builder using {@code String.valueOf}.
      *
      * @param value  the value to append
      * @return this, to enable chaining
@@ -923,7 +923,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Appends a float value to the string builder using <code>String.valueOf</code>.
+     * Appends a float value to the string builder using {@code String.valueOf}.
      *
      * @param value  the value to append
      * @return this, to enable chaining
@@ -933,7 +933,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Appends a double value to the string builder using <code>String.valueOf</code>.
+     * Appends a double value to the string builder using {@code String.valueOf}.
      *
      * @param value  the value to append
      * @return this, to enable chaining
@@ -1107,7 +1107,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Appends an int value followed by a new line to the string builder using <code>String.valueOf</code>.
+     * Appends an int value followed by a new line to the string builder using {@code String.valueOf}.
      *
      * @param value  the value to append
      * @return this, to enable chaining
@@ -1117,7 +1117,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Appends a long value followed by a new line to the string builder using <code>String.valueOf</code>.
+     * Appends a long value followed by a new line to the string builder using {@code String.valueOf}.
      *
      * @param value  the value to append
      * @return this, to enable chaining
@@ -1127,7 +1127,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Appends a float value followed by a new line to the string builder using <code>String.valueOf</code>.
+     * Appends a float value followed by a new line to the string builder using {@code String.valueOf}.
      *
      * @param value  the value to append
      * @return this, to enable chaining
@@ -1137,7 +1137,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Appends a double value followed by a new line to the string builder using <code>String.valueOf</code>.
+     * Appends a double value followed by a new line to the string builder using {@code String.valueOf}.
      *
      * @param value  the value to append
      * @return this, to enable chaining
@@ -1452,7 +1452,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     //-----------------------------------------------------------------------
     /**
      * Appends an object to the builder padding on the left to a fixed width.
-     * The <code>toString</code> of the object is used.
+     * The {@code toString} of the object is used.
      * If the object is larger than the length, the left hand side is lost.
      * If the object is null, the null text value is used.
      *
@@ -1485,7 +1485,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
 
     /**
      * Appends an object to the builder padding on the left to a fixed width.
-     * The <code>String.valueOf</code> of the <code>int</code> value is used.
+     * The {@code String.valueOf} of the {@code int} value is used.
      * If the formatted value is larger than the length, the left hand side is lost.
      *
      * @param value  the value to append
@@ -1499,7 +1499,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
 
     /**
      * Appends an object to the builder padding on the right to a fixed length.
-     * The <code>toString</code> of the object is used.
+     * The {@code toString} of the object is used.
      * If the object is larger than the length, the right hand side is lost.
      * If the object is null, null text value is used.
      *
@@ -1532,7 +1532,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
 
     /**
      * Appends an object to the builder padding on the right to a fixed length.
-     * The <code>String.valueOf</code> of the <code>int</code> value is used.
+     * The {@code String.valueOf} of the {@code int} value is used.
      * If the object is larger than the length, the right hand side is lost.
      *
      * @param value  the value to append
@@ -2250,7 +2250,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * Extracts the leftmost characters from the string builder without
      * throwing an exception.
      * <p>
-     * This method extracts the left <code>length</code> characters from
+     * This method extracts the left {@code length} characters from
      * the builder. If this many characters are not available, the whole
      * builder is returned. Thus the returned string may be shorter than the
      * length requested.
@@ -2272,7 +2272,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * Extracts the rightmost characters from the string builder without
      * throwing an exception.
      * <p>
-     * This method extracts the right <code>length</code> characters from
+     * This method extracts the right {@code length} characters from
      * the builder. If this many characters are not available, the whole
      * builder is returned. Thus the returned string may be shorter than the
      * length requested.
@@ -2294,7 +2294,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * Extracts some characters from the middle of the string builder without
      * throwing an exception.
      * <p>
-     * This method extracts <code>length</code> characters from the builder
+     * This method extracts {@code length} characters from the builder
      * at the specified index.
      * If the index is negative it is treated as zero.
      * If the index is greater than the builder size, it is treated as the builder size.
@@ -2650,8 +2650,8 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * This method allows the contents of the builder to be read
      * using any standard method that expects a Reader.
      * <p>
-     * To use, simply create a <code>StrBuilder</code>, populate it with
-     * data, call <code>asReader</code>, and then read away.
+     * To use, simply create a {@code StrBuilder}, populate it with
+     * data, call {@code asReader}, and then read away.
      * <p>
      * The internal character array is shared between the builder and the reader.
      * This allows you to append to the builder after creating the reader,
@@ -2674,9 +2674,9 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * This method allows you to populate the contents of the builder
      * using any standard method that takes a Writer.
      * <p>
-     * To use, simply create a <code>StrBuilder</code>,
-     * call <code>asWriter</code>, and populate away. The data is available
-     * at any time using the methods of the <code>StrBuilder</code>.
+     * To use, simply create a {@code StrBuilder},
+     * call {@code asWriter}, and populate away. The data is available
+     * at any time using the methods of the {@code StrBuilder}.
      * <p>
      * The internal character array is shared between the builder and the writer.
      * This allows you to intermix calls that append to the builder and
@@ -2693,7 +2693,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Appends current contents of this <code>StrBuilder</code> to the
+     * Appends current contents of this {@code StrBuilder} to the
      * provided {@link Appendable}.
      * <p>
      * This method tries to avoid doing any extra copies of contents.

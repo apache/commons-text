@@ -41,7 +41,7 @@ abstract class AbstractStringLookup implements StringLookup {
     protected static final String SPLIT_STR = String.valueOf(SPLIT_CH);
 
     /**
-     * Returns the substring after the first occurrence of <code>ch</code> in <code>value</code>.
+     * Returns the substring after the first occurrence of {@code ch} in {@code value}.
      *
      * @param value
      *            The source string.
@@ -55,7 +55,7 @@ abstract class AbstractStringLookup implements StringLookup {
     }
 
     /**
-     * Returns the substring after the first occurrence of <code>ch</code> in <code>value</code>.
+     * Returns the substring after the first occurrence of {@code ch} in {@code value}.
      *
      * @param value
      *            The source string.
@@ -69,7 +69,7 @@ abstract class AbstractStringLookup implements StringLookup {
     }
 
     /**
-     * Returns the substring after the first occurrence of <code>str</code> in <code>value</code>.
+     * Returns the substring after the first occurrence of {@code str} in {@code value}.
      *
      * @param value
      *            The source string.

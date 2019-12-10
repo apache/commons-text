@@ -24,8 +24,8 @@ import java.util.Set;
 /**
  * <p>Case manipulation operations on Strings that contain words.</p>
  *
- * <p>This class tries to handle <code>null</code> input gracefully.
- * An exception will not be thrown for a <code>null</code> input.
+ * <p>This class tries to handle {@code null} input gracefully.
+ * An exception will not be thrown for a {@code null} input.
  * Each method documents its behaviour in more detail.</p>
  *
  * @since 1.2
@@ -33,9 +33,9 @@ import java.util.Set;
 public class CaseUtils {
 
     /**
-     * <p><code>CaseUtils</code> instances should NOT be constructed in
+     * <p>{@code CaseUtils} instances should NOT be constructed in
      * standard programming. Instead, the class should be used as
-     * <code>CaseUtils.toCamelCase("foo bar", true, new char[]{'-'});</code>.</p>
+     * {@code CaseUtils.toCamelCase("foo bar", true, new char[]{'-'});}.</p>
      *
      * <p>This constructor is public to permit tools that require a JavaBean
      * instance to operate.</p>
@@ -54,7 +54,7 @@ public class CaseUtils {
      * character may or may not be capitalized and it's determined by the user input for capitalizeFirstLetter
      * variable.</p>
      *
-     * <p>A <code>null</code> input String returns <code>null</code>.
+     * <p>A {@code null} input String returns {@code null}.
      * Capitalization uses the Unicode title case, normally equivalent to
      * upper case and cannot perform locale-sensitive mappings.</p>
      *
@@ -71,7 +71,7 @@ public class CaseUtils {
      * @param str  the String to be converted to camelCase, may be null
      * @param capitalizeFirstLetter boolean that determines if the first character of first word should be title case.
      * @param delimiters  set of characters to determine capitalization, null and/or empty array means whitespace
-     * @return camelCase of String, <code>null</code> if null String input
+     * @return camelCase of String, {@code null} if null String input
      */
     public static String toCamelCase(String str, final boolean capitalizeFirstLetter, final char... delimiters) {
         if (StringUtils.isEmpty(str)) {

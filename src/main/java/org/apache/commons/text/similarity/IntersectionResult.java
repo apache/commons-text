@@ -22,7 +22,7 @@ import java.util.Objects;
  * Represents the intersection result between two sets.
  *
  * <p>Stores the size of set A, set B and the intersection of A and B
- * (<code>|A &#8745; B|</code>).</p>
+ * ({@code |A &#8745; B|}).</p>
  *
  * <p>This class is immutable.</p>
  *
@@ -48,7 +48,7 @@ public class IntersectionResult {
      *
      * @param sizeA the size of set A ({@code |A|})
      * @param sizeB the size of set B ({@code |B|})
-     * @param intersection the size of the intersection of A and B (<code>|A &#8745; B|</code>)
+     * @param intersection the size of the intersection of A and B ({@code |A &#8745; B|})
      * @throws IllegalArgumentException if the sizes are negative or the intersection is greater
      * than the minimum of the two set sizes
      */
@@ -88,7 +88,7 @@ public class IntersectionResult {
     /**
      * Get the size of the intersection between set A and B.
      *
-     * @return <code>|A &#8745; B|</code>
+     * @return {@code |A &#8745; B|}
      */
     public int getIntersection() {
         return intersection;

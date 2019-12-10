@@ -58,17 +58,17 @@ import org.apache.commons.text.StringSubstitutor;
  */
 final class JavaPlatformStringLookup extends AbstractStringLookup {
 
-    /** <code>locale</code> key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    /** {@code locale} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_LOCALE = "locale";
-    /** <code>hardware</code> key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    /** {@code hardware} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_HARDWARE = "hardware";
-    /** <code>os</code> key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    /** {@code os} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_OS = "os";
-    /** <code>vm</code> key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    /** {@code vm} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_VM = "vm";
-    /** <code>runtime</code> key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    /** {@code runtime} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_RUNTIME = "runtime";
-    /** <code>version</code> key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    /** {@code version} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_VERSION = "version";
 
     /**

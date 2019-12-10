@@ -611,7 +611,7 @@ public class StrTokenizerTest {
 
     /**
      * Tests that the {@link StrTokenizer#clone()} clone method catches
-     * {@link CloneNotSupportedException} and returns <code>null</code>.
+     * {@link CloneNotSupportedException} and returns {@code null}.
      */
     @Test
     public void testCloneNotSupportedException() {
