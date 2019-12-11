@@ -27,16 +27,16 @@ public interface StringMatcher {
     /**
      * Returns the number of matching characters, zero for no match.
      * <p>
-     * This method is called to check for a match. The parameter {@code pos} represents the current position to be
+     * This method is called to check for a match. The parameter {@code start} represents the start position to be
      * checked in the string {@code buffer} (a character array which must not be changed). The API guarantees that
-     * {@code pos} is a valid index for {@code buffer}.
+     * {@code start} is a valid index for {@code buffer}.
      * </p>
      * <p>
      * The character array may be larger than the active area to be matched. Only values in the buffer between the
      * specified indices may be accessed.
      * </p>
      * <p>
-     * The matching code may check one character or many. It may check characters preceding {@code pos} as well as
+     * The matching code may check one character or many. It may check characters preceding {@code start} as well as
      * those after, so long as no checks exceed the bounds specified.
      * </p>
      * <p>
