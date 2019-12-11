@@ -46,7 +46,7 @@ public interface StringMatcher {
      *
      * @param buffer
      *            the text content to match against, do not change
-     * @param pos
+     * @param start
      *            the starting position for the match, valid for buffer
      * @param bufferStart
      *            the first active index in the buffer, valid for buffer
@@ -54,6 +54,6 @@ public interface StringMatcher {
      *            the end index (exclusive) of the active buffer, valid for buffer
      * @return The number of matching characters, or zero if there is no match
      */
-    int isMatch(char[] buffer, int pos, int bufferStart, int bufferEnd);
+    int isMatch(char[] buffer, int start, int bufferStart, int bufferEnd);
 
 }

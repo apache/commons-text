@@ -52,7 +52,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          *
          * @param buffer
          *            the text content to match against, do not change
-         * @param pos
+         * @param start
          *            the starting position for the match, valid for buffer
          * @param bufferStart
          *            the first active index in the buffer, valid for buffer
@@ -61,8 +61,8 @@ abstract class AbstractStringMatcher implements StringMatcher {
          * @return The number of matching characters, zero for no match
          */
         @Override
-        public int isMatch(final char[] buffer, final int pos, final int bufferStart, final int bufferEnd) {
-            return ch == buffer[pos] ? 1 : 0;
+        public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
+            return ch == buffer[start] ? 1 : 0;
         }
     }
 
@@ -90,7 +90,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          *
          * @param buffer
          *            the text content to match against, do not change
-         * @param pos
+         * @param start
          *            the starting position for the match, valid for buffer
          * @param bufferStart
          *            the first active index in the buffer, valid for buffer
@@ -99,8 +99,8 @@ abstract class AbstractStringMatcher implements StringMatcher {
          * @return The number of matching characters, zero for no match
          */
         @Override
-        public int isMatch(final char[] buffer, final int pos, final int bufferStart, final int bufferEnd) {
-            return Arrays.binarySearch(chars, buffer[pos]) >= 0 ? 1 : 0;
+        public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
+            return Arrays.binarySearch(chars, buffer[start]) >= 0 ? 1 : 0;
         }
     }
 
@@ -121,7 +121,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          *
          * @param buffer
          *            the text content to match against, do not change
-         * @param pos
+         * @param start
          *            the starting position for the match, valid for buffer
          * @param bufferStart
          *            the first active index in the buffer, valid for buffer
@@ -130,7 +130,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          * @return The number of matching characters, zero for no match
          */
         @Override
-        public int isMatch(final char[] buffer, final int pos, final int bufferStart, final int bufferEnd) {
+        public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
             return 0;
         }
     }
@@ -158,7 +158,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          *
          * @param buffer
          *            the text content to match against, do not change
-         * @param pos
+         * @param start
          *            the starting position for the match, valid for buffer
          * @param bufferStart
          *            the first active index in the buffer, valid for buffer
@@ -167,13 +167,13 @@ abstract class AbstractStringMatcher implements StringMatcher {
          * @return The number of matching characters, zero for no match
          */
         @Override
-        public int isMatch(final char[] buffer, int pos, final int bufferStart, final int bufferEnd) {
+        public int isMatch(final char[] buffer, int start, final int bufferStart, final int bufferEnd) {
             final int len = chars.length;
-            if (pos + len > bufferEnd) {
+            if (start + len > bufferEnd) {
                 return 0;
             }
-            for (int i = 0; i < chars.length; i++, pos++) {
-                if (chars[i] != buffer[pos]) {
+            for (int i = 0; i < chars.length; i++, start++) {
+                if (chars[i] != buffer[start]) {
                     return 0;
                 }
             }
@@ -209,7 +209,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          *
          * @param buffer
          *            the text content to match against, do not change
-         * @param pos
+         * @param start
          *            the starting position for the match, valid for buffer
          * @param bufferStart
          *            the first active index in the buffer, valid for buffer
@@ -218,8 +218,8 @@ abstract class AbstractStringMatcher implements StringMatcher {
          * @return The number of matching characters, zero for no match
          */
         @Override
-        public int isMatch(final char[] buffer, final int pos, final int bufferStart, final int bufferEnd) {
-            return buffer[pos] <= SPACE_INT ? 1 : 0;
+        public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
+            return buffer[start] <= SPACE_INT ? 1 : 0;
         }
     }
 

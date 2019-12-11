@@ -1581,10 +1581,10 @@ public class TextStringBuilderTest {
         assertEquals(23, sb.lastIndexOf(A_NUMBER_MATCHER, 24));
     }
 
-    static final StringMatcher A_NUMBER_MATCHER = (buffer, pos, bufferStart, bufferEnd) -> {
-        if (buffer[pos] == 'A') {
-            pos++;
-            if (pos < bufferEnd && buffer[pos] >= '0' && buffer[pos] <= '9') {
+    static final StringMatcher A_NUMBER_MATCHER = (buffer, start, bufferStart, bufferEnd) -> {
+        if (buffer[start] == 'A') {
+            start++;
+            if (start < bufferEnd && buffer[start] >= '0' && buffer[start] <= '9') {
                 return 2;
             }
         }
