@@ -25,41 +25,9 @@ package org.apache.commons.text.matcher;
 public final class StringMatcherFactory {
 
     /**
-     * Defines the singleton for this class.
-     */
-    public static final StringMatcherFactory INSTANCE = new StringMatcherFactory();
-
-    /**
-     * Matches the same characters as StringTokenizer, namely space, tab, newline, form feed.
-     */
-    private static final AbstractStringMatcher.CharSetMatcher SPLIT_MATCHER = new AbstractStringMatcher.CharSetMatcher(
-            " \t\n\r\f".toCharArray());
-
-    /**
      * Matches the comma character.
      */
     private static final AbstractStringMatcher.CharMatcher COMMA_MATCHER = new AbstractStringMatcher.CharMatcher(',');
-
-    /**
-     * Matches the tab character.
-     */
-    private static final AbstractStringMatcher.CharMatcher TAB_MATCHER = new AbstractStringMatcher.CharMatcher('\t');
-
-    /**
-     * Matches the space character.
-     */
-    private static final AbstractStringMatcher.CharMatcher SPACE_MATCHER = new AbstractStringMatcher.CharMatcher(' ');
-
-    /**
-     * Matches the String trim() whitespace characters.
-     */
-    private static final AbstractStringMatcher.TrimMatcher TRIM_MATCHER = new AbstractStringMatcher.TrimMatcher();
-
-    /**
-     * Matches the double quote character.
-     */
-    private static final AbstractStringMatcher.CharMatcher SINGLE_QUOTE_MATCHER = new AbstractStringMatcher.CharMatcher(
-            '\'');
 
     /**
      * Matches the double quote character.
@@ -68,15 +36,47 @@ public final class StringMatcherFactory {
             '"');
 
     /**
+     * Defines the singleton for this class.
+     */
+    public static final StringMatcherFactory INSTANCE = new StringMatcherFactory();
+
+    /**
+     * Matches no characters.
+     */
+    private static final AbstractStringMatcher.NoMatcher NONE_MATCHER = new AbstractStringMatcher.NoMatcher();
+
+    /**
      * Matches the single or double quote character.
      */
     private static final AbstractStringMatcher.CharSetMatcher QUOTE_MATCHER = new AbstractStringMatcher.CharSetMatcher(
             "'\"".toCharArray());
 
     /**
-     * Matches no characters.
+     * Matches the double quote character.
      */
-    private static final AbstractStringMatcher.NoMatcher NONE_MATCHER = new AbstractStringMatcher.NoMatcher();
+    private static final AbstractStringMatcher.CharMatcher SINGLE_QUOTE_MATCHER = new AbstractStringMatcher.CharMatcher(
+            '\'');
+
+    /**
+     * Matches the space character.
+     */
+    private static final AbstractStringMatcher.CharMatcher SPACE_MATCHER = new AbstractStringMatcher.CharMatcher(' ');
+
+    /**
+     * Matches the same characters as StringTokenizer, namely space, tab, newline, form feed.
+     */
+    private static final AbstractStringMatcher.CharSetMatcher SPLIT_MATCHER = new AbstractStringMatcher.CharSetMatcher(
+            " \t\n\r\f".toCharArray());
+
+    /**
+     * Matches the tab character.
+     */
+    private static final AbstractStringMatcher.CharMatcher TAB_MATCHER = new AbstractStringMatcher.CharMatcher('\t');
+
+    /**
+     * Matches the String trim() whitespace characters.
+     */
+    private static final AbstractStringMatcher.TrimMatcher TRIM_MATCHER = new AbstractStringMatcher.TrimMatcher();
 
     /**
      * No need to build instances for now.
