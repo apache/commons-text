@@ -1256,9 +1256,9 @@ public class StringSubstitutor {
      */
     private int substitute(final TextStringBuilder buf, final int offset, final int length,
             List<String> priorVariables) {
-        final StringMatcher pfxMatcher = getVariablePrefixMatcher();
-        final StringMatcher suffMatcher = getVariableSuffixMatcher();
-        final char escape = getEscapeChar();
+        final StringMatcher prefixMatcher = getVariablePrefixMatcher();
+        final StringMatcher suffixMatcher = getVariableSuffixMatcher();
+        final char escapeCh = getEscapeChar();
         final StringMatcher valueDelimMatcher = getValueDelimiterMatcher();
         final boolean substitutionInVariablesEnabled = isEnableSubstitutionInVariables();
         final boolean substitutionInValuesDisabled = isDisableSubstitutionInValues();
@@ -1271,12 +1271,12 @@ public class StringSubstitutor {
         int bufEnd = offset + length;
         int pos = offset;
         while (pos < bufEnd) {
-            final int startMatchLen = pfxMatcher.isMatch(chars, pos, offset, bufEnd);
+            final int startMatchLen = prefixMatcher.isMatch(chars, pos, offset, bufEnd);
             if (startMatchLen == 0) {
                 pos++;
             } else {
                 // found variable start marker
-                if (pos > offset && chars[pos - 1] == escape) {
+                if (pos > offset && chars[pos - 1] == escapeCh) {
                     // escaped
                     if (preserveEscapes) {
                         pos++;
@@ -1294,15 +1294,15 @@ public class StringSubstitutor {
                     int endMatchLen = 0;
                     int nestedVarCount = 0;
                     while (pos < bufEnd) {
-                        if (substitutionInVariablesEnabled && pfxMatcher.isMatch(chars, pos, offset, bufEnd) != 0) {
+                        if (substitutionInVariablesEnabled && prefixMatcher.isMatch(chars, pos, offset, bufEnd) != 0) {
                             // found a nested variable start
-                            endMatchLen = pfxMatcher.isMatch(chars, pos, offset, bufEnd);
+                            endMatchLen = prefixMatcher.isMatch(chars, pos, offset, bufEnd);
                             nestedVarCount++;
                             pos += endMatchLen;
                             continue;
                         }
 
-                        endMatchLen = suffMatcher.isMatch(chars, pos, offset, bufEnd);
+                        endMatchLen = suffixMatcher.isMatch(chars, pos, offset, bufEnd);
                         if (endMatchLen == 0) {
                             pos++;
                         } else {
@@ -1327,7 +1327,7 @@ public class StringSubstitutor {
                                     for (int i = 0; i < varNameExprChars.length; i++) {
                                         // if there's any nested variable when nested variable substitution disabled,
                                         // then stop resolving name and default value.
-                                        if (!substitutionInVariablesEnabled && pfxMatcher.isMatch(varNameExprChars, i,
+                                        if (!substitutionInVariablesEnabled && prefixMatcher.isMatch(varNameExprChars, i,
                                                 i, varNameExprChars.length) != 0) {
                                             break;
                                         }
