@@ -1246,7 +1246,7 @@ public class StringSubstitutor {
      * Recursive handler for multiple levels of interpolation. This is the main interpolation method, which resolves the
      * values of all variable references contained in the passed in text.
      *
-     * @param buf            the string builder to substitute into, not null
+     * @param builder            the string builder to substitute into, not null
      * @param offset         the start offset within the builder, must be valid
      * @param length         the length within the builder to be processed, must be valid
      * @param priorVariables the stack keeping track of the replaced variables, may be null
@@ -1254,7 +1254,7 @@ public class StringSubstitutor {
      *         whether any change occurred.
      * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
      */
-    private int substitute(final TextStringBuilder buf, final int offset, final int length,
+    private int substitute(final TextStringBuilder builder, final int offset, final int length,
             List<String> priorVariables) {
         final StringMatcher prefixMatcher = getVariablePrefixMatcher();
         final StringMatcher suffixMatcher = getVariableSuffixMatcher();
@@ -1267,7 +1267,7 @@ public class StringSubstitutor {
         final boolean top = priorVariables == null;
         boolean altered = false;
         int lengthChange = 0;
-        char[] chars = buf.buffer;
+        char[] chars = builder.buffer;
         int bufEnd = offset + length;
         int pos = offset;
         while (pos < bufEnd) {
@@ -1282,8 +1282,8 @@ public class StringSubstitutor {
                         pos++;
                         continue;
                     }
-                    buf.deleteCharAt(pos - 1);
-                    chars = buf.buffer; // in case buffer was altered
+                    builder.deleteCharAt(pos - 1);
+                    chars = builder.buffer; // in case buffer was altered
                     lengthChange--;
                     altered = true;
                     bufEnd--;
@@ -1353,23 +1353,23 @@ public class StringSubstitutor {
                                 priorVariables.add(varName);
 
                                 // resolve the variable
-                                String varValue = resolveVariable(varName, buf, startPos, endPos);
+                                String varValue = resolveVariable(varName, builder, startPos, endPos);
                                 if (varValue == null) {
                                     varValue = varDefaultValue;
                                 }
                                 if (varValue != null) {
                                     final int varLen = varValue.length();
-                                    buf.replace(startPos, endPos, varValue);
+                                    builder.replace(startPos, endPos, varValue);
                                     altered = true;
                                     int change = 0;
                                     if (!substitutionInValuesDisabled) { // recursive replace
-                                        change = substitute(buf, startPos, varLen, priorVariables);
+                                        change = substitute(builder, startPos, varLen, priorVariables);
                                     }
                                     change = change + varLen - (endPos - startPos);
                                     pos += change;
                                     bufEnd += change;
                                     lengthChange += change;
-                                    chars = buf.buffer; // in case buffer was altered
+                                    chars = builder.buffer; // in case buffer was altered
                                 } else if (undefinedVariableException) {
                                     throw new IllegalArgumentException(String.format(
                                             "Cannot resolve variable '%s' (enableSubstitutionInVariables=%s).", varName,
