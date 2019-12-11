@@ -91,7 +91,6 @@ public class StringMatcherTest {
         assertThat(matcher.isMatch(BUFFER1, 12, 0, BUFFER1.length)).isEqualTo(1);
     }
 
-    // -----------------------------------------------------------------------
     @Test
     public void testMatcherIndices() {
         // remember that the API contract is tight for the isMatch() method
@@ -103,7 +102,6 @@ public class StringMatcherTest {
         assertThat(matcher.isMatch(BUFFER2, 1, 0, 2)).isEqualTo(0);
     }
 
-    // -----------------------------------------------------------------------
     @Test
     public void testNoneMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.noneMatcher();
@@ -165,7 +163,6 @@ public class StringMatcherTest {
         assertThat(matcher.isMatch(BUFFER1, 10, 0, BUFFER1.length)).isEqualTo(0);
     }
 
-    // -----------------------------------------------------------------------
     @Test
     public void testStringMatcher_String() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.stringMatcher("bc");
