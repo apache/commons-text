@@ -33,6 +33,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
      * Class used to define a character for matching purposes.
      */
     static final class CharMatcher extends AbstractStringMatcher {
+        
         /** The character to match. */
         private final char ch;
 
@@ -70,6 +71,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
      * Class used to define a set of characters for matching purposes.
      */
     static final class CharSetMatcher extends AbstractStringMatcher {
+        
         /** The set of characters to match. */
         private final char[] chars;
 
@@ -139,6 +141,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
      * Class used to define a set of characters for matching purposes.
      */
     static final class StringMatcher extends AbstractStringMatcher {
+        
         /** The string to match, as a character array. */
         private final char[] chars;
 
