@@ -30,15 +30,19 @@ public interface StringMatcher {
      * This method is called to check for a match. The parameter {@code pos} represents the current position to be
      * checked in the string {@code buffer} (a character array which must not be changed). The API guarantees that
      * {@code pos} is a valid index for {@code buffer}.
+     * </p>
      * <p>
      * The character array may be larger than the active area to be matched. Only values in the buffer between the
      * specified indices may be accessed.
+     * </p>
      * <p>
      * The matching code may check one character or many. It may check characters preceding {@code pos} as well as
      * those after, so long as no checks exceed the bounds specified.
+     * </p>
      * <p>
      * It must return zero for no match, or a positive number if a match was found. The number indicates the number of
      * characters that matched.
+     * </p>
      *
      * @param buffer
      *            the text content to match against, do not change
