@@ -781,8 +781,8 @@ public class StringSubstitutor {
      * </p>
      *
      * @param source the string to replace in, null returns null
-     * @param offset the start offset within the array, must be valid
-     * @param length the length within the array to be processed, must be valid
+     * @param offset the start offset within the source, must be valid
+     * @param length the length within the source to be processed, must be valid
      * @return The result of the replace operation
      * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
      */
@@ -824,8 +824,8 @@ public class StringSubstitutor {
      * </p>
      *
      * @param source the buffer to use as a template, not changed, null returns null
-     * @param offset the start offset within the array, must be valid
-     * @param length the length within the array to be processed, must be valid
+     * @param offset the start offset within the source, must be valid
+     * @param length the length within the source to be processed, must be valid
      * @return The result of the replace operation
      * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
      */
@@ -865,8 +865,8 @@ public class StringSubstitutor {
      * </p>
      *
      * @param source the builder to use as a template, not changed, null returns null
-     * @param offset the start offset within the array, must be valid
-     * @param length the length within the array to be processed, must be valid
+     * @param offset the start offset within the source, must be valid
+     * @param length the length within the source to be processed, must be valid
      * @return The result of the replace operation
      * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
      */
@@ -903,8 +903,8 @@ public class StringSubstitutor {
      * </p>
      *
      * @param source the buffer to replace in, updated, null returns zero
-     * @param offset the start offset within the array, must be valid
-     * @param length the length within the buffer to be processed, must be valid
+     * @param offset the start offset within the source, must be valid
+     * @param length the length within the source to be processed, must be valid
      * @return true if altered
      * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
      */
@@ -944,8 +944,8 @@ public class StringSubstitutor {
      * </p>
      *
      * @param source the buffer to replace in, updated, null returns zero
-     * @param offset the start offset within the array, must be valid
-     * @param length the length within the buffer to be processed, must be valid
+     * @param offset the start offset within the source, must be valid
+     * @param length the length within the source to be processed, must be valid
      * @return true if altered
      * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
      */
@@ -986,8 +986,8 @@ public class StringSubstitutor {
      * </p>
      *
      * @param source the builder to replace in, null returns zero
-     * @param offset the start offset within the array, must be valid
-     * @param length the length within the builder to be processed, must be valid
+     * @param offset the start offset within the source, must be valid
+     * @param length the length within the source to be processed, must be valid
      * @return true if altered
      * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
      */
