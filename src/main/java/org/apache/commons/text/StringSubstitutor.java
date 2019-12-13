@@ -561,6 +561,7 @@ public class StringSubstitutor {
      * The variable default value delimiter is the character or characters that delimite the variable name and the
      * variable default value. This delimiter is expressed in terms of a matcher allowing advanced variable default
      * value delimiter matches.
+     * </p>
      * <p>
      * If it returns null, then the variable default value resolution is disabled.
      *
@@ -577,6 +578,7 @@ public class StringSubstitutor {
      * <p>
      * The variable prefix is the character or characters that identify the start of a variable. This prefix is
      * expressed in terms of a matcher allowing advanced prefix matches.
+     * </p>
      *
      * @return The prefix matcher in use
      */
@@ -591,6 +593,7 @@ public class StringSubstitutor {
      * <p>
      * The variable suffix is the character or characters that identify the end of a variable. This suffix is expressed
      * in terms of a matcher allowing advanced suffix matches.
+     * </p>
      *
      * @return The suffix matcher in use
      */
@@ -676,6 +679,7 @@ public class StringSubstitutor {
      * <p>
      * Only the specified portion of the array will be processed. The rest of the array is not processed, and is not
      * returned.
+     * </p>
      *
      * @param source the character array to replace in, not altered, null returns null
      * @param offset the start offset within the array, must be valid
@@ -713,6 +717,7 @@ public class StringSubstitutor {
      * <p>
      * Only the specified portion of the buffer will be processed. The rest of the buffer is not processed, and is not
      * returned.
+     * </p>
      *
      * @param source the buffer to use as a template, not changed, null returns null
      * @param offset the start offset within the array, must be valid
@@ -773,6 +778,7 @@ public class StringSubstitutor {
      * <p>
      * Only the specified portion of the string will be processed. The rest of the string is not processed, and is not
      * returned.
+     * </p>
      *
      * @param source the string to replace in, null returns null
      * @param offset the start offset within the array, must be valid
@@ -815,6 +821,7 @@ public class StringSubstitutor {
      * <p>
      * Only the specified portion of the buffer will be processed. The rest of the buffer is not processed, and is not
      * returned.
+     * </p>
      *
      * @param source the buffer to use as a template, not changed, null returns null
      * @param offset the start offset within the array, must be valid
@@ -855,6 +862,7 @@ public class StringSubstitutor {
      * <p>
      * Only the specified portion of the builder will be processed. The rest of the builder is not processed, and is not
      * returned.
+     * </p>
      *
      * @param source the builder to use as a template, not changed, null returns null
      * @param offset the start offset within the array, must be valid
@@ -892,6 +900,7 @@ public class StringSubstitutor {
      * <p>
      * Only the specified portion of the buffer will be processed. The rest of the buffer is not processed, but it is
      * not deleted.
+     * </p>
      *
      * @param source the buffer to replace in, updated, null returns zero
      * @param offset the start offset within the array, must be valid
@@ -932,6 +941,7 @@ public class StringSubstitutor {
      * <p>
      * Only the specified portion of the buffer will be processed. The rest of the buffer is not processed, but it is
      * not deleted.
+     * </p>
      *
      * @param source the buffer to replace in, updated, null returns zero
      * @param offset the start offset within the array, must be valid
@@ -973,6 +983,7 @@ public class StringSubstitutor {
      * <p>
      * Only the specified portion of the builder will be processed. The rest of the builder is not processed, but it is
      * not deleted.
+     * </p>
      *
      * @param source the builder to replace in, null returns zero
      * @param offset the start offset within the array, must be valid
@@ -992,10 +1003,12 @@ public class StringSubstitutor {
      * <p>
      * Most users of this class do not need to call this method. This method is called automatically by the substitution
      * process.
+     * </p>
      * <p>
      * Writers of subclasses can override this method if they need to alter how each substitution occurs. The method is
      * passed the variable's name and must return the corresponding value. This implementation uses the
      * {@link #getStringLookup()} with the variable's name as the key.
+     * </p>
      *
      * @param variableName the name of the variable, not null
      * @param buf          the buffer where the substitution is occurring, not null
@@ -1079,6 +1092,7 @@ public class StringSubstitutor {
      * <p>
      * The variable default value delimiter is the character or characters that delimite the variable name and the
      * variable default value. This method allows a single character variable default value delimiter to be easily set.
+     * </p>
      *
      * @param valueDelimiter the variable default value delimiter character to use
      * @return this, to enable chaining
@@ -1092,9 +1106,11 @@ public class StringSubstitutor {
      * <p>
      * The variable default value delimiter is the character or characters that delimite the variable name and the
      * variable default value. This method allows a string variable default value delimiter to be easily set.
+     * </p>
      * <p>
      * If the {@code valueDelimiter} is null or empty string, then the variable default value resolution becomes
      * disabled.
+     * </p>
      *
      * @param valueDelimiter the variable default value delimiter string to use, may be null or empty
      * @return this, to enable chaining
@@ -1113,8 +1129,10 @@ public class StringSubstitutor {
      * The variable default value delimiter is the character or characters that delimite the variable name and the
      * variable default value. This delimiter is expressed in terms of a matcher allowing advanced variable default
      * value delimiter matches.
+     * </p>
      * <p>
      * If the {@code valueDelimiterMatcher} is null, then the variable default value resolution becomes disabled.
+     * </p>
      *
      * @param valueDelimiterMatcher variable default value delimiter matcher to use, may be null
      * @return this, to enable chaining
@@ -1129,6 +1147,7 @@ public class StringSubstitutor {
      * <p>
      * The variable prefix is the character or characters that identify the start of a variable. This method allows a
      * single character prefix to be easily set.
+     * </p>
      *
      * @param prefix the prefix character to use
      * @return this, to enable chaining
@@ -1142,6 +1161,7 @@ public class StringSubstitutor {
      * <p>
      * The variable prefix is the character or characters that identify the start of a variable. This method allows a
      * string prefix to be easily set.
+     * </p>
      *
      * @param prefix the prefix for variables, not null
      * @return this, to enable chaining
@@ -1157,6 +1177,7 @@ public class StringSubstitutor {
      * <p>
      * The variable prefix is the character or characters that identify the start of a variable. This prefix is
      * expressed in terms of a matcher allowing advanced prefix matches.
+     * </p>
      *
      * @param prefixMatcher the prefix matcher to use, null ignored
      * @return this, to enable chaining
@@ -1184,6 +1205,7 @@ public class StringSubstitutor {
      * <p>
      * The variable suffix is the character or characters that identify the end of a variable. This method allows a
      * single character suffix to be easily set.
+     * </p>
      *
      * @param suffix the suffix character to use
      * @return this, to enable chaining
@@ -1197,6 +1219,7 @@ public class StringSubstitutor {
      * <p>
      * The variable suffix is the character or characters that identify the end of a variable. This method allows a
      * string suffix to be easily set.
+     * </p>
      *
      * @param suffix the suffix for variables, not null
      * @return this, to enable chaining
@@ -1212,6 +1235,7 @@ public class StringSubstitutor {
      * <p>
      * The variable suffix is the character or characters that identify the end of a variable. This suffix is expressed
      * in terms of a matcher allowing advanced suffix matches.
+     * </p>
      *
      * @param suffixMatcher the suffix matcher to use, null ignored
      * @return this, to enable chaining
@@ -1229,9 +1253,11 @@ public class StringSubstitutor {
      * <p>
      * Most users of this class do not need to call this method. This method will be called automatically by another
      * (public) method.
+     * </p>
      * <p>
      * Writers of subclasses can override this method if they need access to the substitution process at the start or
      * end.
+     * </p>
      *
      * @param buf    the string builder to substitute into, not null
      * @param offset the start offset within the builder, must be valid
