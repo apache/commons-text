@@ -75,7 +75,6 @@ public class StringSubstitutorTest {
         doTestReplace(sub, expectedResult, replaceTemplate, substring);
     }
 
-    // -----------------------------------------------------------------------
     private void doTestReplace(final StringSubstitutor sub, final String expectedResult, final String replaceTemplate,
             final boolean substring) {
         final String expectedShortResult = expectedResult.substring(1, expectedResult.length() - 1);
@@ -161,7 +160,6 @@ public class StringSubstitutorTest {
         values = null;
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Tests get set.
      */
@@ -492,7 +490,6 @@ public class StringSubstitutorTest {
         doTestReplace("The quick brown fox jumps over the lazy dog.", "The ${animal} jumps over the ${target}.", true);
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Tests simple key replace.
      */
@@ -575,7 +572,6 @@ public class StringSubstitutorTest {
         doTestNoReplace("${${ }}");
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Tests protected.
      */
@@ -609,7 +605,6 @@ public class StringSubstitutorTest {
         assertEquals("Hello there commons!", StringSubstitutor.replace("@greeting@ there @name@!", map, "@", "@"));
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Tests static.
      */
