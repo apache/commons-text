@@ -58,4 +58,9 @@ public class ScriptStringLookupTest {
         Assertions.assertEquals("Hello World!", ScriptStringLookup.INSTANCE.lookup("javascript:\"Hello World!\""));
     }
 
+    @Test
+    public void testScriptWithColumn() {
+        Assertions.assertEquals("It Works", ScriptStringLookup.INSTANCE.lookup("javascript:true ? \"It Works\" : \"It Does Not Work\" "));
+    }
+
 }
