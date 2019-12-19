@@ -64,4 +64,11 @@ public class ScriptStringLookupTest {
          ScriptStringLookup.INSTANCE.lookup("javascript:true ? \"It Works\" : \"It Does Not Work\" "));
     }
 
+    @Test
+    public void testNoColumn() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            ScriptStringLookup.INSTANCE.lookup("javascript=\"test\"");
+        });
+    }
+
 }
