@@ -59,13 +59,13 @@ public class ScriptStringLookupTest {
     }
 
     @Test
-    public void testScriptWithColumn() {
+    public void testScriptUsingMultipleColons() {
         Assertions.assertEquals("It Works",
          ScriptStringLookup.INSTANCE.lookup("javascript:true ? \"It Works\" : \"It Does Not Work\" "));
     }
 
     @Test
-    public void testNoColumn() {
+    public void testScriptMissingColon() {
         assertThrows(IllegalArgumentException.class, () -> {
             ScriptStringLookup.INSTANCE.lookup("javascript=\"test\"");
         });
