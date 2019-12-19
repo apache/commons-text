@@ -69,7 +69,7 @@ final class ScriptStringLookup extends AbstractStringLookup {
         if (key == null) {
             return null;
         }
-        final String[] keys = key.split(SPLIT_STR);
+        final String[] keys = key.split(SPLIT_STR, 2);
         final int keyLen = keys.length;
         if (keyLen != 2) {
             throw IllegalArgumentExceptions.format("Bad script key format [%s]; expected format is DocumentPath:Key.",
