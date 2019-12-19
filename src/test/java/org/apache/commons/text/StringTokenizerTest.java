@@ -309,7 +309,7 @@ public class StringTokenizerTest {
     @Test
     public void testDelimMatcher() {
         final String input = "a/b\\c";
-        final StringMatcher delimMatcher = StringMatcherFactory.INSTANCE.charSetMatcher(new char[] {'/', '\\' });
+        final StringMatcher delimMatcher = StringMatcherFactory.INSTANCE.charSetMatcher('/', '\\');
 
         final StringTokenizer tok = new StringTokenizer(input, delimMatcher);
         assertEquals("a", tok.next());
@@ -321,8 +321,8 @@ public class StringTokenizerTest {
     @Test
     public void testDelimMatcherQuoteMatcher() {
         final String input = "`a`;`b`;`c`";
-        final StringMatcher delimMatcher = StringMatcherFactory.INSTANCE.charSetMatcher(new char[] {';' });
-        final StringMatcher quoteMatcher = StringMatcherFactory.INSTANCE.charSetMatcher(new char[] {'`' });
+        final StringMatcher delimMatcher = StringMatcherFactory.INSTANCE.charSetMatcher(';');
+        final StringMatcher quoteMatcher = StringMatcherFactory.INSTANCE.charSetMatcher('`');
 
         final StringTokenizer tok = new StringTokenizer(input, delimMatcher, quoteMatcher);
         assertEquals("a", tok.next());

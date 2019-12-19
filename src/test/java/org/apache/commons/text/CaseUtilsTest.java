@@ -46,9 +46,9 @@ public class CaseUtilsTest {
         assertThat(CaseUtils.toCamelCase("", true, null)).isEqualTo("");
         assertThat(CaseUtils.toCamelCase("  ", false, null)).isEqualTo("  ");
         assertThat(CaseUtils.toCamelCase("a  b  c  @def", false, null)).isEqualTo("aBC@def");
-        assertThat(CaseUtils.toCamelCase("a b c @def", true, new char[]{})).isEqualTo("ABC@def");
-        assertThat(CaseUtils.toCamelCase("a b c @def", true, new char[]{'-'})).isEqualTo("ABC@def");
-        assertThat(CaseUtils.toCamelCase("a b c @def", true, new char[]{'-'})).isEqualTo("ABC@def");
+        assertThat(CaseUtils.toCamelCase("a b c @def", true)).isEqualTo("ABC@def");
+        assertThat(CaseUtils.toCamelCase("a b c @def", true, '-')).isEqualTo("ABC@def");
+        assertThat(CaseUtils.toCamelCase("a b c @def", true, '-')).isEqualTo("ABC@def");
 
         final char[] chars = {'-', '+', ' ', '@'};
         assertThat(CaseUtils.toCamelCase("-+@ ", true, chars)).isEqualTo("-+@ ");
@@ -56,10 +56,10 @@ public class CaseUtilsTest {
         assertThat(CaseUtils.toCamelCase("@@@@   to+CAMEL@cASE ", true, chars)).isEqualTo("ToCamelCase");
         assertThat(CaseUtils.toCamelCase("To+CA+ME L@cASE", true, chars)).isEqualTo("ToCaMeLCase");
 
-        assertThat(CaseUtils.toCamelCase("To.Camel.Case", false, new char[]{'.'})).isEqualTo("toCamelCase");
-        assertThat(CaseUtils.toCamelCase("To.Camel-Case", false, new char[]{'-', '.'})).isEqualTo("toCamelCase");
-        assertThat(CaseUtils.toCamelCase(" to @ Camel case", false, new char[]{'-', '@'})).isEqualTo("toCamelCase");
-        assertThat(CaseUtils.toCamelCase(" @to @ Camel case", true, new char[]{'-', '@'})).isEqualTo("ToCamelCase");
+        assertThat(CaseUtils.toCamelCase("To.Camel.Case", false, '.')).isEqualTo("toCamelCase");
+        assertThat(CaseUtils.toCamelCase("To.Camel-Case", false, '-', '.')).isEqualTo("toCamelCase");
+        assertThat(CaseUtils.toCamelCase(" to @ Camel case", false, '-', '@')).isEqualTo("toCamelCase");
+        assertThat(CaseUtils.toCamelCase(" @to @ Camel case", true, '-', '@')).isEqualTo("ToCamelCase");
 
         assertThat(CaseUtils.toCamelCase("TO CAMEL CASE", true, null)).isEqualTo("ToCamelCase");
         assertThat(CaseUtils.toCamelCase("TO CAMEL CASE", false, null)).isEqualTo("toCamelCase");
@@ -72,8 +72,7 @@ public class CaseUtilsTest {
         assertThat(CaseUtils.toCamelCase("tocamelcase", false)).isEqualTo("tocamelcase");
 
         assertThat(CaseUtils.toCamelCase("\uD800\uDF00 \uD800\uDF02", true)).isEqualTo("\uD800\uDF00\uD800\uDF02");
-        assertThat(CaseUtils.toCamelCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", true,
-                        new char[]{'\uD800', '\uDF14'}))
+        assertThat(CaseUtils.toCamelCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", true, '\uD800', '\uDF14'))
             .isEqualTo("\uD800\uDF00\uD800\uDF01\uD800\uDF02\uD800\uDF03");
     }
 }

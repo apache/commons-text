@@ -49,7 +49,7 @@ public class StringMatcherTest {
         assertThat(matcher.isMatch(BUFFER2, 3, 0, BUFFER2.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER2, 4, 0, BUFFER2.length)).isEqualTo(1);
         assertThat(matcher.isMatch(BUFFER2, 5, 0, BUFFER2.length)).isEqualTo(0);
-        assertThat(StringMatcherFactory.INSTANCE.charSetMatcher(new char[0]))
+        assertThat(StringMatcherFactory.INSTANCE.charSetMatcher())
                 .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
         assertThat(StringMatcherFactory.INSTANCE.charSetMatcher((char[]) null))
                 .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
