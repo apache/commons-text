@@ -60,7 +60,8 @@ public class ScriptStringLookupTest {
 
     @Test
     public void testScriptWithColumn() {
-        Assertions.assertEquals("It Works", ScriptStringLookup.INSTANCE.lookup("javascript:true ? \"It Works\" : \"It Does Not Work\" "));
+        Assertions.assertEquals("It Works",
+         ScriptStringLookup.INSTANCE.lookup("javascript:true ? \"It Works\" : \"It Does Not Work\" "));
     }
 
 }
