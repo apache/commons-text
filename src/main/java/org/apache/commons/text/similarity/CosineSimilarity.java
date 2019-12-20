@@ -94,7 +94,7 @@ public class CosineSimilarity {
             final Set<CharSequence> intersection) {
         long dotProduct = 0;
         for (final CharSequence key : intersection) {
-            dotProduct += leftVector.get(key) * rightVector.get(key);
+            dotProduct += leftVector.get(key) * (long) rightVector.get(key);
         }
         return dotProduct;
     }
