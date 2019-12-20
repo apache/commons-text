@@ -75,8 +75,8 @@ final class UrlStringLookup extends AbstractStringLookup {
             final int size = 8192;
             final StringWriter writer = new StringWriter(size);
             final char[] buffer = new char[size];
-            try (InputStreamReader reader = new InputStreamReader(new BufferedInputStream(url.openStream()),
-                    charsetName)) {
+            try (BufferedInputStream bis = new BufferedInputStream(url.openStream());
+                    InputStreamReader reader = new InputStreamReader(bis, charsetName)) {
                 int n;
                 while (-1 != (n = reader.read(buffer))) {
                     writer.write(buffer, 0, n);
