@@ -25,9 +25,9 @@ import javax.script.ScriptEngineManager;
 import org.apache.commons.text.StringSubstitutor;
 
 /**
- * Looks up keys from an XML document.
+ * Executes the script with the given engine name.
  * <p>
- * Looks up the value for a given key in the format "Document:Key".
+ * Execute the script with the engine name in the format "EngineName:Script".
  * </p>
  * <p>
  * For example: {@code "javascript:3 + 4"}.
@@ -55,24 +55,25 @@ final class ScriptStringLookup extends AbstractStringLookup {
     }
 
     /**
-     * Looks up the value for the key in the format "DocumentPath:XPath".
+     * Execute the script with the engine name in the format "EngineName:Script".
+     * Extra colons will be ignored.
      * <p>
-     * For example: "com/domain/document.xml:/path/to/node".
+     * For example: {@code "javascript:3 + 4"}.
      * </p>
      *
      * @param key
-     *            the key to be looked up, may be null
-     * @return The value associated with the key.
+     *            the engine:script to execute, may be null
+     * @return The value returned by the execution.
      */
     @Override
     public String lookup(final String key) {
         if (key == null) {
             return null;
         }
-        final String[] keys = key.split(SPLIT_STR);
+        final String[] keys = key.split(SPLIT_STR, 2);
         final int keyLen = keys.length;
         if (keyLen != 2) {
-            throw IllegalArgumentExceptions.format("Bad script key format [%s]; expected format is DocumentPath:Key.",
+            throw IllegalArgumentExceptions.format("Bad script key format [%s]; expected format is EngineName:Script.",
                     key);
         }
         final String engineName = keys[0];
