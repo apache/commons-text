@@ -161,7 +161,7 @@ public final class AlphabetConverter {
         final StringBuilder result = new StringBuilder();
 
         for (int j = 0; j < encoded.length();) {
-            final Integer i = encoded.codePointAt(j);
+            final int i = encoded.codePointAt(j);
             final String s = codePointToString(i);
 
             if (s.equals(originalToEncoded.get(i))) {
