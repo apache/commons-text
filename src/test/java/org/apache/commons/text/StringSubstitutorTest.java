@@ -154,7 +154,7 @@ public class StringSubstitutorTest {
     protected String replace(StringSubstitutor stringSubstitutor, final String source) {
         return stringSubstitutor.replace(source);
     }
-    
+
     @BeforeEach
     public void setUp() throws Exception {
         values = new HashMap<>();
@@ -391,7 +391,7 @@ public class StringSubstitutorTest {
         values.put("species", "1");
         assertEquals("The fox jumps over the lazy dog.",
                 replace(sub, "The ${animal.${species}} jumps over the ${target}."));
-        assertEquals("The fox jumps over the lazy dog.", replace(sub, 
+        assertEquals("The fox jumps over the lazy dog.", replace(sub,
                 "The ${unknown.animal.${unknown.species:-1}:-fox} " + "jumps over the ${unknow.target:-lazy dog}."));
     }
 
