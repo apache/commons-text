@@ -418,7 +418,7 @@ public class WordUtils {
      *
      * <p>The delimiters represent a set of characters understood to separate words.
      * The first string character and the first non-delimiter character after a
-     * delimiter will be capitalized. </p>
+     * delimiter will be capitalized.</p>
      *
      * <p>A {@code null} input String returns {@code null}.
      * Capitalization uses the Unicode title case, normally equivalent to
@@ -473,7 +473,7 @@ public class WordUtils {
     /**
      * <p>Converts all the whitespace separated words in a String into capitalized words,
      * that is each word is made up of a titlecase character and then a series of
-     * lowercase characters.  </p>
+     * lowercase characters.</p>
      *
      * <p>Whitespace is defined by {@link Character#isWhitespace(char)}.
      * A {@code null} input String returns {@code null}.
@@ -496,11 +496,11 @@ public class WordUtils {
     /**
      * <p>Converts all the delimiter separated words in a String into capitalized words,
      * that is each word is made up of a titlecase character and then a series of
-     * lowercase characters. </p>
+     * lowercase characters.</p>
      *
      * <p>The delimiters represent a set of characters understood to separate words.
      * The first string character and the first non-delimiter character after a
-     * delimiter will be capitalized. </p>
+     * delimiter will be capitalized.</p>
      *
      * <p>A {@code null} input String returns {@code null}.
      * Capitalization uses the Unicode title case, normally equivalent to
@@ -554,7 +554,7 @@ public class WordUtils {
      *
      * <p>The delimiters represent a set of characters understood to separate words.
      * The first string character and the first non-delimiter character after a
-     * delimiter will be uncapitalized. </p>
+     * delimiter will be uncapitalized.</p>
      *
      * <p>Whitespace is defined by {@link Character#isWhitespace(char)}.
      * A {@code null} input String returns {@code null}.</p>

@@ -537,7 +537,7 @@ public class StringEscapeUtils {
      * <p>The only difference between Java strings and EcmaScript strings
      * is that in EcmaScript, a single quote and forward-slash (/) are escaped.</p>
      *
-     * <p>Note that EcmaScript is best known by the JavaScript and ActionScript dialects. </p>
+     * <p>Note that EcmaScript is best known by the JavaScript and ActionScript dialects.</p>
      *
      * <p>Example:</p>
      * <pre>
@@ -570,7 +570,7 @@ public class StringEscapeUtils {
      * <p>The only difference between Java strings and Json strings
      * is that in Json, forward-slash (/) is escaped.</p>
      *
-     * <p>See http://www.ietf.org/rfc/rfc4627.txt for further details. </p>
+     * <p>See http://www.ietf.org/rfc/rfc4627.txt for further details.</p>
      *
      * <p>Example:</p>
      * <pre>
@@ -644,7 +644,7 @@ public class StringEscapeUtils {
      *
      * <p>Supports all known HTML 4.0 entities, including funky accents.
      * Note that the commonly used apostrophe escape character (&amp;apos;)
-     * is not a legal entity and so is not supported). </p>
+     * is not a legal entity and so is not supported).</p>
      *
      * @param input  the {@code String} to escape, may be null
      * @return a new escaped {@code String}, {@code null} if null string input
@@ -661,7 +661,7 @@ public class StringEscapeUtils {
 
     /**
      * <p>Escapes the characters in a {@code String} using HTML entities.</p>
-     * <p>Supports only the HTML 3.0 entities. </p>
+     * <p>Supports only the HTML 3.0 entities.</p>
      *
      * @param input  the {@code String} to escape, may be null
      * @return a new escaped {@code String}, {@code null} if null string input
@@ -772,7 +772,7 @@ public class StringEscapeUtils {
      * Does not support DTDs or external entities.</p>
      *
      * <p>Note that numerical \\u Unicode codes are unescaped to their respective
-     *    Unicode characters. This may change in future releases. </p>
+     *    Unicode characters. This may change in future releases.</p>
      *
      * @param input  the {@code String} to unescape, may be null
      * @return a new unescaped {@code String}, {@code null} if null string input
@@ -809,14 +809,14 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Returns a {@code String} value for an unescaped CSV column. </p>
+     * <p>Returns a {@code String} value for an unescaped CSV column.</p>
      *
      * <p>If the value is enclosed in double quotes, and contains a comma, newline
      *    or double quote, then quotes are removed.
      * </p>
      *
      * <p>Any double quote escaped characters (a pair of double quotes) are unescaped
-     *    to just one double quote. </p>
+     *    to just one double quote.</p>
      *
      * <p>If the value is not enclosed in double quotes, or is and does not contain a
      *    comma, newline or double quote, then the String value is returned unchanged.</p>
