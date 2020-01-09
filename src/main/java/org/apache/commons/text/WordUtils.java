@@ -51,18 +51,6 @@ public class WordUtils {
       super();
     }
 
-    /* All common whitespaces as defined in Character.isWhitespace(char) */
-    private static final char[] WHITESPACE_CHARS =
-        { '\t', '\n', '\u000B', '\f', '\r', '\u001C', '\u001D', '\u001E', '\u001F', ' ' };
-
-    /* Codepoints of common whitespaces. Caveat, that this also includes non-breaking spaces. */
-    private static final Set<Integer> DEFAULT_WHITESPACE_DELIMITERS = new HashSet<>(11);
-    static {
-        for (int i = 0; i < WHITESPACE_CHARS.length; ++i) {
-            DEFAULT_WHITESPACE_DELIMITERS.add(Character.codePointAt(WHITESPACE_CHARS, i));
-        }
-    }
-
     // Wrapping
     //--------------------------------------------------------------------------
     /**
@@ -910,19 +898,18 @@ public class WordUtils {
     // -----------------------------------------------------------------------
     /**
      * <p>
-     * Converts an array of delimiters to a hash set of code points. All characters considered as whitespace 
-     * by Character.isWhitespace(char) are set as default values if delimiters is null.
-     * The generated hash set provides O(1) lookup time.
+     * Converts an array of delimiters to a hash set of code points. Code point of space(32) is added as the default
+     * value if delimiters is null. The generated hash set provides O(1) lookup time.
      * </p>
      *
-     * @param delimiters set of characters to determine capitalization, null means default whitespaces
+     * @param delimiters set of characters to determine capitalization, null means whitespace
      * @return Set<Integer>
      */
     private static Set<Integer> generateDelimiterSet(final char[] delimiters) {
         final Set<Integer> delimiterHashSet = new HashSet<>();
         if (delimiters == null || delimiters.length == 0) {
             if (delimiters == null) {
-                return DEFAULT_WHITESPACE_DELIMITERS;
+                delimiterHashSet.add(Character.codePointAt(new char[] {' '}, 0));
             }
 
             return delimiterHashSet;

@@ -233,12 +233,6 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testCapitalizeFully_Text175() {
-        assertThat(WordUtils.capitalizeFully("i\nam\tfine \r now")).isEqualTo("I\nAm\tFine \r Now");
-        assertThat(WordUtils.capitalizeFully("i\nam\rfine\tnow", new char[] {})).isEqualTo("I\nam\rfine\tnow");
-    }
-
-    @Test
     public void testUnCapitalize_Text88() {
         assertThat(WordUtils.uncapitalize("I am fine now", new char[] {})).isEqualTo("i am fine now");
     }
