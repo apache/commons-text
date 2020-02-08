@@ -103,4 +103,10 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
         }
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + " [bundleName=" + bundleName + "]";
+    }
+
+
 }

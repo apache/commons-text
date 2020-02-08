@@ -92,7 +92,7 @@ final class MapStringLookup<V> implements StringLookup {
 
     @Override
     public String toString() {
-        return getClass().getName() + " [map=" + map + "]";
+        return super.toString() + " [map=" + map + "]";
     }
 
 }

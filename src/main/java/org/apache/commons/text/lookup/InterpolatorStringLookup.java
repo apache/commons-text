@@ -155,7 +155,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
 
     @Override
     public String toString() {
-        return getClass().getName() + " [stringLookupMap=" + stringLookupMap + ", defaultStringLookup="
-                + defaultStringLookup + "]";
+        return super.toString() + " [stringLookupMap=" + stringLookupMap + ", defaultStringLookup=" +
+            defaultStringLookup + "]";
     }
 }
