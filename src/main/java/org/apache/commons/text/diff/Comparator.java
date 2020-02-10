@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text.diff;
 
+import java.util.Arrays;
+
 /**
  * <p>
  * It is guaranteed that the comparisons will always be done as
@@ -88,8 +90,8 @@ public class Comparator<T> {
      * @param right second sequence to be compared
      */
     public Comparator(final T[] left, final T[] right) {
-        this.left = left;
-        this.right = right;
+        this.left = Arrays.copyOf(left, left.length);
+        this.right = Arrays.copyOf(right, right.length);
 
         final int size = left.length + right.length + 2;
         vDown = new int[size];
