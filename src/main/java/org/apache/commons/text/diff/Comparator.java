@@ -45,10 +45,12 @@ package org.apache.commons.text.diff;
  * This code has been adapted from Apache Commons Collections 4.0.
  * </p>
  *
+ * @param <T> the type of the contents of the compared sequences.
+ *
  * @see EditScript
  * @see EditCommand
  * @see CommandVisitor
- * @since 1.0
+ * @since 1.x
  */
 public class Comparator<T> {
 

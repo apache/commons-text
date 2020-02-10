@@ -23,7 +23,7 @@ import org.apache.commons.lang3.ArrayUtils;
  * This class is a specialization of {@link Comparator class} adapted for sequences of {@code Character}.
  * </p>
  *
- * @since 1.x
+ * @since 1.0
  */
 public class StringsComparator extends Comparator<Character> {
 
