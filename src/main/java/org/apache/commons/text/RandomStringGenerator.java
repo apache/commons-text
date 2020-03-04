@@ -19,10 +19,10 @@ package org.apache.commons.text;
 import org.apache.commons.lang3.Validate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -54,6 +54,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * {@link Builder#usingRandom(TextRandomProvider) Builder.usingRandom(TextRandomProvider)}, thread-safety
  * must be ensured externally.
  * </p>
+ *
  * @since 1.1
  */
 public final class RandomStringGenerator {
@@ -178,11 +179,11 @@ public final class RandomStringGenerator {
                 codePoint = generateRandomNumber(minimumCodePoint, maximumCodePoint);
             }
             switch (Character.getType(codePoint)) {
-            case Character.UNASSIGNED:
-            case Character.PRIVATE_USE:
-            case Character.SURROGATE:
-                continue;
-            default:
+                case Character.UNASSIGNED:
+                case Character.PRIVATE_USE:
+                case Character.SURROGATE:
+                    continue;
+                default:
             }
 
             if (inclusivePredicates != null) {
@@ -200,7 +201,6 @@ public final class RandomStringGenerator {
 
             builder.appendCodePoint(codePoint);
             remaining--;
-
         } while (remaining != 0);
 
         return builder.toString();
@@ -247,6 +247,7 @@ public final class RandomStringGenerator {
      * Some commonly used predicates are provided by the {@link CharacterPredicates} enum.</p>
      *
      * <p>This class is not thread safe.</p>
+     *
      * @since 1.1
      */
     public static class Builder implements org.apache.commons.text.Builder<RandomStringGenerator> {
@@ -290,7 +291,7 @@ public final class RandomStringGenerator {
         /**
          * The source of provided characters.
          */
-        private List<Character> characterList;
+        private final List<Character> characterList = new ArrayList<>(70);
 
         /**
          * <p>
@@ -328,7 +329,7 @@ public final class RandomStringGenerator {
          * Specifies the array of minimum and maximum char allowed in the
          * generated string.
          * </p>
-         *
+         * <p>
          * For example:
          * <pre>
          * {@code
@@ -342,8 +343,7 @@ public final class RandomStringGenerator {
          * @return {@code this}, to allow method chaining.
          */
         public Builder withinRange(final char[]... pairs) {
-            characterList = new ArrayList<>();
-            for (final char[] pair :  pairs) {
+            for (final char[] pair : pairs) {
                 Validate.isTrue(pair.length == 2,
                       "Each pair must contain minimum and maximum code point");
                 final int minimumCodePoint = pair[0];
@@ -356,7 +356,6 @@ public final class RandomStringGenerator {
                 }
             }
             return this;
-
         }
 
         /**
@@ -430,14 +429,7 @@ public final class RandomStringGenerator {
 
         /**
          * <p>
-         * Limits the characters in the generated string to those who match at
-         * supplied list of Character.
-         * </p>
-         *
-         * <p>
-         * Passing {@code null} or an empty array to this method will revert to the
-         * default behaviour of allowing any character. Multiple calls to this
-         * method will replace the previously stored Character.
+         * Adds the characters in the generated string.
          * </p>
          *
          * @param chars set of predefined Characters for random string generation
@@ -446,7 +438,6 @@ public final class RandomStringGenerator {
          * @since 1.2
          */
         public Builder selectFrom(final char... chars) {
-            characterList = new ArrayList<>();
             for (final char c : chars) {
                 characterList.add(c);
             }
@@ -455,6 +446,7 @@ public final class RandomStringGenerator {
 
         /**
          * <p>Builds the {@code RandomStringGenerator} using the properties specified.</p>
+         *
          * @return The configured {@code RandomStringGenerator}
          */
         @Override
@@ -462,5 +454,7 @@ public final class RandomStringGenerator {
             return new RandomStringGenerator(minimumCodePoint, maximumCodePoint, inclusivePredicates,
                     random, characterList);
         }
+
     }
+
 }
