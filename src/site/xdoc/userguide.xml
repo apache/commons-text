@@ -258,7 +258,7 @@ final String text = interpolator.replace(
         <code>RegexTokenizer</code>
         regular expression tokenizer (\w+). And the <code>
           LevenshteinDistance</code>'s
-        behaviour can be changed to take into consideration a maximum
+        behavior can be changed to take into consideration a maximum
         throughput.
       </p>
     </section>

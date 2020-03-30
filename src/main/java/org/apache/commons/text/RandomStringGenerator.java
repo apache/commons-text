@@ -229,7 +229,7 @@ public final class RandomStringGenerator {
 
     /**
      * <p>A builder for generating {@code RandomStringGenerator} instances.</p>
-     * <p>The behaviour of a generator is controlled by properties set by this
+     * <p>The behavior of a generator is controlled by properties set by this
      * builder. Each property has a default value, which can be overridden by
      * calling the methods defined in this class, prior to calling {@link #build()}.</p>
      *
@@ -367,7 +367,7 @@ public final class RandomStringGenerator {
          *
          * <p>
          * Passing {@code null} or an empty array to this method will revert to the
-         * default behaviour of allowing any character. Multiple calls to this
+         * default behavior of allowing any character. Multiple calls to this
          * method will replace the previously stored predicates.
          * </p>
          *
@@ -436,7 +436,7 @@ public final class RandomStringGenerator {
          *
          * <p>
          * Passing {@code null} or an empty array to this method will revert to the
-         * default behaviour of allowing any character. Multiple calls to this
+         * default behavior of allowing any character. Multiple calls to this
          * method will replace the previously stored Character.
          * </p>
          *
