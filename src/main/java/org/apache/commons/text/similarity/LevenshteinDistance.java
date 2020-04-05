@@ -17,6 +17,7 @@
 package org.apache.commons.text.similarity;
 
 import java.util.Arrays;
+import org.checkerframework.checker.signedness.qual.Unsigned;
 
 /**
  * An algorithm for measuring the difference between two character sequences.
@@ -43,7 +44,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     /**
      * Threshold.
      */
-    private final Integer threshold;
+    private final @Unsigned Integer threshold;
 
     /**
      * <p>
@@ -67,7 +68,11 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      *        If this is null then distances calculations will not be limited.
      *        This may not be negative.
      */
-    public LevenshteinDistance(final Integer threshold) {
+    /* If we annotate `threshold` as `@Unsigned` we need not check it for being negative,
+     * hence the checker throws an error but the code is safe here
+     * */
+    @SuppressWarnings("comparison.unsignedlhs")
+    public LevenshteinDistance(final @Unsigned Integer threshold) {
         if (threshold != null && threshold < 0) {
             throw new IllegalArgumentException("Threshold must not be negative");
         }
@@ -163,7 +168,11 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * @param threshold the target threshold, must not be negative
      * @return result distance, or -1
      */
-    private static int limitedCompare(CharSequence left, CharSequence right, final int threshold) { // NOPMD
+    /* If we annotate `threshold` as `@Unsigned` we need not check it for being negative,
+     * hence the checker throws an error but the code is safe here
+     * */
+    @SuppressWarnings("comparison.unsignedlhs")
+    private static int limitedCompare(CharSequence left, CharSequence right, final @Unsigned int threshold) { // NOPMD
         if (left == null || right == null) {
             throw new IllegalArgumentException("CharSequences must not be null");
         }

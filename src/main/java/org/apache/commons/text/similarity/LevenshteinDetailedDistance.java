@@ -17,6 +17,7 @@
 package org.apache.commons.text.similarity;
 
 import java.util.Arrays;
+import org.checkerframework.checker.signedness.qual.Unsigned;
 
 /**
  * An algorithm for measuring the difference between two character sequences.
@@ -38,7 +39,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
     /**
      * Threshold.
      */
-    private final Integer threshold;
+    private final @Unsigned Integer threshold;
 
     /**
      * <p>
@@ -59,7 +60,11 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      *
      * @param threshold If this is null then distances calculations will not be limited. This may not be negative.
      */
-    public LevenshteinDetailedDistance(final Integer threshold) {
+    /* If we annotate `threshold` as `@Unsigned` we need not check it for being negative,
+     * hence the checker throws an error but the code is safe here
+     * */
+    @SuppressWarnings("comparison.unsignedlhs")
+    public LevenshteinDetailedDistance(final @Unsigned Integer threshold) {
         if (threshold != null && threshold < 0) {
             throw new IllegalArgumentException("Threshold must not be negative");
         }
@@ -155,9 +160,13 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * @param threshold the target threshold, must not be negative
      * @return result distance, or -1
      */
+    /* If we annotate `threshold` as `@Unsigned` we need not check it for being negative,
+     * hence the checker throws an error but the code is safe here
+     * */
+    @SuppressWarnings("comparison.unsignedlhs")
     private static LevenshteinResults limitedCompare(CharSequence left,
                                                      CharSequence right,
-                                                     final int threshold) { //NOPMD
+                                                     final @Unsigned int threshold) { //NOPMD
         if (left == null || right == null) {
             throw new IllegalArgumentException("CharSequences must not be null");
         }

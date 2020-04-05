@@ -24,6 +24,7 @@ import java.nio.CharBuffer;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import org.checkerframework.checker.interning.qual.Interned;
 
 /**
  * Builds a string from constituent parts providing a more flexible and powerful API
@@ -2724,7 +2725,9 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * @param other  the object to check, null returns false
      * @return true if the builders contain the same characters in the same order
      */
-    public boolean equalsIgnoreCase(final StrBuilder other) {
+    /* `this` is is `@UnknownInterned` */
+    @SuppressWarnings("not.interned")
+    public boolean equalsIgnoreCase(final @Interned StrBuilder other) {
         if (this == other) {
             return true;
         }
@@ -2750,7 +2753,9 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * @param other  the object to check, null returns false
      * @return true if the builders contain the same characters in the same order
      */
-    public boolean equals(final StrBuilder other) {
+    /* `this` is is `@UnknownInterned` */
+    @SuppressWarnings("not.interned")
+    public boolean equals(final @Interned StrBuilder other) {
         if (this == other) {
             return true;
         }
@@ -2777,6 +2782,8 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * @param obj  the object to check, null returns false
      * @return true if the builders contain the same characters in the same order
      */
+    /* This function is checking `obj` to be an instance of `StrBuilder`, need not be interned */
+    @SuppressWarnings("argument.type.incompatible")
     @Override
     public boolean equals(final Object obj) {
         return obj instanceof StrBuilder

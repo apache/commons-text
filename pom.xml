@@ -72,6 +72,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <version>3.2.0</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>3.9</version>
@@ -118,6 +123,32 @@
       </plugins>
     </pluginManagement>
     <plugins>
+   <plugin>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.8.1</version>
+    <configuration>
+      <fork>true</fork>
+      <release>11</release>
+      <compilerArguments>
+        <Xmaxerrs>10000</Xmaxerrs>
+        <Xmaxwarns>10000</Xmaxwarns>
+      </compilerArguments>
+      <annotationProcessorPaths>
+        <path>
+          <groupId>org.checkerframework</groupId>
+          <artifactId>checker</artifactId>
+          <version>3.2.0</version>
+        </path>
+      </annotationProcessorPaths>
+      <annotationProcessors>
+	      <annotationProcessor>org.checkerframework.checker.interning.InterningChecker</annotationProcessor>
+	      <annotationProcessor>org.checkerframework.checker.signedness.SignednessChecker</annotationProcessor>
+      </annotationProcessors>
+      <compilerArgs>
+        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+      </compilerArgs>
+    </configuration>
+  </plugin>
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>${checkstyle.plugin.version}</version>

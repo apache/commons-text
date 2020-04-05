@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 package org.apache.commons.text.translate;
+import org.checkerframework.checker.signedness.qual.Unsigned;
 
 /**
  * Translates codepoints to their Unicode escaped value suitable for Java source.
@@ -104,8 +105,11 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
      *            a Unicode code point
      * @return The hex string for the given codepoint
      */
+    /* Due to type conversion `char` is automatically converted to `int`
+     * */
+    @SuppressWarnings("argument.type.incompatible")
     @Override
-    protected String toUtf16Escape(final int codepoint) {
+    protected String toUtf16Escape(final @Unsigned int codepoint) {
         final char[] surrogatePair = Character.toChars(codepoint);
         return "\\u" + hex(surrogatePair[0]) + "\\u" + hex(surrogatePair[1]);
     }

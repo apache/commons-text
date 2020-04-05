@@ -22,6 +22,7 @@ import java.io.Writer;
 import java.util.Locale;
 
 import org.apache.commons.lang3.Validate;
+import org.checkerframework.checker.signedness.qual.Unsigned;
 
 /**
  * An API for translating text.
@@ -134,7 +135,7 @@ public abstract class CharSequenceTranslator {
      * @param codepoint The codepoint to convert.
      * @return An upper case hexadecimal {@code String}
      */
-    public static String hex(final int codepoint) {
+    public static String hex(final @Unsigned int codepoint) {
         return Integer.toHexString(codepoint).toUpperCase(Locale.ENGLISH);
     }
 

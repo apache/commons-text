@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.text.matcher.StringMatcherFactory;
+import org.checkerframework.checker.signedness.qual.Unsigned;
 
 /**
  * Extends {@code java.text.MessageFormat} to allow pluggable/additional formatting
@@ -189,7 +190,7 @@ public class ExtendedMessageFormat extends MessageFormat {
 
         final ParsePosition pos = new ParsePosition(0);
         final char[] c = pattern.toCharArray();
-        int fmtCount = 0;
+        @Unsigned int fmtCount = 0;
         while (pos.getIndex() < pattern.length()) {
             switch (c[pos.getIndex()]) {
             case QUOTE:

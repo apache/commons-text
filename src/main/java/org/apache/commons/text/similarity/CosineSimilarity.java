@@ -19,6 +19,7 @@ package org.apache.commons.text.similarity;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.checkerframework.checker.signedness.qual.Signed;
 
 /**
  * Measures the Cosine similarity of two vectors of an inner product space and
@@ -40,7 +41,10 @@ public class CosineSimilarity {
      * @param rightVector right vector
      * @return cosine similarity between the two vectors
      */
-    public Double cosineSimilarity(final Map<CharSequence, Integer> leftVector,
+    /* On line #58 and #62, `value` should ideally be converted to `double` and then sent to `pow()`
+     * but even if not done as said, the code is safe as Java takes care of the conversion internally */
+    @SuppressWarnings("argument.type.incompatible")
+    public @Signed Double cosineSimilarity(final Map<CharSequence, Integer> leftVector,
                                    final Map<CharSequence, Integer> rightVector) {
         if (leftVector == null || rightVector == null) {
             throw new IllegalArgumentException("Vectors must not be null");
@@ -90,6 +94,11 @@ public class CosineSimilarity {
      * @param intersection common elements
      * @return The dot product
      */
+    /* Code is safe as `rightVector.get()` returns a value which is converted to `long` explicitly 
+     * and due to this `leftVector.get()` is also converted to `long` implicitly,
+     * the final value which is assigned to `dotProduct` is indeed a `@Signed long`
+     * */
+    @SuppressWarnings("compound.assignment.type.incompatible")
     private double dot(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector,
             final Set<CharSequence> intersection) {
         long dotProduct = 0;

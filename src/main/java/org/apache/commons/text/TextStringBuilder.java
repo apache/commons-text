@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.text.matcher.StringMatcher;
+import org.checkerframework.checker.interning.qual.Interned;
 
 /**
  * Builds a string from constituent parts providing a more flexible and powerful API than StringBuffer.
@@ -2886,7 +2887,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *            the object to check, null returns false
      * @return true if the builders contain the same characters in the same order
      */
-    public boolean equalsIgnoreCase(final TextStringBuilder other) {
+    /* `this` is is `@UnknownInterned` */
+    @SuppressWarnings("not.interned")
+    public boolean equalsIgnoreCase(final @Interned TextStringBuilder other) {
         if (this == other) {
             return true;
         }
@@ -2912,7 +2915,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *            the object to check, null returns false
      * @return true if the builders contain the same characters in the same order
      */
-    public boolean equals(final TextStringBuilder other) {
+    /* `this` is is `@UnknownInterned` */
+    @SuppressWarnings("not.interned")
+    public boolean equals(final @Interned TextStringBuilder other) {
         if (this == other) {
             return true;
         }
@@ -2939,6 +2944,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *            the object to check, null returns false
      * @return true if the builders contain the same characters in the same order
      */
+    /* This function is checking `obj` to be an instance of `TextStringBuilder`, need not be interned */
+    @SuppressWarnings("argument.type.incompatible")
     @Override
     public boolean equals(final Object obj) {
         return obj instanceof TextStringBuilder && equals((TextStringBuilder) obj);

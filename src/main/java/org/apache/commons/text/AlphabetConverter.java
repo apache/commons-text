@@ -220,7 +220,8 @@ public final class AlphabetConverter {
      * @param originals original values
      * @param doNotEncodeMap map of values that should not be encoded
      */
-    @SuppressWarnings("PMD")
+    /* Code is safe as data type is converted to `@Signed int` implicitly */
+    @SuppressWarnings({"PMD", "argument.type.incompatible"})
     private void addSingleEncoding(final int level,
                                    final String currentEncoding,
                                    final Collection<Integer> encoding,
@@ -271,6 +272,8 @@ public final class AlphabetConverter {
         }
     }
 
+    /* Code is safe as data type is converted to `@Signed int` implicitly */
+    @SuppressWarnings("argument.type.incompatible")
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
@@ -285,6 +288,9 @@ public final class AlphabetConverter {
         return sb.toString();
     }
 
+    /* Need not make `obj` interned, `obj` can refer to any object that was passed as parameter to
+     * the function and `this` is `@UnknownInterned` */
+    @SuppressWarnings("not.interned")
     @Override
     public boolean equals(final Object obj) {
         if (obj == null) {
@@ -318,6 +324,8 @@ public final class AlphabetConverter {
      * @return The reconstructed AlphabetConverter
      * @see AlphabetConverter#getOriginalToEncoded()
      */
+    /* Code is safe as data type is converted to `@Signed int` implicitly */
+    @SuppressWarnings("argument.type.incompatible")
     public static AlphabetConverter createConverterFromMap(
             final Map<Integer, String> originalToEncoded) {
         final Map<Integer, String> unmodifiableOriginalToEncoded =
@@ -403,6 +411,8 @@ public final class AlphabetConverter {
      * @throws IllegalArgumentException if an AlphabetConverter cannot be
      *                                   constructed
      */
+    /* Code is safe as data type is converted to `@Signed int` implicitly */
+    @SuppressWarnings("argument.type.incompatible")
     public static AlphabetConverter createConverter(
             final Integer[] original,
             final Integer[] encoding,

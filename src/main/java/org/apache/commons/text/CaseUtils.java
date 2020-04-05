@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
 import java.util.Set;
+import org.checkerframework.checker.signedness.qual.Unsigned;
 
 /**
  * <p>Case manipulation operations on Strings that contain words.</p>
@@ -78,9 +79,9 @@ public class CaseUtils {
             return str;
         }
         str = str.toLowerCase();
-        final int strLen = str.length();
+        final @Unsigned int strLen = str.length();
         final int[] newCodePoints = new int[strLen];
-        int outOffset = 0;
+        @Unsigned int outOffset = 0;
         final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
         boolean capitalizeNext = false;
         if (capitalizeFirstLetter) {

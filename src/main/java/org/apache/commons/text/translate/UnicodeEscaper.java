@@ -18,6 +18,7 @@ package org.apache.commons.text.translate;
 
 import java.io.IOException;
 import java.io.Writer;
+import org.checkerframework.checker.signedness.qual.Unsigned;
 
 /**
  * Translates codepoints to their Unicode escaped value.
@@ -134,7 +135,7 @@ public class UnicodeEscaper extends CodePointTranslator {
      * @return The hex string for the given codepoint
      *
      */
-    protected String toUtf16Escape(final int codepoint) {
+    protected String toUtf16Escape(final @Unsigned int codepoint) {
         return "\\u" + hex(codepoint);
     }
 }
