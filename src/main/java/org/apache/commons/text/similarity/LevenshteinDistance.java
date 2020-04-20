@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text.similarity;
 
+import lombok.NonNull;
+
 import java.util.Arrays;
 
 /**
@@ -163,10 +165,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * @param threshold the target threshold, must not be negative
      * @return result distance, or -1
      */
-    private static int limitedCompare(CharSequence left, CharSequence right, final int threshold) { // NOPMD
-        if (left == null || right == null) {
-            throw new IllegalArgumentException("CharSequences must not be null");
-        }
+    private static int limitedCompare(@NonNull CharSequence left, @NonNull CharSequence right, final int threshold) { // NOPMD
         if (threshold < 0) {
             throw new IllegalArgumentException("Threshold must not be negative");
         }
@@ -332,11 +331,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * @return result distance, or -1
      * @throws IllegalArgumentException if either CharSequence input is {@code null}
      */
-    private static int unlimitedCompare(CharSequence left, CharSequence right) {
-        if (left == null || right == null) {
-            throw new IllegalArgumentException("CharSequences must not be null");
-        }
-
+    private static int unlimitedCompare(@NonNull CharSequence left, @NonNull CharSequence right) {
         /*
            This implementation use two variable to record the previous cost counts,
            So this implementation use less memory than previous impl.
