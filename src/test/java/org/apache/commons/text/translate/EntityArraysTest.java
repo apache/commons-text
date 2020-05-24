@@ -57,7 +57,7 @@ public class EntityArraysTest  {
                         EntityArrays.class.getDeclaredField(mapVariableName).get(EntityArrays.class);
                     // Validate that we are not inserting into the same key twice in the map declaration. If this,
                     // indeed was the case the keySet().size() would be smaller than the number of put() statements
-                    assertThat(mapValue.keySet().size()).isEqualTo(mapDeclarationCounter);
+                    assertThat(mapValue.size()).isEqualTo(mapDeclarationCounter);
                 }
             }
         }
