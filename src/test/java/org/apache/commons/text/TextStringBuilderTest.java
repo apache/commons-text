@@ -345,6 +345,9 @@ public class TextStringBuilderTest {
         sb.append("HelloWorld");
         sb.ensureCapacity(40);
         assertTrue(sb.capacity() >= 40);
+
+        assertThrows(OutOfMemoryError.class, () -> sb.ensureCapacity(Integer.MAX_VALUE / 2));
+        assertThrows(OutOfMemoryError.class, () -> sb.ensureCapacity(Integer.MAX_VALUE));
     }
 
     @Test

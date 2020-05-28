@@ -83,6 +83,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     private static final int TRUE_STRING_SIZE = "true".length();
 
     /**
+     * An upper bound for amortized array space allocation.
+     */
+    private static final int AMORTIZED_ARRAY_ALLOCATION_UPPER_BOUND = Integer.MAX_VALUE >>> 1;
+
+    /**
      * The extra capacity for new builders.
      */
     static final int CAPACITY = 32;
@@ -246,7 +251,13 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public TextStringBuilder ensureCapacity(final int capacity) {
         if (capacity > buffer.length) {
             final char[] old = buffer;
-            buffer = new char[capacity * 2];
+
+            int newCapacity = capacity << 1;
+            if (capacity > AMORTIZED_ARRAY_ALLOCATION_UPPER_BOUND) {
+                newCapacity = Integer.MAX_VALUE;
+            }
+
+            buffer = new char[newCapacity];
             System.arraycopy(old, 0, buffer, 0, size);
         }
         return this;
