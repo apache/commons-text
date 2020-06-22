@@ -62,7 +62,7 @@
     <japicmp.skip>false</japicmp.skip>
 
     <!-- Commons Release Plugin -->
-    <commons.bc.version>1.7</commons.bc.version>
+    <commons.bc.version>1.8</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
