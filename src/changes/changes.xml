@@ -61,6 +61,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] Skip clirr since we use JApiCmp.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] checkstyle.plugin.version 3.1.0 -> 3.1.1.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] checkstyle.version 8.27 -> 8.33.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] org.apache.commons:commons-parent 48 -> 51.</action>
   </release>
   
   <release version="1.8" date="2019-08-30" description="Release 1.8">
