@@ -71,7 +71,8 @@ public class StringSubstitutorTest {
         }
     }
 
-    private void doTestReplace(final String expectedResult, final String replaceTemplate, final boolean substring) throws IOException {
+    private void doTestReplace(final String expectedResult, final String replaceTemplate, final boolean substring)
+        throws IOException {
         final StringSubstitutor sub = new StringSubstitutor(values);
         doTestReplace(sub, expectedResult, replaceTemplate, substring);
     }
