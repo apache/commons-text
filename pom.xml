@@ -52,14 +52,15 @@
 
     <spotbugs.plugin.version>4.0.0</spotbugs.plugin.version>
     
-    <commons.jacoco.version>0.8.4</commons.jacoco.version>
+    <commons.jacoco.version>0.8.5</commons.jacoco.version>
 
-    <commons.javadoc.version>3.1.1</commons.javadoc.version>
+    <commons.javadoc.version>3.2.0</commons.javadoc.version>
 
     <!-- generate report even if there are binary incompatible changes -->
     <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>false</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
-    <commons.japicmp.version>0.14.1</commons.japicmp.version>
+    <commons.japicmp.version>0.14.3</commons.japicmp.version>
     <japicmp.skip>false</japicmp.skip>
+    <clirr.skip>true</clirr.skip>
 
     <!-- Commons Release Plugin -->
     <commons.bc.version>1.8</commons.bc.version>
