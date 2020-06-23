@@ -481,12 +481,12 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @see #appendTo(Appendable)
      */
     public int readFrom(final Readable readable) throws IOException {
-        final int oldSize = size;
         if (readable instanceof Reader) {
             return readFrom((Reader) readable);
         } else if (readable instanceof CharBuffer) {
             return readFrom((CharBuffer) readable);
         } else {
+            final int oldSize = size;
             while (true) {
                 ensureCapacity(size + 1);
                 final CharBuffer buf = CharBuffer.wrap(buffer, size, buffer.length - size);
@@ -496,8 +496,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
                 }
                 size += read;
             }
+            return size - oldSize;
         }
-        return size - oldSize;
     }
 
     /**
