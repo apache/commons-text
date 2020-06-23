@@ -50,7 +50,8 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-149" type="fix" dev="kinow" due-to="Yuji Konishi">StringEscapeUtils.unescapeCsv doesn't remove quotes at begin and end of string.</action>
     <action issue="TEXT-174" type="fix"    dev="ggregory" due-to="furkilic">ScriptStringLookup does not accept ":" #126.</action>
     <action                  type="update" dev="ggregory" due-to="Johan Hammar">[javadoc] Fix compiler warnings in Java code example in Javadoc #124.</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.matcher.StringMatcher.size().</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StringMatcher.size().</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Refactor TextStringBuilder.readFrom(Readable), extracting readFrom(CharBuffer) and readFrom(Reader).</action>    
     <action issue="TEXT-177" type="update" dev="ggregory" due-to="Gary Gregory">Update from Apache Commons Lang 3.9 to 3.10.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] junit-jupiter 5.5.1 -> 5.5.2.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] org.assertj:assertj-core 3.13.2 -> 3.16.1.</action>
