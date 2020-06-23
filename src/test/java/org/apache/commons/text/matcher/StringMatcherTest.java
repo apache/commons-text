@@ -17,6 +17,7 @@
 package org.apache.commons.text.matcher;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +33,7 @@ public class StringMatcherTest {
     @Test
     public void testCharMatcher_char() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.charMatcher('c');
+        assertEquals(1, matcher.size());
         assertThat(matcher.isMatch(BUFFER2, 0, 0, BUFFER2.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER2, 1, 0, BUFFER2.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER2, 2, 0, BUFFER2.length)).isEqualTo(1);
@@ -43,6 +45,7 @@ public class StringMatcherTest {
     @Test
     public void testCharSetMatcher_charArray() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.charSetMatcher("ace".toCharArray());
+        assertEquals(1, matcher.size());
         assertThat(matcher.isMatch(BUFFER2, 0, 0, BUFFER2.length)).isEqualTo(1);
         assertThat(matcher.isMatch(BUFFER2, 1, 0, BUFFER2.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER2, 2, 0, BUFFER2.length)).isEqualTo(1);
@@ -60,6 +63,7 @@ public class StringMatcherTest {
     @Test
     public void testCharSetMatcher_String() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.charSetMatcher("ace");
+        assertEquals(1, matcher.size());
         assertThat(matcher.isMatch(BUFFER2, 0, 0, BUFFER2.length)).isEqualTo(1);
         assertThat(matcher.isMatch(BUFFER2, 1, 0, BUFFER2.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER2, 2, 0, BUFFER2.length)).isEqualTo(1);
@@ -77,6 +81,7 @@ public class StringMatcherTest {
     @Test
     public void testCommaMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.commaMatcher();
+        assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.commaMatcher()).isSameAs(matcher);
         assertThat(matcher.isMatch(BUFFER1, 0, 0, BUFFER1.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER1, 1, 0, BUFFER1.length)).isEqualTo(1);
@@ -86,6 +91,7 @@ public class StringMatcherTest {
     @Test
     public void testDoubleQuoteMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.doubleQuoteMatcher();
+        assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.doubleQuoteMatcher()).isSameAs(matcher);
         assertThat(matcher.isMatch(BUFFER1, 11, 0, BUFFER1.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER1, 12, 0, BUFFER1.length)).isEqualTo(1);
@@ -97,6 +103,7 @@ public class StringMatcherTest {
         // all the onus is on the caller, so invalid inputs are not
         // the concern of StringMatcher, and are not bugs
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.stringMatcher("bc");
+        assertEquals(2, matcher.size());
         assertThat(matcher.isMatch(BUFFER2, 1, 1, BUFFER2.length)).isEqualTo(2);
         assertThat(matcher.isMatch(BUFFER2, 1, 0, 3)).isEqualTo(2);
         assertThat(matcher.isMatch(BUFFER2, 1, 0, 2)).isEqualTo(0);
@@ -105,6 +112,7 @@ public class StringMatcherTest {
     @Test
     public void testNoneMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.noneMatcher();
+        assertEquals(0, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.noneMatcher()).isSameAs(matcher);
         assertThat(matcher.isMatch(BUFFER1, 0, 0, BUFFER1.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER1, 1, 0, BUFFER1.length)).isEqualTo(0);
@@ -124,6 +132,7 @@ public class StringMatcherTest {
     @Test
     public void testQuoteMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.quoteMatcher();
+        assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.quoteMatcher()).isSameAs(matcher);
         assertThat(matcher.isMatch(BUFFER1, 10, 0, BUFFER1.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER1, 11, 0, BUFFER1.length)).isEqualTo(1);
@@ -133,6 +142,7 @@ public class StringMatcherTest {
     @Test
     public void testSingleQuoteMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.singleQuoteMatcher();
+        assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.singleQuoteMatcher()).isSameAs(matcher);
         assertThat(matcher.isMatch(BUFFER1, 10, 0, BUFFER1.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER1, 11, 0, BUFFER1.length)).isEqualTo(1);
@@ -142,6 +152,7 @@ public class StringMatcherTest {
     @Test
     public void testSpaceMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.spaceMatcher();
+        assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.spaceMatcher()).isSameAs(matcher);
         assertThat(matcher.isMatch(BUFFER1, 4, 0, BUFFER1.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER1, 5, 0, BUFFER1.length)).isEqualTo(1);
@@ -151,6 +162,7 @@ public class StringMatcherTest {
     @Test
     public void testSplitMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.splitMatcher();
+        assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.splitMatcher()).isSameAs(matcher);
         assertThat(matcher.isMatch(BUFFER1, 2, 0, BUFFER1.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER1, 3, 0, BUFFER1.length)).isEqualTo(1);
@@ -166,6 +178,7 @@ public class StringMatcherTest {
     @Test
     public void testStringMatcher_String() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.stringMatcher("bc");
+        assertEquals(2, matcher.size());
         assertThat(matcher.isMatch(BUFFER2, 0, 0, BUFFER2.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER2, 1, 0, BUFFER2.length)).isEqualTo(2);
         assertThat(matcher.isMatch(BUFFER2, 2, 0, BUFFER2.length)).isEqualTo(0);
@@ -182,6 +195,7 @@ public class StringMatcherTest {
     @Test
     public void testTabMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.tabMatcher();
+        assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.tabMatcher()).isSameAs(matcher);
         assertThat(matcher.isMatch(BUFFER1, 2, 0, BUFFER1.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER1, 3, 0, BUFFER1.length)).isEqualTo(1);
@@ -191,6 +205,7 @@ public class StringMatcherTest {
     @Test
     public void testTrimMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.trimMatcher();
+        assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.trimMatcher()).isSameAs(matcher);
         assertThat(matcher.isMatch(BUFFER1, 2, 0, BUFFER1.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER1, 3, 0, BUFFER1.length)).isEqualTo(1);

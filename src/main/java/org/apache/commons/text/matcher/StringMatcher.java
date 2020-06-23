@@ -56,4 +56,14 @@ public interface StringMatcher {
      */
     int isMatch(char[] buffer, int start, int bufferStart, int bufferEnd);
 
+    /**
+     * Returns the size of the matching string. Defaults to 0.
+     *  
+     * @return the size of the matching string.
+     * @since 1.9
+     */
+    default int size() {
+        return 0;
+    }
+
 }

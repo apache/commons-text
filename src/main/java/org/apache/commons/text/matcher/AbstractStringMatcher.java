@@ -65,6 +65,16 @@ abstract class AbstractStringMatcher implements StringMatcher {
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
             return ch == buffer[start] ? 1 : 0;
         }
+        
+        /**
+         * Returns 1.
+         *
+         * @since 1.9
+         */
+        @Override
+        public int size() {
+            return 1;
+        }
     }
 
     /**
@@ -104,6 +114,17 @@ abstract class AbstractStringMatcher implements StringMatcher {
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
             return Arrays.binarySearch(chars, buffer[start]) >= 0 ? 1 : 0;
         }
+        
+        /**
+         * Returns 1.
+         *
+         * @since 1.9
+         */
+        @Override
+        public int size() {
+            return 1;
+        }
+
     }
 
     /**
@@ -135,6 +156,17 @@ abstract class AbstractStringMatcher implements StringMatcher {
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
             return 0;
         }
+        
+        /**
+         * Returns 0.
+         *
+         * @since 1.9
+         */
+        @Override
+        public int size() {
+            return 0;
+        }
+
     }
 
     /**
@@ -171,11 +203,11 @@ abstract class AbstractStringMatcher implements StringMatcher {
          */
         @Override
         public int isMatch(final char[] buffer, int start, final int bufferStart, final int bufferEnd) {
-            final int len = chars.length;
+            final int len = size();
             if (start + len > bufferEnd) {
                 return 0;
             }
-            for (int i = 0; i < chars.length; i++, start++) {
+            for (int i = 0; i < len; i++, start++) {
                 if (chars[i] != buffer[start]) {
                     return 0;
                 }
@@ -186,6 +218,16 @@ abstract class AbstractStringMatcher implements StringMatcher {
         @Override
         public String toString() {
             return super.toString() + ' ' + Arrays.toString(chars);
+        }
+        
+        /**
+         * Returns the size of the string to match given in the constructor.
+         *
+         * @since 1.9
+         */
+        @Override
+        public int size() {
+            return chars.length;
         }
 
     }
@@ -223,6 +265,16 @@ abstract class AbstractStringMatcher implements StringMatcher {
         @Override
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
             return buffer[start] <= SPACE_INT ? 1 : 0;
+        }
+        
+        /**
+         * Returns 1.
+         *
+         * @since 1.9
+         */
+        @Override
+        public int size() {
+            return 1;
         }
     }
 
