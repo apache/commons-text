@@ -448,7 +448,26 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         System.arraycopy(buffer, startIndex, destination, destinationIndex, endIndex - startIndex);
     }
 
-    // -----------------------------------------------------------------------
+    /**
+     * If possible, reads chars from the provided {@link CharBuffer} directly into underlying character buffer without
+     * making extra copies.
+     *
+     * @param charBuffer CharBuffer to read.
+     * @return The number of characters read.
+     * @throws IOException if an I/O error occurs.
+     *
+     * @see #appendTo(Appendable)
+     * @since 1.9
+     */
+    public int readFrom(final CharBuffer charBuffer) throws IOException {
+        final int oldSize = size;
+        final int remaining = charBuffer.remaining();
+        ensureCapacity(size + remaining);
+        charBuffer.get(buffer, size, remaining);
+        size += remaining;
+        return size - oldSize;
+    }
+
     /**
      * If possible, reads chars from the provided {@link Readable} directly into underlying character buffer without
      * making extra copies.
@@ -462,22 +481,12 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @see #appendTo(Appendable)
      */
     public int readFrom(final Readable readable) throws IOException {
-        final int oldSize = size;
         if (readable instanceof Reader) {
-            final Reader r = (Reader) readable;
-            ensureCapacity(size + 1);
-            int read;
-            while ((read = r.read(buffer, size, buffer.length - size)) != -1) {
-                size += read;
-                ensureCapacity(size + 1);
-            }
+            return readFrom((Reader) readable);
         } else if (readable instanceof CharBuffer) {
-            final CharBuffer cb = (CharBuffer) readable;
-            final int remaining = cb.remaining();
-            ensureCapacity(size + remaining);
-            cb.get(buffer, size, remaining);
-            size += remaining;
+            return readFrom((CharBuffer) readable);
         } else {
+            final int oldSize = size;
             while (true) {
                 ensureCapacity(size + 1);
                 final CharBuffer buf = CharBuffer.wrap(buffer, size, buffer.length - size);
@@ -487,6 +496,28 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
                 }
                 size += read;
             }
+            return size - oldSize;
+        }
+    }
+
+    /**
+     * If possible, reads chars from the provided {@link Reader} directly into underlying character buffer without
+     * making extra copies.
+     *
+     * @param reader Reader to read.
+     * @return The number of characters read.
+     * @throws IOException if an I/O error occurs.
+     *
+     * @see #appendTo(Appendable)
+     * @since 1.9
+     */
+    public int readFrom(final Reader reader) throws IOException {
+        final int oldSize = size;
+        ensureCapacity(size + 1);
+        int read;
+        while ((read = reader.read(buffer, size, buffer.length - size)) != -1) {
+            size += read;
+            ensureCapacity(size + 1);
         }
         return size - oldSize;
     }

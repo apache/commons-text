@@ -851,9 +851,9 @@ public class StringSubstitutor {
         if (source == null) {
             return null;
         }
-        final TextStringBuilder buf = new TextStringBuilder(source.length()).append(source);
-        substitute(buf, 0, buf.length());
-        return buf.toString();
+        final TextStringBuilder builder = new TextStringBuilder(source.length()).append(source);
+        substitute(builder, 0, builder.length());
+        return builder.toString();
     }
 
     /**
@@ -1259,20 +1259,20 @@ public class StringSubstitutor {
      * end.
      * </p>
      *
-     * @param buf    the string builder to substitute into, not null
-     * @param offset the start offset within the builder, must be valid
-     * @param length the length within the builder to be processed, must be valid
+     * @param builder the string builder to substitute into, not null
+     * @param offset  the start offset within the builder, must be valid
+     * @param length  the length within the builder to be processed, must be valid
      * @return true if altered
      */
-    protected boolean substitute(final TextStringBuilder buf, final int offset, final int length) {
-        return substitute(buf, offset, length, null) > 0;
+    protected boolean substitute(final TextStringBuilder builder, final int offset, final int length) {
+        return substitute(builder, offset, length, null) > 0;
     }
 
     /**
      * Recursive handler for multiple levels of interpolation. This is the main interpolation method, which resolves the
      * values of all variable references contained in the passed in text.
      *
-     * @param builder            the string builder to substitute into, not null
+     * @param builder        the string builder to substitute into, not null
      * @param offset         the start offset within the builder, must be valid
      * @param length         the length within the builder to be processed, must be valid
      * @param priorVariables the stack keeping track of the replaced variables, may be null

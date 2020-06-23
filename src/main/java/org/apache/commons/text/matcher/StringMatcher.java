@@ -25,11 +25,11 @@ package org.apache.commons.text.matcher;
 public interface StringMatcher {
 
     /**
-     * Returns the number of matching characters, zero for no match.
+     * Returns the number of matching characters, zero if there is no match.
      * <p>
-     * This method is called to check for a match. The parameter {@code start} represents the start position to be
-     * checked in the string {@code buffer} (a character array which must not be changed). The API guarantees that
-     * {@code start} is a valid index for {@code buffer}.
+     * This method is called to check for a match against a source {@code buffer}. The parameter {@code start}
+     * represents the start position to be checked in the array {@code buffer} (a character array which MUST not be
+     * changed). The implementation SHOULD guarantees that {@code start} is a valid index in {@code buffer}.
      * </p>
      * <p>
      * The character array may be larger than the active area to be matched. Only values in the buffer between the
@@ -44,16 +44,22 @@ public interface StringMatcher {
      * characters that matched.
      * </p>
      *
-     * @param buffer
-     *            the text content to match against, do not change
-     * @param start
-     *            the starting position for the match, valid for buffer
-     * @param bufferStart
-     *            the first active index in the buffer, valid for buffer
-     * @param bufferEnd
-     *            the end index (exclusive) of the active buffer, valid for buffer
-     * @return The number of matching characters, or zero if there is no match
+     * @param buffer the source text to search, do not change.
+     * @param start the starting position for the match, valid in {@code buffer}.
+     * @param bufferStart the first active index in the buffer, valid in {@code buffer}.
+     * @param bufferEnd the end index (exclusive) of the active buffer, valid in {@code buffer}.
+     * @return The number of matching characters, zero if there is no match.
      */
     int isMatch(char[] buffer, int start, int bufferStart, int bufferEnd);
+
+    /**
+     * Returns the size of the matching string. Defaults to 0.
+     *
+     * @return the size of the matching string.
+     * @since 1.9
+     */
+    default int size() {
+        return 0;
+    }
 
 }

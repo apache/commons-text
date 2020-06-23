@@ -20,10 +20,10 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>48</version>
+    <version>51</version>
   </parent>
   <artifactId>commons-text</artifactId>
-  <version>1.8.1-SNAPSHOT</version>
+  <version>1.9-SNAPSHOT</version>
   <name>Apache Commons Text</name>
   <description>Apache Commons Text is a library focused on algorithms working on strings.</description>
   <url>https://commons.apache.org/proper/commons-text</url>
@@ -37,7 +37,7 @@
     <commons.componentid>text</commons.componentid>
     <commons.module.name>org.apache.commons.text</commons.module.name>
 
-    <commons.release.version>1.8</commons.release.version>
+    <commons.release.version>1.9</commons.release.version>
     <commons.release.desc>(Java 8+)</commons.release.desc>
 
     <commons.jira.id>TEXT</commons.jira.id>
@@ -47,22 +47,23 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
-    <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
-    <checkstyle.version>8.27</checkstyle.version>
+    <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
+    <checkstyle.version>8.33</checkstyle.version>
 
     <spotbugs.plugin.version>4.0.0</spotbugs.plugin.version>
     
-    <commons.jacoco.version>0.8.4</commons.jacoco.version>
+    <commons.jacoco.version>0.8.5</commons.jacoco.version>
 
-    <commons.javadoc.version>3.1.1</commons.javadoc.version>
+    <commons.javadoc.version>3.2.0</commons.javadoc.version>
 
     <!-- generate report even if there are binary incompatible changes -->
     <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>true</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
     <commons.japicmp.version>0.14.3</commons.japicmp.version>
     <japicmp.skip>false</japicmp.skip>
+    <clirr.skip>true</clirr.skip>
 
     <!-- Commons Release Plugin -->
-    <commons.bc.version>1.7</commons.bc.version>
+    <commons.bc.version>1.8</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
@@ -86,9 +87,17 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.15.0</version>
+      <version>3.16.1</version>
       <scope>test</scope>
     </dependency>
+    <!--
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.7</version>
+      <scope>test</scope>
+    </dependency>
+    -->
   </dependencies>
 
   <build>
