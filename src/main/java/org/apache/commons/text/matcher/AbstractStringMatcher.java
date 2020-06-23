@@ -65,7 +65,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
             return ch == buffer[start] ? 1 : 0;
         }
-        
+
         /**
          * Returns 1.
          *
@@ -114,7 +114,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
             return Arrays.binarySearch(chars, buffer[start]) >= 0 ? 1 : 0;
         }
-        
+
         /**
          * Returns 1.
          *
@@ -156,7 +156,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
             return 0;
         }
-        
+
         /**
          * Returns 0.
          *
@@ -219,7 +219,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         public String toString() {
             return super.toString() + ' ' + Arrays.toString(chars);
         }
-        
+
         /**
          * Returns the size of the string to match given in the constructor.
          *
@@ -266,7 +266,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
             return buffer[start] <= SPACE_INT ? 1 : 0;
         }
-        
+
         /**
          * Returns 1.
          *

@@ -58,7 +58,7 @@ public interface StringMatcher {
 
     /**
      * Returns the size of the matching string. Defaults to 0.
-     *  
+     *
      * @return the size of the matching string.
      * @since 1.9
      */
