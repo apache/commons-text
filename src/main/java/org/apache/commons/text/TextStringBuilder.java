@@ -2572,7 +2572,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return The first index of the character, or -1 if not found
      */
     public int indexOf(final char ch, int startIndex) {
-        startIndex = startIndex < 0 ? 0 : startIndex;
+        startIndex = Math.max(0, startIndex);
         if (startIndex >= size) {
             return -1;
         }
@@ -2612,7 +2612,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return The first index of the string, or -1 if not found
      */
     public int indexOf(final String str, int startIndex) {
-        startIndex = startIndex < 0 ? 0 : startIndex;
+        startIndex = Math.max(0, startIndex);
         if (str == null || startIndex >= size) {
             return -1;
         }
@@ -2668,7 +2668,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return The first index matched, or -1 if not found
      */
     public int indexOf(final StringMatcher matcher, int startIndex) {
-        startIndex = startIndex < 0 ? 0 : startIndex;
+        startIndex = Math.max(0, startIndex);
         if (matcher == null || startIndex >= size) {
             return -1;
         }
