@@ -49,7 +49,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         }
 
         /**
-         * Returns whether or not the given character matches.
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
          * @param buffer the text content to match against, do not change
          * @param start the starting position for the match, valid for buffer
@@ -93,7 +93,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         }
 
         /**
-         * Returns whether or not the given character matches.
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
          * @param buffer the text content to match against, do not change
          * @param start the starting position for the match, valid for buffer
@@ -131,7 +131,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         }
 
         /**
-         * Always returns {@code false}.
+         * Always returns {@code 0}.
          *
          * @param buffer unused
          * @param start unused
@@ -175,7 +175,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         }
 
         /**
-         * Returns whether or not the given text matches the stored string.
+         * Returns the number of matching characters, {@code 0} if there is no match.
          *
          * @param buffer the text content to match against, do not change
          * @param start the starting position for the match, valid for buffer
@@ -232,7 +232,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         }
 
         /**
-         * Returns whether or not the given character matches.
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
          * @param buffer the text content to match against, do not change
          * @param start the starting position for the match, valid for buffer
