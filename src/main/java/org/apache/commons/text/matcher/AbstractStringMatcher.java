@@ -287,4 +287,18 @@ abstract class AbstractStringMatcher implements StringMatcher {
         return isMatch(buffer, pos, 0, buffer.length);
     }
 
+//    /**
+//     * Validates indices for {@code bufferStart <= start < bufferEnd}.
+//     *
+//     * @param start the starting position for the match, valid in {@code buffer}.
+//     * @param bufferStart the first active index in the buffer, valid in {@code buffer}.
+//     * @param bufferEnd the end index (exclusive) of the active buffer, valid in {@code buffer}.
+//     */
+//    void validate(final int start, final int bufferStart, final int bufferEnd) {
+//        if (((bufferStart > start) || (start >= bufferEnd))) {
+//            throw new IndexOutOfBoundsException(
+//                String.format("bufferStart(%,d) <= start(%,d) < bufferEnd(%,d)", bufferStart, start, bufferEnd));
+//        }
+//    }
+
 }
