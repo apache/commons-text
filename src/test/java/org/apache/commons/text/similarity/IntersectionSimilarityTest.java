@@ -19,8 +19,6 @@ package org.apache.commons.text.similarity;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,6 +28,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Pattern;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link IntersectionSimilarity}.

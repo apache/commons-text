@@ -17,13 +17,14 @@
 
 package org.apache.commons.text.similarity;
 
-import org.junit.jupiter.api.Test;
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.within;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.jupiter.api.Test;
 
 
 public class CosineSimilarityTest {

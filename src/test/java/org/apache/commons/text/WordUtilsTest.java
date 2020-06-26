@@ -16,14 +16,15 @@
  */
 package org.apache.commons.text;
 
-import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link WordUtils} class.
@@ -197,8 +198,8 @@ public class WordUtilsTest {
     @Test
     public void testCapitalizeWithDelimiters_String() {
         assertThat(WordUtils.capitalize(null, null)).isNull();
-        assertThat(WordUtils.capitalize("", new char[0])).isEqualTo("");
-        assertThat(WordUtils.capitalize("  ", new char[0])).isEqualTo("  ");
+        assertThat(WordUtils.capitalize("", ArrayUtils.EMPTY_CHAR_ARRAY)).isEqualTo("");
+        assertThat(WordUtils.capitalize("  ", ArrayUtils.EMPTY_CHAR_ARRAY)).isEqualTo("  ");
 
         char[] chars = new char[] {'-', '+', ' ', '@'};
         assertThat(WordUtils.capitalize("I", chars)).isEqualTo("I");
@@ -240,8 +241,8 @@ public class WordUtilsTest {
     @Test
     public void testCapitalizeFullyWithDelimiters_String() {
         assertThat(WordUtils.capitalizeFully(null, null)).isNull();
-        assertThat(WordUtils.capitalizeFully("", new char[0])).isEqualTo("");
-        assertThat(WordUtils.capitalizeFully("  ", new char[0])).isEqualTo("  ");
+        assertThat(WordUtils.capitalizeFully("", ArrayUtils.EMPTY_CHAR_ARRAY)).isEqualTo("");
+        assertThat(WordUtils.capitalizeFully("  ", ArrayUtils.EMPTY_CHAR_ARRAY)).isEqualTo("  ");
 
         char[] chars = new char[] {'-', '+', ' ', '@'};
         assertThat(WordUtils.capitalizeFully("I", chars)).isEqualTo("I");
@@ -295,8 +296,8 @@ public class WordUtilsTest {
     @Test
     public void testUncapitalizeWithDelimiters_String() {
         assertThat(WordUtils.uncapitalize(null, null)).isNull();
-        assertThat(WordUtils.uncapitalize("", new char[0])).isEqualTo("");
-        assertThat(WordUtils.uncapitalize("  ", new char[0])).isEqualTo("  ");
+        assertThat(WordUtils.uncapitalize("", ArrayUtils.EMPTY_CHAR_ARRAY)).isEqualTo("");
+        assertThat(WordUtils.uncapitalize("  ", ArrayUtils.EMPTY_CHAR_ARRAY)).isEqualTo("  ");
 
         char[] chars = new char[] {'-', '+', ' ', '@'};
         assertThat(WordUtils.uncapitalize("I", chars)).isEqualTo("i");
@@ -343,7 +344,7 @@ public class WordUtilsTest {
         assertThat(WordUtils.initials("Kay O'Murphy", array)).isEqualTo("KO");
         assertThat(WordUtils.initials("i am here 123", array)).isEqualTo("iah1");
 
-        array = new char[0];
+        array = ArrayUtils.EMPTY_CHAR_ARRAY;
         assertThat(WordUtils.initials(null, array)).isNull();
         assertThat(WordUtils.initials("", array)).isEqualTo("");
         assertThat(WordUtils.initials("  ", array)).isEqualTo("");

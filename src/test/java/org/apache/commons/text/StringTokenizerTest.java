@@ -20,13 +20,15 @@ package org.apache.commons.text;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.text.matcher.StringMatcher;
 import org.apache.commons.text.matcher.StringMatcherFactory;
 import org.junit.jupiter.api.Test;
@@ -594,7 +596,7 @@ public class StringTokenizerTest {
         final StringTokenizer tok = new StringTokenizer();
         assertEquals(tok, tok.reset());
         assertEquals(tok, tok.reset(""));
-        assertEquals(tok, tok.reset(new char[0]));
+        assertEquals(tok, tok.reset(ArrayUtils.EMPTY_CHAR_ARRAY));
         assertEquals(tok, tok.setDelimiterChar(' '));
         assertEquals(tok, tok.setDelimiterString(" "));
         assertEquals(tok, tok.setDelimiterMatcher(null));
@@ -712,7 +714,7 @@ public class StringTokenizerTest {
         assertEquals("b", tok.next());
         assertFalse(tok.hasNext());
 
-        tok = new StringTokenizer(new char[0]);
+        tok = new StringTokenizer(ArrayUtils.EMPTY_CHAR_ARRAY);
         assertFalse(tok.hasNext());
 
         tok = new StringTokenizer((char[]) null);
@@ -729,7 +731,7 @@ public class StringTokenizerTest {
         assertEquals("b", tok.next());
         assertFalse(tok.hasNext());
 
-        tok = new StringTokenizer(new char[0], ' ');
+        tok = new StringTokenizer(ArrayUtils.EMPTY_CHAR_ARRAY, ' ');
         assertFalse(tok.hasNext());
 
         tok = new StringTokenizer((char[]) null, ' ');
@@ -748,7 +750,7 @@ public class StringTokenizerTest {
         assertEquals("b", tok.next());
         assertFalse(tok.hasNext());
 
-        tok = new StringTokenizer(new char[0], ' ', '"');
+        tok = new StringTokenizer(ArrayUtils.EMPTY_CHAR_ARRAY, ' ', '"');
         assertFalse(tok.hasNext());
 
         tok = new StringTokenizer((char[]) null, ' ', '"');

@@ -16,12 +16,12 @@
  */
 package org.apache.commons.text.translate;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.CharArrayWriter;
 import java.io.IOException;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link UnicodeUnpairedSurrogateRemover}.

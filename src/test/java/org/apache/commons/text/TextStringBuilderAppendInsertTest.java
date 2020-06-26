@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -472,7 +473,7 @@ public class TextStringBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("NULL");
 
         sb = new TextStringBuilder();
-        sb.append(new char[0]);
+        sb.append(ArrayUtils.EMPTY_CHAR_ARRAY);
         assertThat(sb.toString()).isEqualTo("");
 
         sb.append(new char[]{'f', 'o', 'o'});
@@ -1351,7 +1352,7 @@ public class TextStringBuilderAppendInsertTest {
         sb.insert(0, (char[]) null);
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        sb.insert(0, new char[0]);
+        sb.insert(0, ArrayUtils.EMPTY_CHAR_ARRAY);
         assertThat(sb.toString()).isEqualTo("barbaz");
 
         sb.insert(0, new char[]{'f', 'o', 'o'});
@@ -1370,7 +1371,7 @@ public class TextStringBuilderAppendInsertTest {
         sb.insert(0, (char[]) null, 0, 0);
         assertThat(sb.toString()).isEqualTo("barbaz");
 
-        sb.insert(0, new char[0], 0, 0);
+        sb.insert(0, ArrayUtils.EMPTY_CHAR_ARRAY, 0, 0);
         assertThat(sb.toString()).isEqualTo("barbaz");
 
         assertThrows(IndexOutOfBoundsException.class,

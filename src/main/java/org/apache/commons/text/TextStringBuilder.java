@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.text.matcher.StringMatcher;
 
 /**
@@ -3136,7 +3137,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public char[] toCharArray() {
         if (size == 0) {
-            return new char[0];
+            return ArrayUtils.EMPTY_CHAR_ARRAY;
         }
         final char[] chars = new char[size];
         System.arraycopy(buffer, 0, chars, 0, size);
@@ -3158,7 +3159,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         endIndex = validateRange(startIndex, endIndex);
         final int len = endIndex - startIndex;
         if (len == 0) {
-            return new char[0];
+            return ArrayUtils.EMPTY_CHAR_ARRAY;
         }
         final char[] chars = new char[len];
         System.arraycopy(buffer, startIndex, chars, 0, len);

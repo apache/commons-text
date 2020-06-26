@@ -17,10 +17,10 @@
 
 package org.apache.commons.text;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -596,7 +597,7 @@ public class StrTokenizerTest {
         final StrTokenizer tok = new StrTokenizer();
         assertEquals(tok, tok.reset());
         assertEquals(tok, tok.reset(""));
-        assertEquals(tok, tok.reset(new char[0]));
+        assertEquals(tok, tok.reset(ArrayUtils.EMPTY_CHAR_ARRAY));
         assertEquals(tok, tok.setDelimiterChar(' '));
         assertEquals(tok, tok.setDelimiterString(" "));
         assertEquals(tok, tok.setDelimiterMatcher(null));
@@ -711,7 +712,7 @@ public class StrTokenizerTest {
         assertEquals("b", tok.next());
         assertFalse(tok.hasNext());
 
-        tok = new StrTokenizer(new char[0]);
+        tok = new StrTokenizer(ArrayUtils.EMPTY_CHAR_ARRAY);
         assertFalse(tok.hasNext());
 
         tok = new StrTokenizer((char[]) null);
@@ -727,7 +728,7 @@ public class StrTokenizerTest {
         assertEquals("b", tok.next());
         assertFalse(tok.hasNext());
 
-        tok = new StrTokenizer(new char[0], ' ');
+        tok = new StrTokenizer(ArrayUtils.EMPTY_CHAR_ARRAY, ' ');
         assertFalse(tok.hasNext());
 
         tok = new StrTokenizer((char[]) null, ' ');
@@ -744,7 +745,7 @@ public class StrTokenizerTest {
         assertEquals("b", tok.next());
         assertFalse(tok.hasNext());
 
-        tok = new StrTokenizer(new char[0], ' ', '"');
+        tok = new StrTokenizer(ArrayUtils.EMPTY_CHAR_ARRAY, ' ', '"');
         assertFalse(tok.hasNext());
 
         tok = new StrTokenizer((char[]) null, ' ', '"');

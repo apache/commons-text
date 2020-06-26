@@ -16,11 +16,11 @@
  */
 package org.apache.commons.text.similarity;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link IntersectionResult}.

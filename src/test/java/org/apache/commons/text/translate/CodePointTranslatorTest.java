@@ -16,13 +16,13 @@
  */
 package org.apache.commons.text.translate;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.PipedReader;
 import java.io.PipedWriter;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 public class CodePointTranslatorTest {
 
