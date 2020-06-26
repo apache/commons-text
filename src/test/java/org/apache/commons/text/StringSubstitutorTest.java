@@ -51,34 +51,36 @@ public class StringSubstitutorTest {
     protected Map<String, String> values;
 
     protected void doTestNoReplace(final String replaceTemplate) throws IOException {
-        final StringSubstitutor sub = new StringSubstitutor(values);
+        doTestNoReplace(replaceTemplate, new StringSubstitutor(values));
+    }
 
+    protected void doTestNoReplace(final String replaceTemplate, final StringSubstitutor substitutor)
+        throws IOException {
         if (replaceTemplate == null) {
-            assertNull(replace(sub, (String) null));
-            assertNull(sub.replace((String) null, 0, 100));
-            assertNull(sub.replace((char[]) null));
-            assertNull(sub.replace((char[]) null, 0, 100));
-            assertNull(sub.replace((StringBuffer) null));
-            assertNull(sub.replace((StringBuffer) null, 0, 100));
-            assertNull(sub.replace((TextStringBuilder) null));
-            assertNull(sub.replace((TextStringBuilder) null, 0, 100));
-            assertNull(sub.replace((Object) null));
-            assertFalse(sub.replaceIn((StringBuffer) null));
-            assertFalse(sub.replaceIn((StringBuffer) null, 0, 100));
-            assertFalse(sub.replaceIn((TextStringBuilder) null));
-            assertFalse(sub.replaceIn((TextStringBuilder) null, 0, 100));
+            assertNull(replace(substitutor, (String) null));
+            assertNull(substitutor.replace((String) null, 0, 100));
+            assertNull(substitutor.replace((char[]) null));
+            assertNull(substitutor.replace((char[]) null, 0, 100));
+            assertNull(substitutor.replace((StringBuffer) null));
+            assertNull(substitutor.replace((StringBuffer) null, 0, 100));
+            assertNull(substitutor.replace((TextStringBuilder) null));
+            assertNull(substitutor.replace((TextStringBuilder) null, 0, 100));
+            assertNull(substitutor.replace((Object) null));
+            assertFalse(substitutor.replaceIn((StringBuffer) null));
+            assertFalse(substitutor.replaceIn((StringBuffer) null, 0, 100));
+            assertFalse(substitutor.replaceIn((TextStringBuilder) null));
+            assertFalse(substitutor.replaceIn((TextStringBuilder) null, 0, 100));
         } else {
-            assertEquals(replaceTemplate, sub.replace(replaceTemplate));
+            assertEquals(replaceTemplate, substitutor.replace(replaceTemplate));
             final TextStringBuilder bld = new TextStringBuilder(replaceTemplate);
-            assertFalse(sub.replaceIn(bld));
+            assertFalse(substitutor.replaceIn(bld));
             assertEquals(replaceTemplate, bld.toString());
         }
     }
 
     protected void doTestReplace(final String expectedResult, final String replaceTemplate, final boolean substring)
         throws IOException {
-        final StringSubstitutor sub = new StringSubstitutor(values);
-        doTestReplace(sub, expectedResult, replaceTemplate, substring);
+        doTestReplace(new StringSubstitutor(values), expectedResult, replaceTemplate, substring);
     }
 
     protected void doTestReplace(final StringSubstitutor sub, final String expectedResult, final String replaceTemplate,
