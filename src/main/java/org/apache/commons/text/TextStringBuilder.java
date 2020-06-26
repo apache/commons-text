@@ -73,19 +73,190 @@ import org.apache.commons.text.matcher.StringMatcher;
 public class TextStringBuilder implements CharSequence, Appendable, Serializable, Builder<String> {
 
     /**
-     * The size of the string {@code "false"}.
+     * Inner class to allow StrBuilder to operate as a reader.
      */
-    private static final int FALSE_STRING_SIZE = "false".length();
+    class StrBuilderReader extends Reader {
+        /** The last mark position. */
+        private int mark;
+        /** The current stream position. */
+        private int pos;
+
+        /**
+         * Default constructor.
+         */
+        StrBuilderReader() {
+            super();
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void close() {
+            // do nothing
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void mark(final int readAheadLimit) {
+            mark = pos;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean markSupported() {
+            return true;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public int read() {
+            if (!ready()) {
+                return -1;
+            }
+            return TextStringBuilder.this.charAt(pos++);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public int read(final char[] b, final int off, int len) {
+            if (off < 0 || len < 0 || off > b.length || off + len > b.length || off + len < 0) {
+                throw new IndexOutOfBoundsException();
+            }
+            if (len == 0) {
+                return 0;
+            }
+            if (pos >= TextStringBuilder.this.size()) {
+                return -1;
+            }
+            if (pos + len > size()) {
+                len = TextStringBuilder.this.size() - pos;
+            }
+            TextStringBuilder.this.getChars(pos, pos + len, b, off);
+            pos += len;
+            return len;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean ready() {
+            return pos < TextStringBuilder.this.size();
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void reset() {
+            pos = mark;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public long skip(long n) {
+            if (pos + n > TextStringBuilder.this.size()) {
+                n = TextStringBuilder.this.size() - pos;
+            }
+            if (n < 0) {
+                return 0;
+            }
+            pos += n;
+            return n;
+        }
+    }
 
     /**
-     * The size of the string {@code "true"}.
+     * Inner class to allow StrBuilder to operate as a writer.
      */
-    private static final int TRUE_STRING_SIZE = "true".length();
+    class StrBuilderWriter extends Writer {
+
+        /**
+         * Default constructor.
+         */
+        StrBuilderWriter() {
+            super();
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void close() {
+            // do nothing
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void flush() {
+            // do nothing
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void write(final char[] cbuf) {
+            TextStringBuilder.this.append(cbuf);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void write(final char[] cbuf, final int off, final int len) {
+            TextStringBuilder.this.append(cbuf, off, len);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void write(final int c) {
+            TextStringBuilder.this.append((char) c);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void write(final String str) {
+            TextStringBuilder.this.append(str);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void write(final String str, final int off, final int len) {
+            TextStringBuilder.this.append(str, off, len);
+        }
+    }
+
+    /**
+     * Inner class to allow StrBuilder to operate as a tokenizer.
+     */
+    class TextStringBuilderTokenizer extends StringTokenizer {
+
+        /**
+         * Default constructor.
+         */
+        TextStringBuilderTokenizer() {
+            super();
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String getContent() {
+            final String str = super.getContent();
+            if (str == null) {
+                return TextStringBuilder.this.toString();
+            }
+            return str;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        protected List<String> tokenize(final char[] chars, final int offset, final int count) {
+            if (chars == null) {
+                return super.tokenize(TextStringBuilder.this.buffer, 0, TextStringBuilder.this.size());
+            }
+            return super.tokenize(chars, offset, count);
+        }
+    }
 
     /**
      * The extra capacity for new builders.
      */
     static final int CAPACITY = 32;
+
+    /**
+     * The size of the string {@code "false"}.
+     */
+    private static final int FALSE_STRING_SIZE = "false".length();
 
     /**
      * Required for serialization support.
@@ -94,17 +265,22 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The size of the string {@code "true"}.
+     */
+    private static final int TRUE_STRING_SIZE = "true".length();
+
     /** Internal data storage. */
     char[] buffer; // package-protected for test code use only
-
-    /** Current size of the buffer. */
-    private int size;
 
     /** The new line. */
     private String newLine;
 
     /** The null text. */
     private String nullText;
+
+    /** Current size of the buffer. */
+    private int size;
 
     /**
      * Constructor that creates an empty builder initial capacity 32 characters.
@@ -144,426 +320,150 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Gets the text to be appended when a new line is added.
+     * Appends a boolean value to the string builder.
      *
-     * @return The new line text, null means use system default
-     */
-    public String getNewLineText() {
-        return newLine;
-    }
-
-    /**
-     * Sets the text to be appended when a new line is added.
-     *
-     * @param newLine
-     *            the new line text, null means use system default
+     * @param value
+     *            the value to append
      * @return this, to enable chaining
      */
-    public TextStringBuilder setNewLineText(final String newLine) {
-        this.newLine = newLine;
-        return this;
-    }
-
-    /**
-     * Gets the text to be appended when null is added.
-     *
-     * @return The null text, null means no append
-     */
-    public String getNullText() {
-        return nullText;
-    }
-
-    /**
-     * Sets the text to be appended when null is added.
-     *
-     * @param nullText
-     *            the null text, null means no append
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder setNullText(String nullText) {
-        if (nullText != null && nullText.isEmpty()) {
-            nullText = null;
-        }
-        this.nullText = nullText;
-        return this;
-    }
-
-    /**
-     * Gets the length of the string builder.
-     *
-     * @return The length
-     */
-    @Override
-    public int length() {
-        return size;
-    }
-
-    /**
-     * Updates the length of the builder by either dropping the last characters or adding filler of Unicode zero.
-     *
-     * @param length
-     *            the length to set to, must be zero or positive
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if the length is negative
-     */
-    public TextStringBuilder setLength(final int length) {
-        if (length < 0) {
-            throw new StringIndexOutOfBoundsException(length);
-        }
-        if (length < size) {
-            size = length;
-        } else if (length > size) {
-            ensureCapacity(length);
-            final int oldEnd = size;
-            final int newEnd = length;
-            size = length;
-            for (int i = oldEnd; i < newEnd; i++) {
-                buffer[i] = '\0';
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Gets the current size of the internal character array buffer.
-     *
-     * @return The capacity
-     */
-    public int capacity() {
-        return buffer.length;
-    }
-
-    /**
-     * Checks the capacity and ensures that it is at least the size specified.
-     *
-     * @param capacity
-     *            the capacity to ensure
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder ensureCapacity(final int capacity) {
-        if (capacity > buffer.length) {
-            final char[] old = buffer;
-            buffer = new char[capacity * 2];
-            System.arraycopy(old, 0, buffer, 0, size);
-        }
-        return this;
-    }
-
-    /**
-     * Minimizes the capacity to the actual length of the string.
-     *
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder minimizeCapacity() {
-        if (buffer.length > length()) {
-            final char[] old = buffer;
-            buffer = new char[length()];
-            System.arraycopy(old, 0, buffer, 0, size);
-        }
-        return this;
-    }
-
-    /**
-     * Gets the length of the string builder.
-     * <p>
-     * This method is the same as {@link #length()} and is provided to match the API of Collections.
-     * </p>
-     *
-     * @return The length
-     */
-    public int size() {
-        return size;
-    }
-
-    /**
-     * Checks is the string builder is empty (convenience Collections API style method).
-     * <p>
-     * This method is the same as checking {@link #length()} and is provided to match the API of Collections.
-     * </p>
-     *
-     * @return {@code true} if the size is {@code 0}.
-     */
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    /**
-     * Clears the string builder (convenience Collections API style method).
-     * <p>
-     * This method does not reduce the size of the internal character buffer. To do that, call {@code clear()}
-     * followed by {@link #minimizeCapacity()}.
-     * </p>
-     * <p>
-     * This method is the same as {@link #setLength(int)} called with zero and is provided to match the API of
-     * Collections.
-     * </p>
-     *
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder clear() {
-        size = 0;
-        return this;
-    }
-
-    /**
-     * Gets the character at the specified index.
-     *
-     * @see #setCharAt(int, char)
-     * @see #deleteCharAt(int)
-     * @param index
-     *            the index to retrieve, must be valid
-     * @return The character at the index
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
-     */
-    @Override
-    public char charAt(final int index) {
-        if (index < 0 || index >= length()) {
-            throw new StringIndexOutOfBoundsException(index);
-        }
-        return buffer[index];
-    }
-
-    /**
-     * Sets the character at the specified index.
-     *
-     * @see #charAt(int)
-     * @see #deleteCharAt(int)
-     * @param index
-     *            the index to set
-     * @param ch
-     *            the new character
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
-     */
-    public TextStringBuilder setCharAt(final int index, final char ch) {
-        if (index < 0 || index >= length()) {
-            throw new StringIndexOutOfBoundsException(index);
-        }
-        buffer[index] = ch;
-        return this;
-    }
-
-    /**
-     * Deletes the character at the specified index.
-     *
-     * @see #charAt(int)
-     * @see #setCharAt(int, char)
-     * @param index
-     *            the index to delete
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
-     */
-    public TextStringBuilder deleteCharAt(final int index) {
-        if (index < 0 || index >= size) {
-            throw new StringIndexOutOfBoundsException(index);
-        }
-        deleteImpl(index, index + 1, 1);
-        return this;
-    }
-
-    /**
-     * Copies the builder's character array into a new character array.
-     *
-     * @return a new array that represents the contents of the builder
-     */
-    public char[] toCharArray() {
-        if (size == 0) {
-            return new char[0];
-        }
-        final char[] chars = new char[size];
-        System.arraycopy(buffer, 0, chars, 0, size);
-        return chars;
-    }
-
-    /**
-     * Copies part of the builder's character array into a new character array.
-     *
-     * @param startIndex
-     *            the start index, inclusive, must be valid
-     * @param endIndex
-     *            the end index, exclusive, must be valid except that if too large it is treated as end of string
-     * @return a new array that holds part of the contents of the builder
-     * @throws IndexOutOfBoundsException
-     *             if startIndex is invalid, or if endIndex is invalid (but endIndex greater than size is valid)
-     */
-    public char[] toCharArray(final int startIndex, int endIndex) {
-        endIndex = validateRange(startIndex, endIndex);
-        final int len = endIndex - startIndex;
-        if (len == 0) {
-            return new char[0];
-        }
-        final char[] chars = new char[len];
-        System.arraycopy(buffer, startIndex, chars, 0, len);
-        return chars;
-    }
-
-    /**
-     * Copies the character array into the specified array.
-     *
-     * @param destination
-     *            the destination array, null will cause an array to be created
-     * @return The input array, unless that was null or too small
-     */
-    public char[] getChars(char[] destination) {
-        final int len = length();
-        if (destination == null || destination.length < len) {
-            destination = new char[len];
-        }
-        System.arraycopy(buffer, 0, destination, 0, len);
-        return destination;
-    }
-
-    /**
-     * Copies the character array into the specified array.
-     *
-     * @param startIndex
-     *            first index to copy, inclusive, must be valid
-     * @param endIndex
-     *            last index, exclusive, must be valid
-     * @param destination
-     *            the destination array, must not be null or too small
-     * @param destinationIndex
-     *            the index to start copying in destination
-     * @throws NullPointerException
-     *             if the array is null
-     * @throws IndexOutOfBoundsException
-     *             if any index is invalid
-     */
-    public void getChars(final int startIndex, final int endIndex, final char[] destination,
-            final int destinationIndex) {
-        if (startIndex < 0) {
-            throw new StringIndexOutOfBoundsException(startIndex);
-        }
-        if (endIndex < 0 || endIndex > length()) {
-            throw new StringIndexOutOfBoundsException(endIndex);
-        }
-        if (startIndex > endIndex) {
-            throw new StringIndexOutOfBoundsException("end < start");
-        }
-        System.arraycopy(buffer, startIndex, destination, destinationIndex, endIndex - startIndex);
-    }
-
-    /**
-     * If possible, reads chars from the provided {@link CharBuffer} directly into underlying character buffer without
-     * making extra copies.
-     *
-     * @param charBuffer CharBuffer to read.
-     * @return The number of characters read.
-     * @throws IOException if an I/O error occurs.
-     *
-     * @see #appendTo(Appendable)
-     * @since 1.9
-     */
-    public int readFrom(final CharBuffer charBuffer) throws IOException {
-        final int oldSize = size;
-        final int remaining = charBuffer.remaining();
-        ensureCapacity(size + remaining);
-        charBuffer.get(buffer, size, remaining);
-        size += remaining;
-        return size - oldSize;
-    }
-
-    /**
-     * If possible, reads chars from the provided {@link Readable} directly into underlying character buffer without
-     * making extra copies.
-     *
-     * @param readable
-     *            object to read from
-     * @return The number of characters read
-     * @throws IOException
-     *             if an I/O error occurs
-     *
-     * @see #appendTo(Appendable)
-     */
-    public int readFrom(final Readable readable) throws IOException {
-        if (readable instanceof Reader) {
-            return readFrom((Reader) readable);
-        } else if (readable instanceof CharBuffer) {
-            return readFrom((CharBuffer) readable);
+    public TextStringBuilder append(final boolean value) {
+        if (value) {
+            ensureCapacity(size + TRUE_STRING_SIZE);
+            buffer[size++] = 't';
+            buffer[size++] = 'r';
+            buffer[size++] = 'u';
+            buffer[size++] = 'e';
         } else {
-            final int oldSize = size;
-            while (true) {
-                ensureCapacity(size + 1);
-                final CharBuffer buf = CharBuffer.wrap(buffer, size, buffer.length - size);
-                final int read = readable.read(buf);
-                if (read == -1) {
-                    break;
-                }
-                size += read;
-            }
-            return size - oldSize;
+            ensureCapacity(size + FALSE_STRING_SIZE);
+            buffer[size++] = 'f';
+            buffer[size++] = 'a';
+            buffer[size++] = 'l';
+            buffer[size++] = 's';
+            buffer[size++] = 'e';
         }
+        return this;
     }
 
     /**
-     * If possible, reads chars from the provided {@link Reader} directly into underlying character buffer without
-     * making extra copies.
+     * Appends a char value to the string builder.
      *
-     * @param reader Reader to read.
-     * @return The number of characters read.
-     * @throws IOException if an I/O error occurs.
-     *
-     * @see #appendTo(Appendable)
-     * @since 1.9
-     */
-    public int readFrom(final Reader reader) throws IOException {
-        final int oldSize = size;
-        ensureCapacity(size + 1);
-        int read;
-        while ((read = reader.read(buffer, size, buffer.length - size)) != -1) {
-            size += read;
-            ensureCapacity(size + 1);
-        }
-        return size - oldSize;
-    }
-
-    /**
-     * Appends the new line string to this string builder.
-     * <p>
-     * The new line string can be altered using {@link #setNewLineText(String)}. This might be used to force the output
-     * to always use Unix line endings even when on Windows.
-     *
+     * @param ch
+     *            the value to append
      * @return this, to enable chaining
      */
-    public TextStringBuilder appendNewLine() {
-        if (newLine == null) {
-            append(System.lineSeparator());
-            return this;
-        }
-        return append(newLine);
+    @Override
+    public TextStringBuilder append(final char ch) {
+        final int len = length();
+        ensureCapacity(len + 1);
+        buffer[size++] = ch;
+        return this;
     }
 
     /**
-     * Appends the text representing {@code null} to this string builder.
+     * Appends a char array to the string builder. Appending null will call {@link #appendNull()}.
      *
+     * @param chars
+     *            the char array to append
      * @return this, to enable chaining
      */
-    public TextStringBuilder appendNull() {
-        if (nullText == null) {
-            return this;
-        }
-        return append(nullText);
-    }
-
-    /**
-     * Appends an object to this string builder. Appending null will call {@link #appendNull()}.
-     *
-     * @param obj
-     *            the object to append
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder append(final Object obj) {
-        if (obj == null) {
+    public TextStringBuilder append(final char[] chars) {
+        if (chars == null) {
             return appendNull();
         }
-        if (obj instanceof CharSequence) {
-            return append((CharSequence) obj);
+        final int strLen = chars.length;
+        if (strLen > 0) {
+            final int len = length();
+            ensureCapacity(len + strLen);
+            System.arraycopy(chars, 0, buffer, len, strLen);
+            size += strLen;
         }
-        return append(obj.toString());
+        return this;
+    }
+
+    /**
+     * Appends a char array to the string builder. Appending null will call {@link #appendNull()}.
+     *
+     * @param chars
+     *            the char array to append
+     * @param startIndex
+     *            the start index, inclusive, must be valid
+     * @param length
+     *            the length to append, must be valid
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder append(final char[] chars, final int startIndex, final int length) {
+        if (chars == null) {
+            return appendNull();
+        }
+        if (startIndex < 0 || startIndex > chars.length) {
+            throw new StringIndexOutOfBoundsException("Invalid startIndex: " + length);
+        }
+        if (length < 0 || startIndex + length > chars.length) {
+            throw new StringIndexOutOfBoundsException("Invalid length: " + length);
+        }
+        if (length > 0) {
+            final int len = length();
+            ensureCapacity(len + length);
+            System.arraycopy(chars, startIndex, buffer, len, length);
+            size += length;
+        }
+        return this;
+    }
+
+    /**
+     * Appends the contents of a char buffer to this string builder. Appending null will call {@link #appendNull()}.
+     *
+     * @param buf
+     *            the char buffer to append
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder append(final CharBuffer buf) {
+        if (buf == null) {
+            return appendNull();
+        }
+        if (buf.hasArray()) {
+            final int length = buf.remaining();
+            final int len = length();
+            ensureCapacity(len + length);
+            System.arraycopy(buf.array(), buf.arrayOffset() + buf.position(), buffer, len, length);
+            size += length;
+        } else {
+            append(buf.toString());
+        }
+        return this;
+    }
+
+    /**
+     * Appends the contents of a char buffer to this string builder. Appending null will call {@link #appendNull()}.
+     *
+     * @param buf
+     *            the char buffer to append
+     * @param startIndex
+     *            the start index, inclusive, must be valid
+     * @param length
+     *            the length to append, must be valid
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder append(final CharBuffer buf, final int startIndex, final int length) {
+        if (buf == null) {
+            return appendNull();
+        }
+        if (buf.hasArray()) {
+            final int totalLength = buf.remaining();
+            if (startIndex < 0 || startIndex > totalLength) {
+                throw new StringIndexOutOfBoundsException("startIndex must be valid");
+            }
+            if (length < 0 || startIndex + length > totalLength) {
+                throw new StringIndexOutOfBoundsException("length must be valid");
+            }
+            final int len = length();
+            ensureCapacity(len + length);
+            System.arraycopy(buf.array(), buf.arrayOffset() + buf.position() + startIndex, buffer, len, length);
+            size += length;
+        } else {
+            append(buf.toString(), startIndex, length);
+        }
+        return this;
     }
 
     /**
@@ -616,6 +516,67 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             throw new StringIndexOutOfBoundsException("endIndex must be greater than startIndex");
         }
         return append(seq.toString(), startIndex, endIndex - startIndex);
+    }
+
+    /**
+     * Appends a double value to the string builder using {@code String.valueOf}.
+     *
+     * @param value
+     *            the value to append
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder append(final double value) {
+        return append(String.valueOf(value));
+    }
+
+    /**
+     * Appends a float value to the string builder using {@code String.valueOf}.
+     *
+     * @param value
+     *            the value to append
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder append(final float value) {
+        return append(String.valueOf(value));
+    }
+
+    /**
+     * Appends an int value to the string builder using {@code String.valueOf}.
+     *
+     * @param value
+     *            the value to append
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder append(final int value) {
+        return append(String.valueOf(value));
+    }
+
+    /**
+     * Appends a long value to the string builder using {@code String.valueOf}.
+     *
+     * @param value
+     *            the value to append
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder append(final long value) {
+        return append(String.valueOf(value));
+    }
+
+    /**
+     * Appends an object to this string builder. Appending null will call {@link #appendNull()}.
+     *
+     * @param obj
+     *            the object to append
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder append(final Object obj) {
+        if (obj == null) {
+            return appendNull();
+        }
+        if (obj instanceof CharSequence) {
+            return append((CharSequence) obj);
+        }
+        return append(obj.toString());
     }
 
     /**
@@ -681,62 +642,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder append(final String format, final Object... objs) {
         return append(String.format(format, objs));
-    }
-
-    /**
-     * Appends the contents of a char buffer to this string builder. Appending null will call {@link #appendNull()}.
-     *
-     * @param buf
-     *            the char buffer to append
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder append(final CharBuffer buf) {
-        if (buf == null) {
-            return appendNull();
-        }
-        if (buf.hasArray()) {
-            final int length = buf.remaining();
-            final int len = length();
-            ensureCapacity(len + length);
-            System.arraycopy(buf.array(), buf.arrayOffset() + buf.position(), buffer, len, length);
-            size += length;
-        } else {
-            append(buf.toString());
-        }
-        return this;
-    }
-
-    /**
-     * Appends the contents of a char buffer to this string builder. Appending null will call {@link #appendNull()}.
-     *
-     * @param buf
-     *            the char buffer to append
-     * @param startIndex
-     *            the start index, inclusive, must be valid
-     * @param length
-     *            the length to append, must be valid
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder append(final CharBuffer buf, final int startIndex, final int length) {
-        if (buf == null) {
-            return appendNull();
-        }
-        if (buf.hasArray()) {
-            final int totalLength = buf.remaining();
-            if (startIndex < 0 || startIndex > totalLength) {
-                throw new StringIndexOutOfBoundsException("startIndex must be valid");
-            }
-            if (length < 0 || startIndex + length > totalLength) {
-                throw new StringIndexOutOfBoundsException("length must be valid");
-            }
-            final int len = length();
-            ensureCapacity(len + length);
-            System.arraycopy(buf.array(), buf.arrayOffset() + buf.position() + startIndex, buffer, len, length);
-            size += length;
-        } else {
-            append(buf.toString(), startIndex, length);
-        }
-        return this;
     }
 
     /**
@@ -893,28 +798,202 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Appends a char array to the string builder. Appending null will call {@link #appendNull()}.
+     * Appends each item in an iterable to the builder without any separators. Appending a null iterable will have no
+     * effect. Each object is appended using {@link #append(Object)}.
      *
-     * @param chars
-     *            the char array to append
+     * @param iterable
+     *            the iterable to append
      * @return this, to enable chaining
      */
-    public TextStringBuilder append(final char[] chars) {
-        if (chars == null) {
-            return appendNull();
-        }
-        final int strLen = chars.length;
-        if (strLen > 0) {
-            final int len = length();
-            ensureCapacity(len + strLen);
-            System.arraycopy(chars, 0, buffer, len, strLen);
-            size += strLen;
+    public TextStringBuilder appendAll(final Iterable<?> iterable) {
+        if (iterable != null) {
+            for (final Object o : iterable) {
+                append(o);
+            }
         }
         return this;
     }
 
     /**
-     * Appends a char array to the string builder. Appending null will call {@link #appendNull()}.
+     * Appends each item in an iterator to the builder without any separators. Appending a null iterator will have no
+     * effect. Each object is appended using {@link #append(Object)}.
+     *
+     * @param it
+     *            the iterator to append
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder appendAll(final Iterator<?> it) {
+        if (it != null) {
+            while (it.hasNext()) {
+                append(it.next());
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Appends each item in an array to the builder without any separators. Appending a null array will have no effect.
+     * Each object is appended using {@link #append(Object)}.
+     *
+     * @param <T>
+     *            the element type
+     * @param array
+     *            the array to append
+     * @return this, to enable chaining
+     */
+    public <T> TextStringBuilder appendAll(@SuppressWarnings("unchecked") final T... array) {
+        /*
+         * @SuppressWarnings used to hide warning about vararg usage. We cannot use @SafeVarargs, since this method is
+         * not final. Using @SuppressWarnings is fine, because it isn't inherited by subclasses, so each subclass must
+         * vouch for itself whether its use of 'array' is safe.
+         */
+        if (array != null && array.length > 0) {
+            for (final Object element : array) {
+                append(element);
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Appends an object to the builder padding on the left to a fixed width. The {@code String.valueOf} of the
+     * {@code int} value is used. If the formatted value is larger than the length, the left hand side is lost.
+     *
+     * @param value
+     *            the value to append
+     * @param width
+     *            the fixed field width, zero or negative has no effect
+     * @param padChar
+     *            the pad character to use
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder appendFixedWidthPadLeft(final int value, final int width, final char padChar) {
+        return appendFixedWidthPadLeft(String.valueOf(value), width, padChar);
+    }
+
+    /**
+     * Appends an object to the builder padding on the left to a fixed width. The {@code toString} of the object is
+     * used. If the object is larger than the length, the left hand side is lost. If the object is null, the null text
+     * value is used.
+     *
+     * @param obj
+     *            the object to append, null uses null text
+     * @param width
+     *            the fixed field width, zero or negative has no effect
+     * @param padChar
+     *            the pad character to use
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder appendFixedWidthPadLeft(final Object obj, final int width, final char padChar) {
+        if (width > 0) {
+            ensureCapacity(size + width);
+            String str = obj == null ? getNullText() : obj.toString();
+            if (str == null) {
+                str = "";
+            }
+            final int strLen = str.length();
+            if (strLen >= width) {
+                str.getChars(strLen - width, strLen, buffer, size);
+            } else {
+                final int padLen = width - strLen;
+                for (int i = 0; i < padLen; i++) {
+                    buffer[size + i] = padChar;
+                }
+                str.getChars(0, strLen, buffer, size + padLen);
+            }
+            size += width;
+        }
+        return this;
+    }
+
+    /**
+     * Appends an object to the builder padding on the right to a fixed length. The {@code String.valueOf} of the
+     * {@code int} value is used. If the object is larger than the length, the right hand side is lost.
+     *
+     * @param value
+     *            the value to append
+     * @param width
+     *            the fixed field width, zero or negative has no effect
+     * @param padChar
+     *            the pad character to use
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder appendFixedWidthPadRight(final int value, final int width, final char padChar) {
+        return appendFixedWidthPadRight(String.valueOf(value), width, padChar);
+    }
+
+    /**
+     * Appends an object to the builder padding on the right to a fixed length. The {@code toString} of the object
+     * is used. If the object is larger than the length, the right hand side is lost. If the object is null, null text
+     * value is used.
+     *
+     * @param obj
+     *            the object to append, null uses null text
+     * @param width
+     *            the fixed field width, zero or negative has no effect
+     * @param padChar
+     *            the pad character to use
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder appendFixedWidthPadRight(final Object obj, final int width, final char padChar) {
+        if (width > 0) {
+            ensureCapacity(size + width);
+            String str = obj == null ? getNullText() : obj.toString();
+            if (str == null) {
+                str = "";
+            }
+            final int strLen = str.length();
+            if (strLen >= width) {
+                str.getChars(0, width, buffer, size);
+            } else {
+                final int padLen = width - strLen;
+                str.getChars(0, strLen, buffer, size);
+                for (int i = 0; i < padLen; i++) {
+                    buffer[size + strLen + i] = padChar;
+                }
+            }
+            size += width;
+        }
+        return this;
+    }
+
+    /**
+     * Appends a boolean value followed by a new line to the string builder.
+     *
+     * @param value
+     *            the value to append
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder appendln(final boolean value) {
+        return append(value).appendNewLine();
+    }
+
+    /**
+     * Appends a char value followed by a new line to the string builder.
+     *
+     * @param ch
+     *            the value to append
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder appendln(final char ch) {
+        return append(ch).appendNewLine();
+    }
+
+    /**
+     * Appends a char array followed by a new line to the string builder. Appending null will call
+     * {@link #appendNull()}.
+     *
+     * @param chars
+     *            the char array to append
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder appendln(final char[] chars) {
+        return append(chars).appendNewLine();
+    }
+
+    /**
+     * Appends a char array followed by a new line to the string builder. Appending null will call
+     * {@link #appendNull()}.
      *
      * @param chars
      *            the char array to append
@@ -924,107 +1003,52 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *            the length to append, must be valid
      * @return this, to enable chaining
      */
-    public TextStringBuilder append(final char[] chars, final int startIndex, final int length) {
-        if (chars == null) {
-            return appendNull();
-        }
-        if (startIndex < 0 || startIndex > chars.length) {
-            throw new StringIndexOutOfBoundsException("Invalid startIndex: " + length);
-        }
-        if (length < 0 || startIndex + length > chars.length) {
-            throw new StringIndexOutOfBoundsException("Invalid length: " + length);
-        }
-        if (length > 0) {
-            final int len = length();
-            ensureCapacity(len + length);
-            System.arraycopy(chars, startIndex, buffer, len, length);
-            size += length;
-        }
-        return this;
+    public TextStringBuilder appendln(final char[] chars, final int startIndex, final int length) {
+        return append(chars, startIndex, length).appendNewLine();
     }
 
     /**
-     * Appends a boolean value to the string builder.
+     * Appends a double value followed by a new line to the string builder using {@code String.valueOf}.
      *
      * @param value
      *            the value to append
      * @return this, to enable chaining
      */
-    public TextStringBuilder append(final boolean value) {
-        if (value) {
-            ensureCapacity(size + TRUE_STRING_SIZE);
-            buffer[size++] = 't';
-            buffer[size++] = 'r';
-            buffer[size++] = 'u';
-            buffer[size++] = 'e';
-        } else {
-            ensureCapacity(size + FALSE_STRING_SIZE);
-            buffer[size++] = 'f';
-            buffer[size++] = 'a';
-            buffer[size++] = 'l';
-            buffer[size++] = 's';
-            buffer[size++] = 'e';
-        }
-        return this;
+    public TextStringBuilder appendln(final double value) {
+        return append(value).appendNewLine();
     }
 
     /**
-     * Appends a char value to the string builder.
-     *
-     * @param ch
-     *            the value to append
-     * @return this, to enable chaining
-     */
-    @Override
-    public TextStringBuilder append(final char ch) {
-        final int len = length();
-        ensureCapacity(len + 1);
-        buffer[size++] = ch;
-        return this;
-    }
-
-    /**
-     * Appends an int value to the string builder using {@code String.valueOf}.
+     * Appends a float value followed by a new line to the string builder using {@code String.valueOf}.
      *
      * @param value
      *            the value to append
      * @return this, to enable chaining
      */
-    public TextStringBuilder append(final int value) {
-        return append(String.valueOf(value));
+    public TextStringBuilder appendln(final float value) {
+        return append(value).appendNewLine();
     }
 
     /**
-     * Appends a long value to the string builder using {@code String.valueOf}.
+     * Appends an int value followed by a new line to the string builder using {@code String.valueOf}.
      *
      * @param value
      *            the value to append
      * @return this, to enable chaining
      */
-    public TextStringBuilder append(final long value) {
-        return append(String.valueOf(value));
+    public TextStringBuilder appendln(final int value) {
+        return append(value).appendNewLine();
     }
 
     /**
-     * Appends a float value to the string builder using {@code String.valueOf}.
+     * Appends a long value followed by a new line to the string builder using {@code String.valueOf}.
      *
      * @param value
      *            the value to append
      * @return this, to enable chaining
      */
-    public TextStringBuilder append(final float value) {
-        return append(String.valueOf(value));
-    }
-
-    /**
-     * Appends a double value to the string builder using {@code String.valueOf}.
-     *
-     * @param value
-     *            the value to append
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder append(final double value) {
-        return append(String.valueOf(value));
+    public TextStringBuilder appendln(final long value) {
+        return append(value).appendNewLine();
     }
 
     // -----------------------------------------------------------------------
@@ -1093,6 +1117,22 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
+     * Appends part of a string buffer followed by a new line to this string builder. Appending null will call
+     * {@link #appendNull()}.
+     *
+     * @param str
+     *            the string to append
+     * @param startIndex
+     *            the start index, inclusive, must be valid
+     * @param length
+     *            the length to append, must be valid
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder appendln(final StringBuffer str, final int startIndex, final int length) {
+        return append(str, startIndex, length).appendNewLine();
+    }
+
+    /**
      * Appends a string builder followed by a new line to this string builder. Appending null will call
      * {@link #appendNull()}.
      *
@@ -1117,22 +1157,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder appendln(final StringBuilder str, final int startIndex, final int length) {
-        return append(str, startIndex, length).appendNewLine();
-    }
-
-    /**
-     * Appends part of a string buffer followed by a new line to this string builder. Appending null will call
-     * {@link #appendNull()}.
-     *
-     * @param str
-     *            the string to append
-     * @param startIndex
-     *            the start index, inclusive, must be valid
-     * @param length
-     *            the length to append, must be valid
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendln(final StringBuffer str, final int startIndex, final int length) {
         return append(str, startIndex, length).appendNewLine();
     }
 
@@ -1165,284 +1189,48 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Appends a char array followed by a new line to the string builder. Appending null will call
-     * {@link #appendNull()}.
+     * Appends the new line string to this string builder.
+     * <p>
+     * The new line string can be altered using {@link #setNewLineText(String)}. This might be used to force the output
+     * to always use Unix line endings even when on Windows.
      *
-     * @param chars
-     *            the char array to append
      * @return this, to enable chaining
      */
-    public TextStringBuilder appendln(final char[] chars) {
-        return append(chars).appendNewLine();
+    public TextStringBuilder appendNewLine() {
+        if (newLine == null) {
+            append(System.lineSeparator());
+            return this;
+        }
+        return append(newLine);
     }
 
     /**
-     * Appends a char array followed by a new line to the string builder. Appending null will call
-     * {@link #appendNull()}.
+     * Appends the text representing {@code null} to this string builder.
      *
-     * @param chars
-     *            the char array to append
-     * @param startIndex
-     *            the start index, inclusive, must be valid
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder appendNull() {
+        if (nullText == null) {
+            return this;
+        }
+        return append(nullText);
+    }
+
+    /**
+     * Appends the pad character to the builder the specified number of times.
+     *
      * @param length
-     *            the length to append, must be valid
+     *            the length to append, negative means no append
+     * @param padChar
+     *            the character to append
      * @return this, to enable chaining
      */
-    public TextStringBuilder appendln(final char[] chars, final int startIndex, final int length) {
-        return append(chars, startIndex, length).appendNewLine();
-    }
-
-    /**
-     * Appends a boolean value followed by a new line to the string builder.
-     *
-     * @param value
-     *            the value to append
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendln(final boolean value) {
-        return append(value).appendNewLine();
-    }
-
-    /**
-     * Appends a char value followed by a new line to the string builder.
-     *
-     * @param ch
-     *            the value to append
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendln(final char ch) {
-        return append(ch).appendNewLine();
-    }
-
-    /**
-     * Appends an int value followed by a new line to the string builder using {@code String.valueOf}.
-     *
-     * @param value
-     *            the value to append
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendln(final int value) {
-        return append(value).appendNewLine();
-    }
-
-    /**
-     * Appends a long value followed by a new line to the string builder using {@code String.valueOf}.
-     *
-     * @param value
-     *            the value to append
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendln(final long value) {
-        return append(value).appendNewLine();
-    }
-
-    /**
-     * Appends a float value followed by a new line to the string builder using {@code String.valueOf}.
-     *
-     * @param value
-     *            the value to append
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendln(final float value) {
-        return append(value).appendNewLine();
-    }
-
-    /**
-     * Appends a double value followed by a new line to the string builder using {@code String.valueOf}.
-     *
-     * @param value
-     *            the value to append
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendln(final double value) {
-        return append(value).appendNewLine();
-    }
-
-    /**
-     * Appends each item in an array to the builder without any separators. Appending a null array will have no effect.
-     * Each object is appended using {@link #append(Object)}.
-     *
-     * @param <T>
-     *            the element type
-     * @param array
-     *            the array to append
-     * @return this, to enable chaining
-     */
-    public <T> TextStringBuilder appendAll(@SuppressWarnings("unchecked") final T... array) {
-        /*
-         * @SuppressWarnings used to hide warning about vararg usage. We cannot use @SafeVarargs, since this method is
-         * not final. Using @SuppressWarnings is fine, because it isn't inherited by subclasses, so each subclass must
-         * vouch for itself whether its use of 'array' is safe.
-         */
-        if (array != null && array.length > 0) {
-            for (final Object element : array) {
-                append(element);
+    public TextStringBuilder appendPadding(final int length, final char padChar) {
+        if (length >= 0) {
+            ensureCapacity(size + length);
+            for (int i = 0; i < length; i++) {
+                buffer[size++] = padChar;
             }
-        }
-        return this;
-    }
-
-    /**
-     * Appends each item in an iterable to the builder without any separators. Appending a null iterable will have no
-     * effect. Each object is appended using {@link #append(Object)}.
-     *
-     * @param iterable
-     *            the iterable to append
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendAll(final Iterable<?> iterable) {
-        if (iterable != null) {
-            for (final Object o : iterable) {
-                append(o);
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Appends each item in an iterator to the builder without any separators. Appending a null iterator will have no
-     * effect. Each object is appended using {@link #append(Object)}.
-     *
-     * @param it
-     *            the iterator to append
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendAll(final Iterator<?> it) {
-        if (it != null) {
-            while (it.hasNext()) {
-                append(it.next());
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Appends an array placing separators between each value, but not before the first or after the last. Appending a
-     * null array will have no effect. Each object is appended using {@link #append(Object)}.
-     *
-     * @param array
-     *            the array to append
-     * @param separator
-     *            the separator to use, null means no separator
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendWithSeparators(final Object[] array, final String separator) {
-        if (array != null && array.length > 0) {
-            final String sep = Objects.toString(separator, "");
-            append(array[0]);
-            for (int i = 1; i < array.length; i++) {
-                append(sep);
-                append(array[i]);
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Appends an iterable placing separators between each value, but not before the first or after the last. Appending
-     * a null iterable will have no effect. Each object is appended using {@link #append(Object)}.
-     *
-     * @param iterable
-     *            the iterable to append
-     * @param separator
-     *            the separator to use, null means no separator
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendWithSeparators(final Iterable<?> iterable, final String separator) {
-        if (iterable != null) {
-            final String sep = Objects.toString(separator, "");
-            final Iterator<?> it = iterable.iterator();
-            while (it.hasNext()) {
-                append(it.next());
-                if (it.hasNext()) {
-                    append(sep);
-                }
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Appends an iterator placing separators between each value, but not before the first or after the last. Appending
-     * a null iterator will have no effect. Each object is appended using {@link #append(Object)}.
-     *
-     * @param it
-     *            the iterator to append
-     * @param separator
-     *            the separator to use, null means no separator
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendWithSeparators(final Iterator<?> it, final String separator) {
-        if (it != null) {
-            final String sep = Objects.toString(separator, "");
-            while (it.hasNext()) {
-                append(it.next());
-                if (it.hasNext()) {
-                    append(sep);
-                }
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Appends a separator if the builder is currently non-empty. Appending a null separator will have no effect. The
-     * separator is appended using {@link #append(String)}.
-     * <p>
-     * This method is useful for adding a separator each time around the loop except the first.
-     * </p>
-     *
-     * <pre>
-     * for (Iterator it = list.iterator(); it.hasNext();) {
-     *     appendSeparator(",");
-     *     append(it.next());
-     * }
-     * </pre>
-     *
-     * <p>
-     * Note that for this simple example, you should use {@link #appendWithSeparators(Iterable, String)}.
-     * </p>
-     *
-     * @param separator
-     *            the separator to use, null means no separator
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendSeparator(final String separator) {
-        return appendSeparator(separator, null);
-    }
-
-    /**
-     * Appends one of both separators to the StrBuilder. If the builder is currently empty it will append the
-     * defaultIfEmpty-separator Otherwise it will append the standard-separator
-     *
-     * Appending a null separator will have no effect. The separator is appended using {@link #append(String)}.
-     * <p>
-     * This method is for example useful for constructing queries
-     * </p>
-     *
-     * <pre>
-     * StrBuilder whereClause = new StrBuilder();
-     * if(searchCommand.getPriority() != null) {
-     *  whereClause.appendSeparator(" and", " where");
-     *  whereClause.append(" priority = ?")
-     * }
-     * if(searchCommand.getComponent() != null) {
-     *  whereClause.appendSeparator(" and", " where");
-     *  whereClause.append(" component = ?")
-     * }
-     * selectClause.append(whereClause)
-     * </pre>
-     *
-     * @param standard
-     *            the separator if builder is not empty, null means no separator
-     * @param defaultIfEmpty
-     *            the separator if builder is empty, null means no separator
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendSeparator(final String standard, final String defaultIfEmpty) {
-        final String str = isEmpty() ? defaultIfEmpty : standard;
-        if (str != null) {
-            append(str);
         }
         return this;
     }
@@ -1497,37 +1285,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Appends a separator to the builder if the loop index is greater than zero. Appending a null separator will have
-     * no effect. The separator is appended using {@link #append(String)}.
-     * <p>
-     * This method is useful for adding a separator each time around the loop except the first.
-     * </p>
-     *
-     * <pre>
-     * for (int i = 0; i &lt; list.size(); i++) {
-     *     appendSeparator(",", i);
-     *     append(list.get(i));
-     * }
-     * </pre>
-     *
-     * <p>
-     * Note that for this simple example, you should use {@link #appendWithSeparators(Iterable, String)}.
-     * </p>
-     *
-     * @param separator
-     *            the separator to use, null means no separator
-     * @param loopIndex
-     *            the loop index
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendSeparator(final String separator, final int loopIndex) {
-        if (separator != null && loopIndex > 0) {
-            append(separator);
-        }
-        return this;
-    }
-
-    /**
      * Appends a separator to the builder if the loop index is greater than zero. The separator is appended using
      * {@link #append(char)}.
      * <p>
@@ -1559,364 +1316,380 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Appends the pad character to the builder the specified number of times.
+     * Appends a separator if the builder is currently non-empty. Appending a null separator will have no effect. The
+     * separator is appended using {@link #append(String)}.
+     * <p>
+     * This method is useful for adding a separator each time around the loop except the first.
+     * </p>
      *
-     * @param length
-     *            the length to append, negative means no append
-     * @param padChar
-     *            the character to append
+     * <pre>
+     * for (Iterator it = list.iterator(); it.hasNext();) {
+     *     appendSeparator(",");
+     *     append(it.next());
+     * }
+     * </pre>
+     *
+     * <p>
+     * Note that for this simple example, you should use {@link #appendWithSeparators(Iterable, String)}.
+     * </p>
+     *
+     * @param separator
+     *            the separator to use, null means no separator
      * @return this, to enable chaining
      */
-    public TextStringBuilder appendPadding(final int length, final char padChar) {
-        if (length >= 0) {
-            ensureCapacity(size + length);
-            for (int i = 0; i < length; i++) {
-                buffer[size++] = padChar;
-            }
+    public TextStringBuilder appendSeparator(final String separator) {
+        return appendSeparator(separator, null);
+    }
+
+    /**
+     * Appends a separator to the builder if the loop index is greater than zero. Appending a null separator will have
+     * no effect. The separator is appended using {@link #append(String)}.
+     * <p>
+     * This method is useful for adding a separator each time around the loop except the first.
+     * </p>
+     *
+     * <pre>
+     * for (int i = 0; i &lt; list.size(); i++) {
+     *     appendSeparator(",", i);
+     *     append(list.get(i));
+     * }
+     * </pre>
+     *
+     * <p>
+     * Note that for this simple example, you should use {@link #appendWithSeparators(Iterable, String)}.
+     * </p>
+     *
+     * @param separator
+     *            the separator to use, null means no separator
+     * @param loopIndex
+     *            the loop index
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder appendSeparator(final String separator, final int loopIndex) {
+        if (separator != null && loopIndex > 0) {
+            append(separator);
         }
         return this;
     }
 
     /**
-     * Appends an object to the builder padding on the left to a fixed width. The {@code toString} of the object is
-     * used. If the object is larger than the length, the left hand side is lost. If the object is null, the null text
-     * value is used.
+     * Appends one of both separators to the StrBuilder. If the builder is currently empty it will append the
+     * defaultIfEmpty-separator Otherwise it will append the standard-separator
      *
-     * @param obj
-     *            the object to append, null uses null text
-     * @param width
-     *            the fixed field width, zero or negative has no effect
-     * @param padChar
-     *            the pad character to use
+     * Appending a null separator will have no effect. The separator is appended using {@link #append(String)}.
+     * <p>
+     * This method is for example useful for constructing queries
+     * </p>
+     *
+     * <pre>
+     * StrBuilder whereClause = new StrBuilder();
+     * if(searchCommand.getPriority() != null) {
+     *  whereClause.appendSeparator(" and", " where");
+     *  whereClause.append(" priority = ?")
+     * }
+     * if(searchCommand.getComponent() != null) {
+     *  whereClause.appendSeparator(" and", " where");
+     *  whereClause.append(" component = ?")
+     * }
+     * selectClause.append(whereClause)
+     * </pre>
+     *
+     * @param standard
+     *            the separator if builder is not empty, null means no separator
+     * @param defaultIfEmpty
+     *            the separator if builder is empty, null means no separator
      * @return this, to enable chaining
      */
-    public TextStringBuilder appendFixedWidthPadLeft(final Object obj, final int width, final char padChar) {
-        if (width > 0) {
-            ensureCapacity(size + width);
-            String str = obj == null ? getNullText() : obj.toString();
-            if (str == null) {
-                str = "";
-            }
-            final int strLen = str.length();
-            if (strLen >= width) {
-                str.getChars(strLen - width, strLen, buffer, size);
-            } else {
-                final int padLen = width - strLen;
-                for (int i = 0; i < padLen; i++) {
-                    buffer[size + i] = padChar;
-                }
-                str.getChars(0, strLen, buffer, size + padLen);
-            }
-            size += width;
-        }
-        return this;
-    }
-
-    /**
-     * Appends an object to the builder padding on the left to a fixed width. The {@code String.valueOf} of the
-     * {@code int} value is used. If the formatted value is larger than the length, the left hand side is lost.
-     *
-     * @param value
-     *            the value to append
-     * @param width
-     *            the fixed field width, zero or negative has no effect
-     * @param padChar
-     *            the pad character to use
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendFixedWidthPadLeft(final int value, final int width, final char padChar) {
-        return appendFixedWidthPadLeft(String.valueOf(value), width, padChar);
-    }
-
-    /**
-     * Appends an object to the builder padding on the right to a fixed length. The {@code toString} of the object
-     * is used. If the object is larger than the length, the right hand side is lost. If the object is null, null text
-     * value is used.
-     *
-     * @param obj
-     *            the object to append, null uses null text
-     * @param width
-     *            the fixed field width, zero or negative has no effect
-     * @param padChar
-     *            the pad character to use
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendFixedWidthPadRight(final Object obj, final int width, final char padChar) {
-        if (width > 0) {
-            ensureCapacity(size + width);
-            String str = obj == null ? getNullText() : obj.toString();
-            if (str == null) {
-                str = "";
-            }
-            final int strLen = str.length();
-            if (strLen >= width) {
-                str.getChars(0, width, buffer, size);
-            } else {
-                final int padLen = width - strLen;
-                str.getChars(0, strLen, buffer, size);
-                for (int i = 0; i < padLen; i++) {
-                    buffer[size + strLen + i] = padChar;
-                }
-            }
-            size += width;
-        }
-        return this;
-    }
-
-    /**
-     * Appends an object to the builder padding on the right to a fixed length. The {@code String.valueOf} of the
-     * {@code int} value is used. If the object is larger than the length, the right hand side is lost.
-     *
-     * @param value
-     *            the value to append
-     * @param width
-     *            the fixed field width, zero or negative has no effect
-     * @param padChar
-     *            the pad character to use
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder appendFixedWidthPadRight(final int value, final int width, final char padChar) {
-        return appendFixedWidthPadRight(String.valueOf(value), width, padChar);
-    }
-
-    /**
-     * Inserts the string representation of an object into this builder. Inserting null will use the stored null text
-     * value.
-     *
-     * @param index
-     *            the index to add at, must be valid
-     * @param obj
-     *            the object to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
-     */
-    public TextStringBuilder insert(final int index, final Object obj) {
-        if (obj == null) {
-            return insert(index, nullText);
-        }
-        return insert(index, obj.toString());
-    }
-
-    /**
-     * Inserts the string into this builder. Inserting null will use the stored null text value.
-     *
-     * @param index
-     *            the index to add at, must be valid
-     * @param str
-     *            the string to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
-     */
-    public TextStringBuilder insert(final int index, String str) {
-        validateIndex(index);
-        if (str == null) {
-            str = nullText;
-        }
+    public TextStringBuilder appendSeparator(final String standard, final String defaultIfEmpty) {
+        final String str = isEmpty() ? defaultIfEmpty : standard;
         if (str != null) {
-            final int strLen = str.length();
-            if (strLen > 0) {
-                final int newSize = size + strLen;
-                ensureCapacity(newSize);
-                System.arraycopy(buffer, index, buffer, index + strLen, size - index);
-                size = newSize;
-                str.getChars(0, strLen, buffer, index);
+            append(str);
+        }
+        return this;
+    }
+
+    /**
+     * Appends current contents of this {@code StrBuilder} to the provided {@link Appendable}.
+     * <p>
+     * This method tries to avoid doing any extra copies of contents.
+     * </p>
+     *
+     * @param appendable
+     *            the appendable to append data to
+     * @throws IOException
+     *             if an I/O error occurs
+     *
+     * @see #readFrom(Readable)
+     */
+    public void appendTo(final Appendable appendable) throws IOException {
+        if (appendable instanceof Writer) {
+            ((Writer) appendable).write(buffer, 0, size);
+        } else if (appendable instanceof StringBuilder) {
+            ((StringBuilder) appendable).append(buffer, 0, size);
+        } else if (appendable instanceof StringBuffer) {
+            ((StringBuffer) appendable).append(buffer, 0, size);
+        } else if (appendable instanceof CharBuffer) {
+            ((CharBuffer) appendable).put(buffer, 0, size);
+        } else {
+            appendable.append(this);
+        }
+    }
+
+    /**
+     * Appends an iterable placing separators between each value, but not before the first or after the last. Appending
+     * a null iterable will have no effect. Each object is appended using {@link #append(Object)}.
+     *
+     * @param iterable
+     *            the iterable to append
+     * @param separator
+     *            the separator to use, null means no separator
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder appendWithSeparators(final Iterable<?> iterable, final String separator) {
+        if (iterable != null) {
+            final String sep = Objects.toString(separator, "");
+            final Iterator<?> it = iterable.iterator();
+            while (it.hasNext()) {
+                append(it.next());
+                if (it.hasNext()) {
+                    append(sep);
+                }
             }
         }
         return this;
     }
 
     /**
-     * Inserts the character array into this builder. Inserting null will use the stored null text value.
+     * Appends an iterator placing separators between each value, but not before the first or after the last. Appending
+     * a null iterator will have no effect. Each object is appended using {@link #append(Object)}.
      *
-     * @param index
-     *            the index to add at, must be valid
-     * @param chars
-     *            the char array to insert
+     * @param it
+     *            the iterator to append
+     * @param separator
+     *            the separator to use, null means no separator
      * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
      */
-    public TextStringBuilder insert(final int index, final char[] chars) {
-        validateIndex(index);
-        if (chars == null) {
-            return insert(index, nullText);
-        }
-        final int len = chars.length;
-        if (len > 0) {
-            ensureCapacity(size + len);
-            System.arraycopy(buffer, index, buffer, index + len, size - index);
-            System.arraycopy(chars, 0, buffer, index, len);
-            size += len;
+    public TextStringBuilder appendWithSeparators(final Iterator<?> it, final String separator) {
+        if (it != null) {
+            final String sep = Objects.toString(separator, "");
+            while (it.hasNext()) {
+                append(it.next());
+                if (it.hasNext()) {
+                    append(sep);
+                }
+            }
         }
         return this;
     }
 
     /**
-     * Inserts part of the character array into this builder. Inserting null will use the stored null text value.
+     * Appends an array placing separators between each value, but not before the first or after the last. Appending a
+     * null array will have no effect. Each object is appended using {@link #append(Object)}.
      *
-     * @param index
-     *            the index to add at, must be valid
-     * @param chars
-     *            the char array to insert
-     * @param offset
-     *            the offset into the character array to start at, must be valid
-     * @param length
-     *            the length of the character array part to copy, must be positive
+     * @param array
+     *            the array to append
+     * @param separator
+     *            the separator to use, null means no separator
      * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if any index is invalid
      */
-    public TextStringBuilder insert(final int index, final char[] chars, final int offset, final int length) {
-        validateIndex(index);
-        if (chars == null) {
-            return insert(index, nullText);
-        }
-        if (offset < 0 || offset > chars.length) {
-            throw new StringIndexOutOfBoundsException("Invalid offset: " + offset);
-        }
-        if (length < 0 || offset + length > chars.length) {
-            throw new StringIndexOutOfBoundsException("Invalid length: " + length);
-        }
-        if (length > 0) {
-            ensureCapacity(size + length);
-            System.arraycopy(buffer, index, buffer, index + length, size - index);
-            System.arraycopy(chars, offset, buffer, index, length);
-            size += length;
+    public TextStringBuilder appendWithSeparators(final Object[] array, final String separator) {
+        if (array != null && array.length > 0) {
+            final String sep = Objects.toString(separator, "");
+            append(array[0]);
+            for (int i = 1; i < array.length; i++) {
+                append(sep);
+                append(array[i]);
+            }
         }
         return this;
     }
 
+    // -----------------------------------------------------------------------
     /**
-     * Inserts the value into this builder.
+     * Gets the contents of this builder as a Reader.
+     * <p>
+     * This method allows the contents of the builder to be read using any standard method that expects a Reader.
+     * </p>
+     * <p>
+     * To use, simply create a {@code StrBuilder}, populate it with data, call {@code asReader}, and then read
+     * away.
+     * </p>
+     * <p>
+     * The internal character array is shared between the builder and the reader. This allows you to append to the
+     * builder after creating the reader, and the changes will be picked up. Note however, that no synchronization
+     * occurs, so you must perform all operations with the builder and the reader in one thread.
+     * </p>
+     * <p>
+     * The returned reader supports marking, and ignores the flush method.
+     * </p>
      *
+     * @return a reader that reads from this builder
+     */
+    public Reader asReader() {
+        return new StrBuilderReader();
+    }
+
+    /**
+     * Creates a tokenizer that can tokenize the contents of this builder.
+     * <p>
+     * This method allows the contents of this builder to be tokenized. The tokenizer will be setup by default to
+     * tokenize on space, tab, newline and form feed (as per StringTokenizer). These values can be changed on the
+     * tokenizer class, before retrieving the tokens.
+     * </p>
+     * <p>
+     * The returned tokenizer is linked to this builder. You may intermix calls to the builder and tokenizer within
+     * certain limits, however there is no synchronization. Once the tokenizer has been used once, it must be
+     * {@link StringTokenizer#reset() reset} to pickup the latest changes in the builder. For example:
+     * </p>
+     *
+     * <pre>
+     * StrBuilder b = new StrBuilder();
+     * b.append("a b ");
+     * StrTokenizer t = b.asTokenizer();
+     * String[] tokens1 = t.getTokenArray(); // returns a,b
+     * b.append("c d ");
+     * String[] tokens2 = t.getTokenArray(); // returns a,b (c and d ignored)
+     * t.reset(); // reset causes builder changes to be picked up
+     * String[] tokens3 = t.getTokenArray(); // returns a,b,c,d
+     * </pre>
+     *
+     * <p>
+     * In addition to simply intermixing appends and tokenization, you can also call the set methods on the tokenizer to
+     * alter how it tokenizes. Just remember to call reset when you want to pickup builder changes.
+     * </p>
+     * <p>
+     * Calling {@link StringTokenizer#reset(String)} or {@link StringTokenizer#reset(char[])} with a non-null value will
+     * break the link with the builder.
+     * </p>
+     *
+     * @return a tokenizer that is linked to this builder
+     */
+    public StringTokenizer asTokenizer() {
+        return new TextStringBuilderTokenizer();
+    }
+
+    /**
+     * Gets this builder as a Writer that can be written to.
+     * <p>
+     * This method allows you to populate the contents of the builder using any standard method that takes a Writer.
+     * </p>
+     * <p>
+     * To use, simply create a {@code StrBuilder}, call {@code asWriter}, and populate away. The data is
+     * available at any time using the methods of the {@code StrBuilder}.
+     * </p>
+     * <p>
+     * The internal character array is shared between the builder and the writer. This allows you to intermix calls that
+     * append to the builder and write using the writer and the changes will be occur correctly. Note however, that no
+     * synchronization occurs, so you must perform all operations with the builder and the writer in one thread.
+     * </p>
+     * <p>
+     * The returned writer ignores the close and flush methods.
+     * </p>
+     *
+     * @return a writer that populates this builder
+     */
+    public Writer asWriter() {
+        return new StrBuilderWriter();
+    }
+
+    /**
+     * Implement the {@link Builder} interface.
+     *
+     * @return The builder as a String
+     * @see #toString()
+     */
+    @Override
+    public String build() {
+        return toString();
+    }
+
+    /**
+     * Gets the current size of the internal character array buffer.
+     *
+     * @return The capacity
+     */
+    public int capacity() {
+        return buffer.length;
+    }
+
+    /**
+     * Gets the character at the specified index.
+     *
+     * @see #setCharAt(int, char)
+     * @see #deleteCharAt(int)
      * @param index
-     *            the index to add at, must be valid
-     * @param value
-     *            the value to insert
-     * @return this, to enable chaining
+     *            the index to retrieve, must be valid
+     * @return The character at the index
      * @throws IndexOutOfBoundsException
      *             if the index is invalid
      */
-    public TextStringBuilder insert(int index, final boolean value) {
-        validateIndex(index);
-        if (value) {
-            ensureCapacity(size + TRUE_STRING_SIZE);
-            System.arraycopy(buffer, index, buffer, index + TRUE_STRING_SIZE, size - index);
-            buffer[index++] = 't';
-            buffer[index++] = 'r';
-            buffer[index++] = 'u';
-            buffer[index] = 'e';
-            size += TRUE_STRING_SIZE;
-        } else {
-            ensureCapacity(size + FALSE_STRING_SIZE);
-            System.arraycopy(buffer, index, buffer, index + FALSE_STRING_SIZE, size - index);
-            buffer[index++] = 'f';
-            buffer[index++] = 'a';
-            buffer[index++] = 'l';
-            buffer[index++] = 's';
-            buffer[index] = 'e';
-            size += FALSE_STRING_SIZE;
+    @Override
+    public char charAt(final int index) {
+        if (index < 0 || index >= length()) {
+            throw new StringIndexOutOfBoundsException(index);
         }
+        return buffer[index];
+    }
+
+    /**
+     * Clears the string builder (convenience Collections API style method).
+     * <p>
+     * This method does not reduce the size of the internal character buffer. To do that, call {@code clear()}
+     * followed by {@link #minimizeCapacity()}.
+     * </p>
+     * <p>
+     * This method is the same as {@link #setLength(int)} called with zero and is provided to match the API of
+     * Collections.
+     * </p>
+     *
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder clear() {
+        size = 0;
         return this;
     }
 
     /**
-     * Inserts the value into this builder.
+     * Checks if the string builder contains the specified char.
      *
-     * @param index
-     *            the index to add at, must be valid
-     * @param value
-     *            the value to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
+     * @param ch
+     *            the character to find
+     * @return true if the builder contains the character
      */
-    public TextStringBuilder insert(final int index, final char value) {
-        validateIndex(index);
-        ensureCapacity(size + 1);
-        System.arraycopy(buffer, index, buffer, index + 1, size - index);
-        buffer[index] = value;
-        size++;
-        return this;
+    public boolean contains(final char ch) {
+        final char[] thisBuf = buffer;
+        for (int i = 0; i < this.size; i++) {
+            if (thisBuf[i] == ch) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
-     * Inserts the value into this builder.
+     * Checks if the string builder contains the specified string.
      *
-     * @param index
-     *            the index to add at, must be valid
-     * @param value
-     *            the value to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
+     * @param str
+     *            the string to find
+     * @return true if the builder contains the string
      */
-    public TextStringBuilder insert(final int index, final int value) {
-        return insert(index, String.valueOf(value));
+    public boolean contains(final String str) {
+        return indexOf(str, 0) >= 0;
     }
 
     /**
-     * Inserts the value into this builder.
+     * Checks if the string builder contains a string matched using the specified matcher.
+     * <p>
+     * Matchers can be used to perform advanced searching behavior. For example you could write a matcher to search for
+     * the character 'a' followed by a number.
+     * </p>
      *
-     * @param index
-     *            the index to add at, must be valid
-     * @param value
-     *            the value to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
+     * @param matcher
+     *            the matcher to use, null returns -1
+     * @return true if the matcher finds a match in the builder
      */
-    public TextStringBuilder insert(final int index, final long value) {
-        return insert(index, String.valueOf(value));
-    }
-
-    /**
-     * Inserts the value into this builder.
-     *
-     * @param index
-     *            the index to add at, must be valid
-     * @param value
-     *            the value to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
-     */
-    public TextStringBuilder insert(final int index, final float value) {
-        return insert(index, String.valueOf(value));
-    }
-
-    /**
-     * Inserts the value into this builder.
-     *
-     * @param index
-     *            the index to add at, must be valid
-     * @param value
-     *            the value to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
-     */
-    public TextStringBuilder insert(final int index, final double value) {
-        return insert(index, String.valueOf(value));
-    }
-
-    /**
-     * Internal method to delete a range without validation.
-     *
-     * @param startIndex
-     *            the start index, must be valid
-     * @param endIndex
-     *            the end index (exclusive), must be valid
-     * @param len
-     *            the length, must be valid
-     * @throws IndexOutOfBoundsException
-     *             if any index is invalid
-     */
-    private void deleteImpl(final int startIndex, final int endIndex, final int len) {
-        System.arraycopy(buffer, endIndex, buffer, startIndex, size - endIndex);
-        size -= len;
+    public boolean contains(final StringMatcher matcher) {
+        return indexOf(matcher, 0) >= 0;
     }
 
     /**
@@ -1964,23 +1737,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Deletes the character wherever it occurs in the builder.
-     *
-     * @param ch
-     *            the character to delete
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder deleteFirst(final char ch) {
-        for (int i = 0; i < size; i++) {
-            if (buffer[i] == ch) {
-                deleteImpl(i, i + 1, 1);
-                break;
-            }
-        }
-        return this;
-    }
-
-    /**
      * Deletes the string wherever it occurs in the builder.
      *
      * @param str
@@ -1994,6 +1750,56 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             while (index >= 0) {
                 deleteImpl(index, index + len, len);
                 index = indexOf(str, index);
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Deletes all parts of the builder that the matcher matches.
+     * <p>
+     * Matchers can be used to perform advanced deletion behavior. For example you could write a matcher to delete all
+     * occurrences where the character 'a' is followed by a number.
+     *
+     * @param matcher
+     *            the matcher to use to find the deletion, null causes no action
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder deleteAll(final StringMatcher matcher) {
+        return replace(matcher, null, 0, size, -1);
+    }
+
+    /**
+     * Deletes the character at the specified index.
+     *
+     * @see #charAt(int)
+     * @see #setCharAt(int, char)
+     * @param index
+     *            the index to delete
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public TextStringBuilder deleteCharAt(final int index) {
+        if (index < 0 || index >= size) {
+            throw new StringIndexOutOfBoundsException(index);
+        }
+        deleteImpl(index, index + 1, 1);
+        return this;
+    }
+
+    /**
+     * Deletes the character wherever it occurs in the builder.
+     *
+     * @param ch
+     *            the character to delete
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder deleteFirst(final char ch) {
+        for (int i = 0; i < size; i++) {
+            if (buffer[i] == ch) {
+                deleteImpl(i, i + 1, 1);
+                break;
             }
         }
         return this;
@@ -2018,20 +1824,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Deletes all parts of the builder that the matcher matches.
-     * <p>
-     * Matchers can be used to perform advanced deletion behavior. For example you could write a matcher to delete all
-     * occurrences where the character 'a' is followed by a number.
-     *
-     * @param matcher
-     *            the matcher to use to find the deletion, null causes no action
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder deleteAll(final StringMatcher matcher) {
-        return replace(matcher, null, 0, size, -1);
-    }
-
-    /**
      * Deletes the first match within the builder using the specified matcher.
      * <p>
      * Matchers can be used to perform advanced deletion behavior. For example you could write a matcher to delete
@@ -2052,310 +1844,14 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *            the start index, must be valid
      * @param endIndex
      *            the end index (exclusive), must be valid
-     * @param removeLen
-     *            the length to remove (endIndex - startIndex), must be valid
-     * @param insertStr
-     *            the string to replace with, null means delete range
-     * @param insertLen
-     *            the length of the insert string, must be valid
+     * @param len
+     *            the length, must be valid
      * @throws IndexOutOfBoundsException
      *             if any index is invalid
      */
-    private void replaceImpl(final int startIndex, final int endIndex, final int removeLen, final String insertStr,
-            final int insertLen) {
-        final int newSize = size - removeLen + insertLen;
-        if (insertLen != removeLen) {
-            ensureCapacity(newSize);
-            System.arraycopy(buffer, endIndex, buffer, startIndex + insertLen, size - endIndex);
-            size = newSize;
-        }
-        if (insertLen > 0) {
-            insertStr.getChars(0, insertLen, buffer, startIndex);
-        }
-    }
-
-    /**
-     * Replaces a portion of the string builder with another string. The length of the inserted string does not have to
-     * match the removed length.
-     *
-     * @param startIndex
-     *            the start index, inclusive, must be valid
-     * @param endIndex
-     *            the end index, exclusive, must be valid except that if too large it is treated as end of string
-     * @param replaceStr
-     *            the string to replace with, null means delete range
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
-     */
-    public TextStringBuilder replace(final int startIndex, int endIndex, final String replaceStr) {
-        endIndex = validateRange(startIndex, endIndex);
-        final int insertLen = replaceStr == null ? 0 : replaceStr.length();
-        replaceImpl(startIndex, endIndex, endIndex - startIndex, replaceStr, insertLen);
-        return this;
-    }
-
-    /**
-     * Replaces the search character with the replace character throughout the builder.
-     *
-     * @param search
-     *            the search character
-     * @param replace
-     *            the replace character
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder replaceAll(final char search, final char replace) {
-        if (search != replace) {
-            for (int i = 0; i < size; i++) {
-                if (buffer[i] == search) {
-                    buffer[i] = replace;
-                }
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Replaces the first instance of the search character with the replace character in the builder.
-     *
-     * @param search
-     *            the search character
-     * @param replace
-     *            the replace character
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder replaceFirst(final char search, final char replace) {
-        if (search != replace) {
-            for (int i = 0; i < size; i++) {
-                if (buffer[i] == search) {
-                    buffer[i] = replace;
-                    break;
-                }
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Replaces the search string with the replace string throughout the builder.
-     *
-     * @param searchStr
-     *            the search string, null causes no action to occur
-     * @param replaceStr
-     *            the replace string, null is equivalent to an empty string
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder replaceAll(final String searchStr, final String replaceStr) {
-        final int searchLen = searchStr == null ? 0 : searchStr.length();
-        if (searchLen > 0) {
-            final int replaceLen = replaceStr == null ? 0 : replaceStr.length();
-            int index = indexOf(searchStr, 0);
-            while (index >= 0) {
-                replaceImpl(index, index + searchLen, searchLen, replaceStr, replaceLen);
-                index = indexOf(searchStr, index + replaceLen);
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Replaces the first instance of the search string with the replace string.
-     *
-     * @param searchStr
-     *            the search string, null causes no action to occur
-     * @param replaceStr
-     *            the replace string, null is equivalent to an empty string
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder replaceFirst(final String searchStr, final String replaceStr) {
-        final int searchLen = searchStr == null ? 0 : searchStr.length();
-        if (searchLen > 0) {
-            final int index = indexOf(searchStr, 0);
-            if (index >= 0) {
-                final int replaceLen = replaceStr == null ? 0 : replaceStr.length();
-                replaceImpl(index, index + searchLen, searchLen, replaceStr, replaceLen);
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Replaces all matches within the builder with the replace string.
-     * <p>
-     * Matchers can be used to perform advanced replace behavior. For example you could write a matcher to replace all
-     * occurrences where the character 'a' is followed by a number.
-     * </p>
-     *
-     * @param matcher
-     *            the matcher to use to find the deletion, null causes no action
-     * @param replaceStr
-     *            the replace string, null is equivalent to an empty string
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder replaceAll(final StringMatcher matcher, final String replaceStr) {
-        return replace(matcher, replaceStr, 0, size, -1);
-    }
-
-    /**
-     * Replaces the first match within the builder with the replace string.
-     * <p>
-     * Matchers can be used to perform advanced replace behavior. For example you could write a matcher to replace
-     * where the character 'a' is followed by a number.
-     * </p>
-     *
-     * @param matcher
-     *            the matcher to use to find the deletion, null causes no action
-     * @param replaceStr
-     *            the replace string, null is equivalent to an empty string
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder replaceFirst(final StringMatcher matcher, final String replaceStr) {
-        return replace(matcher, replaceStr, 0, size, 1);
-    }
-
-    /**
-     * Advanced search and replaces within the builder using a matcher.
-     * <p>
-     * Matchers can be used to perform advanced behavior. For example you could write a matcher to delete all
-     * occurrences where the character 'a' is followed by a number.
-     * </p>
-     *
-     * @param matcher
-     *            the matcher to use to find the deletion, null causes no action
-     * @param replaceStr
-     *            the string to replace the match with, null is a delete
-     * @param startIndex
-     *            the start index, inclusive, must be valid
-     * @param endIndex
-     *            the end index, exclusive, must be valid except that if too large it is treated as end of string
-     * @param replaceCount
-     *            the number of times to replace, -1 for replace all
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if start index is invalid
-     */
-    public TextStringBuilder replace(final StringMatcher matcher, final String replaceStr, final int startIndex,
-            int endIndex, final int replaceCount) {
-        endIndex = validateRange(startIndex, endIndex);
-        return replaceImpl(matcher, replaceStr, startIndex, endIndex, replaceCount);
-    }
-
-    /**
-     * Replaces within the builder using a matcher.
-     * <p>
-     * Matchers can be used to perform advanced behavior. For example you could write a matcher to delete all
-     * occurrences where the character 'a' is followed by a number.
-     * </p>
-     *
-     * @param matcher
-     *            the matcher to use to find the deletion, null causes no action
-     * @param replaceStr
-     *            the string to replace the match with, null is a delete
-     * @param from
-     *            the start index, must be valid
-     * @param to
-     *            the end index (exclusive), must be valid
-     * @param replaceCount
-     *            the number of times to replace, -1 for replace all
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException
-     *             if any index is invalid
-     */
-    private TextStringBuilder replaceImpl(final StringMatcher matcher, final String replaceStr, final int from, int to,
-            int replaceCount) {
-        if (matcher == null || size == 0) {
-            return this;
-        }
-        final int replaceLen = replaceStr == null ? 0 : replaceStr.length();
-        for (int i = from; i < to && replaceCount != 0; i++) {
-            final char[] buf = buffer;
-            final int removeLen = matcher.isMatch(buf, i, from, to);
-            if (removeLen > 0) {
-                replaceImpl(i, i + removeLen, removeLen, replaceStr, replaceLen);
-                to = to - removeLen + replaceLen;
-                i = i + replaceLen - 1;
-                if (replaceCount > 0) {
-                    replaceCount--;
-                }
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Reverses the string builder placing each character in the opposite index.
-     *
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder reverse() {
-        if (size == 0) {
-            return this;
-        }
-
-        final int half = size / 2;
-        final char[] buf = buffer;
-        for (int leftIdx = 0, rightIdx = size - 1; leftIdx < half; leftIdx++, rightIdx--) {
-            final char swap = buf[leftIdx];
-            buf[leftIdx] = buf[rightIdx];
-            buf[rightIdx] = swap;
-        }
-        return this;
-    }
-
-    /**
-     * Trims the builder by removing characters less than or equal to a space from the beginning and end.
-     *
-     * @return this, to enable chaining
-     */
-    public TextStringBuilder trim() {
-        if (size == 0) {
-            return this;
-        }
-        int len = size;
-        final char[] buf = buffer;
-        int pos = 0;
-        while (pos < len && buf[pos] <= ' ') {
-            pos++;
-        }
-        while (pos < len && buf[len - 1] <= ' ') {
-            len--;
-        }
-        if (len < size) {
-            delete(len, size);
-        }
-        if (pos > 0) {
-            delete(0, pos);
-        }
-        return this;
-    }
-
-    /**
-     * Checks whether this builder starts with the specified string.
-     * <p>
-     * Note that this method handles null input quietly, unlike String.
-     * </p>
-     *
-     * @param str
-     *            the string to search for, null returns false
-     * @return true if the builder starts with the string
-     */
-    public boolean startsWith(final String str) {
-        if (str == null) {
-            return false;
-        }
-        final int len = str.length();
-        if (len == 0) {
-            return true;
-        }
-        if (len > size) {
-            return false;
-        }
-        for (int i = 0; i < len; i++) {
-            if (buffer[i] != str.charAt(i)) {
-                return false;
-            }
-        }
-        return true;
+    private void deleteImpl(final int startIndex, final int endIndex, final int len) {
+        System.arraycopy(buffer, endIndex, buffer, startIndex, size - endIndex);
+        size -= len;
     }
 
     /**
@@ -2389,166 +1885,164 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * {@inheritDoc}
+     * Checks the capacity and ensures that it is at least the size specified.
+     *
+     * @param capacity
+     *            the capacity to ensure
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder ensureCapacity(final int capacity) {
+        if (capacity > buffer.length) {
+            final char[] old = buffer;
+            buffer = new char[capacity * 2];
+            System.arraycopy(old, 0, buffer, 0, size);
+        }
+        return this;
+    }
+
+    /**
+     * Checks the contents of this builder against another to see if they contain the same character content.
+     *
+     * @param obj
+     *            the object to check, null returns false
+     * @return true if the builders contain the same characters in the same order
      */
     @Override
-    public CharSequence subSequence(final int startIndex, final int endIndex) {
+    public boolean equals(final Object obj) {
+        return obj instanceof TextStringBuilder && equals((TextStringBuilder) obj);
+    }
+
+    /**
+     * Checks the contents of this builder against another to see if they contain the same character content.
+     *
+     * @param other
+     *            the object to check, null returns false
+     * @return true if the builders contain the same characters in the same order
+     */
+    public boolean equals(final TextStringBuilder other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        if (this.size != other.size) {
+            return false;
+        }
+        final char[] thisBuf = this.buffer;
+        final char[] otherBuf = other.buffer;
+        for (int i = size - 1; i >= 0; i--) {
+            if (thisBuf[i] != otherBuf[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks the contents of this builder against another to see if they contain the same character content ignoring
+     * case.
+     *
+     * @param other
+     *            the object to check, null returns false
+     * @return true if the builders contain the same characters in the same order
+     */
+    public boolean equalsIgnoreCase(final TextStringBuilder other) {
+        if (this == other) {
+            return true;
+        }
+        if (this.size != other.size) {
+            return false;
+        }
+        final char[] thisBuf = this.buffer;
+        final char[] otherBuf = other.buffer;
+        for (int i = size - 1; i >= 0; i--) {
+            final char c1 = thisBuf[i];
+            final char c2 = otherBuf[i];
+            if (c1 != c2 && Character.toUpperCase(c1) != Character.toUpperCase(c2)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Copies the character array into the specified array.
+     *
+     * @param destination
+     *            the destination array, null will cause an array to be created
+     * @return The input array, unless that was null or too small
+     */
+    public char[] getChars(char[] destination) {
+        final int len = length();
+        if (destination == null || destination.length < len) {
+            destination = new char[len];
+        }
+        System.arraycopy(buffer, 0, destination, 0, len);
+        return destination;
+    }
+
+    /**
+     * Copies the character array into the specified array.
+     *
+     * @param startIndex
+     *            first index to copy, inclusive, must be valid
+     * @param endIndex
+     *            last index, exclusive, must be valid
+     * @param destination
+     *            the destination array, must not be null or too small
+     * @param destinationIndex
+     *            the index to start copying in destination
+     * @throws NullPointerException
+     *             if the array is null
+     * @throws IndexOutOfBoundsException
+     *             if any index is invalid
+     */
+    public void getChars(final int startIndex, final int endIndex, final char[] destination,
+            final int destinationIndex) {
         if (startIndex < 0) {
             throw new StringIndexOutOfBoundsException(startIndex);
         }
-        if (endIndex > size) {
+        if (endIndex < 0 || endIndex > length()) {
             throw new StringIndexOutOfBoundsException(endIndex);
         }
         if (startIndex > endIndex) {
-            throw new StringIndexOutOfBoundsException(endIndex - startIndex);
+            throw new StringIndexOutOfBoundsException("end < start");
         }
-        return substring(startIndex, endIndex);
+        System.arraycopy(buffer, startIndex, destination, destinationIndex, endIndex - startIndex);
     }
 
     /**
-     * Extracts a portion of this string builder as a string.
+     * Gets the text to be appended when a new line is added.
      *
-     * @param start
-     *            the start index, inclusive, must be valid
-     * @return The new string
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
+     * @return The new line text, null means use system default
      */
-    public String substring(final int start) {
-        return substring(start, size);
+    public String getNewLineText() {
+        return newLine;
     }
 
     /**
-     * Extracts a portion of this string builder as a string.
-     * <p>
-     * Note: This method treats an endIndex greater than the length of the builder as equal to the length of the
-     * builder, and continues without error, unlike StringBuffer or String.
-     * </p>
+     * Gets the text to be appended when null is added.
      *
-     * @param startIndex
-     *            the start index, inclusive, must be valid
-     * @param endIndex
-     *            the end index, exclusive, must be valid except that if too large it is treated as end of string
-     * @return The new string
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
+     * @return The null text, null means no append
      */
-    public String substring(final int startIndex, int endIndex) {
-        endIndex = validateRange(startIndex, endIndex);
-        return new String(buffer, startIndex, endIndex - startIndex);
+    public String getNullText() {
+        return nullText;
     }
 
     /**
-     * Extracts the leftmost characters from the string builder without throwing an exception.
-     * <p>
-     * This method extracts the left {@code length} characters from the builder. If this many characters are not
-     * available, the whole builder is returned. Thus the returned string may be shorter than the length requested.
-     * </p>
+     * Gets a suitable hash code for this builder.
      *
-     * @param length
-     *            the number of characters to extract, negative returns empty string
-     * @return The new string
+     * @return a hash code
      */
-    public String leftString(final int length) {
-        if (length <= 0) {
-            return "";
-        } else if (length >= size) {
-            return new String(buffer, 0, size);
-        } else {
-            return new String(buffer, 0, length);
+    @Override
+    public int hashCode() {
+        final char[] buf = buffer;
+        int hash = 0;
+        for (int i = size - 1; i >= 0; i--) {
+            hash = 31 * hash + buf[i];
         }
-    }
-
-    /**
-     * Extracts the rightmost characters from the string builder without throwing an exception.
-     * <p>
-     * This method extracts the right {@code length} characters from the builder. If this many characters are not
-     * available, the whole builder is returned. Thus the returned string may be shorter than the length requested.
-     * </p>
-     *
-     * @param length
-     *            the number of characters to extract, negative returns empty string
-     * @return The new string
-     */
-    public String rightString(final int length) {
-        if (length <= 0) {
-            return "";
-        } else if (length >= size) {
-            return new String(buffer, 0, size);
-        } else {
-            return new String(buffer, size - length, length);
-        }
-    }
-
-    /**
-     * Extracts some characters from the middle of the string builder without throwing an exception.
-     * <p>
-     * This method extracts {@code length} characters from the builder at the specified index. If the index is
-     * negative it is treated as zero. If the index is greater than the builder size, it is treated as the builder size.
-     * If the length is negative, the empty string is returned. If insufficient characters are available in the builder,
-     * as much as possible is returned. Thus the returned string may be shorter than the length requested.
-     * </p>
-     *
-     * @param index
-     *            the index to start at, negative means zero
-     * @param length
-     *            the number of characters to extract, negative returns empty string
-     * @return The new string
-     */
-    public String midString(int index, final int length) {
-        if (index < 0) {
-            index = 0;
-        }
-        if (length <= 0 || index >= size) {
-            return "";
-        }
-        if (size <= index + length) {
-            return new String(buffer, index, size - index);
-        }
-        return new String(buffer, index, length);
-    }
-
-    /**
-     * Checks if the string builder contains the specified char.
-     *
-     * @param ch
-     *            the character to find
-     * @return true if the builder contains the character
-     */
-    public boolean contains(final char ch) {
-        final char[] thisBuf = buffer;
-        for (int i = 0; i < this.size; i++) {
-            if (thisBuf[i] == ch) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Checks if the string builder contains the specified string.
-     *
-     * @param str
-     *            the string to find
-     * @return true if the builder contains the string
-     */
-    public boolean contains(final String str) {
-        return indexOf(str, 0) >= 0;
-    }
-
-    /**
-     * Checks if the string builder contains a string matched using the specified matcher.
-     * <p>
-     * Matchers can be used to perform advanced searching behavior. For example you could write a matcher to search for
-     * the character 'a' followed by a number.
-     * </p>
-     *
-     * @param matcher
-     *            the matcher to use, null returns -1
-     * @return true if the matcher finds a match in the builder
-     */
-    public boolean contains(final StringMatcher matcher) {
-        return indexOf(matcher, 0) >= 0;
+        return hash;
     }
 
     /**
@@ -2683,6 +2177,241 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
+     * Inserts the value into this builder.
+     *
+     * @param index
+     *            the index to add at, must be valid
+     * @param value
+     *            the value to insert
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public TextStringBuilder insert(int index, final boolean value) {
+        validateIndex(index);
+        if (value) {
+            ensureCapacity(size + TRUE_STRING_SIZE);
+            System.arraycopy(buffer, index, buffer, index + TRUE_STRING_SIZE, size - index);
+            buffer[index++] = 't';
+            buffer[index++] = 'r';
+            buffer[index++] = 'u';
+            buffer[index] = 'e';
+            size += TRUE_STRING_SIZE;
+        } else {
+            ensureCapacity(size + FALSE_STRING_SIZE);
+            System.arraycopy(buffer, index, buffer, index + FALSE_STRING_SIZE, size - index);
+            buffer[index++] = 'f';
+            buffer[index++] = 'a';
+            buffer[index++] = 'l';
+            buffer[index++] = 's';
+            buffer[index] = 'e';
+            size += FALSE_STRING_SIZE;
+        }
+        return this;
+    }
+
+    /**
+     * Inserts the value into this builder.
+     *
+     * @param index
+     *            the index to add at, must be valid
+     * @param value
+     *            the value to insert
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public TextStringBuilder insert(final int index, final char value) {
+        validateIndex(index);
+        ensureCapacity(size + 1);
+        System.arraycopy(buffer, index, buffer, index + 1, size - index);
+        buffer[index] = value;
+        size++;
+        return this;
+    }
+
+    /**
+     * Inserts the character array into this builder. Inserting null will use the stored null text value.
+     *
+     * @param index
+     *            the index to add at, must be valid
+     * @param chars
+     *            the char array to insert
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public TextStringBuilder insert(final int index, final char[] chars) {
+        validateIndex(index);
+        if (chars == null) {
+            return insert(index, nullText);
+        }
+        final int len = chars.length;
+        if (len > 0) {
+            ensureCapacity(size + len);
+            System.arraycopy(buffer, index, buffer, index + len, size - index);
+            System.arraycopy(chars, 0, buffer, index, len);
+            size += len;
+        }
+        return this;
+    }
+
+    /**
+     * Inserts part of the character array into this builder. Inserting null will use the stored null text value.
+     *
+     * @param index
+     *            the index to add at, must be valid
+     * @param chars
+     *            the char array to insert
+     * @param offset
+     *            the offset into the character array to start at, must be valid
+     * @param length
+     *            the length of the character array part to copy, must be positive
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if any index is invalid
+     */
+    public TextStringBuilder insert(final int index, final char[] chars, final int offset, final int length) {
+        validateIndex(index);
+        if (chars == null) {
+            return insert(index, nullText);
+        }
+        if (offset < 0 || offset > chars.length) {
+            throw new StringIndexOutOfBoundsException("Invalid offset: " + offset);
+        }
+        if (length < 0 || offset + length > chars.length) {
+            throw new StringIndexOutOfBoundsException("Invalid length: " + length);
+        }
+        if (length > 0) {
+            ensureCapacity(size + length);
+            System.arraycopy(buffer, index, buffer, index + length, size - index);
+            System.arraycopy(chars, offset, buffer, index, length);
+            size += length;
+        }
+        return this;
+    }
+
+    /**
+     * Inserts the value into this builder.
+     *
+     * @param index
+     *            the index to add at, must be valid
+     * @param value
+     *            the value to insert
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public TextStringBuilder insert(final int index, final double value) {
+        return insert(index, String.valueOf(value));
+    }
+
+    /**
+     * Inserts the value into this builder.
+     *
+     * @param index
+     *            the index to add at, must be valid
+     * @param value
+     *            the value to insert
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public TextStringBuilder insert(final int index, final float value) {
+        return insert(index, String.valueOf(value));
+    }
+
+    /**
+     * Inserts the value into this builder.
+     *
+     * @param index
+     *            the index to add at, must be valid
+     * @param value
+     *            the value to insert
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public TextStringBuilder insert(final int index, final int value) {
+        return insert(index, String.valueOf(value));
+    }
+
+    /**
+     * Inserts the value into this builder.
+     *
+     * @param index
+     *            the index to add at, must be valid
+     * @param value
+     *            the value to insert
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public TextStringBuilder insert(final int index, final long value) {
+        return insert(index, String.valueOf(value));
+    }
+
+    /**
+     * Inserts the string representation of an object into this builder. Inserting null will use the stored null text
+     * value.
+     *
+     * @param index
+     *            the index to add at, must be valid
+     * @param obj
+     *            the object to insert
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public TextStringBuilder insert(final int index, final Object obj) {
+        if (obj == null) {
+            return insert(index, nullText);
+        }
+        return insert(index, obj.toString());
+    }
+
+    /**
+     * Inserts the string into this builder. Inserting null will use the stored null text value.
+     *
+     * @param index
+     *            the index to add at, must be valid
+     * @param str
+     *            the string to insert
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public TextStringBuilder insert(final int index, String str) {
+        validateIndex(index);
+        if (str == null) {
+            str = nullText;
+        }
+        if (str != null) {
+            final int strLen = str.length();
+            if (strLen > 0) {
+                final int newSize = size + strLen;
+                ensureCapacity(newSize);
+                System.arraycopy(buffer, index, buffer, index + strLen, size - index);
+                size = newSize;
+                str.getChars(0, strLen, buffer, index);
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Checks is the string builder is empty (convenience Collections API style method).
+     * <p>
+     * This method is the same as checking {@link #length()} and is provided to match the API of Collections.
+     * </p>
+     *
+     * @return {@code true} if the size is {@code 0}.
+     */
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    /**
      * Searches the string builder to find the last reference to the specified char.
      *
      * @param ch
@@ -2811,198 +2540,629 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Creates a tokenizer that can tokenize the contents of this builder.
+     * Extracts the leftmost characters from the string builder without throwing an exception.
      * <p>
-     * This method allows the contents of this builder to be tokenized. The tokenizer will be setup by default to
-     * tokenize on space, tab, newline and form feed (as per StringTokenizer). These values can be changed on the
-     * tokenizer class, before retrieving the tokens.
-     * </p>
-     * <p>
-     * The returned tokenizer is linked to this builder. You may intermix calls to the builder and tokenizer within
-     * certain limits, however there is no synchronization. Once the tokenizer has been used once, it must be
-     * {@link StringTokenizer#reset() reset} to pickup the latest changes in the builder. For example:
+     * This method extracts the left {@code length} characters from the builder. If this many characters are not
+     * available, the whole builder is returned. Thus the returned string may be shorter than the length requested.
      * </p>
      *
-     * <pre>
-     * StrBuilder b = new StrBuilder();
-     * b.append("a b ");
-     * StrTokenizer t = b.asTokenizer();
-     * String[] tokens1 = t.getTokenArray(); // returns a,b
-     * b.append("c d ");
-     * String[] tokens2 = t.getTokenArray(); // returns a,b (c and d ignored)
-     * t.reset(); // reset causes builder changes to be picked up
-     * String[] tokens3 = t.getTokenArray(); // returns a,b,c,d
-     * </pre>
-     *
-     * <p>
-     * In addition to simply intermixing appends and tokenization, you can also call the set methods on the tokenizer to
-     * alter how it tokenizes. Just remember to call reset when you want to pickup builder changes.
-     * </p>
-     * <p>
-     * Calling {@link StringTokenizer#reset(String)} or {@link StringTokenizer#reset(char[])} with a non-null value will
-     * break the link with the builder.
-     * </p>
-     *
-     * @return a tokenizer that is linked to this builder
+     * @param length
+     *            the number of characters to extract, negative returns empty string
+     * @return The new string
      */
-    public StringTokenizer asTokenizer() {
-        return new TextStringBuilderTokenizer();
-    }
-    // -----------------------------------------------------------------------
-    /**
-     * Gets the contents of this builder as a Reader.
-     * <p>
-     * This method allows the contents of the builder to be read using any standard method that expects a Reader.
-     * </p>
-     * <p>
-     * To use, simply create a {@code StrBuilder}, populate it with data, call {@code asReader}, and then read
-     * away.
-     * </p>
-     * <p>
-     * The internal character array is shared between the builder and the reader. This allows you to append to the
-     * builder after creating the reader, and the changes will be picked up. Note however, that no synchronization
-     * occurs, so you must perform all operations with the builder and the reader in one thread.
-     * </p>
-     * <p>
-     * The returned reader supports marking, and ignores the flush method.
-     * </p>
-     *
-     * @return a reader that reads from this builder
-     */
-    public Reader asReader() {
-        return new StrBuilderReader();
+    public String leftString(final int length) {
+        if (length <= 0) {
+            return "";
+        } else if (length >= size) {
+            return new String(buffer, 0, size);
+        } else {
+            return new String(buffer, 0, length);
+        }
     }
 
     /**
-     * Gets this builder as a Writer that can be written to.
-     * <p>
-     * This method allows you to populate the contents of the builder using any standard method that takes a Writer.
-     * </p>
-     * <p>
-     * To use, simply create a {@code StrBuilder}, call {@code asWriter}, and populate away. The data is
-     * available at any time using the methods of the {@code StrBuilder}.
-     * </p>
-     * <p>
-     * The internal character array is shared between the builder and the writer. This allows you to intermix calls that
-     * append to the builder and write using the writer and the changes will be occur correctly. Note however, that no
-     * synchronization occurs, so you must perform all operations with the builder and the writer in one thread.
-     * </p>
-     * <p>
-     * The returned writer ignores the close and flush methods.
-     * </p>
+     * Gets the length of the string builder.
      *
-     * @return a writer that populates this builder
+     * @return The length
      */
-    public Writer asWriter() {
-        return new StrBuilderWriter();
+    @Override
+    public int length() {
+        return size;
     }
 
     /**
-     * Appends current contents of this {@code StrBuilder} to the provided {@link Appendable}.
+     * Extracts some characters from the middle of the string builder without throwing an exception.
      * <p>
-     * This method tries to avoid doing any extra copies of contents.
+     * This method extracts {@code length} characters from the builder at the specified index. If the index is
+     * negative it is treated as zero. If the index is greater than the builder size, it is treated as the builder size.
+     * If the length is negative, the empty string is returned. If insufficient characters are available in the builder,
+     * as much as possible is returned. Thus the returned string may be shorter than the length requested.
      * </p>
      *
-     * @param appendable
-     *            the appendable to append data to
+     * @param index
+     *            the index to start at, negative means zero
+     * @param length
+     *            the number of characters to extract, negative returns empty string
+     * @return The new string
+     */
+    public String midString(int index, final int length) {
+        if (index < 0) {
+            index = 0;
+        }
+        if (length <= 0 || index >= size) {
+            return "";
+        }
+        if (size <= index + length) {
+            return new String(buffer, index, size - index);
+        }
+        return new String(buffer, index, length);
+    }
+
+    /**
+     * Minimizes the capacity to the actual length of the string.
+     *
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder minimizeCapacity() {
+        if (buffer.length > length()) {
+            final char[] old = buffer;
+            buffer = new char[length()];
+            System.arraycopy(old, 0, buffer, 0, size);
+        }
+        return this;
+    }
+
+    /**
+     * If possible, reads chars from the provided {@link CharBuffer} directly into underlying character buffer without
+     * making extra copies.
+     *
+     * @param charBuffer CharBuffer to read.
+     * @return The number of characters read.
+     * @throws IOException if an I/O error occurs.
+     *
+     * @see #appendTo(Appendable)
+     * @since 1.9
+     */
+    public int readFrom(final CharBuffer charBuffer) throws IOException {
+        final int oldSize = size;
+        final int remaining = charBuffer.remaining();
+        ensureCapacity(size + remaining);
+        charBuffer.get(buffer, size, remaining);
+        size += remaining;
+        return size - oldSize;
+    }
+
+    /**
+     * If possible, reads chars from the provided {@link Readable} directly into underlying character buffer without
+     * making extra copies.
+     *
+     * @param readable
+     *            object to read from
+     * @return The number of characters read
      * @throws IOException
      *             if an I/O error occurs
      *
-     * @see #readFrom(Readable)
+     * @see #appendTo(Appendable)
      */
-    public void appendTo(final Appendable appendable) throws IOException {
-        if (appendable instanceof Writer) {
-            ((Writer) appendable).write(buffer, 0, size);
-        } else if (appendable instanceof StringBuilder) {
-            ((StringBuilder) appendable).append(buffer, 0, size);
-        } else if (appendable instanceof StringBuffer) {
-            ((StringBuffer) appendable).append(buffer, 0, size);
-        } else if (appendable instanceof CharBuffer) {
-            ((CharBuffer) appendable).put(buffer, 0, size);
+    public int readFrom(final Readable readable) throws IOException {
+        if (readable instanceof Reader) {
+            return readFrom((Reader) readable);
+        } else if (readable instanceof CharBuffer) {
+            return readFrom((CharBuffer) readable);
         } else {
-            appendable.append(this);
+            final int oldSize = size;
+            while (true) {
+                ensureCapacity(size + 1);
+                final CharBuffer buf = CharBuffer.wrap(buffer, size, buffer.length - size);
+                final int read = readable.read(buf);
+                if (read == -1) {
+                    break;
+                }
+                size += read;
+            }
+            return size - oldSize;
         }
     }
 
     /**
-     * Checks the contents of this builder against another to see if they contain the same character content ignoring
-     * case.
+     * If possible, reads chars from the provided {@link Reader} directly into underlying character buffer without
+     * making extra copies.
      *
-     * @param other
-     *            the object to check, null returns false
-     * @return true if the builders contain the same characters in the same order
+     * @param reader Reader to read.
+     * @return The number of characters read.
+     * @throws IOException if an I/O error occurs.
+     *
+     * @see #appendTo(Appendable)
+     * @since 1.9
      */
-    public boolean equalsIgnoreCase(final TextStringBuilder other) {
-        if (this == other) {
-            return true;
+    public int readFrom(final Reader reader) throws IOException {
+        final int oldSize = size;
+        ensureCapacity(size + 1);
+        int read;
+        while ((read = reader.read(buffer, size, buffer.length - size)) != -1) {
+            size += read;
+            ensureCapacity(size + 1);
         }
-        if (this.size != other.size) {
-            return false;
-        }
-        final char[] thisBuf = this.buffer;
-        final char[] otherBuf = other.buffer;
-        for (int i = size - 1; i >= 0; i--) {
-            final char c1 = thisBuf[i];
-            final char c2 = otherBuf[i];
-            if (c1 != c2 && Character.toUpperCase(c1) != Character.toUpperCase(c2)) {
-                return false;
+        return size - oldSize;
+    }
+
+    /**
+     * Replaces a portion of the string builder with another string. The length of the inserted string does not have to
+     * match the removed length.
+     *
+     * @param startIndex
+     *            the start index, inclusive, must be valid
+     * @param endIndex
+     *            the end index, exclusive, must be valid except that if too large it is treated as end of string
+     * @param replaceStr
+     *            the string to replace with, null means delete range
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public TextStringBuilder replace(final int startIndex, int endIndex, final String replaceStr) {
+        endIndex = validateRange(startIndex, endIndex);
+        final int insertLen = replaceStr == null ? 0 : replaceStr.length();
+        replaceImpl(startIndex, endIndex, endIndex - startIndex, replaceStr, insertLen);
+        return this;
+    }
+
+    /**
+     * Advanced search and replaces within the builder using a matcher.
+     * <p>
+     * Matchers can be used to perform advanced behavior. For example you could write a matcher to delete all
+     * occurrences where the character 'a' is followed by a number.
+     * </p>
+     *
+     * @param matcher
+     *            the matcher to use to find the deletion, null causes no action
+     * @param replaceStr
+     *            the string to replace the match with, null is a delete
+     * @param startIndex
+     *            the start index, inclusive, must be valid
+     * @param endIndex
+     *            the end index, exclusive, must be valid except that if too large it is treated as end of string
+     * @param replaceCount
+     *            the number of times to replace, -1 for replace all
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if start index is invalid
+     */
+    public TextStringBuilder replace(final StringMatcher matcher, final String replaceStr, final int startIndex,
+            int endIndex, final int replaceCount) {
+        endIndex = validateRange(startIndex, endIndex);
+        return replaceImpl(matcher, replaceStr, startIndex, endIndex, replaceCount);
+    }
+
+    /**
+     * Replaces the search character with the replace character throughout the builder.
+     *
+     * @param search
+     *            the search character
+     * @param replace
+     *            the replace character
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder replaceAll(final char search, final char replace) {
+        if (search != replace) {
+            for (int i = 0; i < size; i++) {
+                if (buffer[i] == search) {
+                    buffer[i] = replace;
+                }
             }
         }
-        return true;
+        return this;
     }
 
     /**
-     * Checks the contents of this builder against another to see if they contain the same character content.
+     * Replaces the search string with the replace string throughout the builder.
      *
-     * @param other
-     *            the object to check, null returns false
-     * @return true if the builders contain the same characters in the same order
+     * @param searchStr
+     *            the search string, null causes no action to occur
+     * @param replaceStr
+     *            the replace string, null is equivalent to an empty string
+     * @return this, to enable chaining
      */
-    public boolean equals(final TextStringBuilder other) {
-        if (this == other) {
-            return true;
-        }
-        if (other == null) {
-            return false;
-        }
-        if (this.size != other.size) {
-            return false;
-        }
-        final char[] thisBuf = this.buffer;
-        final char[] otherBuf = other.buffer;
-        for (int i = size - 1; i >= 0; i--) {
-            if (thisBuf[i] != otherBuf[i]) {
-                return false;
+    public TextStringBuilder replaceAll(final String searchStr, final String replaceStr) {
+        final int searchLen = searchStr == null ? 0 : searchStr.length();
+        if (searchLen > 0) {
+            final int replaceLen = replaceStr == null ? 0 : replaceStr.length();
+            int index = indexOf(searchStr, 0);
+            while (index >= 0) {
+                replaceImpl(index, index + searchLen, searchLen, replaceStr, replaceLen);
+                index = indexOf(searchStr, index + replaceLen);
             }
         }
-        return true;
+        return this;
     }
 
     /**
-     * Checks the contents of this builder against another to see if they contain the same character content.
+     * Replaces all matches within the builder with the replace string.
+     * <p>
+     * Matchers can be used to perform advanced replace behavior. For example you could write a matcher to replace all
+     * occurrences where the character 'a' is followed by a number.
+     * </p>
      *
-     * @param obj
-     *            the object to check, null returns false
-     * @return true if the builders contain the same characters in the same order
+     * @param matcher
+     *            the matcher to use to find the deletion, null causes no action
+     * @param replaceStr
+     *            the replace string, null is equivalent to an empty string
+     * @return this, to enable chaining
      */
-    @Override
-    public boolean equals(final Object obj) {
-        return obj instanceof TextStringBuilder && equals((TextStringBuilder) obj);
+    public TextStringBuilder replaceAll(final StringMatcher matcher, final String replaceStr) {
+        return replace(matcher, replaceStr, 0, size, -1);
     }
 
     /**
-     * Gets a suitable hash code for this builder.
+     * Replaces the first instance of the search character with the replace character in the builder.
      *
-     * @return a hash code
+     * @param search
+     *            the search character
+     * @param replace
+     *            the replace character
+     * @return this, to enable chaining
      */
-    @Override
-    public int hashCode() {
+    public TextStringBuilder replaceFirst(final char search, final char replace) {
+        if (search != replace) {
+            for (int i = 0; i < size; i++) {
+                if (buffer[i] == search) {
+                    buffer[i] = replace;
+                    break;
+                }
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Replaces the first instance of the search string with the replace string.
+     *
+     * @param searchStr
+     *            the search string, null causes no action to occur
+     * @param replaceStr
+     *            the replace string, null is equivalent to an empty string
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder replaceFirst(final String searchStr, final String replaceStr) {
+        final int searchLen = searchStr == null ? 0 : searchStr.length();
+        if (searchLen > 0) {
+            final int index = indexOf(searchStr, 0);
+            if (index >= 0) {
+                final int replaceLen = replaceStr == null ? 0 : replaceStr.length();
+                replaceImpl(index, index + searchLen, searchLen, replaceStr, replaceLen);
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Replaces the first match within the builder with the replace string.
+     * <p>
+     * Matchers can be used to perform advanced replace behavior. For example you could write a matcher to replace
+     * where the character 'a' is followed by a number.
+     * </p>
+     *
+     * @param matcher
+     *            the matcher to use to find the deletion, null causes no action
+     * @param replaceStr
+     *            the replace string, null is equivalent to an empty string
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder replaceFirst(final StringMatcher matcher, final String replaceStr) {
+        return replace(matcher, replaceStr, 0, size, 1);
+    }
+
+    /**
+     * Internal method to delete a range without validation.
+     *
+     * @param startIndex
+     *            the start index, must be valid
+     * @param endIndex
+     *            the end index (exclusive), must be valid
+     * @param removeLen
+     *            the length to remove (endIndex - startIndex), must be valid
+     * @param insertStr
+     *            the string to replace with, null means delete range
+     * @param insertLen
+     *            the length of the insert string, must be valid
+     * @throws IndexOutOfBoundsException
+     *             if any index is invalid
+     */
+    private void replaceImpl(final int startIndex, final int endIndex, final int removeLen, final String insertStr,
+            final int insertLen) {
+        final int newSize = size - removeLen + insertLen;
+        if (insertLen != removeLen) {
+            ensureCapacity(newSize);
+            System.arraycopy(buffer, endIndex, buffer, startIndex + insertLen, size - endIndex);
+            size = newSize;
+        }
+        if (insertLen > 0) {
+            insertStr.getChars(0, insertLen, buffer, startIndex);
+        }
+    }
+
+    /**
+     * Replaces within the builder using a matcher.
+     * <p>
+     * Matchers can be used to perform advanced behavior. For example you could write a matcher to delete all
+     * occurrences where the character 'a' is followed by a number.
+     * </p>
+     *
+     * @param matcher
+     *            the matcher to use to find the deletion, null causes no action
+     * @param replaceStr
+     *            the string to replace the match with, null is a delete
+     * @param from
+     *            the start index, must be valid
+     * @param to
+     *            the end index (exclusive), must be valid
+     * @param replaceCount
+     *            the number of times to replace, -1 for replace all
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if any index is invalid
+     */
+    private TextStringBuilder replaceImpl(final StringMatcher matcher, final String replaceStr, final int from, int to,
+            int replaceCount) {
+        if (matcher == null || size == 0) {
+            return this;
+        }
+        final int replaceLen = replaceStr == null ? 0 : replaceStr.length();
+        for (int i = from; i < to && replaceCount != 0; i++) {
+            final char[] buf = buffer;
+            final int removeLen = matcher.isMatch(buf, i, from, to);
+            if (removeLen > 0) {
+                replaceImpl(i, i + removeLen, removeLen, replaceStr, replaceLen);
+                to = to - removeLen + replaceLen;
+                i = i + replaceLen - 1;
+                if (replaceCount > 0) {
+                    replaceCount--;
+                }
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Reverses the string builder placing each character in the opposite index.
+     *
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder reverse() {
+        if (size == 0) {
+            return this;
+        }
+
+        final int half = size / 2;
         final char[] buf = buffer;
-        int hash = 0;
-        for (int i = size - 1; i >= 0; i--) {
-            hash = 31 * hash + buf[i];
+        for (int leftIdx = 0, rightIdx = size - 1; leftIdx < half; leftIdx++, rightIdx--) {
+            final char swap = buf[leftIdx];
+            buf[leftIdx] = buf[rightIdx];
+            buf[rightIdx] = swap;
         }
-        return hash;
+        return this;
+    }
+
+    /**
+     * Extracts the rightmost characters from the string builder without throwing an exception.
+     * <p>
+     * This method extracts the right {@code length} characters from the builder. If this many characters are not
+     * available, the whole builder is returned. Thus the returned string may be shorter than the length requested.
+     * </p>
+     *
+     * @param length
+     *            the number of characters to extract, negative returns empty string
+     * @return The new string
+     */
+    public String rightString(final int length) {
+        if (length <= 0) {
+            return "";
+        } else if (length >= size) {
+            return new String(buffer, 0, size);
+        } else {
+            return new String(buffer, size - length, length);
+        }
+    }
+
+    /**
+     * Sets the character at the specified index.
+     *
+     * @see #charAt(int)
+     * @see #deleteCharAt(int)
+     * @param index
+     *            the index to set
+     * @param ch
+     *            the new character
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public TextStringBuilder setCharAt(final int index, final char ch) {
+        if (index < 0 || index >= length()) {
+            throw new StringIndexOutOfBoundsException(index);
+        }
+        buffer[index] = ch;
+        return this;
+    }
+    /**
+     * Updates the length of the builder by either dropping the last characters or adding filler of Unicode zero.
+     *
+     * @param length
+     *            the length to set to, must be zero or positive
+     * @return this, to enable chaining
+     * @throws IndexOutOfBoundsException
+     *             if the length is negative
+     */
+    public TextStringBuilder setLength(final int length) {
+        if (length < 0) {
+            throw new StringIndexOutOfBoundsException(length);
+        }
+        if (length < size) {
+            size = length;
+        } else if (length > size) {
+            ensureCapacity(length);
+            final int oldEnd = size;
+            final int newEnd = length;
+            size = length;
+            for (int i = oldEnd; i < newEnd; i++) {
+                buffer[i] = '\0';
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Sets the text to be appended when a new line is added.
+     *
+     * @param newLine
+     *            the new line text, null means use system default
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder setNewLineText(final String newLine) {
+        this.newLine = newLine;
+        return this;
+    }
+
+    /**
+     * Sets the text to be appended when null is added.
+     *
+     * @param nullText
+     *            the null text, null means no append
+     * @return this, to enable chaining
+     */
+    public TextStringBuilder setNullText(String nullText) {
+        if (nullText != null && nullText.isEmpty()) {
+            nullText = null;
+        }
+        this.nullText = nullText;
+        return this;
+    }
+
+    /**
+     * Gets the length of the string builder.
+     * <p>
+     * This method is the same as {@link #length()} and is provided to match the API of Collections.
+     * </p>
+     *
+     * @return The length
+     */
+    public int size() {
+        return size;
+    }
+
+    /**
+     * Checks whether this builder starts with the specified string.
+     * <p>
+     * Note that this method handles null input quietly, unlike String.
+     * </p>
+     *
+     * @param str
+     *            the string to search for, null returns false
+     * @return true if the builder starts with the string
+     */
+    public boolean startsWith(final String str) {
+        if (str == null) {
+            return false;
+        }
+        final int len = str.length();
+        if (len == 0) {
+            return true;
+        }
+        if (len > size) {
+            return false;
+        }
+        for (int i = 0; i < len; i++) {
+            if (buffer[i] != str.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CharSequence subSequence(final int startIndex, final int endIndex) {
+        if (startIndex < 0) {
+            throw new StringIndexOutOfBoundsException(startIndex);
+        }
+        if (endIndex > size) {
+            throw new StringIndexOutOfBoundsException(endIndex);
+        }
+        if (startIndex > endIndex) {
+            throw new StringIndexOutOfBoundsException(endIndex - startIndex);
+        }
+        return substring(startIndex, endIndex);
+    }
+
+    /**
+     * Extracts a portion of this string builder as a string.
+     *
+     * @param start
+     *            the start index, inclusive, must be valid
+     * @return The new string
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public String substring(final int start) {
+        return substring(start, size);
+    }
+
+    /**
+     * Extracts a portion of this string builder as a string.
+     * <p>
+     * Note: This method treats an endIndex greater than the length of the builder as equal to the length of the
+     * builder, and continues without error, unlike StringBuffer or String.
+     * </p>
+     *
+     * @param startIndex
+     *            the start index, inclusive, must be valid
+     * @param endIndex
+     *            the end index, exclusive, must be valid except that if too large it is treated as end of string
+     * @return The new string
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    public String substring(final int startIndex, int endIndex) {
+        endIndex = validateRange(startIndex, endIndex);
+        return new String(buffer, startIndex, endIndex - startIndex);
+    }
+
+    /**
+     * Copies the builder's character array into a new character array.
+     *
+     * @return a new array that represents the contents of the builder
+     */
+    public char[] toCharArray() {
+        if (size == 0) {
+            return new char[0];
+        }
+        final char[] chars = new char[size];
+        System.arraycopy(buffer, 0, chars, 0, size);
+        return chars;
+    }
+
+    /**
+     * Copies part of the builder's character array into a new character array.
+     *
+     * @param startIndex
+     *            the start index, inclusive, must be valid
+     * @param endIndex
+     *            the end index, exclusive, must be valid except that if too large it is treated as end of string
+     * @return a new array that holds part of the contents of the builder
+     * @throws IndexOutOfBoundsException
+     *             if startIndex is invalid, or if endIndex is invalid (but endIndex greater than size is valid)
+     */
+    public char[] toCharArray(final int startIndex, int endIndex) {
+        endIndex = validateRange(startIndex, endIndex);
+        final int len = endIndex - startIndex;
+        if (len == 0) {
+            return new char[0];
+        }
+        final char[] chars = new char[len];
+        System.arraycopy(buffer, startIndex, chars, 0, len);
+        return chars;
     }
 
     /**
@@ -3036,14 +3196,44 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Implement the {@link Builder} interface.
+     * Trims the builder by removing characters less than or equal to a space from the beginning and end.
      *
-     * @return The builder as a String
-     * @see #toString()
+     * @return this, to enable chaining
      */
-    @Override
-    public String build() {
-        return toString();
+    public TextStringBuilder trim() {
+        if (size == 0) {
+            return this;
+        }
+        int len = size;
+        final char[] buf = buffer;
+        int pos = 0;
+        while (pos < len && buf[pos] <= ' ') {
+            pos++;
+        }
+        while (pos < len && buf[len - 1] <= ' ') {
+            len--;
+        }
+        if (len < size) {
+            delete(len, size);
+        }
+        if (pos > 0) {
+            delete(0, pos);
+        }
+        return this;
+    }
+
+    /**
+     * Validates parameters defining a single index in the builder.
+     *
+     * @param index
+     *            the index, must be valid
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     */
+    protected void validateIndex(final int index) {
+        if (index < 0 || index > size) {
+            throw new StringIndexOutOfBoundsException(index);
+        }
     }
 
     /**
@@ -3068,196 +3258,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             throw new StringIndexOutOfBoundsException("end < start");
         }
         return endIndex;
-    }
-
-    /**
-     * Validates parameters defining a single index in the builder.
-     *
-     * @param index
-     *            the index, must be valid
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
-     */
-    protected void validateIndex(final int index) {
-        if (index < 0 || index > size) {
-            throw new StringIndexOutOfBoundsException(index);
-        }
-    }
-
-    /**
-     * Inner class to allow StrBuilder to operate as a tokenizer.
-     */
-    class TextStringBuilderTokenizer extends StringTokenizer {
-
-        /**
-         * Default constructor.
-         */
-        TextStringBuilderTokenizer() {
-            super();
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        protected List<String> tokenize(final char[] chars, final int offset, final int count) {
-            if (chars == null) {
-                return super.tokenize(TextStringBuilder.this.buffer, 0, TextStringBuilder.this.size());
-            }
-            return super.tokenize(chars, offset, count);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public String getContent() {
-            final String str = super.getContent();
-            if (str == null) {
-                return TextStringBuilder.this.toString();
-            }
-            return str;
-        }
-    }
-
-    /**
-     * Inner class to allow StrBuilder to operate as a reader.
-     */
-    class StrBuilderReader extends Reader {
-        /** The current stream position. */
-        private int pos;
-        /** The last mark position. */
-        private int mark;
-
-        /**
-         * Default constructor.
-         */
-        StrBuilderReader() {
-            super();
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void close() {
-            // do nothing
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public int read() {
-            if (!ready()) {
-                return -1;
-            }
-            return TextStringBuilder.this.charAt(pos++);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public int read(final char[] b, final int off, int len) {
-            if (off < 0 || len < 0 || off > b.length || off + len > b.length || off + len < 0) {
-                throw new IndexOutOfBoundsException();
-            }
-            if (len == 0) {
-                return 0;
-            }
-            if (pos >= TextStringBuilder.this.size()) {
-                return -1;
-            }
-            if (pos + len > size()) {
-                len = TextStringBuilder.this.size() - pos;
-            }
-            TextStringBuilder.this.getChars(pos, pos + len, b, off);
-            pos += len;
-            return len;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public long skip(long n) {
-            if (pos + n > TextStringBuilder.this.size()) {
-                n = TextStringBuilder.this.size() - pos;
-            }
-            if (n < 0) {
-                return 0;
-            }
-            pos += n;
-            return n;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public boolean ready() {
-            return pos < TextStringBuilder.this.size();
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public boolean markSupported() {
-            return true;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void mark(final int readAheadLimit) {
-            mark = pos;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void reset() {
-            pos = mark;
-        }
-    }
-
-    /**
-     * Inner class to allow StrBuilder to operate as a writer.
-     */
-    class StrBuilderWriter extends Writer {
-
-        /**
-         * Default constructor.
-         */
-        StrBuilderWriter() {
-            super();
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void close() {
-            // do nothing
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void flush() {
-            // do nothing
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void write(final int c) {
-            TextStringBuilder.this.append((char) c);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void write(final char[] cbuf) {
-            TextStringBuilder.this.append(cbuf);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void write(final char[] cbuf, final int off, final int len) {
-            TextStringBuilder.this.append(cbuf, off, len);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void write(final String str) {
-            TextStringBuilder.this.append(str);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void write(final String str, final int off, final int len) {
-            TextStringBuilder.this.append(str, off, len);
-        }
     }
 
 }
