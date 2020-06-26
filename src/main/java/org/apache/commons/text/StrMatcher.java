@@ -296,7 +296,7 @@ public abstract class StrMatcher {
         }
 
         /**
-         * Returns whether or not the given character matches.
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
          * @param buffer  the text content to match against, do not change
          * @param pos  the starting position for the match, valid for buffer
@@ -329,7 +329,7 @@ public abstract class StrMatcher {
         }
 
         /**
-         * Returns whether or not the given character matches.
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
          * @param buffer  the text content to match against, do not change
          * @param pos  the starting position for the match, valid for buffer
@@ -362,7 +362,7 @@ public abstract class StrMatcher {
         }
 
         /**
-         * Returns whether or not the given text matches the stored string.
+         * Returns the number of matching characters, or zero if there is no match.
          *
          * @param buffer  the text content to match against, do not change
          * @param pos  the starting position for the match, valid for buffer
@@ -405,7 +405,7 @@ public abstract class StrMatcher {
         }
 
         /**
-         * Always returns {@code false}.
+         * Always returns {@code 0}.
          *
          * @param buffer  the text content to match against, do not change
          * @param pos  the starting position for the match, valid for buffer
