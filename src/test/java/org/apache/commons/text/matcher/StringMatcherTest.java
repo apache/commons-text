@@ -40,6 +40,13 @@ public class StringMatcherTest {
         assertThat(matcher.isMatch(BUFFER2, 3, 0, BUFFER2.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER2, 4, 0, BUFFER2.length)).isEqualTo(0);
         assertThat(matcher.isMatch(BUFFER2, 5, 0, BUFFER2.length)).isEqualTo(0);
+        //
+        assertThat(matcher.isMatch(BUFFER2, 0)).isEqualTo(0);
+        assertThat(matcher.isMatch(BUFFER2, 1)).isEqualTo(0);
+        assertThat(matcher.isMatch(BUFFER2, 2)).isEqualTo(1);
+        assertThat(matcher.isMatch(BUFFER2, 3)).isEqualTo(0);
+        assertThat(matcher.isMatch(BUFFER2, 4)).isEqualTo(0);
+        assertThat(matcher.isMatch(BUFFER2, 5)).isEqualTo(0);
     }
 
     @Test

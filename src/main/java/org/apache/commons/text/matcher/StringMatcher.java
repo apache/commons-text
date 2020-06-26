@@ -53,6 +53,31 @@ public interface StringMatcher {
     int isMatch(char[] buffer, int start, int bufferStart, int bufferEnd);
 
     /**
+     * Returns the number of matching characters, zero for no match.
+     * <p>
+     * This method is called to check for a match. The parameter {@code pos} represents the current position to be
+     * checked in the string {@code buffer} (a character array which must not be changed). The API guarantees that
+     * {@code pos} is a valid index for {@code buffer}.
+     * </p>
+     * <p>
+     * The matching code may check one character or many. It may check characters preceding {@code pos} as well as those
+     * after.
+     * </p>
+     * <p>
+     * It must return zero for no match, or a positive number if a match was found. The number indicates the number of
+     * characters that matched.
+     * </p>
+     *
+     * @param buffer the text content to match against, do not change
+     * @param pos the starting position for the match, valid for buffer
+     * @return The number of matching characters, zero for no match
+     * @since 1.9
+     */
+    default int isMatch(final char[] buffer, final int pos) {
+        return isMatch(buffer, pos, 0, buffer.length);
+    }
+    
+    /**
      * Returns the size of the matching string. Defaults to 0.
      *
      * @return the size of the matching string.
