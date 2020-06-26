@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.apache.commons.text.lookup.StringLookup;
 import org.apache.commons.text.lookup.StringLookupFactory;
@@ -37,11 +38,14 @@ import org.apache.commons.text.matcher.StringMatcher;
 import org.apache.commons.text.matcher.StringMatcherFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * Test class for {@link StringSubstitutor}.
  */
+@TestMethodOrder(MethodOrderer.Alphanumeric.class) // temp, for my sanity during dev
 public class StringSubstitutorTest {
 
     protected Map<String, String> values;
@@ -242,7 +246,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceEmpty() throws IOException {
-        doTestNoReplace("");
+        doTestNoReplace(StringUtils.EMPTY);
     }
 
     /**
@@ -361,7 +365,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceInTakingStringBuilderWithNull() {
         final Map<String, Object> map = new HashMap<>();
-        final StringSubstitutor strSubstitutor = new StringSubstitutor(map, "", "", 'T', "K+<'f");
+        final StringSubstitutor strSubstitutor = new StringSubstitutor(map, StringUtils.EMPTY, StringUtils.EMPTY, 'T', "K+<'f");
 
         assertFalse(strSubstitutor.replaceIn((StringBuilder) null));
     }
@@ -584,7 +588,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceWeirdPattens() throws IOException {
-        doTestNoReplace("");
+        doTestNoReplace(StringUtils.EMPTY);
         doTestNoReplace("${}");
         doTestNoReplace("${ }");
         doTestNoReplace("${\t}");
