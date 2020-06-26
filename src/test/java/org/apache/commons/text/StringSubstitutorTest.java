@@ -51,10 +51,10 @@ public class StringSubstitutorTest {
     protected Map<String, String> values;
 
     protected void doTestNoReplace(final String replaceTemplate) throws IOException {
-        doTestNoReplace(replaceTemplate, new StringSubstitutor(values));
+        doTestNoReplace(new StringSubstitutor(values), replaceTemplate);
     }
 
-    protected void doTestNoReplace(final String replaceTemplate, final StringSubstitutor substitutor)
+    protected void doTestNoReplace(final StringSubstitutor substitutor, final String replaceTemplate)
         throws IOException {
         if (replaceTemplate == null) {
             assertNull(replace(substitutor, (String) null));
@@ -514,6 +514,11 @@ public class StringSubstitutorTest {
         doTestReplace("The quick brown fox jumps over the lazy dog.", "The ${animal} jumps over the ${target}.", true);
     }
 
+    @Test
+    public void testReplaceSimplest() throws IOException {
+        doTestReplace("quick brown fox", "${animal}", false);
+    }
+
     /**
      * Tests simple key replace.
      */
@@ -544,11 +549,6 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceSoloEscaping4To3() throws IOException {
         doTestReplace("$$${animal}", "$$$${animal}", false);
-    }
-
-    @Test
-    public void testReplaceSimplest() throws IOException {
-        doTestReplace("quick brown fox", "${animal}", false);
     }
 
     @Test
