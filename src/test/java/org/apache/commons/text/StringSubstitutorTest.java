@@ -17,8 +17,8 @@
 
 package org.apache.commons.text;
 
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -44,9 +44,9 @@ import org.junit.jupiter.api.Test;
  */
 public class StringSubstitutorTest {
 
-    private Map<String, String> values;
+    protected Map<String, String> values;
 
-    private void doTestNoReplace(final String replaceTemplate) throws IOException {
+    protected void doTestNoReplace(final String replaceTemplate) throws IOException {
         final StringSubstitutor sub = new StringSubstitutor(values);
 
         if (replaceTemplate == null) {
@@ -71,13 +71,13 @@ public class StringSubstitutorTest {
         }
     }
 
-    private void doTestReplace(final String expectedResult, final String replaceTemplate, final boolean substring)
+    protected void doTestReplace(final String expectedResult, final String replaceTemplate, final boolean substring)
         throws IOException {
         final StringSubstitutor sub = new StringSubstitutor(values);
         doTestReplace(sub, expectedResult, replaceTemplate, substring);
     }
 
-    private void doTestReplace(final StringSubstitutor sub, final String expectedResult, final String replaceTemplate,
+    protected void doTestReplace(final StringSubstitutor sub, final String expectedResult, final String replaceTemplate,
             final boolean substring) throws IOException {
         final String expectedShortResult = expectedResult.substring(1, expectedResult.length() - 1);
 
@@ -538,6 +538,11 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceSoloEscaping4To3() throws IOException {
         doTestReplace("$$${animal}", "$$$${animal}", false);
+    }
+
+    @Test
+    public void testReplaceSimplest() throws IOException {
+        doTestReplace("quick brown fox", "${animal}", false);
     }
 
     @Test
