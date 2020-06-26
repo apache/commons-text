@@ -127,6 +127,7 @@ public interface StringMatcher {
      * @param bufferStart the first active index in the buffer, valid in {@code buffer}.
      * @param bufferEnd the end index (exclusive) of the active buffer, valid in {@code buffer}.
      * @return The number of matching characters, zero if there is no match.
+     * @since 1.9
      */
     default int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
         return isMatch(AbstractStringMatcher.toCharArray(buffer), start, bufferEnd, bufferEnd);
