@@ -33,7 +33,7 @@ public interface StringMatcher {
      * </p>
      * <p>
      * The character array may be larger than the active area to be matched. Only values in the buffer between the
-     * specified indices may be accessed.
+     * specified indices may be accessed, in other words: {@code bufferStart <= start < bufferEnd}.
      * </p>
      * <p>
      * The matching code may check one character or many. It may check characters preceding {@code start} as well as
