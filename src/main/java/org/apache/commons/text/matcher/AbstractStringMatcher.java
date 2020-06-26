@@ -203,17 +203,21 @@ abstract class AbstractStringMatcher implements StringMatcher {
      */
     static final class StringMatcher extends AbstractStringMatcher {
 
-        /** The string to match, as a character array. */
+        /** The string to match, as a character array, implementation treats as immutable. */
         private final char[] chars;
+
+        /** The string to match */
+        private final String string;
 
         /**
          * Constructs a matcher from a String.
          *
          * @param str the string to match, must not be null
          */
-        StringMatcher(final String str) {
+        StringMatcher(final String string) {
             super();
-            chars = str.toCharArray();
+            this.string = string;
+            this.chars = string.toCharArray();
         }
 
         /**
@@ -276,7 +280,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
 
         @Override
         public String toString() {
-            return super.toString() + ' ' + Arrays.toString(chars);
+            return super.toString() + "[\"" + string + "\"]";
         }
 
     }
