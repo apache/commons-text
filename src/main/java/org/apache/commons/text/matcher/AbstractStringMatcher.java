@@ -63,6 +63,20 @@ abstract class AbstractStringMatcher implements StringMatcher {
         }
 
         /**
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
+         *
+         * @param buffer the text content to match against, do not change
+         * @param start the starting position for the match, valid for buffer
+         * @param bufferStart unused
+         * @param bufferEnd unused
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
+            return ch == buffer.charAt(start) ? 1 : 0;
+        }
+
+        /**
          * Returns 1.
          *
          * @since 1.9
@@ -107,6 +121,20 @@ abstract class AbstractStringMatcher implements StringMatcher {
         }
 
         /**
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
+         *
+         * @param buffer the text content to match against, do not change
+         * @param start the starting position for the match, valid for buffer
+         * @param bufferStart unused
+         * @param bufferEnd unused
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
+            return Arrays.binarySearch(chars, buffer.charAt(start)) >= 0 ? 1 : 0;
+        }
+
+        /**
          * Returns 1.
          *
          * @since 1.9
@@ -141,6 +169,20 @@ abstract class AbstractStringMatcher implements StringMatcher {
          */
         @Override
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
+            return 0;
+        }
+
+        /**
+         * Always returns {@code 0}.
+         *
+         * @param buffer unused
+         * @param start unused
+         * @param bufferStart unused
+         * @param bufferEnd unused
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
             return 0;
         }
 
@@ -198,9 +240,28 @@ abstract class AbstractStringMatcher implements StringMatcher {
             return len;
         }
 
+        /**
+         * Returns the number of matching characters, {@code 0} if there is no match.
+         *
+         * @param buffer the text content to match against, do not change
+         * @param start the starting position for the match, valid for buffer
+         * @param bufferStart unused
+         * @param bufferEnd the end index of the active buffer, valid for buffer
+         * @return The number of matching characters, zero for no match
+         */
         @Override
-        public String toString() {
-            return super.toString() + ' ' + Arrays.toString(chars);
+        public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
+            final int len = size();
+            if (start + len > bufferEnd) {
+                return 0;
+            }
+            int j = start;
+            for (int i = 0; i < len; i++, j++) {
+                if (chars[i] != buffer.charAt(j)) {
+                    return 0;
+                }
+            }
+            return len;
         }
 
         /**
@@ -211,6 +272,11 @@ abstract class AbstractStringMatcher implements StringMatcher {
         @Override
         public int size() {
             return chars.length;
+        }
+
+        @Override
+        public String toString() {
+            return super.toString() + ' ' + Arrays.toString(chars);
         }
 
     }
@@ -247,6 +313,20 @@ abstract class AbstractStringMatcher implements StringMatcher {
         }
 
         /**
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
+         *
+         * @param buffer the text content to match against, do not change
+         * @param start the starting position for the match, valid for buffer
+         * @param bufferStart unused
+         * @param bufferEnd unused
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
+            return buffer.charAt(start) <= SPACE_INT ? 1 : 0;
+        }
+
+        /**
          * Returns 1.
          *
          * @since 1.9
@@ -255,6 +335,24 @@ abstract class AbstractStringMatcher implements StringMatcher {
         public int size() {
             return 1;
         }
+    }
+
+    /**
+     * Green implementation of toCharArray. TODO Reuse Apache Commons Lang 3.11 when released.
+     *
+     * @param cs the {@code CharSequence} to be processed
+     * @return the resulting char array
+     */
+    static char[] toCharArray(final CharSequence cs) {
+        if (cs instanceof String) {
+            return ((String) cs).toCharArray();
+        }
+        final int sz = cs.length();
+        final char[] array = new char[cs.length()];
+        for (int i = 0; i < sz; i++) {
+            array[i] = cs.charAt(i);
+        }
+        return array;
     }
 
     /**

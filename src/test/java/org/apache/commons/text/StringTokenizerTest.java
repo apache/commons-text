@@ -673,6 +673,7 @@ public class StringTokenizerTest {
     public void testConstructor_String_char() {
         StringTokenizer tok = new StringTokenizer("a b", ' ');
         assertEquals(1, tok.getDelimiterMatcher().isMatch(" ".toCharArray(), 0, 0, 1));
+        assertEquals(1, tok.getDelimiterMatcher().isMatch(" ", 0, 0, 1));
         assertEquals("a", tok.next());
         assertEquals("b", tok.next());
         assertFalse(tok.hasNext());
@@ -689,7 +690,9 @@ public class StringTokenizerTest {
     public void testConstructor_String_char_char() {
         StringTokenizer tok = new StringTokenizer("a b", ' ', '"');
         assertEquals(1, tok.getDelimiterMatcher().isMatch(" ".toCharArray(), 0, 0, 1));
+        assertEquals(1, tok.getDelimiterMatcher().isMatch(" ", 0, 0, 1));
         assertEquals(1, tok.getQuoteMatcher().isMatch("\"".toCharArray(), 0, 0, 1));
+        assertEquals(1, tok.getQuoteMatcher().isMatch("\"", 0, 0, 1));
         assertEquals("a", tok.next());
         assertEquals("b", tok.next());
         assertFalse(tok.hasNext());
@@ -721,6 +724,7 @@ public class StringTokenizerTest {
     public void testConstructor_charArray_char() {
         StringTokenizer tok = new StringTokenizer("a b".toCharArray(), ' ');
         assertEquals(1, tok.getDelimiterMatcher().isMatch(" ".toCharArray(), 0, 0, 1));
+        assertEquals(1, tok.getDelimiterMatcher().isMatch(" ", 0, 0, 1));
         assertEquals("a", tok.next());
         assertEquals("b", tok.next());
         assertFalse(tok.hasNext());
@@ -737,7 +741,9 @@ public class StringTokenizerTest {
     public void testConstructor_charArray_char_char() {
         StringTokenizer tok = new StringTokenizer("a b".toCharArray(), ' ', '"');
         assertEquals(1, tok.getDelimiterMatcher().isMatch(" ".toCharArray(), 0, 0, 1));
+        assertEquals(1, tok.getDelimiterMatcher().isMatch(" ", 0, 0, 1));
         assertEquals(1, tok.getQuoteMatcher().isMatch("\"".toCharArray(), 0, 0, 1));
+        assertEquals(1, tok.getQuoteMatcher().isMatch("\"", 0, 0, 1));
         assertEquals("a", tok.next());
         assertEquals("b", tok.next());
         assertFalse(tok.hasNext());

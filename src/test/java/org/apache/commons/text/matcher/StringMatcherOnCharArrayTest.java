@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit tests for {@link StringMatcher}.
  */
-public class StringMatcherTest {
+public class StringMatcherOnCharArrayTest {
 
     private static final char[] BUFFER1 = "0,1\t2 3\n\r\f\u0000'\"".toCharArray();
 
