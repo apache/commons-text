@@ -184,13 +184,14 @@ abstract class AbstractStringMatcher implements StringMatcher {
          * @return The number of matching characters, zero for no match
          */
         @Override
-        public int isMatch(final char[] buffer, int start, final int bufferStart, final int bufferEnd) {
+        public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
             final int len = size();
             if (start + len > bufferEnd) {
                 return 0;
             }
-            for (int i = 0; i < len; i++, start++) {
-                if (chars[i] != buffer[start]) {
+            int j = start;
+            for (int i = 0; i < len; i++, j++) {
+                if (chars[i] != buffer[j]) {
                     return 0;
                 }
             }
