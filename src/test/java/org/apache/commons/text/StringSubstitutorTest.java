@@ -367,7 +367,8 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceInTakingStringBuilderWithNull() {
         final Map<String, Object> map = new HashMap<>();
-        final StringSubstitutor strSubstitutor = new StringSubstitutor(map, StringUtils.EMPTY, StringUtils.EMPTY, 'T', "K+<'f");
+        final StringSubstitutor strSubstitutor = new StringSubstitutor(map, StringUtils.EMPTY, StringUtils.EMPTY, 'T',
+            "K+<'f");
 
         assertFalse(strSubstitutor.replaceIn((StringBuilder) null));
     }
