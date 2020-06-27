@@ -17,6 +17,8 @@
 
 package org.apache.commons.text.lookup;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * A default lookup for others to extend in this package.
  *
@@ -78,7 +80,6 @@ abstract class AbstractStringLookup implements StringLookup {
      * @return a new string.
      */
     protected String substringAfter(final String value, final String str) {
-        final int indexOf = value.indexOf(str);
-        return indexOf > -1 ? value.substring(indexOf + str.length()) : EMPTY;
+        return StringUtils.substringAfter(value, str);
     }
 }
