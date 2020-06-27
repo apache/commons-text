@@ -29,8 +29,8 @@ import org.junit.jupiter.api.Test;
  */
 public class ScriptStringLookupTest {
 
-    private final String JS_NAME = "JavaScript";
-    
+    private static final String JS_NAME = "JavaScript";
+
     @Test
     public void testBadEngineName() {
         assertThrows(IllegalArgumentException.class, () -> {
@@ -59,7 +59,7 @@ public class ScriptStringLookupTest {
 
     @Test
     public void testOne() {
-        Assertions.assertEquals("Hello World!", ScriptStringLookup.INSTANCE.lookup(JS_NAME+":\"Hello World!\""));
+        Assertions.assertEquals("Hello World!", ScriptStringLookup.INSTANCE.lookup(JS_NAME + ":\"Hello World!\""));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class ScriptStringLookupTest {
     @Test
     public void testScriptUsingMultipleColons() {
         Assertions.assertEquals("It Works",
-         ScriptStringLookup.INSTANCE.lookup(JS_NAME+":true ? \"It Works\" : \"It Does Not Work\" "));
+            ScriptStringLookup.INSTANCE.lookup(JS_NAME + ":true ? \"It Works\" : \"It Does Not Work\" "));
     }
 
 }
