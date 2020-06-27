@@ -20,11 +20,7 @@ package org.apache.commons.text.matcher;
 import java.util.Arrays;
 
 /**
- * A matcher class that can be queried to determine if a character array portion matches.
- * <p>
- * This class comes complete with various factory methods. If these do not suffice, you can subclass and implement your
- * own matcher.
- * </p>
+ * A matcher that determines if a character array portion matches.
  *
  * @since 1.3
  */
@@ -206,7 +202,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /** The string to match, as a character array, implementation treats as immutable. */
         private final char[] chars;
 
-        /** The string to match */
+        /** The string to match. */
         private final String string;
 
         /**
