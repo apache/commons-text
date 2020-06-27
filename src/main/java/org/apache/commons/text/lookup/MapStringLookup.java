@@ -17,6 +17,7 @@
 package org.apache.commons.text.lookup;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A map-based lookup where the request for a lookup is answered with the value for that key.
@@ -87,7 +88,7 @@ final class MapStringLookup<V> implements StringLookup {
             // Could be a ConcurrentHashMap and a null key request
             return null;
         }
-        return obj != null ? obj.toString() : null;
+        return Objects.toString(obj, null);
     }
 
     @Override
