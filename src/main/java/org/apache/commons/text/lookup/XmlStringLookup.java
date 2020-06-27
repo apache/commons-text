@@ -72,7 +72,7 @@ final class XmlStringLookup extends AbstractStringLookup {
         }
         final String documentPath = keys[0];
         final String xpath = substringAfter(key, SPLIT_CH);
-        try (final InputStream inputStream = Files.newInputStream(Paths.get(documentPath))) {
+        try (InputStream inputStream = Files.newInputStream(Paths.get(documentPath))) {
             return XPathFactory.newInstance().newXPath().evaluate(xpath, new InputSource(inputStream));
         } catch (final Exception e) {
             throw IllegalArgumentExceptions.format(e, "Error looking up XML document [%s] and XPath [%s].",
