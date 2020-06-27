@@ -26,7 +26,6 @@ import org.apache.commons.lang3.StringUtils;
  */
 abstract class AbstractStringLookup implements StringLookup {
 
-
     /**
      * The empty string.
      */
@@ -45,10 +44,8 @@ abstract class AbstractStringLookup implements StringLookup {
     /**
      * Returns the substring after the first occurrence of {@code ch} in {@code value}.
      *
-     * @param value
-     *            The source string.
-     * @param ch
-     *            The character to search.
+     * @param value The source string.
+     * @param ch The character to search.
      * @return a new string.
      */
     protected String substringAfter(final String value, final char ch) {
@@ -59,10 +56,8 @@ abstract class AbstractStringLookup implements StringLookup {
     /**
      * Returns the substring after the first occurrence of {@code ch} in {@code value}.
      *
-     * @param value
-     *            The source string.
-     * @param ch
-     *            The character to search.
+     * @param value The source string.
+     * @param ch The character to search.
      * @return a new string.
      */
     protected String substringAfterLast(final String value, final char ch) {
@@ -73,13 +68,12 @@ abstract class AbstractStringLookup implements StringLookup {
     /**
      * Returns the substring after the first occurrence of {@code str} in {@code value}.
      *
-     * @param value
-     *            The source string.
-     * @param str
-     *            The string to search.
+     * @param value The source string.
+     * @param str The string to search.
      * @return a new string.
      */
     protected String substringAfter(final String value, final String str) {
         return StringUtils.substringAfter(value, str);
     }
+
 }

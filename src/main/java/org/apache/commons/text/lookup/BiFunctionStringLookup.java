@@ -18,51 +18,52 @@ package org.apache.commons.text.lookup;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 /**
  * A function-based lookup where the request for a lookup is answered by applying that function with a key.
  *
- * @param <V> A function's input type
+ * @param <R> A function's return type
+ * @param <P> A function's second input type
  *
  * @since 1.9
  */
-final class FunctionStringLookup<V> extends AbstractStringLookup {
+final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
 
     /**
      * Creates a new instance backed by a Function.
      *
-     * @param <R> the function's input type
-     * @param function the function, may be null.
+     * @param <T> the function's input type
+     * @param biFunction the function, may be null.
      * @return a new instance backed by the given function.
      */
-    static <R> FunctionStringLookup<R> on(final Function<String, R> function) {
-        return new FunctionStringLookup<>(function);
+    static <U, T> BiFunctionStringLookup<U, T> on(final BiFunction<String, U, T> biFunction) {
+        return new BiFunctionStringLookup<>(biFunction);
     }
 
     /**
      * Creates a new instance backed by a Map. Used by the default lookup.
      *
-     * @param <V> the map's value type.
+     * @param <T> the map's value type.
      * @param map the map of keys to values, may be null.
      * @return a new instance backed by the given map.
      */
-    static <V> FunctionStringLookup<V> on(final Map<String, V> map) {
-        return on(key -> map.get(key));
+    static <U, T> BiFunctionStringLookup<U, T> on(final Map<String, T> map) {
+        return on((key, u) -> map.get(key));
     }
 
     /**
      * Function.
      */
-    private final Function<String, V> function;
+    private final BiFunction<String, P, R> biFunction;
 
     /**
      * Creates a new instance backed by a Function.
      *
-     * @param function the function, may be null.
+     * @param biFunction the function, may be null.
      */
-    private FunctionStringLookup(final Function<String, V> function) {
-        this.function = function;
+    private BiFunctionStringLookup(final BiFunction<String, P, R> biFunction) {
+        this.biFunction = biFunction;
     }
 
     /**
@@ -70,8 +71,8 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
      *
      * @return The function used in lookups.
      */
-    Function<String, V> getFunction() {
-        return function;
+    BiFunction<String, P, R> getBiFunction() {
+        return biFunction;
     }
 
     /**
@@ -85,13 +86,13 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
      * @return The function result as a string, may be null.
      */
     @Override
-    public String lookup(final String key) {
-        if (function == null) {
+    public String lookup(final String key, final P object) {
+        if (biFunction == null) {
             return null;
         }
-        final V obj;
+        final R obj;
         try {
-            obj = function.apply(key);
+            obj = biFunction.apply(key, object);
         } catch (final SecurityException | NullPointerException | IllegalArgumentException e) {
             // Squelched. All lookup(String) will return null.
             // Could be a ConcurrentHashMap and a null key request
@@ -102,7 +103,12 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
 
     @Override
     public String toString() {
-        return super.toString() + " [function=" + function + "]";
+        return super.toString() + " [function=" + biFunction + "]";
+    }
+
+    @Override
+    public String lookup(String key) {
+        return lookup(key, null);
     }
 
 }

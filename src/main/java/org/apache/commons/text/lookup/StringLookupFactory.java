@@ -20,6 +20,7 @@ package org.apache.commons.text.lookup;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import org.apache.commons.text.StringSubstitutor;
@@ -468,6 +469,20 @@ public final class StringLookupFactory {
     }
 
     /**
+     * Returns a new function-based lookup where the request for a lookup is answered by applying the function with a
+     * lookup key.
+     *
+     * @param <R> the function return type.
+     * @param <U> the funtion's second paremeter type.
+     * @param biFunction the function.
+     * @return a new MapStringLookup.
+     * @since 1.9
+     */
+    public <R, U> BiStringLookup<U> biFunctionStringLookup(final BiFunction<String, U, R> biFunction) {
+        return BiFunctionStringLookup.on(biFunction);
+    }
+
+    /**
      * Returns the ConstantStringLookup singleton instance to look up the value of a fully-qualified static final value.
      * <p>
      * Sometimes it is necessary in a configuration file to refer to a constant defined in a class. This can be done
@@ -624,12 +639,12 @@ public final class StringLookupFactory {
      * Returns a new function-based lookup where the request for a lookup is answered by applying the function with a
      * lookup key.
      *
-     * @param <V> the function input type.
+     * @param <R> the function return type.
      * @param function the function.
      * @return a new MapStringLookup.
      * @since 1.9
      */
-    public <V> StringLookup functionStringLookup(final Function<String, V> function) {
+    public <R> StringLookup functionStringLookup(final Function<String, R> function) {
         return FunctionStringLookup.on(function);
     }
 

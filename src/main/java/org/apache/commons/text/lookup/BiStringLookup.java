@@ -27,11 +27,13 @@ package org.apache.commons.text.lookup;
  * For example, it would be possible to implement a lookup that used the key as a primary key, and looked up the value
  * on demand from the database.
  * </p>
+ * 
+ * @param <U> The second argument type.
  *
- * @since 1.3
+ * @since 1.9
  */
 @FunctionalInterface
-public interface StringLookup {
+public interface BiStringLookup<U> extends StringLookup {
 
     /**
      * Looks up a String key to a String value.
@@ -52,11 +54,15 @@ public interface StringLookup {
      * <pre>
      * Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();
      * map.put("number", new Integer(2));
-     * assertEquals("2", StringLookupFactory.mapStringLookup(map).lookup("number"));
+     * assertEquals("2", StringLookupFactory.biFunctionStringLookup(map).lookup("number", "A context object"));
      * </pre>
      *
      * @param key the key to look up, may be null.
+     * @param object ignored by default.
      * @return The matching value, null if no match.
      */
-    String lookup(String key);
+    default String lookup(final String key, final U object) {
+        return lookup(key);
+    }
+
 }
