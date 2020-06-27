@@ -22,23 +22,23 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests {@link EnvironmentVariableStringLookup}.
+ * Tests {@link StringLookupFactory#INSTANCE_ENVIRONMENT_VARIABLES}.
  */
 public class EnvironmentVariableStringLookupTest {
 
     @Test
     public void testNull() {
-        Assertions.assertNull(EnvironmentVariableStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.lookup(null));
     }
 
     @Test
     public void testOne() {
         if (SystemUtils.IS_OS_WINDOWS) {
             final String key = "PATH";
-            Assertions.assertEquals(System.getenv(key), EnvironmentVariableStringLookup.INSTANCE.lookup(key));
+            Assertions.assertEquals(System.getenv(key), StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.lookup(key));
         } else if (SystemUtils.IS_OS_LINUX) {
             final String key = "USER";
-            Assertions.assertEquals(System.getenv(key), EnvironmentVariableStringLookup.INSTANCE.lookup(key));
+            Assertions.assertEquals(System.getenv(key), StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.lookup(key));
         }
     }
 

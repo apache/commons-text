@@ -67,7 +67,7 @@ import org.apache.commons.text.StringSubstitutor;
  * </tr>
  * <tr>
  * <td>{@value #KEY_ENV}</td>
- * <td>{@link EnvironmentVariableStringLookup}</td>
+ * <td>{@link FunctionStringLookup}</td>
  * <td>{@link #environmentVariableStringLookup()}</td>
  * <td>1.3</td>
  * </tr>
@@ -149,6 +149,12 @@ public final class StringLookupFactory {
     public static final StringLookupFactory INSTANCE = new StringLookupFactory();
 
     /**
+     * Defines the singleton for this class.
+     */
+    static final FunctionStringLookup<String> INSTANCE_ENVIRONMENT_VARIABLES = FunctionStringLookup
+        .on(key -> System.getenv(key));
+
+    /**
      * Defines the FunctionStringLookup singleton that always returns null.
      */
     static final FunctionStringLookup<String> INSTANCE_NULL = FunctionStringLookup.on(key -> null);
@@ -156,7 +162,8 @@ public final class StringLookupFactory {
     /**
      * Defines the FunctionStringLookup singleton for looking up system properties.
      */
-    static final FunctionStringLookup<String> INSTANCE_SYSTEM_PROPERTY = FunctionStringLookup.on(key -> System.getProperty(key));
+    static final FunctionStringLookup<String> INSTANCE_SYSTEM_PROPERTIES = FunctionStringLookup
+        .on(key -> System.getProperty(key));
 
     /**
      * Default lookup key for interpolation {@value #KEY_BASE64_DECODER}.
@@ -516,7 +523,7 @@ public final class StringLookupFactory {
      * @return The EnvironmentVariableStringLookup singleton instance.
      */
     public StringLookup environmentVariableStringLookup() {
-        return EnvironmentVariableStringLookup.INSTANCE;
+        return StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES;
     }
 
     /**
@@ -876,7 +883,7 @@ public final class StringLookupFactory {
      * @return The SystemPropertyStringLookup singleton instance.
      */
     public StringLookup systemPropertyStringLookup() {
-        return StringLookupFactory.INSTANCE_SYSTEM_PROPERTY;
+        return StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES;
     }
 
     /**

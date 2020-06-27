@@ -21,19 +21,19 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests {@link StringLookupFactory#INSTANCE_SYSTEM_PROPERTY}.
+ * Tests {@link StringLookupFactory#INSTANCE_SYSTEM_PROPERTIES}.
  */
 public class SystemPropertyStringLookupTest {
 
     @Test
     public void testNull() {
-        Assertions.assertNull(StringLookupFactory.INSTANCE_SYSTEM_PROPERTY.lookup(null));
+        Assertions.assertNull(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.lookup(null));
     }
 
     @Test
     public void testUserName() {
         final String key = "user.name";
-        Assertions.assertEquals(System.getProperty(key), StringLookupFactory.INSTANCE_SYSTEM_PROPERTY.lookup(key));
+        Assertions.assertEquals(System.getProperty(key), StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.lookup(key));
     }
 
 }
