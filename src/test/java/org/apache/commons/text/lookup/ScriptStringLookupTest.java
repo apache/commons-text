@@ -19,6 +19,8 @@ package org.apache.commons.text.lookup;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import javax.script.ScriptEngineManager;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +29,8 @@ import org.junit.jupiter.api.Test;
  */
 public class ScriptStringLookupTest {
 
+    private final String JS_NAME = "JavaScript";
+    
     @Test
     public void testBadEngineName() {
         assertThrows(IllegalArgumentException.class, () -> {
@@ -37,7 +41,7 @@ public class ScriptStringLookupTest {
     @Test
     public void testBadScript() {
         assertThrows(IllegalArgumentException.class, () -> {
-            ScriptStringLookup.INSTANCE.lookup("javascript:X");
+            ScriptStringLookup.INSTANCE.lookup(JS_NAME + ":X");
         });
     }
 
@@ -55,20 +59,25 @@ public class ScriptStringLookupTest {
 
     @Test
     public void testOne() {
-        Assertions.assertEquals("Hello World!", ScriptStringLookup.INSTANCE.lookup("javascript:\"Hello World!\""));
+        Assertions.assertEquals("Hello World!", ScriptStringLookup.INSTANCE.lookup(JS_NAME+":\"Hello World!\""));
     }
 
     @Test
-    public void testScriptUsingMultipleColons() {
-        Assertions.assertEquals("It Works",
-         ScriptStringLookup.INSTANCE.lookup("javascript:true ? \"It Works\" : \"It Does Not Work\" "));
+    public void testSanityCheck() {
+        Assertions.assertNotNull(new ScriptEngineManager().getEngineByName(JS_NAME), JS_NAME);
     }
 
     @Test
     public void testScriptMissingColon() {
         assertThrows(IllegalArgumentException.class, () -> {
-            ScriptStringLookup.INSTANCE.lookup("javascript=\"test\"");
+            ScriptStringLookup.INSTANCE.lookup("JavaScript=\"test\"");
         });
+    }
+
+    @Test
+    public void testScriptUsingMultipleColons() {
+        Assertions.assertEquals("It Works",
+         ScriptStringLookup.INSTANCE.lookup(JS_NAME+":true ? \"It Works\" : \"It Does Not Work\" "));
     }
 
 }
