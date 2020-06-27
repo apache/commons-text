@@ -27,7 +27,7 @@ package org.apache.commons.text.lookup;
  * For example, it would be possible to implement a lookup that used the key as a primary key, and looked up the value
  * on demand from the database.
  * </p>
- * 
+ *
  * @param <U> The second argument type.
  *
  * @since 1.9
