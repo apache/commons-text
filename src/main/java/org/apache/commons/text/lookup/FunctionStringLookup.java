@@ -99,7 +99,8 @@ final class FunctionStringLookup<V> implements StringLookup {
         final V obj;
         try {
             obj = function.apply(key);
-        } catch (final NullPointerException e) {
+        } catch (final SecurityException | NullPointerException | IllegalArgumentException e) {
+            // Squelched. All lookup(String) will return null.
             // Could be a ConcurrentHashMap and a null key request
             return null;
         }

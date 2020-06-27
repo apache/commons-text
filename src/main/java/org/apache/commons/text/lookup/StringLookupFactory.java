@@ -109,7 +109,7 @@ import org.apache.commons.text.StringSubstitutor;
  * </tr>
  * <tr>
  * <td>{@value #KEY_SYS}</td>
- * <td>{@link SystemPropertyStringLookup}</td>
+ * <td>{@link FunctionStringLookup}</td>
  * <td>{@link #systemPropertyStringLookup()}</td>
  * <td>1.3</td>
  * </tr>
@@ -147,6 +147,11 @@ public final class StringLookupFactory {
      * Defines the singleton for this class.
      */
     public static final StringLookupFactory INSTANCE = new StringLookupFactory();
+
+    /**
+     * Defines the singleton for this class.
+     */
+    static final FunctionStringLookup<String> INSTANCE_SYSTEM_PROPERTY = FunctionStringLookup.on(key -> System.getProperty(key));
 
     /**
      * Default lookup key for interpolation {@value #KEY_BASE64_DECODER}.
@@ -866,7 +871,7 @@ public final class StringLookupFactory {
      * @return The SystemPropertyStringLookup singleton instance.
      */
     public StringLookup systemPropertyStringLookup() {
-        return SystemPropertyStringLookup.INSTANCE;
+        return StringLookupFactory.INSTANCE_SYSTEM_PROPERTY;
     }
 
     /**

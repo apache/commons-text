@@ -146,7 +146,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      * @return a system property value.
      */
     private String getSystemProperty(final String name) {
-        return SystemPropertyStringLookup.INSTANCE.lookup(name);
+        return StringLookupFactory.INSTANCE_SYSTEM_PROPERTY.lookup(name);
     }
 
     /**

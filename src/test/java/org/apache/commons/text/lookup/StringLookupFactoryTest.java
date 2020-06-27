@@ -81,7 +81,7 @@ public class StringLookupFactoryTest {
         Assertions.assertSame(NullStringLookup.INSTANCE, stringLookupFactory.nullStringLookup());
         Assertions.assertSame(ResourceBundleStringLookup.INSTANCE, stringLookupFactory.resourceBundleStringLookup());
         Assertions.assertSame(ScriptStringLookup.INSTANCE, stringLookupFactory.scriptStringLookup());
-        Assertions.assertSame(SystemPropertyStringLookup.INSTANCE, stringLookupFactory.systemPropertyStringLookup());
+        Assertions.assertSame(StringLookupFactory.INSTANCE_SYSTEM_PROPERTY, stringLookupFactory.systemPropertyStringLookup());
         Assertions.assertSame(UrlDecoderStringLookup.INSTANCE, stringLookupFactory.urlDecoderStringLookup());
         Assertions.assertSame(UrlEncoderStringLookup.INSTANCE, stringLookupFactory.urlEncoderStringLookup());
         Assertions.assertSame(UrlStringLookup.INSTANCE, stringLookupFactory.urlStringLookup());
