@@ -537,7 +537,8 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns a new function-based lookup where the request for a lookup is answered by applying the function with a lookup key.
+     * Returns a new function-based lookup where the request for a lookup is answered by applying the function with a
+     * lookup key.
      *
      * @param <V> the function input type.
      * @param function the function.
@@ -697,7 +698,7 @@ public final class StringLookupFactory {
      * @return a new MapStringLookup.
      */
     public <V> StringLookup mapStringLookup(final Map<String, V> map) {
-        return MapStringLookup.on(map);
+        return FunctionStringLookup.on(map);
     }
 
     /**
