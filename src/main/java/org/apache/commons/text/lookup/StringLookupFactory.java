@@ -448,6 +448,39 @@ public final class StringLookupFactory {
     }
 
     /**
+     * Returns the DnsStringLookup singleton instance where the lookup key is one of:
+     * <ul>
+     * <li><b>name</b>: for the local host name, for example {@code EXAMPLE} but also {@code EXAMPLE.apache.org}.</li>
+     * <li><b>canonical-name</b>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
+     * <li><b>address</b>: for the local host address, for example {@code 192.168.56.1}.</li>
+     * </ul>
+     *
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.dnsStringLookup().lookup("address|apache.org");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${dns:address|apache.org} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "address|apache.org"} to {@code "95.216.24.32} (or {@code "40.79.78.1"}).
+     * </p>
+     *
+     * @return the DateStringLookup singleton instance.
+     * @since 1.8
+     */
+    public StringLookup dnsStringLookup() {
+        return DnsStringLookup.INSTANCE;
+    }
+
+    /**
      * Returns the EnvironmentVariableStringLookup singleton instance where the lookup key is an environment variable
      * name.
      * <p>
@@ -641,39 +674,6 @@ public final class StringLookupFactory {
      */
     public StringLookup localHostStringLookup() {
         return LocalHostStringLookup.INSTANCE;
-    }
-
-    /**
-     * Returns the DnsStringLookup singleton instance where the lookup key is one of:
-     * <ul>
-     * <li><b>name</b>: for the local host name, for example {@code EXAMPLE} but also {@code EXAMPLE.apache.org}.</li>
-     * <li><b>canonical-name</b>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
-     * <li><b>address</b>: for the local host address, for example {@code 192.168.56.1}.</li>
-     * </ul>
-     *
-     * <p>
-     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
-     * </p>
-     *
-     * <pre>
-     * StringLookupFactory.INSTANCE.dnsStringLookup().lookup("address|apache.org");
-     * </pre>
-     * <p>
-     * Using a {@link StringSubstitutor}:
-     * </p>
-     *
-     * <pre>
-     * StringSubstitutor.createInterpolator().replace("... ${dns:address|apache.org} ..."));
-     * </pre>
-     * <p>
-     * The above examples convert {@code "address|apache.org"} to {@code "95.216.24.32} (or {@code "40.79.78.1"}).
-     * </p>
-     *
-     * @return the DateStringLookup singleton instance.
-     * @since 1.8
-     */
-    public StringLookup dnsStringLookup() {
-        return DnsStringLookup.INSTANCE;
     }
 
     /**
