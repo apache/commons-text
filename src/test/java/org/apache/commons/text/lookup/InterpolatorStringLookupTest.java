@@ -65,7 +65,7 @@ public class InterpolatorStringLookupTest {
     public void testLookup() {
         final Map<String, String> map = new HashMap<>();
         map.put(TESTKEY, TESTVAL);
-        final StringLookup lookup = new InterpolatorStringLookup(MapStringLookup.on(map));
+        final StringLookup lookup = new InterpolatorStringLookup(StringLookupFactory.INSTANCE.mapStringLookup(map));
         String value = lookup.lookup(TESTKEY);
         assertEquals(TESTVAL, value);
         value = lookup.lookup("ctx:" + TESTKEY);

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text.lookup;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -41,6 +42,20 @@ final class FunctionStringLookup<V> implements StringLookup {
     static <T> FunctionStringLookup<T> on(final Function<String, T> function) {
         return new FunctionStringLookup<>(function);
     }
+
+    /**
+     * Creates a new instance backed by a Map. Used by the default lookup.
+     *
+     * @param <T>
+     *            the map's value type.
+     * @param map
+     *            the map of keys to values, may be null.
+     * @return a new instance backed by the given map.
+     */
+    static <T> FunctionStringLookup<T> on(final Map<String, T> map) {
+        return on(key -> map.get(key));
+    }
+
 
     /**
      * Function.
@@ -69,11 +84,11 @@ final class FunctionStringLookup<V> implements StringLookup {
     /**
      * Looks up a String key by applying the function.
      * <p>
-     * If the function is null, then null is returned. The function result object is converted to a string using toString().
+     * If the function is null, then null is returned. The function result object is converted to a string using
+     * toString().
      * </p>
      *
-     * @param key
-     *            the key to be looked up, may be null.
+     * @param key the key to be looked up, may be null.
      * @return The function result as a string, may be null.
      */
     @Override
