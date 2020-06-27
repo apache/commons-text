@@ -68,6 +68,7 @@ public class BiFunctionStringLookupTest {
 
     @Test
     public void testBiFunctionForNestedMap() {
+        // Build map
         final String subSubKey = "subsubkeyMap";
         final String subSubValue = "subsubvalue";
         final Map<String, String> subSubMap = new HashMap<>();
@@ -86,7 +87,7 @@ public class BiFunctionStringLookupTest {
         final Map<String, Object> rootMap = new HashMap<>();
         rootMap.put(rootKey, rootSubMap);
         rootMap.put(rootKey2, rootValue2);
-        //
+        // Use map
         final BiStringLookup<Map<String, Object>> stringLookup = StringLookupFactory.INSTANCE
             .biFunctionStringLookup(nestedMapBiFunction);
         Assertions.assertEquals(rootValue2, stringLookup.lookup(rootKey2, rootMap));
