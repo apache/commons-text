@@ -151,6 +151,53 @@ public final class StringLookupFactory {
     public static final StringLookupFactory INSTANCE = new StringLookupFactory();
 
     /**
+     * Decodes Base64 Strings.
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.base64DecoderStringLookup().lookup("SGVsbG9Xb3JsZCE=");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${base64Decoder:SGVsbG9Xb3JsZCE=} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "SGVsbG9Xb3JsZCE="} to {@code "HelloWorld!"}.
+     * </p>
+     */
+    static final FunctionStringLookup<String> INSTANCE_BASE64_DECODER = FunctionStringLookup
+        .on(key -> new String(Base64.getDecoder().decode(key), StandardCharsets.ISO_8859_1));
+
+    /**
+     * Encodes Base64 Strings.
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.base64EncoderStringLookup().lookup("HelloWorld!");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${base64Encoder:HelloWorld!} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "HelloWorld!"} to {@code "SGVsbG9Xb3JsZCE="}.
+     * </p>
+     * Defines the singleton for this class.
+     */
+    static final FunctionStringLookup<String> INSTANCE_BASE64_ENCODER = FunctionStringLookup
+        .on(key -> Base64.getEncoder().encodeToString(key.getBytes(StandardCharsets.ISO_8859_1)));
+
+    /**
      * Looks up keys from environment variables.
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
@@ -312,53 +359,6 @@ public final class StringLookupFactory {
     public static void clear() {
         ConstantStringLookup.clear();
     }
-
-    /**
-     * Encodes Base64 Strings.
-     * <p>
-     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
-     * </p>
-     *
-     * <pre>
-     * StringLookupFactory.INSTANCE.base64EncoderStringLookup().lookup("HelloWorld!");
-     * </pre>
-     * <p>
-     * Using a {@link StringSubstitutor}:
-     * </p>
-     *
-     * <pre>
-     * StringSubstitutor.createInterpolator().replace("... ${base64Encoder:HelloWorld!} ..."));
-     * </pre>
-     * <p>
-     * The above examples convert {@code "HelloWorld!"} to {@code "SGVsbG9Xb3JsZCE="}.
-     * </p>
-     * Defines the singleton for this class.
-     */
-    static final FunctionStringLookup<String> INSTANCE_BASE64_ENCODER = FunctionStringLookup
-        .on(key -> Base64.getEncoder().encodeToString(key.getBytes(StandardCharsets.ISO_8859_1)));
-
-    /**
-     * Decodes Base64 Strings.
-     * <p>
-     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
-     * </p>
-     *
-     * <pre>
-     * StringLookupFactory.INSTANCE.base64DecoderStringLookup().lookup("SGVsbG9Xb3JsZCE=");
-     * </pre>
-     * <p>
-     * Using a {@link StringSubstitutor}:
-     * </p>
-     *
-     * <pre>
-     * StringSubstitutor.createInterpolator().replace("... ${base64Decoder:SGVsbG9Xb3JsZCE=} ..."));
-     * </pre>
-     * <p>
-     * The above examples convert {@code "SGVsbG9Xb3JsZCE="} to {@code "HelloWorld!"}.
-     * </p>
-     */
-    static final FunctionStringLookup<String> INSTANCE_BASE64_DECODER = FunctionStringLookup
-        .on(key -> new String(Base64.getDecoder().decode(key), StandardCharsets.ISO_8859_1));
 
     /**
      * No need to build instances for now.
