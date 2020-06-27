@@ -149,7 +149,12 @@ public final class StringLookupFactory {
     public static final StringLookupFactory INSTANCE = new StringLookupFactory();
 
     /**
-     * Defines the singleton for this class.
+     * Defines the FunctionStringLookup singleton that always returns null.
+     */
+    static final FunctionStringLookup<String> INSTANCE_NULL = FunctionStringLookup.on(key -> null);
+
+    /**
+     * Defines the FunctionStringLookup singleton for looking up system properties.
      */
     static final FunctionStringLookup<String> INSTANCE_SYSTEM_PROPERTY = FunctionStringLookup.on(key -> System.getProperty(key));
 
@@ -712,7 +717,7 @@ public final class StringLookupFactory {
      * @return The NullStringLookup singleton instance.
      */
     public StringLookup nullStringLookup() {
-        return NullStringLookup.INSTANCE;
+        return StringLookupFactory.INSTANCE_NULL;
     }
 
     /**

@@ -78,7 +78,7 @@ public class StringLookupFactoryTest {
         Assertions.assertSame(InterpolatorStringLookup.INSTANCE, stringLookupFactory.interpolatorStringLookup());
         Assertions.assertSame(JavaPlatformStringLookup.INSTANCE, stringLookupFactory.javaPlatformStringLookup());
         Assertions.assertSame(LocalHostStringLookup.INSTANCE, stringLookupFactory.localHostStringLookup());
-        Assertions.assertSame(NullStringLookup.INSTANCE, stringLookupFactory.nullStringLookup());
+        Assertions.assertSame(StringLookupFactory.INSTANCE_NULL, stringLookupFactory.nullStringLookup());
         Assertions.assertSame(ResourceBundleStringLookup.INSTANCE, stringLookupFactory.resourceBundleStringLookup());
         Assertions.assertSame(ScriptStringLookup.INSTANCE, stringLookupFactory.scriptStringLookup());
         Assertions.assertSame(StringLookupFactory.INSTANCE_SYSTEM_PROPERTY, stringLookupFactory.systemPropertyStringLookup());
