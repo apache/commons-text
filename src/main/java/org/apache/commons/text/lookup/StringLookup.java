@@ -30,6 +30,7 @@ package org.apache.commons.text.lookup;
  *
  * @since 1.3
  */
+@FunctionalInterface
 public interface StringLookup {
 
     /**
