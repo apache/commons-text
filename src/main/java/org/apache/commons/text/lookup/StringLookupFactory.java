@@ -17,6 +17,8 @@
 
 package org.apache.commons.text.lookup;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -37,13 +39,13 @@ import org.apache.commons.text.StringSubstitutor;
  * </tr>
  * <tr>
  * <td>{@value #KEY_BASE64_DECODER}</td>
- * <td>{@link Base64DecoderStringLookup}</td>
+ * <td>{@link FunctionStringLookup}</td>
  * <td>{@link #base64DecoderStringLookup()}</td>
  * <td>1.6</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_BASE64_ENCODER}</td>
- * <td>{@link Base64EncoderStringLookup}</td>
+ * <td>{@link FunctionStringLookup}</td>
  * <td>{@link #base64EncoderStringLookup()}</td>
  * <td>1.6</td>
  * </tr>
@@ -149,7 +151,25 @@ public final class StringLookupFactory {
     public static final StringLookupFactory INSTANCE = new StringLookupFactory();
 
     /**
-     * Defines the singleton for this class.
+     * Looks up keys from environment variables.
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.dateStringLookup().lookup("USER");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${env:USER} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert (on Linux) {@code "USER"} to the current user name. On Windows 10, you would use
+     * {@code "USERNAME"} to the same effect.
+     * </p>
      */
     static final FunctionStringLookup<String> INSTANCE_ENVIRONMENT_VARIABLES = FunctionStringLookup
         .on(key -> System.getenv(key));
@@ -294,6 +314,53 @@ public final class StringLookupFactory {
     }
 
     /**
+     * Encodes Base64 Strings.
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.base64EncoderStringLookup().lookup("HelloWorld!");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${base64Encoder:HelloWorld!} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "HelloWorld!"} to {@code "SGVsbG9Xb3JsZCE="}.
+     * </p>
+     * Defines the singleton for this class.
+     */
+    static final FunctionStringLookup<String> INSTANCE_BASE64_ENCODER = FunctionStringLookup
+        .on(key -> Base64.getEncoder().encodeToString(key.getBytes(StandardCharsets.ISO_8859_1)));
+
+    /**
+     * Decodes Base64 Strings.
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.base64DecoderStringLookup().lookup("SGVsbG9Xb3JsZCE=");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${base64Decoder:SGVsbG9Xb3JsZCE=} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "SGVsbG9Xb3JsZCE="} to {@code "HelloWorld!"}.
+     * </p>
+     */
+    static final FunctionStringLookup<String> INSTANCE_BASE64_DECODER = FunctionStringLookup
+        .on(key -> new String(Base64.getDecoder().decode(key), StandardCharsets.ISO_8859_1));
+
+    /**
      * No need to build instances for now.
      */
     private StringLookupFactory() {
@@ -309,7 +376,7 @@ public final class StringLookupFactory {
     public void addDefaultStringLookups(final Map<String, StringLookup> stringLookupMap) {
         if (stringLookupMap != null) {
             // "base64" is deprecated in favor of KEY_BASE64_DECODER.
-            stringLookupMap.put("base64", Base64DecoderStringLookup.INSTANCE);
+            stringLookupMap.put("base64", StringLookupFactory.INSTANCE_BASE64_DECODER);
             for (final DefaultStringLookup stringLookup : DefaultStringLookup.values()) {
                 stringLookupMap.put(InterpolatorStringLookup.toKey(stringLookup.getKey()),
                     stringLookup.getStringLookup());
@@ -341,7 +408,7 @@ public final class StringLookupFactory {
      * @since 1.5
      */
     public StringLookup base64DecoderStringLookup() {
-        return Base64DecoderStringLookup.INSTANCE;
+        return StringLookupFactory.INSTANCE_BASE64_DECODER;
     }
 
     /**
@@ -368,7 +435,7 @@ public final class StringLookupFactory {
      * @since 1.6
      */
     public StringLookup base64EncoderStringLookup() {
-        return Base64EncoderStringLookup.INSTANCE;
+        return StringLookupFactory.INSTANCE_BASE64_ENCODER;
     }
 
     /**
@@ -397,7 +464,7 @@ public final class StringLookupFactory {
      */
     @Deprecated
     public StringLookup base64StringLookup() {
-        return Base64DecoderStringLookup.INSTANCE;
+        return StringLookupFactory.INSTANCE_BASE64_DECODER;
     }
 
     /**

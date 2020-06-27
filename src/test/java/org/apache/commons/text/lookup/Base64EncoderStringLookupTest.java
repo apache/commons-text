@@ -21,18 +21,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests {@link Base64EncoderStringLookup}.
+ * Tests {@link StringLookupFactory#INSTANCE_BASE64_ENCODER}.
  */
 public class Base64EncoderStringLookupTest {
 
     @Test
     public void test() {
-        Assertions.assertEquals("SGVsbG9Xb3JsZCE=", Base64EncoderStringLookup.INSTANCE.lookup("HelloWorld!"));
+        Assertions.assertEquals("SGVsbG9Xb3JsZCE=", StringLookupFactory.INSTANCE_BASE64_ENCODER.lookup("HelloWorld!"));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(Base64EncoderStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(StringLookupFactory.INSTANCE_BASE64_ENCODER.lookup(null));
     }
 
 }
