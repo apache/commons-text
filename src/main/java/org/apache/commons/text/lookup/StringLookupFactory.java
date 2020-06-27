@@ -18,6 +18,7 @@
 package org.apache.commons.text.lookup;
 
 import java.util.Map;
+import java.util.function.Function;
 
 import org.apache.commons.text.StringSubstitutor;
 
@@ -294,7 +295,7 @@ public final class StringLookupFactory {
             stringLookupMap.put("base64", Base64DecoderStringLookup.INSTANCE);
             for (final DefaultStringLookup stringLookup : DefaultStringLookup.values()) {
                 stringLookupMap.put(InterpolatorStringLookup.toKey(stringLookup.getKey()),
-                        stringLookup.getStringLookup());
+                    stringLookup.getStringLookup());
             }
         }
     }
@@ -536,6 +537,18 @@ public final class StringLookupFactory {
     }
 
     /**
+     * Returns a new function-based lookup where the request for a lookup is answered by applying the function with a lookup key.
+     *
+     * @param <V> the function input type.
+     * @param function the function.
+     * @return a new MapStringLookup.
+     * @since 1.9
+     */
+    public <V> StringLookup functionStringLookup(final Function<String, V> function) {
+        return FunctionStringLookup.on(function);
+    }
+
+    /**
      * Returns a new InterpolatorStringLookup using the {@link StringLookupFactory default lookups}.
      * <p>
      * The lookups available to an interpolator are defined in
@@ -571,14 +584,14 @@ public final class StringLookupFactory {
      * {@code stringLookupMap}:
      * </p>
      *
-     * @param stringLookupMap     the map of string lookups.
+     * @param stringLookupMap the map of string lookups.
      * @param defaultStringLookup the default string lookup.
-     * @param addDefaultLookups   whether to use lookups as described above.
+     * @param addDefaultLookups whether to use lookups as described above.
      * @return a new InterpolatorStringLookup.
      * @since 1.4
      */
     public StringLookup interpolatorStringLookup(final Map<String, StringLookup> stringLookupMap,
-            final StringLookup defaultStringLookup, final boolean addDefaultLookups) {
+        final StringLookup defaultStringLookup, final boolean addDefaultLookups) {
         return new InterpolatorStringLookup(stringLookupMap, defaultStringLookup, addDefaultLookups);
     }
 
