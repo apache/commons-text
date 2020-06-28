@@ -19,6 +19,8 @@ package org.apache.commons.text.matcher;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * A matcher that determines if a character array portion matches.
  *
@@ -340,17 +342,20 @@ abstract class AbstractStringMatcher implements StringMatcher {
     /**
      * Green implementation of toCharArray. TODO Reuse Apache Commons Lang 3.11 when released.
      *
-     * @param cs the {@code CharSequence} to be processed
+     * @param source the {@code CharSequence} to be processed
      * @return the resulting char array
      */
-    static char[] toCharArray(final CharSequence cs) {
-        if (cs instanceof String) {
-            return ((String) cs).toCharArray();
+    static char[] toCharArray(final CharSequence source) {
+        final int len = source.length();
+        if (len == 0) {
+            return ArrayUtils.EMPTY_CHAR_ARRAY;
         }
-        final int sz = cs.length();
-        final char[] array = new char[cs.length()];
-        for (int i = 0; i < sz; i++) {
-            array[i] = cs.charAt(i);
+        if (source instanceof String) {
+            return ((String) source).toCharArray();
+        }
+        final char[] array = new char[len];
+        for (int i = 0; i < len; i++) {
+            array[i] = source.charAt(i);
         }
         return array;
     }
