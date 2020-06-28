@@ -48,7 +48,7 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
      * @return a new instance backed by the given map.
      */
     static <V> FunctionStringLookup<V> on(final Map<String, V> map) {
-        return on(key -> map.get(key));
+        return on(map::get);
     }
 
     /**
