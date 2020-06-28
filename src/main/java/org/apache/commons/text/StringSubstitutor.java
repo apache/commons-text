@@ -1311,6 +1311,7 @@ public class StringSubstitutor {
         final boolean substitutionInVariablesEnabled = isEnableSubstitutionInVariables();
         final boolean substitutionInValuesDisabled = isDisableSubstitutionInValues();
         final boolean undefinedVariableException = isEnableUndefinedVariableException();
+        final boolean preserveEscapes = isPreserveEscapes();
 
         final boolean top = priorVariables == null;
         boolean altered = false;
