@@ -26,7 +26,19 @@ import java.util.function.Function;
 import org.apache.commons.text.StringSubstitutor;
 
 /**
- * Provides access to lookups defined in this package.
+ * Create instances of string lookups or access singleton string lookups implemented in this package.
+ * <p>
+ * The "classic" look up is {@link #mapStringLookup(Map)}.
+ * </p>
+ * <p>
+ * The methods for variable interpolation (A.K.A. variable substitution) are:
+ * </p>
+ * <ul>
+ * <li>{@link #interpolatorStringLookup()}.</li>
+ * <li>{@link #interpolatorStringLookup(Map)}.</li>
+ * <li>{@link #interpolatorStringLookup(StringLookup)}.</li>
+ * <li>{@link #interpolatorStringLookup(Map, StringLookup, boolean)}.</li>
+ * </ul>
  * <p>
  * The default lookups are:
  * </p>
@@ -34,111 +46,131 @@ import org.apache.commons.text.StringSubstitutor;
  * <caption>Default String Lookups</caption>
  * <tr>
  * <th>Key</th>
- * <th>Implementation</th>
+ * <th>Interface</th>
  * <th>Factory Method</th>
  * <th>Since</th>
  * </tr>
  * <tr>
  * <td>{@value #KEY_BASE64_DECODER}</td>
- * <td>{@link FunctionStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #base64DecoderStringLookup()}</td>
  * <td>1.6</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_BASE64_ENCODER}</td>
- * <td>{@link FunctionStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #base64EncoderStringLookup()}</td>
  * <td>1.6</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_CONST}</td>
- * <td>{@link ConstantStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #constantStringLookup()}</td>
  * <td>1.5</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_DATE}</td>
- * <td>{@link DateStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #dateStringLookup()}</td>
  * <td>1.5</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_DNS}</td>
- * <td>{@link DnsStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #dnsStringLookup()}</td>
  * <td>1.8</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_ENV}</td>
- * <td>{@link FunctionStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #environmentVariableStringLookup()}</td>
  * <td>1.3</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_FILE}</td>
- * <td>{@link FileStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #fileStringLookup()}</td>
  * <td>1.5</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_JAVA}</td>
- * <td>{@link JavaPlatformStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #javaPlatformStringLookup()}</td>
  * <td>1.5</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_LOCALHOST}</td>
- * <td>{@link LocalHostStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #localHostStringLookup()}</td>
  * <td>1.3</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_PROPERTIES}</td>
- * <td>{@link PropertiesStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #propertiesStringLookup()}</td>
  * <td>1.5</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_RESOURCE_BUNDLE}</td>
- * <td>{@link ResourceBundleStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #resourceBundleStringLookup()}</td>
  * <td>1.6</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_SCRIPT}</td>
- * <td>{@link ScriptStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #scriptStringLookup()}</td>
  * <td>1.5</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_SYS}</td>
- * <td>{@link FunctionStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #systemPropertyStringLookup()}</td>
  * <td>1.3</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_URL}</td>
- * <td>{@link UrlStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #urlStringLookup()}</td>
  * <td>1.5</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_URL_DECODER}</td>
- * <td>{@link UrlDecoderStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #urlDecoderStringLookup()}</td>
  * <td>1.5</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_URL_ENCODER}</td>
- * <td>{@link UrlEncoderStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #urlEncoderStringLookup()}</td>
  * <td>1.5</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_XML}</td>
- * <td>{@link XmlStringLookup}</td>
+ * <td>{@link StringLookup}</td>
  * <td>{@link #xmlStringLookup()}</td>
  * <td>1.5</td>
+ * </tr>
+ * </table>
+ * <p>
+ * We also provide functional lookups used as building blocks for other lookups.
+ * <table>
+ * <caption>Functional String Lookups</caption>
+ * <tr>
+ * <th>Interface</th>
+ * <th>Factory Method</th>
+ * <th>Since</th>
+ * </tr>
+ * <tr>
+ * <td>{@link BiStringLookup}</td>
+ * <td>{@link #biFunctionStringLookup(BiFunction)}</td>
+ * <td>1.9</td>
+ * </tr>
+ * <tr>
+ * <td>{@link StringLookup}</td>
+ * <td>{@link #functionStringLookup(Function)}</td>
+ * <td>1.9</td>
  * </tr>
  * </table>
  *

@@ -14,12 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * <p>
- * Provides algorithms for looking up strings for use with a {@link org.apache.commons.text.StringSubstitutor}. The main
- * class in this package is {@link org.apache.commons.text.lookup.StringLookupFactory}.
+ * Provides algorithms for looking up strings for use with a {@link org.apache.commons.text.StringSubstitutor
+ * StringSubstitutor}. The main class in this package is {@link org.apache.commons.text.lookup.StringLookupFactory
+ * StringLookupFactory}.
  * </p>
- *
+ * <p>
+ * Use {@link org.apache.commons.text.lookup.StringLookupFactory StringLookupFactory} to create instances of string
+ * lookups or access singleton string lookups. The main interface is {@link org.apache.commons.text.lookup.StringLookup
+ * StringLookup} which is implemented here in package private classes.
+ * </p>
+ * <p>
+ * Like {@link java.util.function.BiFunction BiFunction} is a variant of {@link java.util.function.Function Function},
+ * this {@link org.apache.commons.text.lookup.BiStringLookup BiStringLookup} is a variant of
+ * {@link org.apache.commons.text.lookup.StringLookup StringLookup}.
+ * </p>
  * <p>
  * The initial implementation was adapted from Apache Commons Log4j 2.11.0.
  * </p>

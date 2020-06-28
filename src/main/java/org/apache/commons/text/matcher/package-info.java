@@ -16,8 +16,9 @@
  */
 /**
  * <p>
- * Provides algorithms for matching up strings for use with a {@link org.apache.commons.text.StringSubstitutor}. The
- * main class here is {@link org.apache.commons.text.matcher.StringMatcherFactory}
+ * Provides algorithms for matching up strings for use with a {@link org.apache.commons.text.StringSubstitutor
+ * StringSubstitutor}. The main class here is {@link org.apache.commons.text.matcher.StringMatcherFactory
+ * StringMatcherFactory}.
  * </p>
  *
  * @since 1.3

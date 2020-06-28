@@ -32,7 +32,23 @@ import java.util.EnumSet;
 public class NumericEntityUnescaper extends CharSequenceTranslator {
 
     /** NumericEntityUnescaper option enum. */
-    public enum OPTION { semiColonRequired, semiColonOptional, errorIfNoSemiColon }
+    public enum OPTION {
+
+        /**
+         * Require a semicolon.
+         */
+        semiColonRequired,
+
+        /**
+         * Do not require a semicolon.
+         */
+        semiColonOptional,
+
+        /**
+         * Throw an exception if a semi-colon is missing.
+         */
+        errorIfNoSemiColon
+    }
 
     /** EnumSet of OPTIONS, given from the constructor. */
     private final EnumSet<OPTION> options;
