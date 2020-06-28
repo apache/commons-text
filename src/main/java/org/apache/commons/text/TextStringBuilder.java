@@ -21,6 +21,7 @@ import java.io.Reader;
 import java.io.Serializable;
 import java.io.Writer;
 import java.nio.CharBuffer;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -3010,9 +3011,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             final int oldEnd = size;
             final int newEnd = length;
             size = length;
-            for (int i = oldEnd; i < newEnd; i++) {
-                buffer[i] = '\0';
-            }
+            Arrays.fill(buffer, oldEnd, newEnd, '\0');
         }
         return this;
     }
