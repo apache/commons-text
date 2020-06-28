@@ -3219,12 +3219,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Validates parameters defining a single index in the builder.
+     * Validates that an index is in the range {@code 0 <= index <= size}.
      *
-     * @param index
-     *            the index, must be valid
-     * @throws IndexOutOfBoundsException
-     *             if the index is invalid
+     * @param index the index, must be valid
+     * @throws IndexOutOfBoundsException Thrown when the index is not the range {@code 0 <= index <= size}.
      */
     protected void validateIndex(final int index) {
         if (index < 0 || index > size) {
