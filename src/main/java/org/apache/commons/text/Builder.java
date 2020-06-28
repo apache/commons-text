@@ -38,6 +38,7 @@ package org.apache.commons.text;
  *
  * <p>
  * Example Builder:
+ * </p>
  * <pre><code>
  * class FontBuilder implements Builder&lt;Font&gt; {
  *     private Font font;
