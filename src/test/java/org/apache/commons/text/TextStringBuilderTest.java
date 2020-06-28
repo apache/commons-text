@@ -266,7 +266,7 @@ public class TextStringBuilderTest {
         try (Reader reader = sb.asReader()) {
             assertEquals('s', reader.read());
             reader.mark(-1);
-            char[] array = new char[3];
+            final char[] array = new char[3];
             assertEquals(3, reader.read(array, 0, 3));
             assertEquals('o', array[0]);
             assertEquals('m', array[1]);
@@ -1422,7 +1422,6 @@ public class TextStringBuilderTest {
         assertEquals("Test 123", sb.toString());
     }
 
-    // -----------------------------------------------------------------------
     @Test
     public void testReadFromReader() throws Exception {
         String s = "";
@@ -1442,6 +1441,68 @@ public class TextStringBuilderTest {
         final TextStringBuilder sb = new TextStringBuilder("Test");
         sb.readFrom(new StringReader(" 123"));
         assertEquals("Test 123", sb.toString());
+    }
+
+    @Test
+    public void testReadFromReaderInt() throws Exception {
+        String s = "";
+        for (int i = 0; i < 100; ++i) {
+            final TextStringBuilder sb = new TextStringBuilder();
+            final int len = sb.readFrom(new StringReader(s), s.length());
+
+            assertEquals(s.length(), len);
+            assertEquals(s, sb.toString());
+
+            s += Integer.toString(i);
+        }
+        //
+        TextStringBuilder sb;
+        int count;
+        int target;
+        final String source = "abc";
+        final int sourceLen = source.length();
+        //
+        target = -1;
+        sb = new TextStringBuilder();
+        count = sb.readFrom(new StringReader(source), target);
+        assertEquals(0, count);
+        assertEquals(0, sb.size());
+        assertEquals(source.substring(0, 0), sb.toString());
+        //
+        target = 0;
+        sb = new TextStringBuilder();
+        count = sb.readFrom(new StringReader(source), target);
+        assertEquals(target, count);
+        assertEquals(target, sb.size());
+        assertEquals(source.substring(0, target), sb.toString());
+        //
+        target = 1;
+        sb = new TextStringBuilder();
+        count = sb.readFrom(new StringReader(source), target);
+        assertEquals(target, count);
+        assertEquals(target, sb.size());
+        assertEquals(source.substring(0, target), sb.toString());
+        //
+        target = 2;
+        sb = new TextStringBuilder();
+        count = sb.readFrom(new StringReader(source), target);
+        assertEquals(target, count);
+        assertEquals(target, sb.size());
+        assertEquals(source.substring(0, target), sb.toString());
+        //
+        target = 3;
+        sb = new TextStringBuilder();
+        count = sb.readFrom(new StringReader(source), target);
+        assertEquals(target, count);
+        assertEquals(target, sb.size());
+        assertEquals(source.substring(0, target), sb.toString());
+        //
+        target = 4;
+        sb = new TextStringBuilder();
+        count = sb.readFrom(new StringReader(source), target);
+        assertEquals(sourceLen, count);
+        assertEquals(sourceLen, sb.size());
+        assertEquals(source.substring(0, sourceLen), sb.toString());
     }
 
     // -----------------------------------------------------------------------
@@ -1973,19 +2034,6 @@ public class TextStringBuilderTest {
         assertThrows(IndexOutOfBoundsException.class, () -> sb.substring(15, 20));
     }
 
-    @Test
-    public void testToStringIntInt() {
-        final TextStringBuilder sb = new TextStringBuilder("hello goodbye");
-        assertEquals("hello", sb.substring(0, 5));
-        assertEquals("hello goodbye".substring(0, 6), sb.toString(0, 6));
-
-        assertEquals("goodbye", sb.toString(6, 7));
-
-        assertThrows(IndexOutOfBoundsException.class, () -> sb.toString(-1, 5));
-
-        assertThrows(IndexOutOfBoundsException.class, () -> sb.toString(15, 20));
-    }
-
     // -----------------------------------------------------------------------
     @Test
     public void testToCharArray() {
@@ -2053,6 +2101,19 @@ public class TextStringBuilderTest {
 
         sb.append("junit");
         assertEquals(new StringBuilder("junit").toString(), sb.toStringBuilder().toString());
+    }
+
+    @Test
+    public void testToStringIntInt() {
+        final TextStringBuilder sb = new TextStringBuilder("hello goodbye");
+        assertEquals("hello", sb.substring(0, 5));
+        assertEquals("hello goodbye".substring(0, 6), sb.toString(0, 6));
+
+        assertEquals("goodbye", sb.toString(6, 7));
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.toString(-1, 5));
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.toString(15, 20));
     }
 
     // -----------------------------------------------------------------------

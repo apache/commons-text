@@ -2695,6 +2695,30 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
+     * If possible, reads chars from the provided {@link Reader} directly into underlying character buffer without
+     * making extra copies.
+     *
+     * @param reader Reader to read.
+     * @param count The maximum characters to read.
+     * @return The number of characters read.
+     * @throws IOException if an I/O error occurs.
+     *
+     * @see #appendTo(Appendable)
+     * @since 1.9
+     */
+    public int readFrom(final Reader reader, final int count) throws IOException {
+        final int oldSize = size;
+        ensureCapacity(size + count);
+        int readCount;
+        int target = count;
+        while (target > 0 && (readCount = reader.read(buffer, size, target)) != -1) {
+            target -= readCount;
+            size += readCount;
+        }
+        return size - oldSize;
+    }
+
+    /**
      * Replaces a portion of the string builder with another string. The length of the inserted string does not have to
      * match the removed length.
      *
@@ -3182,7 +3206,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException if the index is invalid
      * @since 1.9
      */
-    public String toString(final int startIndex, int count) {
+    public String toString(final int startIndex, final int count) {
         validateIndices(startIndex, startIndex + count);
         return new String(buffer, startIndex, count);
     }
