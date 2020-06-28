@@ -675,14 +675,22 @@ public class TextStringBuilderTest {
         assertEquals("", sb.toString());
     }
 
-    // -----------------------------------------------------------------------
     @Test
     public void testDeleteCharAt() {
-        final TextStringBuilder sb = new TextStringBuilder("abc");
-        sb.deleteCharAt(0);
-        assertEquals("bc", sb.toString());
-
-        assertThrows(IndexOutOfBoundsException.class, () -> sb.deleteCharAt(1000));
+        final String str = "abc";
+        {
+            final TextStringBuilder sb = new TextStringBuilder(str);
+            sb.deleteCharAt(0);
+            assertEquals("bc", sb.toString());
+        }
+        {
+            final TextStringBuilder sb = new TextStringBuilder(str);
+            sb.deleteCharAt(str.length() - 1);
+            assertEquals("ab", sb.toString());
+        }
+        final TextStringBuilder sb2 = new TextStringBuilder(str);
+        assertThrows(IndexOutOfBoundsException.class, () -> sb2.deleteCharAt(str.length()));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb2.deleteCharAt(1000));
     }
 
     @Test
