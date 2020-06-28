@@ -107,7 +107,7 @@ final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
     }
 
     @Override
-    public String lookup(String key) {
+    public String lookup(final String key) {
         return lookup(key, null);
     }
 

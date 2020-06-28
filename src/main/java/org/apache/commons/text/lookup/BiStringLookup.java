@@ -34,7 +34,7 @@ import java.util.function.Function;
  * Like {@link BiFunction} is a variant of {@link Function}, this {@code BiStringLookup} is a variant of
  * {@link StringLookup}.
  * </p>
- * 
+ *
  * @param <U> The second argument type.
  *
  * @since 1.9
