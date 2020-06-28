@@ -3174,6 +3174,20 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
+     * Extracts a portion of this string builder as a string.
+     *
+     * @param startIndex The initial offset
+     * @param count the desired length
+     * @return The new string
+     * @throws IndexOutOfBoundsException if the index is invalid
+     * @since 1.9
+     */
+    public String toString(final int startIndex, int count) {
+        validateRange(startIndex, startIndex + count);
+        return new String(buffer, startIndex, count);
+    }
+
+    /**
      * Gets a StringBuffer version of the string builder, creating a new instance each time the method is called.
      *
      * @return The builder as a StringBuffer
