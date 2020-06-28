@@ -1422,7 +1422,7 @@ public class StringSubstitutor {
                                 } else if (undefinedVariableException) {
                                     throw new IllegalArgumentException(String.format(
                                             "Cannot resolve variable '%s' (enableSubstitutionInVariables=%s).", varName,
-                                            enableSubstitutionInVariables));
+                                            substitutionInVariablesEnabled));
                                 }
 
                                 // remove variable from the cyclic stack
