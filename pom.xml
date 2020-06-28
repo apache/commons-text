@@ -51,6 +51,7 @@
     <checkstyle.version>8.33</checkstyle.version>
 
     <spotbugs.plugin.version>4.0.0</spotbugs.plugin.version>
+    <spotbugs.impl.version>4.0.6</spotbugs.impl.version>
     
     <commons.jacoco.version>0.8.5</commons.jacoco.version>
 
@@ -90,14 +91,12 @@
       <version>3.16.1</version>
       <scope>test</scope>
     </dependency>
-    <!--
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>2.7</version>
       <scope>test</scope>
     </dependency>
-    -->
   </dependencies>
 
   <build>
@@ -150,6 +149,13 @@
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
         <version>${spotbugs.plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs</artifactId>
+            <version>${spotbugs.impl.version}</version>
+         </dependency>
+        </dependencies>
         <configuration>
           <excludeFilterFile>${basedir}/sb-excludes.xml</excludeFilterFile>
         </configuration>
