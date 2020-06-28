@@ -3157,12 +3157,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public char[] toCharArray(final int startIndex, int endIndex) {
         endIndex = validateRange(startIndex, endIndex);
         final int len = endIndex - startIndex;
-        if (len == 0) {
-            return ArrayUtils.EMPTY_CHAR_ARRAY;
-        }
-        final char[] chars = new char[len];
-        System.arraycopy(buffer, startIndex, chars, 0, len);
-        return chars;
+        return len == 0 ? ArrayUtils.EMPTY_CHAR_ARRAY : Arrays.copyOfRange(buffer, startIndex, endIndex);
     }
 
     /**
