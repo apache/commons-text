@@ -83,25 +83,34 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * </p>
  *
  * <pre>
- *      The quick brown fox jumped over the lazy dog.
+ * "The quick brown fox jumped over the lazy dog."
  * </pre>
  *
  * <h2>Providing Default Values</h2>
  * <p>
- * This class lets you set a default value for unresolved variables. The default value for a variable can be appended to
- * the variable name after the variable default value delimiter. The default value of the variable default value
- * delimiter is ':-', as in bash and other *nix shells, as those are arguably where the default ${} delimiter set
- * originated. The variable default value delimiter can be manually set by calling
- * {@link #setValueDelimiterMatcher(StringMatcher)}, {@link #setValueDelimiter(char)} or
- * {@link #setValueDelimiter(String)}. The following shows an example with variable default value settings:
+ * You can set a default value for unresolved variables. The default value for a variable can be appended to the
+ * variable name after the variable default value delimiter. The default value of the variable default value delimiter
+ * is ":-", as in bash and other *nix shells.
  * </p>
- *
+ * <p>
+ * You can set the variable value delimiter with {@link #setValueDelimiterMatcher(StringMatcher)},
+ * {@link #setValueDelimiter(char)} or {@link #setValueDelimiter(String)}.
+ * </p>
+ * <p>
+ * For example:
+ * </p>
+ * 
  * <pre>
+ * // Build map
  * Map&lt;String, String&gt; valuesMap = new HashMap&lt;&gt;();
  * valuesMap.put(&quot;animal&quot;, &quot;quick brown fox&quot;);
  * valuesMap.put(&quot;target&quot;, &quot;lazy dog&quot;);
  * String templateString = &quot;The ${animal} jumped over the ${target}. ${undefined.number:-1234567890}.&quot;;
+ *
+ * // Build StringSubstitutor
  * StringSubstitutor sub = new StringSubstitutor(valuesMap);
+ *
+ * // Replace
  * String resolvedString = sub.replace(templateString);
  * </pre>
  *
@@ -110,7 +119,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * </p>
  *
  * <pre>
- *      The quick brown fox jumped over the lazy dog. 1234567890.
+ * "The quick brown fox jumped over the lazy dog. 1234567890."
  * </pre>
  *
  * <p>
@@ -120,12 +129,8 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  *
  * <h2>Reusing Instances</h2>
  * <p>
- * In addition to this usage pattern there are some static convenience methods that cover the most common use cases.
- * These methods can be used without the need of manually creating an instance. However if multiple replace operations
- * are to be performed, creating and reusing an instance of this class will be more efficient.
- * </p>
- * <p>
- * This class is <b>not</b> thread safe.
+ * Static shortcut methods cover the most common use cases. If multiple replace operations are to be performed, creating
+ * and reusing an instance of this class will be more efficient.
  * </p>
  *
  * <h2>Using Interpolation</h2>
@@ -136,16 +141,20 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * <pre>
  * final StringSubstitutor interpolator = StringSubstitutor.createInterpolator();
  * interpolator.setEnableSubstitutionInVariables(true); // Allows for nested $'s.
- * final String text = interpolator.replace("Base64 Decoder:        ${base64Decoder:SGVsbG9Xb3JsZCE=}\n"
+ * final String text = interpolator.replace(
+ *       "Base64 Decoder:        ${base64Decoder:SGVsbG9Xb3JsZCE=}\n"
  *     + "Base64 Encoder:        ${base64Encoder:HelloWorld!}\n"
  *     + "Java Constant:         ${const:java.awt.event.KeyEvent.VK_ESCAPE}\n"
- *     + "Date:                  ${date:yyyy-MM-dd}\n" + "DNS:                   ${dns:address|apache.org}\n"
+ *     + "Date:                  ${date:yyyy-MM-dd}\n" 
+ *     + "DNS:                   ${dns:address|apache.org}\n"
  *     + "Environment Variable:  ${env:USERNAME}\n"
  *     + "File Content:          ${file:UTF-8:src/test/resources/document.properties}\n"
- *     + "Java:                  ${java:version}\n" + "Localhost:             ${localhost:canonical-name}\n"
+ *     + "Java:                  ${java:version}\n" 
+ *     + "Localhost:             ${localhost:canonical-name}\n"
  *     + "Properties File:       ${properties:src/test/resources/document.properties::mykey}\n"
  *     + "Resource Bundle:       ${resourceBundle:org.example.testResourceBundleLookup:mykey}\n"
- *     + "Script:                ${script:javascript:3 + 4}\n" + "System Property:       ${sys:user.dir}\n"
+ *     + "Script:                ${script:javascript:3 + 4}\n" 
+ *     + "System Property:       ${sys:user.dir}\n"
  *     + "URL Decoder:           ${urlDecoder:Hello%20World%21}\n"
  *     + "URL Encoder:           ${urlEncoder:Hello World!}\n"
  *     + "URL Content (HTTP):    ${url:UTF-8:http://www.apache.org}\n"
@@ -159,24 +168,24 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  *
  * <h2>Using Recursive Variable Replacement</h2>
  * <p>
- * Variable replacement works in a recursive way. Thus, if a variable value contains a variable then that variable will
- * also be replaced. Cyclic replacements are detected and will cause an exception to be thrown.
+ * Variable replacement can work recursively by calling {@link #setEnableSubstitutionInVariables(boolean)} 
+ * with {@code true}. If a variable value contains a variable then that variable will
+ * also be replaced. Cyclic replacements are detected and will throw an exception.
  * </p>
  * <p>
- * Sometimes the interpolation's result must contain a variable prefix. As an example take the following source text:
+ * You can get the replace result to contain a variable prefix. For example:
  * </p>
  *
  * <pre>
- *   The variable ${${name}} must be used.
+ * "The variable ${${name}} must be used."
  * </pre>
  *
  * <p>
- * Here only the variable's name referred to in the text should be replaced resulting in the text (assuming that the
- * value of the {@code name} variable is {@code x}):
+ * If the value of the "name" variable is "x", then only the variable "name" is replaced resulting in:
  * </p>
  *
  * <pre>
- *   The variable ${x} must be used.
+ * "The variable ${x} must be used."
  * </pre>
  *
  * <p>
@@ -187,7 +196,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * </p>
  *
  * <pre>
- *   The variable $${${name}} must be used.
+ * "The variable $${${name}} must be used."
  * </pre>
  * <p>
  * In some complex scenarios you might even want to perform substitution in the names of variables, for instance
@@ -200,6 +209,11 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * <p>
  * {@code StringSubstitutor} supports this recursive substitution in variable names, but it has to be enabled explicitly
  * by calling {@link #setEnableSubstitutionInVariables(boolean)} with {@code true}.
+ * </p>
+ *
+ * <h2>Thread Safety</h2>
+ * <p>
+ * This class is <b>not</b> thread safe.
  * </p>
  *
  * @since 1.3
