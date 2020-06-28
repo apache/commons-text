@@ -36,7 +36,7 @@ package org.apache.commons.text.lookup;
 public interface BiStringLookup<U> extends StringLookup {
 
     /**
-     * Looks up a String key to a String value.
+     * Looks up a String key to provide a String value.
      * <p>
      * The internal implementation may use any mechanism to return the value. The simplest implementation is to use a
      * Map. However, virtually any implementation is possible.
