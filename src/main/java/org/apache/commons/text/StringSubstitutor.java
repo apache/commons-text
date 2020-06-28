@@ -21,6 +21,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 
 import org.apache.commons.lang3.Validate;
@@ -1304,6 +1305,7 @@ public class StringSubstitutor {
      */
     private int substitute(final TextStringBuilder builder, final int offset, final int length,
             List<String> priorVariables) {
+        Objects.requireNonNull(builder, "builder");
         final StringMatcher prefixMatcher = getVariablePrefixMatcher();
         final StringMatcher suffixMatcher = getVariableSuffixMatcher();
         final char escapeCh = getEscapeChar();
