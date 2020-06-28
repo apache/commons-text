@@ -17,6 +17,9 @@
 
 package org.apache.commons.text.lookup;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
 /**
  * Lookups a String key for a String value.
  * <p>
@@ -27,7 +30,11 @@ package org.apache.commons.text.lookup;
  * For example, it would be possible to implement a lookup that used the key as a primary key, and looked up the value
  * on demand from the database.
  * </p>
- *
+ * <p>
+ * Like {@link BiFunction} is a variant of {@link Function}, this {@code BiStringLookup} is a variant of
+ * {@link StringLookup}.
+ * </p>
+ * 
  * @param <U> The second argument type.
  *
  * @since 1.9
