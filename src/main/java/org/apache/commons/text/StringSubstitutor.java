@@ -1318,7 +1318,7 @@ public class StringSubstitutor {
         final boolean top = priorVariables == null;
         boolean altered = false;
         int lengthChange = 0;
-        char[] chars = builder.buffer;
+        char[] chars = builder.getBuffer();
         int bufEnd = offset + length;
         int pos = offset;
         while (pos < bufEnd) {
@@ -1334,7 +1334,7 @@ public class StringSubstitutor {
                         continue;
                     }
                     builder.deleteCharAt(pos - 1);
-                    chars = builder.buffer; // in case buffer was altered
+                    chars = builder.getBuffer(); // in case buffer was altered
                     lengthChange--;
                     altered = true;
                     bufEnd--;
@@ -1420,7 +1420,7 @@ public class StringSubstitutor {
                                     pos += change;
                                     bufEnd += change;
                                     lengthChange += change;
-                                    chars = builder.buffer; // in case buffer was altered
+                                    chars = builder.getBuffer(); // in case buffer was altered
                                 } else if (undefinedVariableException) {
                                     throw new IllegalArgumentException(String.format(
                                             "Cannot resolve variable '%s' (enableSubstitutionInVariables=%s).", varName,

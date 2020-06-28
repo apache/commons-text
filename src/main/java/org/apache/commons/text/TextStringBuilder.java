@@ -243,7 +243,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         @Override
         protected List<String> tokenize(final char[] chars, final int offset, final int count) {
             if (chars == null) {
-                return super.tokenize(TextStringBuilder.this.buffer, 0, TextStringBuilder.this.size());
+                return super.tokenize(TextStringBuilder.this.getBuffer(), 0, TextStringBuilder.this.size());
             }
             return super.tokenize(chars, offset, count);
         }
@@ -272,7 +272,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     private static final int TRUE_STRING_SIZE = "true".length();
 
     /** Internal data storage. */
-    char[] buffer; // package-protected for test code use only
+    private char[] buffer;
 
     /** The new line. */
     private String newLine;
@@ -1965,6 +1965,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             }
         }
         return true;
+    }
+
+    /** Gets a direct reference to internal storage, not for public consumption. */
+    char[] getBuffer() {
+        return buffer;
     }
 
     /**

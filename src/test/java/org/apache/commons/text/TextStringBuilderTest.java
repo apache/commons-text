@@ -327,10 +327,10 @@ public class TextStringBuilderTest {
     @Test
     public void testCapacity() {
         final TextStringBuilder sb = new TextStringBuilder();
-        assertEquals(sb.buffer.length, sb.capacity());
+        assertEquals(sb.getBuffer().length, sb.capacity());
 
         sb.append("HelloWorldHelloWorldHelloWorldHelloWorld");
-        assertEquals(sb.buffer.length, sb.capacity());
+        assertEquals(sb.getBuffer().length, sb.capacity());
     }
 
     @Test
@@ -386,7 +386,7 @@ public class TextStringBuilderTest {
         sb.append("Hello");
         sb.clear();
         assertEquals(0, sb.length());
-        assertTrue(sb.buffer.length >= 5);
+        assertTrue(sb.getBuffer().length >= 5);
     }
 
     // -----------------------------------------------------------------------
