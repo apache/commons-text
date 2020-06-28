@@ -78,8 +78,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Inner class to allow StrBuilder to operate as a reader.
      */
     class StrBuilderReader extends Reader {
+
         /** The last mark position. */
         private int mark;
+
         /** The current stream position. */
         private int pos;
 
