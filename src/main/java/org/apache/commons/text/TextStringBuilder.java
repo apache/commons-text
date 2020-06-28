@@ -331,17 +331,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public TextStringBuilder append(final boolean value) {
         if (value) {
             ensureCapacity(size + TRUE_STRING_SIZE);
-            buffer[size++] = 't';
-            buffer[size++] = 'r';
-            buffer[size++] = 'u';
-            buffer[size++] = 'e';
+            appendTrue(size);
         } else {
             ensureCapacity(size + FALSE_STRING_SIZE);
-            buffer[size++] = 'f';
-            buffer[size++] = 'a';
-            buffer[size++] = 'l';
-            buffer[size++] = 's';
-            buffer[size++] = 'e';
+            appendFalse(size);
         }
         return this;
     }
@@ -855,6 +848,16 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             }
         }
         return this;
+    }
+
+    /** Appends {@code "false"}. */
+    private void appendFalse(int index) {
+        buffer[index++] = 'f';
+        buffer[index++] = 'a';
+        buffer[index++] = 'l';
+        buffer[index++] = 's';
+        buffer[index] = 'e';
+        size += FALSE_STRING_SIZE;
     }
 
     /**
@@ -1435,6 +1438,15 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         } else {
             appendable.append(this);
         }
+    }
+
+    /** Appends {@code "true"}. */
+    private void appendTrue(int index) {
+        buffer[index++] = 't';
+        buffer[index++] = 'r';
+        buffer[index++] = 'u';
+        buffer[index] = 'e';
+        size += TRUE_STRING_SIZE;
     }
 
     /**
@@ -2192,25 +2204,16 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException
      *             if the index is invalid
      */
-    public TextStringBuilder insert(int index, final boolean value) {
+    public TextStringBuilder insert(final int index, final boolean value) {
         validateIndex(index);
         if (value) {
             ensureCapacity(size + TRUE_STRING_SIZE);
             System.arraycopy(buffer, index, buffer, index + TRUE_STRING_SIZE, size - index);
-            buffer[index++] = 't';
-            buffer[index++] = 'r';
-            buffer[index++] = 'u';
-            buffer[index] = 'e';
-            size += TRUE_STRING_SIZE;
+            appendTrue(index);
         } else {
             ensureCapacity(size + FALSE_STRING_SIZE);
             System.arraycopy(buffer, index, buffer, index + FALSE_STRING_SIZE, size - index);
-            buffer[index++] = 'f';
-            buffer[index++] = 'a';
-            buffer[index++] = 'l';
-            buffer[index++] = 's';
-            buffer[index] = 'e';
-            size += FALSE_STRING_SIZE;
+            appendFalse(index);
         }
         return this;
     }
