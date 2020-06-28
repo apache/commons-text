@@ -99,7 +99,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * <p>
  * For example:
  * </p>
- * 
+ *
  * <pre>
  * // Build map
  * Map&lt;String, String&gt; valuesMap = new HashMap&lt;&gt;();
@@ -145,15 +145,15 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  *       "Base64 Decoder:        ${base64Decoder:SGVsbG9Xb3JsZCE=}\n"
  *     + "Base64 Encoder:        ${base64Encoder:HelloWorld!}\n"
  *     + "Java Constant:         ${const:java.awt.event.KeyEvent.VK_ESCAPE}\n"
- *     + "Date:                  ${date:yyyy-MM-dd}\n" 
+ *     + "Date:                  ${date:yyyy-MM-dd}\n"
  *     + "DNS:                   ${dns:address|apache.org}\n"
  *     + "Environment Variable:  ${env:USERNAME}\n"
  *     + "File Content:          ${file:UTF-8:src/test/resources/document.properties}\n"
- *     + "Java:                  ${java:version}\n" 
+ *     + "Java:                  ${java:version}\n"
  *     + "Localhost:             ${localhost:canonical-name}\n"
  *     + "Properties File:       ${properties:src/test/resources/document.properties::mykey}\n"
  *     + "Resource Bundle:       ${resourceBundle:org.example.testResourceBundleLookup:mykey}\n"
- *     + "Script:                ${script:javascript:3 + 4}\n" 
+ *     + "Script:                ${script:javascript:3 + 4}\n"
  *     + "System Property:       ${sys:user.dir}\n"
  *     + "URL Decoder:           ${urlDecoder:Hello%20World%21}\n"
  *     + "URL Encoder:           ${urlEncoder:Hello World!}\n"
@@ -168,7 +168,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  *
  * <h2>Using Recursive Variable Replacement</h2>
  * <p>
- * Variable replacement can work recursively by calling {@link #setEnableSubstitutionInVariables(boolean)} 
+ * Variable replacement can work recursively by calling {@link #setEnableSubstitutionInVariables(boolean)}
  * with {@code true}. If a variable value contains a variable then that variable will
  * also be replaced. Cyclic replacements are detected and will throw an exception.
  * </p>
