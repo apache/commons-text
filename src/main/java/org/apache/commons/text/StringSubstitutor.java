@@ -38,30 +38,43 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * <p>
  * Variable values are typically resolved from a map, but could also be resolved from system properties, or by supplying
  * a custom variable resolver.
+ * </p>
+ * <h2>Using System Properties</h2>
  * <p>
  * The simplest example is to use this class to replace Java System properties. For example:
  * </p>
  *
  * <pre>
  * StringSubstitutor
- *         .replaceSystemProperties("You are running with java.version = ${java.version} and os.name = ${os.name}.");
+ *     .replaceSystemProperties("You are running with java.version = ${java.version} and os.name = ${os.name}.");
  * </pre>
  *
  * <h2>Using a Custom Map</h2>
  * <p>
- * Typical usage of this class follows the following pattern: First an instance is created and initialized with the map
- * that contains the values for the available variables. If a prefix and/or suffix for variables should be used other
- * than the default ones, the appropriate settings can be performed. After that the {@code replace()} method can be
- * called passing in the source text for interpolation. In the returned text all variable references (as long as their
- * values are known) will be resolved. The following example demonstrates this:
+ * Typical usage of this class follows the following pattern:
+ * </p>
+ * <ul>
+ * <li>Create and initialize a StringSubstitutor with the map that contains the values for the variables you want to
+ * make available.</li>
+ * <li>Optionally set attributes like variable prefix, variable suffix, default value delimiter, and so on.</li>
+ * <li>Call the {@code replace()} method with in the source text for interpolation.</li>
+ * <li>The returned text contains all variable references (as long as their values are known) as resolved.</li>
+ * </ul>
+ * <p>
+ * For example:
  * </p>
  *
  * <pre>
+ * // Build map
  * Map&lt;String, String&gt; valuesMap = new HashMap&lt;&gt;();
  * valuesMap.put(&quot;animal&quot;, &quot;quick brown fox&quot;);
  * valuesMap.put(&quot;target&quot;, &quot;lazy dog&quot;);
  * String templateString = &quot;The ${animal} jumped over the ${target}.&quot;;
+ *
+ * // Build StringSubstitutor
  * StringSubstitutor sub = new StringSubstitutor(valuesMap);
+ *
+ * // Replace
  * String resolvedString = sub.replace(templateString);
  * </pre>
  *
@@ -121,29 +134,24 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * </p>
  *
  * <pre>
-final StringSubstitutor interpolator = StringSubstitutor.createInterpolator();
-interpolator.setEnableSubstitutionInVariables(true); // Allows for nested $'s.
-final String text = interpolator.replace(
-    "Base64 Decoder:        ${base64Decoder:SGVsbG9Xb3JsZCE=}\n" +
-    "Base64 Encoder:        ${base64Encoder:HelloWorld!}\n" +
-    "Java Constant:         ${const:java.awt.event.KeyEvent.VK_ESCAPE}\n" +
-    "Date:                  ${date:yyyy-MM-dd}\n" +
-    "DNS:                   ${dns:address|apache.org}\n" +
-    "Environment Variable:  ${env:USERNAME}\n" +
-    "File Content:          ${file:UTF-8:src/test/resources/document.properties}\n" +
-    "Java:                  ${java:version}\n" +
-    "Localhost:             ${localhost:canonical-name}\n" +
-    "Properties File:       ${properties:src/test/resources/document.properties::mykey}\n" +
-    "Resource Bundle:       ${resourceBundle:org.example.testResourceBundleLookup:mykey}\n" +
-    "Script:                ${script:javascript:3 + 4}\n" +
-    "System Property:       ${sys:user.dir}\n" +
-    "URL Decoder:           ${urlDecoder:Hello%20World%21}\n" +
-    "URL Encoder:           ${urlEncoder:Hello World!}\n" +
-    "URL Content (HTTP):    ${url:UTF-8:http://www.apache.org}\n" +
-    "URL Content (HTTPS):   ${url:UTF-8:https://www.apache.org}\n" +
-    "URL Content (File):    ${url:UTF-8:file:///${sys:user.dir}/src/test/resources/document.properties}\n" +
-    "XML XPath:             ${xml:src/test/resources/document.xml:/root/path/to/node}\n"
-);
+ * final StringSubstitutor interpolator = StringSubstitutor.createInterpolator();
+ * interpolator.setEnableSubstitutionInVariables(true); // Allows for nested $'s.
+ * final String text = interpolator.replace("Base64 Decoder:        ${base64Decoder:SGVsbG9Xb3JsZCE=}\n"
+ *     + "Base64 Encoder:        ${base64Encoder:HelloWorld!}\n"
+ *     + "Java Constant:         ${const:java.awt.event.KeyEvent.VK_ESCAPE}\n"
+ *     + "Date:                  ${date:yyyy-MM-dd}\n" + "DNS:                   ${dns:address|apache.org}\n"
+ *     + "Environment Variable:  ${env:USERNAME}\n"
+ *     + "File Content:          ${file:UTF-8:src/test/resources/document.properties}\n"
+ *     + "Java:                  ${java:version}\n" + "Localhost:             ${localhost:canonical-name}\n"
+ *     + "Properties File:       ${properties:src/test/resources/document.properties::mykey}\n"
+ *     + "Resource Bundle:       ${resourceBundle:org.example.testResourceBundleLookup:mykey}\n"
+ *     + "Script:                ${script:javascript:3 + 4}\n" + "System Property:       ${sys:user.dir}\n"
+ *     + "URL Decoder:           ${urlDecoder:Hello%20World%21}\n"
+ *     + "URL Encoder:           ${urlEncoder:Hello World!}\n"
+ *     + "URL Content (HTTP):    ${url:UTF-8:http://www.apache.org}\n"
+ *     + "URL Content (HTTPS):   ${url:UTF-8:https://www.apache.org}\n"
+ *     + "URL Content (File):    ${url:UTF-8:file:///${sys:user.dir}/src/test/resources/document.properties}\n"
+ *     + "XML XPath:             ${xml:src/test/resources/document.xml:/root/path/to/node}\n");
  * </pre>
  * <p>
  * For documentation of each lookup, see {@link StringLookupFactory}.
