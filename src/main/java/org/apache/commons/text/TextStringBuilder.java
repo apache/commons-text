@@ -1641,9 +1641,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     @Override
     public char charAt(final int index) {
-        if (index < 0 || index >= length()) {
-            throw new StringIndexOutOfBoundsException(index);
-        }
+        validateIndex(index);
         return buffer[index];
     }
 
@@ -1797,9 +1795,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *             if the index is invalid
      */
     public TextStringBuilder deleteCharAt(final int index) {
-        if (index < 0 || index >= size) {
-            throw new StringIndexOutOfBoundsException(index);
-        }
+        validateIndex(index);
         deleteImpl(index, index + 1, 1);
         return this;
     }
@@ -3009,9 +3005,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *             if the index is invalid
      */
     public TextStringBuilder setCharAt(final int index, final char ch) {
-        if (index < 0 || index >= length()) {
-            throw new StringIndexOutOfBoundsException(index);
-        }
+        validateIndex(index);
         buffer[index] = ch;
         return this;
     }
@@ -3263,7 +3257,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException Thrown when the index is not the range {@code 0 <= index <= size}.
      */
     protected void validateIndex(final int index) {
-        if (index < 0 || index > size) {
+        if (index < 0 || index >= size) {
             throw new StringIndexOutOfBoundsException(index);
         }
     }
@@ -3284,7 +3278,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             throw new StringIndexOutOfBoundsException(startIndex);
         }
         if (startIndex > size) {
-            throw new StringIndexOutOfBoundsException("end < start");
+            throw new StringIndexOutOfBoundsException("startIndex > size");
         }
     }
 
