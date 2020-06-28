@@ -77,7 +77,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inner class to allow StrBuilder to operate as a reader.
      */
-    class StrBuilderReader extends Reader {
+    class TextStringBuilderReader extends Reader {
 
         /** The last mark position. */
         private int mark;
@@ -88,7 +88,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         /**
          * Default constructor.
          */
-        StrBuilderReader() {
+        TextStringBuilderReader() {
             super();
         }
 
@@ -166,14 +166,46 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Inner class to allow StrBuilder to operate as a writer.
+     * Inner class to allow StrBuilder to operate as a tokenizer.
      */
-    class StrBuilderWriter extends Writer {
+    class TextStringBuilderTokenizer extends StringTokenizer {
 
         /**
          * Default constructor.
          */
-        StrBuilderWriter() {
+        TextStringBuilderTokenizer() {
+            super();
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String getContent() {
+            final String str = super.getContent();
+            if (str == null) {
+                return TextStringBuilder.this.toString();
+            }
+            return str;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        protected List<String> tokenize(final char[] chars, final int offset, final int count) {
+            if (chars == null) {
+                return super.tokenize(TextStringBuilder.this.getBuffer(), 0, TextStringBuilder.this.size());
+            }
+            return super.tokenize(chars, offset, count);
+        }
+    }
+
+    /**
+     * Inner class to allow StrBuilder to operate as a writer.
+     */
+    class TextStringBuilderWriter extends Writer {
+
+        /**
+         * Default constructor.
+         */
+        TextStringBuilderWriter() {
             super();
         }
 
@@ -217,38 +249,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         @Override
         public void write(final String str, final int off, final int len) {
             TextStringBuilder.this.append(str, off, len);
-        }
-    }
-
-    /**
-     * Inner class to allow StrBuilder to operate as a tokenizer.
-     */
-    class TextStringBuilderTokenizer extends StringTokenizer {
-
-        /**
-         * Default constructor.
-         */
-        TextStringBuilderTokenizer() {
-            super();
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public String getContent() {
-            final String str = super.getContent();
-            if (str == null) {
-                return TextStringBuilder.this.toString();
-            }
-            return str;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        protected List<String> tokenize(final char[] chars, final int offset, final int count) {
-            if (chars == null) {
-                return super.tokenize(TextStringBuilder.this.getBuffer(), 0, TextStringBuilder.this.size());
-            }
-            return super.tokenize(chars, offset, count);
         }
     }
 
@@ -1542,7 +1542,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return a reader that reads from this builder
      */
     public Reader asReader() {
-        return new StrBuilderReader();
+        return new TextStringBuilderReader();
     }
 
     /**
@@ -1605,7 +1605,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return a writer that populates this builder
      */
     public Writer asWriter() {
-        return new StrBuilderWriter();
+        return new TextStringBuilderWriter();
     }
 
     /**
