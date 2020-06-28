@@ -2686,9 +2686,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public int readFrom(final Reader reader) throws IOException {
         final int oldSize = size;
         ensureCapacity(size + 1);
-        int read;
-        while ((read = reader.read(buffer, size, buffer.length - size)) != -1) {
-            size += read;
+        int readCount;
+        while ((readCount = reader.read(buffer, size, buffer.length - size)) != -1) {
+            size += readCount;
             ensureCapacity(size + 1);
         }
         return size - oldSize;
@@ -2971,7 +2971,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             return new String(buffer, size - length, length);
         }
     }
-
     /**
      * Sets the character at the specified index.
      *
@@ -2992,6 +2991,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         buffer[index] = ch;
         return this;
     }
+
     /**
      * Updates the length of the builder by either dropping the last characters or adding filler of Unicode zero.
      *
@@ -3183,7 +3183,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @since 1.9
      */
     public String toString(final int startIndex, int count) {
-        validateRange(startIndex, startIndex + count);
+        validateIndices(startIndex, startIndex + count);
         return new String(buffer, startIndex, count);
     }
 
@@ -3235,12 +3235,32 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Validates that an index is in the range {@code 0 <= index <= size}.
      *
-     * @param index the index, must be valid
+     * @param index the index to test.
      * @throws IndexOutOfBoundsException Thrown when the index is not the range {@code 0 <= index <= size}.
      */
     protected void validateIndex(final int index) {
         if (index < 0 || index > size) {
             throw new StringIndexOutOfBoundsException(index);
+        }
+    }
+
+    /**
+     * Validates indices defining a range in this builder.
+     *
+     * @param startIndex
+     *            the start index, inclusive.
+     * @param endIndex
+     *            the end index, exclusive.
+     * @throws StringIndexOutOfBoundsException
+     *             if the index is invalid
+     * @since 1.9
+     */
+    protected void validateIndices(final int startIndex, final int endIndex) {
+        if (startIndex < 0) {
+            throw new StringIndexOutOfBoundsException(startIndex);
+        }
+        if (startIndex > size) {
+            throw new StringIndexOutOfBoundsException("end < start");
         }
     }
 
@@ -3251,8 +3271,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *            the start index, inclusive, must be valid
      * @param endIndex
      *            the end index, exclusive, must be valid except that if too large it is treated as end of string
-     * @return The new string
-     * @throws IndexOutOfBoundsException
+     * @return A valid end index.
+     * @throws StringIndexOutOfBoundsException
      *             if the index is invalid
      */
     protected int validateRange(final int startIndex, int endIndex) {
