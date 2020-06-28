@@ -1895,9 +1895,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder ensureCapacity(final int capacity) {
         if (capacity > buffer.length) {
-            final char[] old = buffer;
-            buffer = new char[capacity * 2];
-            System.arraycopy(old, 0, buffer, 0, size);
+            buffer = Arrays.copyOf(buffer, capacity * 2);
         }
         return this;
     }
