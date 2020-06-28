@@ -2609,10 +2609,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder minimizeCapacity() {
-        if (buffer.length > length()) {
-            final char[] old = buffer;
-            buffer = new char[length()];
-            System.arraycopy(old, 0, buffer, 0, size);
+        if (buffer.length > size) {
+            buffer = Arrays.copyOf(buffer, size);
         }
         return this;
     }
