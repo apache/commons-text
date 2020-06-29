@@ -265,12 +265,26 @@ public class StringSubstitutorTest {
      * Tests when no variable name.
      */
     @Test
+    public void testReplaceEmptyKeyExtra1() throws IOException {
+        final String expected = EMPTY_EXPR + " ";
+        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+    }
+
+    /**
+     * Tests when no variable name.
+     */
+    @Test
+    public void testReplaceEmptyKeyExtra2() throws IOException {
+        final String expected = " " + EMPTY_EXPR;
+        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+    }
+
+    /**
+     * Tests when no variable name.
+     */
+    @Test
     public void testReplaceEmptyKeyOnly() throws IOException {
         assertEquals(EMPTY_EXPR, replace(new StringSubstitutor(values), EMPTY_EXPR));
-        String expected = EMPTY_EXPR + " ";
-        assertEquals(expected, replace(new StringSubstitutor(values), expected));
-        expected = " " + EMPTY_EXPR;
-        assertEquals(expected, replace(new StringSubstitutor(values), expected));
     }
 
     /**
