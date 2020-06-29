@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.matcher.StringMatcher;
 
 /**
@@ -299,12 +300,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @param initialCapacity
      *            the initial capacity, zero or less will be converted to 32
      */
-    public TextStringBuilder(int initialCapacity) {
+    public TextStringBuilder(final int initialCapacity) {
         super();
-        if (initialCapacity <= 0) {
-            initialCapacity = CAPACITY;
-        }
-        buffer = new char[initialCapacity];
+        buffer = new char[initialCapacity <= 0 ? CAPACITY : initialCapacity];
     }
 
     /**
@@ -315,10 +313,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder(final String str) {
         super();
-        if (str == null) {
-            buffer = new char[CAPACITY];
-        } else {
-            buffer = new char[str.length() + CAPACITY];
+        buffer = new char[StringUtils.length(str) + CAPACITY];
+        if (str != null) {
             append(str);
         }
     }
