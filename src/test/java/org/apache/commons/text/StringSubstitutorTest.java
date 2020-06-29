@@ -162,8 +162,8 @@ public class StringSubstitutorTest {
      *
      * @throws IOException Thrown by subclasses.
      */
-    protected String replace(final StringSubstitutor stringSubstitutor, final String source) throws IOException {
-        return stringSubstitutor.replace(source);
+    protected String replace(final StringSubstitutor stringSubstitutor, final String template) throws IOException {
+        return stringSubstitutor.replace(template);
     }
 
     @BeforeEach
@@ -229,9 +229,12 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceChangedMap() throws IOException {
         final StringSubstitutor sub = new StringSubstitutor(values);
+        // no map change
+        final String template = "The ${animal} jumps over the ${target}.";
+        assertEquals("The quick brown fox jumps over the lazy dog.", replace(sub, template));
+        // map change
         values.put("target", "moon");
-        assertEquals("The quick brown fox jumps over the moon.",
-            replace(sub, "The ${animal} jumps over the ${target}."));
+        assertEquals("The quick brown fox jumps over the moon.", replace(sub, template));
     }
 
     /**
