@@ -1999,17 +1999,17 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Copies the character array into the specified array.
      *
-     * @param destination
-     *            the destination array, null will cause an array to be created
+     * @param target
+     *            the target array, null will cause an array to be created
      * @return The input array, unless that was null or too small
      */
-    public char[] getChars(char[] destination) {
+    public char[] getChars(char[] target) {
         final int len = length();
-        if (destination == null || destination.length < len) {
-            destination = new char[len];
+        if (target == null || target.length < len) {
+            target = new char[len];
         }
-        System.arraycopy(buffer, 0, destination, 0, len);
-        return destination;
+        System.arraycopy(buffer, 0, target, 0, len);
+        return target;
     }
 
     /**
@@ -2019,17 +2019,17 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *            first index to copy, inclusive, must be valid
      * @param endIndex
      *            last index, exclusive, must be valid
-     * @param destination
-     *            the destination array, must not be null or too small
-     * @param destinationIndex
-     *            the index to start copying in destination
+     * @param target
+     *            the target array, must not be null or too small
+     * @param targetIndex
+     *            the index to start copying in target
      * @throws NullPointerException
      *             if the array is null
      * @throws IndexOutOfBoundsException
      *             if any index is invalid
      */
-    public void getChars(final int startIndex, final int endIndex, final char[] destination,
-            final int destinationIndex) {
+    public void getChars(final int startIndex, final int endIndex, final char[] target,
+            final int targetIndex) {
         if (startIndex < 0) {
             throw new StringIndexOutOfBoundsException(startIndex);
         }
@@ -2039,7 +2039,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         if (startIndex > endIndex) {
             throw new StringIndexOutOfBoundsException("end < start");
         }
-        System.arraycopy(buffer, startIndex, destination, destinationIndex, endIndex - startIndex);
+        System.arraycopy(buffer, startIndex, target, targetIndex, endIndex - startIndex);
     }
 
     /**
