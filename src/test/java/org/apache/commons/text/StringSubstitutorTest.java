@@ -265,8 +265,8 @@ public class StringSubstitutorTest {
      * Tests when no variable name.
      */
     @Test
-    public void testReplaceEmptyKeyExtra1() throws IOException {
-        final String expected = EMPTY_EXPR + " ";
+    public void testReplaceEmptyKeyExtraFirst() throws IOException {
+        final String expected = "." + EMPTY_EXPR;
         assertEquals(expected, replace(new StringSubstitutor(values), expected));
     }
 
@@ -274,8 +274,8 @@ public class StringSubstitutorTest {
      * Tests when no variable name.
      */
     @Test
-    public void testReplaceEmptyKeyExtra2() throws IOException {
-        final String expected = " " + EMPTY_EXPR;
+    public void testReplaceEmptyKeyExtraLast() throws IOException {
+        final String expected = EMPTY_EXPR + ".";
         assertEquals(expected, replace(new StringSubstitutor(values), expected));
     }
 
@@ -617,6 +617,60 @@ public class StringSubstitutorTest {
         doTestReplace("The ${person} jumps over the lazy dog.", "The ${person} jumps over the ${target}.", true);
         doTestReplace("The ${person} jumps over the lazy dog. 1234567890.",
             "The ${person} jumps over the ${target}. ${undefined.number:-1234567890}.", true);
+    }
+
+    /**
+     * Tests unknown key replace.
+     */
+    @Test
+    public void testReplaceUnknownKeyOnly() throws IOException {
+        final String expected = "${person}";
+        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+    }
+
+    /**
+     * Tests unknown key replace.
+     */
+    @Test
+    public void testReplaceUnknownKeyOnlyExtraFirst() throws IOException {
+        final String expected = ".${person}";
+        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+    }
+
+    /**
+     * Tests unknown key replace.
+     */
+    @Test
+    public void testReplaceUnknownKeyOnlyExtraLast() throws IOException {
+        final String expected = "${person}.";
+        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+    }
+
+    /**
+     * Tests unknown key replace.
+     */
+    @Test
+    public void testReplaceUnknownShortestKeyOnly() throws IOException {
+        final String expected = "${U}";
+        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+    }
+
+    /**
+     * Tests unknown key replace.
+     */
+    @Test
+    public void testReplaceUnknownShortestKeyOnlyExtraFirst() throws IOException {
+        final String expected = ".${U}";
+        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+    }
+
+    /**
+     * Tests unknown key replace.
+     */
+    @Test
+    public void testReplaceUnknownShortestKeyOnlyExtraLast() throws IOException {
+        final String expected = "${U}.";
+        assertEquals(expected, replace(new StringSubstitutor(values), expected));
     }
 
     /**
