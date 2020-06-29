@@ -160,7 +160,7 @@ public class StringSubstitutorTest {
      * For subclasses to override.
      * @throws IOException Thrown by subclasses.
      */
-    protected String replace(StringSubstitutor stringSubstitutor, final String source) throws IOException {
+    protected String replace(final StringSubstitutor stringSubstitutor, final String source) throws IOException {
         return stringSubstitutor.replace(source);
     }
 
@@ -255,8 +255,15 @@ public class StringSubstitutorTest {
      * Tests when no variable name.
      */
     @Test
-    public void testReplaceEmptyKeys() throws IOException {
+    public void testReplaceEmptyKey() throws IOException {
         doTestReplace("The ${} jumps over the lazy dog.", "The ${} jumps over the ${target}.", true);
+    }
+
+    /**
+     * Tests when no variable name.
+     */
+    @Test
+    public void testReplaceEmptyKeyWithDefault() throws IOException {
         doTestReplace("The animal jumps over the lazy dog.", "The ${:-animal} jumps over the ${target}.", true);
     }
 
