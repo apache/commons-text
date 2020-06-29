@@ -251,8 +251,7 @@ public final class StringLookupFactory {
      * {@code "USERNAME"} to the same effect.
      * </p>
      */
-    static final FunctionStringLookup<String> INSTANCE_ENVIRONMENT_VARIABLES = FunctionStringLookup
-        .on(System::getenv);
+    static final FunctionStringLookup<String> INSTANCE_ENVIRONMENT_VARIABLES = FunctionStringLookup.on(System::getenv);
 
     /**
      * Defines the FunctionStringLookup singleton that always returns null.
@@ -262,8 +261,7 @@ public final class StringLookupFactory {
     /**
      * Defines the FunctionStringLookup singleton for looking up system properties.
      */
-    static final FunctionStringLookup<String> INSTANCE_SYSTEM_PROPERTIES = FunctionStringLookup
-        .on(System::getProperty);
+    static final FunctionStringLookup<String> INSTANCE_SYSTEM_PROPERTIES = FunctionStringLookup.on(System::getProperty);
 
     /**
      * Default lookup key for interpolation {@value #KEY_BASE64_DECODER}.
