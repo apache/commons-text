@@ -615,6 +615,13 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceUnknownKey() throws IOException {
         doTestReplace("The ${person} jumps over the lazy dog.", "The ${person} jumps over the ${target}.", true);
+    }
+
+    /**
+     * Tests unknown key replace.
+     */
+    @Test
+    public void testReplaceUnknownKeyDefaultValue() throws IOException {
         doTestReplace("The ${person} jumps over the lazy dog. 1234567890.",
             "The ${person} jumps over the ${target}. ${undefined.number:-1234567890}.", true);
     }
