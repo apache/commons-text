@@ -48,6 +48,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.Alphanumeric.class) // temp, for my sanity during dev
 public class StringSubstitutorTest {
 
+    private static final String EMPTY_EXPR = "${}";
     protected Map<String, String> values;
 
     protected void doTestNoReplace(final String replaceTemplate) throws IOException {
@@ -84,7 +85,7 @@ public class StringSubstitutorTest {
     }
 
     protected void doTestReplace(final StringSubstitutor sub, final String expectedResult, final String replaceTemplate,
-            final boolean substring) throws IOException {
+        final boolean substring) throws IOException {
         final String expectedShortResult = expectedResult.substring(1, expectedResult.length() - 1);
 
         // replace using String
@@ -158,6 +159,7 @@ public class StringSubstitutorTest {
 
     /**
      * For subclasses to override.
+     *
      * @throws IOException Thrown by subclasses.
      */
     protected String replace(final StringSubstitutor stringSubstitutor, final String source) throws IOException {
@@ -229,7 +231,7 @@ public class StringSubstitutorTest {
         final StringSubstitutor sub = new StringSubstitutor(values);
         values.put("target", "moon");
         assertEquals("The quick brown fox jumps over the moon.",
-                replace(sub, "The ${animal} jumps over the ${target}."));
+            replace(sub, "The ${animal} jumps over the ${target}."));
     }
 
     /**
@@ -238,9 +240,9 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceComplexEscaping() throws IOException {
         doTestReplace("The ${quick brown fox} jumps over the lazy dog.", "The $${${animal}} jumps over the ${target}.",
-                true);
+            true);
         doTestReplace("The ${quick brown fox} jumps over the lazy dog. ${1234567890}.",
-                "The $${${animal}} jumps over the ${target}. $${${undefined.number:-1234567890}}.", true);
+            "The $${${animal}} jumps over the ${target}. $${${undefined.number:-1234567890}}.", true);
     }
 
     /**
@@ -257,6 +259,18 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceEmptyKey() throws IOException {
         doTestReplace("The ${} jumps over the lazy dog.", "The ${} jumps over the ${target}.", true);
+    }
+
+    /**
+     * Tests when no variable name.
+     */
+    @Test
+    public void testReplaceEmptyKeyOnly() throws IOException {
+        assertEquals(EMPTY_EXPR, replace(new StringSubstitutor(values), EMPTY_EXPR));
+        String expected = EMPTY_EXPR + " ";
+        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+        expected = " " + EMPTY_EXPR;
+        assertEquals(expected, replace(new StringSubstitutor(values), expected));
     }
 
     /**
@@ -286,29 +300,27 @@ public class StringSubstitutorTest {
         final StringSubstitutor sub = new StringSubstitutor(values);
         sub.setEnableUndefinedVariableException(true);
 
-        assertThatIllegalArgumentException().isThrownBy(() ->
-        replace(sub, "The ${animal.${species}} jumps over the ${target}.")).
-        withMessage("Cannot resolve variable 'animal.${species' (enableSubstitutionInVariables=false).");
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> replace(sub, "The ${animal.${species}} jumps over the ${target}."))
+            .withMessage("Cannot resolve variable 'animal.${species' (enableSubstitutionInVariables=false).");
 
-        assertThatIllegalArgumentException().isThrownBy(() ->
-        replace(sub, "The ${animal.${species:-1}} jumps over the ${target}.")).
-        withMessage("Cannot resolve variable 'animal.${species:-1' (enableSubstitutionInVariables=false).");
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> replace(sub, "The ${animal.${species:-1}} jumps over the ${target}."))
+            .withMessage("Cannot resolve variable 'animal.${species:-1' (enableSubstitutionInVariables=false).");
 
-        assertThatIllegalArgumentException().isThrownBy(() ->
-        replace(sub, "The ${test:-statement} is a sample for missing ${unknown}.")).
-        withMessage("Cannot resolve variable 'unknown' (enableSubstitutionInVariables=false).");
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> replace(sub, "The ${test:-statement} is a sample for missing ${unknown}."))
+            .withMessage("Cannot resolve variable 'unknown' (enableSubstitutionInVariables=false).");
 
-        //if default value is available, exception will not be thrown
+        // if default value is available, exception will not be thrown
         assertEquals("The statement is a sample for missing variable.",
-                replace(sub, "The ${test:-statement} is a sample for missing ${unknown:-variable}."));
+            replace(sub, "The ${test:-statement} is a sample for missing ${unknown:-variable}."));
 
-        assertEquals("The fox jumps over the lazy dog.",
-                replace(sub, "The ${animal.1} jumps over the ${target}."));
+        assertEquals("The fox jumps over the lazy dog.", replace(sub, "The ${animal.1} jumps over the ${target}."));
     }
 
     /**
-     * Tests whether replace with fail on undefined variable with
-     * substitution in variable names enabled.
+     * Tests whether replace with fail on undefined variable with substitution in variable names enabled.
      */
     @Test
     public void testReplaceFailOnUndefinedVariableWithReplaceInVariable() throws IOException {
@@ -324,23 +336,23 @@ public class StringSubstitutorTest {
         sub.setEnableSubstitutionInVariables(true);
 
         assertEquals("The mouse jumps over the lazy dog.",
-                replace(sub, "The ${animal.${species}} jumps over the ${target}."));
+            replace(sub, "The ${animal.${species}} jumps over the ${target}."));
         values.put("species", "1");
         assertEquals("The fox jumps over the lazy dog.",
-                replace(sub, "The ${animal.${species}} jumps over the ${target}."));
+            replace(sub, "The ${animal.${species}} jumps over the ${target}."));
 
-        //exception is thrown here because variable with name test.1 is missing
-        assertThatIllegalArgumentException().isThrownBy(() ->
-        replace(sub, "The ${test.${statement}} is a sample for missing ${word}.")).
-        withMessage("Cannot resolve variable 'statement' (enableSubstitutionInVariables=true).");
+        // exception is thrown here because variable with name test.1 is missing
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> replace(sub, "The ${test.${statement}} is a sample for missing ${word}."))
+            .withMessage("Cannot resolve variable 'statement' (enableSubstitutionInVariables=true).");
 
-        //exception is thrown here because variable with name test.2 is missing
-        assertThatIllegalArgumentException().isThrownBy(() ->
-        replace(sub, "The ${test.${statement.${recursive}}} is a sample for missing ${word}.")).
-        withMessage("Cannot resolve variable 'test.2' (enableSubstitutionInVariables=true).");
+        // exception is thrown here because variable with name test.2 is missing
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> replace(sub, "The ${test.${statement.${recursive}}} is a sample for missing ${word}."))
+            .withMessage("Cannot resolve variable 'test.2' (enableSubstitutionInVariables=true).");
 
         assertEquals("The statement is a sample for missing variable.",
-                replace(sub, "The ${testok.${statement.${recursive}}} is a sample for missing ${word}."));
+            replace(sub, "The ${testok.${statement.${recursive}}} is a sample for missing ${word}."));
     }
 
     /**
@@ -354,7 +366,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceInTakingStringBufferWithNonNull() {
         final StringSubstitutor strSubstitutor = new StringSubstitutor(new HashMap<String, String>(), "WV@i#y?N*[",
-                "WV@i#y?N*[", '*');
+            "WV@i#y?N*[", '*');
 
         assertFalse(strSubstitutor.isPreserveEscapes());
         assertFalse(strSubstitutor.replaceIn(new StringBuffer("WV@i#y?N*[")));
@@ -386,7 +398,7 @@ public class StringSubstitutorTest {
         final StringLookup mapStringLookup = StringLookupFactory.INSTANCE.mapStringLookup(hashMap);
         final StringMatcher strMatcher = StringMatcherFactory.INSTANCE.tabMatcher();
         final StringSubstitutor strSubstitutor = new StringSubstitutor(mapStringLookup, strMatcher, strMatcher, 'b',
-                strMatcher);
+            strMatcher);
 
         assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, -1369));
         assertEquals('b', strSubstitutor.getEscapeChar());
@@ -404,12 +416,12 @@ public class StringSubstitutorTest {
         final StringSubstitutor sub = new StringSubstitutor(values);
         sub.setEnableSubstitutionInVariables(true);
         assertEquals("The mouse jumps over the lazy dog.",
-                replace(sub, "The ${animal.${species}} jumps over the ${target}."));
+            replace(sub, "The ${animal.${species}} jumps over the ${target}."));
         values.put("species", "1");
         assertEquals("The fox jumps over the lazy dog.",
-                replace(sub, "The ${animal.${species}} jumps over the ${target}."));
+            replace(sub, "The ${animal.${species}} jumps over the ${target}."));
         assertEquals("The fox jumps over the lazy dog.", replace(sub,
-                "The ${unknown.animal.${unknown.species:-1}:-fox} " + "jumps over the ${unknow.target:-lazy dog}."));
+            "The ${unknown.animal.${unknown.species:-1}:-fox} " + "jumps over the ${unknow.target:-lazy dog}."));
     }
 
     /**
@@ -422,9 +434,9 @@ public class StringSubstitutorTest {
         values.put("species", "2");
         final StringSubstitutor sub = new StringSubstitutor(values);
         assertEquals("The ${animal.${species}} jumps over the lazy dog.",
-                replace(sub, "The ${animal.${species}} jumps over the ${target}."));
+            replace(sub, "The ${animal.${species}} jumps over the ${target}."));
         assertEquals("The ${animal.${species:-1}} jumps over the lazy dog.",
-                replace(sub, "The ${animal.${species:-1}} jumps over the ${target}."));
+            replace(sub, "The ${animal.${species:-1}} jumps over the ${target}."));
     }
 
     /**
@@ -440,9 +452,9 @@ public class StringSubstitutorTest {
         final StringSubstitutor sub = new StringSubstitutor(values);
         sub.setEnableSubstitutionInVariables(true);
         assertEquals("The white mouse jumps over the lazy dog.",
-                replace(sub, "The ${animal.${species.${color}}} jumps over the ${target}."));
+            replace(sub, "The ${animal.${species.${color}}} jumps over the ${target}."));
         assertEquals("The brown fox jumps over the lazy dog.",
-                replace(sub, "The ${animal.${species.${unknownColor:-brown}}} jumps over the ${target}."));
+            replace(sub, "The ${animal.${species.${unknownColor:-brown}}} jumps over the ${target}."));
     }
 
     /**
@@ -492,7 +504,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplacePrefixNoSuffix() throws IOException {
         doTestReplace("The ${animal jumps over the ${target} lazy dog.",
-                "The ${animal jumps over the ${target} ${target}.", true);
+            "The ${animal jumps over the ${target} ${target}.", true);
     }
 
     /**
@@ -590,7 +602,7 @@ public class StringSubstitutorTest {
     public void testReplaceUnknownKey() throws IOException {
         doTestReplace("The ${person} jumps over the lazy dog.", "The ${person} jumps over the ${target}.", true);
         doTestReplace("The ${person} jumps over the lazy dog. 1234567890.",
-                "The ${person} jumps over the ${target}. ${undefined.number:-1234567890}.", true);
+            "The ${person} jumps over the ${target}. ${undefined.number:-1234567890}.", true);
     }
 
     /**
@@ -599,7 +611,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceWeirdPattens() throws IOException {
         doTestNoReplace(StringUtils.EMPTY);
-        doTestNoReplace("${}");
+        doTestNoReplace(EMPTY_EXPR);
         doTestNoReplace("${ }");
         doTestNoReplace("${\t}");
         doTestNoReplace("${\n}");
@@ -628,7 +640,7 @@ public class StringSubstitutorTest {
         final StringSubstitutor sub = new StringSubstitutor(map) {
             @Override
             protected String resolveVariable(final String variableName, final TextStringBuilder buf, final int startPos,
-                    final int endPos) {
+                final int endPos) {
                 assertEquals("name", variableName);
                 assertSame(builder, buf);
                 assertEquals(3, startPos);
@@ -682,7 +694,7 @@ public class StringSubstitutorTest {
         buf.append(", your home directory is ");
         buf.append(System.getProperty("user.home")).append('.');
         assertEquals(buf.toString(), StringSubstitutor.replaceSystemProperties(
-                "Hi ${user.name}, you are " + "working with ${os.name}, your home " + "directory is ${user.home}."));
+            "Hi ${user.name}, you are " + "working with ${os.name}, your home " + "directory is ${user.home}."));
     }
 
     /**
