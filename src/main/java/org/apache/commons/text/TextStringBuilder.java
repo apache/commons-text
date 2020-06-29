@@ -1642,6 +1642,25 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
+     * Gets the character at the specified index before deleting it.
+     *
+     * @see #charAt(int)
+     * @see #deleteCharAt(int)
+     * @param index
+     *            the index to retrieve, must be valid
+     * @return The character at the index
+     * @throws IndexOutOfBoundsException
+     *             if the index is invalid
+     * @since 1.9
+     */
+    public char charAtDelete(final int index) {
+        validateIndex(index);
+        final char c = buffer[index];
+        deleteCharAt(index);
+        return c;
+    }
+
+    /**
      * Clears the string builder (convenience Collections API style method).
      * <p>
      * This method does not reduce the size of the internal character buffer. To do that, call {@code clear()}
