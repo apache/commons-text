@@ -1732,11 +1732,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException
      *             if the index is invalid
      */
-    public TextStringBuilder delete(final int startIndex, int endIndex) {
-        endIndex = validateRange(startIndex, endIndex);
-        final int len = endIndex - startIndex;
+    public TextStringBuilder delete(final int startIndex, final int endIndex) {
+        final int actualEndIndex = validateRange(startIndex, endIndex);
+        final int len = actualEndIndex - startIndex;
         if (len > 0) {
-            deleteImpl(startIndex, endIndex, len);
+            deleteImpl(startIndex, actualEndIndex, len);
         }
         return this;
     }
