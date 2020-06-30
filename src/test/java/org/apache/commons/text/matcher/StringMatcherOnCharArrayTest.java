@@ -256,7 +256,7 @@ public class StringMatcherOnCharArrayTest {
     @Test
     public void testStringMatcher_String_fromChars() {
         testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher('b', 'c'));
-        testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher(new char[] { 'b', 'c' }));
+        testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher(new char[] {'b', 'c'}));
     }
 
     @Test
