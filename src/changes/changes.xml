@@ -60,6 +60,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.toString(int, int).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.readFrom(Reader, int).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.charAtDelete(int).</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.TextStringBuilder(CharSequence).</action>    
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] junit-jupiter 5.5.1 -> 5.5.2.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] org.assertj:assertj-core 3.13.2 -> 3.16.1.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] com.puppycrawl.tools:checkstyle 8.23 -> 8.27.</action>

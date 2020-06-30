@@ -550,6 +550,22 @@ public class TextStringBuilderTest {
         assertTrue(sb.getBuffer().length >= 5);
     }
 
+    @Test
+    public void testConstructorCharSequence() {
+        final CharBuffer str = CharBuffer.wrap("A");
+        final int length = str.length();
+        final TextStringBuilder sb = new TextStringBuilder(str);
+        assertEquals(TextStringBuilder.CAPACITY + length, sb.capacity());
+        assertEquals(length, sb.toCharArray().length);
+    }
+
+    @Test
+    public void testConstructorDefault() {
+        final TextStringBuilder sb = new TextStringBuilder();
+        assertEquals(TextStringBuilder.CAPACITY, sb.capacity());
+        assertEquals(0, sb.toCharArray().length);
+    }
+
     // -----------------------------------------------------------------------
     @Test
     public void testConstructors() {
@@ -592,6 +608,15 @@ public class TextStringBuilderTest {
         assertEquals(35, sb7.capacity());
         assertEquals(3, sb7.length());
         assertEquals(3, sb7.size());
+    }
+
+    @Test
+    public void testConstructorString() {
+        final String str = "A";
+        final int length = str.length();
+        final TextStringBuilder sb = new TextStringBuilder(str);
+        assertEquals(TextStringBuilder.CAPACITY + length, sb.capacity());
+        assertEquals(length, sb.toCharArray().length);
     }
 
     // -----------------------------------------------------------------------
@@ -888,7 +913,7 @@ public class TextStringBuilderTest {
         sb.append("junit");
         a = sb.getChars(input);
         assertSame(input, a);
-        assertTrue(Arrays.equals(new char[] {'j', 'u', 'n', 'i', 't', 0, 0, 0, 0, 0 }, a));
+        assertTrue(Arrays.equals(new char[] {'j', 'u', 'n', 'i', 't', 0, 0, 0, 0, 0}, a));
 
         a = sb.getChars(null);
         assertNotSame(input, a);
@@ -911,11 +936,11 @@ public class TextStringBuilderTest {
         sb.append("junit");
         char[] a = new char[5];
         sb.getChars(0, 5, a, 0);
-        assertTrue(Arrays.equals(new char[] {'j', 'u', 'n', 'i', 't' }, a));
+        assertTrue(Arrays.equals(new char[] {'j', 'u', 'n', 'i', 't'}, a));
 
         a = new char[5];
         sb.getChars(0, 2, a, 3);
-        assertTrue(Arrays.equals(new char[] {0, 0, 0, 'j', 'u' }, a));
+        assertTrue(Arrays.equals(new char[] {0, 0, 0, 'j', 'u'}, a));
 
         try {
             sb.getChars(-1, 0, a, 0);
