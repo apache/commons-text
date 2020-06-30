@@ -2702,7 +2702,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *
      * @param reader Reader to read.
      * @param count The maximum characters to read, a value &lt;= 0 returns 0.
-     * @return The number of characters read.
+     * @return The number of characters read. If less than {@code count}, then we've reached the end-of-stream.
      * @throws IOException if an I/O error occurs.
      *
      * @see #appendTo(Appendable)
