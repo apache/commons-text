@@ -219,6 +219,17 @@ abstract class AbstractStringMatcher implements StringMatcher {
         }
 
         /**
+         * Constructs a matcher from a String.
+         *
+         * @param str the string to match, must not be null
+         */
+        StringMatcher(final char... chars) {
+            super();
+            this.string = String.valueOf(chars);
+            this.chars = chars.clone();
+        }
+
+        /**
          * Returns the number of matching characters, {@code 0} if there is no match.
          *
          * @param buffer the text content to match against, do not change

@@ -82,6 +82,11 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
+    public void test_stringMatcherChars() {
+        assertNotNull(StringMatcherFactory.INSTANCE.stringMatcher('1', '2'));
+    }
+
+    @Test
     public void test_tabMatcher() {
         assertNotNull(StringMatcherFactory.INSTANCE.charMatcher('1'));
     }

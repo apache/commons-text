@@ -254,8 +254,17 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testStringMatcher_String() {
-        final StringMatcher matcher = StringMatcherFactory.INSTANCE.stringMatcher("bc");
+    public void testStringMatcher_String_fromChars() {
+        testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher('b', 'c'));
+        testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher(new char[] { 'b', 'c' }));
+    }
+
+    @Test
+    public void testStringMatcher_String_fromString() {
+        testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher("bc"));
+    }
+
+    private void testStringMatcher_String(final StringMatcher matcher) {
         assertEquals(2, matcher.size());
         //
         assertThat(matcher.isMatch(BUFFER2, 0, 0, BUFFER2_LENGTH)).isEqualTo(0);

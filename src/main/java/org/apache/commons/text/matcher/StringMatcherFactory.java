@@ -196,6 +196,21 @@ public final class StringMatcherFactory {
     /**
      * Creates a matcher from a string.
      *
+     * @param chars
+     *            the string to match, null or empty matches nothing
+     * @return a new Matcher for the given String
+     * @since 1.9
+     */
+    public StringMatcher stringMatcher(final char... chars) {
+        if (chars == null || chars.length == 0) {
+            return NONE_MATCHER;
+        }
+        return new AbstractStringMatcher.StringMatcher(chars);
+    }
+
+    /**
+     * Creates a matcher from a string.
+     *
      * @param str
      *            the string to match, null or empty matches nothing
      * @return a new Matcher for the given String
