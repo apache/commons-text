@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
@@ -121,7 +122,7 @@ public class CaseUtils {
     private static Set<Integer> generateDelimiterSet(final char[] delimiters) {
         final Set<Integer> delimiterHashSet = new HashSet<>();
         delimiterHashSet.add(Character.codePointAt(new char[]{' '}, 0));
-        if (delimiters == null || delimiters.length == 0) {
+        if (ArrayUtils.isEmpty(delimiters)) {
             return delimiterHashSet;
         }
 

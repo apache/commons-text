@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 
 import java.util.ArrayList;
@@ -376,7 +377,7 @@ public final class RandomStringGenerator {
          * @return {@code this}, to allow method chaining
          */
         public Builder filteredBy(final CharacterPredicate... predicates) {
-            if (predicates == null || predicates.length == 0) {
+            if (ArrayUtils.isEmpty(predicates)) {
                 inclusivePredicates = null;
                 return this;
             }

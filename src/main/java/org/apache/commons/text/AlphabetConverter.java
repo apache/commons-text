@@ -26,6 +26,9 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.Objects;
 import java.util.Set;
 
@@ -375,8 +378,8 @@ public final class AlphabetConverter {
      * @return an equivalent array of integers
      */
     private static Integer[] convertCharsToIntegers(final Character[] chars) {
-        if (chars == null || chars.length == 0) {
-            return new Integer[0];
+        if (ArrayUtils.isEmpty(chars)) {
+            return ArrayUtils.EMPTY_INTEGER_OBJECT_ARRAY;
         }
         final Integer[] integers = new Integer[chars.length];
         for (int i = 0; i < chars.length; i++) {

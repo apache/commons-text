@@ -18,6 +18,7 @@ package org.apache.commons.text;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.text.matcher.StringMatcherFactory;
 
 /**
@@ -180,7 +181,7 @@ public abstract class StrMatcher {
      * @return a new matcher for the given char[]
      */
     public static StrMatcher charSetMatcher(final char... chars) {
-        if (chars == null || chars.length == 0) {
+        if (ArrayUtils.isEmpty(chars)) {
             return NONE_MATCHER;
         }
         if (chars.length == 1) {
