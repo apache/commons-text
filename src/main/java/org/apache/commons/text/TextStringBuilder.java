@@ -1957,23 +1957,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return true if the builders contain the same characters in the same order
      */
     public boolean equals(final TextStringBuilder other) {
-        if (this == other) {
-            return true;
-        }
-        if (other == null) {
-            return false;
-        }
-        if (this.size != other.size) {
-            return false;
-        }
-        final char[] thisBuf = this.buffer;
-        final char[] otherBuf = other.buffer;
-        for (int i = size - 1; i >= 0; i--) {
-            if (thisBuf[i] != otherBuf[i]) {
-                return false;
-            }
-        }
-        return true;
+        return other != null && Arrays.equals(buffer, other.buffer);
     }
 
     /**
@@ -2079,12 +2063,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     @Override
     public int hashCode() {
-        final char[] buf = buffer;
-        int hash = 0;
-        for (int i = size - 1; i >= 0; i--) {
-            hash = 31 * hash + buf[i];
-        }
-        return hash;
+        return Arrays.hashCode(buffer);
     }
 
     /**

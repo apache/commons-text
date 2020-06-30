@@ -1012,13 +1012,14 @@ public class TextStringBuilderTest {
         final TextStringBuilder sb = new TextStringBuilder();
         final int hc1a = sb.hashCode();
         final int hc1b = sb.hashCode();
-        assertEquals(0, hc1a);
+        final int emptyHc = Arrays.hashCode(sb.getBuffer());
+        assertEquals(emptyHc, hc1a);
         assertEquals(hc1a, hc1b);
 
         sb.append("abc");
         final int hc2a = sb.hashCode();
         final int hc2b = sb.hashCode();
-        assertTrue(hc2a != 0);
+        assertTrue(hc2a != emptyHc);
         assertEquals(hc2a, hc2b);
     }
 
