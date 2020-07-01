@@ -76,10 +76,10 @@ public class StringSubstitutorTest {
             assertFalse(substitutor.replaceIn((TextStringBuilder) null));
             assertFalse(substitutor.replaceIn((TextStringBuilder) null, 0, 100));
         } else {
-            assertEquals(replaceTemplate, substitutor.replace(replaceTemplate));
-            final TextStringBuilder bld = new TextStringBuilder(replaceTemplate);
-            assertFalse(substitutor.replaceIn(bld));
-            assertEquals(replaceTemplate, bld.toString());
+            assertEquals(replaceTemplate, replace(substitutor, replaceTemplate));
+            final TextStringBuilder builder = new TextStringBuilder(replaceTemplate);
+            assertFalse(substitutor.replaceIn(builder));
+            assertEquals(replaceTemplate, builder.toString());
         }
     }
 
@@ -173,6 +173,10 @@ public class StringSubstitutorTest {
     @BeforeEach
     public void setUp() throws Exception {
         values = new HashMap<>();
+        // shortest key and value.
+        values.put("a", "1");
+        values.put("b", "2");
+        // normal key and value.
         values.put("animal", ACTUAL_ANIMAL);
         values.put("target", ACTUAL_TARGET);
     }
@@ -718,10 +722,19 @@ public class StringSubstitutorTest {
     }
 
     /**
+     * Tests escaping.
+     */
+    @Test
+    public void testReplaceVariablesCount1Escaping5To4() throws IOException {
+        doTestReplace("$$$${animal}", "$$$$${animal}", false);
+    }
+
+    /**
      * Tests simple key replace.
      */
     @Test
     public void testReplaceVariablesCount2() throws IOException {
+        doTestReplace("12", "${a}${b}", false);
         doTestReplace(ACTUAL_ANIMAL + ACTUAL_ANIMAL, "${animal}${animal}", false);
         doTestReplace(ACTUAL_TARGET + ACTUAL_TARGET, "${target}${target}", false);
         doTestReplace(ACTUAL_ANIMAL + ACTUAL_TARGET, "${animal}${target}", false);
@@ -731,9 +744,33 @@ public class StringSubstitutorTest {
      * Tests simple key replace.
      */
     @Test
+    public void testReplaceVariablesCount2NonAdjacent() throws IOException {
+        doTestReplace("1 2", "${a} ${b}", false);
+        doTestReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal}", false);
+        doTestReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal}", false);
+        doTestReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal}", false);
+    }
+
+    /**
+     * Tests simple key replace.
+     */
+    @Test
     public void testReplaceVariablesCount3() throws IOException {
+        doTestReplace("121", "${a}${b}${a}", false);
         doTestReplace(ACTUAL_ANIMAL + ACTUAL_ANIMAL + ACTUAL_ANIMAL, "${animal}${animal}${animal}", false);
         doTestReplace(ACTUAL_TARGET + ACTUAL_TARGET + ACTUAL_TARGET, "${target}${target}${target}", false);
+    }
+
+    /**
+     * Tests simple key replace.
+     */
+    @Test
+    public void testReplaceVariablesCount3NonAdjacent() throws IOException {
+        doTestReplace("1 2 1", "${a} ${b} ${a}", false);
+        doTestReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal} ${animal}",
+            false);
+        doTestReplace(ACTUAL_TARGET + " " + ACTUAL_TARGET + " " + ACTUAL_TARGET, "${target} ${target} ${target}",
+            false);
     }
 
     /**
@@ -748,9 +785,14 @@ public class StringSubstitutorTest {
         doTestNoReplace("${\n}");
         doTestNoReplace("${\b}");
         doTestNoReplace("${");
+        // TODO this looks like a bug since a $ is removed but this is not a variable.
+        // doTestNoReplace("$${");
+        // doTestNoReplace("$$${");
         doTestNoReplace("$}");
+        doTestNoReplace("$$}");
         doTestNoReplace("}");
         doTestNoReplace("${}$");
+        doTestNoReplace("${}$$");
         doTestNoReplace("${${");
         doTestNoReplace("${${}}");
         doTestNoReplace("${$${}}");
