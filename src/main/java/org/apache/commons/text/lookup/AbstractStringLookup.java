@@ -49,6 +49,7 @@ abstract class AbstractStringLookup implements StringLookup {
      * @return a new string.
      */
     protected String substringAfter(final String value, final char ch) {
+        // TODO Reuse Commons Lang 3.11 StringUtils.substringAfter(String, int)
         final int indexOf = value.indexOf(ch);
         return indexOf > -1 ? value.substring(indexOf + 1) : EMPTY;
     }
@@ -61,6 +62,7 @@ abstract class AbstractStringLookup implements StringLookup {
      * @return a new string.
      */
     protected String substringAfterLast(final String value, final char ch) {
+        // TODO Reuse Commons Lang 3.11 StringUtils.substringAfterLast(String, int)
         final int indexOf = value.lastIndexOf(ch);
         return indexOf > -1 ? value.substring(indexOf + 1) : EMPTY;
     }
