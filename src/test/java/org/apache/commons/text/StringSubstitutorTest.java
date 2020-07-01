@@ -787,7 +787,9 @@ public class StringSubstitutorTest {
         doTestNoReplace("${");
         // TODO this looks like a bug since a $ is removed but this is not a variable.
         // doTestNoReplace("$${");
+        // doTestNoReplace("$${a");
         // doTestNoReplace("$$${");
+        // doTestNoReplace("$$${a");
         doTestNoReplace("$}");
         doTestNoReplace("$$}");
         doTestNoReplace("}");
