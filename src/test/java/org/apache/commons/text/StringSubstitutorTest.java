@@ -252,6 +252,12 @@ public class StringSubstitutorTest {
     public void testReplaceComplexEscaping() throws IOException {
         doTestReplace("The ${quick brown fox} jumps over the lazy dog.", "The $${${animal}} jumps over the ${target}.",
             true);
+        doTestReplace("${${animal}}", "$${$${animal}}", false);
+        doTestReplace(".${${animal}}", ".$${$${animal}}", false);
+        doTestReplace("${${animal}}.", "$${$${animal}}.", false);
+        doTestReplace(".${${animal}}.", ".$${$${animal}}.", false);
+        doTestReplace("The ${${animal}} jumps over the lazy dog.", "The $${$${animal}} jumps over the ${target}.",
+            true);
         doTestReplace("The ${quick brown fox} jumps over the lazy dog. ${1234567890}.",
             "The $${${animal}} jumps over the ${target}. $${${undefined.number:-1234567890}}.", true);
     }
