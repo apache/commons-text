@@ -48,6 +48,82 @@ import org.junit.jupiter.api.Test;
 public class StringEscapeUtilsTest {
     private static final String FOO = "foo";
 
+    private static final String[][] HTML_ESCAPES = {
+            {"no escaping", "plain text", "plain text"},
+            {"no escaping", "plain text", "plain text"},
+            {"empty string", "", ""},
+            {"null", null, null},
+            {"ampersand", "bread &amp; butter", "bread & butter"},
+            {"quotes", "&quot;bread&quot; &amp; butter", "\"bread\" & butter"},
+            {"final character only", "greater than &gt;", "greater than >"},
+            {"first character only", "&lt; less than", "< less than"},
+            {"apostrophe", "Huntington's chorea", "Huntington's chorea"},
+            {"languages", "English,Fran&ccedil;ais,\u65E5\u672C\u8A9E (nihongo)",
+                "English,Fran\u00E7ais,\u65E5\u672C\u8A9E (nihongo)"},
+            {"8-bit ascii shouldn't number-escape", "\u0080\u009F", "\u0080\u009F"},
+    };
+
+    private void assertEscapeJava(final String escaped, final String original) throws IOException {
+        assertEscapeJava(escaped, original, null);
+    }
+
+    private void assertEscapeJava(final String expected, final String original, String message) throws IOException {
+        final String converted = StringEscapeUtils.escapeJava(original);
+        message = "escapeJava(String) failed" + (message == null ? "" : (": " + message));
+        assertEquals(expected, converted, message);
+
+        final StringWriter writer = new StringWriter();
+        StringEscapeUtils.ESCAPE_JAVA.translate(original, writer);
+        assertEquals(expected, writer.toString());
+    }
+
+    private void assertUnescapeJava(final String unescaped, final String original) throws IOException {
+        assertUnescapeJava(unescaped, original, null);
+    }
+
+    private void assertUnescapeJava(final String unescaped, final String original, final String message)
+            throws IOException {
+        final String expected = unescaped;
+        final String actual = StringEscapeUtils.unescapeJava(original);
+
+        assertEquals(expected, actual, "unescape(String) failed"
+                        + (message == null ? "" : (": " + message))
+                        + ": expected '" + StringEscapeUtils.escapeJava(expected)
+                        // we escape this so we can see it in the error message
+                        + "' actual '" + StringEscapeUtils.escapeJava(actual) + "'");
+
+        final StringWriter writer = new StringWriter();
+        StringEscapeUtils.UNESCAPE_JAVA.translate(original, writer);
+        assertEquals(unescaped, writer.toString());
+    }
+
+    private void checkCsvEscapeWriter(final String expected, final String value) {
+        try {
+            final StringWriter writer = new StringWriter();
+            StringEscapeUtils.ESCAPE_CSV.translate(value, writer);
+            assertEquals(expected, writer.toString());
+        } catch (final IOException e) {
+            fail("Threw: " + e);
+        }
+    }
+
+    private void checkCsvUnescapeWriter(final String expected, final String value) {
+        try {
+            final StringWriter writer = new StringWriter();
+            StringEscapeUtils.UNESCAPE_CSV.translate(value, writer);
+            assertEquals(expected, writer.toString());
+        } catch (final IOException e) {
+            fail("Threw: " + e);
+        }
+    }
+
+    @Test
+    public void testBuilder() {
+        final String result =
+                StringEscapeUtils.builder(StringEscapeUtils.ESCAPE_XML10).escape("<").append(">").toString();
+        assertEquals("&lt;>", result);
+    }
+
     @Test
     public void testConstructor() {
         assertNotNull(new StringEscapeUtils());
@@ -56,6 +132,159 @@ public class StringEscapeUtilsTest {
         assertTrue(Modifier.isPublic(cons[0].getModifiers()));
         assertTrue(Modifier.isPublic(StringEscapeUtils.class.getModifiers()));
         assertFalse(Modifier.isFinal(StringEscapeUtils.class.getModifiers()));
+    }
+
+
+    // HTML and XML
+    //--------------------------------------------------------------
+
+    @Test
+    public void testDeleteCharacter() {
+      final String deleteString = "Delete: \u007F";
+      assertEquals("Delete: \\u007F", StringEscapeUtils.escapeJson(deleteString));
+    }
+
+    @Test
+    public void testEscapeCsvString() {
+        assertEquals("foo.bar", StringEscapeUtils.escapeCsv("foo.bar"));
+        assertEquals("\"foo,bar\"", StringEscapeUtils.escapeCsv("foo,bar"));
+        assertEquals("\"foo\nbar\"", StringEscapeUtils.escapeCsv("foo\nbar"));
+        assertEquals("\"foo\rbar\"", StringEscapeUtils.escapeCsv("foo\rbar"));
+        assertEquals("\"foo\"\"bar\"", StringEscapeUtils.escapeCsv("foo\"bar"));
+        assertEquals("foo\uD84C\uDFB4bar", StringEscapeUtils.escapeCsv("foo\uD84C\uDFB4bar"));
+        assertEquals("", StringEscapeUtils.escapeCsv(""));
+        assertNull(StringEscapeUtils.escapeCsv(null));
+    }
+
+    @Test
+    public void testEscapeCsvWriter() {
+        checkCsvEscapeWriter("foo.bar", "foo.bar");
+        checkCsvEscapeWriter("\"foo,bar\"", "foo,bar");
+        checkCsvEscapeWriter("\"foo\nbar\"", "foo\nbar");
+        checkCsvEscapeWriter("\"foo\rbar\"", "foo\rbar");
+        checkCsvEscapeWriter("\"foo\"\"bar\"", "foo\"bar");
+        checkCsvEscapeWriter("foo\uD84C\uDFB4bar", "foo\uD84C\uDFB4bar");
+        checkCsvEscapeWriter("", null);
+        checkCsvEscapeWriter("", "");
+    }
+
+@Test
+public void testEscapeEcmaScript() {
+    assertNull(StringEscapeUtils.escapeEcmaScript(null));
+    try {
+        StringEscapeUtils.ESCAPE_ECMASCRIPT.translate(null, null);
+        fail("Exception expected!");
+    } catch (final IOException ex) {
+        fail("Exception expected!");
+    } catch (final IllegalArgumentException ex) {
+        // expected
+    }
+    try {
+        StringEscapeUtils.ESCAPE_ECMASCRIPT.translate("", null);
+        fail("Exception expected!");
+    } catch (final IOException ex) {
+        fail("Exception expected!");
+    } catch (final IllegalArgumentException ex) {
+        // expected
+    }
+
+    assertEquals("He didn\\'t say, \\\"stop!\\\"", StringEscapeUtils.escapeEcmaScript("He didn't say, \"stop!\""));
+    assertEquals("document.getElementById(\\\"test\\\").value = \\'<script>alert(\\'aaa\\');<\\/script>\\';",
+            StringEscapeUtils.escapeEcmaScript(
+                    "document.getElementById(\"test\").value = '<script>alert('aaa');</script>';"));
+}
+
+    /**
+     * Tests https://issues.apache.org/jira/browse/LANG-339
+     */
+    @Test
+    public void testEscapeHiragana() {
+        // Some random Japanese Unicode characters
+        final String original = "\u304B\u304C\u3068";
+        final String escaped = StringEscapeUtils.escapeHtml4(original);
+        assertEquals(original, escaped,
+                "Hiragana character Unicode behavior should not be being escaped by escapeHtml4");
+
+        final String unescaped = StringEscapeUtils.unescapeHtml4(escaped);
+
+        assertEquals(escaped, unescaped, "Hiragana character Unicode behavior has changed - expected no unescaping");
+    }
+
+    @Test
+    public void testEscapeHtml3() {
+        for (final String[] element : HTML_ESCAPES) {
+            final String message = element[0];
+            final String expected = element[1];
+            final String original = element[2];
+            assertEquals(expected, StringEscapeUtils.escapeHtml4(original), message);
+            final StringWriter sw = new StringWriter();
+            try {
+                StringEscapeUtils.ESCAPE_HTML3.translate(original, sw);
+            } catch (final IOException e) {
+                // expected
+            }
+            final String actual = original == null ? null : sw.toString();
+            assertEquals(expected, actual, message);
+        }
+    }
+
+    @Test
+        public void testEscapeHtml4() {
+            for (final String[] element : HTML_ESCAPES) {
+                final String message = element[0];
+                final String expected = element[1];
+                final String original = element[2];
+                assertEquals(expected, StringEscapeUtils.escapeHtml4(original), message);
+                final StringWriter sw = new StringWriter();
+                try {
+                    StringEscapeUtils.ESCAPE_HTML4.translate(original, sw);
+                } catch (final IOException e) {
+                    // expected
+                }
+                final String actual = original == null ? null : sw.toString();
+                assertEquals(expected, actual, message);
+            }
+        }
+
+    /**
+     * Tests // https://issues.apache.org/jira/browse/LANG-480
+     */
+    @Test
+    public void testEscapeHtmlHighUnicode() {
+        // this is the utf8 representation of the character:
+        // COUNTING ROD UNIT DIGIT THREE
+        // in Unicode
+        // codepoint: U+1D362
+        final byte[] data = {(byte) 0xF0, (byte) 0x9D, (byte) 0x8D, (byte) 0xA2};
+
+        final String original = new String(data, Charset.forName("UTF8"));
+
+        final String escaped = StringEscapeUtils.escapeHtml4(original);
+        assertEquals(original, escaped, "High Unicode should not have been escaped");
+
+        final String unescaped = StringEscapeUtils.unescapeHtml4(escaped);
+        assertEquals(original, unescaped, "High Unicode should have been unchanged");
+
+        // TODO: I think this should hold, needs further investigation
+        //        String unescapedFromEntity = StringEscapeUtils.unescapeHtml4("&#119650;");
+        //        assertEquals("High Unicode should have been unescaped", original, unescapedFromEntity);
+    }
+
+
+
+    @Test
+    public void testEscapeHtmlThree() {
+        assertNull(StringEscapeUtils.escapeHtml3(null));
+        assertEquals("a", StringEscapeUtils.escapeHtml3("a"));
+        assertEquals("&lt;b&gt;a", StringEscapeUtils.escapeHtml3("<b>a"));
+    }
+
+    @Test
+    public void testEscapeHtmlVersions() {
+        assertEquals("&Beta;", StringEscapeUtils.escapeHtml4("\u0392"));
+        assertEquals("\u0392", StringEscapeUtils.unescapeHtml4("&Beta;"));
+
+        // TODO: refine API for escaping/unescaping specific HTML versions
     }
 
     @Test
@@ -115,25 +344,11 @@ public class StringEscapeUtilsTest {
         assertEquals(expected, actual);
     }
 
-    private void assertEscapeJava(final String escaped, final String original) throws IOException {
-        assertEscapeJava(escaped, original, null);
-    }
-
-    private void assertEscapeJava(final String expected, final String original, String message) throws IOException {
-        final String converted = StringEscapeUtils.escapeJava(original);
-        message = "escapeJava(String) failed" + (message == null ? "" : (": " + message));
-        assertEquals(expected, converted, message);
-
-        final StringWriter writer = new StringWriter();
-        StringEscapeUtils.ESCAPE_JAVA.translate(original, writer);
-        assertEquals(expected, writer.toString());
-    }
-
     @Test
-    public void testUnescapeJava() throws IOException {
-        assertNull(StringEscapeUtils.unescapeJava(null));
+    public void testEscapeJson() {
+        assertNull(StringEscapeUtils.escapeJson(null));
         try {
-            StringEscapeUtils.UNESCAPE_JAVA.translate(null, null);
+            StringEscapeUtils.ESCAPE_JSON.translate(null, null);
             fail("Exception expected!");
         } catch (final IOException ex) {
             fail("Exception expected!");
@@ -141,60 +356,7 @@ public class StringEscapeUtilsTest {
             // expected
         }
         try {
-            StringEscapeUtils.UNESCAPE_JAVA.translate("", null);
-            fail("Exception expected!");
-        } catch (final IOException ex) {
-            fail("Exception expected!");
-        } catch (final IllegalArgumentException ex) {
-            // expected
-        }
-        assertThrows(RuntimeException.class, () -> StringEscapeUtils.unescapeJava("\\u02-3"));
-
-        assertUnescapeJava("", "");
-        assertUnescapeJava("test", "test");
-        assertUnescapeJava("\ntest\b", "\\ntest\\b");
-        assertUnescapeJava("\u123425foo\ntest\b", "\\u123425foo\\ntest\\b");
-        assertUnescapeJava("'\foo\teste\r", "\\'\\foo\\teste\\r");
-        assertUnescapeJava("", "\\");
-        //foo
-        assertUnescapeJava("\uABCDx", "\\uabcdx", "lowercase Unicode");
-        assertUnescapeJava("\uABCDx", "\\uABCDx", "uppercase Unicode");
-        assertUnescapeJava("\uABCD", "\\uabcd", "Unicode as final character");
-    }
-
-    private void assertUnescapeJava(final String unescaped, final String original) throws IOException {
-        assertUnescapeJava(unescaped, original, null);
-    }
-
-    private void assertUnescapeJava(final String unescaped, final String original, final String message)
-            throws IOException {
-        final String expected = unescaped;
-        final String actual = StringEscapeUtils.unescapeJava(original);
-
-        assertEquals(expected, actual, "unescape(String) failed"
-                        + (message == null ? "" : (": " + message))
-                        + ": expected '" + StringEscapeUtils.escapeJava(expected)
-                        // we escape this so we can see it in the error message
-                        + "' actual '" + StringEscapeUtils.escapeJava(actual) + "'");
-
-        final StringWriter writer = new StringWriter();
-        StringEscapeUtils.UNESCAPE_JAVA.translate(original, writer);
-        assertEquals(unescaped, writer.toString());
-    }
-
-    @Test
-    public void testEscapeEcmaScript() {
-        assertNull(StringEscapeUtils.escapeEcmaScript(null));
-        try {
-            StringEscapeUtils.ESCAPE_ECMASCRIPT.translate(null, null);
-            fail("Exception expected!");
-        } catch (final IOException ex) {
-            fail("Exception expected!");
-        } catch (final IllegalArgumentException ex) {
-            // expected
-        }
-        try {
-            StringEscapeUtils.ESCAPE_ECMASCRIPT.translate("", null);
+            StringEscapeUtils.ESCAPE_JSON.translate("", null);
             fail("Exception expected!");
         } catch (final IOException ex) {
             fail("Exception expected!");
@@ -202,154 +364,13 @@ public class StringEscapeUtilsTest {
             // expected
         }
 
-        assertEquals("He didn\\'t say, \\\"stop!\\\"", StringEscapeUtils.escapeEcmaScript("He didn't say, \"stop!\""));
-        assertEquals("document.getElementById(\\\"test\\\").value = \\'<script>alert(\\'aaa\\');<\\/script>\\';",
-                StringEscapeUtils.escapeEcmaScript(
-                        "document.getElementById(\"test\").value = '<script>alert('aaa');</script>';"));
+        assertEquals("He didn't say, \\\"stop!\\\"", StringEscapeUtils.escapeJson("He didn't say, \"stop!\""));
+
+        final String expected = "\\\"foo\\\" isn't \\\"bar\\\". specials: \\b\\r\\n\\f\\t\\\\\\/";
+        final String input = "\"foo\" isn't \"bar\". specials: \b\r\n\f\t\\/";
+
+        assertEquals(expected, StringEscapeUtils.escapeJson(input));
     }
-
-
-    // HTML and XML
-    //--------------------------------------------------------------
-
-    private static final String[][] HTML_ESCAPES = {
-            {"no escaping", "plain text", "plain text"},
-            {"no escaping", "plain text", "plain text"},
-            {"empty string", "", ""},
-            {"null", null, null},
-            {"ampersand", "bread &amp; butter", "bread & butter"},
-            {"quotes", "&quot;bread&quot; &amp; butter", "\"bread\" & butter"},
-            {"final character only", "greater than &gt;", "greater than >"},
-            {"first character only", "&lt; less than", "< less than"},
-            {"apostrophe", "Huntington's chorea", "Huntington's chorea"},
-            {"languages", "English,Fran&ccedil;ais,\u65E5\u672C\u8A9E (nihongo)",
-                "English,Fran\u00E7ais,\u65E5\u672C\u8A9E (nihongo)"},
-            {"8-bit ascii shouldn't number-escape", "\u0080\u009F", "\u0080\u009F"},
-    };
-
-    @Test
-    public void testEscapeHtml3() {
-        for (final String[] element : HTML_ESCAPES) {
-            final String message = element[0];
-            final String expected = element[1];
-            final String original = element[2];
-            assertEquals(expected, StringEscapeUtils.escapeHtml4(original), message);
-            final StringWriter sw = new StringWriter();
-            try {
-                StringEscapeUtils.ESCAPE_HTML3.translate(original, sw);
-            } catch (final IOException e) {
-                // expected
-            }
-            final String actual = original == null ? null : sw.toString();
-            assertEquals(expected, actual, message);
-        }
-    }
-
-    @Test
-    public void testUnescapeHtml3() {
-        for (final String[] element : HTML_ESCAPES) {
-            final String message = element[0];
-            final String expected = element[2];
-            final String original = element[1];
-            assertEquals(expected, StringEscapeUtils.unescapeHtml3(original), message);
-
-            final StringWriter sw = new StringWriter();
-            try {
-                StringEscapeUtils.UNESCAPE_HTML3.translate(original, sw);
-            } catch (final IOException e) {
-                // expected
-            }
-            final String actual = original == null ? null : sw.toString();
-            assertEquals(expected, actual, message);
-        }
-        // \u00E7 is a cedilla (c with wiggle under)
-        // note that the test string must be 7-bit-clean (Unicode escaped) or else it will compile incorrectly
-        // on some locales
-        assertEquals("Fran\u00E7ais", StringEscapeUtils.unescapeHtml3("Fran\u00E7ais"), "funny chars pass through OK");
-
-        assertEquals("Hello&;World", StringEscapeUtils.unescapeHtml3("Hello&;World"));
-        assertEquals("Hello&#;World", StringEscapeUtils.unescapeHtml3("Hello&#;World"));
-        assertEquals("Hello&# ;World", StringEscapeUtils.unescapeHtml3("Hello&# ;World"));
-        assertEquals("Hello&##;World", StringEscapeUtils.unescapeHtml3("Hello&##;World"));
-    }
-
-@Test
-    public void testEscapeHtml4() {
-        for (final String[] element : HTML_ESCAPES) {
-            final String message = element[0];
-            final String expected = element[1];
-            final String original = element[2];
-            assertEquals(expected, StringEscapeUtils.escapeHtml4(original), message);
-            final StringWriter sw = new StringWriter();
-            try {
-                StringEscapeUtils.ESCAPE_HTML4.translate(original, sw);
-            } catch (final IOException e) {
-                // expected
-            }
-            final String actual = original == null ? null : sw.toString();
-            assertEquals(expected, actual, message);
-        }
-    }
-
-    @Test
-    public void testUnescapeHtml4() {
-        for (final String[] element : HTML_ESCAPES) {
-            final String message = element[0];
-            final String expected = element[2];
-            final String original = element[1];
-            assertEquals(expected, StringEscapeUtils.unescapeHtml4(original), message);
-
-            final StringWriter sw = new StringWriter();
-            try {
-                StringEscapeUtils.UNESCAPE_HTML4.translate(original, sw);
-            } catch (final IOException e) {
-                // expected
-            }
-            final String actual = original == null ? null : sw.toString();
-            assertEquals(expected, actual, message);
-        }
-        // \u00E7 is a cedilla (c with wiggle under)
-        // note that the test string must be 7-bit-clean (Unicode escaped) or else it will compile incorrectly
-        // on some locales
-        assertEquals("Fran\u00E7ais", StringEscapeUtils.unescapeHtml4("Fran\u00E7ais"), "funny chars pass through OK");
-
-        assertEquals("Hello&;World", StringEscapeUtils.unescapeHtml4("Hello&;World"));
-        assertEquals("Hello&#;World", StringEscapeUtils.unescapeHtml4("Hello&#;World"));
-        assertEquals("Hello&# ;World", StringEscapeUtils.unescapeHtml4("Hello&# ;World"));
-        assertEquals("Hello&##;World", StringEscapeUtils.unescapeHtml4("Hello&##;World"));
-    }
-
-    @Test
-    public void testUnescapeHexCharsHtml() {
-        // Simple easy to grok test
-        assertEquals("\u0080\u009F", StringEscapeUtils.unescapeHtml4("&#x80;&#x9F;"), "hex number unescape");
-        assertEquals("\u0080\u009F", StringEscapeUtils.unescapeHtml4("&#X80;&#X9F;"), "hex number unescape");
-        // Test all Character values:
-        for (char i = Character.MIN_VALUE; i < Character.MAX_VALUE; i++) {
-            final Character c1 = i;
-            final Character c2 = (char) (i + 1);
-            final String expected = c1.toString() + c2.toString();
-            final String escapedC1 = "&#x" + Integer.toHexString(c1) + ";";
-            final String escapedC2 = "&#x" + Integer.toHexString(c2) + ";";
-            assertEquals(expected, StringEscapeUtils.unescapeHtml4(escapedC1 + escapedC2),
-                    "hex number unescape index " + i);
-        }
-    }
-
-    @Test
-    public void testUnescapeUnknownEntity() {
-        assertEquals("&zzzz;", StringEscapeUtils.unescapeHtml4("&zzzz;"));
-    }
-
-    @Test
-    public void testEscapeHtmlVersions() {
-        assertEquals("&Beta;", StringEscapeUtils.escapeHtml4("\u0392"));
-        assertEquals("\u0392", StringEscapeUtils.unescapeHtml4("&Beta;"));
-
-        // TODO: refine API for escaping/unescaping specific HTML versions
-    }
-
-
 
     @Test
     public void testEscapeXml10() {
@@ -386,145 +407,17 @@ public class StringEscapeUtilsTest {
                 "XML 1.1 should omit #xfffe | #xffff");
     }
 
-    /**
-     * Reverse of the above.
-     *
-     * @see <a href="https://issues.apache.org/jira/browse/LANG-729">LANG-729</a>
-     */
     @Test
-    public void testUnescapeXmlSupplementaryCharacters() {
-        assertEquals("\uD84C\uDFB4", StringEscapeUtils.unescapeXml("&#144308;"),
-                "Supplementary character must be represented using a single escape");
-
-        assertEquals("a b c \uD84C\uDFB4", StringEscapeUtils.unescapeXml("a b c &#144308;"),
-                "Supplementary characters mixed with basic characters should be decoded correctly");
-    }
-
-    // Tests issue #38569
-    // https://issues.apache.org/bugzilla/show_bug.cgi?id=38569
-    @Test
-    public void testStandaloneAmphersand() {
-        assertEquals("<P&O>", StringEscapeUtils.unescapeHtml4("&lt;P&O&gt;"));
-        assertEquals("test & <", StringEscapeUtils.unescapeHtml4("test & &lt;"));
-        assertEquals("<P&O>", StringEscapeUtils.unescapeXml("&lt;P&O&gt;"));
-        assertEquals("test & <", StringEscapeUtils.unescapeXml("test & &lt;"));
+    public void testEscapeXSI() {
+        assertNull(null, escapeXSI(null));
+        assertEquals("He\\ didn\\'t\\ say,\\ \\\"Stop!\\\"", escapeXSI("He didn't say, \"Stop!\""));
+        assertEquals("\\\\", escapeXSI("\\"));
+        assertEquals("", escapeXSI("\n"));
     }
 
     @Test
     public void testLang313() {
         assertEquals("& &", StringEscapeUtils.unescapeHtml4("& &amp;"));
-    }
-
-    @Test
-    public void testEscapeCsvString() {
-        assertEquals("foo.bar", StringEscapeUtils.escapeCsv("foo.bar"));
-        assertEquals("\"foo,bar\"", StringEscapeUtils.escapeCsv("foo,bar"));
-        assertEquals("\"foo\nbar\"", StringEscapeUtils.escapeCsv("foo\nbar"));
-        assertEquals("\"foo\rbar\"", StringEscapeUtils.escapeCsv("foo\rbar"));
-        assertEquals("\"foo\"\"bar\"", StringEscapeUtils.escapeCsv("foo\"bar"));
-        assertEquals("foo\uD84C\uDFB4bar", StringEscapeUtils.escapeCsv("foo\uD84C\uDFB4bar"));
-        assertEquals("", StringEscapeUtils.escapeCsv(""));
-        assertNull(StringEscapeUtils.escapeCsv(null));
-    }
-
-    @Test
-    public void testEscapeCsvWriter() {
-        checkCsvEscapeWriter("foo.bar", "foo.bar");
-        checkCsvEscapeWriter("\"foo,bar\"", "foo,bar");
-        checkCsvEscapeWriter("\"foo\nbar\"", "foo\nbar");
-        checkCsvEscapeWriter("\"foo\rbar\"", "foo\rbar");
-        checkCsvEscapeWriter("\"foo\"\"bar\"", "foo\"bar");
-        checkCsvEscapeWriter("foo\uD84C\uDFB4bar", "foo\uD84C\uDFB4bar");
-        checkCsvEscapeWriter("", null);
-        checkCsvEscapeWriter("", "");
-    }
-
-    private void checkCsvEscapeWriter(final String expected, final String value) {
-        try {
-            final StringWriter writer = new StringWriter();
-            StringEscapeUtils.ESCAPE_CSV.translate(value, writer);
-            assertEquals(expected, writer.toString());
-        } catch (final IOException e) {
-            fail("Threw: " + e);
-        }
-    }
-
-    @Test
-    public void testUnescapeCsvString() {
-        assertEquals("foo.bar", StringEscapeUtils.unescapeCsv("foo.bar"));
-        assertEquals("foo,bar", StringEscapeUtils.unescapeCsv("\"foo,bar\""));
-        assertEquals("foo\nbar", StringEscapeUtils.unescapeCsv("\"foo\nbar\""));
-        assertEquals("foo\rbar", StringEscapeUtils.unescapeCsv("\"foo\rbar\""));
-        assertEquals("foo\"bar", StringEscapeUtils.unescapeCsv("\"foo\"\"bar\""));
-        assertEquals("foo\uD84C\uDFB4bar", StringEscapeUtils.unescapeCsv("foo\uD84C\uDFB4bar"));
-        assertEquals("", StringEscapeUtils.unescapeCsv(""));
-        assertNull(StringEscapeUtils.unescapeCsv(null));
-
-        assertEquals("foo.bar", StringEscapeUtils.unescapeCsv("\"foo.bar\""));
-    }
-
-    @Test
-    public void testUnescapeCsvWriter() {
-        checkCsvUnescapeWriter("foo.bar", "foo.bar");
-        checkCsvUnescapeWriter("foo,bar", "\"foo,bar\"");
-        checkCsvUnescapeWriter("foo\nbar", "\"foo\nbar\"");
-        checkCsvUnescapeWriter("foo\rbar", "\"foo\rbar\"");
-        checkCsvUnescapeWriter("foo\"bar", "\"foo\"\"bar\"");
-        checkCsvUnescapeWriter("foo\uD84C\uDFB4bar", "foo\uD84C\uDFB4bar");
-        checkCsvUnescapeWriter("", null);
-        checkCsvUnescapeWriter("", "");
-
-        checkCsvUnescapeWriter("foo.bar", "\"foo.bar\"");
-    }
-
-    private void checkCsvUnescapeWriter(final String expected, final String value) {
-        try {
-            final StringWriter writer = new StringWriter();
-            StringEscapeUtils.UNESCAPE_CSV.translate(value, writer);
-            assertEquals(expected, writer.toString());
-        } catch (final IOException e) {
-            fail("Threw: " + e);
-        }
-    }
-
-    /**
-     * Tests // https://issues.apache.org/jira/browse/LANG-480
-     */
-    @Test
-    public void testEscapeHtmlHighUnicode() {
-        // this is the utf8 representation of the character:
-        // COUNTING ROD UNIT DIGIT THREE
-        // in Unicode
-        // codepoint: U+1D362
-        final byte[] data = {(byte) 0xF0, (byte) 0x9D, (byte) 0x8D, (byte) 0xA2};
-
-        final String original = new String(data, Charset.forName("UTF8"));
-
-        final String escaped = StringEscapeUtils.escapeHtml4(original);
-        assertEquals(original, escaped, "High Unicode should not have been escaped");
-
-        final String unescaped = StringEscapeUtils.unescapeHtml4(escaped);
-        assertEquals(original, unescaped, "High Unicode should have been unchanged");
-
-        // TODO: I think this should hold, needs further investigation
-        //        String unescapedFromEntity = StringEscapeUtils.unescapeHtml4("&#119650;");
-        //        assertEquals("High Unicode should have been unescaped", original, unescapedFromEntity);
-    }
-
-    /**
-     * Tests https://issues.apache.org/jira/browse/LANG-339
-     */
-    @Test
-    public void testEscapeHiragana() {
-        // Some random Japanese Unicode characters
-        final String original = "\u304B\u304C\u3068";
-        final String escaped = StringEscapeUtils.escapeHtml4(original);
-        assertEquals(original, escaped,
-                "Hiragana character Unicode behavior should not be being escaped by escapeHtml4");
-
-        final String unescaped = StringEscapeUtils.unescapeHtml4(escaped);
-
-        assertEquals(escaped, unescaped, "Hiragana character Unicode behavior has changed - expected no unescaping");
     }
 
     /**
@@ -555,56 +448,42 @@ public class StringEscapeUtilsTest {
         assertEquals(bellsTest, valueTest);
     }
 
+    // Tests issue #38569
+    // https://issues.apache.org/bugzilla/show_bug.cgi?id=38569
     @Test
-    public void testEscapeJson() {
-        assertNull(StringEscapeUtils.escapeJson(null));
-        try {
-            StringEscapeUtils.ESCAPE_JSON.translate(null, null);
-            fail("Exception expected!");
-        } catch (final IOException ex) {
-            fail("Exception expected!");
-        } catch (final IllegalArgumentException ex) {
-            // expected
-        }
-        try {
-            StringEscapeUtils.ESCAPE_JSON.translate("", null);
-            fail("Exception expected!");
-        } catch (final IOException ex) {
-            fail("Exception expected!");
-        } catch (final IllegalArgumentException ex) {
-            // expected
-        }
-
-        assertEquals("He didn't say, \\\"stop!\\\"", StringEscapeUtils.escapeJson("He didn't say, \"stop!\""));
-
-        final String expected = "\\\"foo\\\" isn't \\\"bar\\\". specials: \\b\\r\\n\\f\\t\\\\\\/";
-        final String input = "\"foo\" isn't \"bar\". specials: \b\r\n\f\t\\/";
-
-        assertEquals(expected, StringEscapeUtils.escapeJson(input));
+    public void testStandaloneAmphersand() {
+        assertEquals("<P&O>", StringEscapeUtils.unescapeHtml4("&lt;P&O&gt;"));
+        assertEquals("test & <", StringEscapeUtils.unescapeHtml4("test & &lt;"));
+        assertEquals("<P&O>", StringEscapeUtils.unescapeXml("&lt;P&O&gt;"));
+        assertEquals("test & <", StringEscapeUtils.unescapeXml("test & &lt;"));
     }
 
     @Test
-    public void testBuilder() {
-        final String result =
-                StringEscapeUtils.builder(StringEscapeUtils.ESCAPE_XML10).escape("<").append(">").toString();
-        assertEquals("&lt;>", result);
+    public void testUnescapeCsvString() {
+        assertEquals("foo.bar", StringEscapeUtils.unescapeCsv("foo.bar"));
+        assertEquals("foo,bar", StringEscapeUtils.unescapeCsv("\"foo,bar\""));
+        assertEquals("foo\nbar", StringEscapeUtils.unescapeCsv("\"foo\nbar\""));
+        assertEquals("foo\rbar", StringEscapeUtils.unescapeCsv("\"foo\rbar\""));
+        assertEquals("foo\"bar", StringEscapeUtils.unescapeCsv("\"foo\"\"bar\""));
+        assertEquals("foo\uD84C\uDFB4bar", StringEscapeUtils.unescapeCsv("foo\uD84C\uDFB4bar"));
+        assertEquals("", StringEscapeUtils.unescapeCsv(""));
+        assertNull(StringEscapeUtils.unescapeCsv(null));
+
+        assertEquals("foo.bar", StringEscapeUtils.unescapeCsv("\"foo.bar\""));
     }
 
     @Test
-    public void testEscapeXSI() {
-        assertNull(null, escapeXSI(null));
-        assertEquals("He\\ didn\\'t\\ say,\\ \\\"Stop!\\\"", escapeXSI("He didn't say, \"Stop!\""));
-        assertEquals("\\\\", escapeXSI("\\"));
-        assertEquals("", escapeXSI("\n"));
-    }
+    public void testUnescapeCsvWriter() {
+        checkCsvUnescapeWriter("foo.bar", "foo.bar");
+        checkCsvUnescapeWriter("foo,bar", "\"foo,bar\"");
+        checkCsvUnescapeWriter("foo\nbar", "\"foo\nbar\"");
+        checkCsvUnescapeWriter("foo\rbar", "\"foo\rbar\"");
+        checkCsvUnescapeWriter("foo\"bar", "\"foo\"\"bar\"");
+        checkCsvUnescapeWriter("foo\uD84C\uDFB4bar", "foo\uD84C\uDFB4bar");
+        checkCsvUnescapeWriter("", null);
+        checkCsvUnescapeWriter("", "");
 
-    @Test
-    public void testUnscapeXSI() {
-        assertNull(null, unescapeXSI(null));
-        assertEquals("\"", unescapeXSI("\\\""));
-        assertEquals("He didn't say, \"Stop!\"", unescapeXSI("He\\ didn\\'t\\ say,\\ \\\"Stop!\\\""));
-        assertEquals("\\", unescapeXSI("\\\\"));
-        assertEquals("", unescapeXSI("\\"));
+        checkCsvUnescapeWriter("foo.bar", "\"foo.bar\"");
     }
 
     @Test
@@ -618,10 +497,109 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testEscapeHtmlThree() {
-        assertNull(StringEscapeUtils.escapeHtml3(null));
-        assertEquals("a", StringEscapeUtils.escapeHtml3("a"));
-        assertEquals("&lt;b&gt;a", StringEscapeUtils.escapeHtml3("<b>a"));
+    public void testUnescapeHexCharsHtml() {
+        // Simple easy to grok test
+        assertEquals("\u0080\u009F", StringEscapeUtils.unescapeHtml4("&#x80;&#x9F;"), "hex number unescape");
+        assertEquals("\u0080\u009F", StringEscapeUtils.unescapeHtml4("&#X80;&#X9F;"), "hex number unescape");
+        // Test all Character values:
+        for (char i = Character.MIN_VALUE; i < Character.MAX_VALUE; i++) {
+            final Character c1 = i;
+            final Character c2 = (char) (i + 1);
+            final String expected = c1.toString() + c2.toString();
+            final String escapedC1 = "&#x" + Integer.toHexString(c1) + ";";
+            final String escapedC2 = "&#x" + Integer.toHexString(c2) + ";";
+            assertEquals(expected, StringEscapeUtils.unescapeHtml4(escapedC1 + escapedC2),
+                    "hex number unescape index " + i);
+        }
+    }
+
+    @Test
+    public void testUnescapeHtml3() {
+        for (final String[] element : HTML_ESCAPES) {
+            final String message = element[0];
+            final String expected = element[2];
+            final String original = element[1];
+            assertEquals(expected, StringEscapeUtils.unescapeHtml3(original), message);
+
+            final StringWriter sw = new StringWriter();
+            try {
+                StringEscapeUtils.UNESCAPE_HTML3.translate(original, sw);
+            } catch (final IOException e) {
+                // expected
+            }
+            final String actual = original == null ? null : sw.toString();
+            assertEquals(expected, actual, message);
+        }
+        // \u00E7 is a cedilla (c with wiggle under)
+        // note that the test string must be 7-bit-clean (Unicode escaped) or else it will compile incorrectly
+        // on some locales
+        assertEquals("Fran\u00E7ais", StringEscapeUtils.unescapeHtml3("Fran\u00E7ais"), "funny chars pass through OK");
+
+        assertEquals("Hello&;World", StringEscapeUtils.unescapeHtml3("Hello&;World"));
+        assertEquals("Hello&#;World", StringEscapeUtils.unescapeHtml3("Hello&#;World"));
+        assertEquals("Hello&# ;World", StringEscapeUtils.unescapeHtml3("Hello&# ;World"));
+        assertEquals("Hello&##;World", StringEscapeUtils.unescapeHtml3("Hello&##;World"));
+    }
+
+    @Test
+    public void testUnescapeHtml4() {
+        for (final String[] element : HTML_ESCAPES) {
+            final String message = element[0];
+            final String expected = element[2];
+            final String original = element[1];
+            assertEquals(expected, StringEscapeUtils.unescapeHtml4(original), message);
+
+            final StringWriter sw = new StringWriter();
+            try {
+                StringEscapeUtils.UNESCAPE_HTML4.translate(original, sw);
+            } catch (final IOException e) {
+                // expected
+            }
+            final String actual = original == null ? null : sw.toString();
+            assertEquals(expected, actual, message);
+        }
+        // \u00E7 is a cedilla (c with wiggle under)
+        // note that the test string must be 7-bit-clean (Unicode escaped) or else it will compile incorrectly
+        // on some locales
+        assertEquals("Fran\u00E7ais", StringEscapeUtils.unescapeHtml4("Fran\u00E7ais"), "funny chars pass through OK");
+
+        assertEquals("Hello&;World", StringEscapeUtils.unescapeHtml4("Hello&;World"));
+        assertEquals("Hello&#;World", StringEscapeUtils.unescapeHtml4("Hello&#;World"));
+        assertEquals("Hello&# ;World", StringEscapeUtils.unescapeHtml4("Hello&# ;World"));
+        assertEquals("Hello&##;World", StringEscapeUtils.unescapeHtml4("Hello&##;World"));
+    }
+
+    @Test
+    public void testUnescapeJava() throws IOException {
+        assertNull(StringEscapeUtils.unescapeJava(null));
+        try {
+            StringEscapeUtils.UNESCAPE_JAVA.translate(null, null);
+            fail("Exception expected!");
+        } catch (final IOException ex) {
+            fail("Exception expected!");
+        } catch (final IllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            StringEscapeUtils.UNESCAPE_JAVA.translate("", null);
+            fail("Exception expected!");
+        } catch (final IOException ex) {
+            fail("Exception expected!");
+        } catch (final IllegalArgumentException ex) {
+            // expected
+        }
+        assertThrows(RuntimeException.class, () -> StringEscapeUtils.unescapeJava("\\u02-3"));
+
+        assertUnescapeJava("", "");
+        assertUnescapeJava("test", "test");
+        assertUnescapeJava("\ntest\b", "\\ntest\\b");
+        assertUnescapeJava("\u123425foo\ntest\b", "\\u123425foo\\ntest\\b");
+        assertUnescapeJava("'\foo\teste\r", "\\'\\foo\\teste\\r");
+        assertUnescapeJava("", "\\");
+        //foo
+        assertUnescapeJava("\uABCDx", "\\uabcdx", "lowercase Unicode");
+        assertUnescapeJava("\uABCDx", "\\uABCDx", "uppercase Unicode");
+        assertUnescapeJava("\uABCD", "\\uabcd", "Unicode as final character");
     }
 
     @Test
@@ -644,8 +622,30 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testDeleteCharacter() {
-      final String deleteString = "Delete: \u007F";
-      assertEquals("Delete: \\u007F", StringEscapeUtils.escapeJson(deleteString));
+    public void testUnescapeUnknownEntity() {
+        assertEquals("&zzzz;", StringEscapeUtils.unescapeHtml4("&zzzz;"));
+    }
+
+    /**
+     * Reverse of the above.
+     *
+     * @see <a href="https://issues.apache.org/jira/browse/LANG-729">LANG-729</a>
+     */
+    @Test
+    public void testUnescapeXmlSupplementaryCharacters() {
+        assertEquals("\uD84C\uDFB4", StringEscapeUtils.unescapeXml("&#144308;"),
+                "Supplementary character must be represented using a single escape");
+
+        assertEquals("a b c \uD84C\uDFB4", StringEscapeUtils.unescapeXml("a b c &#144308;"),
+                "Supplementary characters mixed with basic characters should be decoded correctly");
+    }
+
+    @Test
+    public void testUnscapeXSI() {
+        assertNull(null, unescapeXSI(null));
+        assertEquals("\"", unescapeXSI("\\\""));
+        assertEquals("He didn't say, \"Stop!\"", unescapeXSI("He\\ didn\\'t\\ say,\\ \\\"Stop!\\\""));
+        assertEquals("\\", unescapeXSI("\\\\"));
+        assertEquals("", unescapeXSI("\\"));
     }
 }

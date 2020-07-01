@@ -32,30 +32,8 @@ import org.junit.jupiter.api.Test;
 public class StringSubstitutorWithInterpolatorStringLookupTest {
 
     @Test
-    public void testCustomMapWithDefaults() {
-        testCustomMapWithDefaults(true);
-    }
-
-    @Test
     public void testCustomFunctionWithDefaults() {
         testCustomFunctionWithDefaults(true);
-    }
-
-    private void testCustomMapWithDefaults(final boolean addDefaultLookups) {
-        final String key = "key";
-        final String value = "value";
-        final Map<String, String> map = new HashMap<>();
-        map.put(key, value);
-        final StringLookup mapStringLookup = StringLookupFactory.INSTANCE.mapStringLookup(map);
-        final Map<String, StringLookup> stringLookupMap = new HashMap<>();
-        stringLookupMap.put("customLookup", mapStringLookup);
-        final StringSubstitutor strSubst = new StringSubstitutor(
-            StringLookupFactory.INSTANCE.interpolatorStringLookup(stringLookupMap, null, addDefaultLookups));
-        if (addDefaultLookups) {
-            final String spKey = "user.name";
-            Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
-        }
-        Assertions.assertEquals("value", strSubst.replace("${customLookup:key}"));
     }
 
     private void testCustomFunctionWithDefaults(final boolean addDefaultLookups) {
@@ -76,13 +54,35 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     }
 
     @Test
-    public void testCustomMapWithoutDefaults() {
-        testCustomMapWithDefaults(false);
+    public void testCustomFunctionWithoutDefaults() {
+        testCustomFunctionWithDefaults(false);
     }
 
     @Test
-    public void testCustomFunctionWithoutDefaults() {
-        testCustomFunctionWithDefaults(false);
+    public void testCustomMapWithDefaults() {
+        testCustomMapWithDefaults(true);
+    }
+
+    private void testCustomMapWithDefaults(final boolean addDefaultLookups) {
+        final String key = "key";
+        final String value = "value";
+        final Map<String, String> map = new HashMap<>();
+        map.put(key, value);
+        final StringLookup mapStringLookup = StringLookupFactory.INSTANCE.mapStringLookup(map);
+        final Map<String, StringLookup> stringLookupMap = new HashMap<>();
+        stringLookupMap.put("customLookup", mapStringLookup);
+        final StringSubstitutor strSubst = new StringSubstitutor(
+            StringLookupFactory.INSTANCE.interpolatorStringLookup(stringLookupMap, null, addDefaultLookups));
+        if (addDefaultLookups) {
+            final String spKey = "user.name";
+            Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
+        }
+        Assertions.assertEquals("value", strSubst.replace("${customLookup:key}"));
+    }
+
+    @Test
+    public void testCustomMapWithoutDefaults() {
+        testCustomMapWithDefaults(false);
     }
 
     @Test

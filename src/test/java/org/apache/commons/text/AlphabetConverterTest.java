@@ -56,17 +56,33 @@ public class AlphabetConverterTest {
     private static Integer[] doNotEncodeCodepoints = {32, 97, 98, 99}; // space, a, b, c
 
     @Test
-    public void encodeFailureTest() {
-        assertThatThrownBy(() -> {
-            test(binary, numbers, empty, "3");
-        }).isInstanceOf(UnsupportedEncodingException.class).hasMessage("Couldn't find encoding for '3' in 3");
-    }
-
-    @Test
     public void binaryTest() throws UnsupportedEncodingException {
         test(binary, numbers, empty, "0", "1", "10", "11");
         test(numbers, binary, empty, "12345", "0");
         test(lowerCaseEnglish, binary, empty, "abc", "a");
+    }
+
+    private AlphabetConverter createJavadocExample() {
+        final Character[] original = {'a', 'b', 'c', 'd'};
+        final Character[] encoding = {'0', '1', 'd'};
+        final Character[] doNotEncode = {'d'};
+
+        return AlphabetConverter.createConverterFromChars(original, encoding, doNotEncode);
+    }
+
+    @Test
+    public void doNotEncodeTest() throws UnsupportedEncodingException {
+        test(englishAndNumbers, lowerCaseEnglishAndNumbers, lowerCaseEnglish, "1", "456", "abc", "ABC",
+                "this will not be converted but THIS WILL");
+        test(englishAndNumbers, lowerCaseEnglishAndNumbers, numbers, "1", "456", "abc", "ABC",
+                "this will be converted but 12345 and this will be");
+    }
+
+    @Test
+    public void encodeFailureTest() {
+        assertThatThrownBy(() -> {
+            test(binary, numbers, empty, "3");
+        }).isInstanceOf(UnsupportedEncodingException.class).hasMessage("Couldn't find encoding for '3' in 3");
     }
 
     @Test
@@ -79,22 +95,6 @@ public class AlphabetConverterTest {
                 + "\u05d2\u05d9\u05de\u05dc_\u05d6\u05d4_\u05db\u05de\u05dc_\u05d2\u05d3\u05d5\u05dc");
         test(numbers, hebrew, empty, "123456789", "1", "5");
         test(lowerCaseEnglish, hebrew, empty, "this is a test");
-    }
-
-    @Test
-    public void doNotEncodeTest() throws UnsupportedEncodingException {
-        test(englishAndNumbers, lowerCaseEnglishAndNumbers, lowerCaseEnglish, "1", "456", "abc", "ABC",
-                "this will not be converted but THIS WILL");
-        test(englishAndNumbers, lowerCaseEnglishAndNumbers, numbers, "1", "456", "abc", "ABC",
-                "this will be converted but 12345 and this will be");
-    }
-
-    private AlphabetConverter createJavadocExample() {
-        final Character[] original = {'a', 'b', 'c', 'd'};
-        final Character[] encoding = {'0', '1', 'd'};
-        final Character[] doNotEncode = {'d'};
-
-        return AlphabetConverter.createConverterFromChars(original, encoding, doNotEncode);
     }
 
     /*
@@ -112,41 +112,19 @@ public class AlphabetConverterTest {
     }
 
     @Test
-    public void unexpectedEndwhileDecodingTest() {
-        final String toDecode = "00d01d0";
+    public void missingDoNotEncodeLettersFromEncodingTest() {
         assertThatThrownBy(() -> {
-            final AlphabetConverter ac = createJavadocExample();
-            ac.decode(toDecode);
-        }).isInstanceOf(UnsupportedEncodingException.class).hasMessage(
-                "Unexpected end of string while decoding " + toDecode);
+            AlphabetConverter.createConverterFromChars(englishAndNumbers, lowerCaseEnglish, numbers);
+        }).isInstanceOf(IllegalArgumentException.class).hasMessage(
+                "Can not use 'do not encode' list because encoding alphabet does not contain '0'");
     }
 
     @Test
-    public void unexpectedStringWhileDecodingTest() {
-        final String toDecode = "00XX";
+    public void missingDoNotEncodeLettersFromOriginalTest() {
         assertThatThrownBy(() -> {
-            final AlphabetConverter ac = createJavadocExample();
-            ac.decode(toDecode);
-        }).isInstanceOf(UnsupportedEncodingException.class).hasMessage(
-                "Unexpected string without decoding (XX) in " + toDecode);
-    }
-
-    /*
-     * Test constructor from code points
-     */
-    @Test
-    public void unicodeTest() throws UnsupportedEncodingException {
-        final AlphabetConverter ac = AlphabetConverter.createConverter(unicode, lowerCaseEnglishCodepoints,
-                doNotEncodeCodepoints);
-
-        assertThat(ac.getEncodedCharLength()).isEqualTo(2);
-
-        final String original = "\u8a43\u8a45 \u8dce ab \u8dc3 c \u8983";
-        final String encoded = ac.encode(original);
-        final String decoded = ac.decode(encoded);
-
-        assertThat(decoded).as("Encoded '" + original + "' into '" + encoded + "', but decoded into '" + decoded + "'")
-            .isEqualTo(original);
+            AlphabetConverter.createConverterFromChars(lowerCaseEnglish, englishAndNumbers, numbers);
+        }).isInstanceOf(IllegalArgumentException.class).hasMessage(
+                "Can not use 'do not encode' list because original alphabet does not contain '0'");
     }
 
     @Test
@@ -166,22 +144,6 @@ public class AlphabetConverterTest {
             AlphabetConverter.createConverterFromChars(englishAndNumbers, numbersPlusUnderscore, numbers);
         }).isInstanceOf(IllegalArgumentException.class).hasMessage(
                 "Must have at least two encoding characters (excluding those in the 'do not encode' list), but has 1");
-    }
-
-    @Test
-    public void missingDoNotEncodeLettersFromEncodingTest() {
-        assertThatThrownBy(() -> {
-            AlphabetConverter.createConverterFromChars(englishAndNumbers, lowerCaseEnglish, numbers);
-        }).isInstanceOf(IllegalArgumentException.class).hasMessage(
-                "Can not use 'do not encode' list because encoding alphabet does not contain '0'");
-    }
-
-    @Test
-    public void missingDoNotEncodeLettersFromOriginalTest() {
-        assertThatThrownBy(() -> {
-            AlphabetConverter.createConverterFromChars(lowerCaseEnglish, englishAndNumbers, numbers);
-        }).isInstanceOf(IllegalArgumentException.class).hasMessage(
-                "Can not use 'do not encode' list because original alphabet does not contain '0'");
     }
 
     private void test(final Character[] originalChars, final Character[] encodingChars,
@@ -223,14 +185,16 @@ public class AlphabetConverterTest {
     }
 
     @Test
-    public void testCreateConverterFromCharsWithNullAndNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            final Character[] characterArray = new Character[2];
-            characterArray[0] = '$';
-            characterArray[1] = characterArray[0];
+    public void testCreateConverterFromCharsAndEquals() {
+        final Character[] characterArray = new Character[2];
+        final char charOne = '+';
+        final Character character = '+';
+        characterArray[0] = character;
+        characterArray[1] = characterArray[0];
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
+                characterArray, characterArray);
 
-            AlphabetConverter.createConverterFromChars(characterArray, null, null);
-        });
+        assertThat(alphabetConverter.equals(charOne)).isFalse();
     }
 
     @Test
@@ -245,6 +209,17 @@ public class AlphabetConverterTest {
     }
 
     @Test
+    public void testCreateConverterFromCharsWithNullAndNull() {
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            final Character[] characterArray = new Character[2];
+            characterArray[0] = '$';
+            characterArray[1] = characterArray[0];
+
+            AlphabetConverter.createConverterFromChars(characterArray, null, null);
+        });
+    }
+
+    @Test
     public void testCreateConverterFromMapAndEquals() {
         final Map<Integer, String> hashMap = new HashMap<>();
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromMap(hashMap);
@@ -252,6 +227,15 @@ public class AlphabetConverterTest {
         final AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(hashMap);
 
         assertThat(alphabetConverter.equals(alphabetConverterTwo)).isFalse();
+        assertThat(alphabetConverter.getEncodedCharLength()).isEqualTo(1);
+    }
+
+    @Test
+    public void testDecodeReturningNull() throws UnsupportedEncodingException {
+        final Map<Integer, String> map = new HashMap<>();
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromMap(map);
+        alphabetConverter.decode(null);
+
         assertThat(alphabetConverter.getEncodedCharLength()).isEqualTo(1);
     }
 
@@ -271,6 +255,15 @@ public class AlphabetConverterTest {
     }
 
     @Test
+    public void testEqualsWithNull() {
+        final Character[] characterArray = new Character[0];
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, null,
+                null);
+
+        assertThat(alphabetConverter.equals(null)).isFalse();
+    }
+
+    @Test
     public void testEqualsWithSameObject() {
         final Character[] characterArray = new Character[2];
         final Character character = 'R';
@@ -283,34 +276,41 @@ public class AlphabetConverterTest {
     }
 
     @Test
-    public void testEqualsWithNull() {
-        final Character[] characterArray = new Character[0];
-        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, null,
-                null);
-
-        assertThat(alphabetConverter.equals(null)).isFalse();
+    public void unexpectedEndwhileDecodingTest() {
+        final String toDecode = "00d01d0";
+        assertThatThrownBy(() -> {
+            final AlphabetConverter ac = createJavadocExample();
+            ac.decode(toDecode);
+        }).isInstanceOf(UnsupportedEncodingException.class).hasMessage(
+                "Unexpected end of string while decoding " + toDecode);
     }
 
     @Test
-    public void testCreateConverterFromCharsAndEquals() {
-        final Character[] characterArray = new Character[2];
-        final char charOne = '+';
-        final Character character = '+';
-        characterArray[0] = character;
-        characterArray[1] = characterArray[0];
-        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
-                characterArray, characterArray);
-
-        assertThat(alphabetConverter.equals(charOne)).isFalse();
+    public void unexpectedStringWhileDecodingTest() {
+        final String toDecode = "00XX";
+        assertThatThrownBy(() -> {
+            final AlphabetConverter ac = createJavadocExample();
+            ac.decode(toDecode);
+        }).isInstanceOf(UnsupportedEncodingException.class).hasMessage(
+                "Unexpected string without decoding (XX) in " + toDecode);
     }
 
+    /*
+     * Test constructor from code points
+     */
     @Test
-    public void testDecodeReturningNull() throws UnsupportedEncodingException {
-        final Map<Integer, String> map = new HashMap<>();
-        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromMap(map);
-        alphabetConverter.decode(null);
+    public void unicodeTest() throws UnsupportedEncodingException {
+        final AlphabetConverter ac = AlphabetConverter.createConverter(unicode, lowerCaseEnglishCodepoints,
+                doNotEncodeCodepoints);
 
-        assertThat(alphabetConverter.getEncodedCharLength()).isEqualTo(1);
+        assertThat(ac.getEncodedCharLength()).isEqualTo(2);
+
+        final String original = "\u8a43\u8a45 \u8dce ab \u8dc3 c \u8983";
+        final String encoded = ac.encode(original);
+        final String decoded = ac.decode(encoded);
+
+        assertThat(decoded).as("Encoded '" + original + "' into '" + encoded + "', but decoded into '" + decoded + "'")
+            .isEqualTo(original);
     }
 
 }

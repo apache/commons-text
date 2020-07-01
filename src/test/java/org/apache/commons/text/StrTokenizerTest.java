@@ -299,42 +299,6 @@ public class StrTokenizerTest {
     }
 
     @Test
-    public void testDelimString() {
-        final String input = "a##b##c";
-        final StrTokenizer tok = new StrTokenizer(input, "##");
-
-        assertEquals("a", tok.next());
-        assertEquals("b", tok.next());
-        assertEquals("c", tok.next());
-        assertFalse(tok.hasNext());
-    }
-
-    @Test
-    public void testDelimMatcher() {
-        final String input = "a/b\\c";
-        final StrMatcher delimMatcher = new StrMatcher.CharSetMatcher(new char[] {'/', '\\'});
-
-        final StrTokenizer tok = new StrTokenizer(input, delimMatcher);
-        assertEquals("a", tok.next());
-        assertEquals("b", tok.next());
-        assertEquals("c", tok.next());
-        assertFalse(tok.hasNext());
-    }
-
-    @Test
-    public void testDelimMatcherQuoteMatcher() {
-        final String input = "`a`;`b`;`c`";
-        final StrMatcher delimMatcher = new StrMatcher.CharSetMatcher(new char[] {';'});
-        final StrMatcher quoteMatcher = new StrMatcher.CharSetMatcher(new char[] {'`'});
-
-        final StrTokenizer tok = new StrTokenizer(input, delimMatcher, quoteMatcher);
-        assertEquals("a", tok.next());
-        assertEquals("b", tok.next());
-        assertEquals("c", tok.next());
-        assertFalse(tok.hasNext());
-    }
-
-    @Test
     public void testBasicEmpty1() {
         final String input = "a  b c";
         final StrTokenizer tok = new StrTokenizer(input);
@@ -356,6 +320,61 @@ public class StrTokenizerTest {
         assertNull(tok.next());
         assertEquals("b", tok.next());
         assertEquals("c", tok.next());
+        assertFalse(tok.hasNext());
+    }
+
+    @Test
+    public void testBasicIgnoreTrimmed1() {
+        final String input = "a: bIGNOREc : ";
+        final StrTokenizer tok = new StrTokenizer(input, ':');
+        tok.setIgnoredMatcher(StrMatcher.stringMatcher("IGNORE"));
+        tok.setTrimmerMatcher(StrMatcher.trimMatcher());
+        tok.setIgnoreEmptyTokens(false);
+        tok.setEmptyTokenAsNull(true);
+        assertEquals("a", tok.next());
+        assertEquals("bc", tok.next());
+        assertNull(tok.next());
+        assertFalse(tok.hasNext());
+    }
+
+    @Test
+    public void testBasicIgnoreTrimmed2() {
+        final String input = "IGNOREaIGNORE: IGNORE bIGNOREc IGNORE : IGNORE ";
+        final StrTokenizer tok = new StrTokenizer(input, ':');
+        tok.setIgnoredMatcher(StrMatcher.stringMatcher("IGNORE"));
+        tok.setTrimmerMatcher(StrMatcher.trimMatcher());
+        tok.setIgnoreEmptyTokens(false);
+        tok.setEmptyTokenAsNull(true);
+        assertEquals("a", tok.next());
+        assertEquals("bc", tok.next());
+        assertNull(tok.next());
+        assertFalse(tok.hasNext());
+    }
+
+    @Test
+    public void testBasicIgnoreTrimmed3() {
+        final String input = "IGNOREaIGNORE: IGNORE bIGNOREc IGNORE : IGNORE ";
+        final StrTokenizer tok = new StrTokenizer(input, ':');
+        tok.setIgnoredMatcher(StrMatcher.stringMatcher("IGNORE"));
+        tok.setIgnoreEmptyTokens(false);
+        tok.setEmptyTokenAsNull(true);
+        assertEquals("a", tok.next());
+        assertEquals("  bc  ", tok.next());
+        assertEquals("  ", tok.next());
+        assertFalse(tok.hasNext());
+    }
+
+    @Test
+    public void testBasicIgnoreTrimmed4() {
+        final String input = "IGNOREaIGNORE: IGNORE 'bIGNOREc'IGNORE'd' IGNORE : IGNORE ";
+        final StrTokenizer tok = new StrTokenizer(input, ':', '\'');
+        tok.setIgnoredMatcher(StrMatcher.stringMatcher("IGNORE"));
+        tok.setTrimmerMatcher(StrMatcher.trimMatcher());
+        tok.setIgnoreEmptyTokens(false);
+        tok.setEmptyTokenAsNull(true);
+        assertEquals("a", tok.next());
+        assertEquals("bIGNOREcd", tok.next());
+        assertNull(tok.next());
         assertFalse(tok.hasNext());
     }
 
@@ -478,119 +497,6 @@ public class StrTokenizerTest {
         assertFalse(tok.hasNext());
     }
 
-    @Test
-    public void testBasicIgnoreTrimmed1() {
-        final String input = "a: bIGNOREc : ";
-        final StrTokenizer tok = new StrTokenizer(input, ':');
-        tok.setIgnoredMatcher(StrMatcher.stringMatcher("IGNORE"));
-        tok.setTrimmerMatcher(StrMatcher.trimMatcher());
-        tok.setIgnoreEmptyTokens(false);
-        tok.setEmptyTokenAsNull(true);
-        assertEquals("a", tok.next());
-        assertEquals("bc", tok.next());
-        assertNull(tok.next());
-        assertFalse(tok.hasNext());
-    }
-
-    @Test
-    public void testBasicIgnoreTrimmed2() {
-        final String input = "IGNOREaIGNORE: IGNORE bIGNOREc IGNORE : IGNORE ";
-        final StrTokenizer tok = new StrTokenizer(input, ':');
-        tok.setIgnoredMatcher(StrMatcher.stringMatcher("IGNORE"));
-        tok.setTrimmerMatcher(StrMatcher.trimMatcher());
-        tok.setIgnoreEmptyTokens(false);
-        tok.setEmptyTokenAsNull(true);
-        assertEquals("a", tok.next());
-        assertEquals("bc", tok.next());
-        assertNull(tok.next());
-        assertFalse(tok.hasNext());
-    }
-
-    @Test
-    public void testBasicIgnoreTrimmed3() {
-        final String input = "IGNOREaIGNORE: IGNORE bIGNOREc IGNORE : IGNORE ";
-        final StrTokenizer tok = new StrTokenizer(input, ':');
-        tok.setIgnoredMatcher(StrMatcher.stringMatcher("IGNORE"));
-        tok.setIgnoreEmptyTokens(false);
-        tok.setEmptyTokenAsNull(true);
-        assertEquals("a", tok.next());
-        assertEquals("  bc  ", tok.next());
-        assertEquals("  ", tok.next());
-        assertFalse(tok.hasNext());
-    }
-
-    @Test
-    public void testBasicIgnoreTrimmed4() {
-        final String input = "IGNOREaIGNORE: IGNORE 'bIGNOREc'IGNORE'd' IGNORE : IGNORE ";
-        final StrTokenizer tok = new StrTokenizer(input, ':', '\'');
-        tok.setIgnoredMatcher(StrMatcher.stringMatcher("IGNORE"));
-        tok.setTrimmerMatcher(StrMatcher.trimMatcher());
-        tok.setIgnoreEmptyTokens(false);
-        tok.setEmptyTokenAsNull(true);
-        assertEquals("a", tok.next());
-        assertEquals("bIGNOREcd", tok.next());
-        assertNull(tok.next());
-        assertFalse(tok.hasNext());
-    }
-
-    // -----------------------------------------------------------------------
-    @Test
-    public void testListArray() {
-        final String input = "a  b c";
-        final StrTokenizer tok = new StrTokenizer(input);
-        final String[] array = tok.getTokenArray();
-        final List<?> list = tok.getTokenList();
-
-        assertEquals(Arrays.asList(array), list);
-        assertEquals(3, list.size());
-    }
-
-    // -----------------------------------------------------------------------
-    private void testCSV(final String data) {
-        this.testXSVAbc(StrTokenizer.getCSVInstance(data));
-        this.testXSVAbc(StrTokenizer.getCSVInstance(data.toCharArray()));
-    }
-
-    @Test
-    public void testCSVEmpty() {
-        this.testEmpty(StrTokenizer.getCSVInstance());
-        this.testEmpty(StrTokenizer.getCSVInstance(""));
-    }
-
-    @Test
-    public void testCSVSimple() {
-        this.testCSV(CSV_SIMPLE_FIXTURE);
-    }
-
-    @Test
-    public void testCSVSimpleNeedsTrim() {
-        this.testCSV("   " + CSV_SIMPLE_FIXTURE);
-        this.testCSV("   \n\t  " + CSV_SIMPLE_FIXTURE);
-        this.testCSV("   \n  " + CSV_SIMPLE_FIXTURE + "\n\n\r");
-    }
-
-    void testEmpty(final StrTokenizer tokenizer) {
-        this.checkClone(tokenizer);
-        assertFalse(tokenizer.hasNext());
-        assertFalse(tokenizer.hasPrevious());
-        assertNull(tokenizer.nextToken());
-        assertEquals(0, tokenizer.size());
-        assertThrows(NoSuchElementException.class, () -> tokenizer.next());
-    }
-
-    @Test
-    public void testGetContent() {
-        final String input = "a   b c \"d e\" f ";
-        StrTokenizer tok = new StrTokenizer(input);
-        assertEquals(input, tok.getContent());
-
-        tok = new StrTokenizer(input.toCharArray());
-        assertEquals(input, tok.getContent());
-
-        tok = new StrTokenizer();
-        assertNull(tok.getContent());
-    }
-
     // -----------------------------------------------------------------------
     @Test
     public void testChaining() {
@@ -658,54 +564,6 @@ public class StrTokenizerTest {
 
     // -----------------------------------------------------------------------
     @Test
-    public void testConstructor_String() {
-        StrTokenizer tok = new StrTokenizer("a b");
-        assertEquals("a", tok.next());
-        assertEquals("b", tok.next());
-        assertFalse(tok.hasNext());
-
-        tok = new StrTokenizer("");
-        assertFalse(tok.hasNext());
-
-        tok = new StrTokenizer((String) null);
-        assertFalse(tok.hasNext());
-    }
-
-    // -----------------------------------------------------------------------
-    @Test
-    public void testConstructor_String_char() {
-        StrTokenizer tok = new StrTokenizer("a b", ' ');
-        assertEquals(1, tok.getDelimiterMatcher().isMatch(" ".toCharArray(), 0, 0, 1));
-        assertEquals("a", tok.next());
-        assertEquals("b", tok.next());
-        assertFalse(tok.hasNext());
-
-        tok = new StrTokenizer("", ' ');
-        assertFalse(tok.hasNext());
-
-        tok = new StrTokenizer((String) null, ' ');
-        assertFalse(tok.hasNext());
-    }
-
-    // -----------------------------------------------------------------------
-    @Test
-    public void testConstructor_String_char_char() {
-        StrTokenizer tok = new StrTokenizer("a b", ' ', '"');
-        assertEquals(1, tok.getDelimiterMatcher().isMatch(" ".toCharArray(), 0, 0, 1));
-        assertEquals(1, tok.getQuoteMatcher().isMatch("\"".toCharArray(), 0, 0, 1));
-        assertEquals("a", tok.next());
-        assertEquals("b", tok.next());
-        assertFalse(tok.hasNext());
-
-        tok = new StrTokenizer("", ' ', '"');
-        assertFalse(tok.hasNext());
-
-        tok = new StrTokenizer((String) null, ' ', '"');
-        assertFalse(tok.hasNext());
-    }
-
-    // -----------------------------------------------------------------------
-    @Test
     public void testConstructor_charArray() {
         StrTokenizer tok = new StrTokenizer("a b".toCharArray());
         assertEquals("a", tok.next());
@@ -754,83 +612,132 @@ public class StrTokenizerTest {
 
     // -----------------------------------------------------------------------
     @Test
-    public void testReset() {
-        final StrTokenizer tok = new StrTokenizer("a b c");
+    public void testConstructor_String() {
+        StrTokenizer tok = new StrTokenizer("a b");
+        assertEquals("a", tok.next());
+        assertEquals("b", tok.next());
+        assertFalse(tok.hasNext());
+
+        tok = new StrTokenizer("");
+        assertFalse(tok.hasNext());
+
+        tok = new StrTokenizer((String) null);
+        assertFalse(tok.hasNext());
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testConstructor_String_char() {
+        StrTokenizer tok = new StrTokenizer("a b", ' ');
+        assertEquals(1, tok.getDelimiterMatcher().isMatch(" ".toCharArray(), 0, 0, 1));
+        assertEquals("a", tok.next());
+        assertEquals("b", tok.next());
+        assertFalse(tok.hasNext());
+
+        tok = new StrTokenizer("", ' ');
+        assertFalse(tok.hasNext());
+
+        tok = new StrTokenizer((String) null, ' ');
+        assertFalse(tok.hasNext());
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testConstructor_String_char_char() {
+        StrTokenizer tok = new StrTokenizer("a b", ' ', '"');
+        assertEquals(1, tok.getDelimiterMatcher().isMatch(" ".toCharArray(), 0, 0, 1));
+        assertEquals(1, tok.getQuoteMatcher().isMatch("\"".toCharArray(), 0, 0, 1));
+        assertEquals("a", tok.next());
+        assertEquals("b", tok.next());
+        assertFalse(tok.hasNext());
+
+        tok = new StrTokenizer("", ' ', '"');
+        assertFalse(tok.hasNext());
+
+        tok = new StrTokenizer((String) null, ' ', '"');
+        assertFalse(tok.hasNext());
+    }
+
+    // -----------------------------------------------------------------------
+    private void testCSV(final String data) {
+        this.testXSVAbc(StrTokenizer.getCSVInstance(data));
+        this.testXSVAbc(StrTokenizer.getCSVInstance(data.toCharArray()));
+    }
+
+    @Test
+    public void testCSVEmpty() {
+        this.testEmpty(StrTokenizer.getCSVInstance());
+        this.testEmpty(StrTokenizer.getCSVInstance(""));
+    }
+
+    @Test
+    public void testCSVSimple() {
+        this.testCSV(CSV_SIMPLE_FIXTURE);
+    }
+
+    @Test
+    public void testCSVSimpleNeedsTrim() {
+        this.testCSV("   " + CSV_SIMPLE_FIXTURE);
+        this.testCSV("   \n\t  " + CSV_SIMPLE_FIXTURE);
+        this.testCSV("   \n  " + CSV_SIMPLE_FIXTURE + "\n\n\r");
+    }
+
+    @Test
+    public void testDelimMatcher() {
+        final String input = "a/b\\c";
+        final StrMatcher delimMatcher = new StrMatcher.CharSetMatcher(new char[] {'/', '\\'});
+
+        final StrTokenizer tok = new StrTokenizer(input, delimMatcher);
         assertEquals("a", tok.next());
         assertEquals("b", tok.next());
         assertEquals("c", tok.next());
         assertFalse(tok.hasNext());
+    }
 
-        tok.reset();
+    @Test
+    public void testDelimMatcherQuoteMatcher() {
+        final String input = "`a`;`b`;`c`";
+        final StrMatcher delimMatcher = new StrMatcher.CharSetMatcher(new char[] {';'});
+        final StrMatcher quoteMatcher = new StrMatcher.CharSetMatcher(new char[] {'`'});
+
+        final StrTokenizer tok = new StrTokenizer(input, delimMatcher, quoteMatcher);
         assertEquals("a", tok.next());
         assertEquals("b", tok.next());
         assertEquals("c", tok.next());
         assertFalse(tok.hasNext());
     }
 
-    // -----------------------------------------------------------------------
     @Test
-    public void testReset_String() {
-        final StrTokenizer tok = new StrTokenizer("x x x");
-        tok.reset("d e");
-        assertEquals("d", tok.next());
-        assertEquals("e", tok.next());
-        assertFalse(tok.hasNext());
+    public void testDelimString() {
+        final String input = "a##b##c";
+        final StrTokenizer tok = new StrTokenizer(input, "##");
 
-        tok.reset((String) null);
+        assertEquals("a", tok.next());
+        assertEquals("b", tok.next());
+        assertEquals("c", tok.next());
         assertFalse(tok.hasNext());
     }
 
-    // -----------------------------------------------------------------------
-    @Test
-    public void testReset_charArray() {
-        final StrTokenizer tok = new StrTokenizer("x x x");
-
-        final char[] array = new char[] {'a', 'b', 'c'};
-        tok.reset(array);
-        assertEquals("abc", tok.next());
-        assertFalse(tok.hasNext());
-
-        tok.reset((char[]) null);
-        assertFalse(tok.hasNext());
-    }
-
-    // -----------------------------------------------------------------------
-    @Test
-    public void testTSV() {
-        this.testXSVAbc(StrTokenizer.getTSVInstance(TSV_SIMPLE_FIXTURE));
-        this.testXSVAbc(StrTokenizer.getTSVInstance(TSV_SIMPLE_FIXTURE.toCharArray()));
-    }
-
-    @Test
-    public void testTSVEmpty() {
-        this.testEmpty(StrTokenizer.getTSVInstance());
-        this.testEmpty(StrTokenizer.getTSVInstance(""));
-    }
-
-    void testXSVAbc(final StrTokenizer tokenizer) {
+    void testEmpty(final StrTokenizer tokenizer) {
         this.checkClone(tokenizer);
-        assertEquals(-1, tokenizer.previousIndex());
-        assertEquals(0, tokenizer.nextIndex());
-        assertNull(tokenizer.previousToken());
-        assertEquals("A", tokenizer.nextToken());
-        assertEquals(1, tokenizer.nextIndex());
-        assertEquals("b", tokenizer.nextToken());
-        assertEquals(2, tokenizer.nextIndex());
-        assertEquals("c", tokenizer.nextToken());
-        assertEquals(3, tokenizer.nextIndex());
+        assertFalse(tokenizer.hasNext());
+        assertFalse(tokenizer.hasPrevious());
         assertNull(tokenizer.nextToken());
-        assertEquals(3, tokenizer.nextIndex());
-        assertEquals("c", tokenizer.previousToken());
-        assertEquals(2, tokenizer.nextIndex());
-        assertEquals("b", tokenizer.previousToken());
-        assertEquals(1, tokenizer.nextIndex());
-        assertEquals("A", tokenizer.previousToken());
-        assertEquals(0, tokenizer.nextIndex());
-        assertNull(tokenizer.previousToken());
-        assertEquals(0, tokenizer.nextIndex());
-        assertEquals(-1, tokenizer.previousIndex());
-        assertEquals(3, tokenizer.size());
+        assertEquals(0, tokenizer.size());
+        assertThrows(NoSuchElementException.class, () -> tokenizer.next());
+    }
+
+    @Test
+    public void testGetContent() {
+        final String input = "a   b c \"d e\" f ";
+        StrTokenizer tok = new StrTokenizer(input);
+        assertEquals(input, tok.getContent());
+
+        tok = new StrTokenizer(input.toCharArray());
+        assertEquals(input, tok.getContent());
+
+        tok = new StrTokenizer();
+        assertNull(tok.getContent());
     }
 
     @Test
@@ -858,6 +765,95 @@ public class StrTokenizerTest {
         assertThrows(NoSuchElementException.class, () -> tkn.next());
         assertTrue(tkn.hasPrevious());
         assertFalse(tkn.hasNext());
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testListArray() {
+        final String input = "a  b c";
+        final StrTokenizer tok = new StrTokenizer(input);
+        final String[] array = tok.getTokenArray();
+        final List<?> list = tok.getTokenList();
+
+        assertEquals(Arrays.asList(array), list);
+        assertEquals(3, list.size());
+    }
+
+    @Test
+    public void testPreviousTokenAndSetEmptyTokenAsNull() {
+        final StrTokenizer strTokenizer = StrTokenizer.getTSVInstance(" \t\n\r\f");
+        strTokenizer.setEmptyTokenAsNull(true);
+
+        assertNull(strTokenizer.previousToken());
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testReset() {
+        final StrTokenizer tok = new StrTokenizer("a b c");
+        assertEquals("a", tok.next());
+        assertEquals("b", tok.next());
+        assertEquals("c", tok.next());
+        assertFalse(tok.hasNext());
+
+        tok.reset();
+        assertEquals("a", tok.next());
+        assertEquals("b", tok.next());
+        assertEquals("c", tok.next());
+        assertFalse(tok.hasNext());
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testReset_charArray() {
+        final StrTokenizer tok = new StrTokenizer("x x x");
+
+        final char[] array = new char[] {'a', 'b', 'c'};
+        tok.reset(array);
+        assertEquals("abc", tok.next());
+        assertFalse(tok.hasNext());
+
+        tok.reset((char[]) null);
+        assertFalse(tok.hasNext());
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testReset_String() {
+        final StrTokenizer tok = new StrTokenizer("x x x");
+        tok.reset("d e");
+        assertEquals("d", tok.next());
+        assertEquals("e", tok.next());
+        assertFalse(tok.hasNext());
+
+        tok.reset((String) null);
+        assertFalse(tok.hasNext());
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testStringTokenizerQuoteMatcher() {
+        final char[] chars = {'\'', 'a', 'c', '\'', 'd'};
+        final StrTokenizer tokens = new StrTokenizer(chars, StrMatcher.commaMatcher(), StrMatcher.quoteMatcher());
+        assertEquals("acd", tokens.next());
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testStringTokenizerStringMatcher() {
+        final char[] chars = {'a', 'b', 'c', 'd'};
+        final StrTokenizer tokens = new StrTokenizer(chars, "bc");
+        assertEquals("a", tokens.next());
+        assertEquals("d", tokens.next());
+    }
+
+    // -----------------------------------------------------------------------
+    @Test
+    public void testStringTokenizerStrMatcher() {
+        final char[] chars = {'a', ',', 'c'};
+        final StrTokenizer tokens = new StrTokenizer(chars, StrMatcher.commaMatcher());
+        assertEquals("a", tokens.next());
+        assertEquals("c", tokens.next());
     }
 
     // -----------------------------------------------------------------------
@@ -902,35 +898,39 @@ public class StrTokenizerTest {
 
     // -----------------------------------------------------------------------
     @Test
-    public void testStringTokenizerStringMatcher() {
-        final char[] chars = {'a', 'b', 'c', 'd'};
-        final StrTokenizer tokens = new StrTokenizer(chars, "bc");
-        assertEquals("a", tokens.next());
-        assertEquals("d", tokens.next());
-    }
-
-    // -----------------------------------------------------------------------
-    @Test
-    public void testStringTokenizerStrMatcher() {
-        final char[] chars = {'a', ',', 'c'};
-        final StrTokenizer tokens = new StrTokenizer(chars, StrMatcher.commaMatcher());
-        assertEquals("a", tokens.next());
-        assertEquals("c", tokens.next());
-    }
-
-    // -----------------------------------------------------------------------
-    @Test
-    public void testStringTokenizerQuoteMatcher() {
-        final char[] chars = {'\'', 'a', 'c', '\'', 'd'};
-        final StrTokenizer tokens = new StrTokenizer(chars, StrMatcher.commaMatcher(), StrMatcher.quoteMatcher());
-        assertEquals("acd", tokens.next());
+    public void testTSV() {
+        this.testXSVAbc(StrTokenizer.getTSVInstance(TSV_SIMPLE_FIXTURE));
+        this.testXSVAbc(StrTokenizer.getTSVInstance(TSV_SIMPLE_FIXTURE.toCharArray()));
     }
 
     @Test
-    public void testPreviousTokenAndSetEmptyTokenAsNull() {
-        final StrTokenizer strTokenizer = StrTokenizer.getTSVInstance(" \t\n\r\f");
-        strTokenizer.setEmptyTokenAsNull(true);
+    public void testTSVEmpty() {
+        this.testEmpty(StrTokenizer.getTSVInstance());
+        this.testEmpty(StrTokenizer.getTSVInstance(""));
+    }
 
-        assertNull(strTokenizer.previousToken());
+    void testXSVAbc(final StrTokenizer tokenizer) {
+        this.checkClone(tokenizer);
+        assertEquals(-1, tokenizer.previousIndex());
+        assertEquals(0, tokenizer.nextIndex());
+        assertNull(tokenizer.previousToken());
+        assertEquals("A", tokenizer.nextToken());
+        assertEquals(1, tokenizer.nextIndex());
+        assertEquals("b", tokenizer.nextToken());
+        assertEquals(2, tokenizer.nextIndex());
+        assertEquals("c", tokenizer.nextToken());
+        assertEquals(3, tokenizer.nextIndex());
+        assertNull(tokenizer.nextToken());
+        assertEquals(3, tokenizer.nextIndex());
+        assertEquals("c", tokenizer.previousToken());
+        assertEquals(2, tokenizer.nextIndex());
+        assertEquals("b", tokenizer.previousToken());
+        assertEquals(1, tokenizer.nextIndex());
+        assertEquals("A", tokenizer.previousToken());
+        assertEquals(0, tokenizer.nextIndex());
+        assertNull(tokenizer.previousToken());
+        assertEquals(0, tokenizer.nextIndex());
+        assertEquals(-1, tokenizer.previousIndex());
+        assertEquals(3, tokenizer.size());
     }
 }

@@ -35,12 +35,50 @@ import org.junit.jupiter.api.Test;
 @Deprecated
 public class StrLookupTest  {
 
+    @Test
+    public void testMapLookup() {
+        final Map<String, Object> map = new HashMap<>();
+        map.put("key", "value");
+        map.put("number", 2);
+        assertEquals("value", StrLookup.mapLookup(map).lookup("key"));
+        assertEquals("2", StrLookup.mapLookup(map).lookup("number"));
+        assertNull(StrLookup.mapLookup(map).lookup(null));
+        assertNull(StrLookup.mapLookup(map).lookup(""));
+        assertNull(StrLookup.mapLookup(map).lookup("other"));
+    }
+
+    @Test
+    public void testMapLookup_nullMap() {
+        final Map<String, ?> map = null;
+        assertNull(StrLookup.mapLookup(map).lookup(null));
+        assertNull(StrLookup.mapLookup(map).lookup(""));
+        assertNull(StrLookup.mapLookup(map).lookup("any"));
+    }
+
     //-----------------------------------------------------------------------
     @Test
     public void testNoneLookup() {
         assertNull(StrLookup.noneLookup().lookup(null));
         assertNull(StrLookup.noneLookup().lookup(""));
         assertNull(StrLookup.noneLookup().lookup("any"));
+    }
+
+    @Test
+    public void testResourceBundleLookup() {
+        final ResourceBundle map = ResourceBundle.getBundle("org.example.testResourceBundleLookup");
+        assertEquals("value", StrLookup.resourceBundleLookup(map).lookup("key"));
+        assertEquals("2", StrLookup.resourceBundleLookup(map).lookup("number"));
+        assertNull(StrLookup.resourceBundleLookup(map).lookup(null));
+        assertNull(StrLookup.resourceBundleLookup(map).lookup(""));
+        assertNull(StrLookup.resourceBundleLookup(map).lookup("other"));
+    }
+
+    @Test
+    public void testResourceBundleLookup_nullMap() {
+        final ResourceBundle resourceBundle = null;
+        assertNull(StrLookup.resourceBundleLookup(resourceBundle).lookup(null));
+        assertNull(StrLookup.resourceBundleLookup(resourceBundle).lookup(""));
+        assertNull(StrLookup.resourceBundleLookup(resourceBundle).lookup("any"));
     }
 
     @Test
@@ -90,44 +128,6 @@ public class StrLookupTest  {
         } finally {
             System.setProperty(osName, oldOs);
         }
-    }
-
-    @Test
-    public void testMapLookup() {
-        final Map<String, Object> map = new HashMap<>();
-        map.put("key", "value");
-        map.put("number", 2);
-        assertEquals("value", StrLookup.mapLookup(map).lookup("key"));
-        assertEquals("2", StrLookup.mapLookup(map).lookup("number"));
-        assertNull(StrLookup.mapLookup(map).lookup(null));
-        assertNull(StrLookup.mapLookup(map).lookup(""));
-        assertNull(StrLookup.mapLookup(map).lookup("other"));
-    }
-
-    @Test
-    public void testResourceBundleLookup() {
-        final ResourceBundle map = ResourceBundle.getBundle("org.example.testResourceBundleLookup");
-        assertEquals("value", StrLookup.resourceBundleLookup(map).lookup("key"));
-        assertEquals("2", StrLookup.resourceBundleLookup(map).lookup("number"));
-        assertNull(StrLookup.resourceBundleLookup(map).lookup(null));
-        assertNull(StrLookup.resourceBundleLookup(map).lookup(""));
-        assertNull(StrLookup.resourceBundleLookup(map).lookup("other"));
-    }
-
-    @Test
-    public void testResourceBundleLookup_nullMap() {
-        final ResourceBundle resourceBundle = null;
-        assertNull(StrLookup.resourceBundleLookup(resourceBundle).lookup(null));
-        assertNull(StrLookup.resourceBundleLookup(resourceBundle).lookup(""));
-        assertNull(StrLookup.resourceBundleLookup(resourceBundle).lookup("any"));
-    }
-
-    @Test
-    public void testMapLookup_nullMap() {
-        final Map<String, ?> map = null;
-        assertNull(StrLookup.mapLookup(map).lookup(null));
-        assertNull(StrLookup.mapLookup(map).lookup(""));
-        assertNull(StrLookup.mapLookup(map).lookup("any"));
     }
 
 
