@@ -16,9 +16,9 @@
  */
 package org.apache.commons.text.similarity;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.Arrays;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A similarity algorithm indicating the percentage of matched characters between two character sequences.
