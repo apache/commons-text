@@ -29,7 +29,7 @@ abstract class AbstractStringLookup implements StringLookup {
     /**
      * The empty string.
      */
-    private static final String EMPTY = "";
+    private static final String EMPTY = StringUtils.EMPTY;
 
     /**
      * The default split char.
