@@ -19,6 +19,7 @@ package org.apache.commons.text;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -2166,7 +2167,6 @@ public class TextStringBuilderTest {
         assertThrows(IndexOutOfBoundsException.class, () -> sb.toString(15, 20));
     }
 
-    // -----------------------------------------------------------------------
     @Test
     public void testTrim() {
         final TextStringBuilder sb = new TextStringBuilder();
@@ -2186,6 +2186,17 @@ public class TextStringBuilderTest {
 
         sb.clear().append("a b c");
         assertEquals("a b c", sb.trim().toString());
+    }
+
+    @Test
+    public void testWrap() {
+        char[] test = "abc".toCharArray();
+        final TextStringBuilder sb = TextStringBuilder.wrap(test);
+        assertArrayEquals(test, sb.getBuffer());
+        assertEquals(test.length, sb.length());
+        assertEquals(test.length, sb.size());
+        sb.ensureCapacity(sb.capacity() * 2);
+        assertFalse(Arrays.equals(test, sb.getBuffer()));
     }
 
 }

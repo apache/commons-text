@@ -275,6 +275,19 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     private static final int TRUE_STRING_SIZE = "true".length();
 
+    /**
+     * Constructs an instance from a reference to a character array. Changes to the input chars are reflected in this
+     * instance until the internal buffer needs to be reallocated. Using a reference to an array allows the instance to
+     * be initialized without copying the whole input array.
+     *
+     * @param initialBuffer a reference to a character array.
+     * @return A new instance.
+     * @since 1.9
+     */
+    public static TextStringBuilder wrap(final char[] initialBuffer) {
+        return new TextStringBuilder(initialBuffer);
+    }
+
     /** Internal data storage. */
     private char[] buffer;
 
@@ -292,6 +305,16 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder() {
         this(CAPACITY);
+    }
+
+    /**
+     * Constructs an instance from a reference to a character array.
+     *
+     * @param initialBuffer a reference to a character array.
+     */
+    private TextStringBuilder(final char[] initialBuffer) {
+        this.buffer = initialBuffer;
+        this.size = initialBuffer.length;
     }
 
     /**
