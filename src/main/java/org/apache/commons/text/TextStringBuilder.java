@@ -295,17 +295,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Constructs an instance with the specified initial capacity.
-     *
-     * @param initialCapacity
-     *            the initial capacity, zero or less will be converted to 32
-     */
-    public TextStringBuilder(final int initialCapacity) {
-        super();
-        buffer = new char[initialCapacity <= 0 ? CAPACITY : initialCapacity];
-    }
-
-    /**
      * Constructs an instance from a character sequence, allocating 32 extra characters for growth.
      *
      * @param seq the string to copy, null treated as blank string
@@ -316,6 +305,17 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         if (seq != null) {
             append(seq);
         }
+    }
+
+    /**
+     * Constructs an instance with the specified initial capacity.
+     *
+     * @param initialCapacity
+     *            the initial capacity, zero or less will be converted to 32
+     */
+    public TextStringBuilder(final int initialCapacity) {
+        super();
+        buffer = new char[initialCapacity <= 0 ? CAPACITY : initialCapacity];
     }
 
     /**
