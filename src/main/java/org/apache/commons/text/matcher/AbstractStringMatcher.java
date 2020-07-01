@@ -20,6 +20,7 @@ package org.apache.commons.text.matcher;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A matcher that determines if a character array portion matches.
@@ -351,13 +352,15 @@ abstract class AbstractStringMatcher implements StringMatcher {
     }
 
     /**
-     * Green implementation of toCharArray. TODO Reuse Apache Commons Lang 3.11 when released.
+     * Converts the given CharSequence to a char[].
+     *
+     * TODO Reuse Apache Commons Lang 3.11 when released.
      *
      * @param source the {@code CharSequence} to be processed
-     * @return the resulting char array
+     * @return the resulting char array, never null.
      */
     static char[] toCharArray(final CharSequence source) {
-        final int len = source.length();
+        final int len = StringUtils.length(source);
         if (len == 0) {
             return ArrayUtils.EMPTY_CHAR_ARRAY;
         }
