@@ -484,6 +484,7 @@ public class StringSubstitutorTest {
         values.put("species.brown", "2");
         final StringSubstitutor sub = new StringSubstitutor(values);
         sub.setEnableSubstitutionInVariables(true);
+        assertEquals("white mouse", replace(sub, "${animal.${species.${color}}}"));
         assertEquals("The white mouse jumps over the lazy dog.",
             replace(sub, "The ${animal.${species.${color}}} jumps over the ${target}."));
         assertEquals("The brown fox jumps over the lazy dog.",
