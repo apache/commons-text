@@ -31,25 +31,6 @@ import org.junit.jupiter.api.Test;
  */
 public class BiFunctionStringLookupTest {
 
-    @Test
-    public void testConcurrentHashMapNull() {
-        Assertions.assertNull(BiFunctionStringLookup.on(new ConcurrentHashMap<>()).lookup(null));
-    }
-
-    @Test
-    public void testHashMapNull() {
-        Assertions.assertNull(BiFunctionStringLookup.on(new HashMap<>()).lookup(null));
-    }
-
-    @Test
-    public void testOne() {
-        final String key = "key";
-        final String value = "value";
-        final Map<String, String> map = new HashMap<>();
-        map.put(key, value);
-        Assertions.assertEquals(value, FunctionStringLookup.on(map).lookup(key));
-    }
-
     private static final String SEPARATOR = ".";
 
     @SuppressWarnings("unchecked")
@@ -94,6 +75,25 @@ public class BiFunctionStringLookupTest {
         Assertions.assertEquals(subValue, stringLookup.lookup(rootKey + SEPARATOR + subKey, rootMap));
         Assertions.assertEquals(subSubValue,
             stringLookup.lookup(rootKey + SEPARATOR + subKeyMap + SEPARATOR + subSubKey, rootMap));
+    }
+
+    @Test
+    public void testConcurrentHashMapNull() {
+        Assertions.assertNull(BiFunctionStringLookup.on(new ConcurrentHashMap<>()).lookup(null));
+    }
+
+    @Test
+    public void testHashMapNull() {
+        Assertions.assertNull(BiFunctionStringLookup.on(new HashMap<>()).lookup(null));
+    }
+
+    @Test
+    public void testOne() {
+        final String key = "key";
+        final String value = "value";
+        final Map<String, String> map = new HashMap<>();
+        map.put(key, value);
+        Assertions.assertEquals(value, FunctionStringLookup.on(map).lookup(key));
     }
 
 }

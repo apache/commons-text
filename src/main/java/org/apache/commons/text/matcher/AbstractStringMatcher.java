@@ -212,10 +212,10 @@ abstract class AbstractStringMatcher implements StringMatcher {
          *
          * @param str the string to match, must not be null
          */
-        StringMatcher(final String string) {
+        StringMatcher(final char... chars) {
             super();
-            this.string = string;
-            this.chars = string.toCharArray();
+            this.string = String.valueOf(chars);
+            this.chars = chars.clone();
         }
 
         /**
@@ -223,10 +223,10 @@ abstract class AbstractStringMatcher implements StringMatcher {
          *
          * @param str the string to match, must not be null
          */
-        StringMatcher(final char... chars) {
+        StringMatcher(final String string) {
             super();
-            this.string = String.valueOf(chars);
-            this.chars = chars.clone();
+            this.string = string;
+            this.chars = string.toCharArray();
         }
 
         /**
