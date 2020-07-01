@@ -16,6 +16,12 @@
  */
 package org.apache.commons.text;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.translate.AggregateTranslator;
 import org.apache.commons.text.translate.CharSequenceTranslator;
@@ -28,12 +34,6 @@ import org.apache.commons.text.translate.NumericEntityUnescaper;
 import org.apache.commons.text.translate.OctalUnescaper;
 import org.apache.commons.text.translate.UnicodeUnescaper;
 import org.apache.commons.text.translate.UnicodeUnpairedSurrogateRemover;
-
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * <p>Escapes and unescapes {@code String}s for

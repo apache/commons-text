@@ -16,10 +16,10 @@
  */
 package org.apache.commons.text;
 
+import static java.util.FormattableFlags.LEFT_JUSTIFY;
+
 import java.util.Formattable;
 import java.util.Formatter;
-
-import static java.util.FormattableFlags.LEFT_JUSTIFY;
 
 /**
  * <p>Provides utilities for working with the {@code Formattable} interface.</p>

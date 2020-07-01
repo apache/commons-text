@@ -16,11 +16,11 @@
  */
 package org.apache.commons.text;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>Case manipulation operations on Strings that contain words.</p>

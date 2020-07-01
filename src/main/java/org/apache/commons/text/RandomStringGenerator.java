@@ -16,15 +16,15 @@
  */
 package org.apache.commons.text;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.Validate;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.Validate;
 
 /**
  * <p>
