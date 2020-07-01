@@ -253,17 +253,6 @@ public class StringMatcherOnCharArrayTest {
         assertThat(matcher.isMatch(BUFFER1, 10)).isEqualTo(0);
     }
 
-    @Test
-    public void testStringMatcher_String_fromChars() {
-        testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher('b', 'c'));
-        testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher(new char[] {'b', 'c'}));
-    }
-
-    @Test
-    public void testStringMatcher_String_fromString() {
-        testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher("bc"));
-    }
-
     private void testStringMatcher_String(final StringMatcher matcher) {
         assertEquals(2, matcher.size());
         //
@@ -285,6 +274,17 @@ public class StringMatcherOnCharArrayTest {
                 .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
         assertThat(StringMatcherFactory.INSTANCE.stringMatcher((String) null))
                 .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
+    }
+
+    @Test
+    public void testStringMatcher_String_fromChars() {
+        testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher('b', 'c'));
+        testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher(new char[] {'b', 'c'}));
+    }
+
+    @Test
+    public void testStringMatcher_String_fromString() {
+        testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher("bc"));
     }
 
     // -----------------------------------------------------------------------
