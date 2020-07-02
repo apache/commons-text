@@ -1318,23 +1318,23 @@ public class StringSubstitutor {
         final boolean top = priorVariables == null;
         boolean altered = false;
         int lengthChange = 0;
-        char[] chars = builder.getBuffer();
         int bufEnd = offset + length;
         int pos = offset;
         while (pos < bufEnd) {
-            final int startMatchLen = prefixMatcher.isMatch(chars, pos, offset, bufEnd);
+            final int startMatchLen = prefixMatcher.isMatch(builder, pos, offset, bufEnd);
             if (startMatchLen == 0) {
                 pos++;
             } else {
                 // found variable start marker
-                if (pos > offset && chars[pos - 1] == escapeCh) {
-                    // escaped
+                if (pos > offset && builder.charAt(pos - 1) == escapeCh) {
+                    // escape detected
                     if (preserveEscapes) {
+                        // keep escape
                         pos++;
                         continue;
                     }
+                    // delete escape
                     builder.deleteCharAt(pos - 1);
-                    chars = builder.getBuffer(); // in case buffer was altered
                     lengthChange--;
                     altered = true;
                     bufEnd--;
@@ -1345,22 +1345,23 @@ public class StringSubstitutor {
                     int endMatchLen = 0;
                     int nestedVarCount = 0;
                     while (pos < bufEnd) {
-                        if (substitutionInVariablesEnabled && prefixMatcher.isMatch(chars, pos, offset, bufEnd) != 0) {
+                        if (substitutionInVariablesEnabled
+                            && prefixMatcher.isMatch(builder, pos, offset, bufEnd) != 0) {
                             // found a nested variable start
-                            endMatchLen = prefixMatcher.isMatch(chars, pos, offset, bufEnd);
+                            endMatchLen = prefixMatcher.isMatch(builder, pos, offset, bufEnd);
                             nestedVarCount++;
                             pos += endMatchLen;
                             continue;
                         }
 
-                        endMatchLen = suffixMatcher.isMatch(chars, pos, offset, bufEnd);
+                        endMatchLen = suffixMatcher.isMatch(builder, pos, offset, bufEnd);
                         if (endMatchLen == 0) {
                             pos++;
                         } else {
                             // found variable end marker
                             if (nestedVarCount == 0) {
-                                String varNameExpr = new String(chars, startPos + startMatchLen,
-                                        pos - startPos - startMatchLen);
+                                String varNameExpr = builder.toString(startPos + startMatchLen,
+                                    pos - startPos - startMatchLen);
                                 if (substitutionInVariablesEnabled) {
                                     final TextStringBuilder bufName = new TextStringBuilder(varNameExpr);
                                     substitute(bufName, 0, bufName.length());
@@ -1379,13 +1380,13 @@ public class StringSubstitutor {
                                         // if there's any nested variable when nested variable substitution disabled,
                                         // then stop resolving name and default value.
                                         if (!substitutionInVariablesEnabled && prefixMatcher.isMatch(varNameExprChars,
-                                                i, i, varNameExprChars.length) != 0) {
+                                            i, i, varNameExprChars.length) != 0) {
                                             break;
                                         }
                                         if (valueDelimMatcher.isMatch(varNameExprChars, i, 0,
-                                                varNameExprChars.length) != 0) {
+                                            varNameExprChars.length) != 0) {
                                             valueDelimiterMatchLen = valueDelimMatcher.isMatch(varNameExprChars, i, 0,
-                                                    varNameExprChars.length);
+                                                varNameExprChars.length);
                                             varName = varNameExpr.substring(0, i);
                                             varDefaultValue = varNameExpr.substring(i + valueDelimiterMatchLen);
                                             break;
@@ -1396,7 +1397,7 @@ public class StringSubstitutor {
                                 // on the first call initialize priorVariables
                                 if (priorVariables == null) {
                                     priorVariables = new ArrayList<>();
-                                    priorVariables.add(new String(chars, offset, length));
+                                    priorVariables.add(builder.toString(offset, length));
                                 }
 
                                 // handle cyclic substitution
@@ -1420,11 +1421,10 @@ public class StringSubstitutor {
                                     pos += change;
                                     bufEnd += change;
                                     lengthChange += change;
-                                    chars = builder.getBuffer(); // in case buffer was altered
                                 } else if (undefinedVariableException) {
                                     throw new IllegalArgumentException(String.format(
-                                            "Cannot resolve variable '%s' (enableSubstitutionInVariables=%s).", varName,
-                                            substitutionInVariablesEnabled));
+                                        "Cannot resolve variable '%s' (enableSubstitutionInVariables=%s).", varName,
+                                        substitutionInVariablesEnabled));
                                 }
 
                                 // remove variable from the cyclic stack
