@@ -394,7 +394,6 @@ public class StringSubstitutor {
      */
     private boolean enableUndefinedVariableException;
 
-    // -----------------------------------------------------------------------
     /**
      * Creates a new instance with defaults for variable prefix and suffix and the escaping character.
      */
@@ -555,7 +554,6 @@ public class StringSubstitutor {
     }
 
     // Escape
-    // -----------------------------------------------------------------------
     /**
      * Returns the escape character.
      *
@@ -566,7 +564,6 @@ public class StringSubstitutor {
     }
 
     // Resolver
-    // -----------------------------------------------------------------------
     /**
      * Gets the StringLookup that is used to lookup variables.
      *
@@ -577,7 +574,6 @@ public class StringSubstitutor {
     }
 
     // Variable Default Value Delimiter
-    // -----------------------------------------------------------------------
     /**
      * Gets the variable default value delimiter matcher currently in use.
      * <p>
@@ -594,8 +590,6 @@ public class StringSubstitutor {
         return valueDelimiterMatcher;
     }
 
-    // Prefix
-    // -----------------------------------------------------------------------
     /**
      * Gets the variable prefix matcher currently in use.
      * <p>
@@ -609,8 +603,6 @@ public class StringSubstitutor {
         return prefixMatcher;
     }
 
-    // Suffix
-    // -----------------------------------------------------------------------
     /**
      * Gets the variable suffix matcher currently in use.
      * <p>
@@ -649,8 +641,6 @@ public class StringSubstitutor {
         return disableSubstitutionInValues;
     }
 
-    // Substitution support in variable names
-    // -----------------------------------------------------------------------
     /**
      * Returns a flag whether substitution is done in variable names.
      *
@@ -678,7 +668,6 @@ public class StringSubstitutor {
         return preserveEscapes;
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Replaces all the occurrences of variables with their matching values from the resolver using the given source
      * array as a template. The array is not altered by this method.
@@ -757,7 +746,6 @@ public class StringSubstitutor {
         return buf.toString();
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Replaces all the occurrences of variables in the given source object with their matching values from the
      * resolver. The input source object is converted to a string using {@code toString} and is not altered.
@@ -775,7 +763,6 @@ public class StringSubstitutor {
         return buf.toString();
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Replaces all the occurrences of variables with their matching values from the resolver using the given source
      * string as a template.
@@ -820,7 +807,6 @@ public class StringSubstitutor {
         return buf.toString();
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Replaces all the occurrences of variables with their matching values from the resolver using the given source
      * buffer as a template. The buffer is not altered by this method.
@@ -861,7 +847,6 @@ public class StringSubstitutor {
         return buf.toString();
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Replaces all the occurrences of variables with their matching values from the resolver using the given source
      * builder as a template. The builder is not altered by this method.
@@ -902,7 +887,6 @@ public class StringSubstitutor {
         return buf.toString();
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Replaces all the occurrences of variables within the given source buffer with their matching values from the
      * resolver. The buffer is updated with the result.
@@ -943,7 +927,6 @@ public class StringSubstitutor {
         return true;
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Replaces all the occurrences of variables within the given source buffer with their matching values from the
      * resolver. The buffer is updated with the result.
@@ -984,7 +967,6 @@ public class StringSubstitutor {
         return true;
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Replaces all the occurrences of variables within the given source builder with their matching values from the
      * resolver.
@@ -1270,7 +1252,6 @@ public class StringSubstitutor {
         return this;
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Internal method that substitutes the variables.
      * <p>
