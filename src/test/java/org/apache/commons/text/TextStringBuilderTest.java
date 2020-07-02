@@ -39,6 +39,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.text.matcher.StringMatcher;
 import org.apache.commons.text.matcher.StringMatcherFactory;
 import org.junit.jupiter.api.Test;
@@ -2189,9 +2190,42 @@ public class TextStringBuilderTest {
     }
 
     @Test
-    public void testWrap() {
-        char[] test = "abc".toCharArray();
+    public void testWrap_CharArray() {
+        assertThrows(NullPointerException.class, () -> TextStringBuilder.wrap(null));
+        //
+        final TextStringBuilder initEmpty = TextStringBuilder.wrap(ArrayUtils.EMPTY_CHAR_ARRAY);
+        assertEquals(0, initEmpty.size());
+        assertEquals(0, initEmpty.length());
+        initEmpty.append('a');
+        assertEquals(1, initEmpty.size());
+        assertEquals(1, initEmpty.length());
+        //
+        final char[] test = "abc".toCharArray();
         final TextStringBuilder sb = TextStringBuilder.wrap(test);
+        assertArrayEquals(test, sb.getBuffer());
+        assertEquals(test.length, sb.length());
+        assertEquals(test.length, sb.size());
+        sb.ensureCapacity(sb.capacity() * 2);
+        assertFalse(Arrays.equals(test, sb.getBuffer()));
+    }
+
+    @Test
+    public void testWrap_CharArray_Int_at0() {
+        final char[] test = "abc".toCharArray();
+        //
+        assertThrows(NullPointerException.class, () -> TextStringBuilder.wrap(null, 0));
+        assertThrows(IllegalArgumentException.class, () -> TextStringBuilder.wrap(test, -1));
+        //
+        assertThrows(IllegalArgumentException.class, () -> TextStringBuilder.wrap(ArrayUtils.EMPTY_CHAR_ARRAY, 1));
+        //
+        final TextStringBuilder initEmpty = TextStringBuilder.wrap(ArrayUtils.EMPTY_CHAR_ARRAY, 0);
+        assertEquals(0, initEmpty.size());
+        assertEquals(0, initEmpty.length());
+        initEmpty.append('a');
+        assertEquals(1, initEmpty.size());
+        assertEquals(1, initEmpty.length());
+        //
+        final TextStringBuilder sb = TextStringBuilder.wrap(test, test.length);
         assertArrayEquals(test, sb.getBuffer());
         assertEquals(test.length, sb.length());
         assertEquals(test.length, sb.size());
