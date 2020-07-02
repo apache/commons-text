@@ -313,6 +313,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /** The null text. */
     private String nullText;
 
+    /** Incremented when the buffer is reallocated. */
+    private int reallocations;
+
     /** Current size of the buffer. */
     private int size;
 
@@ -1849,7 +1852,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder ensureCapacity(final int capacity) {
         if (capacity > buffer.length) {
-            buffer = Arrays.copyOf(buffer, capacity * 2);
+            reallocate(capacity * 2);
         }
         return this;
     }
@@ -2289,6 +2292,16 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
+     * Gets whether the internal buffer has been reallocated.
+     *
+     * @return Whether the internal buffer has been reallocated.
+     * @since 1.9
+     */
+    public boolean isReallocated() {
+        return reallocations > 0;
+    }
+
+    /**
      * Searches the string builder to find the last reference to the specified char.
      *
      * @param ch the character to find
@@ -2470,11 +2483,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder minimizeCapacity() {
         if (buffer.length > size) {
-            buffer = Arrays.copyOf(buffer, size);
+            reallocate(size);
         }
         return this;
     }
-
     /**
      * If possible, reads chars from the provided {@link CharBuffer} directly into underlying character buffer without
      * making extra copies.
@@ -2569,6 +2581,16 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             size += readCount;
         }
         return size - oldSize;
+    }
+
+    /**
+     * Reallocates the buffer to the new length.
+     *
+     * @param newLength the length of the copy to be returned
+     */
+    private void reallocate(final int newLength) {
+        this.buffer = Arrays.copyOf(buffer, newLength);
+        this.reallocations++;
     }
 
     /**
