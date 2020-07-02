@@ -766,6 +766,7 @@ public class TextStringBuilderAppendInsertTest {
     @Test
     public void testAppendln_CharArray() {
         final int[] count = new int[2];
+        // TODO use mocking
         final TextStringBuilder sb = new TextStringBuilder() {
             private static final long serialVersionUID = 1L;
 
@@ -790,6 +791,7 @@ public class TextStringBuilderAppendInsertTest {
     @Test
     public void testAppendln_CharArray_int_int() {
         final int[] count = new int[2];
+        // TODO use mocking
         final TextStringBuilder sb = new TextStringBuilder() {
             private static final long serialVersionUID = 1L;
 
@@ -814,6 +816,7 @@ public class TextStringBuilderAppendInsertTest {
     @Test
     public void testAppendln_FormattedString() {
         final int[] count = new int[2];
+        // TODO use mocking
         final TextStringBuilder sb = new TextStringBuilder() {
             private static final long serialVersionUID = 1L;
 
@@ -872,6 +875,7 @@ public class TextStringBuilderAppendInsertTest {
     @Test
     public void testAppendln_String() {
         final int[] count = new int[2];
+        // TODO use mocking
         final TextStringBuilder sb = new TextStringBuilder() {
             private static final long serialVersionUID = 1L;
 
@@ -896,6 +900,7 @@ public class TextStringBuilderAppendInsertTest {
     @Test
     public void testAppendln_String_int_int() {
         final int[] count = new int[2];
+        // TODO use mocking
         final TextStringBuilder sb = new TextStringBuilder() {
             private static final long serialVersionUID = 1L;
 
@@ -912,7 +917,7 @@ public class TextStringBuilderAppendInsertTest {
         };
         sb.appendln("foo", 0, 3);
         assertThat(sb.toString()).isEqualTo("foo" + SEP);
-        assertThat(count[0]).isEqualTo(1);
+        assertThat(count[0]).isEqualTo(2); // appendNewLine() calls append(String)
         assertThat(count[1]).isEqualTo(1);
     }
 
@@ -920,6 +925,7 @@ public class TextStringBuilderAppendInsertTest {
     @Test
     public void testAppendln_StringBuffer() {
         final int[] count = new int[2];
+        // TODO use mocking
         final TextStringBuilder sb = new TextStringBuilder() {
             private static final long serialVersionUID = 1L;
 
@@ -944,6 +950,7 @@ public class TextStringBuilderAppendInsertTest {
     @Test
     public void testAppendln_StringBuffer_int_int() {
         final int[] count = new int[2];
+        // TODO use mocking
         final TextStringBuilder sb = new TextStringBuilder() {
             private static final long serialVersionUID = 1L;
 
@@ -968,6 +975,7 @@ public class TextStringBuilderAppendInsertTest {
     @Test
     public void testAppendln_StringBuilder() {
         final int[] count = new int[2];
+        // TODO use mocking
         final TextStringBuilder sb = new TextStringBuilder() {
             private static final long serialVersionUID = 1L;
 
@@ -992,6 +1000,7 @@ public class TextStringBuilderAppendInsertTest {
     @Test
     public void testAppendln_StringBuilder_int_int() {
         final int[] count = new int[2];
+        // TODO use mocking
         final TextStringBuilder sb = new TextStringBuilder() {
             private static final long serialVersionUID = 1L;
 
@@ -1016,6 +1025,7 @@ public class TextStringBuilderAppendInsertTest {
     @Test
     public void testAppendln_TextStringBuilder() {
         final int[] count = new int[2];
+        // TODO use mocking
         final TextStringBuilder sb = new TextStringBuilder() {
             private static final long serialVersionUID = 1L;
 
@@ -1040,6 +1050,7 @@ public class TextStringBuilderAppendInsertTest {
     @Test
     public void testAppendln_TextStringBuilder_int_int() {
         final int[] count = new int[2];
+        // TODO use mocking
         final TextStringBuilder sb = new TextStringBuilder() {
             private static final long serialVersionUID = 1L;
 

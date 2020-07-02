@@ -730,7 +730,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder append(final TextStringBuilder str) {
-        return append(str, 0, str.length());
+        return append(str, 0, StringUtils.length(str));
     }
 
     /**
