@@ -48,10 +48,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.Alphanumeric.class) // temp, for my sanity during dev
 public class StringSubstitutorTest {
 
+    private static final String ACTUAL_ANIMAL = "quick brown fox";
+    private static final String ACTUAL_TARGET = "lazy dog";
     private static final String CLASSIC_RESULT = "The quick brown fox jumps over the lazy dog.";
     private static final String CLASSIC_TEMPLATE = "The ${animal} jumps over the ${target}.";
-    private static final String ACTUAL_TARGET = "lazy dog";
-    private static final String ACTUAL_ANIMAL = "quick brown fox";
     private static final String EMPTY_EXPR = "${}";
     protected Map<String, String> values;
 
@@ -95,7 +95,8 @@ public class StringSubstitutorTest {
 
     protected void doTestReplace(final StringSubstitutor sub, final String expectedResult, final String replaceTemplate,
         final boolean substring) throws IOException {
-        final String expectedShortResult = expectedResult.substring(1, expectedResult.length() - 1);
+        final String expectedShortResult = substring ? expectedResult.substring(1, expectedResult.length() - 1)
+            : expectedResult;
 
         // replace using String
         assertEquals(expectedResult, replace(sub, replaceTemplate));
@@ -629,6 +630,14 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceSimple() throws IOException {
         doTestReplace(CLASSIC_RESULT, CLASSIC_TEMPLATE, true);
+    }
+
+    /**
+     * Tests simple key replace.
+     */
+    @Test
+    public void testReplaceSimpleShortest() throws IOException {
+        doTestReplace("1", "${a}", false);
     }
 
     @Test
