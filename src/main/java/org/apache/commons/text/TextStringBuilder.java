@@ -459,23 +459,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends the contents of a char buffer to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param buf the char buffer to append
+     * @param str the char buffer to append
      * @return this, to enable chaining
      */
-    public TextStringBuilder append(final CharBuffer buf) {
-        if (buf == null) {
-            return appendNull();
-        }
-        if (buf.hasArray()) {
-            final int length = buf.remaining();
-            final int len = length();
-            ensureCapacity(len + length);
-            System.arraycopy(buf.array(), buf.arrayOffset() + buf.position(), buffer, len, length);
-            size += length;
-        } else {
-            append(buf.toString());
-        }
-        return this;
+    public TextStringBuilder append(final CharBuffer str) {
+        return append(str, 0, StringUtils.length(str));
     }
 
     /**
@@ -619,17 +607,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder append(final String str) {
-        if (str == null) {
-            return appendNull();
-        }
-        final int strLen = str.length();
-        if (strLen > 0) {
-            final int len = length();
-            ensureCapacity(len + strLen);
-            str.getChars(0, strLen, buffer, len);
-            size += strLen;
-        }
-        return this;
+        return append(str, 0, StringUtils.length(str));
     }
 
     /**
@@ -678,17 +656,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder append(final StringBuffer str) {
-        if (str == null) {
-            return appendNull();
-        }
-        final int strLen = str.length();
-        if (strLen > 0) {
-            final int len = length();
-            ensureCapacity(len + strLen);
-            str.getChars(0, strLen, buffer, len);
-            size += strLen;
-        }
-        return this;
+        return append(str, 0, StringUtils.length(str));
     }
 
     /**
@@ -725,17 +693,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder append(final StringBuilder str) {
-        if (str == null) {
-            return appendNull();
-        }
-        final int strLen = str.length();
-        if (strLen > 0) {
-            final int len = length();
-            ensureCapacity(len + strLen);
-            str.getChars(0, strLen, buffer, len);
-            size += strLen;
-        }
-        return this;
+        return append(str, 0, StringUtils.length(str));
     }
 
     /**
@@ -772,17 +730,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder append(final TextStringBuilder str) {
-        if (str == null) {
-            return appendNull();
-        }
-        final int strLen = str.length();
-        if (strLen > 0) {
-            final int len = length();
-            ensureCapacity(len + strLen);
-            System.arraycopy(str.buffer, 0, buffer, len, strLen);
-            size += strLen;
-        }
-        return this;
+        return append(str, 0, str.length());
     }
 
     /**
