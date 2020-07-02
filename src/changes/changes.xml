@@ -66,6 +66,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.wrap(char[], int).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.StringSubstitutor.StringSubstitutor(StringSubstitutor).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.isReallocated().</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] Skip clirr since we use JApiCmp.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] junit-jupiter 5.5.1 -> 5.5.2.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] org.assertj:assertj-core 3.13.2 -> 3.16.1.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] com.puppycrawl.tools:checkstyle 8.23 -> 8.34.</action>
@@ -73,7 +74,6 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] commons.jacoco.version 0.8.4 -> 0.8.5.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] commons.javadoc.version 3.1.1 -> 3.2.0.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] commons.japicmp.version 0.14.1 -> 0.14.3.</action>
-    <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] Skip clirr since we use JApiCmp.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] checkstyle.plugin.version 3.1.0 -> 3.1.1.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] checkstyle.version 8.27 -> 8.33.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] org.apache.commons:commons-parent 48 -> 51.</action>
