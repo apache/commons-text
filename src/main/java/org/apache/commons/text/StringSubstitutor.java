@@ -350,6 +350,21 @@ public class StringSubstitutor {
     }
 
     /**
+     * The flag whether substitution in variable values is disabled.
+     */
+    private boolean disableSubstitutionInValues;
+
+    /**
+     * The flag whether substitution in variable names is enabled.
+     */
+    private boolean enableSubstitutionInVariables;
+
+    /**
+     * The flag whether exception should be thrown on undefined variable.
+     */
+    private boolean enableUndefinedVariableException;
+
+    /**
      * Stores the escape character.
      */
     private char escapeChar;
@@ -358,6 +373,11 @@ public class StringSubstitutor {
      * Stores the variable prefix.
      */
     private StringMatcher prefixMatcher;
+
+    /**
+     * Whether escapes should be preserved. Default is false;
+     */
+    private boolean preserveEscapes;
 
     /**
      * Stores the variable suffix.
@@ -373,26 +393,6 @@ public class StringSubstitutor {
      * Variable resolution is delegated to an implementor of {@link StringLookup}.
      */
     private StringLookup variableResolver;
-
-    /**
-     * The flag whether substitution in variable names is enabled.
-     */
-    private boolean enableSubstitutionInVariables;
-
-    /**
-     * Whether escapes should be preserved. Default is false;
-     */
-    private boolean preserveEscapes;
-
-    /**
-     * The flag whether substitution in variable values is disabled.
-     */
-    private boolean disableSubstitutionInValues;
-
-    /**
-     * The flag whether exception should be thrown on undefined variable.
-     */
-    private boolean enableUndefinedVariableException;
 
     /**
      * Creates a new instance with defaults for variable prefix and suffix and the escaping character.
@@ -533,6 +533,25 @@ public class StringSubstitutor {
         this.setVariableSuffixMatcher(suffixMatcher);
         this.setEscapeChar(escape);
         this.setValueDelimiterMatcher(valueDelimiterMatcher);
+    }
+
+    /**
+     * Creates a new instance based on the given StringSubstitutor.
+     *
+     * @param other The StringSubstitutor is use as the source.
+     *
+     * @since 1.9
+     */
+    public StringSubstitutor(final StringSubstitutor other) {
+        disableSubstitutionInValues = other.isDisableSubstitutionInValues();
+        enableSubstitutionInVariables = other.isEnableSubstitutionInVariables();
+        enableUndefinedVariableException = other.isEnableUndefinedVariableException();
+        escapeChar = other.getEscapeChar();
+        prefixMatcher = other.getVariablePrefixMatcher();
+        preserveEscapes = other.isPreserveEscapes();
+        suffixMatcher = other.getVariableSuffixMatcher();
+        valueDelimiterMatcher = other.getValueDelimiterMatcher();
+        variableResolver = other.getStringLookup();
     }
 
     /**
