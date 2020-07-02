@@ -55,6 +55,11 @@ public class StringSubstitutorTest {
     private static final String EMPTY_EXPR = "${}";
     protected Map<String, String> values;
 
+    private void assertEqualsCharSeq(final CharSequence expected, final CharSequence actual) {
+        assertEquals(expected, actual, () -> String.format("expected.length()=%,d, actual.length()=%,d",
+            StringUtils.length(expected), StringUtils.length(actual)));
+    }
+
     protected void doTestNoReplace(final String replaceTemplate) throws IOException {
         doTestNoReplace(new StringSubstitutor(values), replaceTemplate);
     }
@@ -243,7 +248,7 @@ public class StringSubstitutorTest {
         values.put("code", "GBP");
         values.put("amount", "12.50");
         final StringSubstitutor sub = new StringSubstitutor(values);
-        assertEquals("Amount is GBP12.50", replace(sub, "Amount is ${code}${amount}"));
+        assertEqualsCharSeq("Amount is GBP12.50", replace(sub, "Amount is ${code}${amount}"));
     }
 
     /**
@@ -254,7 +259,7 @@ public class StringSubstitutorTest {
         values.put("code", "GBP");
         values.put("amount", "12.50");
         final StringSubstitutor sub = new StringSubstitutor(values);
-        assertEquals("GBP12.50 charged", replace(sub, "${code}${amount} charged"));
+        assertEqualsCharSeq("GBP12.50 charged", replace(sub, "${code}${amount} charged"));
     }
 
     /**
@@ -265,10 +270,10 @@ public class StringSubstitutorTest {
         final StringSubstitutor sub = new StringSubstitutor(values);
         // no map change
         final String template = CLASSIC_TEMPLATE;
-        assertEquals(CLASSIC_RESULT, replace(sub, template));
+        assertEqualsCharSeq(CLASSIC_RESULT, replace(sub, template));
         // map change
         values.put("target", "moon");
-        assertEquals("The quick brown fox jumps over the moon.", replace(sub, template));
+        assertEqualsCharSeq("The quick brown fox jumps over the moon.", replace(sub, template));
     }
 
     /**
@@ -301,8 +306,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceEmptyKeyExtraFirst() throws IOException {
-        final String expected = "." + EMPTY_EXPR;
-        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+        assertEqualsCharSeq("." + EMPTY_EXPR, replace(new StringSubstitutor(values), "." + EMPTY_EXPR));
     }
 
     /**
@@ -310,8 +314,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceEmptyKeyExtraLast() throws IOException {
-        final String expected = EMPTY_EXPR + ".";
-        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+        assertEqualsCharSeq(EMPTY_EXPR + ".", replace(new StringSubstitutor(values), EMPTY_EXPR + "."));
     }
 
     /**
@@ -378,10 +381,11 @@ public class StringSubstitutorTest {
             .withMessage("Cannot resolve variable 'unknown' (enableSubstitutionInVariables=false).");
 
         // if default value is available, exception will not be thrown
-        assertEquals("The statement is a sample for missing variable.",
+        assertEqualsCharSeq("The statement is a sample for missing variable.",
             replace(sub, "The ${test:-statement} is a sample for missing ${unknown:-variable}."));
 
-        assertEquals("The fox jumps over the lazy dog.", replace(sub, "The ${animal.1} jumps over the ${target}."));
+        assertEqualsCharSeq("The fox jumps over the lazy dog.",
+            replace(sub, "The ${animal.1} jumps over the ${target}."));
     }
 
     /**
@@ -400,10 +404,10 @@ public class StringSubstitutorTest {
         sub.setEnableUndefinedVariableException(true);
         sub.setEnableSubstitutionInVariables(true);
 
-        assertEquals("The mouse jumps over the lazy dog.",
+        assertEqualsCharSeq("The mouse jumps over the lazy dog.",
             replace(sub, "The ${animal.${species}} jumps over the ${target}."));
         values.put("species", "1");
-        assertEquals("The fox jumps over the lazy dog.",
+        assertEqualsCharSeq("The fox jumps over the lazy dog.",
             replace(sub, "The ${animal.${species}} jumps over the ${target}."));
 
         // exception is thrown here because variable with name test.1 is missing
@@ -416,7 +420,7 @@ public class StringSubstitutorTest {
             .isThrownBy(() -> replace(sub, "The ${test.${statement.${recursive}}} is a sample for missing ${word}."))
             .withMessage("Cannot resolve variable 'test.2' (enableSubstitutionInVariables=true).");
 
-        assertEquals("The statement is a sample for missing variable.",
+        assertEqualsCharSeq("The statement is a sample for missing variable.",
             replace(sub, "The ${testok.${statement.${recursive}}} is a sample for missing ${word}."));
     }
 
@@ -480,12 +484,12 @@ public class StringSubstitutorTest {
         values.put("species", "2");
         final StringSubstitutor sub = new StringSubstitutor(values);
         sub.setEnableSubstitutionInVariables(true);
-        assertEquals("The mouse jumps over the lazy dog.",
+        assertEqualsCharSeq("The mouse jumps over the lazy dog.",
             replace(sub, "The ${animal.${species}} jumps over the ${target}."));
         values.put("species", "1");
-        assertEquals("The fox jumps over the lazy dog.",
+        assertEqualsCharSeq("The fox jumps over the lazy dog.",
             replace(sub, "The ${animal.${species}} jumps over the ${target}."));
-        assertEquals("The fox jumps over the lazy dog.", replace(sub,
+        assertEqualsCharSeq("The fox jumps over the lazy dog.", replace(sub,
             "The ${unknown.animal.${unknown.species:-1}:-fox} " + "jumps over the ${unknow.target:-lazy dog}."));
     }
 
@@ -498,9 +502,9 @@ public class StringSubstitutorTest {
         values.put("animal.2", "mouse");
         values.put("species", "2");
         final StringSubstitutor sub = new StringSubstitutor(values);
-        assertEquals("The ${animal.${species}} jumps over the lazy dog.",
+        assertEqualsCharSeq("The ${animal.${species}} jumps over the lazy dog.",
             replace(sub, "The ${animal.${species}} jumps over the ${target}."));
-        assertEquals("The ${animal.${species:-1}} jumps over the lazy dog.",
+        assertEqualsCharSeq("The ${animal.${species:-1}} jumps over the lazy dog.",
             replace(sub, "The ${animal.${species:-1}} jumps over the ${target}."));
     }
 
@@ -516,10 +520,10 @@ public class StringSubstitutorTest {
         values.put("species.brown", "2");
         final StringSubstitutor sub = new StringSubstitutor(values);
         sub.setEnableSubstitutionInVariables(true);
-        assertEquals("white mouse", replace(sub, "${animal.${species.${color}}}"));
-        assertEquals("The white mouse jumps over the lazy dog.",
+        assertEqualsCharSeq("white mouse", replace(sub, "${animal.${species.${color}}}"));
+        assertEqualsCharSeq("The white mouse jumps over the lazy dog.",
             replace(sub, "The ${animal.${species.${color}}} jumps over the ${target}."));
-        assertEquals("The brown fox jumps over the lazy dog.",
+        assertEqualsCharSeq("The brown fox jumps over the lazy dog.",
             replace(sub, "The ${animal.${species.${unknownColor:-brown}}} jumps over the ${target}."));
     }
 
@@ -529,7 +533,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceKeyStartChars() throws IOException {
         final String substring = StringSubstitutor.DEFAULT_VAR_START + "a";
-        assertEquals(substring, replace(new StringSubstitutor(values), substring));
+        assertEqualsCharSeq(substring, replace(new StringSubstitutor(values), substring));
     }
 
     /**
@@ -538,7 +542,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceKeyStartChars1Only() throws IOException {
         final String substring = StringSubstitutor.DEFAULT_VAR_START.substring(0, 1);
-        assertEquals(substring, replace(new StringSubstitutor(values), substring));
+        assertEqualsCharSeq(substring, replace(new StringSubstitutor(values), substring));
     }
 
     /**
@@ -547,7 +551,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceKeyStartChars2Only() throws IOException {
         final String substring = StringSubstitutor.DEFAULT_VAR_START.substring(0, 2);
-        assertEquals(substring, replace(new StringSubstitutor(values), substring));
+        assertEqualsCharSeq(substring, replace(new StringSubstitutor(values), substring));
     }
 
     /**
@@ -588,7 +592,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplacePartialString_noReplace() {
         final StringSubstitutor sub = new StringSubstitutor();
-        assertEquals("${animal} jumps", sub.replace(CLASSIC_TEMPLATE, 4, 15));
+        assertEqualsCharSeq("${animal} jumps", sub.replace(CLASSIC_TEMPLATE, 4, 15));
     }
 
     /**
@@ -674,7 +678,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceUnknownKeyOnly() throws IOException {
         final String expected = "${person}";
-        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+        assertEqualsCharSeq(expected, replace(new StringSubstitutor(values), expected));
     }
 
     /**
@@ -683,7 +687,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceUnknownKeyOnlyExtraFirst() throws IOException {
         final String expected = ".${person}";
-        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+        assertEqualsCharSeq(expected, replace(new StringSubstitutor(values), expected));
     }
 
     /**
@@ -692,7 +696,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceUnknownKeyOnlyExtraLast() throws IOException {
         final String expected = "${person}.";
-        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+        assertEqualsCharSeq(expected, replace(new StringSubstitutor(values), expected));
     }
 
     /**
@@ -701,7 +705,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceUnknownShortestKeyOnly() throws IOException {
         final String expected = "${U}";
-        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+        assertEqualsCharSeq(expected, replace(new StringSubstitutor(values), expected));
     }
 
     /**
@@ -710,7 +714,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceUnknownShortestKeyOnlyExtraFirst() throws IOException {
         final String expected = ".${U}";
-        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+        assertEqualsCharSeq(expected, replace(new StringSubstitutor(values), expected));
     }
 
     /**
@@ -719,7 +723,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceUnknownShortestKeyOnlyExtraLast() throws IOException {
         final String expected = "${U}.";
-        assertEquals(expected, replace(new StringSubstitutor(values), expected));
+        assertEqualsCharSeq(expected, replace(new StringSubstitutor(values), expected));
     }
 
     /**
@@ -857,7 +861,7 @@ public class StringSubstitutorTest {
             }
         };
         sub.replaceIn(builder);
-        assertEquals("Hi jakarta!", builder.toString());
+        assertEqualsCharSeq("Hi jakarta!", builder.toString());
     }
 
     @Test
@@ -866,8 +870,9 @@ public class StringSubstitutorTest {
         map.put("greeting", "Hello");
         map.put(" there ", "XXX");
         map.put("name", "commons");
-        assertEquals("Hi commons!", StringSubstitutor.replace("Hi @name@!", map, "@", "@"));
-        assertEquals("Hello there commons!", StringSubstitutor.replace("@greeting@ there @name@!", map, "@", "@"));
+        assertEqualsCharSeq("Hi commons!", StringSubstitutor.replace("Hi @name@!", map, "@", "@"));
+        assertEqualsCharSeq("Hello there commons!",
+            StringSubstitutor.replace("@greeting@ there @name@!", map, "@", "@"));
     }
 
     /**
@@ -877,7 +882,7 @@ public class StringSubstitutorTest {
     public void testStaticReplace() {
         final Map<String, String> map = new HashMap<>();
         map.put("name", "commons");
-        assertEquals("Hi commons!", StringSubstitutor.replace("Hi ${name}!", map));
+        assertEqualsCharSeq("Hi commons!", StringSubstitutor.replace("Hi ${name}!", map));
     }
 
     /**
@@ -887,7 +892,7 @@ public class StringSubstitutorTest {
     public void testStaticReplacePrefixSuffix() {
         final Map<String, String> map = new HashMap<>();
         map.put("name", "commons");
-        assertEquals("Hi commons!", StringSubstitutor.replace("Hi <name>!", map, "<", ">"));
+        assertEqualsCharSeq("Hi commons!", StringSubstitutor.replace("Hi <name>!", map, "<", ">"));
     }
 
     /**
@@ -901,7 +906,7 @@ public class StringSubstitutorTest {
         buf.append(System.getProperty("os.name"));
         buf.append(", your home directory is ");
         buf.append(System.getProperty("user.home")).append('.');
-        assertEquals(buf.toString(), StringSubstitutor.replaceSystemProperties(
+        assertEqualsCharSeq(buf.toString(), StringSubstitutor.replaceSystemProperties(
             "Hi ${user.name}, you are " + "working with ${os.name}, your home " + "directory is ${user.home}."));
     }
 
@@ -916,7 +921,7 @@ public class StringSubstitutorTest {
         // create a new Properties object with the System.getProperties as default
         final Properties props = new Properties(System.getProperties());
 
-        assertEquals("It works!", StringSubstitutor.replace(org, props));
+        assertEqualsCharSeq("It works!", StringSubstitutor.replace(org, props));
     }
 
     @Test
@@ -927,11 +932,11 @@ public class StringSubstitutorTest {
 
         final StringSubstitutor sub = new StringSubstitutor(map, "${", "}", '$');
         assertFalse(sub.isPreserveEscapes());
-        assertEquals("value ${escaped}", replace(sub, org));
+        assertEqualsCharSeq("value ${escaped}", replace(sub, org));
 
         sub.setPreserveEscapes(true);
         assertTrue(sub.isPreserveEscapes());
-        assertEquals("value $${escaped}", replace(sub, org));
+        assertEqualsCharSeq("value $${escaped}", replace(sub, org));
     }
 
 }
