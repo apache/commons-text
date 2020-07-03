@@ -24,6 +24,9 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * A matcher that determines if a character array portion matches.
+ * <p>
+ * Thread=safe.
+ * </p>
  *
  * @since 1.3
  */
@@ -31,6 +34,9 @@ abstract class AbstractStringMatcher implements StringMatcher {
 
     /**
      * Class used to define a character for matching purposes.
+     * <p>
+     * Thread=safe.
+     * </p>
      */
     static final class CharMatcher extends AbstractStringMatcher {
 
@@ -93,6 +99,9 @@ abstract class AbstractStringMatcher implements StringMatcher {
 
     /**
      * Class used to define a set of characters for matching purposes.
+     * <p>
+     * Thread=safe.
+     * </p>
      */
     static final class CharSetMatcher extends AbstractStringMatcher {
 
@@ -157,6 +166,9 @@ abstract class AbstractStringMatcher implements StringMatcher {
 
     /**
      * Class used to match no characters.
+     * <p>
+     * Thread=safe.
+     * </p>
      */
     static final class NoMatcher extends AbstractStringMatcher {
 
@@ -209,6 +221,9 @@ abstract class AbstractStringMatcher implements StringMatcher {
 
     /**
      * Class used to define a set of characters for matching purposes.
+     * <p>
+     * Thread=safe.
+     * </p>
      */
     static final class StringMatcher extends AbstractStringMatcher {
 
@@ -307,6 +322,9 @@ abstract class AbstractStringMatcher implements StringMatcher {
 
     /**
      * Class used to match whitespace as per trim().
+     * <p>
+     * Thread=safe.
+     * </p>
      */
     static final class TrimMatcher extends AbstractStringMatcher {
 
