@@ -1896,6 +1896,27 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
+     * Copies this character array into the specified array and then deletes those character from this source.
+     *
+     * @param startIndex first index to copy, inclusive.
+     * @param endIndex last index, exclusive.
+     * @param target the target array, must not be null or too small
+     * @param targetIndex the index to start copying in target
+     * @return How many characters where deleted. If this builder is empty, return 0.
+     * @since 1.9
+     */
+    public int getCharsDelete(final int startIndex, final int endIndex, final char[] target, final int targetIndex) {
+        final int length = endIndex - startIndex;
+        if (isEmpty() || length == 0) {
+            return 0;
+        }
+        final int actualLen = Math.min(size, length);
+        getChars(startIndex, actualLen, target, targetIndex);
+        delete(startIndex, actualLen);
+        return actualLen;
+    }
+
+    /**
      * Gets the text to be appended when a new line is added.
      *
      * @return The new line text, null means use system default
@@ -2240,6 +2261,19 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
+     * Checks is the string builder is not empty.
+     * <p>
+     * This method is the same as checking {@link #length()}.
+     * </p>
+     *
+     * @return {@code true} if the size is not {@code 0}.
+     * @since 1.9
+     */
+    public boolean isNotEmpty() {
+        return size != 0;
+    }
+
+    /**
      * Gets whether the internal buffer has been reallocated.
      *
      * @return Whether the internal buffer has been reallocated.
@@ -2435,6 +2469,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         }
         return this;
     }
+
     /**
      * If possible, reads chars from the provided {@link CharBuffer} directly into underlying character buffer without
      * making extra copies.
@@ -2782,6 +2817,21 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         } else {
             return new String(buffer, size - length, length);
         }
+    }
+
+    /**
+     * Clears and sets this builder to the given value.
+     *
+     * @see #charAt(int)
+     * @see #deleteCharAt(int)
+     * @param str the new value.
+     * @return this, to enable chaining
+     * @since 1.9
+     */
+    public TextStringBuilder set(final CharSequence str) {
+        clear();
+        append(str);
+        return this;
     }
 
     /**

@@ -18,7 +18,6 @@
 package org.apache.commons.text;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -831,7 +830,7 @@ public class TextStringBuilderTest {
         assertFalse(sb1.equals(sb2));
         assertFalse(sb1.equals((Object) sb2));
 
-        sb2.clear().append("abc");
+        sb2.set("abc");
         assertTrue(sb1.equals(sb2));
         assertTrue(sb1.equals((Object) sb2));
 
@@ -853,12 +852,12 @@ public class TextStringBuilderTest {
         sb2.append("ABC");
         assertTrue(sb1.equalsIgnoreCase(sb2));
 
-        sb2.clear().append("abc");
+        sb2.set("abc");
         assertTrue(sb1.equalsIgnoreCase(sb2));
         assertTrue(sb1.equalsIgnoreCase(sb1));
         assertTrue(sb2.equalsIgnoreCase(sb2));
 
-        sb2.clear().append("aBc");
+        sb2.set("aBc");
         assertTrue(sb1.equalsIgnoreCase(sb2));
     }
 
@@ -891,11 +890,41 @@ public class TextStringBuilderTest {
     }
 
     @Test
+    public void testGetCharsDeleteIntIntCharArrayInt() {
+        final char[] array = new char[5];
+        final TextStringBuilder sb = new TextStringBuilder();
+        // empty buffer
+        assertEquals(0, sb.getCharsDelete(0, 5, array, 1));
+        // empty buffer, 0 length request
+        assertEquals(0, sb.getCharsDelete(5, 5, array, 1));
+
+        final String data = "junit";
+        sb.append(data);
+        assertEquals(0, sb.getCharsDelete(5, 5, array, 1));
+        assertEquals(5, sb.getCharsDelete(0, 5, array, 0));
+        assertArrayEquals(data.toCharArray(), array);
+
+        final char[] b = new char[5];
+        sb.set(data);
+        assertEquals(2, sb.getCharsDelete(0, 2, b, 3));
+        assertArrayEquals(new char[] {0, 0, 0, 'j', 'u'}, b);
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.getCharsDelete(-1, 0, b, 0));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.getCharsDelete(0, -1, array, 0));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.getCharsDelete(4, 2, array, 0));
+
+        sb.set(data);
+        // get and delete it all.
+        assertEquals(data.length(), sb.getCharsDelete(0, sb.length() + 1, array, 0));
+        assertArrayEquals(data.toCharArray(), array);
+    }
+
+    @Test
     public void testGetCharsIntIntCharArrayInt() {
         final TextStringBuilder sb = new TextStringBuilder();
 
         sb.append("junit");
-        char[] array = new char[5];
+        final char[] array = new char[5];
         sb.getChars(0, 5, array, 0);
         assertArrayEquals(new char[] {'j', 'u', 'n', 'i', 't'}, array);
 
@@ -1129,6 +1158,18 @@ public class TextStringBuilderTest {
 
         sb.clear();
         assertTrue(sb.isEmpty());
+    }
+
+    @Test
+    public void testIsNotEmpty() {
+        final TextStringBuilder sb = new TextStringBuilder();
+        assertFalse(sb.isNotEmpty());
+
+        sb.append("Hello");
+        assertTrue(sb.isNotEmpty());
+
+        sb.clear();
+        assertFalse(sb.isNotEmpty());
     }
 
     @Test
@@ -1484,7 +1525,7 @@ public class TextStringBuilderTest {
 
     @Test
     public void testReplace_int_int_String() {
-        TextStringBuilder sb = new TextStringBuilder("abc");
+        final TextStringBuilder sb = new TextStringBuilder("abc");
         sb.replace(0, 1, "d");
         assertEquals("dbc", sb.toString());
         sb.replace(0, 1, "aaa");
@@ -1498,7 +1539,7 @@ public class TextStringBuilderTest {
         sb.replace(0, 1000, "text");
         assertEquals("text", sb.toString());
 
-        TextStringBuilder builder = new TextStringBuilder("atext");
+        final TextStringBuilder builder = new TextStringBuilder("atext");
         builder.replace(1, 1, "ny");
         assertEquals("anytext", builder.toString());
 
@@ -1586,7 +1627,7 @@ public class TextStringBuilderTest {
         sb.replace(StringMatcherFactory.INSTANCE.stringMatcher("aa"), "-", 0, 1000, -1);
         assertEquals("-x--y-", sb.toString());
 
-        TextStringBuilder builder = new TextStringBuilder("aaxaaaayaa");
+        final TextStringBuilder builder = new TextStringBuilder("aaxaaaayaa");
         assertThrows(IndexOutOfBoundsException.class,
             () -> builder.replace(StringMatcherFactory.INSTANCE.stringMatcher("aa"), "-", 2, 1, -1));
         assertEquals("aaxaaaayaa", builder.toString());
@@ -1687,8 +1728,7 @@ public class TextStringBuilderTest {
             () -> builder.replace(StringMatcherFactory.INSTANCE.stringMatcher("aa"), "-", 11, builder.length(), -1));
         assertEquals("aaxaaaayaa", builder.toString());
 
-        builder.clear();
-        builder.append("aaxaaaayaa");
+        builder.set("aaxaaaayaa");
         assertThrows(IndexOutOfBoundsException.class,
             () -> builder.replace(StringMatcherFactory.INSTANCE.stringMatcher("aa"), "-", -1, builder.length(), -1));
         assertEquals("aaxaaaayaa", builder.toString());
@@ -2058,19 +2098,19 @@ public class TextStringBuilderTest {
         final TextStringBuilder sb = new TextStringBuilder();
         assertEquals("", sb.reverse().toString());
 
-        sb.clear().append(" \u0000 ");
+        sb.set(" \u0000 ");
         assertEquals("", sb.trim().toString());
 
-        sb.clear().append(" \u0000 a b c");
+        sb.set(" \u0000 a b c");
         assertEquals("a b c", sb.trim().toString());
 
-        sb.clear().append("a b c \u0000 ");
+        sb.set("a b c \u0000 ");
         assertEquals("a b c", sb.trim().toString());
 
-        sb.clear().append(" \u0000 a b c \u0000 ");
+        sb.set(" \u0000 a b c \u0000 ");
         assertEquals("a b c", sb.trim().toString());
 
-        sb.clear().append("a b c");
+        sb.set("a b c");
         assertEquals("a b c", sb.trim().toString());
     }
 
