@@ -924,7 +924,14 @@ public class TextStringBuilderTest {
     public void testGetCharsIntIntCharArrayInt() {
         final TextStringBuilder sb = new TextStringBuilder();
 
-        sb.append("junit");
+        final char[] array1 = new char[1];
+        sb.getChars(0, 0, array1, 0);
+        assertArrayEquals(new char[1], array1);
+
+        sb.set("junit");
+        sb.getChars(0, 1, array1, 0);
+        assertArrayEquals(new char[] {'j'}, array1);
+
         final char[] array = new char[5];
         sb.getChars(0, 5, array, 0);
         assertArrayEquals(new char[] {'j', 'u', 'n', 'i', 't'}, array);
