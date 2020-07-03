@@ -19,6 +19,7 @@ package org.apache.commons.text;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -36,7 +37,6 @@ import java.io.Writer;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
@@ -864,17 +864,17 @@ public class StrBuilderTest {
         char[] input = new char[10];
         char[] a = sb.getChars(input);
         assertSame(input, a);
-        assertTrue(Arrays.equals(new char[10], a));
+        assertArrayEquals(new char[10], a);
 
         sb.append("junit");
         a = sb.getChars(input);
         assertSame(input, a);
-        assertTrue(Arrays.equals(new char[] {'j', 'u', 'n', 'i', 't', 0, 0, 0, 0, 0 }, a));
+        assertArrayEquals(new char[] {'j', 'u', 'n', 'i', 't', 0, 0, 0, 0, 0 }, a);
 
         a = sb.getChars(null);
         assertNotSame(input, a);
         assertEquals(5, a.length);
-        assertTrue(Arrays.equals("junit".toCharArray(), a));
+        assertArrayEquals("junit".toCharArray(), a);
 
         input = new char[5];
         a = sb.getChars(input);
@@ -892,11 +892,11 @@ public class StrBuilderTest {
         sb.append("junit");
         char[] a = new char[5];
         sb.getChars(0, 5, a, 0);
-        assertTrue(Arrays.equals(new char[] {'j', 'u', 'n', 'i', 't' }, a));
+        assertArrayEquals(new char[] {'j', 'u', 'n', 'i', 't' }, a);
 
         a = new char[5];
         sb.getChars(0, 2, a, 3);
-        assertTrue(Arrays.equals(new char[] {0, 0, 0, 'j', 'u' }, a));
+        assertArrayEquals(new char[] {0, 0, 0, 'j', 'u' }, a);
 
         try {
             sb.getChars(-1, 0, a, 0);
@@ -1990,7 +1990,7 @@ public class StrBuilderTest {
         sb.append("junit");
         a = sb.toCharArray();
         assertEquals(5, a.length, "toCharArray() result incorrect length");
-        assertTrue(Arrays.equals("junit".toCharArray(), a), "toCharArray() result does not match");
+        assertArrayEquals("junit".toCharArray(), a, "toCharArray() result does not match");
     }
 
     @Test
@@ -2001,15 +2001,15 @@ public class StrBuilderTest {
         sb.append("junit");
         char[] a = sb.toCharArray(0, 20); // too large test
         assertEquals(5, a.length, "toCharArray(int,int) result incorrect length");
-        assertTrue(Arrays.equals("junit".toCharArray(), a), "toCharArray(int,int) result does not match");
+        assertArrayEquals("junit".toCharArray(), a, "toCharArray(int,int) result does not match");
 
         a = sb.toCharArray(0, 4);
         assertEquals(4, a.length, "toCharArray(int,int) result incorrect length");
-        assertTrue(Arrays.equals("juni".toCharArray(), a), "toCharArray(int,int) result does not match");
+        assertArrayEquals("juni".toCharArray(), a, "toCharArray(int,int) result does not match");
 
         a = sb.toCharArray(0, 4);
         assertEquals(4, a.length, "toCharArray(int,int) result incorrect length");
-        assertTrue(Arrays.equals("juni".toCharArray(), a), "toCharArray(int,int) result does not match");
+        assertArrayEquals("juni".toCharArray(), a, "toCharArray(int,int) result does not match");
 
         a = sb.toCharArray(0, 1);
         assertNotNull(a, "toCharArray(int,int) result is null");
