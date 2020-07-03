@@ -39,6 +39,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.matcher.StringMatcher;
 import org.apache.commons.text.matcher.StringMatcherFactory;
 import org.junit.jupiter.api.Test;
@@ -1455,6 +1456,14 @@ public class TextStringBuilderTest {
     }
 
     @Test
+    public void testReadFromReaderEmpty() throws Exception {
+        final TextStringBuilder sb = new TextStringBuilder();
+        final int len = sb.readFrom(new StringReader(StringUtils.EMPTY));
+        assertEquals(0, len);
+        assertEquals(StringUtils.EMPTY, sb.toString());
+    }
+
+    @Test
     public void testReadFromReaderAppendsToEnd() throws Exception {
         final TextStringBuilder sb = new TextStringBuilder("Test");
         sb.readFrom(new StringReader(" 123"));
@@ -1463,15 +1472,15 @@ public class TextStringBuilderTest {
 
     @Test
     public void testReadFromReaderInt() throws Exception {
-        String s = "";
+        String str = "";
         for (int i = 0; i < 100; ++i) {
             final TextStringBuilder sb = new TextStringBuilder();
-            final int len = sb.readFrom(new StringReader(s), s.length());
+            final int len = sb.readFrom(new StringReader(str), str.length());
 
-            assertEquals(s.length(), len);
-            assertEquals(s, sb.toString());
+            assertEquals(str.length(), len);
+            assertEquals(str, sb.toString());
 
-            s += Integer.toString(i);
+            str += Integer.toString(i);
         }
         //
         TextStringBuilder sb;
@@ -1479,6 +1488,13 @@ public class TextStringBuilderTest {
         int target;
         final String source = "abc";
         final int sourceLen = source.length();
+        // empty
+        target = -1;
+        sb = new TextStringBuilder();
+        count = sb.readFrom(new StringReader(StringUtils.EMPTY), target);
+        assertEquals(0, count);
+        assertEquals(0, sb.size());
+        assertEquals(source.substring(0, 0), sb.toString());
         //
         target = -1;
         sb = new TextStringBuilder();

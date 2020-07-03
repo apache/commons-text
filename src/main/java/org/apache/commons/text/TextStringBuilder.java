@@ -259,6 +259,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     static final int CAPACITY = 32;
 
     /**
+     * End-Of-Stream.
+     */
+    private static final int EOS = -1;
+
+    /**
      * The size of the string {@code "false"}.
      */
     private static final int FALSE_STRING_SIZE = "false".length();
@@ -2511,7 +2516,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
                 ensureCapacity(size + 1);
                 final CharBuffer buf = CharBuffer.wrap(buffer, size, buffer.length - size);
                 final int read = readable.read(buf);
-                if (read == -1) {
+                if (read == EOS) {
                     break;
                 }
                 size += read;
@@ -2535,7 +2540,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         final int oldSize = size;
         ensureCapacity(size + 1);
         int readCount;
-        while ((readCount = reader.read(buffer, size, buffer.length - size)) != -1) {
+        while ((readCount = reader.read(buffer, size, buffer.length - size)) != EOS) {
             size += readCount;
             ensureCapacity(size + 1);
         }
@@ -2559,7 +2564,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         ensureCapacity(size + count);
         int readCount;
         int target = count;
-        while (target > 0 && (readCount = reader.read(buffer, size, target)) != -1) {
+        while (target > 0 && (readCount = reader.read(buffer, size, target)) != EOS) {
             target -= readCount;
             size += readCount;
         }
