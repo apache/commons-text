@@ -1858,7 +1858,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Copies the character array into the specified array.
+     * Copies this character array into the specified array.
      *
      * @param target the target array, null will cause an array to be created
      * @return The input array, unless that was null or too small
@@ -1873,7 +1873,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Copies the character array into the specified array.
+     * Copies this character array into the specified array.
      *
      * @param startIndex first index to copy, inclusive, must be valid
      * @param endIndex last index, exclusive, must be valid
