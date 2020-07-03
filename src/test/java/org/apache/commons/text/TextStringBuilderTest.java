@@ -1443,7 +1443,7 @@ public class TextStringBuilderTest {
 
     @Test
     public void testReadFromReader() throws Exception {
-        String s = "";
+        String s = "1";
         for (int i = 0; i < 100; ++i) {
             final TextStringBuilder sb = new TextStringBuilder();
             final int len = sb.readFrom(new StringReader(s));
@@ -1456,18 +1456,18 @@ public class TextStringBuilderTest {
     }
 
     @Test
-    public void testReadFromReaderEmpty() throws Exception {
-        final TextStringBuilder sb = new TextStringBuilder();
-        final int len = sb.readFrom(new StringReader(StringUtils.EMPTY));
-        assertEquals(0, len);
-        assertEquals(StringUtils.EMPTY, sb.toString());
-    }
-
-    @Test
     public void testReadFromReaderAppendsToEnd() throws Exception {
         final TextStringBuilder sb = new TextStringBuilder("Test");
         sb.readFrom(new StringReader(" 123"));
         assertEquals("Test 123", sb.toString());
+    }
+
+    @Test
+    public void testReadFromReaderEmpty() throws Exception {
+        final TextStringBuilder sb = new TextStringBuilder();
+        final int len = sb.readFrom(new StringReader(StringUtils.EMPTY));
+        assertEquals(-1, len);
+        assertEquals(StringUtils.EMPTY, sb.toString());
     }
 
     @Test
@@ -1537,6 +1537,14 @@ public class TextStringBuilderTest {
         assertEquals(sourceLen, count);
         assertEquals(sourceLen, sb.size());
         assertEquals(source.substring(0, sourceLen), sb.toString());
+    }
+
+    @Test
+    public void testReadFromReaderIntEmpty() throws Exception {
+        final TextStringBuilder sb = new TextStringBuilder();
+        final int len = sb.readFrom(new StringReader(StringUtils.EMPTY), 1);
+        assertEquals(-1, len);
+        assertEquals(StringUtils.EMPTY, sb.toString());
     }
 
     @Test

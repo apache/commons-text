@@ -2530,7 +2530,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * making extra copies.
      *
      * @param reader Reader to read.
-     * @return The number of characters read.
+     * @return The number of characters read or -1 if we reached the end of stream.
      * @throws IOException if an I/O error occurs.
      *
      * @see #appendTo(Appendable)
@@ -2539,11 +2539,15 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public int readFrom(final Reader reader) throws IOException {
         final int oldSize = size;
         ensureCapacity(size + 1);
-        int readCount;
-        while ((readCount = reader.read(buffer, size, buffer.length - size)) != EOS) {
+        int readCount = reader.read(buffer, size, buffer.length - size);
+        if (readCount == EOS) {
+            return EOS;
+        }
+        do {
             size += readCount;
             ensureCapacity(size + 1);
-        }
+            readCount = reader.read(buffer, size, buffer.length - size);
+        } while (readCount != EOS);
         return size - oldSize;
     }
 
@@ -2553,21 +2557,28 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *
      * @param reader Reader to read.
      * @param count The maximum characters to read, a value &lt;= 0 returns 0.
-     * @return The number of characters read. If less than {@code count}, then we've reached the end-of-stream.
+     * @return The number of characters read. If less than {@code count}, then we've reached the end-of-stream, or -1 if
+     *         we reached the end of stream.
      * @throws IOException if an I/O error occurs.
-     *
      * @see #appendTo(Appendable)
      * @since 1.9
      */
     public int readFrom(final Reader reader, final int count) throws IOException {
+        if (count <= 0) {
+            return 0;
+        }
         final int oldSize = size;
         ensureCapacity(size + count);
-        int readCount;
         int target = count;
-        while (target > 0 && (readCount = reader.read(buffer, size, target)) != EOS) {
+        int readCount = reader.read(buffer, size, target);
+        if (readCount == EOS) {
+            return EOS;
+        }
+        do {
             target -= readCount;
             size += readCount;
-        }
+            readCount = reader.read(buffer, size, target);
+        } while (target > 0 && readCount != EOS);
         return size - oldSize;
     }
 
