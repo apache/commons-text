@@ -51,7 +51,7 @@ public class UrlStringLookupTest {
     public void testFileScheme() throws Exception {
         final Path path = Paths.get("src/test/resources/document.properties");
         final URI uri = path.toUri();
-        System.out.println(uri);
+        // System.out.println(uri);
         final byte[] expectedBytes = Files.readAllBytes(path);
         final String expectedString = new String(expectedBytes, StandardCharsets.UTF_8);
         Assertions.assertEquals(expectedString, UrlStringLookup.INSTANCE.lookup("UTF-8:" + uri.toString()));

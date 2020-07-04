@@ -58,7 +58,7 @@ public class InterpolatorStringLookupTest {
         final String value = lookup.lookup(key);
         assertNotNull(value);
         assertFalse(value.isEmpty());
-        System.out.println(key + " = " + value);
+        // System.out.println(key + " = " + value);
     }
 
     @Test
