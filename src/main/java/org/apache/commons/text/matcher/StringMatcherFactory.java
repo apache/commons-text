@@ -18,6 +18,7 @@
 package org.apache.commons.text.matcher;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides access to matchers defined in this package.
@@ -123,7 +124,7 @@ public final class StringMatcherFactory {
      * @return a new Matcher for the given characters
      */
     public StringMatcher charSetMatcher(final String chars) {
-        if (chars == null || chars.length() == 0) {
+        if (StringUtils.isEmpty(chars)) {
             return NONE_MATCHER;
         }
         if (chars.length() == 1) {
@@ -204,10 +205,7 @@ public final class StringMatcherFactory {
      * @since 1.9
      */
     public StringMatcher stringMatcher(final char... chars) {
-        if (ArrayUtils.isEmpty(chars)) {
-            return NONE_MATCHER;
-        }
-        return new AbstractStringMatcher.StringMatcher(chars);
+        return ArrayUtils.isEmpty(chars) ? NONE_MATCHER : new AbstractStringMatcher.StringMatcher(chars);
     }
 
     /**
@@ -218,10 +216,7 @@ public final class StringMatcherFactory {
      * @return a new Matcher for the given String
      */
     public StringMatcher stringMatcher(final String str) {
-        if (str == null || str.length() == 0) {
-            return NONE_MATCHER;
-        }
-        return new AbstractStringMatcher.StringMatcher(str);
+        return StringUtils.isEmpty(str) ? NONE_MATCHER : new AbstractStringMatcher.StringMatcher(str);
     }
 
     /**
