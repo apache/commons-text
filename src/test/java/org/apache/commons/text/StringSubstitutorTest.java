@@ -53,6 +53,7 @@ public class StringSubstitutorTest {
     private static final String CLASSIC_RESULT = "The quick brown fox jumps over the lazy dog.";
     private static final String CLASSIC_TEMPLATE = "The ${animal} jumps over the ${target}.";
     private static final String EMPTY_EXPR = "${}";
+
     protected Map<String, String> values;
 
     private void assertEqualsCharSeq(final CharSequence expected, final CharSequence actual) {
@@ -181,7 +182,11 @@ public class StringSubstitutorTest {
         values = new HashMap<>();
         // shortest key and value.
         values.put("a", "1");
+        values.put("aa", "11");
+        values.put("aaa", "111");
         values.put("b", "2");
+        values.put("bb", "22");
+        values.put("bbb", "222");
         // normal key and value.
         values.put("animal", ACTUAL_ANIMAL);
         values.put("target", ACTUAL_TARGET);
@@ -660,8 +665,24 @@ public class StringSubstitutorTest {
      * Tests simple key replace.
      */
     @Test
-    public void testReplaceSimpleShortest() throws IOException {
+    public void testReplaceSimpleKeySize1() throws IOException {
         doTestReplace("1", "${a}", false);
+    }
+
+    /**
+     * Tests simple key replace.
+     */
+    @Test
+    public void testReplaceSimpleKeySize2() throws IOException {
+        doTestReplace("11", "${aa}", false);
+    }
+
+    /**
+     * Tests simple key replace.
+     */
+    @Test
+    public void testReplaceSimpleKeySize3() throws IOException {
+        doTestReplace("111", "${aaa}", false);
     }
 
     @Test
@@ -804,7 +825,8 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount2() throws IOException {
-        doTestReplace("12", "${a}${b}", false);
+        //doTestReplace("12", "${a}${b}", false);
+        doTestReplace("1122", "${aa}${bb}", false);
         doTestReplace(ACTUAL_ANIMAL + ACTUAL_ANIMAL, "${animal}${animal}", false);
         doTestReplace(ACTUAL_TARGET + ACTUAL_TARGET, "${target}${target}", false);
         doTestReplace(ACTUAL_ANIMAL + ACTUAL_TARGET, "${animal}${target}", false);
@@ -816,6 +838,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceVariablesCount2NonAdjacent() throws IOException {
         doTestReplace("1 2", "${a} ${b}", false);
+        doTestReplace("11 22", "${aa} ${bb}", false);
         doTestReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal}", false);
         doTestReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal}", false);
         doTestReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal}", false);
@@ -827,6 +850,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceVariablesCount3() throws IOException {
         doTestReplace("121", "${a}${b}${a}", false);
+        doTestReplace("112211", "${aa}${bb}${aa}", false);
         doTestReplace(ACTUAL_ANIMAL + ACTUAL_ANIMAL + ACTUAL_ANIMAL, "${animal}${animal}${animal}", false);
         doTestReplace(ACTUAL_TARGET + ACTUAL_TARGET + ACTUAL_TARGET, "${target}${target}${target}", false);
     }
@@ -837,6 +861,7 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceVariablesCount3NonAdjacent() throws IOException {
         doTestReplace("1 2 1", "${a} ${b} ${a}", false);
+        doTestReplace("11 22 11", "${aa} ${bb} ${aa}", false);
         doTestReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal} ${animal}",
             false);
         doTestReplace(ACTUAL_TARGET + " " + ACTUAL_TARGET + " " + ACTUAL_TARGET, "${target} ${target} ${target}",
