@@ -138,7 +138,7 @@ public class StringSubstitutorTest {
 
         // replace in StringBuffer
         buf = new StringBuffer(replaceTemplate);
-        assertTrue(sub.replaceIn(buf));
+        assertTrue(sub.replaceIn(buf), replaceTemplate);
         assertEquals(expectedResult, buf.toString());
         if (substring) {
             buf = new StringBuffer(replaceTemplate);
@@ -330,6 +330,14 @@ public class StringSubstitutorTest {
      * Tests when no variable name.
      */
     @Test
+    public void testReplaceEmptyKeyShortest() throws IOException {
+        doTestNoReplace(EMPTY_EXPR);
+    }
+
+    /**
+     * Tests when no variable name.
+     */
+    @Test
     public void testReplaceEmptyKeyWithDefault() throws IOException {
         doTestReplace("The animal jumps over the lazy dog.", "The ${:-animal} jumps over the ${target}.", true);
     }
@@ -340,6 +348,22 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceEmptyKeyWithDefaultOnly() throws IOException {
         doTestReplace("animal", "${:-animal}", false);
+    }
+
+    /**
+     * Tests when no variable name.
+     */
+    @Test
+    public void testReplaceEmptyKeyWithDefaultOnlyEmpty() throws IOException {
+        doTestReplace("", "${:-}", false);
+    }
+
+    /**
+     * Tests when no variable name.
+     */
+    @Test
+    public void testReplaceEmptyKeyWithDefaultOnlyShortest() throws IOException {
+        doTestReplace("a", "${:-a}", false);
     }
 
     /**
