@@ -38,6 +38,7 @@ import org.apache.commons.text.matcher.StringMatcher;
 import org.apache.commons.text.matcher.StringMatcherFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -222,6 +223,22 @@ public class StringSubstitutorTest {
         assertTrue(target.getVariableSuffixMatcher().toString().endsWith("['s']"),
             target.getValueDelimiterMatcher().toString());
     }
+
+    @Test
+    public void testGetMinVariableLength() throws IOException {
+        final StringSubstitutor sub = new StringSubstitutor();
+        assertEquals(4, sub.getMinVariableLength());
+        sub.setVariablePrefix('a');
+        assertEquals(3, sub.getMinVariableLength());
+        sub.setVariablePrefix("abc");
+        assertEquals(5, sub.getMinVariableLength());
+        sub.setVariableSuffix("xyz");
+        assertEquals(7, sub.getMinVariableLength());
+        sub.setVariablePrefix(StringUtils.EMPTY);
+        sub.setVariableSuffix(StringUtils.EMPTY);
+        assertEquals(1, sub.getMinVariableLength());
+    }
+
 
     /**
      * Tests get set.
@@ -880,11 +897,6 @@ public class StringSubstitutorTest {
         doTestNoReplace("${\n}");
         doTestNoReplace("${\b}");
         doTestNoReplace("${");
-        // TODO this looks like a bug since a $ is removed but this is not a variable.
-        // doTestNoReplace("$${");
-        // doTestNoReplace("$${a");
-        // doTestNoReplace("$$${");
-        // doTestNoReplace("$$${a");
         doTestNoReplace("$}");
         doTestNoReplace("$$}");
         doTestNoReplace("}");
@@ -897,6 +909,18 @@ public class StringSubstitutorTest {
         doTestNoReplace("${$$${$}}");
         doTestNoReplace("${${}}");
         doTestNoReplace("${${ }}");
+    }
+
+    /**
+     * Tests interpolation with weird boundary patterns.
+     */
+    @Test
+    @Disabled
+    public void testReplaceWeirdPattensJiraText178() throws IOException {
+         doTestNoReplace("$${");
+         doTestNoReplace("$${a");
+         doTestNoReplace("$$${");
+         doTestNoReplace("$$${a");
     }
 
     /**
