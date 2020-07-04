@@ -1880,12 +1880,12 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Copies this character array into the specified array.
      *
-     * @param startIndex first index to copy, inclusive, must be valid
-     * @param endIndex last index, exclusive, must be valid
-     * @param target the target array, must not be null or too small
-     * @param targetIndex the index to start copying in target
-     * @throws NullPointerException if the array is null
-     * @throws IndexOutOfBoundsException if any index is invalid
+     * @param startIndex first index to copy, inclusive, must be valid.
+     * @param endIndex last index to copy, exclusive, must be valid.
+     * @param target the target array, must not be null or too small.
+     * @param targetIndex the index to start copying in target.
+     * @throws NullPointerException if the array is null.
+     * @throws IndexOutOfBoundsException if any index is invalid.
      */
     public void getChars(final int startIndex, final int endIndex, final char[] target, final int targetIndex) {
         if (startIndex < 0) {
@@ -1904,9 +1904,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Copies this character array into the specified array and then deletes those character from this source.
      *
      * @param startIndex first index to copy, inclusive.
-     * @param endIndex last index, exclusive.
-     * @param target the target array, must not be null or too small
-     * @param targetIndex the index to start copying in target
+     * @param endIndex last index to copy, exclusive.
+     * @param target the target array, must not be null.
+     * @param targetIndex the index to start copying in target.
      * @return How many characters where deleted. If this builder is empty, return 0.
      * @since 1.9
      */
