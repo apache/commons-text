@@ -126,6 +126,12 @@
           <artifactId>japicmp-maven-plugin</artifactId>
           <configuration>
             <skip>false</skip>
+            <parameter>
+              <excludes>
+                <!-- Workaround for https://github.com/siom79/japicmp/issues/265 -->
+                <exclude>org.apache.commons.text.StringSubstitutor#substitute(org.apache.commons.text.TextStringBuilder,int,int,java.util.List)</exclude>
+              </excludes>
+            </parameter>
           </configuration>
         </plugin>
 
