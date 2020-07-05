@@ -222,7 +222,7 @@ public class StringSubstitutor {
      *
      * @since 1.9
      */
-    public static class Result {
+    public static final class Result {
 
         /** Whether the buffer is altered. */
         public final boolean altered;
