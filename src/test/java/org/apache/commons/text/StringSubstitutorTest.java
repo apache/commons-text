@@ -303,6 +303,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceComplexEscaping() throws IOException {
+        doTestReplace("${quick brown fox}", "$${${animal}}", false);
         doTestReplace("The ${quick brown fox} jumps over the lazy dog.", "The $${${animal}} jumps over the ${target}.",
             true);
         doTestReplace("${${animal}}", "$${$${animal}}", false);
@@ -841,7 +842,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount2() throws IOException {
-        //doTestReplace("12", "${a}${b}", false);
+        // doTestReplace("12", "${a}${b}", false);
         doTestReplace("1122", "${aa}${bb}", false);
         doTestReplace(ACTUAL_ANIMAL + ACTUAL_ANIMAL, "${animal}${animal}", false);
         doTestReplace(ACTUAL_TARGET + ACTUAL_TARGET, "${target}${target}", false);
@@ -916,10 +917,10 @@ public class StringSubstitutorTest {
     @Test
     @Disabled
     public void testReplaceWeirdPattensJiraText178() throws IOException {
-         doTestNoReplace("$${");
-         doTestNoReplace("$${a");
-         doTestNoReplace("$$${");
-         doTestNoReplace("$$${a");
+        doTestNoReplace("$${");
+        doTestNoReplace("$${a");
+        doTestNoReplace("$$${");
+        doTestNoReplace("$$${a");
     }
 
     /**
