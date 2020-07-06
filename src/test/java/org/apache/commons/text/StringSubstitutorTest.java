@@ -62,7 +62,7 @@ public class StringSubstitutorTest {
             StringUtils.length(expected), StringUtils.length(actual)));
     }
 
-    protected void doTestNoReplace(final String replaceTemplate) throws IOException {
+    protected void doNotReplace(final String replaceTemplate) throws IOException {
         doTestNoReplace(new StringSubstitutor(values), replaceTemplate);
     }
 
@@ -90,7 +90,7 @@ public class StringSubstitutorTest {
         }
     }
 
-    protected void doTestReplace(final String expectedResult, final String replaceTemplate, final boolean substring)
+    protected void doReplace(final String expectedResult, final String replaceTemplate, final boolean substring)
         throws IOException {
         doTestReplace(new StringSubstitutor(values), expectedResult, replaceTemplate, substring);
     }
@@ -303,16 +303,15 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceComplexEscaping() throws IOException {
-        doTestReplace("${quick brown fox}", "$${${animal}}", false);
-        doTestReplace("The ${quick brown fox} jumps over the lazy dog.", "The $${${animal}} jumps over the ${target}.",
+        doReplace("${quick brown fox}", "$${${animal}}", false);
+        doReplace("The ${quick brown fox} jumps over the lazy dog.", "The $${${animal}} jumps over the ${target}.",
             true);
-        doTestReplace("${${animal}}", "$${$${animal}}", false);
-        doTestReplace(".${${animal}}", ".$${$${animal}}", false);
-        doTestReplace("${${animal}}.", "$${$${animal}}.", false);
-        doTestReplace(".${${animal}}.", ".$${$${animal}}.", false);
-        doTestReplace("The ${${animal}} jumps over the lazy dog.", "The $${$${animal}} jumps over the ${target}.",
-            true);
-        doTestReplace("The ${quick brown fox} jumps over the lazy dog. ${1234567890}.",
+        doReplace("${${animal}}", "$${$${animal}}", false);
+        doReplace(".${${animal}}", ".$${$${animal}}", false);
+        doReplace("${${animal}}.", "$${$${animal}}.", false);
+        doReplace(".${${animal}}.", ".$${$${animal}}.", false);
+        doReplace("The ${${animal}} jumps over the lazy dog.", "The $${$${animal}} jumps over the ${target}.", true);
+        doReplace("The ${quick brown fox} jumps over the lazy dog. ${1234567890}.",
             "The $${${animal}} jumps over the ${target}. $${${undefined.number:-1234567890}}.", true);
     }
 
@@ -321,7 +320,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceEmptyKey() throws IOException {
-        doTestReplace("The ${} jumps over the lazy dog.", "The ${} jumps over the ${target}.", true);
+        doReplace("The ${} jumps over the lazy dog.", "The ${} jumps over the ${target}.", true);
     }
 
     /**
@@ -353,7 +352,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceEmptyKeyShortest() throws IOException {
-        doTestNoReplace(EMPTY_EXPR);
+        doNotReplace(EMPTY_EXPR);
     }
 
     /**
@@ -361,7 +360,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceEmptyKeyWithDefault() throws IOException {
-        doTestReplace("The animal jumps over the lazy dog.", "The ${:-animal} jumps over the ${target}.", true);
+        doReplace("The animal jumps over the lazy dog.", "The ${:-animal} jumps over the ${target}.", true);
     }
 
     /**
@@ -369,7 +368,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceEmptyKeyWithDefaultOnly() throws IOException {
-        doTestReplace("animal", "${:-animal}", false);
+        doReplace("animal", "${:-animal}", false);
     }
 
     /**
@@ -377,7 +376,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceEmptyKeyWithDefaultOnlyEmpty() throws IOException {
-        doTestReplace("", "${:-}", false);
+        doReplace("", "${:-}", false);
     }
 
     /**
@@ -385,7 +384,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceEmptyKeyWithDefaultOnlyShortest() throws IOException {
-        doTestReplace("a", "${:-a}", false);
+        doReplace("a", "${:-a}", false);
     }
 
     /**
@@ -393,7 +392,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceEmptyString() throws IOException {
-        doTestNoReplace(StringUtils.EMPTY);
+        doNotReplace(StringUtils.EMPTY);
     }
 
     /**
@@ -401,7 +400,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceEscaping() throws IOException {
-        doTestReplace("The ${animal} jumps over the lazy dog.", "The $${animal} jumps over the ${target}.", true);
+        doReplace("The ${animal} jumps over the lazy dog.", "The $${animal} jumps over the ${target}.", true);
     }
 
     /**
@@ -476,7 +475,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceIncompletePrefix() throws IOException {
-        doTestReplace("The {animal} jumps over the lazy dog.", "The {animal} jumps over the ${target}.", true);
+        doReplace("The {animal} jumps over the lazy dog.", "The {animal} jumps over the ${target}.", true);
     }
 
     @Test
@@ -606,7 +605,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceNoPrefixNoSuffix() throws IOException {
-        doTestReplace("The animal jumps over the lazy dog.", "The animal jumps over the ${target}.", true);
+        doReplace("The animal jumps over the lazy dog.", "The animal jumps over the ${target}.", true);
     }
 
     /**
@@ -614,7 +613,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceNoPrefixSuffix() throws IOException {
-        doTestReplace("The animal} jumps over the lazy dog.", "The animal} jumps over the ${target}.", true);
+        doReplace("The animal} jumps over the lazy dog.", "The animal} jumps over the ${target}.", true);
     }
 
     /**
@@ -622,7 +621,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceNoVariables() throws IOException {
-        doTestNoReplace("The balloon arrived.");
+        doNotReplace("The balloon arrived.");
     }
 
     /**
@@ -630,7 +629,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceNull() throws IOException {
-        doTestNoReplace(null);
+        doNotReplace(null);
     }
 
     /**
@@ -647,8 +646,8 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplacePrefixNoSuffix() throws IOException {
-        doTestReplace("The ${animal jumps over the ${target} lazy dog.",
-            "The ${animal jumps over the ${target} ${target}.", true);
+        doReplace("The ${animal jumps over the ${target} lazy dog.", "The ${animal jumps over the ${target} ${target}.",
+            true);
     }
 
     /**
@@ -664,10 +663,10 @@ public class StringSubstitutorTest {
         values.put("critterSpeed", "quick");
         values.put("critterColor", "brown");
         values.put("critterType", "fox");
-        doTestReplace(CLASSIC_RESULT, CLASSIC_TEMPLATE, true);
+        doReplace(CLASSIC_RESULT, CLASSIC_TEMPLATE, true);
 
         values.put("pet", "${petCharacteristicUnknown:-lazy} dog");
-        doTestReplace(CLASSIC_RESULT, CLASSIC_TEMPLATE, true);
+        doReplace(CLASSIC_RESULT, CLASSIC_TEMPLATE, true);
     }
 
     /**
@@ -675,7 +674,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceSimple() throws IOException {
-        doTestReplace(CLASSIC_RESULT, CLASSIC_TEMPLATE, true);
+        doReplace(CLASSIC_RESULT, CLASSIC_TEMPLATE, true);
     }
 
     /**
@@ -683,7 +682,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceSimpleKeySize1() throws IOException {
-        doTestReplace("1", "${a}", false);
+        doReplace("1", "${a}", false);
     }
 
     /**
@@ -691,7 +690,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceSimpleKeySize2() throws IOException {
-        doTestReplace("11", "${aa}", false);
+        doReplace("11", "${aa}", false);
     }
 
     /**
@@ -699,7 +698,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceSimpleKeySize3() throws IOException {
-        doTestReplace("111", "${aaa}", false);
+        doReplace("111", "${aaa}", false);
     }
 
     @Test
@@ -723,7 +722,7 @@ public class StringSubstitutorTest {
     public void testReplaceToIdentical() throws IOException {
         values.put("animal", "$${${thing}}");
         values.put("thing", "animal");
-        doTestReplace("The ${animal} jumps.", "The ${animal} jumps.", true);
+        doReplace("The ${animal} jumps.", "The ${animal} jumps.", true);
     }
 
     /**
@@ -731,7 +730,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceUnknownKey() throws IOException {
-        doTestReplace("The ${person} jumps over the lazy dog.", "The ${person} jumps over the ${target}.", true);
+        doReplace("The ${person} jumps over the lazy dog.", "The ${person} jumps over the ${target}.", true);
     }
 
     /**
@@ -739,7 +738,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceUnknownKeyDefaultValue() throws IOException {
-        doTestReplace("The ${person} jumps over the lazy dog. 1234567890.",
+        doReplace("The ${person} jumps over the lazy dog. 1234567890.",
             "The ${person} jumps over the ${target}. ${undefined.number:-1234567890}.", true);
     }
 
@@ -802,7 +801,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount1() throws IOException {
-        doTestReplace(ACTUAL_ANIMAL, "${animal}", false);
+        doReplace(ACTUAL_ANIMAL, "${animal}", false);
     }
 
     /**
@@ -810,7 +809,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount1Escaping2To1() throws IOException {
-        doTestReplace("${animal}", "$${animal}", false);
+        doReplace("${animal}", "$${animal}", false);
     }
 
     /**
@@ -818,7 +817,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount1Escaping3To2() throws IOException {
-        doTestReplace("$${animal}", "$$${animal}", false);
+        doReplace("$${animal}", "$$${animal}", false);
     }
 
     /**
@@ -826,7 +825,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount1Escaping4To3() throws IOException {
-        doTestReplace("$$${animal}", "$$$${animal}", false);
+        doReplace("$$${animal}", "$$$${animal}", false);
     }
 
     /**
@@ -834,7 +833,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount1Escaping5To4() throws IOException {
-        doTestReplace("$$$${animal}", "$$$$${animal}", false);
+        doReplace("$$$${animal}", "$$$$${animal}", false);
     }
 
     /**
@@ -843,10 +842,10 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceVariablesCount2() throws IOException {
         // doTestReplace("12", "${a}${b}", false);
-        doTestReplace("1122", "${aa}${bb}", false);
-        doTestReplace(ACTUAL_ANIMAL + ACTUAL_ANIMAL, "${animal}${animal}", false);
-        doTestReplace(ACTUAL_TARGET + ACTUAL_TARGET, "${target}${target}", false);
-        doTestReplace(ACTUAL_ANIMAL + ACTUAL_TARGET, "${animal}${target}", false);
+        doReplace("1122", "${aa}${bb}", false);
+        doReplace(ACTUAL_ANIMAL + ACTUAL_ANIMAL, "${animal}${animal}", false);
+        doReplace(ACTUAL_TARGET + ACTUAL_TARGET, "${target}${target}", false);
+        doReplace(ACTUAL_ANIMAL + ACTUAL_TARGET, "${animal}${target}", false);
     }
 
     /**
@@ -854,11 +853,11 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount2NonAdjacent() throws IOException {
-        doTestReplace("1 2", "${a} ${b}", false);
-        doTestReplace("11 22", "${aa} ${bb}", false);
-        doTestReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal}", false);
-        doTestReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal}", false);
-        doTestReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal}", false);
+        doReplace("1 2", "${a} ${b}", false);
+        doReplace("11 22", "${aa} ${bb}", false);
+        doReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal}", false);
+        doReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal}", false);
+        doReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal}", false);
     }
 
     /**
@@ -866,10 +865,10 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount3() throws IOException {
-        doTestReplace("121", "${a}${b}${a}", false);
-        doTestReplace("112211", "${aa}${bb}${aa}", false);
-        doTestReplace(ACTUAL_ANIMAL + ACTUAL_ANIMAL + ACTUAL_ANIMAL, "${animal}${animal}${animal}", false);
-        doTestReplace(ACTUAL_TARGET + ACTUAL_TARGET + ACTUAL_TARGET, "${target}${target}${target}", false);
+        doReplace("121", "${a}${b}${a}", false);
+        doReplace("112211", "${aa}${bb}${aa}", false);
+        doReplace(ACTUAL_ANIMAL + ACTUAL_ANIMAL + ACTUAL_ANIMAL, "${animal}${animal}${animal}", false);
+        doReplace(ACTUAL_TARGET + ACTUAL_TARGET + ACTUAL_TARGET, "${target}${target}${target}", false);
     }
 
     /**
@@ -877,12 +876,10 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount3NonAdjacent() throws IOException {
-        doTestReplace("1 2 1", "${a} ${b} ${a}", false);
-        doTestReplace("11 22 11", "${aa} ${bb} ${aa}", false);
-        doTestReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal} ${animal}",
-            false);
-        doTestReplace(ACTUAL_TARGET + " " + ACTUAL_TARGET + " " + ACTUAL_TARGET, "${target} ${target} ${target}",
-            false);
+        doReplace("1 2 1", "${a} ${b} ${a}", false);
+        doReplace("11 22 11", "${aa} ${bb} ${aa}", false);
+        doReplace(ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL + " " + ACTUAL_ANIMAL, "${animal} ${animal} ${animal}", false);
+        doReplace(ACTUAL_TARGET + " " + ACTUAL_TARGET + " " + ACTUAL_TARGET, "${target} ${target} ${target}", false);
     }
 
     /**
@@ -890,37 +887,37 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceWeirdPattens() throws IOException {
-        doTestNoReplace(StringUtils.EMPTY);
-        doTestNoReplace(EMPTY_EXPR);
-        doTestNoReplace("${ }");
-        doTestNoReplace("${\t}");
-        doTestNoReplace("${\n}");
-        doTestNoReplace("${\b}");
-        doTestNoReplace("${");
-        doTestNoReplace("$}");
-        doTestNoReplace("$$}");
-        doTestNoReplace("}");
-        doTestNoReplace("${}$");
-        doTestNoReplace("${}$$");
-        doTestNoReplace("${${");
-        doTestNoReplace("${${}}");
-        doTestNoReplace("${$${}}");
-        doTestNoReplace("${$$${}}");
-        doTestNoReplace("${$$${$}}");
-        doTestNoReplace("${${}}");
-        doTestNoReplace("${${ }}");
+        doNotReplace(StringUtils.EMPTY);
+        doNotReplace(EMPTY_EXPR);
+        doNotReplace("${ }");
+        doNotReplace("${\t}");
+        doNotReplace("${\n}");
+        doNotReplace("${\b}");
+        doNotReplace("${");
+        doNotReplace("$}");
+        doNotReplace("$$}");
+        doNotReplace("}");
+        doNotReplace("${}$");
+        doNotReplace("${}$$");
+        doNotReplace("${${");
+        doNotReplace("${${}}");
+        doNotReplace("${$${}}");
+        doNotReplace("${$$${}}");
+        doNotReplace("${$$${$}}");
+        doNotReplace("${${}}");
+        doNotReplace("${${ }}");
     }
 
     /**
      * Tests interpolation with weird boundary patterns.
      */
     @Test
-    @Disabled
+    // @Disabled
     public void testReplaceWeirdPattensJiraText178() throws IOException {
-        doTestNoReplace("$${");
-        doTestNoReplace("$${a");
-        doTestNoReplace("$$${");
-        doTestNoReplace("$$${a");
+        doNotReplace("$${");
+        doNotReplace("$${a");
+        doNotReplace("$$${");
+        doNotReplace("$$${a");
     }
 
     /**
