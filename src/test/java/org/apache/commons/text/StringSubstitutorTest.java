@@ -303,9 +303,15 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceComplexEscaping() throws IOException {
+        doReplace("${1}", "$${${a}}", false);
+        doReplace("${11}", "$${${aa}}", false);
+        doReplace("${111}", "$${${aaa}}", false);
         doReplace("${quick brown fox}", "$${${animal}}", false);
         doReplace("The ${quick brown fox} jumps over the lazy dog.", "The $${${animal}} jumps over the ${target}.",
             true);
+        doReplace("${${a}}", "$${$${a}}", false);
+        doReplace("${${aa}}", "$${$${aa}}", false);
+        doReplace("${${aaa}}", "$${$${aaa}}", false);
         doReplace("${${animal}}", "$${$${animal}}", false);
         doReplace(".${${animal}}", ".$${$${animal}}", false);
         doReplace("${${animal}}.", "$${$${animal}}.", false);
