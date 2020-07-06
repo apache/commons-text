@@ -815,6 +815,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount1Escaping2To1() throws IOException {
+        doReplace("${a}", "$${a}", false);
         doReplace("${animal}", "$${animal}", false);
     }
 
@@ -823,6 +824,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount1Escaping3To2() throws IOException {
+        doReplace("$${a}", "$$${a}", false);
         doReplace("$${animal}", "$$${animal}", false);
     }
 
@@ -831,6 +833,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount1Escaping4To3() throws IOException {
+        doReplace("$$${a}", "$$$${a}", false);
         doReplace("$$${animal}", "$$$${animal}", false);
     }
 
@@ -839,6 +842,7 @@ public class StringSubstitutorTest {
      */
     @Test
     public void testReplaceVariablesCount1Escaping5To4() throws IOException {
+        doReplace("$$$${a}", "$$$$${a}", false);
         doReplace("$$$${animal}", "$$$$${animal}", false);
     }
 
@@ -924,6 +928,9 @@ public class StringSubstitutorTest {
         doNotReplace("$${a");
         doNotReplace("$$${");
         doNotReplace("$$${a");
+        doNotReplace("$${${a");
+        //
+        doReplace("$${1", "$${${a}", false);
     }
 
     /**
