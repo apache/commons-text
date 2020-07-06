@@ -912,7 +912,7 @@ public class StringSubstitutorTest {
      * Tests interpolation with weird boundary patterns.
      */
     @Test
-    // @Disabled
+    @Disabled
     public void testReplaceWeirdPattensJiraText178() throws IOException {
         doNotReplace("$${");
         doNotReplace("$${a");
