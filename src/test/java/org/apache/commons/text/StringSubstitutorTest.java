@@ -923,13 +923,20 @@ public class StringSubstitutorTest {
      */
     @Test
     @Disabled
-    public void testReplaceWeirdPattensJiraText178() throws IOException {
+    public void testReplaceWeirdPattensNo_JiraText178() throws IOException {
         doNotReplace("$${");
         doNotReplace("$${a");
         doNotReplace("$$${");
         doNotReplace("$$${a");
         doNotReplace("$${${a");
-        //
+    }
+
+    /**
+     * Tests interpolation with weird boundary patterns.
+     */
+    @Test
+    @Disabled
+    public void testReplaceWeirdPattens_Partial_JiraText178() throws IOException {
         doReplace("$${1", "$${${a}", false);
     }
 
