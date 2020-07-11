@@ -916,6 +916,12 @@ public class StringSubstitutorTest {
         doNotReplace("${$$${$}}");
         doNotReplace("${${}}");
         doNotReplace("${${ }}");
+        //
+        doNotReplace("${${a}}");
+        doNotReplace("${$${a}}");
+        doNotReplace("${$$${a}}");
+        doNotReplace("${$$${a}}");
+        doNotReplace("${${${a}");
     }
 
     /**
@@ -937,6 +943,7 @@ public class StringSubstitutorTest {
     @Test
     @Disabled
     public void testReplaceWeirdPattens_Partial_JiraText178() throws IOException {
+        doReplace("${1}", "$${${a}}", false);
         doReplace("$${1", "$${${a}", false);
     }
 
