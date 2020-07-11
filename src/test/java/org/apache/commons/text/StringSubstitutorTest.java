@@ -408,6 +408,9 @@ public class StringSubstitutorTest {
     @Test
     public void testReplaceEscaping() throws IOException {
         doReplace("The ${animal} jumps over the lazy dog.", "The $${animal} jumps over the ${target}.", true);
+        doReplace("${a}", "$${a}", false);
+        doReplace("${a${a}}", "$${a$${a}}", false);
+        doReplace("${a${a${a}}}", "$${a$${a$${a}}}", false);
     }
 
     /**
@@ -951,6 +954,8 @@ public class StringSubstitutorTest {
     @Disabled
     public void testReplaceWeirdPattens_Partial_JiraText178() throws IOException {
         doReplace("${1}", "$${${a}}", false);
+        doReplace("${12}", "$${${a}${b}}", false);
+        doReplace("${${${a}2", "${${${a}${b}", false);
         doReplace("$${1", "$${${a}", false);
     }
 
