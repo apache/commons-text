@@ -188,6 +188,7 @@ public class StringSubstitutorTest {
         values.put("b", "2");
         values.put("bb", "22");
         values.put("bbb", "222");
+        values.put("a2b", "b");
         // normal key and value.
         values.put("animal", ACTUAL_ANIMAL);
         values.put("target", ACTUAL_TARGET);
@@ -471,6 +472,12 @@ public class StringSubstitutorTest {
         assertThatIllegalArgumentException()
             .isThrownBy(() -> replace(sub, "The ${test.${statement.${recursive}}} is a sample for missing ${word}."))
             .withMessage("Cannot resolve variable 'test.2' (enableSubstitutionInVariables=true).");
+
+        assertEqualsCharSeq("statement",
+            replace(sub, "${testok.${statement.${recursive}}}"));
+
+        assertEqualsCharSeq("${testok.2}",
+            replace(sub, "$${testok.${statement.${recursive}}}"));
 
         assertEqualsCharSeq("The statement is a sample for missing variable.",
             replace(sub, "The ${testok.${statement.${recursive}}} is a sample for missing ${word}."));
