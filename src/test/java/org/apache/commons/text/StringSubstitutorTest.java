@@ -66,6 +66,11 @@ public class StringSubstitutorTest {
         doTestNoReplace(new StringSubstitutor(values), replaceTemplate);
     }
 
+    protected void doReplace(final String expectedResult, final String replaceTemplate, final boolean substring)
+        throws IOException {
+        doTestReplace(new StringSubstitutor(values), expectedResult, replaceTemplate, substring);
+    }
+
     protected void doTestNoReplace(final StringSubstitutor substitutor, final String replaceTemplate)
         throws IOException {
         if (replaceTemplate == null) {
@@ -88,11 +93,6 @@ public class StringSubstitutorTest {
             assertFalse(substitutor.replaceIn(builder));
             assertEquals(replaceTemplate, builder.toString());
         }
-    }
-
-    protected void doReplace(final String expectedResult, final String replaceTemplate, final boolean substring)
-        throws IOException {
-        doTestReplace(new StringSubstitutor(values), expectedResult, replaceTemplate, substring);
     }
 
     protected void doTestReplace(final StringSubstitutor sub, final String expectedResult, final String replaceTemplate,
@@ -261,6 +261,28 @@ public class StringSubstitutorTest {
         final String expected = StringSubstitutor.replace("test_key=${test_key}", System.getProperties());
         final String actual = StringSubstitutor.replaceSystemProperties("test_key=${test_key}");
         assertEquals(expected, actual);
+    }
+
+    /**
+     * Tests interpolation with weird boundary patterns.
+     */
+    @Test
+    @Disabled
+    public void testReplace_JiraText178_WeirdPattens() throws IOException {
+        doNotReplace("$${");
+        doNotReplace("$${a");
+        doNotReplace("$$${");
+        doNotReplace("$$${a");
+        doNotReplace("$${${a");
+    }
+
+    /**
+     * Tests interpolation with weird boundary patterns.
+     */
+    @Test
+    @Disabled
+    public void testReplace_JiraText178_WeirdPattens_Partial() throws IOException {
+        doReplace("$${1", "$${${a}", false);
     }
 
     /**
@@ -932,31 +954,10 @@ public class StringSubstitutorTest {
         doNotReplace("${$$${a}}");
         doNotReplace("${$$${a}}");
         doNotReplace("${${${a}");
-    }
-
-    /**
-     * Tests interpolation with weird boundary patterns.
-     */
-    @Test
-    @Disabled
-    public void testReplaceWeirdPattensNo_JiraText178() throws IOException {
-        doNotReplace("$${");
-        doNotReplace("$${a");
-        doNotReplace("$$${");
-        doNotReplace("$$${a");
-        doNotReplace("$${${a");
-    }
-
-    /**
-     * Tests interpolation with weird boundary patterns.
-     */
-    @Test
-    @Disabled
-    public void testReplaceWeirdPattens_Partial_JiraText178() throws IOException {
+        //
         doReplace("${1}", "$${${a}}", false);
         doReplace("${12}", "$${${a}${b}}", false);
         doReplace("${${${a}2", "${${${a}${b}", false);
-        doReplace("$${1", "$${${a}", false);
     }
 
     /**
