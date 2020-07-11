@@ -282,7 +282,9 @@ public class StringSubstitutorTest {
     @Test
     @Disabled
     public void testReplace_JiraText178_WeirdPattens_Partial() throws IOException {
-        doReplace("$${1", "$${${a}", false);
+        doNotReplace("${${a}"); // "${a" is not a variable
+        doReplace("${1}", "$${${a}}", false);
+        doReplace("${${a}", "$${${a}", false); // not "$${1" or "${1" ?
     }
 
     /**
