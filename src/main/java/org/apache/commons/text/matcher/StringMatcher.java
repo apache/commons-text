@@ -25,6 +25,17 @@ package org.apache.commons.text.matcher;
 public interface StringMatcher {
 
     /**
+     * Returns a matcher that matches this matcher followed by the given matcher.
+     *
+     * @param stringMatcher the next matcher.
+     * @return a matcher that matches this matcher followed by the given matcher.
+     * @since 1.9
+     */
+    default StringMatcher andThen(StringMatcher stringMatcher) {
+        return StringMatcherFactory.INSTANCE.andMatcher(this, stringMatcher);
+    }
+
+    /**
      * Returns the number of matching characters, zero for no match.
      * <p>
      * This method is called to check for a match. The parameter {@code pos} represents the current position to be
@@ -53,8 +64,8 @@ public interface StringMatcher {
      * Returns the number of matching characters, {@code 0} if there is no match.
      * <p>
      * This method is called to check for a match against a source {@code buffer}. The parameter {@code start}
-     * represents the start position to be checked in the {@code buffer} (a character array which MUST not be
-     * changed). The implementation SHOULD guarantees that {@code start} is a valid index in {@code buffer}.
+     * represents the start position to be checked in the {@code buffer} (a character array which MUST not be changed).
+     * The implementation SHOULD guarantees that {@code start} is a valid index in {@code buffer}.
      * </p>
      * <p>
      * The character array may be larger than the active area to be matched. Only values in the buffer between the
@@ -106,8 +117,8 @@ public interface StringMatcher {
      * Returns the number of matching characters, {@code 0} if there is no match.
      * <p>
      * This method is called to check for a match against a source {@code buffer}. The parameter {@code start}
-     * represents the start position to be checked in the {@code buffer} (a character array which MUST not be
-     * changed). The implementation SHOULD guarantees that {@code start} is a valid index in {@code buffer}.
+     * represents the start position to be checked in the {@code buffer} (a character array which MUST not be changed).
+     * The implementation SHOULD guarantees that {@code start} is a valid index in {@code buffer}.
      * </p>
      * <p>
      * The character array may be larger than the active area to be matched. Only values in the buffer between the

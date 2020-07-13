@@ -26,30 +26,51 @@ import org.junit.jupiter.api.Test;
  */
 public class StringMatcherOnCharArrayTest {
 
-    private static final char[] BUFFER1 = "0,1\t2 3\n\r\f\u0000'\"".toCharArray();
+    private static final char[] INPUT1 = "0,1\t2 3\n\r\f\u0000'\"".toCharArray();
 
-    private static final char[] BUFFER2 = "abcdef".toCharArray();
+    private static final char[] INPUT2 = "abcdef".toCharArray();
 
-    private static final int BUFFER2_LENGTH = BUFFER2.length;
+    private static final int INPUT2_LENGTH = INPUT2.length;
+
+    @Test
+    public void testAndMatcher_char() {
+        final StringMatcher matcher = StringMatcherFactory.INSTANCE.andMatcher(
+            StringMatcherFactory.INSTANCE.charMatcher('c'), StringMatcherFactory.INSTANCE.stringMatcher("de"));
+        assertEquals(3, matcher.size());
+        //
+        assertThat(matcher.isMatch(INPUT2, 0, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 1, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 2, 0, INPUT2_LENGTH)).isEqualTo(3);
+        assertThat(matcher.isMatch(INPUT2, 3, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 4, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 5, 0, INPUT2_LENGTH)).isEqualTo(0);
+        //
+        assertThat(matcher.isMatch(INPUT2, 0)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 1)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 2)).isEqualTo(3);
+        assertThat(matcher.isMatch(INPUT2, 3)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 4)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 5)).isEqualTo(0);
+    }
 
     @Test
     public void testCharMatcher_char() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.charMatcher('c');
         assertEquals(1, matcher.size());
         //
-        assertThat(matcher.isMatch(BUFFER2, 0, 0, BUFFER2_LENGTH)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 1, 0, BUFFER2_LENGTH)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 2, 0, BUFFER2_LENGTH)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 3, 0, BUFFER2_LENGTH)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 4, 0, BUFFER2_LENGTH)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 5, 0, BUFFER2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 0, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 1, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 2, 0, INPUT2_LENGTH)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 3, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 4, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 5, 0, INPUT2_LENGTH)).isEqualTo(0);
         //
-        assertThat(matcher.isMatch(BUFFER2, 0)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 1)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 2)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 3)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 4)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 5)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 0)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 1)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 2)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 3)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 4)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 5)).isEqualTo(0);
     }
 
     @Test
@@ -57,26 +78,26 @@ public class StringMatcherOnCharArrayTest {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.charSetMatcher("ace".toCharArray());
         assertEquals(1, matcher.size());
         //
-        assertThat(matcher.isMatch(BUFFER2, 0, 0, BUFFER2_LENGTH)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 1, 0, BUFFER2_LENGTH)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 2, 0, BUFFER2_LENGTH)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 3, 0, BUFFER2_LENGTH)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 4, 0, BUFFER2_LENGTH)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 5, 0, BUFFER2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 0, 0, INPUT2_LENGTH)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 1, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 2, 0, INPUT2_LENGTH)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 3, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 4, 0, INPUT2_LENGTH)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 5, 0, INPUT2_LENGTH)).isEqualTo(0);
         //
-        assertThat(matcher.isMatch(BUFFER2, 0)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 1)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 2)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 3)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 4)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 5)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 0)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 1)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 2)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 3)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 4)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 5)).isEqualTo(0);
         //
         assertThat(StringMatcherFactory.INSTANCE.charSetMatcher())
-                .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
+            .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
         assertThat(StringMatcherFactory.INSTANCE.charSetMatcher((char[]) null))
-                .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
+            .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
         assertThat(StringMatcherFactory.INSTANCE
-                .charSetMatcher("a".toCharArray()) instanceof AbstractStringMatcher.CharMatcher).isTrue();
+            .charSetMatcher("a".toCharArray()) instanceof AbstractStringMatcher.CharMatcher).isTrue();
     }
 
     @Test
@@ -84,26 +105,26 @@ public class StringMatcherOnCharArrayTest {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.charSetMatcher("ace");
         assertEquals(1, matcher.size());
         //
-        assertThat(matcher.isMatch(BUFFER2, 0, 0, BUFFER2_LENGTH)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 1, 0, BUFFER2_LENGTH)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 2, 0, BUFFER2_LENGTH)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 3, 0, BUFFER2_LENGTH)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 4, 0, BUFFER2_LENGTH)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 5, 0, BUFFER2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 0, 0, INPUT2_LENGTH)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 1, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 2, 0, INPUT2_LENGTH)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 3, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 4, 0, INPUT2_LENGTH)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 5, 0, INPUT2_LENGTH)).isEqualTo(0);
         //
-        assertThat(matcher.isMatch(BUFFER2, 0)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 1)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 2)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 3)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 4)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER2, 5)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 0)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 1)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 2)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 3)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 4)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT2, 5)).isEqualTo(0);
         //
         assertThat(StringMatcherFactory.INSTANCE.charSetMatcher(""))
-                .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
+            .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
         assertThat(StringMatcherFactory.INSTANCE.charSetMatcher((String) null))
-                .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
+            .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
         assertThat(StringMatcherFactory.INSTANCE.charSetMatcher("a") instanceof AbstractStringMatcher.CharMatcher)
-                .isTrue();
+            .isTrue();
     }
 
     @Test
@@ -112,13 +133,13 @@ public class StringMatcherOnCharArrayTest {
         assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.commaMatcher()).isSameAs(matcher);
         //
-        assertThat(matcher.isMatch(BUFFER1, 0, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 1, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 2, 0, BUFFER1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 0, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 1, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 2, 0, INPUT1.length)).isEqualTo(0);
         //
-        assertThat(matcher.isMatch(BUFFER1, 0)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 1)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 2)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 0)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 1)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 2)).isEqualTo(0);
     }
 
     @Test
@@ -127,11 +148,11 @@ public class StringMatcherOnCharArrayTest {
         assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.doubleQuoteMatcher()).isSameAs(matcher);
         //
-        assertThat(matcher.isMatch(BUFFER1, 11, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 12, 0, BUFFER1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 11, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 12, 0, INPUT1.length)).isEqualTo(1);
         //
-        assertThat(matcher.isMatch(BUFFER1, 11)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 12)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 11)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 12)).isEqualTo(1);
     }
 
     @Test
@@ -141,9 +162,9 @@ public class StringMatcherOnCharArrayTest {
         // the concern of StringMatcher, and are not bugs
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.stringMatcher("bc");
         assertEquals(2, matcher.size());
-        assertThat(matcher.isMatch(BUFFER2, 1, 1, BUFFER2_LENGTH)).isEqualTo(2);
-        assertThat(matcher.isMatch(BUFFER2, 1, 0, 3)).isEqualTo(2);
-        assertThat(matcher.isMatch(BUFFER2, 1, 0, 2)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 1, 1, INPUT2_LENGTH)).isEqualTo(2);
+        assertThat(matcher.isMatch(INPUT2, 1, 0, 3)).isEqualTo(2);
+        assertThat(matcher.isMatch(INPUT2, 1, 0, 2)).isEqualTo(0);
     }
 
     @Test
@@ -152,33 +173,33 @@ public class StringMatcherOnCharArrayTest {
         assertEquals(0, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.noneMatcher()).isSameAs(matcher);
         //
-        assertThat(matcher.isMatch(BUFFER1, 0, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 1, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 2, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 3, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 4, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 5, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 6, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 7, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 8, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 9, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 10, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 11, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 12, 0, BUFFER1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 0, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 1, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 2, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 3, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 4, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 5, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 6, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 7, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 8, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 9, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 10, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 11, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 12, 0, INPUT1.length)).isEqualTo(0);
         //
-        assertThat(matcher.isMatch(BUFFER1, 0)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 1)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 2)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 3)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 4)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 5)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 6)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 7)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 8)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 9)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 10)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 11)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 12)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 0)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 1)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 2)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 3)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 4)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 5)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 6)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 7)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 8)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 9)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 10)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 11)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 12)).isEqualTo(0);
     }
 
     @Test
@@ -187,13 +208,13 @@ public class StringMatcherOnCharArrayTest {
         assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.quoteMatcher()).isSameAs(matcher);
         //
-        assertThat(matcher.isMatch(BUFFER1, 10, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 11, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 12, 0, BUFFER1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 10, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 11, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 12, 0, INPUT1.length)).isEqualTo(1);
         //
-        assertThat(matcher.isMatch(BUFFER1, 10)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 11)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 12)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 10)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 11)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 12)).isEqualTo(1);
     }
 
     @Test
@@ -202,13 +223,13 @@ public class StringMatcherOnCharArrayTest {
         assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.singleQuoteMatcher()).isSameAs(matcher);
         //
-        assertThat(matcher.isMatch(BUFFER1, 10, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 11, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 12, 0, BUFFER1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 10, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 11, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 12, 0, INPUT1.length)).isEqualTo(0);
         //
-        assertThat(matcher.isMatch(BUFFER1, 10)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 11)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 12)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 10)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 11)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 12)).isEqualTo(0);
     }
 
     @Test
@@ -217,13 +238,13 @@ public class StringMatcherOnCharArrayTest {
         assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.spaceMatcher()).isSameAs(matcher);
         //
-        assertThat(matcher.isMatch(BUFFER1, 4, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 5, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 6, 0, BUFFER1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 4, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 5, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 6, 0, INPUT1.length)).isEqualTo(0);
         //
-        assertThat(matcher.isMatch(BUFFER1, 4)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 5)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 6)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 4)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 5)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 6)).isEqualTo(0);
     }
 
     @Test
@@ -232,48 +253,48 @@ public class StringMatcherOnCharArrayTest {
         assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.splitMatcher()).isSameAs(matcher);
         //
-        assertThat(matcher.isMatch(BUFFER1, 2, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 3, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 4, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 5, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 6, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 7, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 8, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 9, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 10, 0, BUFFER1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 2, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 3, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 4, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 5, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 6, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 7, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 8, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 9, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 10, 0, INPUT1.length)).isEqualTo(0);
         //
-        assertThat(matcher.isMatch(BUFFER1, 2)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 3)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 4)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 5)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 6)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 7)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 8)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 9)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 10)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 2)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 3)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 4)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 5)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 6)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 7)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 8)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 9)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 10)).isEqualTo(0);
     }
 
     private void testStringMatcher_String(final StringMatcher matcher) {
         assertEquals(2, matcher.size());
         //
-        assertThat(matcher.isMatch(BUFFER2, 0, 0, BUFFER2_LENGTH)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 1, 0, BUFFER2_LENGTH)).isEqualTo(2);
-        assertThat(matcher.isMatch(BUFFER2, 2, 0, BUFFER2_LENGTH)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 3, 0, BUFFER2_LENGTH)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 4, 0, BUFFER2_LENGTH)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 5, 0, BUFFER2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 0, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 1, 0, INPUT2_LENGTH)).isEqualTo(2);
+        assertThat(matcher.isMatch(INPUT2, 2, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 3, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 4, 0, INPUT2_LENGTH)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 5, 0, INPUT2_LENGTH)).isEqualTo(0);
         //
-        assertThat(matcher.isMatch(BUFFER2, 0)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 1)).isEqualTo(2);
-        assertThat(matcher.isMatch(BUFFER2, 2)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 3)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 4)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER2, 5)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 0)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 1)).isEqualTo(2);
+        assertThat(matcher.isMatch(INPUT2, 2)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 3)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 4)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT2, 5)).isEqualTo(0);
         //
         assertThat(StringMatcherFactory.INSTANCE.stringMatcher(""))
-                .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
+            .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
         assertThat(StringMatcherFactory.INSTANCE.stringMatcher((String) null))
-                .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
+            .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
     }
 
     @Test
@@ -294,13 +315,13 @@ public class StringMatcherOnCharArrayTest {
         assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.tabMatcher()).isSameAs(matcher);
         //
-        assertThat(matcher.isMatch(BUFFER1, 2, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 3, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 4, 0, BUFFER1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 2, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 3, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 4, 0, INPUT1.length)).isEqualTo(0);
         //
-        assertThat(matcher.isMatch(BUFFER1, 2)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 3)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 4)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 2)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 3)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 4)).isEqualTo(0);
     }
 
     @Test
@@ -309,25 +330,25 @@ public class StringMatcherOnCharArrayTest {
         assertEquals(1, matcher.size());
         assertThat(StringMatcherFactory.INSTANCE.trimMatcher()).isSameAs(matcher);
         //
-        assertThat(matcher.isMatch(BUFFER1, 2, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 3, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 4, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 5, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 6, 0, BUFFER1.length)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 7, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 8, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 9, 0, BUFFER1.length)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 10, 0, BUFFER1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 2, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 3, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 4, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 5, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 6, 0, INPUT1.length)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 7, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 8, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 9, 0, INPUT1.length)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 10, 0, INPUT1.length)).isEqualTo(1);
         //
-        assertThat(matcher.isMatch(BUFFER1, 2)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 3)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 4)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 5)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 6)).isEqualTo(0);
-        assertThat(matcher.isMatch(BUFFER1, 7)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 8)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 9)).isEqualTo(1);
-        assertThat(matcher.isMatch(BUFFER1, 10)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 2)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 3)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 4)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 5)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 6)).isEqualTo(0);
+        assertThat(matcher.isMatch(INPUT1, 7)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 8)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 9)).isEqualTo(1);
+        assertThat(matcher.isMatch(INPUT1, 10)).isEqualTo(1);
     }
 
 }

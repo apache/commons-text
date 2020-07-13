@@ -58,6 +58,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.matcher.StringMatcher.isMatch(CharSequence, int).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.matcher.StringMatcher.isMatch(CharSequence, int, int, int).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.matcher.StringMatcherFactory.stringMatcher(char...).</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.matcher.StringMatcherFactory.andMatcher(StringMatcher...).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.toString(int, int).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.readFrom(Reader, int).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.charAtDelete(int).</action>

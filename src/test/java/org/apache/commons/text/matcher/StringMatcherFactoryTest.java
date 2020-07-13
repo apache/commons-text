@@ -27,6 +27,12 @@ import org.junit.jupiter.api.Test;
 public class StringMatcherFactoryTest {
 
     @Test
+    public void test_andMatcher() {
+        assertNotNull(StringMatcherFactory.INSTANCE.andMatcher(StringMatcherFactory.INSTANCE.charMatcher('1'),
+            StringMatcherFactory.INSTANCE.stringMatcher("2")));
+    }
+
+    @Test
     public void test_charMatcher() {
         assertNotNull(StringMatcherFactory.INSTANCE.charMatcher('1'));
     }
