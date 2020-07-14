@@ -1774,9 +1774,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *
      * @param startIndex first index to copy, inclusive.
      * @param endIndex last index to copy, exclusive.
-     * @param target the target array, must not be null.
-     * @param targetIndex the index to start copying in target.
-     * @return How many characters where deleted. If this builder is empty, return 0.
+     * @param target the target array, must not be {@code null}.
+     * @param targetIndex the index to start copying in the target.
+     * @return How many characters where copied (then deleted). If this builder is empty, return {@code 0}.
      * @since 1.9
      */
     public int drainChars(final int startIndex, final int endIndex, final char[] target, final int targetIndex) {
