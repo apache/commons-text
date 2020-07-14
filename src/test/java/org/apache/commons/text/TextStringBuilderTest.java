@@ -784,6 +784,36 @@ public class TextStringBuilderTest {
     }
 
     @Test
+    public void testDrainCharsIntIntCharArrayInt() {
+        final char[] array = new char[5];
+        final TextStringBuilder sb = new TextStringBuilder();
+        // empty buffer
+        assertEquals(0, sb.drainChars(0, 5, array, 1));
+        // empty buffer, 0 length request
+        assertEquals(0, sb.drainChars(5, 5, array, 1));
+
+        final String data = "junit";
+        sb.append(data);
+        assertEquals(0, sb.drainChars(5, 5, array, 1));
+        assertEquals(5, sb.drainChars(0, 5, array, 0));
+        assertArrayEquals(data.toCharArray(), array);
+
+        final char[] b = new char[5];
+        sb.set(data);
+        assertEquals(2, sb.drainChars(0, 2, b, 3));
+        assertArrayEquals(new char[] {0, 0, 0, 'j', 'u'}, b);
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.drainChars(-1, 0, b, 0));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.drainChars(0, -1, array, 0));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.drainChars(4, 2, array, 0));
+
+        sb.set(data);
+        // get and delete it all.
+        assertEquals(data.length(), sb.drainChars(0, sb.length() + 1, array, 0));
+        assertArrayEquals(data.toCharArray(), array);
+    }
+
+    @Test
     public void testEndsWith() {
         final TextStringBuilder sb = new TextStringBuilder();
         assertFalse(sb.endsWith("a"));
@@ -888,36 +918,6 @@ public class TextStringBuilderTest {
         input = new char[4];
         a = sb.getChars(input);
         assertNotSame(input, a);
-    }
-
-    @Test
-    public void testGetCharsDeleteIntIntCharArrayInt() {
-        final char[] array = new char[5];
-        final TextStringBuilder sb = new TextStringBuilder();
-        // empty buffer
-        assertEquals(0, sb.getCharsDelete(0, 5, array, 1));
-        // empty buffer, 0 length request
-        assertEquals(0, sb.getCharsDelete(5, 5, array, 1));
-
-        final String data = "junit";
-        sb.append(data);
-        assertEquals(0, sb.getCharsDelete(5, 5, array, 1));
-        assertEquals(5, sb.getCharsDelete(0, 5, array, 0));
-        assertArrayEquals(data.toCharArray(), array);
-
-        final char[] b = new char[5];
-        sb.set(data);
-        assertEquals(2, sb.getCharsDelete(0, 2, b, 3));
-        assertArrayEquals(new char[] {0, 0, 0, 'j', 'u'}, b);
-
-        assertThrows(IndexOutOfBoundsException.class, () -> sb.getCharsDelete(-1, 0, b, 0));
-        assertThrows(IndexOutOfBoundsException.class, () -> sb.getCharsDelete(0, -1, array, 0));
-        assertThrows(IndexOutOfBoundsException.class, () -> sb.getCharsDelete(4, 2, array, 0));
-
-        sb.set(data);
-        // get and delete it all.
-        assertEquals(data.length(), sb.getCharsDelete(0, sb.length() + 1, array, 0));
-        assertArrayEquals(data.toCharArray(), array);
     }
 
     @Test

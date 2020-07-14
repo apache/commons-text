@@ -1769,6 +1769,28 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
+     * Drains (copies, then deletes) this character sequence into the specified array. This is equivalent to copying the
+     * characters from this sequence into the target and then deleting those character from this sequence.
+     *
+     * @param startIndex first index to copy, inclusive.
+     * @param endIndex last index to copy, exclusive.
+     * @param target the target array, must not be null.
+     * @param targetIndex the index to start copying in target.
+     * @return How many characters where deleted. If this builder is empty, return 0.
+     * @since 1.9
+     */
+    public int drainChars(final int startIndex, final int endIndex, final char[] target, final int targetIndex) {
+        final int length = endIndex - startIndex;
+        if (isEmpty() || length == 0) {
+            return 0;
+        }
+        final int actualLen = Math.min(size, length);
+        getChars(startIndex, actualLen, target, targetIndex);
+        delete(startIndex, actualLen);
+        return actualLen;
+    }
+
+    /**
      * Checks whether this builder ends with the specified string.
      * <p>
      * Note that this method handles null input quietly, unlike String.
@@ -1898,27 +1920,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             throw new StringIndexOutOfBoundsException("end < start");
         }
         System.arraycopy(buffer, startIndex, target, targetIndex, endIndex - startIndex);
-    }
-
-    /**
-     * Copies this character array into the specified array and then deletes those character from this source.
-     *
-     * @param startIndex first index to copy, inclusive.
-     * @param endIndex last index to copy, exclusive.
-     * @param target the target array, must not be null.
-     * @param targetIndex the index to start copying in target.
-     * @return How many characters where deleted. If this builder is empty, return 0.
-     * @since 1.9
-     */
-    public int getCharsDelete(final int startIndex, final int endIndex, final char[] target, final int targetIndex) {
-        final int length = endIndex - startIndex;
-        if (isEmpty() || length == 0) {
-            return 0;
-        }
-        final int actualLen = Math.min(size, length);
-        getChars(startIndex, actualLen, target, targetIndex);
-        delete(startIndex, actualLen);
-        return actualLen;
     }
 
     /**
