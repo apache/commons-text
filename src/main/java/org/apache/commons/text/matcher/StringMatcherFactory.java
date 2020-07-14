@@ -96,6 +96,13 @@ public final class StringMatcherFactory {
      * @since 1.9
      */
     public StringMatcher andMatcher(final StringMatcher... stringMatchers) {
+        final int len = ArrayUtils.getLength(stringMatchers);
+        if (len == 0) {
+            return NONE_MATCHER;
+        }
+        if (len == 1) {
+            return stringMatchers[0];
+        }
         return new AbstractStringMatcher.AndStringMatcher(stringMatchers);
     }
 
@@ -116,10 +123,11 @@ public final class StringMatcherFactory {
      * @return a new matcher for the given char[]
      */
     public StringMatcher charSetMatcher(final char... chars) {
-        if (ArrayUtils.isEmpty(chars)) {
+        final int len = ArrayUtils.getLength(chars);
+        if (len == 0) {
             return NONE_MATCHER;
         }
-        if (chars.length == 1) {
+        if (len == 1) {
             return new AbstractStringMatcher.CharMatcher(chars[0]);
         }
         return new AbstractStringMatcher.CharSetMatcher(chars);
@@ -132,10 +140,11 @@ public final class StringMatcherFactory {
      * @return a new Matcher for the given characters
      */
     public StringMatcher charSetMatcher(final String chars) {
-        if (StringUtils.isEmpty(chars)) {
+        final int len = StringUtils.length(chars);
+        if (len == 0) {
             return NONE_MATCHER;
         }
-        if (chars.length() == 1) {
+        if (len == 1) {
             return new AbstractStringMatcher.CharMatcher(chars.charAt(0));
         }
         return new AbstractStringMatcher.CharSetMatcher(chars.toCharArray());
@@ -225,7 +234,7 @@ public final class StringMatcherFactory {
      * @return a new Matcher for the given String
      */
     public StringMatcher stringMatcher(final String str) {
-        return str == null ? NONE_MATCHER : stringMatcher(str.toCharArray());
+        return StringUtils.isEmpty(str) ? NONE_MATCHER : stringMatcher(str.toCharArray());
     }
 
     /**
