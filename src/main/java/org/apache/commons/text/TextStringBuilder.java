@@ -2497,7 +2497,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * If possible, reads chars from the provided {@link Readable} directly into underlying character buffer without
+     * If possible, reads all chars from the provided {@link Readable} directly into underlying character buffer without
      * making extra copies.
      *
      * @param readable object to read from
@@ -2527,7 +2527,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * If possible, reads chars from the provided {@link Reader} directly into underlying character buffer without
+     * If possible, reads all chars from the provided {@link Reader} directly into underlying character buffer without
      * making extra copies.
      *
      * @param reader Reader to read.
@@ -2553,8 +2553,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * If possible, reads chars from the provided {@link Reader} directly into underlying character buffer without
-     * making extra copies.
+     * If possible, reads {@code count} chars from the provided {@link Reader} directly into underlying character buffer
+     * without making extra copies.
      *
      * @param reader Reader to read.
      * @param count The maximum characters to read, a value &lt;= 0 returns 0.
