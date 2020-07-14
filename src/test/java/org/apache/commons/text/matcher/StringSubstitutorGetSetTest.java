@@ -58,7 +58,7 @@ public class StringSubstitutorGetSetTest {
     @Test
     public void testGetSetSuffix() {
         final StringSubstitutor sub = new StringSubstitutor();
-        assertTrue(sub.getVariableSuffixMatcher() instanceof AbstractStringMatcher.CharArrayMatcher);
+        assertTrue(sub.getVariableSuffixMatcher() instanceof AbstractStringMatcher.CharMatcher);
         sub.setVariableSuffix('<');
         assertTrue(sub.getVariableSuffixMatcher() instanceof AbstractStringMatcher.CharMatcher);
 

@@ -46,7 +46,7 @@ public final class StringMatcherFactory {
     /**
      * Matches no characters.
      */
-    private static final AbstractStringMatcher.NoMatcher NONE_MATCHER = new AbstractStringMatcher.NoMatcher();
+    private static final AbstractStringMatcher.NoneMatcher NONE_MATCHER = new AbstractStringMatcher.NoneMatcher();
 
     /**
      * Matches the single or double quote character.
@@ -212,7 +212,10 @@ public final class StringMatcherFactory {
      * @since 1.9
      */
     public StringMatcher stringMatcher(final char... chars) {
-        return ArrayUtils.isEmpty(chars) ? NONE_MATCHER : new AbstractStringMatcher.CharArrayMatcher(chars);
+        final int length = ArrayUtils.getLength(chars);
+        return length == 0 ? NONE_MATCHER
+            : length == 1 ? new AbstractStringMatcher.CharMatcher(chars[0])
+                : new AbstractStringMatcher.CharArrayMatcher(chars);
     }
 
     /**
@@ -222,7 +225,7 @@ public final class StringMatcherFactory {
      * @return a new Matcher for the given String
      */
     public StringMatcher stringMatcher(final String str) {
-        return StringUtils.isEmpty(str) ? NONE_MATCHER : new AbstractStringMatcher.CharArrayMatcher(str);
+        return str == null ? NONE_MATCHER : stringMatcher(str.toCharArray());
     }
 
     /**

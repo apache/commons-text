@@ -131,17 +131,6 @@ abstract class AbstractStringMatcher implements StringMatcher {
         }
 
         /**
-         * Constructs a matcher from a String.
-         *
-         * @param str the string to match, must not be null
-         */
-        CharArrayMatcher(final String string) {
-            super();
-            this.string = string;
-            this.chars = string.toCharArray();
-        }
-
-        /**
          * Returns the number of matching characters, {@code 0} if there is no match.
          *
          * @param buffer the text content to match against, do not change
@@ -344,12 +333,12 @@ abstract class AbstractStringMatcher implements StringMatcher {
      * Thread=safe.
      * </p>
      */
-    static final class NoMatcher extends AbstractStringMatcher {
+    static final class NoneMatcher extends AbstractStringMatcher {
 
         /**
          * Constructs a new instance of {@code NoMatcher}.
          */
-        NoMatcher() {
+        NoneMatcher() {
             super();
         }
 
