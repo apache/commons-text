@@ -95,7 +95,7 @@ public final class StringMatcherFactory {
      * @return a matcher that matches all of the given matchers in order.
      * @since 1.9
      */
-    public StringMatcher andMatcher(StringMatcher... stringMatchers) {
+    public StringMatcher andMatcher(final StringMatcher... stringMatchers) {
         return new AbstractStringMatcher.AndStringMatcher(stringMatchers);
     }
 

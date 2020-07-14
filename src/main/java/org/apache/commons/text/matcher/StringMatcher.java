@@ -31,7 +31,7 @@ public interface StringMatcher {
      * @return a matcher that matches this matcher followed by the given matcher.
      * @since 1.9
      */
-    default StringMatcher andThen(StringMatcher stringMatcher) {
+    default StringMatcher andThen(final StringMatcher stringMatcher) {
         return StringMatcherFactory.INSTANCE.andMatcher(this, stringMatcher);
     }
 
