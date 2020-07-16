@@ -44,7 +44,8 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Constructs a new initialized instance.
          *
-         * @param stringMatchers Matchers in order.
+         * @param stringMatchers Matchers in order. Never null since the {@link StringMatcherFactory} uses the
+         *        {@link NoneMatcher} instead.
          */
         AndStringMatcher(final StringMatcher... stringMatchers) {
             this.stringMatchers = stringMatchers;
@@ -53,17 +54,15 @@ abstract class AbstractStringMatcher implements StringMatcher {
         @Override
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
             int total = 0;
-            if (stringMatchers != null) {
-                int curStart = start;
-                for (final StringMatcher stringMatcher : stringMatchers) {
-                    if (stringMatcher != null) {
-                        final int len = stringMatcher.isMatch(buffer, curStart, bufferStart, bufferEnd);
-                        if (len == 0) {
-                            return 0;
-                        }
-                        total += len;
-                        curStart += len;
+            int curStart = start;
+            for (final StringMatcher stringMatcher : stringMatchers) {
+                if (stringMatcher != null) {
+                    final int len = stringMatcher.isMatch(buffer, curStart, bufferStart, bufferEnd);
+                    if (len == 0) {
+                        return 0;
                     }
+                    total += len;
+                    curStart += len;
                 }
             }
             return total;
@@ -72,17 +71,15 @@ abstract class AbstractStringMatcher implements StringMatcher {
         @Override
         public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
             int total = 0;
-            if (stringMatchers != null) {
-                int curStart = start;
-                for (final StringMatcher stringMatcher : stringMatchers) {
-                    if (stringMatcher != null) {
-                        final int len = stringMatcher.isMatch(buffer, curStart, bufferStart, bufferEnd);
-                        if (len == 0) {
-                            return 0;
-                        }
-                        total += len;
-                        curStart += len;
+            int curStart = start;
+            for (final StringMatcher stringMatcher : stringMatchers) {
+                if (stringMatcher != null) {
+                    final int len = stringMatcher.isMatch(buffer, curStart, bufferStart, bufferEnd);
+                    if (len == 0) {
+                        return 0;
                     }
+                    total += len;
+                    curStart += len;
                 }
             }
             return total;
@@ -91,11 +88,9 @@ abstract class AbstractStringMatcher implements StringMatcher {
         @Override
         public int size() {
             int total = 0;
-            if (stringMatchers != null) {
-                for (final StringMatcher stringMatcher : stringMatchers) {
-                    if (stringMatcher != null) {
-                        total += stringMatcher.size();
-                    }
+            for (final StringMatcher stringMatcher : stringMatchers) {
+                if (stringMatcher != null) {
+                    total += stringMatcher.size();
                 }
             }
             return total;

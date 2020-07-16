@@ -27,12 +27,27 @@ import org.junit.jupiter.api.Test;
  */
 public class StringMatcherFactoryTest {
 
+    private static class StringMatcherDefaults implements StringMatcher {
+
+        @Override
+        public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
+            return 2;
+        }
+
+    }
+
     @Test
     public void test_andMatcher() {
         assertNotNull(StringMatcherFactory.INSTANCE.andMatcher(StringMatcherFactory.INSTANCE.charMatcher('1'),
             StringMatcherFactory.INSTANCE.stringMatcher("2")));
         assertNotNull(StringMatcherFactory.INSTANCE.andMatcher(null, StringMatcherFactory.INSTANCE.stringMatcher("2")));
         assertNotNull(StringMatcherFactory.INSTANCE.andMatcher(null, null));
+        StringMatcher andMatcher = StringMatcherFactory.INSTANCE.andMatcher();
+        assertNotNull(andMatcher);
+        assertEquals(0, andMatcher.size());
+        andMatcher = StringMatcherFactory.INSTANCE.andMatcher(StringMatcherFactory.INSTANCE.charMatcher('1'));
+        assertNotNull(andMatcher);
+        assertEquals(1, andMatcher.size());
     }
 
     @Test
@@ -117,18 +132,33 @@ public class StringMatcherFactoryTest {
 
     @Test
     public void test_stringMatcher() {
-        final StringMatcher stringMatcher = StringMatcherFactory.INSTANCE.stringMatcher("1");
+        StringMatcher stringMatcher = StringMatcherFactory.INSTANCE.stringMatcher("1");
         assertNotNull(stringMatcher);
         assertNotNull(stringMatcher.toString());
         assertEquals(1, stringMatcher.size());
+        //
+        stringMatcher = StringMatcherFactory.INSTANCE.stringMatcher();
+        assertNotNull(stringMatcher);
+        assertNotNull(stringMatcher.toString());
+        assertEquals(0, stringMatcher.size());
     }
 
     @Test
     public void test_stringMatcherChars() {
-        final StringMatcher stringMatcher = StringMatcherFactory.INSTANCE.stringMatcher('1', '2');
+        StringMatcher stringMatcher = StringMatcherFactory.INSTANCE.stringMatcher('1', '2');
         assertNotNull(stringMatcher);
         assertNotNull(stringMatcher.toString());
         assertEquals(2, stringMatcher.size());
+        //
+        stringMatcher = StringMatcherFactory.INSTANCE.stringMatcher('1');
+        assertNotNull(stringMatcher);
+        assertNotNull(stringMatcher.toString());
+        assertEquals(1, stringMatcher.size());
+        //
+        stringMatcher = StringMatcherFactory.INSTANCE.stringMatcher();
+        assertNotNull(stringMatcher);
+        assertNotNull(stringMatcher.toString());
+        assertEquals(0, stringMatcher.size());
     }
 
     @Test
@@ -145,6 +175,13 @@ public class StringMatcherFactoryTest {
         assertNotNull(charMatcher);
         assertNotNull(charMatcher.toString());
         assertEquals(1, charMatcher.size());
+    }
+
+    @Test
+    public void testDefaultMethods() {
+        final StringMatcherDefaults stringMatcher = new StringMatcherDefaults();
+        assertEquals(0, stringMatcher.size());
+        assertEquals(2, stringMatcher.isMatch("1", 0));
     }
 
 }

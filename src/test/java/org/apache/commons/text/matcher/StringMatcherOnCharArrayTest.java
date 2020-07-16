@@ -54,9 +54,11 @@ public class StringMatcherOnCharArrayTest {
             StringMatcherFactory.INSTANCE.charMatcher('c'), StringMatcherFactory.INSTANCE.stringMatcher("de"));
         assertEquals(3, matcher1.size());
         checkAndMatcher_char(matcher1);
-        final StringMatcher matcher2 = StringMatcherFactory.INSTANCE.andMatcher(null, StringMatcherFactory.INSTANCE.charMatcher('c'), null,
-            StringMatcherFactory.INSTANCE.stringMatcher("de"), null);
-        assertEquals(3, matcher1.size());
+        //
+        final StringMatcher matcher2 = StringMatcherFactory.INSTANCE.andMatcher(null,
+            StringMatcherFactory.INSTANCE.charMatcher('c'), null, StringMatcherFactory.INSTANCE.stringMatcher("de"),
+            null);
+        assertEquals(3, matcher2.size());
         checkAndMatcher_char(matcher2);
     }
 
