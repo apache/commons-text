@@ -17,6 +17,8 @@
 
 package org.apache.commons.text.matcher;
 
+import org.apache.commons.lang3.CharSequenceUtils;
+
 /**
  * Determines if a character array portion matches.
  *
@@ -141,7 +143,7 @@ public interface StringMatcher {
      * @since 1.9
      */
     default int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
-        return isMatch(AbstractStringMatcher.toCharArray(buffer), start, bufferEnd, bufferEnd);
+        return isMatch(CharSequenceUtils.toCharArray(buffer), start, bufferEnd, bufferEnd);
     }
 
     /**

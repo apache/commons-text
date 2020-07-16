@@ -23,6 +23,7 @@ import java.nio.file.Paths;
 
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.InputSource;
 
 /**
@@ -71,7 +72,7 @@ final class XmlStringLookup extends AbstractStringLookup {
                 key);
         }
         final String documentPath = keys[0];
-        final String xpath = substringAfter(key, SPLIT_CH);
+        final String xpath = StringUtils.substringAfter(key, SPLIT_CH);
         try (InputStream inputStream = Files.newInputStream(Paths.get(documentPath))) {
             return XPathFactory.newInstance().newXPath().evaluate(xpath, new InputSource(inputStream));
         } catch (final Exception e) {

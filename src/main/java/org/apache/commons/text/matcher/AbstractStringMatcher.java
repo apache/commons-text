@@ -19,9 +19,6 @@ package org.apache.commons.text.matcher;
 
 import java.util.Arrays;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * A matcher that determines if a character array portion matches.
  * <p>
@@ -439,29 +436,6 @@ abstract class AbstractStringMatcher implements StringMatcher {
         public int size() {
             return 1;
         }
-    }
-
-    /**
-     * Converts the given CharSequence to a char[].
-     *
-     * TODO Reuse Apache Commons Lang 3.11 when released.
-     *
-     * @param source the {@code CharSequence} to be processed
-     * @return the resulting char array, never null.
-     */
-    static char[] toCharArray(final CharSequence source) {
-        final int len = StringUtils.length(source);
-        if (len == 0) {
-            return ArrayUtils.EMPTY_CHAR_ARRAY;
-        }
-        if (source instanceof String) {
-            return ((String) source).toCharArray();
-        }
-        final char[] array = new char[len];
-        for (int i = 0; i < len; i++) {
-            array[i] = source.charAt(i);
-        }
-        return array;
     }
 
     /**

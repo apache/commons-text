@@ -22,6 +22,8 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.URL;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Looks up keys from an XML document.
  * <p>
@@ -69,7 +71,7 @@ final class UrlStringLookup extends AbstractStringLookup {
                     key);
         }
         final String charsetName = keys[0];
-        final String urlStr = substringAfter(key, SPLIT_CH);
+        final String urlStr = StringUtils.substringAfter(key, SPLIT_CH);
         try {
             final URL url = new URL(urlStr);
             final int size = 8192;

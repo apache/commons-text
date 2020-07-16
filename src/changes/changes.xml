@@ -45,13 +45,13 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
 
-  <release version="1.9" date="2019-MM-DD" description="Release 1.8.1">
+  <release version="1.9" date="2020-MM-DD" description="Release 1.9">
     <action issue="TEXT-166" type="fix" dev="kinow" due-to="Mikko Maunu">Removed non-existing parameter from Javadocs and spelled out parameters in throws.</action>
     <action issue="TEXT-149" type="fix" dev="kinow" due-to="Yuji Konishi">StringEscapeUtils.unescapeCsv doesn't remove quotes at begin and end of string.</action>
     <action issue="TEXT-174" type="fix" dev="ggregory" due-to="furkilic">ScriptStringLookup does not accept ":" #126.</action>
     <action issue="TEXT-178" type="fix" dev="ggregory" due-to="Gary Gregory">StringSubstitutor incorrectly removes some escape characters.</action>
     <action                  type="update" dev="ggregory" due-to="Johan Hammar">[javadoc] Fix compiler warnings in Java code example in Javadoc #124.</action>
-    <action issue="TEXT-177" type="update" dev="ggregory" due-to="Gary Gregory">Update from Apache Commons Lang 3.9 to 3.10.</action>
+    <action issue="TEXT-177" type="update" dev="ggregory" due-to="Gary Gregory">Update from Apache Commons Lang 3.9 to 3.11.</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StringMatcher.size().</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Refactor TextStringBuilder.readFrom(Readable), extracting readFrom(CharBuffer) and readFrom(Reader).</action>    
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add BiStringLookup and implementation BiFunctionStringLookup.</action>

@@ -22,6 +22,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Looks up keys from an XML document.
  * <p>
@@ -75,7 +77,7 @@ final class PropertiesStringLookup extends AbstractStringLookup {
                     .format("Bad properties key format [%s]; expected format is DocumentPath::Key.", key);
         }
         final String documentPath = keys[0];
-        final String propertyKey = substringAfter(key, "::");
+        final String propertyKey = StringUtils.substringAfter(key, "::");
         try {
             final Properties properties = new Properties();
             try (InputStream inputStream = Files.newInputStream(Paths.get(documentPath))) {

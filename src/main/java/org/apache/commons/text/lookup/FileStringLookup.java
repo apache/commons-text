@@ -20,6 +20,7 @@ package org.apache.commons.text.lookup;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
 
 /**
@@ -79,7 +80,7 @@ final class FileStringLookup extends AbstractStringLookup {
                     .format("Bad file key format [%s], expected format is CharsetName:DocumentPath.", key);
         }
         final String charsetName = keys[0];
-        final String fileName = substringAfter(key, SPLIT_CH);
+        final String fileName = StringUtils.substringAfter(key, SPLIT_CH);
         try {
             return new String(Files.readAllBytes(Paths.get(fileName)), charsetName);
         } catch (final Exception e) {

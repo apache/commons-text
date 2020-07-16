@@ -27,11 +27,6 @@ import org.apache.commons.lang3.StringUtils;
 abstract class AbstractStringLookup implements StringLookup {
 
     /**
-     * The empty string.
-     */
-    private static final String EMPTY = StringUtils.EMPTY;
-
-    /**
      * The default split char.
      */
     protected static final char SPLIT_CH = ':';
@@ -47,11 +42,11 @@ abstract class AbstractStringLookup implements StringLookup {
      * @param value The source string.
      * @param ch The character to search.
      * @return a new string.
+     * @deprecated Use {@link StringUtils#substringAfter(String, int)}.
      */
+    @Deprecated
     protected String substringAfter(final String value, final char ch) {
-        // TODO Reuse Commons Lang 3.11 StringUtils.substringAfter(String, int)
-        final int indexOf = value.indexOf(ch);
-        return indexOf > -1 ? value.substring(indexOf + 1) : EMPTY;
+        return StringUtils.substringAfter(value, ch);
     }
 
     /**
@@ -60,11 +55,11 @@ abstract class AbstractStringLookup implements StringLookup {
      * @param value The source string.
      * @param ch The character to search.
      * @return a new string.
+     * @deprecated Use {@link StringUtils#substringAfterLast(String, int)}.
      */
+    @Deprecated
     protected String substringAfterLast(final String value, final char ch) {
-        // TODO Reuse Commons Lang 3.11 StringUtils.substringAfterLast(String, int)
-        final int indexOf = value.lastIndexOf(ch);
-        return indexOf > -1 ? value.substring(indexOf + 1) : EMPTY;
+        return StringUtils.substringAfterLast(value, ch);
     }
 
     /**
@@ -73,7 +68,9 @@ abstract class AbstractStringLookup implements StringLookup {
      * @param value The source string.
      * @param str The string to search.
      * @return a new string.
+     * @deprecated Use {@link StringUtils#substringAfter(String, String)}.
      */
+    @Deprecated
     protected String substringAfter(final String value, final String str) {
         return StringUtils.substringAfter(value, str);
     }
