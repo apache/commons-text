@@ -27,6 +27,9 @@ limitations under the License.
 <table>
 <tr><th>Version</th><th>Release date (YYYY-MM-DD)</th><th>Required Java Version</th><th>Javadoc</th><th>Release notes</th></tr>
 <tr>
+  <td>1.9</td><td>2020-MM-DD</td><td>8</td><td><a href="https://javadoc.io/doc/org.apache.commons/commons-text/1.9">1.8</a></td><td><a href="RELEASE-NOTES.txt">RELEASE-NOTES.txt</a></td>
+</tr>
+<tr>
   <td>1.8</td><td>2019-08-30</td><td>8</td><td><a href="https://javadoc.io/doc/org.apache.commons/commons-text/1.8">1.8</a></td><td><a href="RELEASE-NOTES.txt">RELEASE-NOTES.txt</a></td>
 </tr>
 <tr>

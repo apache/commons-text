@@ -42,7 +42,7 @@ The <a href="scm.html">Git repository</a> can be
 </section>
 <!-- ================================================== -->
 <section name="Release Information">
-<p>The latest stable release of Text is 1.8. You may: </p>
+<p>The latest stable release of Text is 1.9. You may: </p>
 <ul>
 <li>Download the <a href="https://commons.apache.org/proper/commons-text/download_text.cgi">current version</a></li>
 <li>Read the <a href="RELEASE-NOTES.txt">release notes</a></li>
@@ -53,7 +53,7 @@ Alternatively you can pull it from the central Maven repositories:
 &lt;dependency&gt;
    &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
    &lt;artifactId&gt;commons-text&lt;/artifactId&gt;
-   &lt;version&gt;1.8&lt;/version&gt;
+   &lt;version&gt;1.9&lt;/version&gt;
 &lt;/dependency&gt;
 </pre>
 </p>
