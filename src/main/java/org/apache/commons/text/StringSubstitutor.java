@@ -106,7 +106,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * Map&lt;String, String&gt; valuesMap = new HashMap&lt;&gt;();
  * valuesMap.put(&quot;animal&quot;, &quot;quick brown fox&quot;);
  * valuesMap.put(&quot;target&quot;, &quot;lazy dog&quot;);
- * String templateString = &quot;The ${animal} jumped over the ${target}. ${undefined.number:-1234567890}.&quot;;
+ * String templateString = &quot;The ${animal} jumped over the ${target} ${undefined.number:-1234567890} times.&quot;;
  *
  * // Build StringSubstitutor
  * StringSubstitutor sub = new StringSubstitutor(valuesMap);
@@ -120,7 +120,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * </p>
  *
  * <pre>
- * "The quick brown fox jumped over the lazy dog. 1234567890."
+ * "The quick brown fox jumped over the lazy dog 1234567890 times."
  * </pre>
  *
  * <p>
@@ -222,7 +222,7 @@ public class StringSubstitutor {
      *
      * @since 1.9
      */
-    public static final class Result {
+    private static final class Result {
 
         /** Whether the buffer is altered. */
         public final boolean altered;
@@ -230,14 +230,15 @@ public class StringSubstitutor {
         /** The length of change. */
         public final int lengthChange;
 
-        /** The starting position of last variable seen. */
-        public final int startVarPos;
-
-        private Result(final boolean altered, final int lengthChange, final int startVarPos) {
+        private Result(final boolean altered, final int lengthChange) {
             super();
             this.altered = altered;
             this.lengthChange = lengthChange;
-            this.startVarPos = startVarPos;
+        }
+
+        @Override
+        public String toString() {
+            return "Result [altered=" + altered + ", lengthChange=" + lengthChange + "]";
         }
     }
 
@@ -1332,7 +1333,7 @@ public class StringSubstitutor {
      * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
      * @since 1.9
      */
-    protected Result substitute(final TextStringBuilder builder, final int offset, final int length,
+    private Result substitute(final TextStringBuilder builder, final int offset, final int length,
         List<String> priorVariables) {
         Objects.requireNonNull(builder, "builder");
         final StringMatcher prefixMatcher = getVariablePrefixMatcher();
@@ -1348,8 +1349,8 @@ public class StringSubstitutor {
         int lengthChange = 0;
         int bufEnd = offset + length;
         int pos = offset;
-        int startVarPos = -1;
-        while (pos < bufEnd) {
+        int escPos = -1;
+        outter: while (pos < bufEnd) {
             final int startMatchLen = prefixMatcher.isMatch(builder, pos, offset, bufEnd);
             if (startMatchLen == 0) {
                 pos++;
@@ -1362,115 +1363,118 @@ public class StringSubstitutor {
                         pos++;
                         continue;
                     }
-                    // delete escape
-                    builder.deleteCharAt(pos - 1);
-                    lengthChange--;
-                    altered = true;
-                    bufEnd--;
-                } else {
-                    // find suffix
-                    startVarPos = pos;
-                    final int startPos = pos;
-                    pos += startMatchLen;
-                    int endMatchLen = 0;
-                    int nestedVarCount = 0;
-                    while (pos < bufEnd) {
-                        if (substitutionInVariablesEnabled
-                            && prefixMatcher.isMatch(builder, pos, offset, bufEnd) != 0) {
-                            // found a nested variable start
-                            endMatchLen = prefixMatcher.isMatch(builder, pos, offset, bufEnd);
-                            nestedVarCount++;
-                            pos += endMatchLen;
-                            continue;
-                        }
+                    // mark esc ch for deletion if we find a complete variable
+                    escPos = pos - 1;
+                }
+                // find suffix
+                int startPos = pos;
+                pos += startMatchLen;
+                int endMatchLen = 0;
+                int nestedVarCount = 0;
+                while (pos < bufEnd) {
+                    if (substitutionInVariablesEnabled && prefixMatcher.isMatch(builder, pos, offset, bufEnd) != 0) {
+                        // found a nested variable start
+                        endMatchLen = prefixMatcher.isMatch(builder, pos, offset, bufEnd);
+                        nestedVarCount++;
+                        pos += endMatchLen;
+                        continue;
+                    }
 
-                        endMatchLen = suffixMatcher.isMatch(builder, pos, offset, bufEnd);
-                        if (endMatchLen == 0) {
-                            pos++;
-                        } else {
-                            // found variable end marker
-                            if (nestedVarCount == 0) {
-                                String varNameExpr = builder.toString(startPos + startMatchLen,
-                                    pos - startPos - startMatchLen);
-                                if (substitutionInVariablesEnabled) {
-                                    final TextStringBuilder bufName = new TextStringBuilder(varNameExpr);
-                                    substitute(bufName, 0, bufName.length());
-                                    varNameExpr = bufName.toString();
-                                }
-                                pos += endMatchLen;
-                                final int endPos = pos;
-
-                                String varName = varNameExpr;
-                                String varDefaultValue = null;
-
-                                if (valueDelimMatcher != null) {
-                                    final char[] varNameExprChars = varNameExpr.toCharArray();
-                                    int valueDelimiterMatchLen = 0;
-                                    for (int i = 0; i < varNameExprChars.length; i++) {
-                                        // if there's any nested variable when nested variable substitution disabled,
-                                        // then stop resolving name and default value.
-                                        if (!substitutionInVariablesEnabled && prefixMatcher.isMatch(varNameExprChars,
-                                            i, i, varNameExprChars.length) != 0) {
-                                            break;
-                                        }
-                                        if (valueDelimMatcher.isMatch(varNameExprChars, i, 0,
-                                            varNameExprChars.length) != 0) {
-                                            valueDelimiterMatchLen = valueDelimMatcher.isMatch(varNameExprChars, i, 0,
-                                                varNameExprChars.length);
-                                            varName = varNameExpr.substring(0, i);
-                                            varDefaultValue = varNameExpr.substring(i + valueDelimiterMatchLen);
-                                            break;
-                                        }
-                                    }
-                                }
-
-                                // on the first call initialize priorVariables
-                                if (priorVariables == null) {
-                                    priorVariables = new ArrayList<>();
-                                    priorVariables.add(builder.toString(offset, length));
-                                }
-
-                                // handle cyclic substitution
-                                checkCyclicSubstitution(varName, priorVariables);
-                                priorVariables.add(varName);
-
-                                // resolve the variable
-                                String varValue = resolveVariable(varName, builder, startPos, endPos);
-                                if (varValue == null) {
-                                    varValue = varDefaultValue;
-                                }
-                                startVarPos = -1;
-                                if (varValue != null) {
-                                    startVarPos = startPos;
-                                    final int varLen = varValue.length();
-                                    builder.replace(startPos, endPos, varValue);
-                                    altered = true;
-                                    int change = 0;
-                                    if (!substitutionInValuesDisabled) { // recursive replace
-                                        change = substitute(builder, startPos, varLen, priorVariables).lengthChange;
-                                    }
-                                    change = change + varLen - (endPos - startPos);
-                                    pos += change;
-                                    bufEnd += change;
-                                    lengthChange += change;
-                                } else if (undefinedVariableException) {
-                                    throw new IllegalArgumentException(String.format(
-                                        "Cannot resolve variable '%s' (enableSubstitutionInVariables=%s).", varName,
-                                        substitutionInVariablesEnabled));
-                                }
-
-                                // remove variable from the cyclic stack
-                                priorVariables.remove(priorVariables.size() - 1);
-                                startVarPos = -1;
-                                break;
+                    endMatchLen = suffixMatcher.isMatch(builder, pos, offset, bufEnd);
+                    if (endMatchLen == 0) {
+                        pos++;
+                    } else {
+                        // found variable end marker
+                        if (nestedVarCount == 0) {
+                            if (escPos >= 0) {
+                                // delete escape
+                                builder.deleteCharAt(escPos);
+                                escPos = -1;
+                                lengthChange--;
+                                altered = true;
+                                bufEnd--;
+                                pos = startPos + 1;
+                                startPos--;
+                                continue outter;
                             }
-                            nestedVarCount--;
+                            // get var name
+                            String varNameExpr = builder.toString(startPos + startMatchLen,
+                                pos - startPos - startMatchLen);
+                            if (substitutionInVariablesEnabled) {
+                                final TextStringBuilder bufName = new TextStringBuilder(varNameExpr);
+                                substitute(bufName, 0, bufName.length());
+                                varNameExpr = bufName.toString();
+                            }
                             pos += endMatchLen;
+                            final int endPos = pos;
+
+                            String varName = varNameExpr;
+                            String varDefaultValue = null;
+
+                            if (valueDelimMatcher != null) {
+                                final char[] varNameExprChars = varNameExpr.toCharArray();
+                                int valueDelimiterMatchLen = 0;
+                                for (int i = 0; i < varNameExprChars.length; i++) {
+                                    // if there's any nested variable when nested variable substitution disabled,
+                                    // then stop resolving name and default value.
+                                    if (!substitutionInVariablesEnabled && prefixMatcher.isMatch(varNameExprChars, i, i,
+                                        varNameExprChars.length) != 0) {
+                                        break;
+                                    }
+                                    if (valueDelimMatcher.isMatch(varNameExprChars, i, 0,
+                                        varNameExprChars.length) != 0) {
+                                        valueDelimiterMatchLen = valueDelimMatcher.isMatch(varNameExprChars, i, 0,
+                                            varNameExprChars.length);
+                                        varName = varNameExpr.substring(0, i);
+                                        varDefaultValue = varNameExpr.substring(i + valueDelimiterMatchLen);
+                                        break;
+                                    }
+                                }
+                            }
+
+                            // on the first call initialize priorVariables
+                            if (priorVariables == null) {
+                                priorVariables = new ArrayList<>();
+                                priorVariables.add(builder.toString(offset, length));
+                            }
+
+                            // handle cyclic substitution
+                            checkCyclicSubstitution(varName, priorVariables);
+                            priorVariables.add(varName);
+
+                            // resolve the variable
+                            String varValue = resolveVariable(varName, builder, startPos, endPos);
+                            if (varValue == null) {
+                                varValue = varDefaultValue;
+                            }
+                            if (varValue != null) {
+                                final int varLen = varValue.length();
+                                builder.replace(startPos, endPos, varValue);
+                                altered = true;
+                                int change = 0;
+                                if (!substitutionInValuesDisabled) { // recursive replace
+                                    change = substitute(builder, startPos, varLen, priorVariables).lengthChange;
+                                }
+                                change = change + varLen - (endPos - startPos);
+                                pos += change;
+                                bufEnd += change;
+                                lengthChange += change;
+                            } else if (undefinedVariableException) {
+                                throw new IllegalArgumentException(
+                                    String.format("Cannot resolve variable '%s' (enableSubstitutionInVariables=%s).",
+                                        varName, substitutionInVariablesEnabled));
+                            }
+
+                            // remove variable from the cyclic stack
+                            priorVariables.remove(priorVariables.size() - 1);
+                            break;
                         }
+                        nestedVarCount--;
+                        pos += endMatchLen;
                     }
                 }
             }
         }
-        return new Result(altered, lengthChange, startVarPos);
+        return new Result(altered, lengthChange);
     }
 }

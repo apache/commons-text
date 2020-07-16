@@ -316,10 +316,6 @@
           </tagListOptions>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>javancss-maven-plugin</artifactId>
-      </plugin>
     </plugins>
   </reporting>
 
