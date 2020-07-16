@@ -101,7 +101,9 @@ public class StringSubstitutorTest {
             : expectedResult;
 
         // replace using String
-        assertEquals(expectedResult, replace(sub, replaceTemplate));
+        final String actual = replace(sub, replaceTemplate);
+        assertEquals(expectedResult, actual,
+            () -> String.format("Index of difference: %,d", StringUtils.indexOfDifference(expectedResult, actual)));
         if (substring) {
             assertEquals(expectedShortResult, sub.replace(replaceTemplate, 1, replaceTemplate.length() - 2));
         }
@@ -268,12 +270,8 @@ public class StringSubstitutorTest {
      */
     @Test
     @Disabled
-    public void testReplace_JiraText178_WeirdPattens() throws IOException {
-        doNotReplace("$${");
-        doNotReplace("$${a");
-        doNotReplace("$$${");
-        doNotReplace("$$${a");
-        doNotReplace("$${${a");
+    public void testReplace_JiraText178_WeirdPattenrs2() throws IOException {
+        doReplace("${1}", "$${${a}}", false);
     }
 
     /**
@@ -281,10 +279,23 @@ public class StringSubstitutorTest {
      */
     @Test
     @Disabled
-    public void testReplace_JiraText178_WeirdPattens_Partial() throws IOException {
-        doNotReplace("${${a}"); // "${a" is not a variable
-        doReplace("${1}", "$${${a}}", false);
-        doReplace("${${a}", "$${${a}", false); // not "$${1" or "${1" ?
+    public void testReplace_JiraText178_WeirdPattenrs3() throws IOException {
+        doReplace("${${a}", "$${${a}", false); // not "$${1" or "${1"
+    }
+
+    /**
+     * Tests interpolation with weird boundary patterns.
+     */
+    @Test
+    @Disabled
+    public void testReplace_JiraText178_WeirdPatterns1() throws IOException {
+        doNotReplace("$${");
+        doNotReplace("$${a");
+        doNotReplace("$$${");
+        doNotReplace("$$${a");
+        doNotReplace("$${${a");
+        doNotReplace("${${a}"); // "${a" is not a registered variable name.
+        doNotReplace("${$${a}");
     }
 
     /**
@@ -500,11 +511,9 @@ public class StringSubstitutorTest {
             .isThrownBy(() -> replace(sub, "The ${test.${statement.${recursive}}} is a sample for missing ${word}."))
             .withMessage("Cannot resolve variable 'test.2' (enableSubstitutionInVariables=true).");
 
-        assertEqualsCharSeq("statement",
-            replace(sub, "${testok.${statement.${recursive}}}"));
+        assertEqualsCharSeq("statement", replace(sub, "${testok.${statement.${recursive}}}"));
 
-        assertEqualsCharSeq("${testok.2}",
-            replace(sub, "$${testok.${statement.${recursive}}}"));
+        assertEqualsCharSeq("${testok.2}", replace(sub, "$${testok.${statement.${recursive}}}"));
 
         assertEqualsCharSeq("The statement is a sample for missing variable.",
             replace(sub, "The ${testok.${statement.${recursive}}} is a sample for missing ${word}."));
@@ -881,6 +890,15 @@ public class StringSubstitutorTest {
     }
 
     /**
+     * Tests escaping.
+     */
+    @Test
+    public void testReplaceVariablesCount1Escaping6To4() throws IOException {
+        doReplace("$$$$${a}", "$$$$$${a}", false);
+        doReplace("$$$$${animal}", "$$$$$${animal}", false);
+    }
+
+    /**
      * Tests simple key replace.
      */
     @Test
@@ -951,14 +969,17 @@ public class StringSubstitutorTest {
         doNotReplace("${${}}");
         doNotReplace("${${ }}");
         //
-        doNotReplace("${${a}}");
         doNotReplace("${$${a}}");
         doNotReplace("${$$${a}}");
-        doNotReplace("${$$${a}}");
+        doNotReplace("${${a}}");
         doNotReplace("${${${a}");
+        doNotReplace("${ ${a}");
+        doNotReplace("${ ${ ${a}");
         //
         doReplace("${1}", "$${${a}}", false);
+        doReplace("${ 1}", "$${ ${a}}", false);
         doReplace("${12}", "$${${a}${b}}", false);
+        doReplace("${ 1 2 }", "$${ ${a} ${b} }", false);
         doReplace("${${${a}2", "${${${a}${b}", false);
     }
 
