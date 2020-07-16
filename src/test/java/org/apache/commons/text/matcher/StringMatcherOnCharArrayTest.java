@@ -32,12 +32,7 @@ public class StringMatcherOnCharArrayTest {
 
     private static final int INPUT2_LENGTH = INPUT2.length;
 
-    @Test
-    public void testAndMatcher_char() {
-        final StringMatcher matcher = StringMatcherFactory.INSTANCE.andMatcher(
-            StringMatcherFactory.INSTANCE.charMatcher('c'), StringMatcherFactory.INSTANCE.stringMatcher("de"));
-        assertEquals(3, matcher.size());
-        //
+    private void checkAndMatcher_char(final StringMatcher matcher) {
         assertThat(matcher.isMatch(INPUT2, 0, 0, INPUT2_LENGTH)).isEqualTo(0);
         assertThat(matcher.isMatch(INPUT2, 1, 0, INPUT2_LENGTH)).isEqualTo(0);
         assertThat(matcher.isMatch(INPUT2, 2, 0, INPUT2_LENGTH)).isEqualTo(3);
@@ -51,6 +46,18 @@ public class StringMatcherOnCharArrayTest {
         assertThat(matcher.isMatch(INPUT2, 3)).isEqualTo(0);
         assertThat(matcher.isMatch(INPUT2, 4)).isEqualTo(0);
         assertThat(matcher.isMatch(INPUT2, 5)).isEqualTo(0);
+    }
+
+    @Test
+    public void testAndMatcher_char() {
+        final StringMatcher matcher1 = StringMatcherFactory.INSTANCE.andMatcher(
+            StringMatcherFactory.INSTANCE.charMatcher('c'), StringMatcherFactory.INSTANCE.stringMatcher("de"));
+        assertEquals(3, matcher1.size());
+        checkAndMatcher_char(matcher1);
+        final StringMatcher matcher2 = StringMatcherFactory.INSTANCE.andMatcher(null, StringMatcherFactory.INSTANCE.charMatcher('c'), null,
+            StringMatcherFactory.INSTANCE.stringMatcher("de"), null);
+        assertEquals(3, matcher1.size());
+        checkAndMatcher_char(matcher2);
     }
 
     @Test
