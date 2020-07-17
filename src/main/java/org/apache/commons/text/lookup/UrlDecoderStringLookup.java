@@ -36,10 +36,14 @@ final class UrlDecoderStringLookup extends AbstractStringLookup {
     static final UrlDecoderStringLookup INSTANCE = new UrlDecoderStringLookup();
 
     /**
-     * No need to build instances for now.
+     * This ctor is not private to allow Mockito spying.
      */
-    private UrlDecoderStringLookup() {
+    UrlDecoderStringLookup() {
         // empty
+    }
+
+    String decode(final String key, final String enc) throws UnsupportedEncodingException {
+        return URLDecoder.decode(key, enc);
     }
 
     @Override
@@ -49,7 +53,7 @@ final class UrlDecoderStringLookup extends AbstractStringLookup {
         }
         final String enc = StandardCharsets.UTF_8.name();
         try {
-            return URLDecoder.decode(key, enc);
+            return decode(key, enc);
         } catch (final UnsupportedEncodingException e) {
             // Can't happen since UTF-8 is required by the Java specification.
             throw IllegalArgumentExceptions.format(e, "%s: source=%s, encoding=%s", e, key, enc);

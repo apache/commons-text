@@ -35,10 +35,14 @@ final class UrlEncoderStringLookup extends AbstractStringLookup {
     static final UrlEncoderStringLookup INSTANCE = new UrlEncoderStringLookup();
 
     /**
-     * No need to build instances for now.
+     * This ctor is not private to allow Mockito spying.
      */
-    private UrlEncoderStringLookup() {
+    UrlEncoderStringLookup() {
         // empty
+    }
+
+    String encode(final String key, final String enc) throws UnsupportedEncodingException {
+        return URLEncoder.encode(key, enc);
     }
 
     @Override
@@ -48,7 +52,7 @@ final class UrlEncoderStringLookup extends AbstractStringLookup {
         }
         final String enc = StandardCharsets.UTF_8.name();
         try {
-            return URLEncoder.encode(key, enc);
+            return encode(key, enc);
         } catch (final UnsupportedEncodingException e) {
             // Can't happen since UTF-8 is required by the Java specification.
             throw IllegalArgumentExceptions.format(e, "%s: source=%s, encoding=%s", e, key, enc);
