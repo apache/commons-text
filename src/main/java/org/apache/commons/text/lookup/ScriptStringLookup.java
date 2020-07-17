@@ -35,11 +35,11 @@ import org.apache.commons.text.StringSubstitutor;
  * <p>
  * Using a {@link StringSubstitutor}:
  * </p>
- * 
+ *
  * <pre>
  * StringSubstitutor.createInterpolator().replace("${script:javascript:3 + 4}"));
  * </pre>
- * 
+ *
  * @since 1.5
  */
 final class ScriptStringLookup extends AbstractStringLookup {

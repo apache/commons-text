@@ -51,7 +51,7 @@ final class UrlDecoderStringLookup extends AbstractStringLookup {
         try {
             return URLDecoder.decode(key, enc);
         } catch (final UnsupportedEncodingException e) {
-            // Can't happen since UTF_8 is required by the Java specification.
+            // Can't happen since UTF-8 is required by the Java specification.
             throw IllegalArgumentExceptions.format(e, "%s: source=%s, encoding=%s", e, key, enc);
         }
     }

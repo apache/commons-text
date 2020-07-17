@@ -24,7 +24,7 @@ import java.net.InetAddress;
  *
  * @since 1.8
  */
-class InetAddressKeys {
+final class InetAddressKeys {
 
     /**
      * Constants for referring to {@link InetAddress#getAddress()}.

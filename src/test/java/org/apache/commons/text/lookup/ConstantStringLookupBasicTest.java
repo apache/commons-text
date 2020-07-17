@@ -65,7 +65,7 @@ public class ConstantStringLookupBasicTest {
             protected Class<?> fetchClass(final String className) throws ClassNotFoundException {
                 return null;
             }
-        }.lookup("foo"));
+        }.lookup(ConstantStringLookupBasicTest.class.getName() + ".STRING_FIXTURE"));
     }
 
     @Test

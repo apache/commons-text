@@ -49,15 +49,22 @@ public class ResourceBundleStringLookupTest {
     }
 
     @Test
-    public void testBadName() {
+    public void testBadNames() {
         assertNull(ResourceBundleStringLookup.INSTANCE.lookup("BAD_RESOURCE_BUNDLE_NAME:KEY"));
     }
 
     @Test
-    public void testMissingKeyInSpec() {
+    public void testDoubleBundle() {
         final String bundleName = TEST_RESOURCE_BUNDLE;
+        final String bundleKey = "key";
+        assertThrows(IllegalArgumentException.class,
+            () -> new ResourceBundleStringLookup(bundleName).lookup("OtherBundle:" + bundleKey));
+    }
+
+    @Test
+    public void testMissingKeyInSpec() {
         assertThrows(IllegalArgumentException.class, () -> {
-            ResourceBundleStringLookup.INSTANCE.lookup(bundleName + ":");
+            ResourceBundleStringLookup.INSTANCE.lookup(TEST_RESOURCE_BUNDLE + ":");
         });
     }
 
