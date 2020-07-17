@@ -31,4 +31,10 @@ public class NullStringLookupTest {
         Assertions.assertEquals(null, StringLookupFactory.INSTANCE_NULL.lookup(null));
     }
 
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(StringLookupFactory.INSTANCE_NULL.toString().isEmpty());
+    }
+
 }

@@ -80,7 +80,7 @@ public class ConstantStringLookupTest {
     @Test
     public void testLookupInvalidSyntax() {
         Assertions.assertNull(stringLookup.lookup("InvalidVariableName"),
-                "Non null return value for invalid variable name");
+            "Non null return value for invalid variable name");
     }
 
     /**
@@ -89,7 +89,7 @@ public class ConstantStringLookupTest {
     @Test
     public void testLookupNonExisting() {
         Assertions.assertNull(stringLookup.lookup(variable("NO_FIELD")),
-                "Non null return value for non existing constant");
+            "Non null return value for non existing constant");
     }
 
     /**
@@ -117,7 +117,7 @@ public class ConstantStringLookupTest {
     @Test
     public void testLookupPrivate() {
         Assertions.assertNull(stringLookup.lookup(variable("PRIVATE_FIELD")),
-                "Non null return value for non accessible field");
+            "Non null return value for non accessible field");
     }
 
     /**
@@ -126,14 +126,13 @@ public class ConstantStringLookupTest {
     @Test
     public void testLookupUnknownClass() {
         Assertions.assertNull(stringLookup.lookup("org.apache.commons.configuration.NonExistingConfig." + FIELD),
-                "Non null return value for unknown class");
+            "Non null return value for unknown class");
     }
 
     /**
      * Generates the name of a variable for a lookup operation based on the given field name of this class.
      *
-     * @param field
-     *            the field name
+     * @param field the field name
      * @return the variable for looking up this field
      */
     private String variable(final String field) {

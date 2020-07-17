@@ -45,4 +45,10 @@ public class UrlDecoderStringLookupTest {
         Assertions.assertEquals("Hello World!", UrlDecoderStringLookup.INSTANCE.lookup("Hello+World!"));
     }
 
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(UrlDecoderStringLookup.INSTANCE.toString().isEmpty());
+    }
+
 }

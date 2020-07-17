@@ -61,8 +61,7 @@ final class PropertiesStringLookup extends AbstractStringLookup {
      * Note the use of "::" instead of ":" to allow for "C:" drive letters in paths.
      * </p>
      *
-     * @param key
-     *            the key to be looked up, may be null
+     * @param key the key to be looked up, may be null
      * @return The value associated with the key.
      */
     @Override
@@ -74,7 +73,7 @@ final class PropertiesStringLookup extends AbstractStringLookup {
         final int keyLen = keys.length;
         if (keyLen < 2) {
             throw IllegalArgumentExceptions
-                    .format("Bad properties key format [%s]; expected format is DocumentPath::Key.", key);
+                .format("Bad properties key format [%s]; expected format is DocumentPath::Key.", key);
         }
         final String documentPath = keys[0];
         final String propertyKey = StringUtils.substringAfter(key, "::");
@@ -86,7 +85,7 @@ final class PropertiesStringLookup extends AbstractStringLookup {
             return properties.getProperty(propertyKey);
         } catch (final Exception e) {
             throw IllegalArgumentExceptions.format(e, "Error looking up properties [%s] and key [%s].", documentPath,
-                    propertyKey);
+                propertyKey);
         }
     }
 

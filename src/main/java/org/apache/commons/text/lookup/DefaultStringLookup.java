@@ -115,11 +115,11 @@ public enum DefaultStringLookup {
      */
     XML(StringLookupFactory.KEY_XML, StringLookupFactory.INSTANCE.xmlStringLookup());
 
-    /** The associated lookup instance. */
-    private final StringLookup lookup;
-
     /** The prefix under which the associated lookup object is registered. */
     private final String key;
+
+    /** The associated lookup instance. */
+    private final StringLookup lookup;
 
     /**
      * Creates a new instance of {@link DefaultStringLookup} and sets the key and the associated lookup instance.

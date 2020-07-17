@@ -61,7 +61,7 @@ final class DateStringLookup extends AbstractStringLookup {
     /**
      * Formats the given {@code date} long with the given {@code format}.
      *
-     * @param date   the date to format
+     * @param date the date to format
      * @param format the format string for {@link SimpleDateFormat}.
      * @return The formatted date
      */

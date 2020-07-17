@@ -41,4 +41,7 @@ class InetAddressKeys {
      */
     static final String KEY_NAME = "name";
 
+    private InetAddressKeys() {
+        // noop
+    }
 }

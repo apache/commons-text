@@ -42,4 +42,10 @@ public class EnvironmentVariableStringLookupTest {
         }
     }
 
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.toString().isEmpty());
+    }
+
 }

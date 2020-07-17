@@ -63,6 +63,9 @@ import org.apache.commons.text.StringSubstitutor;
  */
 class ConstantStringLookup extends AbstractStringLookup {
 
+    /** An internally used cache for already retrieved values. */
+    private static ConcurrentHashMap<String, String> constantCache = new ConcurrentHashMap<>();
+
     /** Constant for the field separator. */
     private static final char FIELD_SEPRATOR = '.';
 
@@ -71,14 +74,25 @@ class ConstantStringLookup extends AbstractStringLookup {
      */
     static final ConstantStringLookup INSTANCE = new ConstantStringLookup();
 
-    /** An internally used cache for already retrieved values. */
-    private static ConcurrentHashMap<String, String> constantCache = new ConcurrentHashMap<>();
-
     /**
      * Clears the shared cache with the so far resolved constants.
      */
     static void clear() {
         constantCache.clear();
+    }
+
+    /**
+     * Loads the class with the specified name. If an application has special needs regarding the class loaders to be
+     * used, it can hook in here. This implementation delegates to the {@code getClass()} method of Commons Lang's
+     * <code><a href="https://commons.apache.org/lang/api-release/org/apache/commons/lang/ClassUtils.html">
+     * ClassUtils</a></code>.
+     *
+     * @param className the name of the class to be loaded
+     * @return The corresponding class object
+     * @throws ClassNotFoundException if the class cannot be loaded
+     */
+    protected Class<?> fetchClass(final String className) throws ClassNotFoundException {
+        return ClassUtils.getClass(className);
     }
 
     /**
@@ -134,19 +148,5 @@ class ConstantStringLookup extends AbstractStringLookup {
             return null;
         }
         return clazz.getField(fieldName).get(null);
-    }
-
-    /**
-     * Loads the class with the specified name. If an application has special needs regarding the class loaders to be
-     * used, it can hook in here. This implementation delegates to the {@code getClass()} method of Commons Lang's
-     * <code><a href="https://commons.apache.org/lang/api-release/org/apache/commons/lang/ClassUtils.html">
-     * ClassUtils</a></code>.
-     *
-     * @param className the name of the class to be loaded
-     * @return The corresponding class object
-     * @throws ClassNotFoundException if the class cannot be loaded
-     */
-    protected Class<?> fetchClass(final String className) throws ClassNotFoundException {
-        return ClassUtils.getClass(className);
     }
 }

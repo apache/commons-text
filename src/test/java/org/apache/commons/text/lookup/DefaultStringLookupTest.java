@@ -41,30 +41,30 @@ public class DefaultStringLookupTest {
     @Test
     public void testIndividualEnums() {
         assertSame(DefaultStringLookup.BASE64_DECODER.getStringLookup(),
-                StringLookupFactory.INSTANCE.base64DecoderStringLookup());
+            StringLookupFactory.INSTANCE.base64DecoderStringLookup());
         assertSame(DefaultStringLookup.BASE64_ENCODER.getStringLookup(),
-                StringLookupFactory.INSTANCE.base64EncoderStringLookup());
+            StringLookupFactory.INSTANCE.base64EncoderStringLookup());
         assertSame(DefaultStringLookup.CONST.getStringLookup(), StringLookupFactory.INSTANCE.constantStringLookup());
         assertSame(DefaultStringLookup.DATE.getStringLookup(), StringLookupFactory.INSTANCE.dateStringLookup());
         assertSame(DefaultStringLookup.DNS.getStringLookup(), StringLookupFactory.INSTANCE.dnsStringLookup());
         assertSame(DefaultStringLookup.ENVIRONMENT.getStringLookup(),
-                StringLookupFactory.INSTANCE.environmentVariableStringLookup());
+            StringLookupFactory.INSTANCE.environmentVariableStringLookup());
         assertSame(DefaultStringLookup.FILE.getStringLookup(), StringLookupFactory.INSTANCE.fileStringLookup());
         assertSame(DefaultStringLookup.JAVA.getStringLookup(), StringLookupFactory.INSTANCE.javaPlatformStringLookup());
         assertSame(DefaultStringLookup.LOCAL_HOST.getStringLookup(),
-                StringLookupFactory.INSTANCE.localHostStringLookup());
+            StringLookupFactory.INSTANCE.localHostStringLookup());
         assertSame(DefaultStringLookup.PROPERTIES.getStringLookup(),
-                StringLookupFactory.INSTANCE.propertiesStringLookup());
+            StringLookupFactory.INSTANCE.propertiesStringLookup());
         assertSame(DefaultStringLookup.RESOURCE_BUNDLE.getStringLookup(),
-                StringLookupFactory.INSTANCE.resourceBundleStringLookup());
+            StringLookupFactory.INSTANCE.resourceBundleStringLookup());
         assertSame(DefaultStringLookup.SCRIPT.getStringLookup(), StringLookupFactory.INSTANCE.scriptStringLookup());
         assertSame(DefaultStringLookup.SYSTEM_PROPERTIES.getStringLookup(),
-                StringLookupFactory.INSTANCE.systemPropertyStringLookup());
+            StringLookupFactory.INSTANCE.systemPropertyStringLookup());
         assertSame(DefaultStringLookup.URL.getStringLookup(), StringLookupFactory.INSTANCE.urlStringLookup());
         assertSame(DefaultStringLookup.URL_DECODER.getStringLookup(),
-                StringLookupFactory.INSTANCE.urlDecoderStringLookup());
+            StringLookupFactory.INSTANCE.urlDecoderStringLookup());
         assertSame(DefaultStringLookup.URL_ENCODER.getStringLookup(),
-                StringLookupFactory.INSTANCE.urlEncoderStringLookup());
+            StringLookupFactory.INSTANCE.urlEncoderStringLookup());
         assertSame(DefaultStringLookup.XML.getStringLookup(), StringLookupFactory.INSTANCE.xmlStringLookup());
     }
 

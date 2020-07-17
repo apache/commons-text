@@ -35,4 +35,10 @@ public class Base64DecoderStringLookupTest {
         Assertions.assertNull(StringLookupFactory.INSTANCE_BASE64_DECODER.lookup(null));
     }
 
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(StringLookupFactory.INSTANCE_BASE64_DECODER.toString().isEmpty());
+    }
+
 }

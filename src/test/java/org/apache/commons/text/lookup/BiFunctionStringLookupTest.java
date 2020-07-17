@@ -39,7 +39,7 @@ public class BiFunctionStringLookupTest {
         if (keyCandidate.isEmpty()) {
             return m.get(k);
         }
-        Object value = m.get(keyCandidate);
+        final Object value = m.get(keyCandidate);
         if (value instanceof Map) {
             return this.nestedMapBiFunction.apply(StringUtils.substringAfter(k, SEPARATOR),
                 (Map<String, Object>) value);
@@ -83,8 +83,24 @@ public class BiFunctionStringLookupTest {
     }
 
     @Test
+    public void testDefaultMethod() {
+        Assertions.assertNull(BiFunctionStringLookup.on(new BiFunction<String, Object, Object>() {
+
+            @Override
+            public Object apply(final String t, final Object u) {
+                return null;
+            }
+        }).lookup(null, null));
+    }
+
+    @Test
     public void testHashMapNull() {
         Assertions.assertNull(BiFunctionStringLookup.on(new HashMap<>()).lookup(null));
+    }
+
+    @Test
+    public void testNullBiFunction() {
+        Assertions.assertNull(BiFunctionStringLookup.on((BiFunction<String, Object, Object>) null).lookup(null));
     }
 
     @Test
@@ -94,6 +110,12 @@ public class BiFunctionStringLookupTest {
         final Map<String, String> map = new HashMap<>();
         map.put(key, value);
         Assertions.assertEquals(value, FunctionStringLookup.on(map).lookup(key));
+    }
+
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(BiFunctionStringLookup.on(new HashMap<>()).toString().isEmpty());
     }
 
 }

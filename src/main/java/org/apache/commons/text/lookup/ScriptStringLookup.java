@@ -35,9 +35,11 @@ import org.apache.commons.text.StringSubstitutor;
  * <p>
  * Using a {@link StringSubstitutor}:
  * </p>
+ * 
  * <pre>
  * StringSubstitutor.createInterpolator().replace("${script:javascript:3 + 4}"));
  * </pre>
+ * 
  * @since 1.5
  */
 final class ScriptStringLookup extends AbstractStringLookup {
@@ -55,14 +57,12 @@ final class ScriptStringLookup extends AbstractStringLookup {
     }
 
     /**
-     * Execute the script with the engine name in the format "EngineName:Script".
-     * Extra colons will be ignored.
+     * Execute the script with the engine name in the format "EngineName:Script". Extra colons will be ignored.
      * <p>
      * For example: {@code "javascript:3 + 4"}.
      * </p>
      *
-     * @param key
-     *            the engine:script to execute, may be null
+     * @param key the engine:script to execute, may be null
      * @return The value returned by the execution.
      */
     @Override
@@ -74,7 +74,7 @@ final class ScriptStringLookup extends AbstractStringLookup {
         final int keyLen = keys.length;
         if (keyLen != 2) {
             throw IllegalArgumentExceptions.format("Bad script key format [%s]; expected format is EngineName:Script.",
-                    key);
+                key);
         }
         final String engineName = keys[0];
         final String script = keys[1];
@@ -86,7 +86,7 @@ final class ScriptStringLookup extends AbstractStringLookup {
             return Objects.toString(scriptEngine.eval(script), null);
         } catch (final Exception e) {
             throw IllegalArgumentExceptions.format(e, "Error in script engine [%s] evaluating script [%s].", engineName,
-                    script);
+                script);
         }
     }
 

@@ -61,7 +61,7 @@ public class DnsStringLookupTest {
         final String address = InetAddress.getLocalHost().getHostAddress();
         final InetAddress[] localHostAll = InetAddress.getAllByName(address);
         boolean matched = false;
-        for (InetAddress localHost : localHostAll) {
+        for (final InetAddress localHost : localHostAll) {
             if (localHost.getHostName().equals(DnsStringLookup.INSTANCE.lookup("name|" + address + ""))) {
                 matched = true;
             }
@@ -72,6 +72,12 @@ public class DnsStringLookupTest {
     @Test
     public void testNull() {
         Assertions.assertNull(DnsStringLookup.INSTANCE.lookup(null));
+    }
+
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(DnsStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

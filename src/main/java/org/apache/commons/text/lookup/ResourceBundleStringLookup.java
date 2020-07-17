@@ -35,14 +35,14 @@ import java.util.ResourceBundle;
 final class ResourceBundleStringLookup extends AbstractStringLookup {
 
     /**
-     * The name of the resource bundle from which to look something up.
-     */
-    private final String bundleName;
-
-    /**
      * Defines the singleton for this class.
      */
     static final ResourceBundleStringLookup INSTANCE = new ResourceBundleStringLookup();
+
+    /**
+     * The name of the resource bundle from which to look something up.
+     */
+    private final String bundleName;
 
     /**
      * No need to build instances for now.
@@ -54,8 +54,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
     /**
      * Constructs an instance that only works for the given bundle.
      *
-     * @param bundleName
-     *            the name of the resource bundle from which we will look keys up.
+     * @param bundleName the name of the resource bundle from which we will look keys up.
      * @since 1.5
      */
     ResourceBundleStringLookup(final String bundleName) {
@@ -67,8 +66,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
      *
      * For example: "com.domain.messages:MyKey".
      *
-     * @param key
-     *            the key to be looked up, may be null
+     * @param key the key to be looked up, may be null
      * @return The value associated with the key.
      * @see ResourceBundle
      * @see ResourceBundle#getBundle(String)
@@ -84,10 +82,10 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
         final boolean anyBundle = bundleName == null;
         if (anyBundle && keyLen != 2) {
             throw IllegalArgumentExceptions
-                    .format("Bad resource bundle key format [%s]; expected format is BundleName:KeyName.", key);
+                .format("Bad resource bundle key format [%s]; expected format is BundleName:KeyName.", key);
         } else if (bundleName != null && keyLen != 1) {
             throw IllegalArgumentExceptions.format("Bad resource bundle key format [%s]; expected format is KeyName.",
-                    key);
+                key);
         }
         final String keyBundleName = anyBundle ? keys[0] : bundleName;
         final String bundleKey = anyBundle ? keys[1] : keys[0];
@@ -99,7 +97,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
             return null;
         } catch (final Exception e) {
             throw IllegalArgumentExceptions.format(e, "Error looking up resource bundle [%s] and key [%s].",
-                    keyBundleName, bundleKey);
+                keyBundleName, bundleKey);
         }
     }
 
@@ -107,6 +105,5 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
     public String toString() {
         return super.toString() + " [bundleName=" + bundleName + "]";
     }
-
 
 }

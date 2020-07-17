@@ -37,7 +37,7 @@ public class ResourceBundleStringLookupTest {
         final String bundleName = TEST_RESOURCE_BUNDLE;
         final String bundleKey = "key";
         Assertions.assertEquals(ResourceBundle.getBundle(bundleName).getString(bundleKey),
-                ResourceBundleStringLookup.INSTANCE.lookup(bundleName + ":" + bundleKey));
+            ResourceBundleStringLookup.INSTANCE.lookup(bundleName + ":" + bundleKey));
     }
 
     @Test
@@ -71,7 +71,13 @@ public class ResourceBundleStringLookupTest {
         final String bundleName = TEST_RESOURCE_BUNDLE;
         final String bundleKey = "key";
         Assertions.assertEquals(ResourceBundle.getBundle(bundleName).getString(bundleKey),
-                new ResourceBundleStringLookup(bundleName).lookup(bundleKey));
+            new ResourceBundleStringLookup(bundleName).lookup(bundleKey));
+    }
+
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(ResourceBundleStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

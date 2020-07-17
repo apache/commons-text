@@ -58,23 +58,23 @@ import org.apache.commons.text.StringSubstitutor;
  */
 final class JavaPlatformStringLookup extends AbstractStringLookup {
 
-    /** {@code locale} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
-    private static final String KEY_LOCALE = "locale";
+    /**
+     * Defines the singleton for this class.
+     */
+    static final JavaPlatformStringLookup INSTANCE = new JavaPlatformStringLookup();
     /** {@code hardware} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_HARDWARE = "hardware";
+    /** {@code locale} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    private static final String KEY_LOCALE = "locale";
     /** {@code os} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_OS = "os";
-    /** {@code vm} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
-    private static final String KEY_VM = "vm";
     /** {@code runtime} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_RUNTIME = "runtime";
     /** {@code version} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_VERSION = "version";
 
-    /**
-     * Defines the singleton for this class.
-     */
-    static final JavaPlatformStringLookup INSTANCE = new JavaPlatformStringLookup();
+    /** {@code vm} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    private static final String KEY_VM = "vm";
 
     /**
      * The main method for running the JavaPlatformStringLookup.
@@ -105,8 +105,8 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      */
     String getHardware() {
         return "processors: " + Runtime.getRuntime().availableProcessors() + ", architecture: "
-                + getSystemProperty("os.arch") + this.getSystemProperty("-", "sun.arch.data.model")
-                + this.getSystemProperty(", instruction sets: ", "sun.cpu.isalist");
+            + getSystemProperty("os.arch") + this.getSystemProperty("-", "sun.arch.data.model")
+            + this.getSystemProperty(", instruction sets: ", "sun.cpu.isalist");
     }
 
     /**
@@ -125,8 +125,8 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      */
     String getOperatingSystem() {
         return getSystemProperty("os.name") + " " + getSystemProperty("os.version")
-                + getSystemProperty(" ", "sun.os.patch.level") + ", architecture: " + getSystemProperty("os.arch")
-                + getSystemProperty("-", "sun.arch.data.model");
+            + getSystemProperty(" ", "sun.os.patch.level") + ", architecture: " + getSystemProperty("os.arch")
+            + getSystemProperty("-", "sun.arch.data.model");
     }
 
     /**
@@ -136,7 +136,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      */
     String getRuntime() {
         return getSystemProperty("java.runtime.name") + " (build " + getSystemProperty("java.runtime.version")
-                + ") from " + getSystemProperty("java.vendor");
+            + ") from " + getSystemProperty("java.vendor");
     }
 
     /**
@@ -153,7 +153,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      * Gets the given system property.
      *
      * @param prefix the prefix to use for the result string
-     * @param name   a system property name.
+     * @param name a system property name.
      * @return The prefix + a system property value.
      */
     private String getSystemProperty(final String prefix, final String name) {
@@ -171,7 +171,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      */
     String getVirtualMachine() {
         return getSystemProperty("java.vm.name") + " (build " + getSystemProperty("java.vm.version") + ", "
-                + getSystemProperty("java.vm.info") + ")";
+            + getSystemProperty("java.vm.info") + ")";
     }
 
     /**

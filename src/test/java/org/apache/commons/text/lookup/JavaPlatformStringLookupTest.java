@@ -47,6 +47,12 @@ public class JavaPlatformStringLookupTest {
     }
 
     @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(JavaPlatformStringLookup.INSTANCE.toString().isEmpty());
+    }
+
+    @Test
     public void testVm() {
         final String key = "vm";
         assertTrue(JavaPlatformStringLookup.INSTANCE.lookup(key).contains(System.getProperty("java.vm.name")));

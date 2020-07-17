@@ -80,4 +80,10 @@ public class ScriptStringLookupTest {
             ScriptStringLookup.INSTANCE.lookup(JS_NAME + ":true ? \"It Works\" : \"It Does Not Work\" "));
     }
 
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(ScriptStringLookup.INSTANCE.toString().isEmpty());
+    }
+
 }

@@ -66,15 +66,6 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
     }
 
     /**
-     * Gets the function used in lookups.
-     *
-     * @return The function used in lookups.
-     */
-    Function<String, V> getFunction() {
-        return function;
-    }
-
-    /**
      * Looks up a String key by applying the function.
      * <p>
      * If the function is null, then null is returned. The function result object is converted to a string using

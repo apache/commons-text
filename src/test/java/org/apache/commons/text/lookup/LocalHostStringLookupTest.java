@@ -31,24 +31,35 @@ public class LocalHostStringLookupTest {
     @Test
     public void testAddress() throws UnknownHostException {
         Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(),
-                LocalHostStringLookup.INSTANCE.lookup("address"));
+            LocalHostStringLookup.INSTANCE.lookup("address"));
+    }
+
+    @Test
+    public void testBadKey() throws UnknownHostException {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> LocalHostStringLookup.INSTANCE.lookup("FOO"));
     }
 
     @Test
     public void testCanonicalName() throws UnknownHostException {
         Assertions.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(),
-                LocalHostStringLookup.INSTANCE.lookup("canonical-name"));
+            LocalHostStringLookup.INSTANCE.lookup("canonical-name"));
     }
 
     @Test
     public void testName() throws UnknownHostException {
         Assertions.assertEquals(InetAddress.getLocalHost().getHostName(),
-                LocalHostStringLookup.INSTANCE.lookup("name"));
+            LocalHostStringLookup.INSTANCE.lookup("name"));
     }
 
     @Test
     public void testNull() {
         Assertions.assertNull(LocalHostStringLookup.INSTANCE.lookup(null));
+    }
+
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(LocalHostStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

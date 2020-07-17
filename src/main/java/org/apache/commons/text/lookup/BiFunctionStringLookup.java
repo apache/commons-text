@@ -66,13 +66,9 @@ final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
         this.biFunction = biFunction;
     }
 
-    /**
-     * Gets the function used in lookups.
-     *
-     * @return The function used in lookups.
-     */
-    BiFunction<String, P, R> getBiFunction() {
-        return biFunction;
+    @Override
+    public String lookup(final String key) {
+        return lookup(key, null);
     }
 
     /**
@@ -104,11 +100,6 @@ final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
     @Override
     public String toString() {
         return super.toString() + " [function=" + biFunction + "]";
-    }
-
-    @Override
-    public String lookup(final String key) {
-        return lookup(key, null);
     }
 
 }

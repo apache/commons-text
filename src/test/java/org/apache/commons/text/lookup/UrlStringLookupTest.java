@@ -41,6 +41,13 @@ public class UrlStringLookupTest {
     }
 
     @Test
+    public void testBadEncoding() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            UrlStringLookup.INSTANCE.lookup("FOO:https://www.google.com");
+        });
+    }
+
+    @Test
     public void testBadUrl() {
         assertThrows(IllegalArgumentException.class, () -> {
             UrlStringLookup.INSTANCE.lookup("UTF-8:BAD_URL");
@@ -64,8 +71,21 @@ public class UrlStringLookupTest {
     }
 
     @Test
+    public void testMissingUrl() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            UrlStringLookup.INSTANCE.lookup("UTF-8");
+        });
+    }
+
+    @Test
     public void testNull() {
         Assertions.assertNull(UrlStringLookup.INSTANCE.lookup(null));
+    }
+
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(UrlStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

@@ -55,8 +55,7 @@ final class UrlStringLookup extends AbstractStringLookup {
      * For example: "com/domain/document.xml:/path/to/node".
      * </p>
      *
-     * @param key
-     *            the key to be looked up, may be null
+     * @param key the key to be looked up, may be null
      * @return The value associated with the key.
      */
     @Override
@@ -68,7 +67,7 @@ final class UrlStringLookup extends AbstractStringLookup {
         final int keyLen = keys.length;
         if (keyLen < 2) {
             throw IllegalArgumentExceptions.format("Bad URL key format [%s]; expected format is DocumentPath:Key.",
-                    key);
+                key);
         }
         final String charsetName = keys[0];
         final String urlStr = StringUtils.substringAfter(key, SPLIT_CH);
@@ -78,7 +77,7 @@ final class UrlStringLookup extends AbstractStringLookup {
             final StringWriter writer = new StringWriter(size);
             final char[] buffer = new char[size];
             try (BufferedInputStream bis = new BufferedInputStream(url.openStream());
-                    InputStreamReader reader = new InputStreamReader(bis, charsetName)) {
+                InputStreamReader reader = new InputStreamReader(bis, charsetName)) {
                 int n;
                 while (-1 != (n = reader.read(buffer))) {
                     writer.write(buffer, 0, n);
@@ -87,7 +86,7 @@ final class UrlStringLookup extends AbstractStringLookup {
             return writer.toString();
         } catch (final Exception e) {
             throw IllegalArgumentExceptions.format(e, "Error looking up URL [%s] with Charset [%s].", urlStr,
-                    charsetName);
+                charsetName);
         }
     }
 

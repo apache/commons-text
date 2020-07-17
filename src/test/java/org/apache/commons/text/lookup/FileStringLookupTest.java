@@ -46,6 +46,13 @@ public class FileStringLookupTest {
     }
 
     @Test
+    public void testMissingFilePart() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            FileStringLookup.INSTANCE.lookup(StandardCharsets.UTF_8.name());
+        });
+    }
+
+    @Test
     public void testNull() {
         Assertions.assertNull(FileStringLookup.INSTANCE.lookup(null));
     }
@@ -55,6 +62,12 @@ public class FileStringLookupTest {
         final byte[] expectedBytes = Files.readAllBytes(Paths.get("src/test/resources/document.properties"));
         final String expectedString = new String(expectedBytes, StandardCharsets.UTF_8);
         Assertions.assertEquals(expectedString,
-                FileStringLookup.INSTANCE.lookup("UTF-8:src/test/resources/document.properties"));
+            FileStringLookup.INSTANCE.lookup("UTF-8:src/test/resources/document.properties"));
+    }
+
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(FileStringLookup.INSTANCE.toString().isEmpty());
     }
 }

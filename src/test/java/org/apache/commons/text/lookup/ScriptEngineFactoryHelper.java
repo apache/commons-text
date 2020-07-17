@@ -23,9 +23,9 @@ import javax.script.ScriptEngineManager;
 /** Helper to see what ScriptEngineFactory are the classpath. */
 public class ScriptEngineFactoryHelper {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         final String indent = "  ";
-        for (ScriptEngineFactory factory : new ScriptEngineManager().getEngineFactories()) {
+        for (final ScriptEngineFactory factory : new ScriptEngineManager().getEngineFactories()) {
             System.out.println(factory);
             System.out.println(indent + factory.getEngineName());
             System.out.println(indent + factory.getEngineVersion());

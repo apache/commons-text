@@ -31,6 +31,12 @@ public class SystemPropertyStringLookupTest {
     }
 
     @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.toString().isEmpty());
+    }
+
+    @Test
     public void testUserName() {
         final String key = "user.name";
         Assertions.assertEquals(System.getProperty(key), StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.lookup(key));

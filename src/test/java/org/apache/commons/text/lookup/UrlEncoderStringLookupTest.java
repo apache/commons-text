@@ -35,5 +35,10 @@ public class UrlEncoderStringLookupTest {
         Assertions.assertNull(UrlEncoderStringLookup.INSTANCE.lookup(null));
     }
 
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(UrlEncoderStringLookup.INSTANCE.toString().isEmpty());
+    }
 
 }

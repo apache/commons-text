@@ -48,7 +48,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          *        {@link NoneMatcher} instead.
          */
         AndStringMatcher(final StringMatcher... stringMatchers) {
-            this.stringMatchers = stringMatchers;
+            this.stringMatchers = stringMatchers.clone();
         }
 
         @Override

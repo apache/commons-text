@@ -50,6 +50,7 @@ final class UrlEncoderStringLookup extends AbstractStringLookup {
         try {
             return URLEncoder.encode(key, enc);
         } catch (final UnsupportedEncodingException e) {
+            // Can't happen since UTF_8 is required by the Java specification.
             throw IllegalArgumentExceptions.format(e, "%s: source=%s, encoding=%s", e, key, enc);
         }
     }

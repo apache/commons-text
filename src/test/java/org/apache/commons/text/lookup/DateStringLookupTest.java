@@ -19,18 +19,26 @@ package org.apache.commons.text.lookup;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link DateStringLookup}.
  */
 public class DateStringLookupTest {
+
+    @Test
+    public void testBadFormat() {
+        assertThrows(IllegalArgumentException.class,
+            () -> DateStringLookup.INSTANCE.lookup("this-is-a-bad-format-dontcha-know"));
+    }
 
     @Test
     public void testDefault() throws ParseException {
@@ -41,14 +49,20 @@ public class DateStringLookupTest {
 
     @Test
     public void testFormat() {
-        final String fomat = "yyyy-MM-dd";
-        final String value = DateStringLookup.INSTANCE.lookup(fomat);
+        final String format = "yyyy-MM-dd";
+        final String value = DateStringLookup.INSTANCE.lookup(format);
         // System.out.println(value);
         assertNotNull(value, "No Date");
-        final SimpleDateFormat format = new SimpleDateFormat(fomat);
-        final String today = format.format(new Date());
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        final String today = simpleDateFormat.format(new Date());
         assertEquals(value, today);
 
+    }
+
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(DateStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

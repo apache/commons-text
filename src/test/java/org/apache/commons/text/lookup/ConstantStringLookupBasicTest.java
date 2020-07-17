@@ -30,6 +30,11 @@ public class ConstantStringLookupBasicTest {
     /**
      * Test fixture.
      */
+    public static final String NULL_STRING_FIXTURE = null;
+
+    /**
+     * Test fixture.
+     */
     public static final String STRING_FIXTURE = "Hello World!";
 
     /**
@@ -54,8 +59,31 @@ public class ConstantStringLookupBasicTest {
     }
 
     @Test
-    public void testOne() {
-        Assertions.assertEquals(STRING_FIXTURE, ConstantStringLookup.INSTANCE
-                .lookup(ConstantStringLookupBasicTest.class.getName() + ".STRING_FIXTURE"));
+    public void testNullClassFetch() {
+        Assertions.assertNull(new ConstantStringLookup() {
+            @Override
+            protected Class<?> fetchClass(final String className) throws ClassNotFoundException {
+                return null;
+            }
+        }.lookup("foo"));
     }
+
+    @Test
+    public void testNullValue() {
+        Assertions.assertEquals(NULL_STRING_FIXTURE, ConstantStringLookup.INSTANCE
+            .lookup(ConstantStringLookupBasicTest.class.getName() + ".NULL_STRING_FIXTURE"));
+    }
+
+    @Test
+    public void testOne() {
+        Assertions.assertEquals(STRING_FIXTURE,
+            ConstantStringLookup.INSTANCE.lookup(ConstantStringLookupBasicTest.class.getName() + ".STRING_FIXTURE"));
+    }
+
+    @Test
+    public void testToString() {
+        // does not blow up and gives some kind of string.
+        Assertions.assertFalse(ConstantStringLookup.INSTANCE.toString().isEmpty());
+    }
+
 }
