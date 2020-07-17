@@ -34,7 +34,7 @@ public class PropertiesStringLookupTest {
 
     private static final String DOC_PATH = "src/test/resources/document.properties";
     private static final String KEY = "mykey";
-    private static final String KEY_PATH = PropertiesStringLookup.toLookupKey(DOC_PATH, KEY);
+    private static final String KEY_PATH = PropertiesStringLookup.toPropertyKey(DOC_PATH, KEY);
 
     @Test
     public void testInterpolator() {
@@ -60,8 +60,8 @@ public class PropertiesStringLookupTest {
         final StringSubstitutor stringSubstitutor = new StringSubstitutor(
             StringLookupFactory.INSTANCE.interpolatorStringLookup(map));
         final String replaced = stringSubstitutor
-            .replace("$${properties:" + PropertiesStringLookup.toLookupKey(DOC_PATH, "${KeyIsHere}}"));
-        assertEquals("${properties:" + PropertiesStringLookup.toLookupKey(DOC_PATH, "mykey}"), replaced);
+            .replace("$${properties:" + PropertiesStringLookup.toPropertyKey(DOC_PATH, "${KeyIsHere}}"));
+        assertEquals("${properties:" + PropertiesStringLookup.toPropertyKey(DOC_PATH, "mykey}"), replaced);
         assertEquals("Hello World!", stringSubstitutor.replace(replaced));
     }
 
@@ -71,10 +71,10 @@ public class PropertiesStringLookupTest {
         map.put("KeyIsHere", KEY);
         final StringSubstitutor stringSubstitutor = new StringSubstitutor(
             StringLookupFactory.INSTANCE.interpolatorStringLookup(map));
-        final String replaced = stringSubstitutor
-            .replace("$${properties:${sys:user.dir}/" + PropertiesStringLookup.toLookupKey(DOC_PATH, "${KeyIsHere}}"));
+        final String replaced = stringSubstitutor.replace(
+            "$${properties:${sys:user.dir}/" + PropertiesStringLookup.toPropertyKey(DOC_PATH, "${KeyIsHere}}"));
         assertEquals("${properties:" + System.getProperty("user.dir") + "/"
-            + PropertiesStringLookup.toLookupKey(DOC_PATH, "mykey}"), replaced);
+            + PropertiesStringLookup.toPropertyKey(DOC_PATH, "mykey}"), replaced);
         assertEquals("Hello World!", stringSubstitutor.replace(replaced));
     }
 
@@ -85,8 +85,8 @@ public class PropertiesStringLookupTest {
 
     @Test
     public void testMissingFileWithKey() {
-        assertThrows(IllegalArgumentException.class,
-            () -> PropertiesStringLookup.INSTANCE.lookup(PropertiesStringLookup.toLookupKey("MissingFile", "AnyKey")));
+        assertThrows(IllegalArgumentException.class, () -> PropertiesStringLookup.INSTANCE
+            .lookup(PropertiesStringLookup.toPropertyKey("MissingFile", "AnyKey")));
     }
 
     @Test

@@ -47,6 +47,7 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
+    <commons.mockito.version>3.4.3</commons.mockito.version>
     <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
     <checkstyle.version>8.34</checkstyle.version>
 
@@ -99,8 +100,9 @@
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>3.4.3</version>
+      <!--  Use mockito-inline instead of mockito-core to mock and spy on final classes. -->
+      <artifactId>mockito-inline</artifactId>
+      <version>${commons.mockito.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

@@ -45,9 +45,11 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
     private final String bundleName;
 
     /**
-     * No need to build instances for now.
+     * Constructs a blank instance.
+     *
+     * This ctor is not private to allow Mockito spying.
      */
-    private ResourceBundleStringLookup() {
+    ResourceBundleStringLookup() {
         this(null);
     }
 
@@ -59,6 +61,15 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
      */
     ResourceBundleStringLookup(final String bundleName) {
         this.bundleName = bundleName;
+    }
+
+    ResourceBundle getBundle(final String keyBundleName) {
+        // The ResourceBundle class caches bundles, no need to cache here.
+        return ResourceBundle.getBundle(keyBundleName);
+    }
+
+    String getString(final String keyBundleName, final String bundleKey) {
+        return getBundle(keyBundleName).getString(bundleKey);
     }
 
     /**
@@ -90,8 +101,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
         final String keyBundleName = anyBundle ? keys[0] : bundleName;
         final String bundleKey = anyBundle ? keys[1] : keys[0];
         try {
-            // The ResourceBundle class caches bundles, no need to cache here.
-            return ResourceBundle.getBundle(keyBundleName).getString(bundleKey);
+            return getString(keyBundleName, bundleKey);
         } catch (final MissingResourceException e) {
             // The key is missing, return null such that an interpolator can supply a default value.
             return null;

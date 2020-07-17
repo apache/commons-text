@@ -40,20 +40,20 @@ import org.apache.commons.lang3.StringUtils;
  */
 final class PropertiesStringLookup extends AbstractStringLookup {
 
+    /**
+     * Defines the singleton for this class.
+     */
+    static final PropertiesStringLookup INSTANCE = new PropertiesStringLookup();
+
     /** Separates file and key. */
     static final String SEPARATOR = "::";
 
     /**
      * Creates a lookup key for a given file and key.
      */
-    static String toLookupKey(final String file, final String key) {
-        return file + SEPARATOR + key;
+    static String toPropertyKey(final String file, final String key) {
+        return AbstractStringLookup.toLookupKey(file, SEPARATOR, key);
     }
-
-    /**
-     * Defines the singleton for this class.
-     */
-    static final PropertiesStringLookup INSTANCE = new PropertiesStringLookup();
 
     /**
      * No need to build instances for now.
@@ -83,7 +83,7 @@ final class PropertiesStringLookup extends AbstractStringLookup {
         final int keyLen = keys.length;
         if (keyLen < 2) {
             throw IllegalArgumentExceptions.format("Bad properties key format [%s]; expected format is %s.", key,
-                toLookupKey("DocumentPath", "Key"));
+                toPropertyKey("DocumentPath", "Key"));
         }
         final String documentPath = keys[0];
         final String propertyKey = StringUtils.substringAfter(key, SEPARATOR);
