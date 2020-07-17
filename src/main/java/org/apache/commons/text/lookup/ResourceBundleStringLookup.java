@@ -96,7 +96,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
             // The key is missing, return null such that an interpolator can supply a default value.
             return null;
         } catch (final Exception e) {
-            // Should not happen
+            // Should only be a ClassCastException
             throw IllegalArgumentExceptions.format(e, "Error looking up resource bundle [%s] and key [%s].",
                 keyBundleName, bundleKey);
         }

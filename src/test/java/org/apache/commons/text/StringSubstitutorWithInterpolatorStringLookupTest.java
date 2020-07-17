@@ -78,6 +78,7 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
             Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
         }
         Assertions.assertEquals("value", strSubst.replace("${customLookup:key}"));
+        Assertions.assertEquals("${UnknownLookup:key}", strSubst.replace("${UnknownLookup:key}"));
     }
 
     @Test
@@ -180,7 +181,7 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     }
 
     @Test
-    void testJavaScript() {
+    public void testJavaScript() {
         Assertions.assertEquals("Hello World!",
                 StringSubstitutor.createInterpolator().replace("${script:javascript:\"Hello World!\"}"));
         Assertions.assertEquals("7",

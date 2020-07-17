@@ -83,17 +83,6 @@ public class BiFunctionStringLookupTest {
     }
 
     @Test
-    public void testDefaultMethod() {
-        Assertions.assertNull(BiFunctionStringLookup.on(new BiFunction<String, Object, Object>() {
-
-            @Override
-            public Object apply(final String t, final Object u) {
-                return null;
-            }
-        }).lookup(null, null));
-    }
-
-    @Test
     public void testHashMapNull() {
         Assertions.assertNull(BiFunctionStringLookup.on(new HashMap<>()).lookup(null));
     }
