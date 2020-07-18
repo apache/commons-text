@@ -27,6 +27,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
@@ -90,11 +91,7 @@ public class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
                 Arrays.fill(expectedCh, (char) 0);
             }
         }
-        if (replaceTemplate == null) {
-            assertEquals(StringUtils.EMPTY, actualResultWriter.toString());
-        } else {
-            assertEquals(expectedResult, actualResultWriter.toString());
-        }
+        assertEquals(Objects.toString(expectedResult, StringUtils.EMPTY), actualResultWriter.toString());
     }
 
     private void doTestReplaceInCharSteps(final StringSubstitutor substitutor, final String expectedResult,
@@ -117,11 +114,7 @@ public class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
                 assertFalse(index.get() > expectedResultLen, () -> "Index: " + index.get());
             }
         }
-        if (replaceTemplate == null) {
-            assertEquals(StringUtils.EMPTY, actualResultWriter.toString());
-        } else {
-            assertEquals(expectedResult, actualResultWriter.toString());
-        }
+        assertEquals(Objects.toString(expectedResult, StringUtils.EMPTY), actualResultWriter.toString());
     }
 
     @Override
