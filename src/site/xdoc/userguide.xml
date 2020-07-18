@@ -91,6 +91,10 @@ limitations under the License.
         For details see <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">StringSubstitutor</a>.
       </p>
       <p>
+        Use a <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/io/StringSubstitutorReader.html">StringSubstitutorReader</a>
+        to avoid reading a whole file into memory as a <code>String</code> to perform string substitution, for example, when a Servlet filters a file to a client.
+      </p>
+      <p>
         To build a default full-featured substitutor, use:
       </p>
       <ul>

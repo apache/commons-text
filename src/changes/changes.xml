@@ -71,6 +71,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.set(String).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.getCharsDelete(int, int, char[]. int).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.StringSubstitutor.StringSubstitutor(StringSubstitutor).</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.io.StringSubstitutorReader.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] Skip clirr since we use JApiCmp.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] junit-jupiter 5.5.1 -> 5.5.2.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] org.assertj:assertj-core 3.13.2 -> 3.16.1.</action>
