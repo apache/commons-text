@@ -807,9 +807,13 @@ public class TextStringBuilderTest {
         assertThrows(IndexOutOfBoundsException.class, () -> sb.drainChars(0, -1, array, 0));
         assertThrows(IndexOutOfBoundsException.class, () -> sb.drainChars(4, 2, array, 0));
 
-        sb.set(data);
         // get and delete it all.
+        sb.set(data);
         assertEquals(data.length(), sb.drainChars(0, sb.length() + 1, array, 0));
+        assertArrayEquals(data.toCharArray(), array);
+        // get and delete it more than there is
+        sb.set(data);
+        assertEquals(data.length(), sb.drainChars(0, sb.length() + 10, array, 0));
         assertArrayEquals(data.toCharArray(), array);
     }
 
