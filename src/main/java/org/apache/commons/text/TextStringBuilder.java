@@ -1187,7 +1187,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder appendSeparator(final char separator) {
-        if (size() > 0) {
+        if (isNotEmpty()) {
             append(separator);
         }
         return this;
@@ -1204,10 +1204,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder appendSeparator(final char standard, final char defaultIfEmpty) {
-        if (size() > 0) {
-            append(standard);
-        } else {
+        if (isEmpty()) {
             append(defaultIfEmpty);
+        } else {
+            append(standard);
         }
         return this;
     }
