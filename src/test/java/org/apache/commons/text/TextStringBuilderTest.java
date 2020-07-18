@@ -785,14 +785,14 @@ public class TextStringBuilderTest {
 
     @Test
     public void testDrainCharsIntIntCharArrayInt() {
-        final char[] array = new char[5];
+        final String data = "junit";
+        final char[] array = new char[data.length()];
         final TextStringBuilder sb = new TextStringBuilder();
         // empty buffer
         assertEquals(0, sb.drainChars(0, 5, array, 1));
         // empty buffer, 0 length request
         assertEquals(0, sb.drainChars(5, 5, array, 1));
 
-        final String data = "junit";
         sb.append(data);
         assertEquals(0, sb.drainChars(5, 5, array, 1));
         assertEquals(5, sb.drainChars(0, 5, array, 0));
@@ -811,10 +811,31 @@ public class TextStringBuilderTest {
         sb.set(data);
         assertEquals(data.length(), sb.drainChars(0, sb.length() + 1, array, 0));
         assertArrayEquals(data.toCharArray(), array);
-        // get and delete it more than there is
+
+        // get and delete more than there is
         sb.set(data);
         assertEquals(data.length(), sb.drainChars(0, sb.length() + 10, array, 0));
         assertArrayEquals(data.toCharArray(), array);
+
+        // get and delete more than can fit
+        sb.set(data);
+        int targetIndex = 1;
+        Arrays.fill(array, '-');
+        assertEquals(data.length() - targetIndex, sb.drainChars(0, sb.length() + 10, array, targetIndex));
+        assertArrayEquals("-juni".toCharArray(), array);
+
+        // get and delete more than can fit
+        sb.set(data);
+        Arrays.fill(array, '-');
+        assertEquals(data.length() - targetIndex, sb.drainChars(0, sb.length() + 1, array, targetIndex));
+        assertArrayEquals("-juni".toCharArray(), array);
+
+        // get and delete more than can fit
+        sb.set(data);
+        targetIndex = 2;
+        Arrays.fill(array, '-');
+        assertEquals(data.length() - targetIndex, sb.drainChars(0, sb.length() + 1, array, targetIndex));
+        assertArrayEquals("--jun".toCharArray(), array);
     }
 
     @Test

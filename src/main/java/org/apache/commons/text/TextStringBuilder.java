@@ -1781,10 +1781,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public int drainChars(final int startIndex, final int endIndex, final char[] target, final int targetIndex) {
         final int length = endIndex - startIndex;
-        if (isEmpty() || length == 0) {
+        if (isEmpty() || length == 0 || target.length == 0) {
             return 0;
         }
-        final int actualLen = Math.min(size, length);
+        final int actualLen = Math.min(Math.min(size, length), target.length - targetIndex);
         getChars(startIndex, actualLen, target, targetIndex);
         delete(startIndex, actualLen);
         return actualLen;
