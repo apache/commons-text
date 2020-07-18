@@ -56,7 +56,11 @@ public class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
     private void doTestNoReplaceInSteps(final String replaceTemplate, final StringSubstitutor substitutor)
         throws IOException {
         doTestReplaceInCharSteps(substitutor, replaceTemplate, replaceTemplate, false);
-        doTestReplaceInCharArraySteps(substitutor, replaceTemplate, replaceTemplate, false, 1);
+        final int minStepSize = 1;
+        final int maxStepSize = 3;
+        for (int stepSize = minStepSize; stepSize < maxStepSize; stepSize++) {
+            doTestReplaceInCharArraySteps(substitutor, replaceTemplate, replaceTemplate, false, stepSize);
+        }
     }
 
     @Override
@@ -78,7 +82,7 @@ public class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
             int actualCount;
             while ((actualCount = actualReader.read(actualCh)) != -1) {
                 final int expectedCount = expectedResultReader.read(expectedCh);
-                assertEquals(actualCount, expectedCount);
+                assertEquals(actualCount, expectedCount, () -> String.format("Step size %,d", stepSize));
                 assertArrayEquals(expectedCh, actualCh, () -> String.format("[%,d] '%s' != '%s', result so far: \"%s\"",
                     index.get(), String.valueOf(expectedCh), String.valueOf(actualCh), actualResultWriter.toString()));
                 if (actualCount != -1) {

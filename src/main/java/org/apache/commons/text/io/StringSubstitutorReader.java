@@ -108,7 +108,7 @@ public class StringSubstitutorReader extends FilterReader {
             // nothing or everything drained.
             toDrain = 0;
         }
-        return eos && drainCount == 0 ? EOS : drainCount;
+        return drainCount;
     }
 
     /**
@@ -207,13 +207,19 @@ public class StringSubstitutorReader extends FilterReader {
         int readCount = buffer(readCount(minReadLenPrefix, 0));
         if (buffer.length() < minReadLenPrefix && targetLength < minReadLenPrefix) {
             // read less than minReadLenPrefix, no variable possible
-            return drain(target, targetIndex, targetLength);
+            final int drainCount = drain(target, targetIndex, targetLength);
+            targetIndex += drainCount;
+            targetLength -= drainCount;
+            return eos && targetIndex == 0 ? EOS : targetIndex;
         }
         if (eos) {
             // EOS
             stringSubstitutor.replaceIn(buffer);
             toDrain = buffer.size();
-            return drain(target, targetIndex, targetLength);
+            final int drainCount = drain(target, targetIndex, targetLength);
+            targetIndex += drainCount;
+            targetLength -= drainCount;
+            return eos && targetIndex == 0 ? EOS : targetIndex;
         }
         // PREFIX
         // buffer and drain until we find a variable start, escaped or plain.
