@@ -17,6 +17,7 @@
 
 package org.apache.commons.text.io;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
@@ -52,17 +54,50 @@ public class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
 
     private void doTestNoReplaceInSteps(final String replaceTemplate, final StringSubstitutor substitutor)
         throws IOException {
-        doTestReplaceInSteps(substitutor, replaceTemplate, replaceTemplate, false);
+        doTestReplaceInCharSteps(substitutor, replaceTemplate, replaceTemplate, false);
+        doTestReplaceInCharArraySteps(substitutor, replaceTemplate, replaceTemplate, false, 1);
     }
 
     @Override
     protected void doTestReplace(final StringSubstitutor sub, final String expectedResult, final String replaceTemplate,
         final boolean substring) throws IOException {
-        doTestReplaceInSteps(sub, expectedResult, replaceTemplate, substring);
+        doTestReplaceInCharSteps(sub, expectedResult, replaceTemplate, substring);
         super.doTestReplace(sub, expectedResult, replaceTemplate, substring);
     }
 
-    private void doTestReplaceInSteps(final StringSubstitutor substitutor, final String expectedResult,
+    private void doTestReplaceInCharArraySteps(final StringSubstitutor substitutor, final String expectedResult,
+        final String replaceTemplate, final boolean substring, final int stepSize) throws IOException {
+        final StringWriter actualResultWriter = new StringWriter();
+        final AtomicInteger index = new AtomicInteger();
+        final int expectedResultLen = StringUtils.length(expectedResult);
+        try (Reader expectedResultReader = toReader(expectedResult);
+            Reader actualReader = new StringSubstitutorReader(toReader(replaceTemplate), substitutor)) {
+            final char[] actualCh = new char[stepSize];
+            final char[] expectedCh = new char[stepSize];
+            int actualCount;
+            while ((actualCount = actualReader.read(actualCh)) != -1) {
+                final int expectedCount = expectedResultReader.read(expectedCh);
+                assertEquals(actualCount, expectedCount);
+                assertArrayEquals(expectedCh, actualCh, () -> String.format("[%,d] '%s' != '%s', result so far: \"%s\"",
+                    index.get(), String.valueOf(expectedCh), String.valueOf(actualCh), actualResultWriter.toString()));
+                if (actualCount != -1) {
+                    actualResultWriter.write(actualCh, 0, actualCount);
+                }
+                index.incrementAndGet();
+                assertFalse(index.get() > expectedResultLen, () -> "Index: " + index.get());
+                // simpler to debug if we zero out the buffers.
+                Arrays.fill(actualCh, (char) 0);
+                Arrays.fill(expectedCh, (char) 0);
+            }
+        }
+        if (replaceTemplate == null) {
+            assertEquals(StringUtils.EMPTY, actualResultWriter.toString());
+        } else {
+            assertEquals(expectedResult, actualResultWriter.toString());
+        }
+    }
+
+    private void doTestReplaceInCharSteps(final StringSubstitutor substitutor, final String expectedResult,
         final String replaceTemplate, final boolean substring) throws IOException {
         final StringWriter actualResultWriter = new StringWriter();
         final AtomicInteger index = new AtomicInteger();

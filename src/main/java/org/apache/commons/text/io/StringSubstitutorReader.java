@@ -57,11 +57,11 @@ public class StringSubstitutorReader extends FilterReader {
     /** Internal buffer for {@link #read()} method. */
     private final char[] read1CharBuffer = {0};
 
-    /** We don't always want to drain the whole buffer. */
-    private int toDrain;
-
     /** The underlying StringSubstitutor. */
     private final StringSubstitutor stringSubstitutor;
+
+    /** We don't always want to drain the whole buffer. */
+    private int toDrain;
 
     /**
      * Constructs a new instance.
@@ -108,7 +108,7 @@ public class StringSubstitutorReader extends FilterReader {
             // nothing or everything drained.
             toDrain = 0;
         }
-        return drainCount;
+        return eos && drainCount == 0 ? EOS : drainCount;
     }
 
     /**
