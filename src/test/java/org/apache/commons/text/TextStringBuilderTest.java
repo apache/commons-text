@@ -37,6 +37,7 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Locale;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -194,6 +195,34 @@ public class TextStringBuilderTest {
 
             new TextStringBuilder(630).append(charBuffer, 0, 630);
         });
+    }
+
+    @Test
+    public void testAppendToAppendable() throws Exception {
+        final TextStringBuilder sb = new TextStringBuilder("1234567890");
+        final StringWriter writer = new StringWriter();
+        writer.append("Test");
+
+        // TODO Use Commons IO NullApendable.INSTANCE
+        sb.appendTo(new Appendable() {
+
+            @Override
+            public Appendable append(final char c) throws IOException {
+                return this;
+            }
+
+            @Override
+            public Appendable append(final CharSequence csq) throws IOException {
+                return this;
+            }
+
+            @Override
+            public Appendable append(final CharSequence csq, final int start, final int end) throws IOException {
+                return this;
+            }
+        });
+
+        assertEquals("Test", writer.toString());
     }
 
     @Test
@@ -790,6 +819,7 @@ public class TextStringBuilderTest {
         final TextStringBuilder sb = new TextStringBuilder();
         // empty buffer
         assertEquals(0, sb.drainChars(0, 5, array, 1));
+        assertEquals(0, sb.drainChars(0, 5, new char[0], 1));
         // empty buffer, 0 length request
         assertEquals(0, sb.drainChars(5, 5, array, 1));
 
@@ -915,6 +945,25 @@ public class TextStringBuilderTest {
 
         sb2.set("aBc");
         assertTrue(sb1.equalsIgnoreCase(sb2));
+
+        final Locale turkish = Locale.forLanguageTag("tr");
+        assertTrue(
+            new TextStringBuilder("title").equalsIgnoreCase(new TextStringBuilder("title".toLowerCase(turkish))));
+        assertTrue(
+            new TextStringBuilder("title").equalsIgnoreCase(new TextStringBuilder("TITLE".toLowerCase(turkish))));
+        assertTrue(
+            new TextStringBuilder("TITLE").equalsIgnoreCase(new TextStringBuilder("TITLE".toLowerCase(turkish))));
+        assertTrue(
+            new TextStringBuilder("TITLE").equalsIgnoreCase(new TextStringBuilder("title".toLowerCase(turkish))));
+        //
+        // assertTrue(new TextStringBuilder("title").equalsIgnoreCase(new
+        // TextStringBuilder("title".toUpperCase(turkish))));
+        // assertTrue(new TextStringBuilder("title").equalsIgnoreCase(new
+        // TextStringBuilder("TITLE".toUpperCase(turkish))));
+        assertTrue(
+            new TextStringBuilder("TITLE").equalsIgnoreCase(new TextStringBuilder("TITLE".toUpperCase(turkish))));
+        // assertTrue(new TextStringBuilder("TITLE").equalsIgnoreCase(new
+        // TextStringBuilder("title".toUpperCase(turkish))));
     }
 
     @Test
