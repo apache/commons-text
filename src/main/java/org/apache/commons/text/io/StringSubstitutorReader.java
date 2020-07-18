@@ -209,8 +209,8 @@ public class StringSubstitutorReader extends FilterReader {
             // read less than minReadLenPrefix, no variable possible
             final int drainCount = drain(target, targetIndex, targetLength);
             targetIndex += drainCount;
-            targetLength -= drainCount;
-            return eos && targetIndex == 0 ? EOS : targetIndex;
+            final int targetSize = targetIndex - targetIndexIn;
+            return eos && targetSize <= 0 ? EOS : targetSize;
         }
         if (eos) {
             // EOS
@@ -218,8 +218,8 @@ public class StringSubstitutorReader extends FilterReader {
             toDrain = buffer.size();
             final int drainCount = drain(target, targetIndex, targetLength);
             targetIndex += drainCount;
-            targetLength -= drainCount;
-            return eos && targetIndex == 0 ? EOS : targetIndex;
+            final int targetSize = targetIndex - targetIndexIn;
+            return eos && targetSize <= 0 ? EOS : targetSize;
         }
         // PREFIX
         // buffer and drain until we find a variable start, escaped or plain.
@@ -301,7 +301,7 @@ public class StringSubstitutorReader extends FilterReader {
         // only drain up to what we've substituted
         toDrain = pos;
         drain(target, targetIndex, drainLen);
-        return targetIndex + drainLen;
+        return targetIndex - targetIndexIn + drainLen;
     }
 
     /**

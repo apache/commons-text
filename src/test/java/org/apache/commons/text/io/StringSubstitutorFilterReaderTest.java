@@ -56,10 +56,17 @@ public class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
     private void doTestNoReplaceInSteps(final String replaceTemplate, final StringSubstitutor substitutor)
         throws IOException {
         doTestReplaceInCharSteps(substitutor, replaceTemplate, replaceTemplate, false);
-        final int minStepSize = 1;
-        final int maxStepSize = 8192;
-        for (int stepSize = minStepSize; stepSize < maxStepSize; stepSize++) {
-            doTestReplaceInCharArraySteps(substitutor, replaceTemplate, replaceTemplate, false, stepSize);
+        final int minTargetSize = 1;
+        int maxTargetSize = 1024 * 8;
+        for (int targetSize = minTargetSize; targetSize <= maxTargetSize; targetSize++) {
+            doTestReplaceInCharArraySteps(substitutor, replaceTemplate, replaceTemplate, false, targetSize);
+        }
+        maxTargetSize = 400;
+        for (int targetSize = minTargetSize; targetSize <= maxTargetSize; targetSize++) {
+            for (int targetIndex = 0; targetIndex < targetSize; targetIndex++) {
+                doTestReplaceInCharArrayAtSteps(substitutor, replaceTemplate, replaceTemplate, false, targetIndex,
+                    targetSize);
+            }
         }
     }
 
@@ -70,16 +77,58 @@ public class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
         super.doTestReplace(sub, expectedResult, replaceTemplate, substring);
     }
 
-    private void doTestReplaceInCharArraySteps(final StringSubstitutor substitutor, final String expectedResult,
-        final String replaceTemplate, final boolean substring, final int stepSize) throws IOException {
+    private void doTestReplaceInCharArrayAtSteps(final StringSubstitutor substitutor, final String expectedResult,
+        final String replaceTemplate, final boolean substring, final int targetIndex, final int targetSize)
+        throws IOException {
         final StringWriter actualResultWriter = new StringWriter();
         final StringWriter expectedResultWriter = new StringWriter();
         final AtomicInteger index = new AtomicInteger();
         final int expectedResultLen = StringUtils.length(expectedResult);
         try (Reader expectedResultReader = toReader(expectedResult);
             Reader actualReader = new StringSubstitutorReader(toReader(replaceTemplate), substitutor)) {
-            final char[] actualCh = new char[stepSize];
-            final char[] expectedCh = new char[stepSize];
+            final char[] actualCh = new char[targetSize];
+            final char[] expectedCh = new char[targetSize];
+            int actualCount;
+            while ((actualCount = actualReader.read(actualCh, targetIndex, targetSize - targetIndex)) != -1) {
+                final int expectedCount = expectedResultReader.read(expectedCh, targetIndex, targetSize - targetIndex);
+                if (expectedCount != -1) {
+                    expectedResultWriter.write(expectedCh, targetIndex, expectedCount);
+                }
+                // stream can chunk in smaller sizes
+                if (expectedCount == actualCount) {
+                    assertEquals(expectedCount, actualCount, () -> String.format("Step size %,d", targetSize));
+                    assertArrayEquals(expectedCh, actualCh,
+                        () -> String.format("[%,d] '%s' != '%s', result so far: \"%s\"", index.get(),
+                            String.valueOf(expectedCh), String.valueOf(actualCh), actualResultWriter.toString()));
+                } else if (actualCount < expectedCount) {
+                    assertTrue(expectedResultWriter.toString().startsWith(actualResultWriter.toString()));
+                }
+                if (actualCount != -1) {
+                    actualResultWriter.write(actualCh, targetIndex, actualCount);
+                } else {
+                    // fails
+                    assertEquals(expectedCount, actualCount, () -> String.format("Step size %,d", targetSize));
+                }
+                index.incrementAndGet();
+                assertFalse(index.get() > expectedResultLen, () -> "Index: " + index.get());
+                // simpler to debug if we zero out the buffers.
+                Arrays.fill(actualCh, (char) 0);
+                Arrays.fill(expectedCh, (char) 0);
+            }
+        }
+        assertEquals(Objects.toString(expectedResult, StringUtils.EMPTY), actualResultWriter.toString());
+    }
+
+    private void doTestReplaceInCharArraySteps(final StringSubstitutor substitutor, final String expectedResult,
+        final String replaceTemplate, final boolean substring, final int targetSize) throws IOException {
+        final StringWriter actualResultWriter = new StringWriter();
+        final StringWriter expectedResultWriter = new StringWriter();
+        final AtomicInteger index = new AtomicInteger();
+        final int expectedResultLen = StringUtils.length(expectedResult);
+        try (Reader expectedResultReader = toReader(expectedResult);
+            Reader actualReader = new StringSubstitutorReader(toReader(replaceTemplate), substitutor)) {
+            final char[] actualCh = new char[targetSize];
+            final char[] expectedCh = new char[targetSize];
             int actualCount;
             while ((actualCount = actualReader.read(actualCh)) != -1) {
                 final int expectedCount = expectedResultReader.read(expectedCh);
@@ -88,7 +137,7 @@ public class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
                 }
                 // stream can chunk in smaller sizes
                 if (expectedCount == actualCount) {
-                    assertEquals(expectedCount, actualCount, () -> String.format("Step size %,d", stepSize));
+                    assertEquals(expectedCount, actualCount, () -> String.format("Step size %,d", targetSize));
                     assertArrayEquals(expectedCh, actualCh,
                         () -> String.format("[%,d] '%s' != '%s', result so far: \"%s\"", index.get(),
                             String.valueOf(expectedCh), String.valueOf(actualCh), actualResultWriter.toString()));
@@ -99,7 +148,7 @@ public class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
                     actualResultWriter.write(actualCh, 0, actualCount);
                 } else {
                     // fails
-                    assertEquals(expectedCount, actualCount, () -> String.format("Step size %,d", stepSize));
+                    assertEquals(expectedCount, actualCount, () -> String.format("Step size %,d", targetSize));
                 }
                 index.incrementAndGet();
                 assertFalse(index.get() > expectedResultLen, () -> "Index: " + index.get());
