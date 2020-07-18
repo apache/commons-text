@@ -29,7 +29,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
 
 /**
  * A {@link Reader} that performs string substitution on a source {@code Reader} using a {@link StringSubstitutor}.
- * 
+ *
  * <p>
  * Using this Reader avoids reading a whole file into memory as a {@code String} to perform string substitution, for
  * example, when a Servlet filters a file to a client.
