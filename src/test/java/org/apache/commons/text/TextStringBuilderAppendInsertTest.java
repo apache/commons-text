@@ -986,6 +986,14 @@ public class TextStringBuilderAppendInsertTest {
     @Test
     public void testAppendSeparator_String_int() {
         final TextStringBuilder sb = new TextStringBuilder();
+        sb.appendSeparator(null, -1); // no effect
+        assertThat(sb.toString()).isEqualTo("");
+        sb.appendSeparator(null, 0); // no effect
+        assertThat(sb.toString()).isEqualTo("");
+        sb.appendSeparator(null, 1); // no effect
+        assertThat(sb.toString()).isEqualTo("");
+        sb.appendSeparator(",", -1); // no effect
+        assertThat(sb.toString()).isEqualTo("");
         sb.appendSeparator(",", 0); // no effect
         assertThat(sb.toString()).isEqualTo("");
         sb.append("foo");
