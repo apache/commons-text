@@ -227,21 +227,6 @@ public class StringSubstitutorTest {
             target.getValueDelimiterMatcher().toString());
     }
 
-    @Test
-    public void testGetMinExpressionLength() throws IOException {
-        final StringSubstitutor sub = new StringSubstitutor();
-        assertEquals(4, sub.getMinExpressionLength());
-        sub.setVariablePrefix('a');
-        assertEquals(3, sub.getMinExpressionLength());
-        sub.setVariablePrefix("abc");
-        assertEquals(5, sub.getMinExpressionLength());
-        sub.setVariableSuffix("xyz");
-        assertEquals(7, sub.getMinExpressionLength());
-        sub.setVariablePrefix(StringUtils.EMPTY);
-        sub.setVariableSuffix(StringUtils.EMPTY);
-        assertEquals(1, sub.getMinExpressionLength());
-    }
-
     /**
      * Tests get set.
      */

@@ -183,6 +183,10 @@ public class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
         assertEquals(Objects.toString(expectedResult, StringUtils.EMPTY), actualResultWriter.toString());
     }
 
+    private int getMinExpressionLength(final StringSubstitutor substitutor) {
+        return substitutor.getVariablePrefixMatcher().size() + 1 + substitutor.getVariableSuffixMatcher().size();
+    }
+
     @Override
     protected String replace(final StringSubstitutor substitutor, final String source) throws IOException {
         if (source == null) {
@@ -197,7 +201,7 @@ public class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
     public void testReadMixedBufferLengths1ToVarLenPlusNoReplace() throws IOException {
         final StringSubstitutor substitutor = new StringSubstitutor(values);
         final String template = "123456";
-        assertTrue(template.length() > substitutor.getMinExpressionLength() + 1);
+        assertTrue(template.length() > getMinExpressionLength(substitutor) + 1);
         try (Reader reader = createReader(substitutor, template)) {
             assertEquals('1', reader.read());
             final char[] cbuf = new char[template.length() - 1];
@@ -225,7 +229,7 @@ public class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
     public void testReadMixedBufferLengthsVarLenPlusToNoReplace() throws IOException {
         final StringSubstitutor substitutor = new StringSubstitutor(values);
         final String template = "123456";
-        assertTrue(template.length() > substitutor.getMinExpressionLength() + 1);
+        assertTrue(template.length() > getMinExpressionLength(substitutor) + 1);
         try (Reader reader = createReader(substitutor, template)) {
             final int endIndex = template.length() - 1;
             final char[] cbuf = new char[endIndex];

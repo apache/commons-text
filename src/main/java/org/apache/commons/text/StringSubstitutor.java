@@ -603,19 +603,6 @@ public class StringSubstitutor {
     }
 
     /**
-     * Gets the minimum expression length based on the size of the prefix matcher and suffix matcher.
-     * <p>
-     * By default, {@code 4}, as the shortest variable name length is 1, for example, {@code "${k}"}.
-     * </p>
-     *
-     * @return the minimum expression length.
-     * @since 1.9
-     */
-    public int getMinExpressionLength() {
-        return getVariablePrefixMatcher().size() + 1 + getVariableSuffixMatcher().size();
-    }
-
-    /**
      * Gets the StringLookup that is used to lookup variables.
      *
      * @return The StringLookup
