@@ -59,23 +59,22 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StringMatcher.size().</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Refactor TextStringBuilder.readFrom(Readable), extracting readFrom(CharBuffer) and readFrom(Reader).</action>    
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add BiStringLookup and implementation BiFunctionStringLookup.</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.StringSubstitutor.StringSubstitutor(StringSubstitutor).</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.TextStringBuilder(CharSequence).</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.drainChar(int).</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.drainChars(int, int, char[]. int).</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.isNotEmpty().</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.isReallocated().</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.readFrom(Reader, int).</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.set(String).</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.wrap(char[]).</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.wrap(char[], int).</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.io.StringSubstitutorReader.</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.lookup.StringLookupFactory.functionStringLookup(Function&lt;String, V&gt;).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.matcher.StringMatcher.isMatch(CharSequence, int).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.matcher.StringMatcher.isMatch(CharSequence, int, int, int).</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.matcher.StringMatcherFactory.stringMatcher(char...).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.matcher.StringMatcherFactory.andMatcher(StringMatcher...).</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.toString(int, int).</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.readFrom(Reader, int).</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.charAtDelete(int).</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.isNotEmpty().</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.TextStringBuilder(CharSequence).</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.wrap(char[]).</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.wrap(char[], int).</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.isReallocated().</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.set(String).</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.getCharsDelete(int, int, char[]. int).</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.StringSubstitutor.StringSubstitutor(StringSubstitutor).</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.io.StringSubstitutorReader.</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.matcher.StringMatcherFactory.stringMatcher(char...).</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] Skip clirr since we use JApiCmp.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] junit-jupiter 5.5.1 -> 5.5.2.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[test] org.assertj:assertj-core 3.13.2 -> 3.16.1.</action>
@@ -119,7 +118,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory">Update site from com.puppycrawl.tools:checkstyle 8.18 to 8.21.</action>
   </release>
 
-  <release version="1.6" date="2018-10-12" description="Release 1.6". Requires Java 8.>
+  <release version="1.6" date="2018-10-12" description="Release 1.6. Requires Java 8.">
     <action issue="TEXT-144" type="update" dev="ggregory">Add the resource string bundle string lookup to the default set of lookups</action>
     <action issue="TEXT-145" type="update" dev="ggregory">Add StringLookupFactory methods for the URL encoder and decoder string lookups</action>
     <action issue="TEXT-146" type="update" dev="ggregory">org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup() should reuse a singleton instance</action>
