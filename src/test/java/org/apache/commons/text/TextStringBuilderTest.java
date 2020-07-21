@@ -523,23 +523,6 @@ public class TextStringBuilderTest {
     }
 
     @Test
-    public void testCharAtDelete() {
-        final String str = "abc";
-        //
-        final TextStringBuilder sb1 = new TextStringBuilder(str);
-        assertEquals('a', sb1.drainChar(0));
-        assertEquals("bc", sb1.toString());
-        //
-        final TextStringBuilder sb2 = new TextStringBuilder(str);
-        assertEquals('c', sb2.drainChar(str.length() - 1));
-        assertEquals("ab", sb2.toString());
-        //
-        final TextStringBuilder sb3 = new TextStringBuilder(str);
-        assertThrows(IndexOutOfBoundsException.class, () -> sb3.drainChar(str.length()));
-        assertThrows(IndexOutOfBoundsException.class, () -> sb3.drainChar(1000));
-    }
-
-    @Test
     public void testClear() {
         final TextStringBuilder sb = new TextStringBuilder();
         sb.append("Hello");
@@ -810,6 +793,23 @@ public class TextStringBuilderTest {
         assertThrows(IndexOutOfBoundsException.class, () -> sb.delete(-1, 1));
 
         assertThrows(IndexOutOfBoundsException.class, () -> new TextStringBuilder("anything").delete(2, 1));
+    }
+
+    @Test
+    public void testDrainChar() {
+        final String str = "abc";
+        //
+        final TextStringBuilder sb1 = new TextStringBuilder(str);
+        assertEquals('a', sb1.drainChar(0));
+        assertEquals("bc", sb1.toString());
+        //
+        final TextStringBuilder sb2 = new TextStringBuilder(str);
+        assertEquals('c', sb2.drainChar(str.length() - 1));
+        assertEquals("ab", sb2.toString());
+        //
+        final TextStringBuilder sb3 = new TextStringBuilder(str);
+        assertThrows(IndexOutOfBoundsException.class, () -> sb3.drainChar(str.length()));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb3.drainChar(1000));
     }
 
     @Test
