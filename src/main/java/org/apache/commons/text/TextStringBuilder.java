@@ -3094,23 +3094,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Validates indices defining a range in this builder.
-     *
-     * @param startIndex the start index, inclusive.
-     * @param endIndex the end index, exclusive.
-     * @throws StringIndexOutOfBoundsException if the index is invalid
-     * @since 1.9
-     */
-    protected void validateIndices(final int startIndex, final int endIndex) {
-        if (startIndex < 0) {
-            throw new StringIndexOutOfBoundsException(startIndex);
-        }
-        if (startIndex > size) {
-            throw new StringIndexOutOfBoundsException("startIndex > size");
-        }
-    }
-
-    /**
      * Validates parameters defining a range of the builder.
      *
      * @param startIndex the start index, inclusive, must be valid
