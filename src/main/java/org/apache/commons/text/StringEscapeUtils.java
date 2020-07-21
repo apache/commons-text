@@ -250,8 +250,8 @@ public class StringEscapeUtils {
         escapeXsiMap.put("'", "\\'");
         escapeXsiMap.put(" ", "\\ ");
         escapeXsiMap.put("\t", "\\\t");
-        escapeXsiMap.put("\r\n", "");
-        escapeXsiMap.put("\n", "");
+        escapeXsiMap.put("\r\n", StringUtils.EMPTY);
+        escapeXsiMap.put("\n", StringUtils.EMPTY);
         escapeXsiMap.put("*", "\\*");
         escapeXsiMap.put("?", "\\?");
         escapeXsiMap.put("[", "\\[");
@@ -279,7 +279,7 @@ public class StringEscapeUtils {
         unescapeJavaMap.put("\\\\", "\\");
         unescapeJavaMap.put("\\\"", "\"");
         unescapeJavaMap.put("\\'", "'");
-        unescapeJavaMap.put("\\", "");
+        unescapeJavaMap.put("\\", StringUtils.EMPTY);
         UNESCAPE_JAVA = new AggregateTranslator(
                 new OctalUnescaper(),     // .between('\1', '\377'),
                 new UnicodeUnescaper(),

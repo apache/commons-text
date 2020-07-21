@@ -27,6 +27,7 @@ import java.util.Locale.Category;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.matcher.StringMatcherFactory;
 
 /**
@@ -81,7 +82,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * The empty string.
      */
-    private static final String DUMMY_PATTERN = "";
+    private static final String DUMMY_PATTERN = StringUtils.EMPTY;
 
     /**
      * A comma.

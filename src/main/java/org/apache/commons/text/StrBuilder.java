@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Builds a string from constituent parts providing a more flexible and powerful API
@@ -1220,7 +1221,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      */
     public StrBuilder appendWithSeparators(final Object[] array, final String separator) {
         if (array != null && array.length > 0) {
-            final String sep = Objects.toString(separator, "");
+            final String sep = Objects.toString(separator, StringUtils.EMPTY);
             append(array[0]);
             for (int i = 1; i < array.length; i++) {
                 append(sep);
@@ -1242,7 +1243,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      */
     public StrBuilder appendWithSeparators(final Iterable<?> iterable, final String separator) {
         if (iterable != null) {
-            final String sep = Objects.toString(separator, "");
+            final String sep = Objects.toString(separator, StringUtils.EMPTY);
             final Iterator<?> it = iterable.iterator();
             while (it.hasNext()) {
                 append(it.next());
@@ -1266,7 +1267,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      */
     public StrBuilder appendWithSeparators(final Iterator<?> it, final String separator) {
         if (it != null) {
-            final String sep = Objects.toString(separator, "");
+            final String sep = Objects.toString(separator, StringUtils.EMPTY);
             while (it.hasNext()) {
                 append(it.next());
                 if (it.hasNext()) {
@@ -1468,7 +1469,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
             ensureCapacity(size + width);
             String str = obj == null ? getNullText() : obj.toString();
             if (str == null) {
-                str = "";
+                str = StringUtils.EMPTY;
             }
             final int strLen = str.length();
             if (strLen >= width) {
@@ -1515,7 +1516,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
             ensureCapacity(size + width);
             String str = obj == null ? getNullText() : obj.toString();
             if (str == null) {
-                str = "";
+                str = StringUtils.EMPTY;
             }
             final int strLen = str.length();
             if (strLen >= width) {
@@ -2262,7 +2263,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      */
     public String leftString(final int length) {
         if (length <= 0) {
-            return "";
+            return StringUtils.EMPTY;
         } else if (length >= size) {
             return new String(buffer, 0, size);
         } else {
@@ -2284,7 +2285,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      */
     public String rightString(final int length) {
         if (length <= 0) {
-            return "";
+            return StringUtils.EMPTY;
         } else if (length >= size) {
             return new String(buffer, 0, size);
         } else {
@@ -2313,7 +2314,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
             index = 0;
         }
         if (length <= 0 || index >= size) {
-            return "";
+            return StringUtils.EMPTY;
         }
         if (size <= index + length) {
             return new String(buffer, index, size - index);

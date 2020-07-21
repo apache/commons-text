@@ -21,6 +21,8 @@ import static java.util.FormattableFlags.LEFT_JUSTIFY;
 import java.util.Formattable;
 import java.util.Formatter;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * <p>Provides utilities for working with the {@code Formattable} interface.</p>
  *
@@ -139,7 +141,7 @@ public class FormattableUtils {
         if (precision >= 0 && precision < seq.length()) {
             final CharSequence _ellipsis;
             if (ellipsis == null) {
-                _ellipsis = "";
+                _ellipsis = StringUtils.EMPTY;
             } else {
                 _ellipsis = ellipsis;
             }

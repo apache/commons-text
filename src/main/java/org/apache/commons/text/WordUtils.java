@@ -712,7 +712,7 @@ public class WordUtils {
             return str;
         }
         if (delimiters != null && delimiters.length == 0) {
-            return "";
+            return StringUtils.EMPTY;
         }
         final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
         final int strLen = str.length();

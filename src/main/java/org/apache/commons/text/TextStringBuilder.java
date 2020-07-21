@@ -859,7 +859,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             ensureCapacity(size + width);
             String str = obj == null ? getNullText() : obj.toString();
             if (str == null) {
-                str = "";
+                str = StringUtils.EMPTY;
             }
             final int strLen = str.length();
             if (strLen >= width) {
@@ -904,7 +904,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             ensureCapacity(size + width);
             String str = obj == null ? getNullText() : obj.toString();
             if (str == null) {
-                str = "";
+                str = StringUtils.EMPTY;
             }
             final int strLen = str.length();
             if (strLen >= width) {
@@ -1375,7 +1375,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder appendWithSeparators(final Iterable<?> iterable, final String separator) {
         if (iterable != null) {
-            final String sep = Objects.toString(separator, "");
+            final String sep = Objects.toString(separator, StringUtils.EMPTY);
             final Iterator<?> it = iterable.iterator();
             while (it.hasNext()) {
                 append(it.next());
@@ -1397,7 +1397,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder appendWithSeparators(final Iterator<?> it, final String separator) {
         if (it != null) {
-            final String sep = Objects.toString(separator, "");
+            final String sep = Objects.toString(separator, StringUtils.EMPTY);
             while (it.hasNext()) {
                 append(it.next());
                 if (it.hasNext()) {
@@ -1418,7 +1418,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder appendWithSeparators(final Object[] array, final String separator) {
         if (array != null && array.length > 0) {
-            final String sep = Objects.toString(separator, "");
+            final String sep = Objects.toString(separator, StringUtils.EMPTY);
             append(array[0]);
             for (int i = 1; i < array.length; i++) {
                 append(sep);
@@ -2422,7 +2422,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public String leftString(final int length) {
         if (length <= 0) {
-            return "";
+            return StringUtils.EMPTY;
         } else if (length >= size) {
             return new String(buffer, 0, size);
         } else {
@@ -2458,7 +2458,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             index = 0;
         }
         if (length <= 0 || index >= size) {
-            return "";
+            return StringUtils.EMPTY;
         }
         if (size <= index + length) {
             return new String(buffer, index, size - index);
@@ -2830,7 +2830,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public String rightString(final int length) {
         if (length <= 0) {
-            return "";
+            return StringUtils.EMPTY;
         } else if (length >= size) {
             return new String(buffer, 0, size);
         } else {

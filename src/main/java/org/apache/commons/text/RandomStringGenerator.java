@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 /**
@@ -164,7 +165,7 @@ public final class RandomStringGenerator {
      */
     public String generate(final int length) {
         if (length == 0) {
-            return "";
+            return StringUtils.EMPTY;
         }
         Validate.isTrue(length > 0, "Length %d is smaller than zero.", length);
 

@@ -30,6 +30,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -497,7 +498,7 @@ public final class AlphabetConverter {
                             encodedLetterLength);
 
             ac.addSingleEncoding(encodedLetterLength,
-                    "",
+                    StringUtils.EMPTY,
                     encodingCopy,
                     originalCopy.iterator(),
                     doNotEncodeMap);

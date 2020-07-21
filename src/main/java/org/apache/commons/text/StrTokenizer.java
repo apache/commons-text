@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Tokenizes a string based on delimiters (separators)
  * and supporting quoting and ignored character concepts.
@@ -652,7 +654,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
 
             // handle case where end of string is a delimiter
             if (pos >= count) {
-                addToken(tokenList, "");
+                addToken(tokenList, StringUtils.EMPTY);
             }
         }
         return tokenList;
@@ -708,14 +710,14 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
 
         // handle reaching end
         if (start >= len) {
-            addToken(tokenList, "");
+            addToken(tokenList, StringUtils.EMPTY);
             return -1;
         }
 
         // handle empty token
         final int delimLen = getDelimiterMatcher().isMatch(srcChars, start, start, len);
         if (delimLen > 0) {
-            addToken(tokenList, "");
+            addToken(tokenList, StringUtils.EMPTY);
             return start + delimLen;
         }
 
