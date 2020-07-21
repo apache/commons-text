@@ -503,7 +503,7 @@ public final class StringLookupFactory {
      * lookup key.
      *
      * @param <R> the function return type.
-     * @param <U> the funtion's second paremeter type.
+     * @param <U> the function's second parameter type.
      * @param biFunction the function.
      * @return a new MapStringLookup.
      * @since 1.9

@@ -41,7 +41,7 @@ import org.apache.commons.text.StringSubstitutor;
  * StringSubstitutor.createInterpolator().replace("... ${date:yyyy-MM-dd} ..."));
  * </pre>
  * <p>
- * The above examples convert {@code "yyyy-MM-dd"} to todays's date, for example, {@code "2019-08-04"}.
+ * The above examples convert {@code "yyyy-MM-dd"} to today's date, for example, {@code "2019-08-04"}.
  * </p>
  */
 final class DateStringLookup extends AbstractStringLookup {

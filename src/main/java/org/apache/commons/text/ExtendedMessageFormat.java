@@ -89,12 +89,12 @@ public class ExtendedMessageFormat extends MessageFormat {
     private static final char START_FMT = ',';
 
     /**
-     * A right side squigly brace.
+     * A right side squiggly brace.
      */
     private static final char END_FE = '}';
 
     /**
-     * A left side squigly brace.
+     * A left side squiggly brace.
      */
     private static final char START_FE = '{';
 

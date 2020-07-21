@@ -276,7 +276,7 @@ public class AlphabetConverterTest {
     }
 
     @Test
-    public void unexpectedEndwhileDecodingTest() {
+    public void unexpectedEndWhileDecodingTest() {
         final String toDecode = "00d01d0";
         assertThatThrownBy(() -> {
             final AlphabetConverter ac = createJavadocExample();

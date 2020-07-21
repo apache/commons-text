@@ -614,7 +614,7 @@ public class StringSubstitutor {
     /**
      * Gets the variable default value delimiter matcher currently in use.
      * <p>
-     * The variable default value delimiter is the character or characters that delimite the variable name and the
+     * The variable default value delimiter is the character or characters that delimit the variable name and the
      * variable default value. This delimiter is expressed in terms of a matcher allowing advanced variable default
      * value delimiter matches.
      * </p>
@@ -1131,7 +1131,7 @@ public class StringSubstitutor {
     /**
      * Sets the variable default value delimiter to use.
      * <p>
-     * The variable default value delimiter is the character or characters that delimite the variable name and the
+     * The variable default value delimiter is the character or characters that delimit the variable name and the
      * variable default value. This method allows a single character variable default value delimiter to be easily set.
      * </p>
      *
@@ -1145,7 +1145,7 @@ public class StringSubstitutor {
     /**
      * Sets the variable default value delimiter to use.
      * <p>
-     * The variable default value delimiter is the character or characters that delimite the variable name and the
+     * The variable default value delimiter is the character or characters that delimit the variable name and the
      * variable default value. This method allows a string variable default value delimiter to be easily set.
      * </p>
      * <p>
@@ -1167,7 +1167,7 @@ public class StringSubstitutor {
     /**
      * Sets the variable default value delimiter matcher to use.
      * <p>
-     * The variable default value delimiter is the character or characters that delimite the variable name and the
+     * The variable default value delimiter is the character or characters that delimit the variable name and the
      * variable default value. This delimiter is expressed in terms of a matcher allowing advanced variable default
      * value delimiter matches.
      * </p>
@@ -1337,7 +1337,7 @@ public class StringSubstitutor {
         int bufEnd = offset + length;
         int pos = offset;
         int escPos = -1;
-        outter: while (pos < bufEnd) {
+        outer: while (pos < bufEnd) {
             final int startMatchLen = prefixMatcher.isMatch(builder, pos, offset, bufEnd);
             if (startMatchLen == 0) {
                 pos++;
@@ -1382,7 +1382,7 @@ public class StringSubstitutor {
                                 bufEnd--;
                                 pos = startPos + 1;
                                 startPos--;
-                                continue outter;
+                                continue outer;
                             }
                             // get var name
                             String varNameExpr = builder.toString(startPos + startMatchLen,

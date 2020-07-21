@@ -67,7 +67,7 @@ class ConstantStringLookup extends AbstractStringLookup {
     private static final ConcurrentHashMap<String, String> CONSTANT_CACHE = new ConcurrentHashMap<>();
 
     /** Constant for the field separator. */
-    private static final char FIELD_SEPRATOR = '.';
+    private static final char FIELD_SEPARATOR = '.';
 
     /**
      * Defines the singleton for this class.
@@ -114,7 +114,7 @@ class ConstantStringLookup extends AbstractStringLookup {
         if (result != null) {
             return result;
         }
-        final int fieldPos = key.lastIndexOf(FIELD_SEPRATOR);
+        final int fieldPos = key.lastIndexOf(FIELD_SEPARATOR);
         if (fieldPos < 0) {
             return null;
         }

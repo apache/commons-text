@@ -254,7 +254,7 @@ public class StringSubstitutorTest {
      * Tests interpolation with weird boundary patterns.
      */
     @Test
-    public void testReplace_JiraText178_WeirdPattenrs2() throws IOException {
+    public void testReplace_JiraText178_WeirdPatterns2() throws IOException {
         doReplace("${1}", "$${${a}}", false);
     }
 
@@ -263,7 +263,7 @@ public class StringSubstitutorTest {
      */
     @Test
     @Disabled
-    public void testReplace_JiraText178_WeirdPattenrs3() throws IOException {
+    public void testReplace_JiraText178_WeirdPatterns3() throws IOException {
         doReplace("${${a}", "$${${a}", false); // not "$${1" or "${1"
     }
 

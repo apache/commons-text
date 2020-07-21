@@ -88,7 +88,7 @@ public class StringSubstitutorReader extends FilterReader {
     }
 
     /**
-     * Reads a requested number of chars from the underlying reader into the buffer. On EOS, set the state is DRANING,
+     * Reads a requested number of chars from the underlying reader into the buffer. On EOS, set the state is DRAINING,
      * drain, and return a drain count, otherwise, returns the actual read count.
      */
     private int bufferOrDrainOnEos(final int requestReadCount, final char[] target, final int targetIndex,

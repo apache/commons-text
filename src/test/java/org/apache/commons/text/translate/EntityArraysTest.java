@@ -114,7 +114,7 @@ public class EntityArraysTest  {
     }
 
     @Test
-    public void testJavaCntrlCharsMap() {
+    public void testJavaCtrlCharsMap() {
         testEscapeVsUnescapeMaps(EntityArrays.JAVA_CTRL_CHARS_ESCAPE, EntityArrays.JAVA_CTRL_CHARS_UNESCAPE);
     }
 

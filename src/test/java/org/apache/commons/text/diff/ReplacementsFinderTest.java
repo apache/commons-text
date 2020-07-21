@@ -69,7 +69,7 @@ public class ReplacementsFinderTest {
         assertArrayEquals(to, handler.getTo().toArray(new Character[0]), "To characters do not match");
     }
 
-    // Helper RecplacementsHandler implementation for testing
+    // Helper ReplacementsHandler implementation for testing
     private class SimpleHandler implements ReplacementsHandler<Character> {
         private int skipped;
         private final List<Character> from;

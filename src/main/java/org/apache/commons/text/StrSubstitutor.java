@@ -1103,7 +1103,7 @@ public class StrSubstitutor {
     /**
      * Gets the variable default value delimiter matcher currently in use.
      * <p>
-     * The variable default value delimiter is the character or characters that delimite the
+     * The variable default value delimiter is the character or characters that delimit the
      * variable name and the variable default value. This delimiter is expressed in terms of a matcher
      * allowing advanced variable default value delimiter matches.
      * <p>
@@ -1118,7 +1118,7 @@ public class StrSubstitutor {
     /**
      * Sets the variable default value delimiter matcher to use.
      * <p>
-     * The variable default value delimiter is the character or characters that delimite the
+     * The variable default value delimiter is the character or characters that delimit the
      * variable name and the variable default value. This delimiter is expressed in terms of a matcher
      * allowing advanced variable default value delimiter matches.
      * <p>
@@ -1136,7 +1136,7 @@ public class StrSubstitutor {
     /**
      * Sets the variable default value delimiter to use.
      * <p>
-     * The variable default value delimiter is the character or characters that delimite the
+     * The variable default value delimiter is the character or characters that delimit the
      * variable name and the variable default value. This method allows a single character
      * variable default value delimiter to be easily set.
      *
@@ -1150,7 +1150,7 @@ public class StrSubstitutor {
     /**
      * Sets the variable default value delimiter to use.
      * <p>
-     * The variable default value delimiter is the character or characters that delimite the
+     * The variable default value delimiter is the character or characters that delimit the
      * variable name and the variable default value. This method allows a string
      * variable default value delimiter to be easily set.
      * <p>
