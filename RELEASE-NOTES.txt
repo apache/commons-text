@@ -1,4 +1,85 @@
 Apache Commons Text
+Version 1.9
+Release Notes
+
+
+INTRODUCTION:
+
+This document contains the release notes for the 1.9 version of Apache Commons Text.
+Commons Text is a set of utility functions and reusable components for the purpose of processing
+and manipulating text that should be of use in a Java environment.
+
+
+Apache Commons Text is a library focused on algorithms working on strings.
+
+Release 1.9. Requires Java 8.
+
+Changes in this version include:
+
+New features:
+o Add StringMatcher.size(). Thanks to Gary Gregory.
+o Refactor TextStringBuilder.readFrom(Readable), extracting readFrom(CharBuffer) and readFrom(Reader). Thanks to Gary Gregory.
+o Add BiStringLookup and implementation BiFunctionStringLookup. Thanks to Gary Gregory.
+o Add org.apache.commons.text.StringSubstitutor.StringSubstitutor(StringSubstitutor). Thanks to Gary Gregory.
+o Add org.apache.commons.text.TextStringBuilder.TextStringBuilder(CharSequence). Thanks to Gary Gregory.
+o Add org.apache.commons.text.TextStringBuilder.drainChar(int). Thanks to Gary Gregory.
+o Add org.apache.commons.text.TextStringBuilder.drainChars(int, int, char[]. int). Thanks to Gary Gregory.
+o Add org.apache.commons.text.TextStringBuilder.isNotEmpty(). Thanks to Gary Gregory.
+o Add org.apache.commons.text.TextStringBuilder.isReallocated(). Thanks to Gary Gregory.
+o Add org.apache.commons.text.TextStringBuilder.readFrom(Reader, int). Thanks to Gary Gregory.
+o Add org.apache.commons.text.TextStringBuilder.set(String). Thanks to Gary Gregory.
+o Add org.apache.commons.text.TextStringBuilder.wrap(char[]). Thanks to Gary Gregory.
+o Add org.apache.commons.text.TextStringBuilder.wrap(char[], int). Thanks to Gary Gregory.
+o Add org.apache.commons.text.io.StringSubstitutorReader. Thanks to Gary Gregory.
+o Add org.apache.commons.text.lookup.StringLookupFactory.functionStringLookup(Function<String, V>). Thanks to Gary Gregory.
+o Add org.apache.commons.text.matcher.StringMatcher.isMatch(CharSequence, int). Thanks to Gary Gregory.
+o Add org.apache.commons.text.matcher.StringMatcher.isMatch(CharSequence, int, int, int). Thanks to Gary Gregory.
+o Add org.apache.commons.text.matcher.StringMatcherFactory.andMatcher(StringMatcher...). Thanks to Gary Gregory.
+o Add org.apache.commons.text.matcher.StringMatcherFactory.stringMatcher(char...). Thanks to Gary Gregory.
+
+Fixed Bugs:
+o TEXT-166:  Removed non-existing parameter from Javadocs and spelled out parameters in throws. Thanks to Mikko Maunu.
+o TEXT-149:  StringEscapeUtils.unescapeCsv doesn't remove quotes at begin and end of string. Thanks to Yuji Konishi.
+o TEXT-174:  ScriptStringLookup does not accept ":" #126. Thanks to furkilic.
+o TEXT-178:  StringSubstitutor incorrectly removes some escape characters. Thanks to Gary Gregory.
+o TEXT-181:  Fix Javadocs #135. Thanks to XenoAmess.
+o TEXT-182:  Fix typos #137. Thanks to XenoAmess.
+o TEXT-183:  Make ConstantStringLookup.constantCache final #136. Thanks to XenoAmess.
+o TEXT-184:  Simplify if in CaseUtils #134. Thanks to XenoAmess.
+
+Changes:
+o [javadoc] Fix compiler warnings in Java code example in Javadoc #124. Thanks to Johan Hammar.
+o TEXT-177:  Update from Apache Commons Lang 3.9 to 3.11. Thanks to Gary Gregory.
+o [build] Skip clirr since we use JApiCmp. Thanks to Gary Gregory.
+o [test] junit-jupiter 5.5.1 -> 5.5.2. Thanks to Gary Gregory.
+o [test] org.assertj:assertj-core 3.13.2 -> 3.16.1. Thanks to Gary Gregory.
+o [build] com.puppycrawl.tools:checkstyle 8.23 -> 8.34. Thanks to Gary Gregory.
+o [build] Update JUnit from 5.5.2 to 5.6.2. Thanks to Gary Gregory.
+o [build] commons.jacoco.version 0.8.4 -> 0.8.5. Thanks to Gary Gregory.
+o [build] commons.javadoc.version 3.1.1 -> 3.2.0. Thanks to Gary Gregory.
+o [build] commons.japicmp.version 0.14.1 -> 0.14.3. Thanks to Gary Gregory.
+o [build] checkstyle.plugin.version 3.1.0 -> 3.1.1. Thanks to Gary Gregory.
+o [build] checkstyle.version 8.27 -> 8.33. Thanks to Gary Gregory.
+o [build] org.apache.commons:commons-parent 48 -> 51. Thanks to Gary Gregory.
+o [build] maven-pmd-plugin 3.12.0 -> 3.13.0. Thanks to Gary Gregory.
+o [build] org.mockito 3.3.3 -> 3.4.4. Thanks to Gary Gregory.
+
+
+Historical list of changes: https://commons.apache.org/proper/commons-textchanges-report.html
+
+For complete information on Apache Commons Text, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons Text website:
+
+https://commons.apache.org/proper/commons-text
+
+Download page: https://commons.apache.org/proper/commons-textdownload_text.cgi
+
+Have fun!
+-Apache Commons Team
+
+=============================================================================
+
+Apache Commons Text
 Version 1.8
 Release Notes
 
@@ -39,7 +120,6 @@ https://commons.apache.org/proper/commons-text
 
 Download it from https://commons.apache.org/proper/commons-text/download_text.cgi
 
-
 =============================================================================
 
 Apache Commons Text
@@ -77,8 +157,8 @@ o TEXT-153:  Make prefixSet in LookupTranslator a BitSet Thanks to amirhadadi.
 o TEXT-156:  Fix the RegexTokenizer to use a static Pattern
 o TEXT-157:  Remove rounding from JaccardDistance and JaccardSimilarity
 o TEXT-162:  Update Apache Commons Lang from 3.8.1 to 3.9.
-o            Update tests from org.assertj:assertj-core 3.12.1 to 3.12.2.
-o            Update site from com.puppycrawl.tools:checkstyle 8.18 to 8.21.
+o Update tests from org.assertj:assertj-core 3.12.1 to 3.12.2.
+o Update site from com.puppycrawl.tools:checkstyle 8.18 to 8.21.
 
 Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
 
@@ -88,7 +168,6 @@ patches, or suggestions for improvement, see the Apache Apache Commons Text webs
 https://commons.apache.org/proper/commons-text
 
 Download it from https://commons.apache.org/proper/commons-text/download_text.cgi
-
 
 =============================================================================
 

@@ -67,28 +67,28 @@ $release.description.replaceAll("  ", "
 ##
 #macro ( processaction )
 ## Use replaceAll to fix up LF-only line ends on Windows.
-    #set($action=$actionItem.getAction().replaceAll("\n","
+#set($action=$actionItem.getAction().replaceAll("\n","
 "))
 ## Fix up indentation for multi-line action descriptions
-    #set($action=$action.replaceAll("(?m)^  +",$indent2))
-    #if ($actionItem.getIssue())
-        #set($issue="$actionItem.getIssue():")
-    ## Pad shorter issue numbers
-        #if ($issue.length() < $indent1.length())#set ($issue="$issue ")#end
-        #if ($issue.length() < $indent1.length())#set ($issue="$issue ")#end
-        #if ($issue.length() < $indent1.length())#set ($issue="$issue ")#end
-    #else
-        #set($issue=$indent1)
-    #end
-    #if ($actionItem.getDueTo())
-        #set($dueto=" Thanks to $actionItem.getDueTo().")
-    #else
-        #set($dueto="")
-    #end
+#set($action=$action.replaceAll("(?m)^  +",$indent2))
+#if ($actionItem.getIssue())
+#set($issue="$actionItem.getIssue():")
+## Pad shorter issue numbers
+#if ($issue.length() < $indent1.length())#set ($issue="$issue ")#end
+#if ($issue.length() < $indent1.length())#set ($issue="$issue ")#end
+#if ($issue.length() < $indent1.length())#set ($issue="$issue ")#end
+#else
+#set($issue=$indent1)
+#end
+#if ($actionItem.getDueTo())
+#set($dueto=" Thanks to $actionItem.getDueTo().")
+#else
+#set($dueto="")
+#end
 o $issue ${action}$dueto
-    #set($action="")
-    #set($issue="")
-    #set($dueto="")
+#set($action="")
+#set($issue="")
+#set($dueto="")
 #end
 ##
 #if ($release.getActions().size() == 0)
@@ -97,21 +97,21 @@ No changes defined in this version.
 Changes in this version include:
 
 #if ($release.getActions('add').size() !=0)
-- New Features
+New features:
 #foreach($actionItem in $release.getActions('add'))
 #processaction()
-#end
+#end 
 #end
 
 #if ($release.getActions('fix').size() !=0)
-- Fixed Bugs
+Fixed Bugs:
 #foreach($actionItem in $release.getActions('fix'))
 #processaction()
 #end
 #end
 
 #if ($release.getActions('update').size() !=0)
-- Changes
+Changes:
 #foreach($actionItem in $release.getActions('update'))
 #processaction()
 #end
@@ -133,4 +133,7 @@ patches, or suggestions for improvement, see the Apache ${project.name} website:
 
 ${project.url}
 
-Download it from ${project.url}/download_text.cgi
+Download page: ${project.url}download_text.cgi
+
+Have fun!
+-Apache Commons Team
