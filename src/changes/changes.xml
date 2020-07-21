@@ -50,6 +50,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-149" type="fix" dev="kinow" due-to="Yuji Konishi">StringEscapeUtils.unescapeCsv doesn't remove quotes at begin and end of string.</action>
     <action issue="TEXT-174" type="fix" dev="ggregory" due-to="furkilic">ScriptStringLookup does not accept ":" #126.</action>
     <action issue="TEXT-178" type="fix" dev="ggregory" due-to="Gary Gregory">StringSubstitutor incorrectly removes some escape characters.</action>
+    <action issue="TEXT-181" type="fix" dev="ggregory" due-to="XenoAmess">Fix Javadocs #135.</action>
     <action                  type="update" dev="ggregory" due-to="Johan Hammar">[javadoc] Fix compiler warnings in Java code example in Javadoc #124.</action>
     <action issue="TEXT-177" type="update" dev="ggregory" due-to="Gary Gregory">Update from Apache Commons Lang 3.9 to 3.11.</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StringMatcher.size().</action>
