@@ -114,7 +114,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Constructs a matcher from a String.
          *
-         * @param str the string to match, must not be null
+         * @param chars the string to match, must not be null
          */
         CharArrayMatcher(final char... chars) {
             super();
