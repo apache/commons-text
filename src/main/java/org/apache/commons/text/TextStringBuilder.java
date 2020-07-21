@@ -75,6 +75,7 @@ import org.apache.commons.text.matcher.StringMatcher;
  */
 public class TextStringBuilder implements CharSequence, Appendable, Serializable, Builder<String> {
 
+    /** The space character. */
     private static final char SPACE = ' ';
 
     /**
