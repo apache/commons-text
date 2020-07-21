@@ -91,10 +91,7 @@ public class CaseUtils {
             final int codePoint = str.codePointAt(index);
 
             if (delimiterSet.contains(codePoint)) {
-                capitalizeNext = true;
-                if (outOffset == 0) {
-                    capitalizeNext = false;
-                }
+                capitalizeNext = outOffset != 0;
                 index += Character.charCount(codePoint);
             } else if (capitalizeNext || outOffset == 0 && capitalizeFirstLetter) {
                 final int titleCaseCodePoint = Character.toTitleCase(codePoint);
