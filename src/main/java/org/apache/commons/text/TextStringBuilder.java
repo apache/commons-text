@@ -75,6 +75,8 @@ import org.apache.commons.text.matcher.StringMatcher;
  */
 public class TextStringBuilder implements CharSequence, Appendable, Serializable, Builder<String> {
 
+    private static final char SPACE = ' ';
+
     /**
      * Inner class to allow StrBuilder to operate as a reader.
      */
@@ -3066,10 +3068,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         int len = size;
         final char[] buf = buffer;
         int pos = 0;
-        while (pos < len && buf[pos] <= ' ') {
+        while (pos < len && buf[pos] <= SPACE) {
             pos++;
         }
-        while (pos < len && buf[len - 1] <= ' ') {
+        while (pos < len && buf[len - 1] <= SPACE) {
             len--;
         }
         if (len < size) {
