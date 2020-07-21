@@ -64,7 +64,7 @@ import org.apache.commons.text.StringSubstitutor;
 class ConstantStringLookup extends AbstractStringLookup {
 
     /** An internally used cache for already retrieved values. */
-    private static ConcurrentHashMap<String, String> constantCache = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, String> constantCache = new ConcurrentHashMap<>();
 
     /** Constant for the field separator. */
     private static final char FIELD_SEPRATOR = '.';
