@@ -1385,7 +1385,7 @@ public class StringSubstitutor {
                                 continue outer;
                             }
                             // get var name
-                            String varNameExpr = builder.toString(startPos + startMatchLen,
+                            String varNameExpr = builder.midString(startPos + startMatchLen,
                                 pos - startPos - startMatchLen);
                             if (substitutionInVariablesEnabled) {
                                 final TextStringBuilder bufName = new TextStringBuilder(varNameExpr);
@@ -1422,7 +1422,7 @@ public class StringSubstitutor {
                             // on the first call initialize priorVariables
                             if (priorVariables == null) {
                                 priorVariables = new ArrayList<>();
-                                priorVariables.add(builder.toString(offset, length));
+                                priorVariables.add(builder.midString(offset, length));
                             }
 
                             // handle cyclic substitution

@@ -2186,19 +2186,6 @@ public class TextStringBuilderTest {
     }
 
     @Test
-    public void testToStringIntInt() {
-        final TextStringBuilder sb = new TextStringBuilder("hello goodbye");
-        assertEquals("hello", sb.substring(0, 5));
-        assertEquals("hello goodbye".substring(0, 6), sb.toString(0, 6));
-
-        assertEquals("goodbye", sb.toString(6, 7));
-
-        assertThrows(IndexOutOfBoundsException.class, () -> sb.toString(-1, 5));
-
-        assertThrows(IndexOutOfBoundsException.class, () -> sb.toString(15, 20));
-    }
-
-    @Test
     public void testTrim() {
         final TextStringBuilder sb = new TextStringBuilder();
         assertEquals("", sb.reverse().toString());
