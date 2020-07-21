@@ -25,7 +25,8 @@ package org.apache.commons.text.lookup;
 final class IllegalArgumentExceptions {
 
     /**
-     * Creates an {@link IllegalArgumentException} with a message formatted with {@link String#format(String,Object...)}.
+     * Creates an {@link IllegalArgumentException} with a message
+     * formatted with {@link String#format(String,Object...)}.
      *
      * @param format See {@link String#format(String,Object...)}
      * @param args See {@link String#format(String,Object...)}
@@ -36,7 +37,8 @@ final class IllegalArgumentExceptions {
     }
 
     /**
-     * Creates an {@link IllegalArgumentException} with a message formatted with {@link String#format(String,Object...)}.
+     * Creates an {@link IllegalArgumentException} with a message
+     * formatted with {@link String#format(String,Object...)}.
      *
      * @param t the throwable cause
      * @param format See {@link String#format(String,Object...)}
