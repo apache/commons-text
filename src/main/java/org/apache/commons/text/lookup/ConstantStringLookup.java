@@ -64,7 +64,7 @@ import org.apache.commons.text.StringSubstitutor;
 class ConstantStringLookup extends AbstractStringLookup {
 
     /** An internally used cache for already retrieved values. */
-    private static ConcurrentHashMap<String, String> constantCache = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, String> CONSTANT_CACHE = new ConcurrentHashMap<>();
 
     /** Constant for the field separator. */
     private static final char FIELD_SEPRATOR = '.';
@@ -78,7 +78,7 @@ class ConstantStringLookup extends AbstractStringLookup {
      * Clears the shared cache with the so far resolved constants.
      */
     static void clear() {
-        constantCache.clear();
+        CONSTANT_CACHE.clear();
     }
 
     /**
@@ -110,7 +110,7 @@ class ConstantStringLookup extends AbstractStringLookup {
             return null;
         }
         String result;
-        result = constantCache.get(key);
+        result = CONSTANT_CACHE.get(key);
         if (result != null) {
             return result;
         }
@@ -122,7 +122,7 @@ class ConstantStringLookup extends AbstractStringLookup {
             final Object value = resolveField(key.substring(0, fieldPos), key.substring(fieldPos + 1));
             if (value != null) {
                 final String string = Objects.toString(value, null);
-                constantCache.put(key, string);
+                CONSTANT_CACHE.put(key, string);
                 result = string;
             }
         } catch (final Exception ex) {
