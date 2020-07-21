@@ -269,7 +269,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * The size of the string {@code "false"}.
      */
-    private static final int FALSE_STRING_SIZE = "false".length();
+    private static final int FALSE_STRING_SIZE = Boolean.FALSE.toString().length();
 
     /**
      * Required for serialization support.
@@ -281,7 +281,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * The size of the string {@code "true"}.
      */
-    private static final int TRUE_STRING_SIZE = "true".length();
+    private static final int TRUE_STRING_SIZE = Boolean.TRUE.toString().length();
 
     /**
      * Constructs an instance from a reference to a character array. Changes to the input chars are reflected in this
