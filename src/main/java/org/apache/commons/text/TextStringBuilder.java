@@ -338,7 +338,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @param length The length of the subarray to be used; must be non-negative and no larger than
      *        {@code initialBuffer.length}. The new builder's size will be set to {@code length}.
      * @throws NullPointerException If {@code initialBuffer} is null.
-     * @throws IllegalArgumentException if {@length} is bad.
+     * @throws IllegalArgumentException if {@code length} is bad.
      */
     private TextStringBuilder(final char[] initialBuffer, final int length) {
         this.buffer = Objects.requireNonNull(initialBuffer, "initialBuffer");

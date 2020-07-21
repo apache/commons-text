@@ -32,12 +32,12 @@ final class InetAddressKeys {
     static final String KEY_ADDRESS = "address";
 
     /**
-     * Constants for referring to {@link InetAddress#getCanonicalAddress()}.
+     * Constants for referring to {@link InetAddress#getCanonicalHostName()}.
      */
     static final String KEY_CANONICAL_NAME = "canonical-name";
 
     /**
-     * Constants for referring to {@link InetAddress#getName()}.
+     * Constants for referring to {@link InetAddress#getHostName()}.
      */
     static final String KEY_NAME = "name";
 
