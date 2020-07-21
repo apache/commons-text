@@ -203,7 +203,7 @@ public class TextStringBuilderTest {
         final StringWriter writer = new StringWriter();
         writer.append("Test");
 
-        // TODO Use Commons IO NullApendable.INSTANCE
+        // TODO Use Commons IO NullAppendable.INSTANCE
         sb.appendTo(new Appendable() {
 
             @Override

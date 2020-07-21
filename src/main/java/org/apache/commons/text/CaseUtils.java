@@ -47,7 +47,7 @@ public class CaseUtils {
 
     /**
      * <p>Converts all the delimiter separated words in a String into camelCase,
-     * that is each word is made up of a titlecase character and then a series of
+     * that is each word is made up of a title case character and then a series of
      * lowercase characters.</p>
      *
      * <p>The delimiters represent a set of characters understood to separate words.

@@ -130,7 +130,7 @@ public class ExtendedMessageFormatTest {
 
     /**
      * Create an ExtendedMessageFormat for the specified pattern and locale and check the
-     * formated output matches the expected result for the parameters.
+     * formatted output matches the expected result for the parameters.
      * @param pattern string
      * @param registryUnused map (currently unused)
      * @param args Object[]
@@ -356,7 +356,7 @@ public class ExtendedMessageFormatTest {
     public void testEqualsHashcode() {
         final Map<String, ? extends FormatFactory> fmtRegistry =
                 Collections.singletonMap("testfmt", new LowerCaseFormatFactory());
-        final Map<String, ? extends FormatFactory> otherRegitry =
+        final Map<String, ? extends FormatFactory> otherRegistry =
                 Collections.singletonMap("testfmt", new UpperCaseFormatFactory());
 
         final String pattern = "Pattern: {0,testfmt}";
@@ -386,7 +386,7 @@ public class ExtendedMessageFormatTest {
         assertFalse(emf.hashCode() == other.hashCode(), "pattern, hashcode()");
 
         // Different registry
-        other = new ExtendedMessageFormat(pattern, Locale.US, otherRegitry);
+        other = new ExtendedMessageFormat(pattern, Locale.US, otherRegistry);
         assertFalse(emf.equals(other), "registry, equals()");
         assertFalse(emf.hashCode() == other.hashCode(), "registry, hashcode()");
 
