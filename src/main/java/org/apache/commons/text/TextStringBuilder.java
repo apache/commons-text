@@ -75,9 +75,6 @@ import org.apache.commons.text.matcher.StringMatcher;
  */
 public class TextStringBuilder implements CharSequence, Appendable, Serializable, Builder<String> {
 
-    /** The space character. */
-    private static final char SPACE = ' ';
-
     /**
      * Inner class to allow StrBuilder to operate as a reader.
      */
@@ -255,6 +252,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             TextStringBuilder.this.append(str, off, len);
         }
     }
+
+    /** The space character. */
+    private static final char SPACE = ' ';
 
     /**
      * The extra capacity for new builders.
@@ -1552,23 +1552,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Gets the character at the specified index before deleting it.
-     *
-     * @see #charAt(int)
-     * @see #deleteCharAt(int)
-     * @param index the index to retrieve, must be valid
-     * @return The character at the index
-     * @throws IndexOutOfBoundsException if the index is invalid
-     * @since 1.9
-     */
-    public char charAtDelete(final int index) {
-        validateIndex(index);
-        final char c = buffer[index];
-        deleteCharAt(index);
-        return c;
-    }
-
-    /**
      * Clears the string builder (convenience Collections API style method).
      * <p>
      * This method does not reduce the size of the internal character buffer. To do that, call {@code clear()} followed
@@ -1769,6 +1752,23 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     private void deleteImpl(final int startIndex, final int endIndex, final int len) {
         System.arraycopy(buffer, endIndex, buffer, startIndex, size - endIndex);
         size -= len;
+    }
+
+    /**
+     * Gets the character at the specified index before deleting it.
+     *
+     * @see #charAt(int)
+     * @see #deleteCharAt(int)
+     * @param index the index to retrieve, must be valid
+     * @return The character at the index
+     * @throws IndexOutOfBoundsException if the index is invalid
+     * @since 1.9
+     */
+    public char drainChar(final int index) {
+        validateIndex(index);
+        final char c = buffer[index];
+        deleteCharAt(index);
+        return c;
     }
 
     /**

@@ -527,16 +527,16 @@ public class TextStringBuilderTest {
         final String str = "abc";
         //
         final TextStringBuilder sb1 = new TextStringBuilder(str);
-        assertEquals('a', sb1.charAtDelete(0));
+        assertEquals('a', sb1.drainChar(0));
         assertEquals("bc", sb1.toString());
         //
         final TextStringBuilder sb2 = new TextStringBuilder(str);
-        assertEquals('c', sb2.charAtDelete(str.length() - 1));
+        assertEquals('c', sb2.drainChar(str.length() - 1));
         assertEquals("ab", sb2.toString());
         //
         final TextStringBuilder sb3 = new TextStringBuilder(str);
-        assertThrows(IndexOutOfBoundsException.class, () -> sb3.charAtDelete(str.length()));
-        assertThrows(IndexOutOfBoundsException.class, () -> sb3.charAtDelete(1000));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb3.drainChar(str.length()));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb3.drainChar(1000));
     }
 
     @Test
