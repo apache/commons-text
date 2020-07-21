@@ -53,6 +53,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-181" type="fix" dev="ggregory" due-to="XenoAmess">Fix Javadocs #135.</action>
     <action issue="TEXT-182" type="fix" dev="ggregory" due-to="XenoAmess">Fix typos #137.</action>
     <action issue="TEXT-183" type="fix" dev="ggregory" due-to="XenoAmess">Make ConstantStringLookup.constantCache final #136.</action>
+    <action issue="TEXT-184" type="fix" dev="ggregory" due-to="XenoAmess">Simplify if in CaseUtils #134.</action>
     <action                  type="update" dev="ggregory" due-to="Johan Hammar">[javadoc] Fix compiler warnings in Java code example in Javadoc #124.</action>
     <action issue="TEXT-177" type="update" dev="ggregory" due-to="Gary Gregory">Update from Apache Commons Lang 3.9 to 3.11.</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StringMatcher.size().</action>
