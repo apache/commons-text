@@ -126,14 +126,14 @@ Removed:
 ## End of main loop
 #end
 
-Historical list of changes: ${project.url}changes-report.html
+Historical list of changes: ${project.url}/changes-report.html
 
 For complete information on ${project.name}, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache ${project.name} website:
 
 ${project.url}
 
-Download page: ${project.url}download_text.cgi
+Download page: ${project.url}/download_text.cgi
 
 Have fun!
 -Apache Commons Team
