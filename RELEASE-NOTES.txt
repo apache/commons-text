@@ -65,14 +65,14 @@ o [build] maven-pmd-plugin 3.12.0 -> 3.13.0. Thanks to Gary Gregory.
 o [build] org.mockito 3.3.3 -> 3.4.4. Thanks to Gary Gregory.
 
 
-Historical list of changes: https://commons.apache.org/proper/commons-textchanges-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
 
 For complete information on Apache Commons Text, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Apache Commons Text website:
 
 https://commons.apache.org/proper/commons-text
 
-Download page: https://commons.apache.org/proper/commons-textdownload_text.cgi
+Download page: https://commons.apache.org/proper/commons-text/download_text.cgi
 
 Have fun!
 -Apache Commons Team
