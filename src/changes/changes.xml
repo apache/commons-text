@@ -45,6 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
   <release version="1.9.1" date="202Y-MM-DD" description="Release 1.9.1. Requires Java 8.">
+    <action issue="TEXT-185" type="add" dev="ggregory" due-to="Larry West, Gary Gregory">Release Notes page hasn't been updated for 1.9 release yet.</action>    
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Update spotbugs.plugin.version 4.0.0 to 4.0.4.</action>    
   </release>
   <release version="1.9" date="2020-07-21" description="Release 1.9. Requires Java 8.">
