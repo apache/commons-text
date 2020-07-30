@@ -47,7 +47,7 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
-    <commons.mockito.version>3.4.4</commons.mockito.version>
+    <commons.mockito.version>3.4.6</commons.mockito.version>
     <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
     <checkstyle.version>8.34</checkstyle.version>
 
