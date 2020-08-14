@@ -202,6 +202,12 @@ public class StringSubstitutorTest {
     }
 
     @Test
+    public void testConstructorNullMap() {
+        Map<String, Object> parameters = null;
+        final StringSubstitutor s = new StringSubstitutor(parameters, "prefix", "suffix");
+    }
+
+    @Test
     public void testConstructorStringSubstitutor() {
         final StringSubstitutor source = new StringSubstitutor();
         source.setDisableSubstitutionInValues(true);
