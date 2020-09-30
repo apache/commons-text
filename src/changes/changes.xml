@@ -45,12 +45,17 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
   <release version="1.9.1" date="202Y-MM-DD" description="Release 1.9.1. Requires Java 8.">
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump assertj-core from 3.16.1 to 3.17.2 #151 #157 #160.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump commons-io from 2.7 to 2.8.0 #161.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/setup-java from v1.4.0 to v1.4.2 #147 #156 #155.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump commons-parent from 51 to 52 #145.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/checkout from v1 to v2.3.3 #138 #146 #165.</action>
     <action issue="TEXT-158" type="fix" dev="kinow">Incorrect values for Jaccard similarity with empty strings.</action>
     <action issue="TEXT-186" type="fix" dev="ggregory" due-to="Gautam Korlam, Gary Gregory">StringSubstitutor map constructor throws NPE on 1.9 with null map.</action>
     <action issue="TEXT-185" type="add" dev="ggregory" due-to="Larry West, Gary Gregory">Release Notes page hasn't been updated for 1.9 release yet.</action>    
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory, Dependabot">Update spotbugs.plugin.version 4.0.0 to 4.1.1, #144.</action>
-    <action                  type="add" dev="ggregory" due-to="Dependabot">Update mockito-inline from 3.4.4 to 3.4.6 #143.</action>
-    <action                  type="add" dev="ggregory" due-to="Dependabot">Update checkstyle from 8.34 to 8.35 #141.</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory, Dependabot">Update spotbugs.plugin.version 4.0.0 to 4.1.2 #144 #150.</action>
+    <action                  type="add" dev="ggregory" due-to="Dependabot">Update mockito-inline from 3.4.4 to 3.5.10 #143 #148 #149 #152 #153 #154 #158 #159.</action>
+    <action                  type="add" dev="ggregory" due-to="Dependabot">Update checkstyle from 8.34 to 8.36.2 #141 #168.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update commons.jacoco.version 0.8.5 to 0.8.6 (Fixes Java 15 builds).</action>
   </release>
   <release version="1.9" date="2020-07-21" description="Release 1.9. Requires Java 8.">
