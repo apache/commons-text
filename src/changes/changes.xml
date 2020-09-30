@@ -45,6 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
   <release version="1.9.1" date="202Y-MM-DD" description="Release 1.9.1. Requires Java 8.">
+    <action issue="TEXT-187" type="fix" dev="kinow">Add GraalVM test dependencies to fix test failures with Java 15.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump junit-jupiter from 5.6.2 to 5.7.0 #163.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump assertj-core from 3.16.1 to 3.17.2 #151 #157 #160.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump commons-io from 2.7 to 2.8.0 #161.</action>
