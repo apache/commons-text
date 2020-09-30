@@ -487,5 +487,25 @@
         <jacoco.skip>true</jacoco.skip>
       </properties>
     </profile>
+    <profile>
+      <id>java16-ea</id>
+      <!-- bytebuddy Java 16 support is experimental (Mockito uses bytebuddy) -->
+      <activation>
+        <jdk>16-ea</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <systemPropertyVariables>
+                <net.bytebuddy.experimental>true</net.bytebuddy.experimental>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 </project>
