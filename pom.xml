@@ -58,6 +58,8 @@
 
     <commons.javadoc.version>3.2.0</commons.javadoc.version>
 
+    <graalvm.version>20.2.0</graalvm.version>
+
     <!-- generate report even if there are binary incompatible changes -->
     <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>true</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
     <commons.japicmp.version>0.14.3</commons.japicmp.version>
@@ -108,13 +110,13 @@
     <dependency>
       <groupId>org.graalvm.js</groupId>
       <artifactId>js</artifactId>
-      <version>20.2.0</version>
+      <version>${graalvm.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.graalvm.js</groupId>
       <artifactId>js-scriptengine</artifactId>
-      <version>20.2.0</version>
+      <version>${graalvm.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
