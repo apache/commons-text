@@ -53,14 +53,14 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Update spotbugs.plugin.version 4.0.4 to 4.1.3; fixes Java 16 build.</action>
     <!-- ADD -->
     <action issue="TEXT-185" type="add" dev="ggregory" due-to="Larry West, Gary Gregory">Release Notes page hasn't been updated for 1.9 release yet.</action>    
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory, Dependabot">Update spotbugs.plugin.version 4.0.0 to 4.1.3 #144 #150 #167.</action>
-    <action                  type="add" dev="ggregory" due-to="Dependabot">Update mockito-inline from 3.4.4 to 3.5.13 #143 #148 #149 #152 #153 #154 #158 #159 #166.</action>
-    <action                  type="add" dev="ggregory" due-to="Dependabot">Update checkstyle from 8.34 to 8.36.2 #141 #168.</action>
     <!-- UPDATE -->
+    <action                  type="update" dev="ggregory" due-to="Dependabot">Update checkstyle from 8.34 to 8.36.2 #141 #168.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Update spotbugs.plugin.version 4.0.0 to 4.1.3 #144 #150 #167.</action>
+    <action                  type="update" dev="ggregory" due-to="Dependabot">Update mockito-inline from 3.4.4 to 3.5.13 #143 #148 #149 #152 #153 #154 #158 #159 #166.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump junit-jupiter from 5.6.2 to 5.7.0 #163.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump assertj-core from 3.16.1 to 3.17.2 #151 #157 #160.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump commons-io from 2.7 to 2.8.0 #161.</action>
-    <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/setup-java from v1.4.0 to v1.4.2 #147 #156 #155.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/setup-java from v1.4.0 to v1.4.3 #147 #156 #155 #172.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump commons-parent from 51 to 52 #145.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/checkout from v1 to v2.3.3 #138 #146 #165.</action>
   </release>
