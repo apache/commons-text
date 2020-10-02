@@ -275,6 +275,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
                 d[min - 1] = Integer.MAX_VALUE;
             }
 
+            int lowerBound = Integer.MAX_VALUE;
             // iterates through [min, max] in s
             for (int i = min; i <= max; i++) {
                 if (left.charAt(i - 1) == rightJ) {
@@ -285,6 +286,11 @@ public class LevenshteinDistance implements EditDistance<Integer> {
                     // left and up
                     d[i] = 1 + Math.min(Math.min(d[i - 1], p[i]), p[i - 1]);
                 }
+                lowerBound = Math.min(lowerBound, d[i]);
+            }
+            // if the lower bound is greater than the threshold, then exit early
+            if (lowerBound > threshold) {
+                return -1;
             }
 
             // copy current distance counts to 'previous row' distance counts

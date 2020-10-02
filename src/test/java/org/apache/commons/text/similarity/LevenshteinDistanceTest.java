@@ -114,6 +114,7 @@ public class LevenshteinDistanceTest {
         assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("hippo", "zzzzzzzz")).isEqualTo(8);
         assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("zzzzzzzz", "hippo")).isEqualTo(8);
         assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("hello", "hallo")).isEqualTo(1);
+        assertThat(new LevenshteinDistance(1).apply("abc", "acb")).isEqualTo(-1);
     }
 
     @Test
