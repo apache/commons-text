@@ -31,7 +31,7 @@ import java.util.EnumSet;
  */
 public class NumericEntityUnescaper extends CharSequenceTranslator {
 
-    /** NumericEntityUnescaper option enum. */
+    /** Enumerates NumericEntityUnescaper options for unescaping. */
     public enum OPTION {
 
         /**
