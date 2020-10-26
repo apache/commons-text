@@ -55,9 +55,12 @@ public class CaseUtils {
      * character may or may not be capitalized and it's determined by the user input for capitalizeFirstLetter
      * variable.</p>
      *
-     * <p>A {@code null} input String returns {@code null}.
+     * <p>A {@code null} input String returns {@code null}.</p>
+     *
+     * <p>A input string with only delimiter characters returns {@code ""}.</p>
+     *
      * Capitalization uses the Unicode title case, normally equivalent to
-     * upper case and cannot perform locale-sensitive mappings.</p>
+     * upper case and cannot perform locale-sensitive mappings.
      *
      * <pre>
      * CaseUtils.toCamelCase(null, false)                                 = null
@@ -67,6 +70,7 @@ public class CaseUtils {
      * CaseUtils.toCamelCase("To.Camel.Case", false, new char[]{'.'})     = "toCamelCase"
      * CaseUtils.toCamelCase(" to @ Camel case", true, new char[]{'@'})   = "ToCamelCase"
      * CaseUtils.toCamelCase(" @to @ Camel case", false, new char[]{'@'}) = "toCamelCase"
+     * CaseUtils.toCamelCase(" @", false, new char[]{'@'})                = ""
      * </pre>
      *
      * @param str  the String to be converted to camelCase, may be null
@@ -103,10 +107,8 @@ public class CaseUtils {
                 index += Character.charCount(codePoint);
             }
         }
-        if (outOffset != 0) {
-            return new String(newCodePoints, 0, outOffset);
-        }
-        return str;
+
+        return new String(newCodePoints, 0, outOffset);
     }
 
     /**
