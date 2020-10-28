@@ -46,6 +46,7 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
   <release version="1.9.1" date="202Y-MM-DD" description="Release 1.9.1. Requires Java 8.">
     <!-- FIX -->
+    <action issue="TEXT-189" type="fix" dev="kinow" due-to="Gongpu Zhu">Fix CaseUtils when the input string contains only delimiters</action>
     <action issue="TEXT-187" type="fix" dev="kinow">Add GraalVM test dependencies to fix test failures with Java 15.</action>
     <action issue="TEXT-158" type="fix" dev="kinow">Incorrect values for Jaccard similarity with empty strings.</action>
     <action issue="TEXT-186" type="fix" dev="ggregory" due-to="Gautam Korlam, Gary Gregory">StringSubstitutor map constructor throws NPE on 1.9 with null map.</action>
