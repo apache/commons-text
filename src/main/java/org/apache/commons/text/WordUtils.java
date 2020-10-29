@@ -859,7 +859,7 @@ public class WordUtils {
     public static String abbreviate(final String str, int lower, int upper, final String appendToEnd) {
         Validate.isTrue(upper >= -1, "upper value cannot be less than -1");
         Validate.isTrue(upper >= lower || upper == -1, "upper value is less than lower value");
-
+        Validate.isTrue(lower >= 0, "lower value cannot be lower than 0");
         if (StringUtils.isEmpty(str)) {
             return str;
         }
