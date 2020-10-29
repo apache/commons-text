@@ -828,7 +828,7 @@ public class WordUtils {
      *
      * @param str         the string to be abbreviated. If null is passed, null is returned.
      *                    If the empty String is passed, the empty string is returned.
-     * @param lower       the lower limit.
+     * @param lower       the lower limit; < -1 value is treated as 0.
      * @param upper       the upper limit; specify -1 if no limit is desired.
      *                    If the upper limit is lower than the lower limit, it will be
      *                    adjusted to be the same as the lower limit.
@@ -859,7 +859,6 @@ public class WordUtils {
     public static String abbreviate(final String str, int lower, int upper, final String appendToEnd) {
         Validate.isTrue(upper >= -1, "upper value cannot be less than -1");
         Validate.isTrue(upper >= lower || upper == -1, "upper value is less than lower value");
-        Validate.isTrue(lower >= 0, "lower value cannot be lower than 0");
         if (StringUtils.isEmpty(str)) {
             return str;
         }
