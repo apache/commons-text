@@ -828,7 +828,7 @@ public class WordUtils {
      *
      * @param str         the string to be abbreviated. If null is passed, null is returned.
      *                    If the empty String is passed, the empty string is returned.
-     * @param lower       the lower limit; < -1 value is treated as 0.
+     * @param lower       the lower limit; negative value is treated as zero.
      * @param upper       the upper limit; specify -1 if no limit is desired.
      *                    If the upper limit is lower than the lower limit, it will be
      *                    adjusted to be the same as the lower limit.
