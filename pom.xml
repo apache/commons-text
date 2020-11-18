@@ -57,7 +57,7 @@
     <commons.jacoco.version>0.8.6</commons.jacoco.version>
     <commons.javadoc.version>3.2.0</commons.javadoc.version>
 
-    <graalvm.version>20.2.0</graalvm.version>
+    <graalvm.version>20.3.0</graalvm.version>
 
     <!-- generate report even if there are binary incompatible changes -->
     <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>true</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
