@@ -68,7 +68,6 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      */
     InterpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup,
         final boolean addDefaultLookups) {
-        super();
         this.defaultStringLookup = defaultStringLookup;
         this.stringLookupMap = new HashMap<>(stringLookupMap.size());
         for (final Entry<String, StringLookup> entry : stringLookupMap.entrySet()) {

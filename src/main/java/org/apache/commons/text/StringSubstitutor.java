@@ -231,7 +231,6 @@ public class StringSubstitutor {
         public final int lengthChange;
 
         private Result(final boolean altered, final int lengthChange) {
-            super();
             this.altered = altered;
             this.lengthChange = lengthChange;
         }

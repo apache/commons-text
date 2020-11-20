@@ -36,7 +36,6 @@ final class Counter {
      * Hidden constructor.
      */
     private Counter() {
-        super();
     }
 
     /**

@@ -117,7 +117,6 @@ abstract class AbstractStringMatcher implements StringMatcher {
          * @param chars the string to match, must not be null
          */
         CharArrayMatcher(final char... chars) {
-            super();
             this.string = String.valueOf(chars);
             this.chars = chars.clone();
         }
@@ -204,7 +203,6 @@ abstract class AbstractStringMatcher implements StringMatcher {
          * @param ch the character to match
          */
         CharMatcher(final char ch) {
-            super();
             this.ch = ch;
         }
 
@@ -269,7 +267,6 @@ abstract class AbstractStringMatcher implements StringMatcher {
          * @param chars the characters to match, must not be null
          */
         CharSetMatcher(final char[] chars) {
-            super();
             this.chars = chars.clone();
             Arrays.sort(this.chars);
         }
@@ -331,7 +328,6 @@ abstract class AbstractStringMatcher implements StringMatcher {
          * Constructs a new instance of {@code NoMatcher}.
          */
         NoneMatcher() {
-            super();
         }
 
         /**
@@ -391,7 +387,6 @@ abstract class AbstractStringMatcher implements StringMatcher {
          * Constructs a new instance of {@code TrimMatcher}.
          */
         TrimMatcher() {
-            super();
         }
 
         /**
@@ -437,7 +432,6 @@ abstract class AbstractStringMatcher implements StringMatcher {
      * Constructor.
      */
     protected AbstractStringMatcher() {
-        super();
     }
 
 //    /**

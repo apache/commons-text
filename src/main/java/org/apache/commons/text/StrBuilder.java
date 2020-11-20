@@ -108,7 +108,6 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * @param initialCapacity  the initial capacity, zero or less will be converted to 32
      */
     public StrBuilder(int initialCapacity) {
-        super();
         if (initialCapacity <= 0) {
             initialCapacity = CAPACITY;
         }
@@ -122,7 +121,6 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * @param str  the string to copy, null treated as blank string
      */
     public StrBuilder(final String str) {
-        super();
         if (str == null) {
             buffer = new char[CAPACITY];
         } else {
@@ -2891,7 +2889,6 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
          * Default constructor.
          */
         StrBuilderTokenizer() {
-            super();
         }
 
         /** {@inheritDoc} */
@@ -2929,7 +2926,6 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
          * Default constructor.
          */
         StrBuilderReader() {
-            super();
         }
 
         /** {@inheritDoc} */
@@ -3016,7 +3012,6 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
          * Default constructor.
          */
         StrBuilderWriter() {
-            super();
         }
 
         /** {@inheritDoc} */

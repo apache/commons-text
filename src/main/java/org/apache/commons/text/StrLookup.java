@@ -107,7 +107,6 @@ public abstract class StrLookup<V> implements StringLookup {
      * Constructor.
      */
     protected StrLookup() {
-        super();
     }
 
     // -----------------------------------------------------------------------

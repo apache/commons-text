@@ -42,7 +42,6 @@ public class CaseUtils {
      * instance to operate.</p>
      */
     public CaseUtils() {
-        super();
     }
 
     /**

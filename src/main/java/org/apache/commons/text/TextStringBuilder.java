@@ -90,7 +90,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
          * Default constructor.
          */
         TextStringBuilderReader() {
-            super();
         }
 
         /** {@inheritDoc} */
@@ -175,7 +174,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
          * Default constructor.
          */
         TextStringBuilderTokenizer() {
-            super();
         }
 
         /** {@inheritDoc} */
@@ -207,7 +205,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
          * Default constructor.
          */
         TextStringBuilderWriter() {
-            super();
         }
 
         /** {@inheritDoc} */
@@ -370,7 +367,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @param initialCapacity the initial capacity, zero or less will be converted to 32
      */
     public TextStringBuilder(final int initialCapacity) {
-        super();
         buffer = new char[initialCapacity <= 0 ? CAPACITY : initialCapacity];
     }
 

@@ -49,7 +49,6 @@ public class FormattableUtils {
      * instance to operate.</p>
      */
     public FormattableUtils() {
-        super();
     }
 
     //-----------------------------------------------------------------------
