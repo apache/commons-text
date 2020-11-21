@@ -203,7 +203,7 @@ public class StringSubstitutorTest {
 
     @Test
     public void testConstructorNullMap() {
-        Map<String, Object> parameters = null;
+        final Map<String, Object> parameters = null;
         final StringSubstitutor s = new StringSubstitutor(parameters, "prefix", "suffix");
     }
 

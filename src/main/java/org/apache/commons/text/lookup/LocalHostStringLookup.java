@@ -68,7 +68,7 @@ final class LocalHostStringLookup extends AbstractStringLookup {
             default:
                 throw new IllegalArgumentException(key);
             }
-        } catch (UnknownHostException e) {
+        } catch (final UnknownHostException e) {
             return null;
         }
     }

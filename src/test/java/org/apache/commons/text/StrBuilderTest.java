@@ -271,7 +271,7 @@ public class StrBuilderTest {
         try (Reader reader = sb.asReader()) {
             assertEquals('s', reader.read());
             reader.mark(-1);
-            char[] array = new char[3];
+            final char[] array = new char[3];
             assertEquals(3, reader.read(array, 0, 3));
             assertEquals('o', array[0]);
             assertEquals('m', array[1]);
