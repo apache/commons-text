@@ -51,7 +51,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-158" type="fix" dev="kinow">Incorrect values for Jaccard similarity with empty strings.</action>
     <action issue="TEXT-186" type="fix" dev="ggregory" due-to="Gautam Korlam, Gary Gregory">StringSubstitutor map constructor throws NPE on 1.9 with null map.</action>
     <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Update commons.jacoco.version 0.8.5 to 0.8.6; fixes Java 15 build.</action>
-    <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Update spotbugs.plugin.version 4.0.4 to 4.1.4; fixes Java 16 build #175.</action>
+    <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Update Bump spotbugs from 4.1.3 to 4.2.0 #175 189.</action>
     <!-- ADD -->
     <action issue="TEXT-190" type="add" dev="kinow" due-to="Benjamin Bing">Document negative limit for WordUtils abbreviate method</action>
     <action issue="TEXT-188" type="add" dev="kinow" due-to="Jakob Vesterstrøm">Speed up LevenshteinDistance with threshold by exiting early</action>
