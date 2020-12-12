@@ -202,7 +202,7 @@ public class StringEscapeUtils {
     public static final CharSequenceTranslator ESCAPE_HTML3 =
             new AggregateTranslator(
                     new LookupTranslator(EntityArrays.BASIC_ESCAPE),
-                    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE)
+                    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE),
                     new LookupTranslator(EntityArrays.CP1252_ESCAPE)
             );
 
