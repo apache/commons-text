@@ -359,7 +359,7 @@ public class StringEscapeUtils {
                     new LookupTranslator(EntityArrays.CP1252_UNESCAPE),
                     new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE),
                     new NumericEntityUnescaper()
-            )
+            );
 
     /**
      * Translator object for unescaping escaped XML.
