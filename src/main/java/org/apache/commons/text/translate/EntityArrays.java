@@ -427,6 +427,51 @@ public class EntityArrays {
     }
 
     /**
+     * A Map&lt;CharSequence, CharSequence&gt; to escape the CP-1252 encoding. This map is a superset of
+     * <a href="https://secure.wikimedia.org/wikipedia/en/wiki/ISO/IEC_8859-1">ISO-8859-1</a> encoding, with an
+     * extension for characters with code points 128 to 159.
+     */
+    public static final Map<CharSequence, CharSequence> CP1252_ESCAPE;
+    static {
+        final Map<CharSequence, CharSequence> initialMap = new HashMap<>(ISO8859_1_ESCAPE);
+        initialMap.put("\u20AC", "&euro;");     // euro sign
+        initialMap.put("\u201A", "&sbquo;");    // german single quotes left
+        initialMap.put("\u0192", "&fnof;");     // florin sign
+        initialMap.put("\u201E", "&bdquo;");    // hungarian first level quotes left
+        initialMap.put("\u2026", "&hellip;");   // horizontal ellipsis
+        initialMap.put("\u2020", "&dagger;");   // dagger
+        initialMap.put("\u2021", "&ddagger;");  // double dagger
+        initialMap.put("\u02C6", "&circ;");     // modifier letter circumflex accent
+        initialMap.put("\u2030", "&permil;");   // per mille
+        initialMap.put("\u0160", "&Scaron;");   // LATIN CAPITAL LETTER S WITH CARON
+        initialMap.put("\u2039", "&lsaquo;");   // SINGLE LEFT-POINTING ANGLE QUOTATION MARK
+        initialMap.put("\u0152", "&OElig;");    // LATIN CAPITAL LIGATURE OE
+        initialMap.put("\u017D", "&#x17d;");    // LATIN CAPITAL LETTER Z WITH CARON
+        initialMap.put("\u2018", "&lsquo;");    // LEFT SINGLE QUOTATION MARK
+        initialMap.put("\u2019", "&rsquo;");    // RIGHT SINGLE QUOTATION MARK
+        initialMap.put("\u201C", "&ldquo;");    // LEFT DOUBLE QUOTATION MARK
+        initialMap.put("\u201D", "&rdquo;");    // RIGHT DOUBLE QUOTATION MARK
+        initialMap.put("\u2022", "&bull;");     // BULLET
+        initialMap.put("\u2013", "&ndash;");    // EN DASH
+        initialMap.put("\u2014", "&mdash;");    // EM DASH
+        initialMap.put("\u02DC", "&tilde;");    // SMALL TILDE
+        initialMap.put("\u2122", "&trade;");    // TRADE MARK SIGN
+        initialMap.put("\u0161", "&scaron;");   // LATIN SMALL LETTER S WITH CARON
+        initialMap.put("\u0153", "&rsaquo;");   // SINGLE RIGHT-POINTING ANGLE QUOTATION MARK
+        initialMap.put("\u203A", "&oelig;");    // LATIN SMALL LIGATURE OE
+        initialMap.put("\u0178", "&Yuml;");     // LATIN CAPITAL LETTER Y WITH DIAERESIS
+        CP1252_ESCAPE = Collections.unmodifiableMap(initialMap);
+    }
+
+    /**
+     * Reverse of {@link #CP1252_ESCAPE} for unescaping purposes.
+     */
+    public static final Map<CharSequence, CharSequence> CP1252_UNESCAPE;
+    static {
+        CP1252_UNESCAPE = Collections.unmodifiableMap(invert(CP1252_ESCAPE));
+    }
+
+    /**
      * Used to invert an escape Map into an unescape Map.
      * @param map Map&lt;String, String&gt; to be inverted
      * @return Map&lt;String, String&gt; inverted array
