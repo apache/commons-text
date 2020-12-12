@@ -229,6 +229,7 @@ public class StringEscapeUtils {
     public static final CharSequenceTranslator ESCAPE_HTML4_CP1252 =
             new AggregateTranslator(
                     new LookupTranslator(EntityArrays.BASIC_ESCAPE),
+                    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE),
                     new LookupTranslator(EntityArrays.CP1252_ESCAPE),
                     new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE)
             );
@@ -356,6 +357,7 @@ public class StringEscapeUtils {
     public static final CharSequenceTranslator UNESCAPE_HTML4_CP1252 =
             new AggregateTranslator(
                     new LookupTranslator(EntityArrays.BASIC_UNESCAPE),
+                    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE),
                     new LookupTranslator(EntityArrays.CP1252_UNESCAPE),
                     new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE),
                     new NumericEntityUnescaper()

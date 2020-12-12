@@ -429,11 +429,12 @@ public class EntityArrays {
     /**
      * A Map&lt;CharSequence, CharSequence&gt; to escape the CP-1252 encoding. This map is a superset of
      * <a href="https://secure.wikimedia.org/wikipedia/en/wiki/ISO/IEC_8859-1">ISO-8859-1</a> encoding, with an
-     * extension for characters with code points 128 to 159.
+     * extension for characters with code points 128 to 159. This must be used with {@link #ISO8859_1_ESCAPE}
+     * to get all CP-1252 code points.
      */
     public static final Map<CharSequence, CharSequence> CP1252_ESCAPE;
     static {
-        final Map<CharSequence, CharSequence> initialMap = new HashMap<>(ISO8859_1_ESCAPE);
+        final Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         initialMap.put("\u20AC", "&euro;");     // euro sign
         initialMap.put("\u201A", "&sbquo;");    // german single quotes left
         initialMap.put("\u0192", "&fnof;");     // florin sign

@@ -55,6 +55,7 @@ public class StringEscapeUtilsTest {
             {"null", null, null},
             {"ampersand", "bread &amp; butter", "bread & butter"},
             {"quotes", "&quot;bread&quot; &amp; butter", "\"bread\" & butter"},
+            {"smart quotes", "&ldquo;bread and circuses&rdquo;", "“bread and circuses”"},
             {"final character only", "greater than &gt;", "greater than >"},
             {"first character only", "&lt; less than", "< less than"},
             {"apostrophe", "Huntington's chorea", "Huntington's chorea"},
