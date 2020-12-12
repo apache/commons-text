@@ -49,6 +49,7 @@ public class StringEscapeUtilsTest {
     private static final String FOO = "foo";
 
     private static final String[][] HTML_ESCAPES = {
+            // message, expected, original
             {"no escaping", "plain text", "plain text"},
             {"no escaping", "plain text", "plain text"},
             {"empty string", "", ""},

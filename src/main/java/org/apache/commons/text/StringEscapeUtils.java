@@ -203,6 +203,7 @@ public class StringEscapeUtils {
             new AggregateTranslator(
                     new LookupTranslator(EntityArrays.BASIC_ESCAPE),
                     new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE)
+                    new LookupTranslator(EntityArrays.CP1252_ESCAPE)
             );
 
     /**
@@ -213,20 +214,6 @@ public class StringEscapeUtils {
      * as the foundation for a custom translator.
      */
     public static final CharSequenceTranslator ESCAPE_HTML4 =
-            new AggregateTranslator(
-                    new LookupTranslator(EntityArrays.BASIC_ESCAPE),
-                    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE),
-                    new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE)
-            );
-
-    /**
-     * Translator object for escaping HTML version 4.0 using CP-1252 encoding.
-     *
-     * While {@link #escapeHtml4(String)} is the expected method of use, this
-     * object allows the HTML escaping functionality to be used
-     * as the foundation for a custom translator.
-     */
-    public static final CharSequenceTranslator ESCAPE_HTML4_CP1252 =
             new AggregateTranslator(
                     new LookupTranslator(EntityArrays.BASIC_ESCAPE),
                     new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE),
@@ -332,6 +319,7 @@ public class StringEscapeUtils {
             new AggregateTranslator(
                     new LookupTranslator(EntityArrays.BASIC_UNESCAPE),
                     new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE),
+                    new LookupTranslator(EntityArrays.CP1252_UNESCAPE),
                     new NumericEntityUnescaper()
             );
 
@@ -346,23 +334,10 @@ public class StringEscapeUtils {
             new AggregateTranslator(
                     new LookupTranslator(EntityArrays.BASIC_UNESCAPE),
                     new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE),
-                    new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE),
-                    new NumericEntityUnescaper()
-            );
-
-    /**
-     * Translator object for unescaping escaped HTML 4.0, using the CP-1252 character
-     * with extension over ISO 8899-1 for code points 128 to 159.
-     */
-    public static final CharSequenceTranslator UNESCAPE_HTML4_CP1252 =
-            new AggregateTranslator(
-                    new LookupTranslator(EntityArrays.BASIC_UNESCAPE),
-                    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE),
                     new LookupTranslator(EntityArrays.CP1252_UNESCAPE),
                     new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE),
                     new NumericEntityUnescaper()
             );
-
     /**
      * Translator object for unescaping escaped XML.
      *
