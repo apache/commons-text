@@ -16,15 +16,7 @@
  */
 package org.apache.commons.text;
 
-import static org.apache.commons.text.StringEscapeUtils.escapeXSI;
-import static org.apache.commons.text.StringEscapeUtils.unescapeXSI;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -35,7 +27,15 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.junit.jupiter.api.Test;
+import static org.apache.commons.text.StringEscapeUtils.escapeXSI;
+import static org.apache.commons.text.StringEscapeUtils.unescapeXSI;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Unit tests for {@link StringEscapeUtils}.
@@ -56,7 +56,7 @@ public class StringEscapeUtilsTest {
             {"null", null, null},
             {"ampersand", "bread &amp; butter", "bread & butter"},
             {"quotes", "&quot;bread&quot; &amp; butter", "\"bread\" & butter"},
-            {"smart quotes", "&ldquo;bread and circuses&rdquo;", "“bread and circuses”"},
+            {"smart quotes", "&ldquo;bread and circuses&rdquo;", "\u201Cbread and circuses\u201d"},
             {"final character only", "greater than &gt;", "greater than >"},
             {"first character only", "&lt; less than", "< less than"},
             {"apostrophe", "Huntington's chorea", "Huntington's chorea"},
