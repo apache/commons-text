@@ -22,6 +22,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -59,7 +60,8 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
     private final EnumSet<OPTION> options;
 
     /** Code points which are invalid Windows-1252 points. */
-    private static final Set<Integer> INVALID_POINTS = new HashSet<>(Arrays.asList(129, 141, 143, 144, 157));
+    private static final Set<Integer> INVALID_POINTS =
+            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(129, 141, 143, 144, 157)));
 
     /**
      * Create a UnicodeUnescaper.
