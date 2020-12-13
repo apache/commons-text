@@ -70,8 +70,7 @@ public class StringEscapeUtilsTest {
              * instead of CP-1252 points and we probably ought to prefer named entities if possible, they should not
              * be re-encoded regardless. */
             {
-                    // try a series of characters before, through, and after the cp-1252 inconsistency range
-                    // assume HTML numeric entities are encoded as cp-1252 code points
+                    // tests for all CP-1252 characters between 128 and 159, with chars 123-126 and chars 161-163
                     "cp1252",
                     "&#124;&#125;&#126;&#128;&#130;&#131;&#132;&#133;&#134;&#135;&#136;&#137;&#138;&#139;&#140;" +
                             "&#142;&#145;&#146;&#147;&#148;&#149;&#150;&#151;&#152;&#153;&#154;&#155;&#156;&#158;" +
