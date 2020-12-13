@@ -64,7 +64,7 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
     private static final Set<Integer> INVALID_CP1252_POINTS =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(129, 141, 143, 144, 157)));
 
-    /** Decoder for Windows-1252 characters */
+    /** Decoder for Windows-1252 characters. */
     // Windows-1252 is supported. See https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html.
     private static final CharsetDecoder CP_1252_DECODER = Charset.forName("Windows-1252").newDecoder()
             .onMalformedInput(CodingErrorAction.REPORT)
