@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.util.Arrays;
 import java.util.Collections;
@@ -37,7 +38,7 @@ import java.util.Set;
  */
 public class NumericEntityUnescaper extends CharSequenceTranslator {
 
-    /** Enumerates NumericEntityUnescaper options for unescaping. */
+    /** Enumerates {@code NumericEntityUnescaper} options for unescaping. */
     public enum OPTION {
 
         /**
@@ -60,22 +61,28 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
     private final EnumSet<OPTION> options;
 
     /** Code points which are invalid Windows-1252 points. */
-    private static final Set<Integer> INVALID_POINTS =
+    private static final Set<Integer> INVALID_CP1252_POINTS =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(129, 141, 143, 144, 157)));
 
+    /** Decoder for Windows-1252 characters */
+    // Windows-1252 is supported. See https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html.
+    private static final CharsetDecoder CP_1252_DECODER = Charset.forName("Windows-1252").newDecoder()
+            .onMalformedInput(CodingErrorAction.REPORT)
+            .onUnmappableCharacter(CodingErrorAction.REPORT);
+
     /**
-     * Create a UnicodeUnescaper.
-     *
-     * The constructor takes a list of options, only one type of which is currently
-     * available (whether to allow, error or ignore the semi-colon on the end of a
+     * Create a {@code NumericEntityUnescaper}. The constructor takes a list of options, only one type of which is
+     * currently available (whether to allow, error or ignore the semi-colon on the end of a
      * numeric entity to being missing).
      *
-     * For example, to support numeric entities without a ';':
-     *    new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.semiColonOptional)
-     * and to throw an IllegalArgumentException when they're missing:
-     *    new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.errorIfNoSemiColon)
+     * <br />
+     * <p>For example, to support numeric entities without a ';':</p>
+     *    <ul><code>new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.semiColonOptional)</code></ul>
      *
-     * Note that the default behavior is to ignore them.
+     * <p>and to throw an IllegalArgumentException when they're missing:</p>
+     *    <ul><code>new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.errorIfNoSemiColon)</code></ul>
+     *
+     * <p>Note that the default behavior is to ignore them.</p>
      *
      * @param options to apply to this unescaper
      */
@@ -154,15 +161,13 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
                 out.write(chrs[0]);
                 out.write(chrs[1]);
 
-            } else if (128 <= entityValue && entityValue <= 159  // must be within the windows-1252 extension range
+            } else if (128 <= entityValue && entityValue <= 159  // must be within the cp-1252 extension range
                     && !isHex  // must be a NUMERIC entity, not hex entity (see StringEscapeUtilsTest for hex)
-                    && !INVALID_POINTS.contains(entityValue)  // must not be an invalid code point for windows-1252
+                    && !INVALID_CP1252_POINTS.contains(entityValue)  // must not be an invalid code point for cp-1252
             ) {
                 System.err.println(entityValue);
                 try {
-                    final String newChar = Charset.forName("Windows-1252").newDecoder()
-                            .onMalformedInput(CodingErrorAction.REPORT)
-                            .onUnmappableCharacter(CodingErrorAction.REPORT)
+                    final String newChar = CP_1252_DECODER
                             .decode(ByteBuffer.wrap(new byte[] {(byte) entityValue}))
                             .toString();
                     out.write(newChar);
