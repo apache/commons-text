@@ -18,8 +18,13 @@ package org.apache.commons.text.translate;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.CodingErrorAction;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Translate XML numeric entities of the form &amp;#[xX]?\d+;? to
@@ -52,6 +57,9 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
 
     /** EnumSet of OPTIONS, given from the constructor. */
     private final EnumSet<OPTION> options;
+
+    /** Code points which are invalid Windows-1252 points. */
+    private static final Set<Integer> INVALID_POINTS = new HashSet<>(Arrays.asList(129, 141, 143, 144, 157));
 
     /**
      * Create a UnicodeUnescaper.
@@ -128,7 +136,7 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
                 }
             }
 
-            int entityValue;
+            final int entityValue;
             try {
                 if (isHex) {
                     entityValue = Integer.parseInt(input.subSequence(start, end).toString(), 16);
@@ -143,8 +151,35 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
                 final char[] chrs = Character.toChars(entityValue);
                 out.write(chrs[0]);
                 out.write(chrs[1]);
+
+            } else if (128 <= entityValue && entityValue <= 159  // must be within the windows-1252 extension range
+                    && !isHex  // must be a NUMERIC entity, not hex entity (see StringEscapeUtilsTest for hex)
+                    && !INVALID_POINTS.contains(entityValue)  // must not be an invalid code point for windows-1252
+            ) {
+                System.err.println(entityValue);
+                try {
+                    final String newChar = Charset.forName("Windows-1252").newDecoder()
+                            .onMalformedInput(CodingErrorAction.REPORT)
+                            .onUnmappableCharacter(CodingErrorAction.REPORT)
+                            .decode(ByteBuffer.wrap(new byte[] {(byte) entityValue}))
+                            .toString();
+                    out.write(newChar);
+
+                } catch (final IllegalArgumentException e) {
+                    /*
+                     * Rethrow exception with causal input, as throw from Charset.decode does not include it.
+                     *
+                     * That said, the input should always be a valid byte due to the restrictions that are imposed by
+                     * the if statement; all characters should be mappable as well, as entity values that are not so are
+                     * excluded by the if statement. If something happens to violate the restrictions meant to ensure
+                     * that translation is valid and should always work, user ought to know.
+                     */
+                    throw new IllegalArgumentException(String.format("input %s is malformed input", e));
+                }
+
             } else {
                 out.write(entityValue);
+
             }
 
             return 2 + end - start + (isHex ? 1 : 0) + (semiNext ? 1 : 0);
