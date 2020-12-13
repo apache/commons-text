@@ -165,7 +165,6 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
                     && !isHex  // must be a NUMERIC entity, not hex entity (see StringEscapeUtilsTest for hex)
                     && !INVALID_CP1252_POINTS.contains(entityValue)  // must not be an invalid code point for cp-1252
             ) {
-                System.err.println(entityValue);
                 try {
                     final String newChar = CP_1252_DECODER
                             .decode(ByteBuffer.wrap(new byte[] {(byte) entityValue}))
