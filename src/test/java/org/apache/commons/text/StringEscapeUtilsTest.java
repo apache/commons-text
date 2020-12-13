@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -49,6 +48,7 @@ public class StringEscapeUtilsTest {
     private static final String FOO = "foo";
 
     private static final String[][] HTML_ESCAPES = {
+            // name, expected, original
             {"no escaping", "plain text", "plain text"},
             {"no escaping", "plain text", "plain text"},
             {"empty string", "", ""},
@@ -61,6 +61,23 @@ public class StringEscapeUtilsTest {
             {"languages", "English,Fran&ccedil;ais,\u65E5\u672C\u8A9E (nihongo)",
                 "English,Fran\u00E7ais,\u65E5\u672C\u8A9E (nihongo)"},
             {"8-bit ascii shouldn't number-escape", "\u0080\u009F", "\u0080\u009F"},
+    };
+
+    private static final String[][] HTML_ESCAPES_ONEWAY = {
+            // name, expected, original
+            /* these are one-way tests; ie they are only decoded. because HTML says to re-encode with unicode points
+             * instead of CP-1252 points and we probably ought to prefer named entities if possible, they should not
+             * be re-encoded regardless. */
+            {
+                    // tests for all CP-1252 characters between 128 and 159, with chars 123-126 and chars 161-163
+                    "cp1252",
+                    "&#124;&#125;&#126;&#128;&#130;&#131;&#132;&#133;&#134;&#135;&#136;&#137;&#138;&#139;&#140;"
+                            + "&#142;&#145;&#146;&#147;&#148;&#149;&#150;&#151;&#152;&#153;&#154;&#155;&#156;&#158;"
+                            + "&#159;&#161;&#162;&#163;",
+                    "\u007C\u007D\u007E\u20AC\u201A\u0192\u201E\u2026\u2020\u2021\u02C6\u2030\u0160\u2039\u0152\u017D"
+                            + "\u2018\u2019\u201C\u201D\u2022\u2013\u2014\u02DC\u2122\u0161\u203A\u0153\u017E\u0178"
+                            + "\u00A1\u00A2\u00A3"
+            }
     };
 
     private void assertEscapeJava(final String escaped, final String original) throws IOException {
@@ -226,25 +243,40 @@ public void testEscapeEcmaScript() {
             final String actual = original == null ? null : sw.toString();
             assertEquals(expected, actual, message);
         }
+
+        for (final String[] e : HTML_ESCAPES_ONEWAY) {
+            final String message = e[0];
+            final String input = e[1];
+            final String answer = e[2];
+            assertEquals(answer, StringEscapeUtils.unescapeHtml3(input), message);
+        }
+
     }
 
     @Test
-        public void testEscapeHtml4() {
-            for (final String[] element : HTML_ESCAPES) {
-                final String message = element[0];
-                final String expected = element[1];
-                final String original = element[2];
-                assertEquals(expected, StringEscapeUtils.escapeHtml4(original), message);
-                final StringWriter sw = new StringWriter();
-                try {
-                    StringEscapeUtils.ESCAPE_HTML4.translate(original, sw);
-                } catch (final IOException e) {
-                    // expected
-                }
-                final String actual = original == null ? null : sw.toString();
-                assertEquals(expected, actual, message);
+    public void testEscapeHtml4() {
+        for (final String[] element : HTML_ESCAPES) {
+            final String message = element[0];
+            final String expected = element[1];
+            final String original = element[2];
+            assertEquals(expected, StringEscapeUtils.escapeHtml4(original), message);
+            final StringWriter sw = new StringWriter();
+            try {
+                StringEscapeUtils.ESCAPE_HTML4.translate(original, sw);
+            } catch (final IOException e) {
+                // expected
             }
+            final String actual = original == null ? null : sw.toString();
+            assertEquals(expected, actual, message);
         }
+
+        for (final String[] e : HTML_ESCAPES_ONEWAY) {
+            final String message = e[0];
+            final String input = e[1];
+            final String answer = e[2];
+            assertEquals(answer, StringEscapeUtils.unescapeHtml4(input), message);
+        }
+    }
 
     /**
      * Tests // https://issues.apache.org/jira/browse/LANG-480
@@ -257,7 +289,7 @@ public void testEscapeEcmaScript() {
         // codepoint: U+1D362
         final byte[] data = {(byte) 0xF0, (byte) 0x9D, (byte) 0x8D, (byte) 0xA2};
 
-        final String original = new String(data, Charset.forName("UTF8"));
+        final String original = new String(data, StandardCharsets.UTF_8);
 
         final String escaped = StringEscapeUtils.escapeHtml4(original);
         assertEquals(original, escaped, "High Unicode should not have been escaped");
