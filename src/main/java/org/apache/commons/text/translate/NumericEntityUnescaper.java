@@ -77,10 +77,10 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
      *
      * <br>
      * <p>For example, to support numeric entities without a ';':</p>
-     *    <ul>{@code new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.semiColonOptional)}</ul>
+     *     <pre>{@code new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.semiColonOptional)}</pre>
      *
      * <p>and to throw an IllegalArgumentException when they're missing:</p>
-     *    <ul>{@code new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.errorIfNoSemiColon)}</ul>
+     *     <pre>{@code new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.errorIfNoSemiColon)}</pre>
      *
      * <p>Note that the default behavior is to ignore them.</p>
      *
