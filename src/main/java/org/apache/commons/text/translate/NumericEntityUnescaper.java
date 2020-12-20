@@ -22,43 +22,49 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
- * Translate XML numeric entities of the form &amp;#[xX]?\d+;? to
+ * Translates XML numeric entities of the form &amp;#[xX]?\d+;? to
  * the specific codepoint.
  *
- * Note that the semi-colon is optional.
+ * Note that the semicolon is optional.
  *
  * @since 1.0
  */
 public class NumericEntityUnescaper extends CharSequenceTranslator {
 
+    /** Default options. */
+    private static final EnumSet<OPTION> DEFAULT_OPTIONS = EnumSet
+        .copyOf(Collections.singletonList(OPTION.semiColonRequired));
+
     /** Enumerates NumericEntityUnescaper options for unescaping. */
     public enum OPTION {
 
         /**
-         * Require a semicolon.
+         * Requires a semicolon.
          */
         semiColonRequired,
 
         /**
-         * Do not require a semicolon.
+         * Does not require a semicolon.
          */
         semiColonOptional,
 
         /**
-         * Throw an exception if a semi-colon is missing.
+         * Throws an exception if a semicolon is missing.
          */
         errorIfNoSemiColon
     }
 
-    /** EnumSet of OPTIONS, given from the constructor. */
+    /** EnumSet of OPTIONS, given from the constructor, read-only. */
     private final EnumSet<OPTION> options;
 
     /**
-     * Create a UnicodeUnescaper.
+     * Creates a UnicodeUnescaper.
      *
      * The constructor takes a list of options, only one type of which is currently
-     * available (whether to allow, error or ignore the semi-colon on the end of a
+     * available (whether to allow, error or ignore the semicolon on the end of a
      * numeric entity to being missing).
      *
      * For example, to support numeric entities without a ';':
@@ -71,15 +77,11 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
      * @param options to apply to this unescaper
      */
     public NumericEntityUnescaper(final OPTION... options) {
-        if (options.length > 0) {
-            this.options = EnumSet.copyOf(Arrays.asList(options));
-        } else {
-            this.options = EnumSet.copyOf(Collections.singletonList(OPTION.semiColonRequired));
-        }
+        this.options = ArrayUtils.isEmpty(options) ? DEFAULT_OPTIONS : EnumSet.copyOf(Arrays.asList(options));
     }
 
     /**
-     * Whether the passed in option is currently set.
+     * Tests whether the passed in option is currently set.
      *
      * @param option to check state of
      * @return whether the option is set
