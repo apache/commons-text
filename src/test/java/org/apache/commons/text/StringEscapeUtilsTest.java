@@ -257,7 +257,7 @@ public void testEscapeEcmaScript() {
         // codepoint: U+1D362
         final byte[] data = {(byte) 0xF0, (byte) 0x9D, (byte) 0x8D, (byte) 0xA2};
 
-        final String original = new String(data, Charset.forName("UTF8"));
+        final String original = new String(data, StandardCharsets.UTF_8);
 
         final String escaped = StringEscapeUtils.escapeHtml4(original);
         assertEquals(original, escaped, "High Unicode should not have been escaped");
@@ -503,9 +503,9 @@ public void testEscapeEcmaScript() {
         assertEquals("\u0080\u009F", StringEscapeUtils.unescapeHtml4("&#X80;&#X9F;"), "hex number unescape");
         // Test all Character values:
         for (char i = Character.MIN_VALUE; i < Character.MAX_VALUE; i++) {
-            final Character c1 = i;
-            final Character c2 = (char) (i + 1);
-            final String expected = c1.toString() + c2.toString();
+            final char c1 = i;
+            final char c2 = (char) (i + 1);
+            final String expected = Character.toString(c1) + Character.toString(c2);
             final String escapedC1 = "&#x" + Integer.toHexString(c1) + ";";
             final String escapedC2 = "&#x" + Integer.toHexString(c2) + ";";
             assertEquals(expected, StringEscapeUtils.unescapeHtml4(escapedC1 + escapedC2),

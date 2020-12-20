@@ -418,7 +418,7 @@ public final class AlphabetConverter {
         final Map<String, String> encodedToOriginal = new LinkedHashMap<>();
         final Map<Integer, String> doNotEncodeMap = new HashMap<>();
 
-        int encodedLetterLength;
+        final int encodedLetterLength;
 
         for (final int i : doNotEncodeCopy) {
             if (!originalCopy.contains(i)) {

@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -320,21 +321,21 @@ public class IntersectionSimilarityTest {
     @Test
     public void testApplyNullNull() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
-            new IntersectionSimilarity<>(cs -> new HashSet<>(Arrays.asList(cs))).apply(null, null);
+            new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, null);
         });
     }
 
     @Test
     public void testApplyStringNull() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
-            new IntersectionSimilarity<>(cs -> new HashSet<>(Arrays.asList(cs))).apply("left", null);
+            new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply("left", null);
         });
     }
 
     @Test
     public void testApplyNullString() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
-            new IntersectionSimilarity<>(cs -> new HashSet<>(Arrays.asList(cs))).apply(null, "right");
+            new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, "right");
         });
     }
 }

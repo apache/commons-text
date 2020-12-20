@@ -162,7 +162,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
         }
 
         // Intersection = count the number of shared elements
-        int intersection;
+        final int intersection;
         if (objectsA instanceof Set && objectsB instanceof Set) {
             // If a Set then the elements will only have a count of 1.
             // Iterate over the smaller set.

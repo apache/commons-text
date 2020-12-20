@@ -173,7 +173,7 @@ public final class RandomStringGenerator {
         long remaining = length;
 
         do {
-            int codePoint;
+            final int codePoint;
             if (characterList != null && !characterList.isEmpty()) {
                 codePoint = generateRandomNumber(characterList);
             } else {
