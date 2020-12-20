@@ -85,7 +85,7 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
      * @return whether the option is set
      */
     public boolean isSet(final OPTION option) {
-        return options != null && options.contains(option);
+        return options.contains(option);
     }
 
     /**
