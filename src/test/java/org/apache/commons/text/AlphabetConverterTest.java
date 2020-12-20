@@ -33,27 +33,27 @@ import org.junit.jupiter.api.Test;
  */
 public class AlphabetConverterTest {
 
-    private static Character[] lowerCaseEnglish = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+    private static final Character[] lowerCaseEnglish = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
             'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-    private static Character[] englishAndNumbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c',
+    private static final Character[] englishAndNumbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c',
             'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
             'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
             'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' '};
-    private static Character[] lowerCaseEnglishAndNumbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a',
+    private static final Character[] lowerCaseEnglishAndNumbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a',
             'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
             'w', 'x', 'y', 'z', ' '};
-    private static Character[] numbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-    private static Character[] binary = {'0', '1'};
-    private static Character[] hebrew = {'_', ' ', '\u05e7', '\u05e8', '\u05d0', '\u05d8', '\u05d5', '\u05df', '\u05dd',
+    private static final Character[] numbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    private static final Character[] binary = {'0', '1'};
+    private static final Character[] hebrew = {'_', ' ', '\u05e7', '\u05e8', '\u05d0', '\u05d8', '\u05d5', '\u05df', '\u05dd',
             '\u05e4', '\u05e9', '\u05d3', '\u05d2', '\u05db', '\u05e2', '\u05d9', '\u05d7', '\u05dc', '\u05da',
             '\u05e3', '\u05d6', '\u05e1', '\u05d1', '\u05d4', '\u05e0', '\u05de', '\u05e6', '\u05ea', '\u05e5'};
-    private static Character[] empty = {};
+    private static final Character[] empty = {};
 
-    private static Integer[] unicode = {32, 35395, 35397, 36302, 36291, 35203, 35201, 35215, 35219, 35268, 97, 98, 99,
+    private static final Integer[] unicode = {32, 35395, 35397, 36302, 36291, 35203, 35201, 35215, 35219, 35268, 97, 98, 99,
             100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 1001, 1002, 1003, 1004, 1005};
-    private static Integer[] lowerCaseEnglishCodepoints = {32, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107,
+    private static final Integer[] lowerCaseEnglishCodepoints = {32, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107,
             108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122};
-    private static Integer[] doNotEncodeCodepoints = {32, 97, 98, 99}; // space, a, b, c
+    private static final Integer[] doNotEncodeCodepoints = {32, 97, 98, 99}; // space, a, b, c
 
     @Test
     public void binaryTest() throws UnsupportedEncodingException {
@@ -188,7 +188,7 @@ public class AlphabetConverterTest {
     public void testCreateConverterFromCharsAndEquals() {
         final Character[] characterArray = new Character[2];
         final char charOne = '+';
-        final Character character = '+';
+        final char character = '+';
         characterArray[0] = character;
         characterArray[1] = characterArray[0];
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
@@ -242,7 +242,7 @@ public class AlphabetConverterTest {
     @Test
     public void testEquals() {
         final Character[] characterArray = new Character[2];
-        final Character character = 'R';
+        final char character = 'R';
         characterArray[0] = character;
         characterArray[1] = character;
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
@@ -266,7 +266,7 @@ public class AlphabetConverterTest {
     @Test
     public void testEqualsWithSameObject() {
         final Character[] characterArray = new Character[2];
-        final Character character = 'R';
+        final char character = 'R';
         characterArray[0] = character;
         characterArray[1] = character;
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,

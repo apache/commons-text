@@ -57,7 +57,7 @@ public class CosineSimilarity {
         for (final Integer value : rightVector.values()) {
             d2 += Math.pow(value, 2);
         }
-        double cosineSimilarity;
+        final double cosineSimilarity;
         if (d1 <= 0.0 || d2 <= 0.0) {
             cosineSimilarity = 0.0;
         } else {
