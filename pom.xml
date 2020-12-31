@@ -61,7 +61,7 @@
 
     <!-- generate report even if there are binary incompatible changes -->
     <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>true</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
-    <commons.japicmp.version>0.14.4</commons.japicmp.version>
+    <commons.japicmp.version>0.15.1</commons.japicmp.version>
     <japicmp.skip>false</japicmp.skip>
     <clirr.skip>true</clirr.skip>
 
