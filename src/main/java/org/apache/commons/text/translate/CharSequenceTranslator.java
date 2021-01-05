@@ -48,11 +48,11 @@ public abstract class CharSequenceTranslator {
      *
      * @param input CharSequence that is being translated
      * @param index int representing the current point of translation
-     * @param out Writer to translate the text to
+     * @param writer Writer to translate the text to
      * @return int count of codepoints consumed
      * @throws IOException if and only if the Writer produces an IOException
      */
-    public abstract int translate(CharSequence input, int index, Writer out) throws IOException;
+    public abstract int translate(CharSequence input, int index, Writer writer) throws IOException;
 
     /**
      * Helper for non-Writer usage.
@@ -78,28 +78,28 @@ public abstract class CharSequenceTranslator {
      * tightly coupled with the abstract method of this class.
      *
      * @param input CharSequence that is being translated
-     * @param out Writer to translate the text to
+     * @param writer Writer to translate the text to
      * @throws IOException if and only if the Writer produces an IOException
      */
-    public final void translate(final CharSequence input, final Writer out) throws IOException {
-        Validate.isTrue(out != null, "The Writer must not be null");
+    public final void translate(final CharSequence input, final Writer writer) throws IOException {
+        Validate.isTrue(writer != null, "The Writer must not be null");
         if (input == null) {
             return;
         }
         int pos = 0;
         final int len = input.length();
         while (pos < len) {
-            final int consumed = translate(input, pos, out);
+            final int consumed = translate(input, pos, writer);
             if (consumed == 0) {
                 // inlined implementation of Character.toChars(Character.codePointAt(input, pos))
                 // avoids allocating temp char arrays and duplicate checks
                 final char c1 = input.charAt(pos);
-                out.write(c1);
+                writer.write(c1);
                 pos++;
                 if (Character.isHighSurrogate(c1) && pos < len) {
                     final char c2 = input.charAt(pos);
                     if (Character.isLowSurrogate(c2)) {
-                      out.write(c2);
+                      writer.write(c2);
                       pos++;
                     }
                 }
