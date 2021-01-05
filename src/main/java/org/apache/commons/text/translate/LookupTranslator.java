@@ -78,7 +78,7 @@ public class LookupTranslator extends CharSequenceTranslator {
      * {@inheritDoc}
      */
     @Override
-    public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
+    public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
         // check if translation exists for the input at position index
         if (prefixSet.get(input.charAt(index))) {
             int max = longest;
@@ -91,7 +91,7 @@ public class LookupTranslator extends CharSequenceTranslator {
                 final String result = lookupMap.get(subSeq.toString());
 
                 if (result != null) {
-                    out.write(result);
+                    writer.write(result);
                     return i;
                 }
             }

@@ -54,15 +54,15 @@ public final class CsvTranslators {
     public static class CsvEscaper extends SinglePassTranslator {
 
         @Override
-        void translateWhole(final CharSequence input, final Writer out) throws IOException {
+        void translateWhole(final CharSequence input, final Writer writer) throws IOException {
             final String inputSting = input.toString();
             if (StringUtils.containsNone(inputSting, CSV_SEARCH_CHARS)) {
-                out.write(inputSting);
+                writer.write(inputSting);
             } else {
                 // input needs quoting
-                out.write(CSV_QUOTE);
-                out.write(StringUtils.replace(inputSting, CSV_QUOTE_STR, CSV_ESCAPED_QUOTE_STR));
-                out.write(CSV_QUOTE);
+                writer.write(CSV_QUOTE);
+                writer.write(StringUtils.replace(inputSting, CSV_QUOTE_STR, CSV_ESCAPED_QUOTE_STR));
+                writer.write(CSV_QUOTE);
             }
         }
     }
@@ -73,10 +73,10 @@ public final class CsvTranslators {
     public static class CsvUnescaper extends SinglePassTranslator {
 
         @Override
-        void translateWhole(final CharSequence input, final Writer out) throws IOException {
+        void translateWhole(final CharSequence input, final Writer writer) throws IOException {
             // is input not quoted?
             if (input.charAt(0) != CSV_QUOTE || input.charAt(input.length() - 1) != CSV_QUOTE) {
-                out.write(input.toString());
+                writer.write(input.toString());
                 return;
             }
 
@@ -85,9 +85,9 @@ public final class CsvTranslators {
 
             if (StringUtils.containsAny(quoteless, CSV_SEARCH_CHARS)) {
                 // deal with escaped quotes; ie) ""
-                out.write(StringUtils.replace(quoteless, CSV_ESCAPED_QUOTE_STR, CSV_QUOTE_STR));
+                writer.write(StringUtils.replace(quoteless, CSV_ESCAPED_QUOTE_STR, CSV_QUOTE_STR));
             } else {
-                out.write(quoteless);
+                writer.write(quoteless);
             }
         }
     }

@@ -35,7 +35,7 @@ public class OctalUnescaper extends CharSequenceTranslator {
      * {@inheritDoc}
      */
     @Override
-    public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
+    public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
         final int remaining = input.length() - index - 1; // how many characters left, ignoring the first \
         final StringBuilder builder = new StringBuilder();
         if (input.charAt(index) == '\\' && remaining > 0 && isOctalDigit(input.charAt(index + 1))) {
@@ -53,7 +53,7 @@ public class OctalUnescaper extends CharSequenceTranslator {
                 }
             }
 
-            out.write(Integer.parseInt(builder.toString(), 8));
+            writer.write(Integer.parseInt(builder.toString(), 8));
             return 1 + builder.length();
         }
         return 0;

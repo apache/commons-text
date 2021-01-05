@@ -94,7 +94,7 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
      * {@inheritDoc}
      */
     @Override
-    public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
+    public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
         final int seqEnd = input.length();
         // Uses -2 to ensure there is something after the &#
         if (input.charAt(index) == '&' && index < seqEnd - 2 && input.charAt(index + 1) == '#') {
@@ -144,10 +144,10 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
 
             if (entityValue > 0xFFFF) {
                 final char[] chrs = Character.toChars(entityValue);
-                out.write(chrs[0]);
-                out.write(chrs[1]);
+                writer.write(chrs[0]);
+                writer.write(chrs[1]);
             } else {
-                out.write(entityValue);
+                writer.write(entityValue);
             }
 
             return 2 + end - start + (isHex ? 1 : 0) + (semiNext ? 1 : 0);

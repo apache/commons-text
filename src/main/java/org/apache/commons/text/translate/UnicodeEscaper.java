@@ -103,7 +103,7 @@ public class UnicodeEscaper extends CodePointTranslator {
      * {@inheritDoc}
      */
     @Override
-    public boolean translate(final int codepoint, final Writer out) throws IOException {
+    public boolean translate(final int codepoint, final Writer writer) throws IOException {
         if (between) {
             if (codepoint < below || codepoint > above) {
                 return false;
@@ -115,13 +115,13 @@ public class UnicodeEscaper extends CodePointTranslator {
         }
 
         if (codepoint > 0xffff) {
-            out.write(toUtf16Escape(codepoint));
+            writer.write(toUtf16Escape(codepoint));
         } else {
-          out.write("\\u");
-          out.write(HEX_DIGITS[(codepoint >> 12) & 15]);
-          out.write(HEX_DIGITS[(codepoint >> 8) & 15]);
-          out.write(HEX_DIGITS[(codepoint >> 4) & 15]);
-          out.write(HEX_DIGITS[(codepoint) & 15]);
+          writer.write("\\u");
+          writer.write(HEX_DIGITS[(codepoint >> 12) & 15]);
+          writer.write(HEX_DIGITS[(codepoint >> 8) & 15]);
+          writer.write(HEX_DIGITS[(codepoint >> 4) & 15]);
+          writer.write(HEX_DIGITS[(codepoint) & 15]);
         }
         return true;
     }

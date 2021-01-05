@@ -378,7 +378,7 @@ public class StringEscapeUtils {
         private static final char BACKSLASH = '\\';
 
         @Override
-        public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
+        public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
 
             if (index != 0) {
                 throw new IllegalStateException("XsiUnescaper should never reach the [1] index");
@@ -392,12 +392,12 @@ public class StringEscapeUtils {
                 final int pos = s.indexOf(BACKSLASH, searchOffset);
                 if (pos == -1) {
                     if (segmentStart < s.length()) {
-                        out.write(s.substring(segmentStart));
+                        writer.write(s.substring(segmentStart));
                     }
                     break;
                 }
                 if (pos > segmentStart) {
-                    out.write(s.substring(segmentStart, pos));
+                    writer.write(s.substring(segmentStart, pos));
                 }
                 segmentStart = pos + 1;
                 searchOffset = pos + 2;

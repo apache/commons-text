@@ -32,9 +32,9 @@ public abstract class CodePointTranslator extends CharSequenceTranslator {
      * {@inheritDoc}
      */
     @Override
-    public final int translate(final CharSequence input, final int index, final Writer out) throws IOException {
+    public final int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
         final int codepoint = Character.codePointAt(input, index);
-        final boolean consumed = translate(codepoint, out);
+        final boolean consumed = translate(codepoint, writer);
         return consumed ? 1 : 0;
     }
 
@@ -42,10 +42,10 @@ public abstract class CodePointTranslator extends CharSequenceTranslator {
      * Translate the specified codepoint into another.
      *
      * @param codepoint int character input to translate
-     * @param out Writer to optionally push the translated output to
+     * @param writer Writer to optionally push the translated output to
      * @return boolean as to whether translation occurred or not
      * @throws IOException if and only if the Writer produces an IOException
      */
-    public abstract boolean translate(int codepoint, Writer out) throws IOException;
+    public abstract boolean translate(int codepoint, Writer writer) throws IOException;
 
 }

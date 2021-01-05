@@ -26,13 +26,13 @@ import java.io.Writer;
 abstract class SinglePassTranslator extends CharSequenceTranslator {
 
     @Override
-    public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
+    public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
         if (index != 0) {
             throw new IllegalArgumentException(getClassName() + ".translate(final CharSequence input, final int "
                     + "index, final Writer out) can not handle a non-zero index.");
         }
 
-        translateWhole(input, out);
+        translateWhole(input, writer);
 
         return Character.codePointCount(input, index, input.length());
     }
@@ -51,8 +51,8 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
      * Translate whole set of code points passed in input.
      *
      * @param input CharSequence that is being translated
-     * @param out Writer to translate the text to
+     * @param writer Writer to translate the text to
      * @throws IOException if and only if the Writer produces an IOException
      */
-    abstract void translateWhole(CharSequence input, Writer out) throws IOException;
+    abstract void translateWhole(CharSequence input, Writer writer) throws IOException;
 }

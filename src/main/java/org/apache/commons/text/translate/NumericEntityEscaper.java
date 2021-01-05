@@ -100,13 +100,13 @@ public class NumericEntityEscaper extends CodePointTranslator {
      * {@inheritDoc}
      */
     @Override
-    public boolean translate(final int codepoint, final Writer out) throws IOException {
+    public boolean translate(final int codepoint, final Writer writer) throws IOException {
         if (this.between != this.range.contains(codepoint)) {
             return false;
         }
-        out.write("&#");
-        out.write(Integer.toString(codepoint, 10));
-        out.write(';');
+        writer.write("&#");
+        writer.write(Integer.toString(codepoint, 10));
+        writer.write(';');
         return true;
     }
 }

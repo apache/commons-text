@@ -34,7 +34,7 @@ public class SinglePassTranslatorTest {
     private final SinglePassTranslator dummyTranslator = new SinglePassTranslator() {
 
         @Override
-        void translateWhole(final CharSequence input, final Writer out) throws IOException {
+        void translateWhole(final CharSequence input, final Writer writer) throws IOException {
             // noop
         }
     };
