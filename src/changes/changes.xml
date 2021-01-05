@@ -50,8 +50,6 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-187" type="fix" dev="kinow">Add GraalVM test dependencies to fix test failures with Java 15.</action>
     <action issue="TEXT-158" type="fix" dev="kinow">Incorrect values for Jaccard similarity with empty strings.</action>
     <action issue="TEXT-186" type="fix" dev="ggregory" due-to="Gautam Korlam, Gary Gregory">StringSubstitutor map constructor throws NPE on 1.9 with null map.</action>
-    <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Update commons.jacoco.version 0.8.5 to 0.8.6; fixes Java 15 build.</action>
-    <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Update Bump spotbugs from 4.1.3 to 4.2.0 #175 189.</action>
     <!-- ADD -->
     <action issue="TEXT-190" type="add" dev="kinow" due-to="Benjamin Bing">Document negative limit for WordUtils abbreviate method</action>
     <action issue="TEXT-188" type="add" dev="kinow" due-to="Jakob Vesterstrøm">Speed up LevenshteinDistance with threshold by exiting early</action>
@@ -59,7 +57,7 @@ The <action> type attribute can be add,update,fix,remove.
     <!-- UPDATE -->
     <action                  type="update" dev="ggregory" due-to="Dependabot">Update checkstyle from 8.34 to 8.38 #141 #168 #182 #188.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Update spotbugs.plugin.version 4.0.0 to 4.1.4 #144 #150 #167 #176.</action>
-    <action                  type="update" dev="ggregory" due-to="Dependabot">Update mockito-inline from 3.4.4 to 3.6.28 #143 #148 #149 #152 #153 #154 #158 #159 #166 #177 #180 #187.</action>
+    <action                  type="update" dev="ggregory" due-to="Dependabot">Update mockito-inline from 3.4.4 to 3.7.0, #143 #148 #149 #152 #153 #154 #158 #159 #166 #177 #180 #187 #195.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump junit-jupiter from 5.6.2 to 5.7.0 #163.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump assertj-core from 3.16.1 to 3.18.1 #151 #157 #160 #178 #184.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump commons-io from 2.7 to 2.8.0 #161.</action>
@@ -70,6 +68,8 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump graalvm.version from 20.2.0 to 20.3.0 #185.</action>
     <action                  type="update" dev="ggregory" due-to="Arturo Bernal">Minor Improvements #192.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update commons.japicmp.version 0.14.3 -> 0.15.1.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update commons.jacoco.version 0.8.5 to 0.8.6; fixes Java 15 build.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update Bump spotbugs from 4.1.3 to 4.2.0 #175 189.</action>
   </release>
   <release version="1.9" date="2020-07-21" description="Release 1.9. Requires Java 8.">
     <action issue="TEXT-166" type="fix" dev="kinow" due-to="Mikko Maunu">Removed non-existing parameter from Javadocs and spelled out parameters in throws.</action>
