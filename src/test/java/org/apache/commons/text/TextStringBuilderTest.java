@@ -819,7 +819,7 @@ public class TextStringBuilderTest {
         final TextStringBuilder sb = new TextStringBuilder();
         // empty buffer
         assertEquals(0, sb.drainChars(0, 5, array, 1));
-        assertEquals(0, sb.drainChars(0, 5, new char[0], 1));
+        assertEquals(0, sb.drainChars(0, 5, ArrayUtils.EMPTY_CHAR_ARRAY, 1));
         // empty buffer, 0 length request
         assertEquals(0, sb.drainChars(5, 5, array, 1));
 

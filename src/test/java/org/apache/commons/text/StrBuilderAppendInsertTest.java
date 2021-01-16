@@ -1200,7 +1200,7 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("");
 
         sb.clear();
-        sb.appendWithSeparators(new Object[0], ",");
+        sb.appendWithSeparators(ArrayUtils.EMPTY_OBJECT_ARRAY, ",");
         assertThat(sb.toString()).isEqualTo("");
 
         sb.clear();

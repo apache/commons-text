@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
@@ -48,7 +49,7 @@ class RegexTokenizer implements Tokenizer<CharSequence> {
         while (matcher.find()) {
             tokens.add(matcher.group(0));
         }
-        return tokens.toArray(new String[0]);
+        return tokens.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
 }

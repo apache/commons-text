@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -65,8 +66,8 @@ public class ReplacementsFinderTest {
         final ReplacementsFinder<Character> replacementFinder = new ReplacementsFinder<>(handler);
         sc.getScript().visit(replacementFinder);
         assertThat(handler.getSkipped()).as("Skipped characters do not match").isEqualTo(skipped);
-        assertArrayEquals(handler.getFrom().toArray(new Character[0]), from, "From characters do not match");
-        assertArrayEquals(to, handler.getTo().toArray(new Character[0]), "To characters do not match");
+        assertArrayEquals(handler.getFrom().toArray(ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY), from, "From characters do not match");
+        assertArrayEquals(to, handler.getTo().toArray(ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY), "To characters do not match");
     }
 
     // Helper ReplacementsHandler implementation for testing

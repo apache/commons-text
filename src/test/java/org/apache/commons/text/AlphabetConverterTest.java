@@ -263,7 +263,7 @@ public class AlphabetConverterTest {
 
     @Test
     public void testEqualsWithNull() {
-        final Character[] characterArray = new Character[0];
+        final Character[] characterArray = ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY;
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, null,
             null);
 
