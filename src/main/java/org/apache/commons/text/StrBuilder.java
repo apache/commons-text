@@ -2256,7 +2256,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Checks is the string builder is empty (convenience Collections API style method).
+     * Tests if the string builder is empty (convenience Collections API style method).
      * <p>
      * This method is the same as checking {@link #length()} and is provided to match the
      * API of Collections.
@@ -2268,7 +2268,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Checks is the string builder is not empty (convenience Collections API style method).
+     * Tests if the string builder is not empty (convenience Collections API style method).
      * <p>
      * This method is the same as checking {@link #length()} and is provided to match the
      * API of Collections.
