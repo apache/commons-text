@@ -665,7 +665,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      * @param tok  the token to add
      */
     private void addToken(final List<String> list, String tok) {
-        if (tok == null || tok.length() == 0) {
+        if (tok == null || tok.isEmpty()) {
             if (isIgnoreEmptyTokens()) {
                 return;
             }

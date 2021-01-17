@@ -1156,7 +1156,7 @@ public class StringSubstitutor {
      * @return this, to enable chaining
      */
     public StringSubstitutor setValueDelimiter(final String valueDelimiter) {
-        if (valueDelimiter == null || valueDelimiter.length() == 0) {
+        if (valueDelimiter == null || valueDelimiter.isEmpty()) {
             setValueDelimiterMatcher(null);
             return this;
         }

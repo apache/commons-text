@@ -197,7 +197,7 @@ public abstract class StrMatcher {
      * @return a new Matcher for the given characters
      */
     public static StrMatcher charSetMatcher(final String chars) {
-        if (chars == null || chars.length() == 0) {
+        if (chars == null || chars.isEmpty()) {
             return NONE_MATCHER;
         }
         if (chars.length() == 1) {
@@ -213,7 +213,7 @@ public abstract class StrMatcher {
      * @return a new Matcher for the given String
      */
     public static StrMatcher stringMatcher(final String str) {
-        if (str == null || str.length() == 0) {
+        if (str == null || str.isEmpty()) {
             return NONE_MATCHER;
         }
         return new StringMatcher(str);
