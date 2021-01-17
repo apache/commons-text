@@ -44,7 +44,7 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Apache Commons Text Changes</title>
   </properties>
   <body>
-  <release version="1.9.1" date="202Y-MM-DD" description="Release 1.9.1. Requires Java 8.">
+  <release version="1.10.0" date="202Y-MM-DD" description="Release 1.9.1. Requires Java 8.">
     <!-- FIX -->
     <action issue="TEXT-189" type="fix" dev="kinow" due-to="Gongpu Zhu">Fix CaseUtils when the input string contains only delimiters</action>
     <action issue="TEXT-187" type="fix" dev="kinow">Add GraalVM test dependencies to fix test failures with Java 15.</action>
@@ -53,7 +53,8 @@ The <action> type attribute can be add,update,fix,remove.
     <!-- ADD -->
     <action issue="TEXT-190" type="add" dev="kinow" due-to="Benjamin Bing">Document negative limit for WordUtils abbreviate method</action>
     <action issue="TEXT-188" type="add" dev="kinow" due-to="Jakob Vesterstrøm">Speed up LevenshteinDistance with threshold by exiting early</action>
-    <action issue="TEXT-185" type="add" dev="ggregory" due-to="Larry West, Gary Gregory">Release Notes page hasn't been updated for 1.9 release yet.</action>    
+    <action issue="TEXT-185" type="add" dev="ggregory" due-to="Larry West, Gary Gregory">Release Notes page hasn't been updated for 1.9 release yet.</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StrBuilder.isNotEmpty().</action>
     <!-- UPDATE -->
     <action                  type="update" dev="ggregory" due-to="Dependabot">Update checkstyle from 8.34 to 8.38 #141 #168 #182 #188.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Update spotbugs.plugin.version 4.0.0 to 4.1.4 #144 #150 #167 #176.</action>
