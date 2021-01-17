@@ -34,7 +34,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 public class ReplacementsFinderTest {
 
-    private SimpleHandler handler = null;
+    private SimpleHandler handler;
 
     @BeforeEach
     public void setUp() {

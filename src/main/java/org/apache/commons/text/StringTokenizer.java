@@ -130,9 +130,11 @@ public class StringTokenizer implements ListIterator<String>, Cloneable {
     private StringMatcher trimmerMatcher = StringMatcherFactory.INSTANCE.noneMatcher();
 
     /** Whether to return empty tokens as null. */
-    private boolean emptyAsNull = false;
+    private boolean emptyAsNull;
     /** Whether to ignore empty tokens. */
     private boolean ignoreEmptyTokens = true;
+
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
     // -----------------------------------------------------------------------
 
@@ -646,10 +648,10 @@ public class StringTokenizer implements ListIterator<String>, Cloneable {
             if (chars == null) {
                 // still call tokenize as subclass may do some work
                 final List<String> split = tokenize(null, 0, 0);
-                tokens = split.toArray(new String[split.size()]);
+                tokens = split.toArray(EMPTY_STRING_ARRAY);
             } else {
                 final List<String> split = tokenize(chars, 0, chars.length);
-                tokens = split.toArray(new String[split.size()]);
+                tokens = split.toArray(EMPTY_STRING_ARRAY);
             }
         }
     }
