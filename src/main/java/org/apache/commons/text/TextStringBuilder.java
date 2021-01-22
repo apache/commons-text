@@ -1335,7 +1335,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * </p>
      *
      * @param appendable the appendable to append data to
-     * @throws IOException if an I/O error occurs
+     * @throws IOException if an I/O error occurs.
      *
      * @see #readFrom(Readable)
      */
@@ -2501,7 +2501,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *
      * @param readable object to read from
      * @return The number of characters read
-     * @throws IOException if an I/O error occurs
+     * @throws IOException if an I/O error occurs.
      *
      * @see #appendTo(Appendable)
      */
