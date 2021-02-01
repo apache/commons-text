@@ -72,6 +72,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update commons.jacoco.version 0.8.5 to 0.8.6; fixes Java 15 build.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update spotbugs from 4.1.3 to 4.2.0 #175, 189.</action>
     <action                  type="update" dev="ggregory" due-to="Arturo Bernal">Minor Improvements #196..</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump maven-checkstyle-plugin from 3.1.1 to 3.1.2 #202.</action>
   </release>
   <release version="1.9" date="2020-07-21" description="Release 1.9. Requires Java 8.">
     <action issue="TEXT-166" type="fix" dev="kinow" due-to="Mikko Maunu">Removed non-existing parameter from Javadocs and spelled out parameters in throws.</action>
