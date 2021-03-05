@@ -94,7 +94,8 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
         if (anyBundle && keyLen != 2) {
             throw IllegalArgumentExceptions
                 .format("Bad resource bundle key format [%s]; expected format is BundleName:KeyName.", key);
-        } else if (bundleName != null && keyLen != 1) {
+        }
+        if (bundleName != null && keyLen != 1) {
             throw IllegalArgumentExceptions.format("Bad resource bundle key format [%s]; expected format is KeyName.",
                 key);
         }

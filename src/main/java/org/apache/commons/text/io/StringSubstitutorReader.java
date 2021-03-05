@@ -231,7 +231,8 @@ public class StringSubstitutorReader extends FilterReader {
                 balance = 1;
                 pos = prefixMatcher.size();
                 break;
-            } else if (isBufferMatchAt(prefixEscapeMatcher, 0)) {
+            }
+            if (isBufferMatchAt(prefixEscapeMatcher, 0)) {
                 balance = 1;
                 pos = prefixEscapeMatcher.size();
                 break;

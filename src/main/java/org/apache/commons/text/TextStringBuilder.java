@@ -2420,11 +2420,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public String leftString(final int length) {
         if (length <= 0) {
             return StringUtils.EMPTY;
-        } else if (length >= size) {
-            return new String(buffer, 0, size);
-        } else {
-            return new String(buffer, 0, length);
         }
+        if (length >= size) {
+            return new String(buffer, 0, size);
+        }
+        return new String(buffer, 0, length);
     }
 
     /**
@@ -2508,21 +2508,21 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public int readFrom(final Readable readable) throws IOException {
         if (readable instanceof Reader) {
             return readFrom((Reader) readable);
-        } else if (readable instanceof CharBuffer) {
-            return readFrom((CharBuffer) readable);
-        } else {
-            final int oldSize = size;
-            while (true) {
-                ensureCapacity(size + 1);
-                final CharBuffer buf = CharBuffer.wrap(buffer, size, buffer.length - size);
-                final int read = readable.read(buf);
-                if (read == EOS) {
-                    break;
-                }
-                size += read;
-            }
-            return size - oldSize;
         }
+        if (readable instanceof CharBuffer) {
+            return readFrom((CharBuffer) readable);
+        }
+        final int oldSize = size;
+        while (true) {
+            ensureCapacity(size + 1);
+            final CharBuffer buf = CharBuffer.wrap(buffer, size, buffer.length - size);
+            final int read = readable.read(buf);
+            if (read == EOS) {
+                break;
+            }
+            size += read;
+        }
+        return size - oldSize;
     }
 
     /**
@@ -2828,11 +2828,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public String rightString(final int length) {
         if (length <= 0) {
             return StringUtils.EMPTY;
-        } else if (length >= size) {
-            return new String(buffer, 0, size);
-        } else {
-            return new String(buffer, size - length, length);
         }
+        if (length >= size) {
+            return new String(buffer, 0, size);
+        }
+        return new String(buffer, size - length, length);
     }
 
     /**

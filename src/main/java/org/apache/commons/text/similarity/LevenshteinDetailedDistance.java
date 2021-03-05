@@ -221,7 +221,8 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         // if one string is empty, the edit distance is necessarily the length of the other
         if (n == 0) {
             return m <= threshold ? new LevenshteinResults(m, m, 0, 0) : new LevenshteinResults(-1, 0, 0, 0);
-        } else if (m == 0) {
+        }
+        if (m == 0) {
             return n <= threshold ? new LevenshteinResults(n, 0, n, 0) : new LevenshteinResults(-1, 0, 0, 0);
         }
 
@@ -363,7 +364,8 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
 
         if (n == 0) {
             return new LevenshteinResults(m, m, 0, 0);
-        } else if (m == 0) {
+        }
+        if (m == 0) {
             return new LevenshteinResults(n, 0, n, 0);
         }
         boolean swapped = false;

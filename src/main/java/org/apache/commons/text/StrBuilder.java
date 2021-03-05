@@ -2416,11 +2416,11 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     public String leftString(final int length) {
         if (length <= 0) {
             return StringUtils.EMPTY;
-        } else if (length >= size) {
-            return new String(buffer, 0, size);
-        } else {
-            return new String(buffer, 0, length);
         }
+        if (length >= size) {
+            return new String(buffer, 0, size);
+        }
+        return new String(buffer, 0, length);
     }
 
     //-----------------------------------------------------------------------
@@ -2771,11 +2771,11 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     public String rightString(final int length) {
         if (length <= 0) {
             return StringUtils.EMPTY;
-        } else if (length >= size) {
-            return new String(buffer, 0, size);
-        } else {
-            return new String(buffer, size - length, length);
         }
+        if (length >= size) {
+            return new String(buffer, 0, size);
+        }
+        return new String(buffer, size - length, length);
     }
 
     /**

@@ -228,7 +228,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
         // of the other
         if (n == 0) {
             return m <= threshold ? m : -1;
-        } else if (m == 0) {
+        }
+        if (m == 0) {
             return n <= threshold ? n : -1;
         }
 
@@ -353,7 +354,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
 
         if (n == 0) {
             return m;
-        } else if (m == 0) {
+        }
+        if (m == 0) {
             return n;
         }
 

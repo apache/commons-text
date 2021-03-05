@@ -146,11 +146,10 @@ public class JaroWinklerDistance implements EditDistance<Double> {
         }
         int prefix = 0;
         for (int mi = 0; mi < Math.min(4, min.length()); mi++) {
-            if (first.charAt(mi) == second.charAt(mi)) {
-                prefix++;
-            } else {
+            if (first.charAt(mi) != second.charAt(mi)) {
                 break;
             }
+            prefix++;
         }
         return new int[] {matches, halfTranspositions, prefix};
     }

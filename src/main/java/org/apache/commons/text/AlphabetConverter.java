@@ -232,22 +232,20 @@ public final class AlphabetConverter {
 
         if (level > 0) {
             for (final int encodingLetter : encoding) {
-                if (originals.hasNext()) {
-
-                    // this skips the doNotEncode chars if they are in the
-                    // leftmost place
-                    if (level != encodedLetterLength
-                            || !doNotEncodeMap.containsKey(encodingLetter)) {
-                        addSingleEncoding(level - 1,
-                                currentEncoding
-                                        + codePointToString(encodingLetter),
-                                encoding,
-                                originals,
-                                doNotEncodeMap
-                        );
-                    }
-                } else {
+                if (!originals.hasNext()) {
                     return; // done encoding all the original alphabet
+                }
+                // this skips the doNotEncode chars if they are in the
+                // leftmost place
+                if (level != encodedLetterLength
+                        || !doNotEncodeMap.containsKey(encodingLetter)) {
+                    addSingleEncoding(level - 1,
+                            currentEncoding
+                                    + codePointToString(encodingLetter),
+                            encoding,
+                            originals,
+                            doNotEncodeMap
+                    );
                 }
             }
         } else {
@@ -470,41 +468,41 @@ public final class AlphabetConverter {
                     encodedToOriginal,
                     encodedLetterLength);
 
-        } else if (encodingCopy.size() - doNotEncodeCopy.size() < 2) {
+        }
+        if (encodingCopy.size() - doNotEncodeCopy.size() < 2) {
             throw new IllegalArgumentException(
                     "Must have at least two encoding characters (excluding "
                             + "those in the 'do not encode' list), but has "
                             + (encodingCopy.size() - doNotEncodeCopy.size()));
-        } else {
-            // we start with one which is our minimum, and because we do the
-            // first division outside the loop
-            int lettersSoFar = 1;
-
-            // the first division takes into account that the doNotEncode
-            // letters can't be in the leftmost place
-            int lettersLeft = (originalCopy.size() - doNotEncodeCopy.size())
-                    / (encodingCopy.size() - doNotEncodeCopy.size());
-
-            while (lettersLeft / encodingCopy.size() >= 1) {
-                lettersLeft = lettersLeft / encodingCopy.size();
-                lettersSoFar++;
-            }
-
-            encodedLetterLength = lettersSoFar + 1;
-
-            final AlphabetConverter ac =
-                    new AlphabetConverter(originalToEncoded,
-                            encodedToOriginal,
-                            encodedLetterLength);
-
-            ac.addSingleEncoding(encodedLetterLength,
-                    StringUtils.EMPTY,
-                    encodingCopy,
-                    originalCopy.iterator(),
-                    doNotEncodeMap);
-
-            return ac;
         }
+        // we start with one which is our minimum, and because we do the
+        // first division outside the loop
+        int lettersSoFar = 1;
+
+        // the first division takes into account that the doNotEncode
+        // letters can't be in the leftmost place
+        int lettersLeft = (originalCopy.size() - doNotEncodeCopy.size())
+                / (encodingCopy.size() - doNotEncodeCopy.size());
+
+        while (lettersLeft / encodingCopy.size() >= 1) {
+            lettersLeft = lettersLeft / encodingCopy.size();
+            lettersSoFar++;
+        }
+
+        encodedLetterLength = lettersSoFar + 1;
+
+        final AlphabetConverter ac =
+                new AlphabetConverter(originalToEncoded,
+                        encodedToOriginal,
+                        encodedLetterLength);
+
+        ac.addSingleEncoding(encodedLetterLength,
+                StringUtils.EMPTY,
+                encodingCopy,
+                originalCopy.iterator(),
+                doNotEncodeMap);
+
+        return ac;
     }
 
     /**
