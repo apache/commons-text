@@ -59,7 +59,7 @@
 
     <graalvm.version>21.0.0.2</graalvm.version>
 
-    <commons.japicmp.version>0.15.2</commons.japicmp.version>
+    <commons.japicmp.version>0.15.3</commons.japicmp.version>
     <japicmp.skip>false</japicmp.skip>
     <clirr.skip>true</clirr.skip>
 
