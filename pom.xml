@@ -156,7 +156,7 @@
         <configuration>
           <enableRulesSummary>false</enableRulesSummary>
           <configLocation>${basedir}/checkstyle.xml</configLocation>
-          <headerLocation>${basedir}/license-header.txt</headerLocation>
+          <headerLocation>${basedir}/checkstyle-header.txt</headerLocation>
           <suppressionsLocation>${basedir}/checkstyle-suppressions.xml</suppressionsLocation>
           <suppressionsFileExpression>${basedir}/checkstyle-suppressions.xml</suppressionsFileExpression>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
@@ -239,7 +239,7 @@
         <configuration>
           <enableRulesSummary>false</enableRulesSummary>
           <configLocation>${basedir}/checkstyle.xml</configLocation>
-          <headerLocation>${basedir}/license-header.txt</headerLocation>
+          <headerLocation>${basedir}/checkstyle-header.txt</headerLocation>
           <suppressionsLocation>${basedir}/checkstyle-suppressions.xml</suppressionsLocation>
           <suppressionsFileExpression>${basedir}/checkstyle-suppressions.xml</suppressionsFileExpression>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>

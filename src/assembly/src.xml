@@ -29,7 +29,7 @@
                 <include>CONTRIBUTING.md</include>
                 <include>sb-excludes.xml</include>
                 <include>LICENSE.txt</include>
-                <include>license-header.txt</include>
+                <include>checkstyle-header.txt</include>
                 <include>NOTICE.txt</include>
                 <include>pom.xml</include>
                 <include>PROPOSAL.html</include>
