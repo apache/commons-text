@@ -57,7 +57,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StrBuilder.isNotEmpty().</action>
     <!-- UPDATE -->
     <action                  type="update" dev="ggregory" due-to="Dependabot">Update checkstyle from 8.34 to 8.41, #141, #168, #182, #188, #193, #201 #208.</action>
-    <action                  type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Update spotbugs.plugin.version 4.0.0 to 4.2.0, #144, #150, #167, #176, #194.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Update spotbugs.plugin.version 4.0.0 to 4.2.2, #144, #150, #167, #176, #194, #210.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Update mockito-inline from 3.4.4 to 3.8.0, #143 #148 #149 #152 #153 #154 #158 #159 #166 #177 #180 #187 #195 #197 #207.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump junit-jupiter from 5.6.2 to 5.7.1 #163 #204.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump assertj-core from 3.16.1 to 3.19.0 #151 #157 #160 #178 #184 #199.</action>
