@@ -80,11 +80,11 @@ public class JaroWinklerDistance implements EditDistance<Double> {
         final int[] mtp = matches(left, right);
         final double m = mtp[0];
         if (m == 0) {
-            return 0D;
+            return 1D;
         }
         final double j = ((m / left.length() + m / right.length() + (m - (double) mtp[1] / 2) / m)) / 3;
         final double jw = j < 0.7D ? j : j + defaultScalingFactor * mtp[2] * (1D - j);
-        return jw;
+        return 1-jw;
     }
 
     // TODO: remove this method in 2.0, see TEXT-104
