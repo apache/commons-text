@@ -1969,7 +1969,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public int indexOf(final char ch, int startIndex) {
         startIndex = Math.max(0, startIndex);
         if (startIndex >= size) {
-            return -1;
+            return StringUtils.INDEX_NOT_FOUND;
         }
         final char[] thisBuf = buffer;
         for (int i = startIndex; i < size; i++) {
@@ -1977,7 +1977,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
                 return i;
             }
         }
-        return -1;
+        return StringUtils.INDEX_NOT_FOUND;
     }
 
     /**
@@ -2006,7 +2006,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public int indexOf(final String str, int startIndex) {
         startIndex = Math.max(0, startIndex);
         if (str == null || startIndex >= size) {
-            return -1;
+            return StringUtils.INDEX_NOT_FOUND;
         }
         final int strLen = str.length();
         if (strLen == 1) {
@@ -2016,7 +2016,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             return startIndex;
         }
         if (strLen > size) {
-            return -1;
+            return StringUtils.INDEX_NOT_FOUND;
         }
         final char[] thisBuf = buffer;
         final int len = size - strLen + 1;
@@ -2028,7 +2028,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             }
             return i;
         }
-        return -1;
+        return StringUtils.INDEX_NOT_FOUND;
     }
 
     /**
@@ -2059,7 +2059,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public int indexOf(final StringMatcher matcher, int startIndex) {
         startIndex = Math.max(0, startIndex);
         if (matcher == null || startIndex >= size) {
-            return -1;
+            return StringUtils.INDEX_NOT_FOUND;
         }
         final int len = size;
         final char[] buf = buffer;
@@ -2068,7 +2068,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
                 return i;
             }
         }
-        return -1;
+        return StringUtils.INDEX_NOT_FOUND;
     }
 
     /**
@@ -2308,14 +2308,14 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public int lastIndexOf(final char ch, int startIndex) {
         startIndex = startIndex >= size ? size - 1 : startIndex;
         if (startIndex < 0) {
-            return -1;
+            return StringUtils.INDEX_NOT_FOUND;
         }
         for (int i = startIndex; i >= 0; i--) {
             if (buffer[i] == ch) {
                 return i;
             }
         }
-        return -1;
+        return StringUtils.INDEX_NOT_FOUND;
     }
 
     /**
@@ -2344,7 +2344,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public int lastIndexOf(final String str, int startIndex) {
         startIndex = startIndex >= size ? size - 1 : startIndex;
         if (str == null || startIndex < 0) {
-            return -1;
+            return StringUtils.INDEX_NOT_FOUND;
         }
         final int strLen = str.length();
         if (strLen > 0 && strLen <= size) {
@@ -2364,7 +2364,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         } else if (strLen == 0) {
             return startIndex;
         }
-        return -1;
+        return StringUtils.INDEX_NOT_FOUND;
     }
 
     /**
@@ -2395,7 +2395,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public int lastIndexOf(final StringMatcher matcher, int startIndex) {
         startIndex = startIndex >= size ? size - 1 : startIndex;
         if (matcher == null || startIndex < 0) {
-            return -1;
+            return StringUtils.INDEX_NOT_FOUND;
         }
         final char[] buf = buffer;
         final int endIndex = startIndex + 1;
@@ -2404,7 +2404,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
                 return i;
             }
         }
-        return -1;
+        return StringUtils.INDEX_NOT_FOUND;
     }
 
     /**
