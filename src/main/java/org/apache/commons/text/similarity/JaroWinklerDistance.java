@@ -84,7 +84,7 @@ public class JaroWinklerDistance implements EditDistance<Double> {
         }
         final double j = ((m / left.length() + m / right.length() + (m - (double) mtp[1] / 2) / m)) / 3;
         final double jw = j < 0.7D ? j : j + defaultScalingFactor * mtp[2] * (1D - j);
-        return 1-jw;
+        return 1 - jw;
     }
 
     // TODO: remove this method in 2.0, see TEXT-104
