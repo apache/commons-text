@@ -74,7 +74,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update spotbugs from 4.1.3 to 4.2.2 #175, 189, #209.</action>
     <action                  type="update" dev="ggregory" due-to="Arturo Bernal">Minor Improvements #196..</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump maven-checkstyle-plugin from 3.1.1 to 3.1.2 #202.</action>
-    <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/cache from v2 to v2.1.4 #205.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/cache from v2 to v2.1.5 #205 #217.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update commons-lang3 3.11 -> 3.12.0.</action>
     <action issue="TEXT-194" type="update" dev="kinow" due-to="Arturo Bernal">Use StringUtils.INDEX_NOT_FOUND constant.</action>
   </release>
