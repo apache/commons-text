@@ -56,22 +56,16 @@ public class JaccardDistanceTest {
 
     @Test
     public void testGettingJaccardDistanceNullNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            classBeingTested.apply(null, null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> classBeingTested.apply(null, null));
     }
 
     @Test
     public void testGettingJaccardDistanceStringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            classBeingTested.apply(" ", null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> classBeingTested.apply(" ", null));
     }
 
     @Test
     public void testGettingJaccardDistanceNullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            classBeingTested.apply(null, "right");
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> classBeingTested.apply(null, "right"));
     }
 }

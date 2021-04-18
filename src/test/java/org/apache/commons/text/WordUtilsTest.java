@@ -33,9 +33,7 @@ public class WordUtilsTest {
 
     @Test
     public void testAbbreviateForLowerThanMinusOneValues() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            assertThat(WordUtils.abbreviate("01 23 45 67 89", 9, -10, null)).isEqualTo("01 23 45 67");
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> assertThat(WordUtils.abbreviate("01 23 45 67 89", 9, -10, null)).isEqualTo("01 23 45 67"));
     }
 
     // -----------------------------------------------------------------------
@@ -84,9 +82,7 @@ public class WordUtilsTest {
 
     @Test
     public void testAbbreviateUpperLessThanLowerValues() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            assertThat(WordUtils.abbreviate("0123456789", 5, 2, "")).isEqualTo("01234");
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> assertThat(WordUtils.abbreviate("0123456789", 5, 2, "")).isEqualTo("01234"));
     }
 
     // -----------------------------------------------------------------------

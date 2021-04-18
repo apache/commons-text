@@ -38,23 +38,17 @@ public class RandomStringGeneratorTest {
 
     @Test
     public void testBadMaximumCodePoint() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            new RandomStringGenerator.Builder().withinRange(0, Character.MAX_CODE_POINT + 1);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> new RandomStringGenerator.Builder().withinRange(0, Character.MAX_CODE_POINT + 1));
     }
 
     @Test
     public void testBadMinAndMax() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            new RandomStringGenerator.Builder().withinRange(2, 1);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> new RandomStringGenerator.Builder().withinRange(2, 1));
     }
 
     @Test
     public void testBadMinimumCodePoint() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            new RandomStringGenerator.Builder().withinRange(-1, 1);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> new RandomStringGenerator.Builder().withinRange(-1, 1));
     }
 
     @Test

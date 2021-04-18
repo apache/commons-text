@@ -712,9 +712,7 @@ public class TextStringBuilderTest {
 
     @Test
     public void testDeleteCharAtWithNegative() {
-        assertThatExceptionOfType(StringIndexOutOfBoundsException.class).isThrownBy(() -> {
-            new TextStringBuilder().deleteCharAt((-1258));
-        });
+        assertThatExceptionOfType(StringIndexOutOfBoundsException.class).isThrownBy(() -> new TextStringBuilder().deleteCharAt((-1258)));
     }
 
     @Test

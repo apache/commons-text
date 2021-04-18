@@ -56,23 +56,17 @@ public class JaroWinklerDistanceTest {
 
     @Test
     public void testGetJaroWinklerDistance_NullNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            distance.apply(null, null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply(null, null));
     }
 
     @Test
     public void testGetJaroWinklerDistance_StringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            distance.apply(" ", null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply(" ", null));
     }
 
     @Test
     public void testGetJaroWinklerDistance_NullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            distance.apply(null, "clear");
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply(null, "clear"));
     }
 
 }

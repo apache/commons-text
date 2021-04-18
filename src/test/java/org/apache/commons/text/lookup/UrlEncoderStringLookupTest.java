@@ -44,9 +44,7 @@ public class UrlEncoderStringLookupTest {
         final UrlEncoderStringLookup mockLookup = spy(UrlEncoderStringLookup.class);
         when(mockLookup.encode(DATA, StandardCharsets.UTF_8.displayName()))
             .thenThrow(UnsupportedEncodingException.class);
-        assertThrows(IllegalArgumentException.class, () -> {
-            mockLookup.lookup(DATA);
-        });
+        assertThrows(IllegalArgumentException.class, () -> mockLookup.lookup(DATA));
     }
 
     @Test

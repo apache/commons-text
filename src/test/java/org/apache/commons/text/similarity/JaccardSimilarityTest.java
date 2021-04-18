@@ -56,22 +56,16 @@ public class JaccardSimilarityTest {
 
     @Test
     public void testGettingJaccardSimilarityNullNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            classBeingTested.apply(null, null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> classBeingTested.apply(null, null));
     }
 
     @Test
     public void testGettingJaccardSimilarityStringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            classBeingTested.apply(" ", null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> classBeingTested.apply(" ", null));
     }
 
     @Test
     public void testGettingJaccardSimilarityNullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            classBeingTested.apply(null, "right");
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> classBeingTested.apply(null, "right"));
     }
 }
