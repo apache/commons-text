@@ -86,10 +86,7 @@ public class CaseUtils {
         final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
         final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
-        boolean capitalizeNext = false;
-        if (capitalizeFirstLetter) {
-            capitalizeNext = true;
-        }
+        boolean capitalizeNext = capitalizeFirstLetter;
         for (int index = 0; index < strLen;) {
             final int codePoint = str.codePointAt(index);
 
