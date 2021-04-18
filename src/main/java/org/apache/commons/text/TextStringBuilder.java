@@ -2882,9 +2882,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         } else if (length > size) {
             ensureCapacity(length);
             final int oldEnd = size;
-            final int newEnd = length;
             size = length;
-            Arrays.fill(buffer, oldEnd, newEnd, '\0');
+            Arrays.fill(buffer, oldEnd, length, '\0');
         }
         return this;
     }

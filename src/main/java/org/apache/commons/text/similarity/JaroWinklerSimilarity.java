@@ -93,8 +93,7 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
             return 0d;
         }
         final double j = ((m / left.length() + m / right.length() + (m - (double) mtp[1] / 2) / m)) / 3;
-        final double jw = j < 0.7d ? j : j + defaultScalingFactor * mtp[2] * (1d - j);
-        return jw;
+        return j < 0.7d ? j : j + defaultScalingFactor * mtp[2] * (1d - j);
     }
 
     /**

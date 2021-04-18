@@ -531,13 +531,12 @@ public class ExtendedMessageFormat extends MessageFormat {
 
         final int start = pos.getIndex();
         final char[] c = pattern.toCharArray();
-        final int lastHold = start;
         for (int i = pos.getIndex(); i < pattern.length(); i++) {
             switch (c[pos.getIndex()]) {
             case QUOTE:
                 next(pos);
-                return appendTo == null ? null : appendTo.append(c, lastHold,
-                        pos.getIndex() - lastHold);
+                return appendTo == null ? null : appendTo.append(c, start,
+                        pos.getIndex() - start);
             default:
                 next(pos);
             }
