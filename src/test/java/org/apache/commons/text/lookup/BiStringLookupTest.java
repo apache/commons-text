@@ -27,13 +27,7 @@ public class BiStringLookupTest {
 
     @Test
     public void testDefaultMethod() {
-        Assertions.assertEquals("a", new BiStringLookup<Object>() {
-
-            @Override
-            public String lookup(final String key) {
-                return key;
-            }
-        }.lookup("a", "b"));
+        Assertions.assertEquals("a", ((BiStringLookup<Object>) key -> key).lookup("a", "b"));
     }
 
 }

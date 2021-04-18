@@ -41,7 +41,7 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         final String value = "value";
         final Map<String, String> map = new HashMap<>();
         map.put(key, value);
-        final StringLookup mapStringLookup = StringLookupFactory.INSTANCE.functionStringLookup(k -> map.get(k));
+        final StringLookup mapStringLookup = StringLookupFactory.INSTANCE.functionStringLookup(map::get);
         final Map<String, StringLookup> stringLookupMap = new HashMap<>();
         stringLookupMap.put("customLookup", mapStringLookup);
         final StringSubstitutor strSubst = new StringSubstitutor(
