@@ -729,7 +729,7 @@ public class StringTokenizerTest {
         assertFalse(tokenizer.hasPrevious());
         assertNull(tokenizer.nextToken());
         assertEquals(0, tokenizer.size());
-        assertThrows(NoSuchElementException.class, () -> tokenizer.next());
+        assertThrows(NoSuchElementException.class, tokenizer::next);
     }
 
     @Test
@@ -749,11 +749,11 @@ public class StringTokenizerTest {
     public void testIteration() {
         final StringTokenizer tkn = new StringTokenizer("a b c");
         assertFalse(tkn.hasPrevious());
-        assertThrows(NoSuchElementException.class, () -> tkn.previous());
+        assertThrows(NoSuchElementException.class, tkn::previous);
         assertTrue(tkn.hasNext());
 
         assertEquals("a", tkn.next());
-        assertThrows(UnsupportedOperationException.class, () -> tkn.remove());
+        assertThrows(UnsupportedOperationException.class, tkn::remove);
         assertThrows(UnsupportedOperationException.class, () -> tkn.set("x"));
         assertThrows(UnsupportedOperationException.class, () -> tkn.add("y"));
         assertTrue(tkn.hasPrevious());
@@ -767,7 +767,7 @@ public class StringTokenizerTest {
         assertTrue(tkn.hasPrevious());
         assertFalse(tkn.hasNext());
 
-        assertThrows(NoSuchElementException.class, () -> tkn.next());
+        assertThrows(NoSuchElementException.class, tkn::next);
         assertTrue(tkn.hasPrevious());
         assertFalse(tkn.hasNext());
     }
