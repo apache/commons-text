@@ -82,12 +82,11 @@ public class StringEscapeUtilsTest {
 
     private void assertUnescapeJava(final String unescaped, final String original, final String message)
             throws IOException {
-        final String expected = unescaped;
         final String actual = StringEscapeUtils.unescapeJava(original);
 
-        assertEquals(expected, actual, "unescape(String) failed"
+        assertEquals(unescaped, actual, "unescape(String) failed"
                         + (message == null ? "" : (": " + message))
-                        + ": expected '" + StringEscapeUtils.escapeJava(expected)
+                        + ": expected '" + StringEscapeUtils.escapeJava(unescaped)
                         // we escape this so we can see it in the error message
                         + "' actual '" + StringEscapeUtils.escapeJava(actual) + "'");
 
@@ -333,14 +332,13 @@ public void testEscapeEcmaScript() {
     public void testEscapeJavaWithSlash() {
         final String input = "String with a slash (/) in it";
 
-        final String expected = input;
         final String actual = StringEscapeUtils.escapeJava(input);
 
         /*
          * In 2.4 StringEscapeUtils.escapeJava(String) escapes '/' characters, which are not a valid character
          * to escape in a Java string.
          */
-        assertEquals(expected, actual);
+        assertEquals(input, actual);
     }
 
     @Test
@@ -502,10 +500,9 @@ public void testEscapeEcmaScript() {
         assertEquals("\u0080\u009F", StringEscapeUtils.unescapeHtml4("&#X80;&#X9F;"), "hex number unescape");
         // Test all Character values:
         for (char i = Character.MIN_VALUE; i < Character.MAX_VALUE; i++) {
-            final char c1 = i;
             final char c2 = (char) (i + 1);
-            final String expected = Character.toString(c1) + Character.toString(c2);
-            final String escapedC1 = "&#x" + Integer.toHexString(c1) + ";";
+            final String expected = Character.toString(i) + Character.toString(c2);
+            final String escapedC1 = "&#x" + Integer.toHexString(i) + ";";
             final String escapedC2 = "&#x" + Integer.toHexString(c2) + ";";
             assertEquals(expected, StringEscapeUtils.unescapeHtml4(escapedC1 + escapedC2),
                     "hex number unescape index " + i);
