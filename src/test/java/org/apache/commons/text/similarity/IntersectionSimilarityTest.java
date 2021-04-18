@@ -312,29 +312,21 @@ public class IntersectionSimilarityTest {
 
     @Test
     public void testConstructorWithNullConverterThrows() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            new IntersectionSimilarity<>(null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> new IntersectionSimilarity<>(null));
     }
 
     @Test
     public void testApplyNullNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, null));
     }
 
     @Test
     public void testApplyStringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply("left", null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply("left", null));
     }
 
     @Test
     public void testApplyNullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, "right");
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, "right"));
     }
 }

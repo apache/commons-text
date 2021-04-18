@@ -82,23 +82,17 @@ public class JaroWinklerSimilarityTest {
 
     @Test
     public void testGetJaroWinklerSimilarity_NullNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            similarity.apply(null, null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> similarity.apply(null, null));
     }
 
     @Test
     public void testGetJaroWinklerSimilarity_StringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            similarity.apply(" ", null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> similarity.apply(" ", null));
     }
 
     @Test
     public void testGetJaroWinklerSimilarity_NullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            similarity.apply(null, "clear");
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> similarity.apply(null, "clear"));
     }
 
 }

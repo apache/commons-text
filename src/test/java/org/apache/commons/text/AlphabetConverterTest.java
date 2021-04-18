@@ -87,9 +87,7 @@ public class AlphabetConverterTest {
 
     @Test
     public void encodeFailureTest() {
-        assertThatThrownBy(() -> {
-            test(BINARY, NUMBERS, ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY, "3");
-        }).isInstanceOf(UnsupportedEncodingException.class).hasMessage("Couldn't find encoding for '3' in 3");
+        assertThatThrownBy(() -> test(BINARY, NUMBERS, ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY, "3")).isInstanceOf(UnsupportedEncodingException.class).hasMessage("Couldn't find encoding for '3' in 3");
     }
 
     @Test
@@ -120,25 +118,19 @@ public class AlphabetConverterTest {
 
     @Test
     public void missingDoNotEncodeLettersFromEncodingTest() {
-        assertThatThrownBy(() -> {
-            AlphabetConverter.createConverterFromChars(ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH, NUMBERS);
-        }).isInstanceOf(IllegalArgumentException.class).hasMessage(
+        assertThatThrownBy(() -> AlphabetConverter.createConverterFromChars(ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH, NUMBERS)).isInstanceOf(IllegalArgumentException.class).hasMessage(
                 "Can not use 'do not encode' list because encoding alphabet does not contain '0'");
     }
 
     @Test
     public void missingDoNotEncodeLettersFromOriginalTest() {
-        assertThatThrownBy(() -> {
-            AlphabetConverter.createConverterFromChars(LOWER_CASE_ENGLISH, ENGLISH_AND_NUMBERS, NUMBERS);
-        }).isInstanceOf(IllegalArgumentException.class).hasMessage(
+        assertThatThrownBy(() -> AlphabetConverter.createConverterFromChars(LOWER_CASE_ENGLISH, ENGLISH_AND_NUMBERS, NUMBERS)).isInstanceOf(IllegalArgumentException.class).hasMessage(
                 "Can not use 'do not encode' list because original alphabet does not contain '0'");
     }
 
     @Test
     public void noEncodingLettersTest() {
-        assertThatThrownBy(() -> {
-            AlphabetConverter.createConverterFromChars(ENGLISH_AND_NUMBERS, NUMBERS, NUMBERS);
-        }).isInstanceOf(IllegalArgumentException.class).hasMessage(
+        assertThatThrownBy(() -> AlphabetConverter.createConverterFromChars(ENGLISH_AND_NUMBERS, NUMBERS, NUMBERS)).isInstanceOf(IllegalArgumentException.class).hasMessage(
             "Must have at least two encoding characters (excluding those in the 'do not encode' list), but has 0");
     }
 

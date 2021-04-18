@@ -33,23 +33,17 @@ public class FileStringLookupTest {
 
     @Test
     public void testBadCharsetName() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            FileStringLookup.INSTANCE.lookup("BAD_CHARSET_NAME:src/test/resources/document.properties");
-        });
+        assertThrows(IllegalArgumentException.class, () -> FileStringLookup.INSTANCE.lookup("BAD_CHARSET_NAME:src/test/resources/document.properties"));
     }
 
     @Test
     public void testBadDocumentPath() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            FileStringLookup.INSTANCE.lookup("BAD_CHARSET_NAME:src/test/resources/DOCUMENT_NOT_FOUND.TXT");
-        });
+        assertThrows(IllegalArgumentException.class, () -> FileStringLookup.INSTANCE.lookup("BAD_CHARSET_NAME:src/test/resources/DOCUMENT_NOT_FOUND.TXT"));
     }
 
     @Test
     public void testMissingFilePart() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            FileStringLookup.INSTANCE.lookup(StandardCharsets.UTF_8.name());
-        });
+        assertThrows(IllegalArgumentException.class, () -> FileStringLookup.INSTANCE.lookup(StandardCharsets.UTF_8.name()));
     }
 
     @Test
