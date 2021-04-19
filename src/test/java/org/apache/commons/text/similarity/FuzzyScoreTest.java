@@ -43,30 +43,22 @@ public class FuzzyScoreTest {
 
     @Test
     public void testGetFuzzyScore_StringNullLocale() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            ENGLISH_SCORE.fuzzyScore("not null", null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> ENGLISH_SCORE.fuzzyScore("not null", null));
     }
 
     @Test
     public void testGetFuzzyScore_NullStringLocale() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            ENGLISH_SCORE.fuzzyScore(null, "not null");
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> ENGLISH_SCORE.fuzzyScore(null, "not null"));
     }
 
     @Test
     public void testGetFuzzyScore_NullNullLocale() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            ENGLISH_SCORE.fuzzyScore(null, null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> ENGLISH_SCORE.fuzzyScore(null, null));
     }
 
     @Test
     public void testMissingLocale() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            new FuzzyScore((Locale) null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> new FuzzyScore((Locale) null));
     }
 
     @Test

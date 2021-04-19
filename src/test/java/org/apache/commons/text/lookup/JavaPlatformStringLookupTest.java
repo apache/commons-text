@@ -31,9 +31,7 @@ public class JavaPlatformStringLookupTest {
 
     @Test
     public void testBadKey() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            JavaPlatformStringLookup.INSTANCE.lookup("BADKEY");
-        });
+        assertThrows(IllegalArgumentException.class, () -> JavaPlatformStringLookup.INSTANCE.lookup("BADKEY"));
     }
 
     @Test

@@ -33,23 +33,17 @@ public class ScriptStringLookupTest {
 
     @Test
     public void testBadEngineName() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ScriptStringLookup.INSTANCE.lookup("BAD_ENGINE_NAME:\"Hello World!\"");
-        });
+        assertThrows(IllegalArgumentException.class, () -> ScriptStringLookup.INSTANCE.lookup("BAD_ENGINE_NAME:\"Hello World!\""));
     }
 
     @Test
     public void testBadScript() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ScriptStringLookup.INSTANCE.lookup(JS_NAME + ":X");
-        });
+        assertThrows(IllegalArgumentException.class, () -> ScriptStringLookup.INSTANCE.lookup(JS_NAME + ":X"));
     }
 
     @Test
     public void testNoScript() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ScriptStringLookup.INSTANCE.lookup("ENGINE_NAME:");
-        });
+        assertThrows(IllegalArgumentException.class, () -> ScriptStringLookup.INSTANCE.lookup("ENGINE_NAME:"));
     }
 
     @Test
@@ -69,9 +63,7 @@ public class ScriptStringLookupTest {
 
     @Test
     public void testScriptMissingColon() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ScriptStringLookup.INSTANCE.lookup("JavaScript=\"test\"");
-        });
+        assertThrows(IllegalArgumentException.class, () -> ScriptStringLookup.INSTANCE.lookup("JavaScript=\"test\""));
     }
 
     @Test

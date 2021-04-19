@@ -482,39 +482,29 @@ public class ExtendedMessageFormatTest {
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFive() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            new ExtendedMessageFormat("j/[_D9{0,\"&'+0o", new HashMap<String, FormatFactory>());
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("j/[_D9{0,\"&'+0o", new HashMap<String, FormatFactory>()));
     }
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFour() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            new ExtendedMessageFormat("RD,nXhM{}{", new HashMap<String, FormatFactory>());
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("RD,nXhM{}{", new HashMap<String, FormatFactory>()));
     }
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionOne() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            new ExtendedMessageFormat("agdXdkR;T1{9 ^,LzXf?", new HashMap<String, FormatFactory>());
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("agdXdkR;T1{9 ^,LzXf?", new HashMap<String, FormatFactory>()));
     }
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionThree() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            new ExtendedMessageFormat("9jLh_D9{ ", new HashMap<String, FormatFactory>());
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("9jLh_D9{ ", new HashMap<String, FormatFactory>()));
     }
 
     // ------------------------ Test Formats ------------------------
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionTwo() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            new ExtendedMessageFormat("a5XdkR;T1{9 ,LzXf?", new HashMap<String, FormatFactory>());
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("a5XdkR;T1{9 ,LzXf?", new HashMap<String, FormatFactory>()));
     }
 
     @Test

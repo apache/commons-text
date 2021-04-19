@@ -67,16 +67,12 @@ public class ResourceBundleStringLookupTest {
     public void testExceptionGettingString() {
         final ResourceBundleStringLookup mockLookup = spy(ResourceBundleStringLookup.class);
         when(mockLookup.getString(TEST_RESOURCE_BUNDLE, KEY)).thenThrow(ClassCastException.class);
-        assertThrows(IllegalArgumentException.class, () -> {
-            mockLookup.lookup(AbstractStringLookup.toLookupKey(TEST_RESOURCE_BUNDLE, KEY));
-        });
+        assertThrows(IllegalArgumentException.class, () -> mockLookup.lookup(AbstractStringLookup.toLookupKey(TEST_RESOURCE_BUNDLE, KEY)));
     }
 
     @Test
     public void testMissingKeyInSpec() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            ResourceBundleStringLookup.INSTANCE.lookup(TEST_RESOURCE_BUNDLE + ":");
-        });
+        assertThrows(IllegalArgumentException.class, () -> ResourceBundleStringLookup.INSTANCE.lookup(TEST_RESOURCE_BUNDLE + ":"));
     }
 
     @Test

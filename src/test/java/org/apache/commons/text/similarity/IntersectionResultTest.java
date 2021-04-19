@@ -39,9 +39,7 @@ public class IntersectionResultTest {
         final int sizeA = -1;
         final int sizeB = 0;
         final int intersection = 0;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new IntersectionResult(sizeA, sizeB, intersection);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
     }
 
     @Test
@@ -49,9 +47,7 @@ public class IntersectionResultTest {
         final int sizeA = 0;
         final int sizeB = -1;
         final int intersection = 0;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new IntersectionResult(sizeA, sizeB, intersection);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
     }
 
     @Test
@@ -59,9 +55,7 @@ public class IntersectionResultTest {
         final int sizeA = 0;
         final int sizeB = 0;
         final int intersection = -1;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new IntersectionResult(sizeA, sizeB, intersection);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
     }
 
     @Test
@@ -69,12 +63,8 @@ public class IntersectionResultTest {
         final int sizeA = 1;
         final int sizeB = 2;
         final int intersection = Math.max(sizeA, sizeB) + 1;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new IntersectionResult(sizeA, sizeB, intersection);
-        });
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new IntersectionResult(sizeB, sizeA, intersection);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeB, sizeA, intersection));
     }
 
     @Test

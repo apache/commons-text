@@ -48,16 +48,12 @@ public class HammingDistanceTest {
 
     @Test
     public void testHammingDistance_nullLeftValue() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            distance.apply(null, "");
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply(null, ""));
     }
 
     @Test
     public void testHammingDistance_nullRightValue() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            distance.apply("", null);
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply("", null));
     }
 
 }

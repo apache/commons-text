@@ -157,9 +157,7 @@ public class FormattableUtilsTest {
 
     @Test
     public void testIllegalEllipsis() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            FormattableUtils.append("foo", createFormatter(), 0, -1, 1, "xx");
-        });
+        assertThatIllegalArgumentException().isThrownBy(() -> FormattableUtils.append("foo", createFormatter(), 0, -1, 1, "xx"));
     }
 
     @Test
