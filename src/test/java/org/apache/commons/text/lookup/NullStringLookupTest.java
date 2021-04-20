@@ -27,8 +27,8 @@ public class NullStringLookupTest {
 
     @Test
     public void test() {
-        Assertions.assertEquals(null, StringLookupFactory.INSTANCE_NULL.lookup("EverythingIsNull"));
-        Assertions.assertEquals(null, StringLookupFactory.INSTANCE_NULL.lookup(null));
+        Assertions.assertNull(StringLookupFactory.INSTANCE_NULL.lookup("EverythingIsNull"));
+        Assertions.assertNull(StringLookupFactory.INSTANCE_NULL.lookup(null));
     }
 
     @Test

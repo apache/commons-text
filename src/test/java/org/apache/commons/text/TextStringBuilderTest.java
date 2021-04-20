@@ -21,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -904,22 +905,22 @@ public class TextStringBuilderTest {
         assertTrue(sb1.equals(sb2));
         assertTrue(sb1.equals(sb1));
         assertTrue(sb2.equals(sb2));
-        assertTrue(sb1.equals((Object) sb2));
+        assertEquals(sb1, (Object) sb2);
 
         sb1.append("abc");
         assertFalse(sb1.equals(sb2));
-        assertFalse(sb1.equals((Object) sb2));
+        assertNotEquals(sb1, (Object) sb2);
 
         sb2.append("ABC");
         assertFalse(sb1.equals(sb2));
-        assertFalse(sb1.equals((Object) sb2));
+        assertNotEquals(sb1, (Object) sb2);
 
         sb2.set("abc");
         assertTrue(sb1.equals(sb2));
-        assertTrue(sb1.equals((Object) sb2));
+        assertEquals(sb1, (Object) sb2);
 
-        assertFalse(sb1.equals(Integer.valueOf(1)));
-        assertFalse(sb1.equals("abc"));
+        assertNotEquals(sb1, Integer.valueOf(1));
+        assertNotEquals("abc", sb1);
     }
 
     @Test
