@@ -1355,7 +1355,7 @@ public class StringSubstitutor {
                 // find suffix
                 int startPos = pos;
                 pos += startMatchLen;
-                int endMatchLen = 0;
+                int endMatchLen;
                 int nestedVarCount = 0;
                 while (pos < bufEnd) {
                     if (substitutionInVariablesEnabled && prefixMatcher.isMatch(builder, pos, offset, bufEnd) != 0) {
@@ -1399,7 +1399,7 @@ public class StringSubstitutor {
 
                             if (valueDelimMatcher != null) {
                                 final char[] varNameExprChars = varNameExpr.toCharArray();
-                                int valueDelimiterMatchLen = 0;
+                                int valueDelimiterMatchLen;
                                 for (int i = 0; i < varNameExprChars.length; i++) {
                                     // if there's any nested variable when nested variable substitution disabled,
                                     // then stop resolving name and default value.

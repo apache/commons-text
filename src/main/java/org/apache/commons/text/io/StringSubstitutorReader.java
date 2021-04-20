@@ -150,7 +150,7 @@ public class StringSubstitutorReader extends FilterReader {
      */
     @Override
     public int read() throws IOException {
-        int count = 0;
+        int count;
         // ask until we get a char or EOS
         do {
             count = read(read1CharBuffer, 0, 1);

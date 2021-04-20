@@ -447,12 +447,12 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         int rowIndex = right.length();
         int columnIndex = left.length();
 
-        int dataAtLeft = 0;
-        int dataAtTop = 0;
-        int dataAtDiagonal = 0;
-        int data = 0;
-        boolean deleted = false;
-        boolean added = false;
+        int dataAtLeft;
+        int dataAtTop;
+        int dataAtDiagonal;
+        int data;
+        boolean deleted;
+        boolean added;
 
         while (rowIndex >= 0 && columnIndex >= 0) {
 
