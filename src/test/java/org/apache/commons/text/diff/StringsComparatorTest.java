@@ -58,7 +58,7 @@ public class StringsComparatorTest {
         }
     }
 
-    private class ExecutionVisitor<T> implements CommandVisitor<T> {
+    private static class ExecutionVisitor<T> implements CommandVisitor<T> {
 
         private final StringBuilder v;
 

@@ -62,7 +62,7 @@ public class ReplacementsFinderTest {
     }
 
     // Helper ReplacementsHandler implementation for testing
-    private class SimpleHandler implements ReplacementsHandler<Character> {
+    private static class SimpleHandler implements ReplacementsHandler<Character> {
         private int skipped;
         private final List<Character> from;
         private final List<Character> to;
