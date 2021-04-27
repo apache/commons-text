@@ -516,9 +516,8 @@ public class ExtendedMessageFormat extends MessageFormat {
      * @param pattern pattern to parse
      * @param pos current parse position
      * @param appendTo optional StringBuilder to append
-     * @return {@code appendTo}
      */
-    private StringBuilder appendQuotedString(final String pattern, final ParsePosition pos,
+    private void appendQuotedString(final String pattern, final ParsePosition pos,
             final StringBuilder appendTo) {
         assert pattern.toCharArray()[pos.getIndex()] == QUOTE
                 : "Quoted string must start with quote character";
@@ -535,8 +534,10 @@ public class ExtendedMessageFormat extends MessageFormat {
             switch (c[pos.getIndex()]) {
             case QUOTE:
                 next(pos);
-                return appendTo == null ? null : appendTo.append(c, start,
-                        pos.getIndex() - start);
+                if (appendTo != null) {
+                    appendTo.append(c, start, pos.getIndex() - start);
+                }
+                return;
             default:
                 next(pos);
             }
