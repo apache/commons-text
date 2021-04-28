@@ -83,6 +83,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-197" type="update" dev="kinow" due-to="Arturo Bernal">Replace statement lambda with expression lambda.</action>
     <action issue="TEXT-204" type="update" dev="kinow" due-to="Arturo Bernal">Use static class inner class in tests.</action>
     <action issue="TEXT-201" type="update" dev="kinow" due-to="Arturo Bernal">Simplify assertion.</action>
+    <action issue="TEXT-202" type="update" dev="kinow" due-to="Arturo Bernal">Extract duplicate code.</action>
   </release>
   <release version="1.9" date="2020-07-21" description="Release 1.9. Requires Java 8.">
     <action issue="TEXT-166" type="fix" dev="kinow" due-to="Mikko Maunu">Removed non-existing parameter from Javadocs and spelled out parameters in throws.</action>
