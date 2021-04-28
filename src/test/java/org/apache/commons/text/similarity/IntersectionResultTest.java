@@ -93,14 +93,14 @@ public class IntersectionResultTest {
         };
 
         // Test a different instance with same values
-        Assertions.assertTrue(results[0].equals(new IntersectionResult(0, 0, 0)));
+        Assertions.assertEquals(results[0], new IntersectionResult(0, 0, 0));
 
         final Object something = new Object();
         for (int i = 0; i < results.length; i++) {
-            Assertions.assertFalse(results[i].equals(something));
-            Assertions.assertFalse(results[i].equals(null));
+            Assertions.assertNotEquals(results[i], something);
+            Assertions.assertNotEquals(null, results[i]);
             for (int j = 0; j < results.length; j++) {
-                Assertions.assertTrue(results[i].equals(results[j]) == (i == j));
+                Assertions.assertEquals(results[i].equals(results[j]), (i == j));
             }
         }
     }
