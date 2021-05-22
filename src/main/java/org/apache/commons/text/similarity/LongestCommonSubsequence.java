@@ -58,7 +58,35 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Inputs must not be null");
         }
-        return longestCommonSubsequence(left, right).length();
+        // Find lengths of two strings
+        final int leftSz = left.length();
+        final int rightSz = right.length();
+
+        // we only need to keep track of last two rows
+        final int[][] dp = new int[2][1 + rightSz];
+
+        // Binary index, used to index
+        // current row and previous row.
+        int rowSelector = 0;
+
+        for (int i = 0; i <= leftSz; i++) {
+            // we avoid calling virtual function charAt within nested loop
+            // for the sake of efficiency
+            final int leftCh = i > 0 ? left.charAt(i - 1) : -1;
+            // select row
+            rowSelector = i & 1; // rowSelector == 1 iff i is odd
+            for (int j = 0; j <= rightSz; j++) {
+                if (i == 0 || j == 0) {
+                    dp[rowSelector][j] = 0;
+                } else if (leftCh == right.charAt(j - 1)) {
+                    dp[rowSelector][j] = dp[1 - rowSelector][j - 1] + 1;
+                } else {
+                    dp[rowSelector][j] = Math.max(dp[1 - rowSelector][j], dp[rowSelector][j - 1]);
+                }
+            }
+        }
+        // Length of LCS may is located at the last filled element of dp array
+        return dp[rowSelector][rightSz];
     }
 
     /**
