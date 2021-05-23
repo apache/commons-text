@@ -62,31 +62,46 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
         final int leftSz = left.length();
         final int rightSz = right.length();
 
-        // we only need to keep track of last two rows
-        final int[][] dp = new int[2][1 + rightSz];
+        // Check if we can save even more space
+        if (leftSz < rightSz) {
+            return calculateLCSLength(right, rightSz, left, leftSz);
+        }
+        return calculateLCSLength(left, leftSz, right, rightSz);
+    }
 
-        // Binary index, used to index
-        // current row and previous row.
-        int rowSelector = 0;
+    // Assuming the sequence "left" is of size m and the sequence "right" is of size n,
+    // this method calculates the length of LCS the two sequences in O(m*n) time and O(n) space.
+    // Since LCS(S1, S2) = LCS(S2, S1), it is preferable to pass shorter sequence as "right,"
+    // so that we can save even more space.
+    // This is an implementation of Hirschberg's algorithm:
+    // D. S. Hirschberg, "A Linear Space Algorithm for Computing Maximal Common Subsequences," Communications of the ACM, vol. 18, no. 6, pp. 341--343, 1975
+    static int calculateLCSLength(final CharSequence left, final int m,
+                                  final CharSequence right, final int n) {
+        // We only need to keep track of last two rows
+        final int[][] dp = new int[2][1 + n];
 
-        for (int i = 0; i <= leftSz; i++) {
-            // we avoid calling virtual function charAt within nested loop
+        // Binary index, used to index the current row
+        // The previous row can be calculated by subtracting currentRow from 1
+        int currentRow = 0;
+
+        for (int i = 0; i <= m; i++) {
+            // We avoid calling virtual function charAt within nested loop
             // for the sake of efficiency
             final int leftCh = i > 0 ? left.charAt(i - 1) : -1;
-            // select row
-            rowSelector = i & 1; // rowSelector == 1 iff i is odd
-            for (int j = 0; j <= rightSz; j++) {
+            currentRow = i % 2;
+            final int previousRow = 1 - currentRow;
+            for (int j = 0; j <= n; j++) {
                 if (i == 0 || j == 0) {
-                    dp[rowSelector][j] = 0;
+                    dp[currentRow][j] = 0;
                 } else if (leftCh == right.charAt(j - 1)) {
-                    dp[rowSelector][j] = dp[1 - rowSelector][j - 1] + 1;
+                    dp[currentRow][j] = dp[previousRow][j - 1] + 1;
                 } else {
-                    dp[rowSelector][j] = Math.max(dp[1 - rowSelector][j], dp[rowSelector][j - 1]);
+                    dp[currentRow][j] = Math.max(dp[previousRow][j], dp[currentRow][j - 1]);
                 }
             }
         }
         // Length of LCS may is located at the last filled element of dp array
-        return dp[rowSelector][rightSz];
+        return dp[currentRow][n];
     }
 
     /**
