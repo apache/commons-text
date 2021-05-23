@@ -80,15 +80,13 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
         // We only need to keep track of last two rows
         final int[][] dp = new int[2][1 + n];
 
-        // Binary index, used to index the current row
-        // The previous row can be calculated by subtracting currentRow from 1
-        int currentRow = 0;
-
         for (int i = 0; i <= m; i++) {
             // We avoid calling virtual function charAt within nested loop
             // for the sake of efficiency
             final int leftCh = i > 0 ? left.charAt(i - 1) : -1;
-            currentRow = i % 2;
+            // Binary index, used to index the current row
+            // The previous row can be calculated by subtracting currentRow from 1
+            final int currentRow = i % 2;
             final int previousRow = 1 - currentRow;
             for (int j = 0; j <= n; j++) {
                 if (i == 0 || j == 0) {
@@ -100,8 +98,8 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
                 }
             }
         }
-        // Length of LCS may is located at the last filled element of dp array
-        return dp[currentRow][n];
+        // Length of LCS is located at the last filled element of the dp array
+        return dp[m % 2][n];
     }
 
     /**
