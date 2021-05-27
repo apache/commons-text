@@ -202,7 +202,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
            final int leftCh = left.charAt(0);
            for (int j = 0; j < n; j++) {
                if (leftCh == right.charAt(j)) {
-                   sb.append((char) leftCh);
+                   sb.appendCodePoint(leftCh);
                    break;
                }
            }
