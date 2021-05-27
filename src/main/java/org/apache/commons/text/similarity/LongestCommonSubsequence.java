@@ -70,7 +70,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
     }
 
     /**
-     * An implementation of "ALG B" from Hirschberg's paper <url>https://dl.acm.org/doi/10.1145/360825.360861</url>.
+     * An implementation of "ALG B" from Hirschberg's paper <a href="https://dl.acm.org/doi/10.1145/360825.360861">A linear space algorithm for computing maximal common subsequences</a>.
      * Assuming the sequence <code>left</code> is of size <code>m</code> and the sequence <code>right</code> is of size <code>n</code>,
      * this method returns the last row of the dynamic programming table when calculating LCS the two sequences.
      * Therefore, the last element of the returned array, is the size of LCS of <code>left</code> and <code>right</code>.
@@ -85,7 +85,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      */
     static int[] algorithmB(final CharSequence left, final int m,
                             final CharSequence right, final int n) {
-        final int UNUSED = -1;
+        final int unused = -1;
         final int[][] dp = new int[2][1 + n];
 
         for (int i = 1; i <= m; i++) {
@@ -98,7 +98,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
             dp[0] = dp[1];
             dp[1] = temp;
             // Hoisting the virtual call out of the inner loop to help with performance.
-            final int leftCh = i > 0 ? left.charAt(i - 1) : UNUSED;
+            final int leftCh = i > 0 ? left.charAt(i - 1) : unused;
             for (int j = 1; j <= n; j++) {
                 if (leftCh == right.charAt(j - 1)) {
                     dp[1][j] = dp[0][j - 1] + 1;
@@ -183,7 +183,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
    }
 
     /**
-     * An implementation of "ALG C" from Hirschberg's paper <url>https://dl.acm.org/doi/10.1145/360825.360861</url>.
+     * An implementation of "ALG C" from Hirschberg's paper <a href="https://dl.acm.org/doi/10.1145/360825.360861">A linear space algorithm for computing maximal common subsequences</a>.
      * Assuming the sequence <code>left</code> is of size <code>m</code> and the sequence <code>right</code> is of size <code>n</code>,
      * this method returns Longest Common Subsequence (LCS) the two sequences.
      * As per the paper, this method runs in O(m * n) time and O(m + n) space.
@@ -209,28 +209,26 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
        } else if (n > 0 && m > 1) {
            final int i = m >> 1; // Find the middle point
 
-           final CharSequence left_0Toi = left.subSequence(0, i);
-           final CharSequence left_iTom = left.subSequence(i, m);
+           final CharSequence left0Toi = left.subSequence(0, i);
+           final CharSequence leftiTom = left.subSequence(i, m);
 
-           final int[] l1 = algorithmB(left_0Toi, i, right, n);
-           final int[] l2 = algorithmB(reverseSequence(left_iTom), m - i, reverseSequence(right), n);
+           final int[] l1 = algorithmB(left0Toi, i, right, n);
+           final int[] l2 = algorithmB(reverseSequence(leftiTom), m - i, reverseSequence(right), n);
 
            // Find k, as per the Step 4 of the algorithm
            int k = 0;
-           {
-               int t = 0;
-               for (int j = 0; j <= n; j++) {
-                   final int s = l1[j] + l2[n - j];
-                   if (t < s) {
-                       t = s;
-                       k = j;
-                   }
+           int t = 0;
+           for (int j = 0; j <= n; j++) {
+               final int s = l1[j] + l2[n - j];
+               if (t < s) {
+                   t = s;
+                   k = j;
                }
            }
 
            // Solve simpler problems
-           final CharSequence c1 = algorithmC(left_0Toi, i, right.subSequence(0, k), k);
-           final CharSequence c2 = algorithmC(left_iTom, m - i, right.subSequence(k, n), n - k);
+           final CharSequence c1 = algorithmC(left0Toi, i, right.subSequence(0, k), k);
+           final CharSequence c2 = algorithmC(leftiTom, m - i, right.subSequence(k, n), n - k);
            sb.append(c1).append(c2);
       }
       return sb.toString();
