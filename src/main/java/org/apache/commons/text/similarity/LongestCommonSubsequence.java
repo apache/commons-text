@@ -74,7 +74,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * Assuming the sequence <code>left</code> is of size <code>m</code> and the sequence <code>right</code> is of size <code>n</code>,
      * this method returns the last row of the dynamic programming table when calculating LCS the two sequences.
      * Therefore, the last element of the returned array, is the size of LCS of <code>left</code> and <code>right</code>.
-     * This method runs in O(m*n) time and O(n) space.
+     * This method runs in O(m * n) time and O(n) space.
      * To save more space, it is preferable to pass the shorter sequence as <code>right</code>.
      *
      * @param left Left sequence
@@ -186,7 +186,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * An implementation of "ALG C" from Hirschberg's paper <url>https://dl.acm.org/doi/10.1145/360825.360861</url>.
      * Assuming the sequence <code>left</code> is of size <code>m</code> and the sequence <code>right</code> is of size <code>n</code>,
      * this method returns Longest Common Subsequence (LCS) the two sequences.
-     * As per the paper, this method runs in O(m*n) time and O(m+n) space.
+     * As per the paper, this method runs in O(m * n) time and O(m + n) space.
      *
      * @param left Left sequence
      * @param m Length of left sequence
