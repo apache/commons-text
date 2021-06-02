@@ -85,7 +85,6 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      */
     static int[] algorithmB(final CharSequence left, final int m,
                             final CharSequence right, final int n) {
-        final int unused = -1;
         final int[][] dp = new int[2][1 + n];
 
         for (int i = 1; i <= m; i++) {
@@ -98,7 +97,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
             dp[0] = dp[1];
             dp[1] = temp;
             // Hoisting the virtual call out of the inner loop to help with performance.
-            final int leftCh = i > 0 ? left.charAt(i - 1) : unused;
+            final int leftCh = left.charAt(i - 1);
             for (int j = 1; j <= n; j++) {
                 if (leftCh == right.charAt(j - 1)) {
                     dp[1][j] = dp[0][j - 1] + 1;
