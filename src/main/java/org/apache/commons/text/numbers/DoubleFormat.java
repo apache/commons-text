@@ -31,7 +31,7 @@ public interface DoubleFormat extends DoubleFunction<String> {
 
     String format(double d);
 
-    String format(double d, Appendable appendable) throws IOException;
+    void appendTo(Appendable appendable, double d) throws IOException;
 
-    String format(double d, StringBuilder strBuilder);
+    void appendTo(StringBuilder strBuilder, double d);
 }

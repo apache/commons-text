@@ -16,8 +16,42 @@
  */
 package org.apache.commons.text.numbers;
 
+import java.io.IOException;
+import java.util.function.DoubleFunction;
+
 public final class DoubleFormats {
+
+    public static final DoubleFormat DOUBLE_TO_STRING = new DoubleFunctionFormatWrapper(Double::toString);
+
+    public static final DoubleFormat FLOAT_TO_STRING = new DoubleFunctionFormatWrapper(d -> Float.toString((float) d));
 
     /** Utility class; no instantiation. */
     private DoubleFormats() {}
+
+    private static final class DoubleFunctionFormatWrapper implements DoubleFormat {
+
+        private final DoubleFunction<String> fn;
+
+        DoubleFunctionFormatWrapper(final DoubleFunction<String> fn) {
+            this.fn = fn;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String format(final double d) {
+            return fn.apply(d);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void appendTo(final Appendable appendable, final double d) throws IOException {
+            appendable.append(format(d));
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void appendTo(final StringBuilder strBuilder, final double d) {
+            strBuilder.append(format(d));
+        }
+    }
 }
