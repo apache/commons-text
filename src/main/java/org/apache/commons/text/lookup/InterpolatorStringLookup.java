@@ -115,19 +115,19 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * the prefix stripped to the lookup object registered for this prefix. If no prefix can be found or if the
      * associated lookup object cannot resolve this variable, the default lookup object will be used.
      *
-     * @param var the name of the variable whose value is to be looked up
+     * @param key the name of the variable whose value is to be looked up
      * @return The value of this variable or <b>null</b> if it cannot be resolved
      */
     @Override
-    public String lookup(String var) {
-        if (var == null) {
+    public String lookup(String key) {
+        if (key == null) {
             return null;
         }
 
-        final int prefixPos = var.indexOf(PREFIX_SEPARATOR);
+        final int prefixPos = key.indexOf(PREFIX_SEPARATOR);
         if (prefixPos >= 0) {
-            final String prefix = toKey(var.substring(0, prefixPos));
-            final String name = var.substring(prefixPos + 1);
+            final String prefix = toKey(key.substring(0, prefixPos));
+            final String name = key.substring(prefixPos + 1);
             final StringLookup lookup = stringLookupMap.get(prefix);
             String value = null;
             if (lookup != null) {
@@ -137,10 +137,10 @@ class InterpolatorStringLookup extends AbstractStringLookup {
             if (value != null) {
                 return value;
             }
-            var = var.substring(prefixPos + 1);
+            key = key.substring(prefixPos + 1);
         }
         if (defaultStringLookup != null) {
-            return defaultStringLookup.lookup(var);
+            return defaultStringLookup.lookup(key);
         }
         return null;
     }
