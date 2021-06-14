@@ -34,4 +34,9 @@
     <Bug code="CN" />
   </Match>
 
+  <Match>
+    <Class name="org.apache.commons.text.TextRandomProviderForRandom" />
+    <Method name="nextInt" />
+  </Match>
+
 </FindBugsFilter>

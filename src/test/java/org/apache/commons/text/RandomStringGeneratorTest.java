@@ -272,6 +272,23 @@ public class RandomStringGeneratorTest {
     }
 
     @Test
+    public void testWithinRangeSecured() {
+        final int length = 5000;
+        final int minimumCodePoint = 'a';
+        final int maximumCodePoint = 'z';
+        final RandomStringGenerator generator = new RandomStringGenerator.Builder()
+                .withinRange(minimumCodePoint, maximumCodePoint).usingSecuredRandom().build();
+        final String str = generator.generate(length);
+
+        int i = 0;
+        do {
+            final int codePoint = str.codePointAt(i);
+            assertThat(codePoint >= minimumCodePoint && codePoint <= maximumCodePoint).isTrue();
+            i += Character.charCount(codePoint);
+        } while (i < str.length());
+    }
+
+    @Test
     public void testZeroLength() {
         final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
         assertThat(generator.generate(0)).isEqualTo("");
