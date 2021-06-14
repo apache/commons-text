@@ -48,7 +48,7 @@
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
     <checkstyle.plugin.version>3.1.2</checkstyle.plugin.version>
-    <checkstyle.version>8.42</checkstyle.version>
+    <checkstyle.version>8.43</checkstyle.version>
 
     <spotbugs.plugin.version>4.2.3</spotbugs.plugin.version>
     <spotbugs.impl.version>4.2.3</spotbugs.impl.version>
