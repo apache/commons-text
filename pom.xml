@@ -53,7 +53,7 @@
     <spotbugs.plugin.version>4.2.3</spotbugs.plugin.version>
     <spotbugs.impl.version>4.2.3</spotbugs.impl.version>
     
-    <commons.mockito.version>3.11.0</commons.mockito.version>
+    <commons.mockito.version>3.11.1</commons.mockito.version>
     <commons.jacoco.version>0.8.6</commons.jacoco.version>
     <commons.javadoc.version>3.2.0</commons.javadoc.version>
 
