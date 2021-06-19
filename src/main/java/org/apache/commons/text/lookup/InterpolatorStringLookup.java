@@ -88,7 +88,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * @param defaultMap the default map for string lookups.
      */
     <V> InterpolatorStringLookup(final Map<String, V> defaultMap) {
-        this(StringLookupFactory.INSTANCE.mapStringLookup(defaultMap == null ? new HashMap<String, V>() : defaultMap));
+        this(StringLookupFactory.INSTANCE.mapStringLookup(defaultMap == null ? new HashMap<>() : defaultMap));
     }
 
     /**

@@ -308,7 +308,7 @@ public class WordUtils {
                     Math.min((int) Math.min(Integer.MAX_VALUE, offset + wrapLength + 1L), inputLineLength)));
             if (matcher.find()) {
                 if (matcher.start() == 0) {
-                    matcherSize = matcher.end() - matcher.start();
+                    matcherSize = matcher.end();
                     if (matcherSize != 0) {
                         offset += matcher.end();
                         continue;
