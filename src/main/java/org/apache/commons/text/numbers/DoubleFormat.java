@@ -19,19 +19,34 @@ package org.apache.commons.text.numbers;
 import java.io.IOException;
 import java.util.function.DoubleFunction;
 
+/** Interface for constructing string representations of double values.
+ */
+@FunctionalInterface
 public interface DoubleFormat extends DoubleFunction<String> {
 
-    /**
-     * Alias for {@link #format(double)}.
+    /** {@link DoubleFormat} instance that simply calls {@link Double#toString(double)}. */
+    static DoubleFormat DOUBLE_TO_STRING = Double::toString;
+
+    /** {@link DoubleFormat} instance that simply converts the double argumen to a float
+     * and then calls {@link Float#toString(float)}.
      */
-    @Override
-    default String apply(double d) {
-        return format(d);
+    static DoubleFormat FLOAT_TO_STRING = d -> Float.toString((float) d);
+
+    /** Append the string representation of {@code d} to the given appendable.
+     * @param appendable object to append to
+     * @param d double value to append a string representation of
+     * @throws IOException if an I/O error occurs
+     */
+    default void appendTo(final Appendable appendable, final double d)
+            throws IOException {
+        appendable.append(apply(d));
     }
 
-    String format(double d);
-
-    void appendTo(Appendable appendable, double d) throws IOException;
-
-    void appendTo(StringBuilder strBuilder, double d);
+    /** Append the string representation of {@code d} to the given string builder.
+     * @param strBuilder string builder to append to
+     * @param d double value to append a string representation of
+     */
+    default void appendTo(final StringBuilder strBuilder, final double d) {
+        strBuilder.append(apply(d));
+    }
 }
