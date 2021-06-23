@@ -210,12 +210,12 @@ final class ParsedDouble {
      *      to {@link Double#toString(double)}
      * @return a string representation of the value with no exponent field
      */
-    public String toPlainString(final boolean includeDecimalPlaceholder) {
+    public String toPlainString(final FormatOptions formatOptions) {
         final int precision = getPrecision();
 
         final StringBuilder sb = new StringBuilder(INITIAL_STR_BUILDER_SIZE);
         if (negative) {
-            sb.append(MINUS_CHAR);
+            sb.append(formatOptions.getMinusSign());
         }
 
         if (exponent < 0) {
@@ -232,7 +232,7 @@ final class ParsedDouble {
             }
 
             // decimal separator
-            sb.append(DECIMAL_SEP_CHAR);
+            sb.append(formatOptions.getDecimalSeparator());
 
             // add placeholder fraction zeros if needed
             for (int j = 0; j > diff; --j) {
@@ -248,8 +248,8 @@ final class ParsedDouble {
                 sb.append(ZERO_CHAR);
             }
 
-            if (includeDecimalPlaceholder) {
-                sb.append(DECIMAL_SEP_CHAR)
+            if (formatOptions.getIncludeDecimalPlaceholder()) {
+                sb.append(formatOptions.getDecimalSeparator())
                     .append(ZERO_CHAR);
             }
         }
@@ -270,8 +270,8 @@ final class ParsedDouble {
      *      to {@link Double#toString(double)}
      * @return a string representation of the value in scientific notation
      */
-    public String toScientificString(final boolean includeDecimalPlaceholder) {
-        return toScientificString(1, includeDecimalPlaceholder);
+    public String toScientificString(final FormatOptions formatOptions) {
+        return toScientificString(1, formatOptions);
     }
 
     /** Return a string representation of the value in engineering notation. This is similar
@@ -289,9 +289,9 @@ final class ParsedDouble {
      *      to {@link Double#toString(double)}
      * @return a string representation of the value in engineering notation
      */
-    public String toEngineeringString(final boolean includeDecimalPlaceholder) {
+    public String toEngineeringString(final FormatOptions formatOptions) {
         final int wholeDigits = 1 + Math.floorMod(getPrecision() + exponent - 1, 3);
-        return toScientificString(wholeDigits, includeDecimalPlaceholder);
+        return toScientificString(wholeDigits, formatOptions);
     }
 
     /** Return a string representation of the value in scientific notation using the
@@ -304,12 +304,12 @@ final class ParsedDouble {
      * @return a string representation of the value in scientific notation using the
      *      given number of whole digits
      */
-    private String toScientificString(final int wholeDigits, final boolean includeDecimalPlaceholder) {
+    private String toScientificString(final int wholeDigits, final FormatOptions formatOptions) {
         final int precision = getPrecision();
 
         final StringBuilder sb = new StringBuilder(INITIAL_STR_BUILDER_SIZE);
         if (negative) {
-            sb.append(MINUS_CHAR);
+            sb.append(formatOptions.getMinusSign());
         }
 
         if (precision <= wholeDigits) {
@@ -321,21 +321,21 @@ final class ParsedDouble {
                 sb.append(ZERO_CHAR);
             }
 
-            if (includeDecimalPlaceholder) {
-                sb.append(DECIMAL_SEP_CHAR)
+            if (formatOptions.getIncludeDecimalPlaceholder()) {
+                sb.append(formatOptions.getDecimalSeparator())
                     .append(ZERO_CHAR);
             }
         } else {
             // we'll need a fractional portion
             sb.append(digits, 0, wholeDigits)
-                .append(DECIMAL_SEP_CHAR)
+                .append(formatOptions.getDecimalSeparator())
                 .append(digits, wholeDigits, precision);
         }
 
         // add the exponent but only if non-zero
         final int resultExponent = exponent + precision - wholeDigits;
         if (resultExponent != 0) {
-            sb.append(EXPONENT_CHAR)
+            sb.append(formatOptions.getExponentSeparator())
                 .append(resultExponent);
         }
 
@@ -510,5 +510,48 @@ final class ParsedDouble {
         }
 
         return String.valueOf(resultChars, 1, len);
+    }
+
+    static class FormatOptions {
+
+        private boolean includeDecimalPlaceholder = true;
+
+        private char decimalSeparator = '.';
+
+        private char minusSign = '-';
+
+        private String exponentSeparator = "E";
+
+        public boolean getIncludeDecimalPlaceholder() {
+            return includeDecimalPlaceholder;
+        }
+
+        public void setIncludeDecimalPlaceholder(final boolean includeDecimalPlaceholder) {
+            this.includeDecimalPlaceholder = includeDecimalPlaceholder;
+        }
+
+        public char getDecimalSeparator() {
+            return decimalSeparator;
+        }
+
+        public void setDecimalSeparator(final char decimalSeparator) {
+            this.decimalSeparator = decimalSeparator;
+        }
+
+        public char getMinusSign() {
+            return minusSign;
+        }
+
+        public void setMinusSign(final char minusSign) {
+            this.minusSign = minusSign;
+        }
+
+        public String getExponentSeparator() {
+            return exponentSeparator;
+        }
+
+        public void setExponentSeparator(final String exponentSeparator) {
+            this.exponentSeparator = exponentSeparator;
+        }
     }
 }
