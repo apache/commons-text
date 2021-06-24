@@ -44,11 +44,15 @@ public enum StandardDoubleFormat {
 
         private int maxPrecision = -1;
 
-        private int minExponent = Integer.MIN_VALUE;
+        private double minValue = Double.MIN_VALUE;
 
         private int upperThresholdExponent = 7;
 
         private int lowerThresholdExponent = -4;
+
+        private String infinity = "Infinity";
+
+        private String nan = "NaN";
 
         private ParsedDouble.FormatOptions formatOptions = new ParsedDouble.FormatOptions();
 
@@ -61,8 +65,8 @@ public enum StandardDoubleFormat {
             return this;
         }
 
-        public Builder withMinExponent(final int minExponent) {
-            this.minExponent = minExponent;
+        public Builder withMinValue(final double minValue) {
+            this.minValue = minValue;
             return this;
         }
 
@@ -73,6 +77,11 @@ public enum StandardDoubleFormat {
 
         public Builder withLowerThresholdExponent(final int lowerThresholdExponent) {
             this.lowerThresholdExponent = lowerThresholdExponent;
+            return this;
+        }
+
+        public Builder withSignedZero(final boolean signedZero) {
+            formatOptions.setSignedZero(signedZero);
             return this;
         }
 
@@ -96,10 +105,22 @@ public enum StandardDoubleFormat {
             return this;
         }
 
+        public Builder withInfinity(final String infinity) {
+            this.infinity = infinity;
+            return this;
+        }
+
+        public Builder withNaN(final String nan) {
+            this.nan = nan;
+            return this;
+        }
+
         public Builder withFormatSymbols(final DecimalFormatSymbols symbols) {
             return withDecimalSeparator(symbols.getDecimalSeparator())
                     .withMinusSign(symbols.getMinusSign())
-                    .withExponentSeparator(symbols.getExponentSeparator());
+                    .withExponentSeparator(symbols.getExponentSeparator())
+                    .withInfinity(symbols.getInfinity())
+                    .withNaN(symbols.getNaN());
         }
 
         public DoubleFormat build() {
@@ -114,21 +135,34 @@ public enum StandardDoubleFormat {
         /** Maximum precision to use when formatting values. */
         private final int maxPrecision;
 
-        /** The minimum exponent to allow in the result. Value with exponents less than this are
-         * rounded to positive zero.
-         */
+        /** The minimum value to display. Numbers less than this are displayed as zero. */
+        private final double minValue;
+
         private final int minExponent;
+
+        private final String postiveInfinity;
+
+        private final String negativeInfinity;
+
+        private final String nan;
 
         private final ParsedDouble.FormatOptions formatOptions;
 
         AbstractDoubleFormat(final Builder builder) {
-            if (builder.maxPrecision < 0) {
-                throw new IllegalArgumentException(
-                        "Max precision must be greater than or equal to zero; was " + builder.maxPrecision);
+            if (!Double.isFinite(builder.minValue)) {
+                throw new IllegalArgumentException("Min value must be finite; was " + builder.minValue);
             }
 
             this.maxPrecision = builder.maxPrecision;
-            this.minExponent = builder.minExponent;
+
+            final double absMinValue = Math.abs(builder.minValue);
+            this.minValue = absMinValue;
+            this.minExponent = (int) Math.floor(Math.log10(absMinValue));
+
+            this.postiveInfinity = builder.infinity;
+            this.negativeInfinity = builder.formatOptions.getMinusSign() + builder.infinity;
+            this.nan = builder.nan;
+
             this.formatOptions = builder.formatOptions;
         }
 
@@ -136,26 +170,37 @@ public enum StandardDoubleFormat {
         @Override
         public String apply(final double d) {
             if (Double.isFinite(d)) {
-                final ParsedDouble n = ParsedDouble.from(d);
+                return formatFinite(d);
+            } else if (Double.isInfinite(d)) {
+                return d > 0 ?
+                    postiveInfinity :
+                    negativeInfinity;
+            }
+            return nan;
+        }
 
-                int roundExponent = Math.max(n.getExponent(), minExponent);
-                if (maxPrecision > 0) {
-                    roundExponent = Math.max(n.getScientificExponent() - maxPrecision + 1, roundExponent);
-                }
+        /** Return a formatted string representing the given finite value.
+         * @param d double value
+         * @return formatted string
+         */
+        private String formatFinite(final double d) {
+            final ParsedDouble n = ParsedDouble.from(d);
 
-                final ParsedDouble rounded = n.round(roundExponent);
-
-                return formatInternal(rounded, formatOptions);
+            int roundExponent = Math.max(n.getExponent(), minExponent);
+            if (maxPrecision > 0) {
+                roundExponent = Math.max(n.getScientificExponent() - maxPrecision + 1, roundExponent);
             }
 
-            return Double.toString(d); // NaN or infinite; use default Double toString() method
+            final ParsedDouble rounded = n.round(roundExponent);
+
+            return formatFiniteInternal(rounded, formatOptions);
         }
 
         /** Format the given parsed double value.
          * @param val value to format
          * @return formatted double value
          */
-        protected abstract String formatInternal(ParsedDouble val, ParsedDouble.FormatOptions formatOptions);
+        protected abstract String formatFiniteInternal(ParsedDouble val, ParsedDouble.FormatOptions formatOptions);
     }
 
     /** Format class that produces plain decimal strings that do not use
@@ -175,7 +220,7 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        protected String formatInternal(final ParsedDouble val, final ParsedDouble.FormatOptions formatOptions) {
+        protected String formatFiniteInternal(final ParsedDouble val, final ParsedDouble.FormatOptions formatOptions) {
             return val.toPlainString(formatOptions);
         }
     }
@@ -211,7 +256,7 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        protected String formatInternal(final ParsedDouble val, final ParsedDouble.FormatOptions formatOptions) {
+        protected String formatFiniteInternal(final ParsedDouble val, final ParsedDouble.FormatOptions formatOptions) {
             final int sciExp = val.getScientificExponent();
             return sciExp < plainUpperThresholdExponent && sciExp > plainLowerThresholdExponent ?
                     val.toPlainString(formatOptions) :
@@ -235,7 +280,7 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        public String formatInternal(final ParsedDouble val, final ParsedDouble.FormatOptions formatOptions) {
+        public String formatFiniteInternal(final ParsedDouble val, final ParsedDouble.FormatOptions formatOptions) {
             return val.toScientificString(formatOptions);
         }
     }
@@ -256,7 +301,7 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        public String formatInternal(final ParsedDouble val, final ParsedDouble.FormatOptions formatOptions) {
+        public String formatFiniteInternal(final ParsedDouble val, final ParsedDouble.FormatOptions formatOptions) {
             return val.toEngineeringString(formatOptions);
         }
     }

@@ -154,7 +154,7 @@ final class ParsedDouble {
                 return new ParsedDouble(negative, "1", roundExponent);
             }
 
-            return POS_ZERO;
+            return isNegative() ? NEG_ZERO : POS_ZERO;
         }
 
         return this;
@@ -214,7 +214,7 @@ final class ParsedDouble {
         final int precision = getPrecision();
 
         final StringBuilder sb = new StringBuilder(INITIAL_STR_BUILDER_SIZE);
-        if (negative) {
+        if (shouldIncludeMinus(formatOptions)) {
             sb.append(formatOptions.getMinusSign());
         }
 
@@ -308,7 +308,7 @@ final class ParsedDouble {
         final int precision = getPrecision();
 
         final StringBuilder sb = new StringBuilder(INITIAL_STR_BUILDER_SIZE);
-        if (negative) {
+        if (shouldIncludeMinus(formatOptions)) {
             sb.append(formatOptions.getMinusSign());
         }
 
@@ -340,6 +340,15 @@ final class ParsedDouble {
         }
 
         return sb.toString();
+    }
+
+    /** Return true if formatted strings should include the minus sign, considering
+     * the value of this instance and the given format options.
+     * @param opts format options
+     * @return true if a minus sign should be included in the output
+     */
+    private boolean shouldIncludeMinus(final FormatOptions opts) {
+        return negative && (opts.getSignedZero() || !isZero());
     }
 
     /** Return true if a rounding operation at the given index should round up.
@@ -516,6 +525,8 @@ final class ParsedDouble {
 
         private boolean includeDecimalPlaceholder = true;
 
+        private boolean signedZero = true;
+
         private char decimalSeparator = '.';
 
         private char minusSign = '-';
@@ -528,6 +539,14 @@ final class ParsedDouble {
 
         public void setIncludeDecimalPlaceholder(final boolean includeDecimalPlaceholder) {
             this.includeDecimalPlaceholder = includeDecimalPlaceholder;
+        }
+
+        public boolean getSignedZero() {
+            return signedZero;
+        }
+
+        public void setSignedZero(final boolean signedZero) {
+            this.signedZero = signedZero;
         }
 
         public char getDecimalSeparator() {
