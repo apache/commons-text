@@ -76,10 +76,10 @@ public class StandardDoubleFormatTest {
     }
 
     @Test
-    public void testPlain_withMinvalue() {
+    public void testPlain_withMin() {
         // arrange
         DoubleFormat fmt = StandardDoubleFormat.PLAIN.builder()
-            .withMinValue(9.9e-4)
+            .withMin(9.9e-4)
             .build();
 
         // act/assert
@@ -117,7 +117,7 @@ public class StandardDoubleFormatTest {
         // arrange
         DoubleFormat fmt = StandardDoubleFormat.PLAIN.builder()
             .withMaxPrecision(3)
-            .withMinValue(1e-3)
+            .withMin(1e-3)
             .withSignedZero(false)
             .withDecimalPlaceholder(false)
             .withDecimalSeparator(',')
@@ -159,6 +159,157 @@ public class StandardDoubleFormatTest {
         checkFormat(fmt, Float.MIN_NORMAL, "0");
         checkFormat(fmt, Math.PI, "3,14");
         checkFormat(fmt, Math.E, "2,72");
+    }
+
+    @Test
+    void testScientific_defaults() {
+        // arrange
+        final DoubleFormat fmt = StandardDoubleFormat.SCIENTIFIC.builder().build();
+
+        // act/assert
+        checkFormatSpecial(fmt);
+
+        checkFormat(fmt, 0.00001, "1.0E-5");
+        checkFormat(fmt, -0.0001, "-1.0E-4");
+        checkFormat(fmt, 0.001, "1.0E-3");
+        checkFormat(fmt, -0.01, "-1.0E-2");
+        checkFormat(fmt, 0.1, "1.0E-1");
+        checkFormat(fmt, -0.0, "-0.0");
+        checkFormat(fmt, 0.0, "0.0");
+        checkFormat(fmt, -1.0, "-1.0");
+        checkFormat(fmt, 10.0, "1.0E1");
+        checkFormat(fmt, -100.0, "-1.0E2");
+        checkFormat(fmt, 1000.0, "1.0E3");
+        checkFormat(fmt, -10000.0, "-1.0E4");
+        checkFormat(fmt, 100000.0, "1.0E5");
+        checkFormat(fmt, -1000000.0, "-1.0E6");
+        checkFormat(fmt, 10000000.0, "1.0E7");
+        checkFormat(fmt, -100000000.0, "-1.0E8");
+
+        checkFormat(fmt, 1.25e-3, "1.25E-3");
+        checkFormat(fmt, -9.975e-4, "-9.975E-4");
+        checkFormat(fmt, -9_999_999, "-9.999999E6");
+        checkFormat(fmt, 1.00001e7, "1.00001E7");
+
+        checkFormat(fmt, Double.MAX_VALUE, "1.7976931348623157E308");
+        checkFormat(fmt, Double.MIN_VALUE, "4.9E-324");
+        checkFormat(fmt, Double.MIN_NORMAL, "2.2250738585072014E-308");
+        checkFormat(fmt, Math.PI, "3.141592653589793");
+        checkFormat(fmt, Math.E, "2.718281828459045");
+    }
+
+    @Test
+    void testScientific_withMin() {
+        // arrange
+        final DoubleFormat fmt = StandardDoubleFormat.SCIENTIFIC.builder()
+                .withMin(0.0021)
+                .build();
+
+        // act/assert
+        checkFormatSpecial(fmt);
+
+        checkFormat(fmt, 0.00001, "0.0");
+        checkFormat(fmt, -0.0001, "-0.0");
+        checkFormat(fmt, 0.001, "1.0E-3");
+        checkFormat(fmt, -0.01, "-1.0E-2");
+        checkFormat(fmt, 0.1, "1.0E-1");
+        checkFormat(fmt, -0.0, "-0.0");
+        checkFormat(fmt, 0.0, "0.0");
+        checkFormat(fmt, -1.0, "-1.0");
+        checkFormat(fmt, 10.0, "1.0E1");
+        checkFormat(fmt, -100.0, "-1.0E2");
+        checkFormat(fmt, 1000.0, "1.0E3");
+        checkFormat(fmt, -10000.0, "-1.0E4");
+        checkFormat(fmt, 100000.0, "1.0E5");
+        checkFormat(fmt, -1000000.0, "-1.0E6");
+        checkFormat(fmt, 10000000.0, "1.0E7");
+        checkFormat(fmt, -100000000.0, "-1.0E8");
+
+        checkFormat(fmt, 1.25e-3, "1.0E-3");
+        checkFormat(fmt, -9.975e-4, "-1.0E-3");
+        checkFormat(fmt, -9_999_999, "-9.999999E6");
+        checkFormat(fmt, 1.00001e7, "1.00001E7");
+
+        checkFormat(fmt, Double.MAX_VALUE, "1.7976931348623157E308");
+        checkFormat(fmt, Double.MIN_VALUE, "0.0");
+        checkFormat(fmt, Double.MIN_NORMAL, "0.0");
+        checkFormat(fmt, Math.PI, "3.142");
+        checkFormat(fmt, Math.E, "2.718");
+    }
+
+    @Test
+    void testEngineering_defaults() {
+        // act
+        final DoubleFormat fmt = StandardDoubleFormat.ENGINEERING.builder()
+                .build();
+
+        // act/assert
+        checkFormatSpecial(fmt);
+
+        checkFormat(fmt, 0.00001, "10.0E-6");
+        checkFormat(fmt, -0.0001, "-100.0E-6");
+        checkFormat(fmt, 0.001, "1.0E-3");
+        checkFormat(fmt, -0.01, "-10.0E-3");
+        checkFormat(fmt, 0.1, "100.0E-3");
+        checkFormat(fmt, -0.0, "-0.0");
+        checkFormat(fmt, 0.0, "0.0");
+        checkFormat(fmt, -1.0, "-1.0");
+        checkFormat(fmt, 10.0, "10.0");
+        checkFormat(fmt, -100.0, "-100.0");
+        checkFormat(fmt, 1000.0, "1.0E3");
+        checkFormat(fmt, -10000.0, "-10.0E3");
+        checkFormat(fmt, 100000.0, "100.0E3");
+        checkFormat(fmt, -1000000.0, "-1.0E6");
+        checkFormat(fmt, 10000000.0, "10.0E6");
+        checkFormat(fmt, -100000000.0, "-100.0E6");
+
+        checkFormat(fmt, 1.25e-3, "1.25E-3");
+        checkFormat(fmt, -9.975e-4, "-997.5E-6");
+        checkFormat(fmt, -9_999_999, "-9.999999E6");
+        checkFormat(fmt, 1.00001e7, "10.0001E6");
+
+        checkFormat(fmt, Double.MAX_VALUE, "179.76931348623157E306");
+        checkFormat(fmt, Double.MIN_VALUE, "4.9E-324");
+        checkFormat(fmt, Double.MIN_NORMAL, "22.250738585072014E-309");
+        checkFormat(fmt, Math.PI, "3.141592653589793");
+        checkFormat(fmt, Math.E, "2.718281828459045");
+    }
+
+    @Test
+    void testMixed_defaults() {
+        // arrange
+        final DoubleFormat fmt = StandardDoubleFormat.MIXED.builder().build();
+
+        // act/assert
+        checkFormatSpecial(fmt);
+
+        checkFormat(fmt, 0.00001, "1.0E-5");
+        checkFormat(fmt, -0.0001, "-1.0E-4");
+        checkFormat(fmt, 0.001, "0.001");
+        checkFormat(fmt, -0.01, "-0.01");
+        checkFormat(fmt, 0.1, "0.1");
+        checkFormat(fmt, -0.0, "-0.0");
+        checkFormat(fmt, 0.0, "0.0");
+        checkFormat(fmt, -1.0, "-1.0");
+        checkFormat(fmt, 10.0, "10.0");
+        checkFormat(fmt, -100.0, "-100.0");
+        checkFormat(fmt, 1000.0, "1000.0");
+        checkFormat(fmt, -10000.0, "-10000.0");
+        checkFormat(fmt, 100000.0, "100000.0");
+        checkFormat(fmt, -1000000.0, "-1000000.0");
+        checkFormat(fmt, 10000000.0, "1.0E7");
+        checkFormat(fmt, -100000000.0, "-1.0E8");
+
+        checkFormat(fmt, 1.25e-3, "0.00125");
+        checkFormat(fmt, -9.975e-4, "-9.975E-4");
+        checkFormat(fmt, -9_999_999, "-9999999.0");
+        checkFormat(fmt, 1.00001e7, "1.00001E7");
+
+        checkFormat(fmt, Double.MAX_VALUE, "1.7976931348623157E308");
+        checkFormat(fmt, Double.MIN_VALUE, "4.9E-324");
+        checkFormat(fmt, Double.MIN_NORMAL, "2.2250738585072014E-308");
+        checkFormat(fmt, Math.PI, "3.141592653589793");
+        checkFormat(fmt, Math.E, "2.718281828459045");
     }
 
     /** Check that the given format type correctly formats doubles when using the

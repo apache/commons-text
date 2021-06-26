@@ -24,9 +24,9 @@ import java.util.function.Function;
  */
 public enum StandardDoubleFormat {
     PLAIN(PlainDoubleFormat::new),
-    MIXED(MixedDoubleFormat::new),
     SCIENTIFIC(ScientificDoubleFormat::new),
-    ENGINEERING(EngineeringDoubleFormat::new);
+    ENGINEERING(EngineeringDoubleFormat::new),
+    MIXED(MixedDoubleFormat::new);
 
     private final Function<Builder, DoubleFormat> factory;
 
@@ -42,13 +42,15 @@ public enum StandardDoubleFormat {
 
         private final Function<Builder, DoubleFormat> factory;
 
-        private int maxPrecision = -1;
+        /** Maximum number of significant decimal digits in formatted strings. */
+        private int maxPrecision = 0;
 
-        private double minValue = Double.MIN_VALUE;
+        /** Minimum value formatted as non-zero. */
+        private double min = Double.POSITIVE_INFINITY;
 
-        private int upperThresholdExponent = 7;
+        private double plainFormatMax = 1e7;
 
-        private int lowerThresholdExponent = -4;
+        private double plainFormatMin = 1e-4;
 
         private String infinity = "Infinity";
 
@@ -60,23 +62,28 @@ public enum StandardDoubleFormat {
             this.factory = factory;
         }
 
+        /** Set the maximum number of significant decimal digits used in format
+         * results. A value of 0 indicates no limit.
+         * @param maxPrecision maximum precision
+         * @return this instance
+         */
         public Builder withMaxPrecision(final int maxPrecision) {
             this.maxPrecision = maxPrecision;
             return this;
         }
 
-        public Builder withMinValue(final double minValue) {
-            this.minValue = minValue;
+        public Builder withMin(final double min) {
+            this.min = min;
             return this;
         }
 
-        public Builder withUpperThresholdExponent(final int upperThresholdExponent) {
-            this.upperThresholdExponent = upperThresholdExponent;
+        public Builder withPlainFormatMax(final double plainFormatMax) {
+            this.plainFormatMax = plainFormatMax;
             return this;
         }
 
-        public Builder withLowerThresholdExponent(final int lowerThresholdExponent) {
-            this.lowerThresholdExponent = lowerThresholdExponent;
+        public Builder withPlainFormatMin(final double plainFormatMin) {
+            this.plainFormatMin = plainFormatMin;
             return this;
         }
 
@@ -132,11 +139,11 @@ public enum StandardDoubleFormat {
      */
     private abstract static class AbstractDoubleFormat implements DoubleFormat {
 
+        /** Minimum possible decimal exponent for double values. */
+        static final int MIN_DOUBLE_EXPONENT = -326;
+
         /** Maximum precision to use when formatting values. */
         private final int maxPrecision;
-
-        /** The minimum value to display. Numbers less than this are displayed as zero. */
-        private final double minValue;
 
         private final int minExponent;
 
@@ -149,15 +156,9 @@ public enum StandardDoubleFormat {
         private final ParsedDouble.FormatOptions formatOptions;
 
         AbstractDoubleFormat(final Builder builder) {
-            if (!Double.isFinite(builder.minValue)) {
-                throw new IllegalArgumentException("Min value must be finite; was " + builder.minValue);
-            }
-
             this.maxPrecision = builder.maxPrecision;
 
-            final double absMinValue = Math.abs(builder.minValue);
-            this.minValue = absMinValue;
-            this.minExponent = (int) Math.floor(Math.log10(absMinValue));
+            this.minExponent = getScientificExponentOrDefault(Math.abs(builder.min), MIN_DOUBLE_EXPONENT);
 
             this.postiveInfinity = builder.infinity;
             this.negativeInfinity = builder.formatOptions.getMinusSign() + builder.infinity;
@@ -172,7 +173,7 @@ public enum StandardDoubleFormat {
             if (Double.isFinite(d)) {
                 return formatFinite(d);
             } else if (Double.isInfinite(d)) {
-                return d > 0 ?
+                return d > 0.0 ?
                     postiveInfinity :
                     negativeInfinity;
             }
@@ -201,6 +202,16 @@ public enum StandardDoubleFormat {
          * @return formatted double value
          */
         protected abstract String formatFiniteInternal(ParsedDouble val, ParsedDouble.FormatOptions formatOptions);
+
+        static int getScientificExponentOrDefault(final double d, final int defaultExponent) {
+            return Double.isFinite(d) ?
+                    getScientificExponent(d) :
+                    defaultExponent;
+        }
+
+        static int getScientificExponent(final double d) {
+            return ParsedDouble.from(d).getScientificExponent();
+        }
     }
 
     /** Format class that produces plain decimal strings that do not use
@@ -231,15 +242,9 @@ public enum StandardDoubleFormat {
      */
     private static class MixedDoubleFormat extends AbstractDoubleFormat {
 
-        /** Decimal exponent upper bound for use of plain formatted strings. */
-        private static final int UPPER_PLAIN_EXP = 7;
+        private final int plainMaxExponent;
 
-        /** Decimal exponent lower bound for use of plain formatted strings. */
-        private static final int LOWER_PLAIN_EXP = -4;
-
-        private final int plainUpperThresholdExponent;
-
-        private final int plainLowerThresholdExponent;
+        private final int plainMinExponent;
 
         /** Construct a new instance with the given maximum precision and minimum exponent.
          * @param maxPrecision maximum number of significant decimal digits
@@ -250,15 +255,15 @@ public enum StandardDoubleFormat {
         MixedDoubleFormat(final Builder builder) {
             super(builder);
 
-            this.plainUpperThresholdExponent = builder.upperThresholdExponent;
-            this.plainLowerThresholdExponent = builder.lowerThresholdExponent;
+            this.plainMaxExponent = getScientificExponent(builder.plainFormatMax);
+            this.plainMinExponent = getScientificExponent(builder.plainFormatMin);
         }
 
         /** {@inheritDoc} */
         @Override
         protected String formatFiniteInternal(final ParsedDouble val, final ParsedDouble.FormatOptions formatOptions) {
             final int sciExp = val.getScientificExponent();
-            return sciExp < plainUpperThresholdExponent && sciExp > plainLowerThresholdExponent ?
+            return sciExp < plainMaxExponent && sciExp > plainMinExponent ?
                     val.toPlainString(formatOptions) :
                     val.toScientificString(formatOptions);
         }
@@ -289,7 +294,7 @@ public enum StandardDoubleFormat {
      */
     private static class EngineeringDoubleFormat extends AbstractDoubleFormat {
 
-        /** Construct a new instance with the given maximum precision and minimum exponent.
+        /** Construct a new instance with the given maximum) precision and minimum exponent.
          * @param maxPrecision maximum number of significant decimal digits
          * @param minExponent minimum decimal exponent; values less than this that do not round up
          *      are considered to be zero
