@@ -34,7 +34,39 @@ package org.apache.commons.text.numbers;
  *  <tr><td>56300</td><td>true</td><td>"563"</td><td>2</td></tr>
  * </table>
  */
-final class ParsedDouble {
+final class SimpleDecimal {
+
+    /** Interface containing values used during string formatting.
+     */
+    static interface FormatOptions {
+
+        /** Return true if fraction placeholders (e.g., {@code ".0"} in {@code "1.0"})
+         * should be included.
+         * @return true if fraction placeholders should be included
+         */
+        boolean getIncludeFractionPlaceholder();
+
+        /** Return true if the string zero should be prefixed with the minus sign
+         * for negative zero values.
+         * @return true if the minus zero string should be allowed
+         */
+        boolean getSignedZero();
+
+        /** Get the decimal separator character.
+         * @return decimal separator character
+         */
+        char getDecimalSeparator();
+
+        /** Get the minus sign character.
+         * @return minus sign character
+         */
+        char getMinusSign();
+
+        /** Get the exponent separator string.
+         * @return exponent separator string
+         */
+        String getExponentSeparator();
+    }
 
     /** Minus sign character. */
     private static final char MINUS_CHAR = '-';
@@ -61,10 +93,10 @@ final class ParsedDouble {
     private static final int INITIAL_STR_BUILDER_SIZE = 32;
 
     /** Shared instance representing the positive zero double value. */
-    private static final ParsedDouble POS_ZERO = new ParsedDouble(false, String.valueOf(ZERO_CHAR), 0);
+    private static final SimpleDecimal POS_ZERO = new SimpleDecimal(false, String.valueOf(ZERO_CHAR), 0);
 
     /** Shared instance representing the negative zero double value. */
-    private static final ParsedDouble NEG_ZERO = new ParsedDouble(true, String.valueOf(ZERO_CHAR), 0);
+    private static final SimpleDecimal NEG_ZERO = new SimpleDecimal(true, String.valueOf(ZERO_CHAR), 0);
 
     /** True if the value is negative. */
     private final boolean negative;
@@ -80,7 +112,7 @@ final class ParsedDouble {
      * @param digits string containing significant digits
      * @param exponent exponent value
      */
-    ParsedDouble(final boolean negative, final String digits, final int exponent) {
+    SimpleDecimal(final boolean negative, final String digits, final int exponent) {
         this.negative = negative;
         this.digits = digits;
         this.exponent = exponent;
@@ -143,7 +175,7 @@ final class ParsedDouble {
      * @param roundExponent exponent defining the decimal place to round to
      * @return result of the rounding operation
      */
-    public ParsedDouble round(final int roundExponent) {
+    public SimpleDecimal round(final int roundExponent) {
         if (roundExponent > exponent) {
             final int precision = getPrecision();
             final int max = precision + exponent;
@@ -151,7 +183,7 @@ final class ParsedDouble {
             if (roundExponent < max) {
                 return maxPrecision(max - roundExponent);
             } else if (roundExponent == max && shouldRoundUp(0)) {
-                return new ParsedDouble(negative, "1", roundExponent);
+                return new SimpleDecimal(negative, "1", roundExponent);
             }
 
             return isNegative() ? NEG_ZERO : POS_ZERO;
@@ -170,7 +202,7 @@ final class ParsedDouble {
      *      significant digits
      * @throws IllegalArgumentException if {@code precision} is less than 1
      */
-    public ParsedDouble maxPrecision(final int precision) {
+    public SimpleDecimal maxPrecision(final int precision) {
         if (precision < 1) {
             throw new IllegalArgumentException("Precision must be greater than zero; was " + precision);
         }
@@ -193,7 +225,7 @@ final class ParsedDouble {
                 resultDigits = resultDigits.substring(0, lastNonZeroIdx + 1);
             }
 
-            return new ParsedDouble(negative, resultDigits, resultExponent);
+            return new SimpleDecimal(negative, resultDigits, resultExponent);
         }
 
         return this; // no change needed
@@ -248,7 +280,7 @@ final class ParsedDouble {
                 sb.append(ZERO_CHAR);
             }
 
-            if (formatOptions.getIncludeDecimalPlaceholder()) {
+            if (formatOptions.getIncludeFractionPlaceholder()) {
                 sb.append(formatOptions.getDecimalSeparator())
                     .append(ZERO_CHAR);
             }
@@ -321,7 +353,7 @@ final class ParsedDouble {
                 sb.append(ZERO_CHAR);
             }
 
-            if (formatOptions.getIncludeDecimalPlaceholder()) {
+            if (formatOptions.getIncludeFractionPlaceholder()) {
                 sb.append(formatOptions.getDecimalSeparator())
                     .append(ZERO_CHAR);
             }
@@ -335,8 +367,13 @@ final class ParsedDouble {
         // add the exponent but only if non-zero
         final int resultExponent = exponent + precision - wholeDigits;
         if (resultExponent != 0) {
-            sb.append(formatOptions.getExponentSeparator())
-                .append(resultExponent);
+            sb.append(formatOptions.getExponentSeparator());
+
+            if (resultExponent < 0) {
+                sb.append(formatOptions.getMinusSign());
+            }
+
+            sb.append(Math.abs(resultExponent));
         }
 
         return sb.toString();
@@ -374,7 +411,7 @@ final class ParsedDouble {
      * @return a new instance containing the parsed components of the given double value
      * @throws IllegalArgumentException if {@code d} is {@code NaN} or infinite
      */
-    public static ParsedDouble from(final double d) {
+    public static SimpleDecimal from(final double d) {
         if (!Double.isFinite(d)) {
             throw new IllegalArgumentException("Double is not finite");
         }
@@ -429,7 +466,7 @@ final class ParsedDouble {
                     firstNonZeroDigitIdx,
                     lastNonZeroDigitIdx - firstNonZeroDigitIdx + 1);
 
-            return new ParsedDouble(negative, digits, exponent);
+            return new SimpleDecimal(negative, digits, exponent);
         }
 
         // no non-zero digits, so value is zero
@@ -519,58 +556,5 @@ final class ParsedDouble {
         }
 
         return String.valueOf(resultChars, 1, len);
-    }
-
-    static class FormatOptions {
-
-        private boolean includeDecimalPlaceholder = true;
-
-        private boolean signedZero = true;
-
-        private char decimalSeparator = '.';
-
-        private char minusSign = '-';
-
-        private String exponentSeparator = "E";
-
-        public boolean getIncludeDecimalPlaceholder() {
-            return includeDecimalPlaceholder;
-        }
-
-        public void setIncludeDecimalPlaceholder(final boolean includeDecimalPlaceholder) {
-            this.includeDecimalPlaceholder = includeDecimalPlaceholder;
-        }
-
-        public boolean getSignedZero() {
-            return signedZero;
-        }
-
-        public void setSignedZero(final boolean signedZero) {
-            this.signedZero = signedZero;
-        }
-
-        public char getDecimalSeparator() {
-            return decimalSeparator;
-        }
-
-        public void setDecimalSeparator(final char decimalSeparator) {
-            this.decimalSeparator = decimalSeparator;
-        }
-
-        public char getMinusSign() {
-            return minusSign;
-        }
-
-        public void setMinusSign(final char minusSign) {
-            this.minusSign = minusSign;
-        }
-
-        public String getExponentSeparator() {
-            return exponentSeparator;
-        }
-
-        public void setExponentSeparator(final String exponentSeparator) {
-            this.exponentSeparator = exponentSeparator;
-        }
     }
 }

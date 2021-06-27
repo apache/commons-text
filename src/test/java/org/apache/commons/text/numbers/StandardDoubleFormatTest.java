@@ -79,7 +79,7 @@ public class StandardDoubleFormatTest {
     public void testPlain_withMin() {
         // arrange
         DoubleFormat fmt = StandardDoubleFormat.PLAIN.builder()
-            .withMin(9.9e-4)
+            .withMinDecimalExponent(-4)
             .build();
 
         // act/assert
@@ -117,9 +117,9 @@ public class StandardDoubleFormatTest {
         // arrange
         DoubleFormat fmt = StandardDoubleFormat.PLAIN.builder()
             .withMaxPrecision(3)
-            .withMin(1e-3)
+            .withMinDecimalExponent(-3)
             .withSignedZero(false)
-            .withDecimalPlaceholder(false)
+            .withFractionPlaceholder(false)
             .withDecimalSeparator(',')
             .withExponentSeparator("e")
             .withInfinity("inf")
@@ -202,7 +202,7 @@ public class StandardDoubleFormatTest {
     void testScientific_withMin() {
         // arrange
         final DoubleFormat fmt = StandardDoubleFormat.SCIENTIFIC.builder()
-                .withMin(0.0021)
+                .withMinDecimalExponent(-3)
                 .build();
 
         // act/assert

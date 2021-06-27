@@ -28,42 +28,80 @@ public enum StandardDoubleFormat {
     ENGINEERING(EngineeringDoubleFormat::new),
     MIXED(MixedDoubleFormat::new);
 
+    /** Function used to construct {@link DoubleFormat} instances of this format type. */
     private final Function<Builder, DoubleFormat> factory;
 
+    /** Construct a new instance.
+     * @param factory function used to construct format instances
+     */
     StandardDoubleFormat(final Function<Builder, DoubleFormat> factory) {
         this.factory = factory;
     }
 
+    /** Return a {@link Builder} for configuring and constructing
+     * {@link DoubleFormat} instances for this format type.
+     * @return builder instance
+     */
     public Builder builder() {
         return new Builder(factory);
     }
 
+    /** Class for constructing configured {@link DoubleFormat} instances for standard format types.
+     */
     public static final class Builder {
 
+        /** Default value for the plain format max decimal exponent. */
+        private static final int DEFAULT_PLAIN_FORMAT_MAX_DECIMAL_EXPONENT = 7;
+
+        /** Default value for the plain format min decimal exponent. */
+        private static final int DEFAULT_PLAIN_FORMAT_MIN_DECIMAL_EXPONENT = -4;
+
+        /** Function used to construct {@link DoubleFormat} instances. */
         private final Function<Builder, DoubleFormat> factory;
 
         /** Maximum number of significant decimal digits in formatted strings. */
         private int maxPrecision = 0;
 
-        /** Minimum value formatted as non-zero. */
-        private double min = Double.POSITIVE_INFINITY;
+        /** Minimum decimal exponent. */
+        private int minDecimalExponent = Integer.MIN_VALUE;
 
-        private double plainFormatMax = 1e7;
+        /** Max decimal exponent to use to plain formatting with the mixed format type. */
+        private int plainFormatMaxDecimalExponent = DEFAULT_PLAIN_FORMAT_MAX_DECIMAL_EXPONENT;
 
-        private double plainFormatMin = 1e-4;
+        /** Min decimal exponent to use to plain formatting with the mixed format type. */
+        private int plainFormatMinDecimalExponent = DEFAULT_PLAIN_FORMAT_MIN_DECIMAL_EXPONENT;
 
+        /** String representing infinity. */
         private String infinity = "Infinity";
 
+        /** String representing NaN. */
         private String nan = "NaN";
 
-        private ParsedDouble.FormatOptions formatOptions = new ParsedDouble.FormatOptions();
+        /** Flag determining if fraction placeholders should be used. */
+        private boolean fractionPlaceholder = true;
 
+        /** Flag determining if signed zero strings are allowed. */
+        private boolean signedZero = true;
+
+        /** Decimal separator character. */
+        private char decimalSeparator = '.';
+
+        /** Minus sign character. */
+        private char minusSign = '-';
+
+        /** Exponent separator character. */
+        private String exponentSeparator = "E";
+
+        /** Construct a new instance that delegates {@link DoubleFormat} construction
+         * to the given factory function.
+         * @param factory factory function
+         */
         private Builder(final Function<Builder, DoubleFormat> factory) {
             this.factory = factory;
         }
 
         /** Set the maximum number of significant decimal digits used in format
-         * results. A value of 0 indicates no limit.
+         * results. A value of {@code 0} indicates no limit. The default value is {@code 0}.
          * @param maxPrecision maximum precision
          * @return this instance
          */
@@ -72,56 +110,153 @@ public enum StandardDoubleFormat {
             return this;
         }
 
-        public Builder withMin(final double min) {
-            this.min = min;
+        /** Set the minimum decimal exponent for formatted strings. No digits with an
+         * absolute value of less than {@code 10^minDecimalExponent} will be included
+         * in format results. If the number being formatted does not contain any such
+         * digits, then zero is returned. For example, if {@code minDecimalExponent}
+         * is set to {@code -2} and the number {@code 3.14159} is formatted, the plain
+         * format result will be {@code "3.14"}. If {@code 0.001} is formatted, then the
+         * result is the zero string.
+         * @param minDecimalExponent minimum decimal exponent
+         * @return this instance
+         */
+        public Builder withMinDecimalExponent(final int minDecimalExponent) {
+            this.minDecimalExponent = minDecimalExponent;
             return this;
         }
 
-        public Builder withPlainFormatMax(final double plainFormatMax) {
-            this.plainFormatMax = plainFormatMax;
+        /** Set the maximum decimal exponent for numbers formatted as plain decimal strings when
+         * using the {@link StandardDoubleFormat#MIXED MIXED} format type. If the number being formatted
+         * has an absolute value less than {@code 10^(plainFormatMaxDecimalExponent + 1)} and
+         * greater than or equal to {@code 10^(plainFormatMinDecimalExponent)} after any necessary rounding,
+         * then the formatted result will use the {@link StandardDoubleFormat#PLAIN PLAIN} format type.
+         * Otherwise, {@link StandardDoubleFormat#SCIENTIFIC SCIENTIFIC} format will be used. For example,
+         * if this value is set to {@code 2}, the number {@code 999} will be formatted as {@code "999.0"}
+         * while {@code 1000} will be formatted as {@code "1.0E3"}.
+         *
+         * <p>The default value is {@value #DEFAULT_PLAIN_FORMAT_MAX_DECIMAL_EXPONENT}.
+         *
+         * <p>This value is ignored for formats other than {@link StandardDoubleFormat#MIXED}.
+         * @param plainFormatMaxDecimalExponent maximum decimal exponent for values formatted as plain
+         *      strings when using the {@link StandardDoubleFormat#MIXED MIXED} format type.
+         * @return this instance
+         * @see #withPlainFormatMinDecimalExponent(int)
+         */
+        public Builder withPlainFormatMaxDecimalExponent(final int plainFormatMaxDecimalExponent) {
+            this.plainFormatMaxDecimalExponent = plainFormatMaxDecimalExponent;
             return this;
         }
 
-        public Builder withPlainFormatMin(final double plainFormatMin) {
-            this.plainFormatMin = plainFormatMin;
+        /** Set the minimum decimal exponent for numbers formatted as plain decimal strings when
+         * using the {@link StandardDoubleFormat#MIXED MIXED} format type. If the number being formatted
+         * has an absolute value less than {@code 10^(plainFormatMaxDecimalExponent + 1)} and
+         * greater than or equal to {@code 10^(plainFormatMinDecimalExponent)} after any necessary rounding,
+         * then the formatted result will use the {@link StandardDoubleFormat#PLAIN PLAIN} format type.
+         * Otherwise, {@link StandardDoubleFormat#SCIENTIFIC SCIENTIFIC} format will be used. For example,
+         * if this value is set to {@code -2}, the number {@code 0.01} will be formatted as {@code "0.01"}
+         * while {@code 0.0099} will be formatted as {@code "9.9E-3"}.
+         *
+         * <p>The default value is {@value #DEFAULT_PLAIN_FORMAT_MIN_DECIMAL_EXPONENT}.
+         *
+         * <p>This value is ignored for formats other than {@link StandardDoubleFormat#MIXED}.
+         * @param plainFormatMaxDecimalExponent maximum decimal exponent for values formatted as plain
+         *      strings when using the {@link StandardDoubleFormat#MIXED MIXED} format type.
+         * @return this instance
+         * @see #withPlainFormatMinDecimalExponent(int)
+         */
+        public Builder withPlainFormatMinDecimalExponent(final int plainFormatMinDecimalExponent) {
+            this.plainFormatMinDecimalExponent = plainFormatMinDecimalExponent;
             return this;
         }
 
+        /** Set the flag determining whether or not the zero string may be returned with the minus
+         * sign or if it will always be returned in the positive form. For example, if set to true,
+         * the string {@code "-0.0"} may be returned for some input numbers. If false, only {@code "0.0"}
+         * will be returned, regardless of the sign of the input number.
+         * @param signedZero if true, the zero string may be returned with a preceding minus sign; if false,
+         *      the zero string will only be returned in its positive form
+         * @return this instance
+         */
         public Builder withSignedZero(final boolean signedZero) {
-            formatOptions.setSignedZero(signedZero);
+            this.signedZero = signedZero;
             return this;
         }
 
+        /** Set the flag determining whether or not a zero character is added in the fraction position
+         * when no fractional value is present. For example, if set to true, the number {@code 1} would
+         * be formatted as {@code "1.0"}. If false, it would be formatted as {@code "1"}. The default
+         * value is {@code true}.
+         * @param fractionPlaceholder if true, a zero character is placed in the fraction position when
+         *      no fractional value is present; if false, fractional digits are only included when needed
+         * @return this instance
+         */
+        public Builder withFractionPlaceholder(final boolean fractionPlaceholder) {
+            this.fractionPlaceholder = fractionPlaceholder;
+            return this;
+        }
+
+        /** Set the character used as the minus sign.
+         * @param minusSign character to use as the minus sign
+         * @return this instance
+         */
         public Builder withMinusSign(final char minusSign) {
-            formatOptions.setMinusSign(minusSign);
+            this.minusSign = minusSign;
             return this;
         }
 
-        public Builder withDecimalPlaceholder(final boolean decimalPlaceholder) {
-            formatOptions.setIncludeDecimalPlaceholder(decimalPlaceholder);
-            return this;
-        }
-
+        /** Set the decimal separator character, i.e., the character placed between the
+         * whole number and fractional portions of the formatted strings. The default value
+         * is {@code '.'}.
+         * @param decimalSeparator decimal separator character
+         * @return this instance
+         */
         public Builder withDecimalSeparator(final char decimalSeparator) {
-            formatOptions.setDecimalSeparator(decimalSeparator);
+            this.decimalSeparator = decimalSeparator;
             return this;
         }
 
+        /** Set the exponent separator character, i.e., the string placed between
+         * the mantissa and the exponent. The default value is {@code "E"}, as in
+         * {@code "1.2E6"}.
+         * @param exponentSeparator exponent separator string
+         * @return this instance
+         */
         public Builder withExponentSeparator(final String exponentSeparator) {
-            formatOptions.setExponentSeparator(exponentSeparator);
+            this.exponentSeparator = exponentSeparator;
             return this;
         }
 
+        /** Set the string used to represent infinity. For negative infinity, this string
+         * is prefixed with the {@link #withMinusSign(char) minus sign}.
+         * @param infinity string used to represent infinity
+         * @return this instance
+         */
         public Builder withInfinity(final String infinity) {
             this.infinity = infinity;
             return this;
         }
 
+        /** Set the string used to represent {@link Double#NaN}.
+         * @param nan string used to represent {@link Double#NaN}
+         * @return this instance
+         */
         public Builder withNaN(final String nan) {
             this.nan = nan;
             return this;
         }
 
+        /** Configure this instance with the given format symbols. The following values
+         * are set:
+         * <ul>
+         *  <li>{@link #withDecimalSeparator(char) decimal separator}</li>
+         *  <li>{@link #withMinusSign(char) minus sign}</li>
+         *  <li>{@link #withExponentSeparator(String) exponent separator}</li>
+         *  <li>{@link #withInfinity(String) infinity}</li>
+         *  <li>{@link #withNaN(String) NaN}</li>
+         * </ul>
+         * @param symbols format symbols
+         * @return this instance
+         */
         public Builder withFormatSymbols(final DecimalFormatSymbols symbols) {
             return withDecimalSeparator(symbols.getDecimalSeparator())
                     .withMinusSign(symbols.getMinusSign())
@@ -130,6 +265,9 @@ public enum StandardDoubleFormat {
                     .withNaN(symbols.getNaN());
         }
 
+        /** Construct a new {@link DoubleFormat} instance.
+         * @return format instance
+         */
         public DoubleFormat build() {
             return factory.apply(this);
         }
@@ -137,34 +275,84 @@ public enum StandardDoubleFormat {
 
     /** Base class for standard double formatting classes.
      */
-    private abstract static class AbstractDoubleFormat implements DoubleFormat {
+    private abstract static class AbstractDoubleFormat implements DoubleFormat, SimpleDecimal.FormatOptions {
 
-        /** Minimum possible decimal exponent for double values. */
-        static final int MIN_DOUBLE_EXPONENT = -326;
-
-        /** Maximum precision to use when formatting values. */
+        /** Maximum precision; 0 indicates no limit. */
         private final int maxPrecision;
 
-        private final int minExponent;
+        /** Minimum decimal exponent. */
+        private final int minDecimalExponent;
 
+        /** String representing positive infinity. */
         private final String postiveInfinity;
 
+        /** String representing negative infinity. */
         private final String negativeInfinity;
 
+        /** String representing NaN. */
         private final String nan;
 
-        private final ParsedDouble.FormatOptions formatOptions;
+        /** Flag determining if fraction placeholders should be used. */
+        private final boolean fractionPlaceholder;
 
+        /** Flag determining if signed zero strings are allowed. */
+        private final boolean signedZero;
+
+        /** Decimal separator character. */
+        private final char decimalSeparator;
+
+        /** Minus sign character. */
+        private final char minusSign;
+
+        /** Exponent separator character. */
+        private final String exponentSeparator;
+
+        /** Construct a new instance configured with the values from the builder.
+         * @param builder builder instance containing configuration values
+         */
         AbstractDoubleFormat(final Builder builder) {
             this.maxPrecision = builder.maxPrecision;
-
-            this.minExponent = getScientificExponentOrDefault(Math.abs(builder.min), MIN_DOUBLE_EXPONENT);
+            this.minDecimalExponent = builder.minDecimalExponent;
 
             this.postiveInfinity = builder.infinity;
-            this.negativeInfinity = builder.formatOptions.getMinusSign() + builder.infinity;
+            this.negativeInfinity = builder.minusSign + builder.infinity;
             this.nan = builder.nan;
 
-            this.formatOptions = builder.formatOptions;
+            this.fractionPlaceholder = builder.fractionPlaceholder;
+            this.signedZero = builder.signedZero;
+            this.decimalSeparator = builder.decimalSeparator;
+            this.minusSign = builder.minusSign;
+            this.exponentSeparator = builder.exponentSeparator;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean getIncludeFractionPlaceholder() {
+            return fractionPlaceholder;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean getSignedZero() {
+            return signedZero;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public char getDecimalSeparator() {
+            return decimalSeparator;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public char getMinusSign() {
+            return minusSign;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String getExponentSeparator() {
+            return exponentSeparator;
         }
 
         /** {@inheritDoc} */
@@ -185,33 +373,23 @@ public enum StandardDoubleFormat {
          * @return formatted string
          */
         private String formatFinite(final double d) {
-            final ParsedDouble n = ParsedDouble.from(d);
+            final SimpleDecimal n = SimpleDecimal.from(d);
 
-            int roundExponent = Math.max(n.getExponent(), minExponent);
+            int roundExponent = Math.max(n.getExponent(), minDecimalExponent);
             if (maxPrecision > 0) {
                 roundExponent = Math.max(n.getScientificExponent() - maxPrecision + 1, roundExponent);
             }
 
-            final ParsedDouble rounded = n.round(roundExponent);
+            final SimpleDecimal rounded = n.round(roundExponent);
 
-            return formatFiniteInternal(rounded, formatOptions);
+            return formatFiniteInternal(rounded);
         }
 
-        /** Format the given parsed double value.
+        /** Format the given decimal value.
          * @param val value to format
          * @return formatted double value
          */
-        protected abstract String formatFiniteInternal(ParsedDouble val, ParsedDouble.FormatOptions formatOptions);
-
-        static int getScientificExponentOrDefault(final double d, final int defaultExponent) {
-            return Double.isFinite(d) ?
-                    getScientificExponent(d) :
-                    defaultExponent;
-        }
-
-        static int getScientificExponent(final double d) {
-            return ParsedDouble.from(d).getScientificExponent();
-        }
+        protected abstract String formatFiniteInternal(SimpleDecimal val);
     }
 
     /** Format class that produces plain decimal strings that do not use
@@ -231,8 +409,8 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        protected String formatFiniteInternal(final ParsedDouble val, final ParsedDouble.FormatOptions formatOptions) {
-            return val.toPlainString(formatOptions);
+        protected String formatFiniteInternal(final SimpleDecimal val) {
+            return val.toPlainString(this);
         }
     }
 
@@ -240,7 +418,7 @@ public enum StandardDoubleFormat {
      * plain decimal notation for small numbers relatively close to zero and scientific
      * notation otherwise.
      */
-    private static class MixedDoubleFormat extends AbstractDoubleFormat {
+    private static final class MixedDoubleFormat extends AbstractDoubleFormat {
 
         private final int plainMaxExponent;
 
@@ -255,17 +433,17 @@ public enum StandardDoubleFormat {
         MixedDoubleFormat(final Builder builder) {
             super(builder);
 
-            this.plainMaxExponent = getScientificExponent(builder.plainFormatMax);
-            this.plainMinExponent = getScientificExponent(builder.plainFormatMin);
+            this.plainMaxExponent = builder.plainFormatMaxDecimalExponent;
+            this.plainMinExponent = builder.plainFormatMinDecimalExponent;
         }
 
         /** {@inheritDoc} */
         @Override
-        protected String formatFiniteInternal(final ParsedDouble val, final ParsedDouble.FormatOptions formatOptions) {
+        protected String formatFiniteInternal(final SimpleDecimal val) {
             final int sciExp = val.getScientificExponent();
             return sciExp < plainMaxExponent && sciExp > plainMinExponent ?
-                    val.toPlainString(formatOptions) :
-                    val.toScientificString(formatOptions);
+                    val.toPlainString(this) :
+                    val.toScientificString(this);
         }
     }
 
@@ -285,8 +463,8 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        public String formatFiniteInternal(final ParsedDouble val, final ParsedDouble.FormatOptions formatOptions) {
-            return val.toScientificString(formatOptions);
+        public String formatFiniteInternal(final SimpleDecimal val) {
+            return val.toScientificString(this);
         }
     }
 
@@ -306,8 +484,8 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        public String formatFiniteInternal(final ParsedDouble val, final ParsedDouble.FormatOptions formatOptions) {
-            return val.toEngineeringString(formatOptions);
+        public String formatFiniteInternal(final SimpleDecimal val) {
+            return val.toEngineeringString(this);
         }
     }
 }
