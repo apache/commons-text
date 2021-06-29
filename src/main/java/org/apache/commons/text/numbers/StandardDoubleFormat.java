@@ -315,9 +315,9 @@ public enum StandardDoubleFormat {
         public Builder withFormatSymbols(final DecimalFormatSymbols symbols) {
             Objects.requireNonNull(symbols, "Decimal format symbols cannot be null");
 
-            return withDecimalSeparator(symbols.getDecimalSeparator())
+            return withDigits(getDigitString(symbols))
+                    .withDecimalSeparator(symbols.getDecimalSeparator())
                     .withMinusSign(symbols.getMinusSign())
-                    .withDigits(getDigitString(symbols))
                     .withExponentSeparator(symbols.getExponentSeparator())
                     .withInfinity(symbols.getInfinity())
                     .withNaN(symbols.getNaN());
