@@ -25,12 +25,12 @@ import java.util.function.DoubleFunction;
 public interface DoubleFormat extends DoubleFunction<String> {
 
     /** {@link DoubleFormat} instance that simply calls {@link Double#toString(double)}. */
-    static DoubleFormat DOUBLE_TO_STRING = Double::toString;
+    DoubleFormat DOUBLE_TO_STRING = Double::toString;
 
     /** {@link DoubleFormat} instance that simply converts the double argumen to a float
      * and then calls {@link Float#toString(float)}.
      */
-    static DoubleFormat FLOAT_TO_STRING = d -> Float.toString((float) d);
+    DoubleFormat FLOAT_TO_STRING = d -> Float.toString((float) d);
 
     /** Append the string representation of {@code d} to the given appendable.
      * @param appendable object to append to

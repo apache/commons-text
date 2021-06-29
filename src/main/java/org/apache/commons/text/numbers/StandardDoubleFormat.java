@@ -91,7 +91,7 @@ public enum StandardDoubleFormat {
     /** Construct a new instance.
      * @param factory function used to construct format instances
      */
-    private StandardDoubleFormat(final Function<Builder, DoubleFormat> factory) {
+    StandardDoubleFormat(final Function<Builder, DoubleFormat> factory) {
         this.factory = factory;
     }
 
@@ -263,8 +263,9 @@ public enum StandardDoubleFormat {
          */
         public Builder withDigits(final String digits) {
             Objects.requireNonNull(digits, "Digits string cannot be null");
-            if (digits.length() != 10) {
-                throw new IllegalArgumentException("Digits string must contain exactly 10 characters.");
+            if (digits.length() != DEFAULT_DECIMAL_DIGITS.length()) {
+                throw new IllegalArgumentException("Digits string must contain exactly "
+                        + DEFAULT_DECIMAL_DIGITS.length() + " characters.");
             }
 
             this.digits = digits;
@@ -644,8 +645,10 @@ public enum StandardDoubleFormat {
      */
     private static final class MixedDoubleFormat extends AbstractDoubleFormat {
 
+        /** Max decimal exponent for plain format. */
         private final int plainMaxExponent;
 
+        /** Min decimal exponent for plain format. */
         private final int plainMinExponent;
 
         /** Construct a new instance with the given maximum precision and minimum exponent.

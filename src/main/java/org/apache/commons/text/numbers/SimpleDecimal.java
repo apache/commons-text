@@ -40,7 +40,7 @@ final class SimpleDecimal {
 
     /** Interface containing values used during string formatting.
      */
-    static interface FormatOptions {
+    interface FormatOptions {
 
         /** Return true if fraction placeholders (e.g., {@code ".0"} in {@code "1.0"})
          * should be included.
@@ -118,6 +118,15 @@ final class SimpleDecimal {
 
     /** Shared instance representing the negative zero double value. */
     private static final SimpleDecimal NEG_ZERO = new SimpleDecimal(true, String.valueOf(ZERO_CHAR), 0);
+
+    /** Number of characters in a thousands grouping. */
+    private static final int THOUSANDS_GROUP_SIZE = 3;
+
+    /** Radix for decimal numbers. */
+    private static final int DECIMAL_RADIX = 10;
+
+    /** Center value used when rounding. */
+    private static final int ROUND_CENTER = DECIMAL_RADIX / 2;
 
     /** True if the value is negative. */
     private final boolean negative;
@@ -231,9 +240,9 @@ final class SimpleDecimal {
         final int currentPrecision = getPrecision();
         if (currentPrecision > precision) {
             // we need to round to reduce the number of digits
-            String resultDigits = shouldRoundUp(precision) ?
-                    addOne(digits, precision) :
-                    digits.substring(0, precision);
+            String resultDigits = shouldRoundUp(precision)
+                    ? addOne(digits, precision)
+                    : digits.substring(0, precision);
 
             // compute the initial result exponent
             int resultExponent = exponent + (currentPrecision - precision);
@@ -266,13 +275,13 @@ final class SimpleDecimal {
             throws IOException {
         final int wholeDigitCount = getPrecision() + exponent;
 
-        final int fractionStartIdx = opts.getGroupThousands() ?
-                appendWholeGrouped(wholeDigitCount, dst, opts) :
-                appendWhole(wholeDigitCount, dst, opts);
+        final int fractionStartIdx = opts.getGroupThousands()
+                ? appendWholeGrouped(wholeDigitCount, dst, opts)
+                : appendWhole(wholeDigitCount, dst, opts);
 
-        final int fractionZeroCount = wholeDigitCount < 0 ?
-                Math.abs(wholeDigitCount) :
-                0;
+        final int fractionZeroCount = wholeDigitCount < 0
+                ? Math.abs(wholeDigitCount)
+                : 0;
 
         appendFraction(fractionZeroCount, fractionStartIdx, dst, opts);
     }
@@ -372,7 +381,7 @@ final class SimpleDecimal {
                 appendLocalizedDigit(digits.charAt(i), localizedDigits, dst);
             }
 
-            for (;i < count; ++i) {
+            for (; i < count; ++i) {
                 dst.append(localizedZero);
             }
         } else {
@@ -410,14 +419,14 @@ final class SimpleDecimal {
             int pos = count;
             for (i = 0; i < significantDigitCount; ++i, --pos) {
                 appendLocalizedDigit(digits.charAt(i), localizedDigits, dst);
-                if (pos > 1 && (pos % 3) == 1) {
+                if (requiresGroupingSeparatorAfterPosition(pos)) {
                     dst.append(groupingChar);
                 }
             }
 
-            for (;i < count; ++i, --pos) {
+            for (; i < count; ++i, --pos) {
                 dst.append(localizedZero);
-                if (pos > 1 && (pos % 3) == 1) {
+                if (requiresGroupingSeparatorAfterPosition(pos)) {
                     dst.append(groupingChar);
                 }
             }
@@ -426,6 +435,16 @@ final class SimpleDecimal {
         }
 
         return significantDigitCount;
+    }
+
+    /** Return true if a grouping separator should be added after the whole digit
+     * character at the given position.
+     * @param pos whole digit character position, with values starting at 1 and increasing
+     *      from right to left.
+     * @return true if a grouping separator should be added
+     */
+    private boolean requiresGroupingSeparatorAfterPosition(final int pos) {
+        return pos > 1 && (pos % THOUSANDS_GROUP_SIZE) == 1;
     }
 
     /**
@@ -452,7 +471,7 @@ final class SimpleDecimal {
 
             // add the fraction digits
             appendLocalizedDigits(digits, startIdx, len, localizedDigits, dst);
-        } else if (opts.getIncludeFractionPlaceholder()){
+        } else if (opts.getIncludeFractionPlaceholder()) {
             dst.append(opts.getDecimalSeparator());
             dst.append(localizedZero);
         }
@@ -507,8 +526,8 @@ final class SimpleDecimal {
         final int precision = getPrecision();
         final int roundValue = digitValue(digits.charAt(idx));
 
-        return roundValue > 5 || (roundValue == 5 &&
-                (idx < precision - 1 || (idx > 0 && digitValue(digits.charAt(idx - 1)) % 2 != 0)));
+        return roundValue > ROUND_CENTER || (roundValue == ROUND_CENTER
+                && (idx < precision - 1 || (idx > 0 && digitValue(digits.charAt(idx - 1)) % 2 != 0)));
     }
 
     /** Construct a new instance from the given double value.
@@ -560,9 +579,9 @@ final class SimpleDecimal {
 
         if (firstNonZeroDigitIdx > -1) {
             // determine the exponent
-            final int explicitExponent = exponentIdx > -1 ?
-                    parseExponent(str, exponentIdx + 1) :
-                    0;
+            final int explicitExponent = exponentIdx > -1
+                    ? parseExponent(str, exponentIdx + 1)
+                    : 0;
             final int exponent = explicitExponent + decimalSepIdx - digitStartIdx - lastNonZeroDigitIdx - 1;
 
             // get the digit string without any leading or trailing zeros
@@ -575,9 +594,9 @@ final class SimpleDecimal {
         }
 
         // no non-zero digits, so value is zero
-        return negative ?
-                NEG_ZERO :
-                POS_ZERO;
+        return negative
+                ? NEG_ZERO
+                : POS_ZERO;
     }
 
     /** Parse a double exponent value from {@code seq}, starting at the {@code start}
@@ -596,7 +615,7 @@ final class SimpleDecimal {
             if (ch == MINUS_CHAR) {
                 neg = !neg;
             } else if (ch != PLUS_CHAR) {
-                exp = (exp * 10) + digitValue(ch);
+                exp = (exp * DECIMAL_RADIX) + digitValue(ch);
             }
         }
 
@@ -645,9 +664,9 @@ final class SimpleDecimal {
         boolean carrying = true;
         for (int i = len - 1; i >= 0; --i) {
             final char inChar = digitStr.charAt(i);
-            final char outChar = carrying ?
-                    DECIMAL_DIGITS.charAt((digitValue(inChar) + 1) % DECIMAL_DIGITS.length()) :
-                    inChar;
+            final char outChar = carrying
+                    ? DECIMAL_DIGITS.charAt((digitValue(inChar) + 1) % DECIMAL_DIGITS.length())
+                    : inChar;
             resultChars[i + 1] = outChar;
 
             if (carrying && outChar != ZERO_CHAR) {

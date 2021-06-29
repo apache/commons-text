@@ -569,9 +569,9 @@ class SimpleDecimalTest {
 
             final String expStr = str.substring(expIdx);
             final int val = Integer.parseInt(expStr);
-            return neg ?
-                    -val :
-                    val;
+            return neg
+                    ? -val
+                    : val;
         }
 
         return 0;
