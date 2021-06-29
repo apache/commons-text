@@ -54,10 +54,11 @@ final class SimpleDecimal {
          */
         boolean getSignedZero();
 
-        /** Get the difference between the localized character used to represent zero and '0'.
-         * @return difference between the localized character used to represent zero and '0'
+        /** Get the string containing the localized digit characters 0-9 in that order.
+         * This string <em>must</em> be non-null and have a length of 10.
+         * @return string containing the digit characters 0-9
          */
-        int getZeroDelta();
+        String getDigits();
 
         /** Get the decimal separator character.
          * @return decimal separator character
@@ -248,8 +249,8 @@ final class SimpleDecimal {
     public void toPlainString(final Appendable dst, final FormatOptions opts)
             throws IOException {
         final int precision = getPrecision();
-        final int zeroDelta = opts.getZeroDelta();
-        final char zero = (char) (ZERO_CHAR + zeroDelta);
+        final String digitChars = opts.getDigits();
+        final char zero = digitChars.charAt(0);
 
         if (shouldIncludeMinus(opts)) {
             dst.append(opts.getMinusSign());
@@ -262,7 +263,7 @@ final class SimpleDecimal {
             // needed
             int i;
             for (i = 0; i < diff; ++i) {
-                appendDigit(digits.charAt(i), zeroDelta, dst);
+                appendLocalizedDigit(digits.charAt(i), digitChars, dst);
             }
             if (i == 0) {
                 dst.append(zero);
@@ -277,9 +278,9 @@ final class SimpleDecimal {
             }
 
             // fraction digits
-            appendDigits(digits, i, precision, zeroDelta, dst);
+            appendDigits(digits, i, precision, digitChars, dst);
         } else {
-            appendDigits(digits, 0, precision, zeroDelta, dst);
+            appendDigits(digits, 0, precision, digitChars, dst);
 
             for (int i = 0; i < exponent; ++i) {
                 dst.append(zero);
@@ -340,8 +341,8 @@ final class SimpleDecimal {
     private void toScientificString(final Appendable dst, final int wholeDigits, final FormatOptions opts)
             throws IOException {
         final int precision = getPrecision();
-        final int zeroDelta = opts.getZeroDelta();
-        final char zero = (char) (ZERO_CHAR + zeroDelta);
+        final String digitChars = opts.getDigits();
+        final char zero = digitChars.charAt(0);
 
         if (shouldIncludeMinus(opts)) {
             dst.append(opts.getMinusSign());
@@ -350,7 +351,7 @@ final class SimpleDecimal {
         if (precision <= wholeDigits) {
             // not enough digits to meet the requested number of whole digits;
             // we'll need to pad with zeros
-            appendDigits(digits, 0, precision, zeroDelta, dst);
+            appendDigits(digits, 0, precision, digitChars, dst);
 
             for (int i = precision; i < wholeDigits; ++i) {
                 dst.append(zero);
@@ -362,9 +363,9 @@ final class SimpleDecimal {
             }
         } else {
             // we'll need a fractional portion
-            appendDigits(digits, 0, wholeDigits, zeroDelta, dst);
+            appendDigits(digits, 0, wholeDigits, digitChars, dst);
             dst.append(opts.getDecimalSeparator());
-            appendDigits(digits, wholeDigits, precision, zeroDelta, dst);
+            appendDigits(digits, wholeDigits, precision, digitChars, dst);
         }
 
         // add the exponent but only if non-zero
@@ -377,34 +378,33 @@ final class SimpleDecimal {
             }
 
             final String exponentStr = Integer.toString(Math.abs(resultExponent));
-            appendDigits(exponentStr, 0, exponentStr.length(), zeroDelta, dst);
+            appendDigits(exponentStr, 0, exponentStr.length(), digitChars, dst);
         }
     }
 
-    /** Append a digit to {@code dst}, substituting {@code zeroDigit} if {@code digit}
-     * is equal to {@code '0'}.
-     * @param digit decimal digit
-     * @param zeroDelta difference between the localized zero character and '0'
+    /** Append a localized digit character to {@code dst}.
+     * @param digit standard decimal digit
+     * @param digitChars string containing the localized digit characters 0-9
      * @param dst destination to append to
      * @throws IOException if an I/O error occurs
      */
-    private void appendDigit(final char digit, final int zeroDelta, final Appendable dst)
+    private void appendLocalizedDigit(final char digit, final String digitChars, final Appendable dst)
             throws IOException {
-        dst.append((char)(digit + zeroDelta));
+        dst.append(digitChars.charAt(digitValue(digit)));
     }
 
-    /** Append digit characters from {@code seq} to {@code dst}.
+    /** Append localized digit characters from {@code seq} to {@code dst}.
      * @param seq sequence to get characters from
      * @param startIdx start index, inclusive
      * @param endIdx end index, exclusive
-     * @param zeroDelta difference between the localized zero character and '0'
+     * @param digitChars string containing the localized digit characters 0-9
      * @param dst destination to append to
      * @throws IOException if an I/O error occurs
      */
-    private void appendDigits(final CharSequence seq, final int startIdx, final int endIdx, final int zeroDelta,
+    private void appendDigits(final CharSequence seq, final int startIdx, final int endIdx, final String digitChars,
             final Appendable dst) throws IOException {
         for (int i = startIdx; i < endIdx; ++i) {
-            appendDigit(seq.charAt(i), zeroDelta, dst);
+            appendLocalizedDigit(seq.charAt(i), digitChars, dst);
         }
     }
 

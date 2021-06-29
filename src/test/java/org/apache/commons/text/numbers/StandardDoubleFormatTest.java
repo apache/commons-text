@@ -84,7 +84,6 @@ class StandardDoubleFormatTest {
             .withMinDecimalExponent(-3)
             .withSignedZero(false)
             .withFractionPlaceholder(false)
-            .withZeroDigit('#')
             .withDecimalSeparator(',')
             .withExponentSeparator("e")
             .withInfinity("inf")
@@ -97,32 +96,32 @@ class StandardDoubleFormatTest {
         checkFormat(fmt, Double.POSITIVE_INFINITY, "inf");
         checkFormat(fmt, Double.NEGATIVE_INFINITY, "!inf");
 
-        checkFormat(fmt, 0.00001, "#");
-        checkFormat(fmt, -0.0001, "#");
-        checkFormat(fmt, 0.001, "#,##1");
-        checkFormat(fmt, -0.01, "!#,#1");
-        checkFormat(fmt, 0.1, "#,1");
-        checkFormat(fmt, -0.0, "#");
-        checkFormat(fmt, 0.0, "#");
+        checkFormat(fmt, 0.00001, "0");
+        checkFormat(fmt, -0.0001, "0");
+        checkFormat(fmt, 0.001, "0,001");
+        checkFormat(fmt, -0.01, "!0,01");
+        checkFormat(fmt, 0.1, "0,1");
+        checkFormat(fmt, -0.0, "0");
+        checkFormat(fmt, 0.0, "0");
         checkFormat(fmt, -1.0, "!1");
-        checkFormat(fmt, 10.0, "1#");
-        checkFormat(fmt, -100.0, "!1##");
-        checkFormat(fmt, 1000.0, "1###");
-        checkFormat(fmt, -10000.0, "!1####");
-        checkFormat(fmt, 100000.0, "1#####");
-        checkFormat(fmt, -1000000.0, "!1######");
-        checkFormat(fmt, 10000000.0, "1#######");
-        checkFormat(fmt, -100000000.0, "!1########");
+        checkFormat(fmt, 10.0, "10");
+        checkFormat(fmt, -100.0, "!100");
+        checkFormat(fmt, 1000.0, "1000");
+        checkFormat(fmt, -10000.0, "!10000");
+        checkFormat(fmt, 100000.0, "100000");
+        checkFormat(fmt, -1000000.0, "!1000000");
+        checkFormat(fmt, 10000000.0, "10000000");
+        checkFormat(fmt, -100000000.0, "!100000000");
 
-        checkFormat(fmt, 1.25e-3, "#,##1");
-        checkFormat(fmt, -9.975e-4, "!#,##1");
-        checkFormat(fmt, 12345, "123##");
-        checkFormat(fmt, -9_999_999, "!1#######");
-        checkFormat(fmt, 1.00001e7, "1#######");
+        checkFormat(fmt, 1.25e-3, "0,001");
+        checkFormat(fmt, -9.975e-4, "!0,001");
+        checkFormat(fmt, 12345, "12300");
+        checkFormat(fmt, -9_999_999, "!10000000");
+        checkFormat(fmt, 1.00001e7, "10000000");
 
-        checkFormat(fmt, Float.MAX_VALUE, "34#####################################");
-        checkFormat(fmt, -Float.MIN_VALUE, "#");
-        checkFormat(fmt, Float.MIN_NORMAL, "#");
+        checkFormat(fmt, Float.MAX_VALUE, "340000000000000000000000000000000000000");
+        checkFormat(fmt, -Float.MIN_VALUE, "0");
+        checkFormat(fmt, Float.MIN_NORMAL, "0");
         checkFormat(fmt, Math.PI, "3,14");
         checkFormat(fmt, Math.E, "2,72");
     }
@@ -135,13 +134,6 @@ class StandardDoubleFormatTest {
                 .withMinDecimalExponent(-3)
                 .withFormatSymbols(DecimalFormatSymbols.getInstance(loc))
                 .build();
-
-        Locale loc = Locale.forLanguageTag("hi-IN");
-        System.out.println(loc.getDisplayName());
-        DecimalFormatSymbols sym = DecimalFormatSymbols.getInstance(loc);
-
-        DecimalFormat fmt = new DecimalFormat(pattern, sym);
-//        Assertions.assertEquals("0.0", fmt.format(1234567890.0));
 
         // act/assert
         checkLocalizedFormats(pattern, factory);
@@ -193,7 +185,6 @@ class StandardDoubleFormatTest {
                 .withMinDecimalExponent(-3)
                 .withSignedZero(false)
                 .withFractionPlaceholder(false)
-                .withZeroDigit('#')
                 .withDecimalSeparator(',')
                 .withExponentSeparator("e")
                 .withInfinity("inf")
@@ -206,13 +197,13 @@ class StandardDoubleFormatTest {
         checkFormat(fmt, Double.POSITIVE_INFINITY, "inf");
         checkFormat(fmt, Double.NEGATIVE_INFINITY, "!inf");
 
-        checkFormat(fmt, 0.00001, "#");
-        checkFormat(fmt, -0.0001, "#");
+        checkFormat(fmt, 0.00001, "0");
+        checkFormat(fmt, -0.0001, "0");
         checkFormat(fmt, 0.001, "1e!3");
         checkFormat(fmt, -0.01, "!1e!2");
         checkFormat(fmt, 0.1, "1e!1");
-        checkFormat(fmt, -0.0, "#");
-        checkFormat(fmt, 0.0, "#");
+        checkFormat(fmt, -0.0, "0");
+        checkFormat(fmt, 0.0, "0");
         checkFormat(fmt, -1.0, "!1");
         checkFormat(fmt, 10.0, "1e1");
         checkFormat(fmt, -100.0, "!1e2");
@@ -229,9 +220,9 @@ class StandardDoubleFormatTest {
         checkFormat(fmt, -9_999_999, "!1e7");
         checkFormat(fmt, 1.00001e7, "1e7");
 
-        checkFormat(fmt, Double.MAX_VALUE, "1,8e3#8");
-        checkFormat(fmt, Double.MIN_VALUE, "#");
-        checkFormat(fmt, Double.MIN_NORMAL, "#");
+        checkFormat(fmt, Double.MAX_VALUE, "1,8e308");
+        checkFormat(fmt, Double.MIN_VALUE, "0");
+        checkFormat(fmt, Double.MIN_NORMAL, "0");
         checkFormat(fmt, Math.PI, "3,14");
         checkFormat(fmt, Math.E, "2,72");
     }
@@ -283,7 +274,6 @@ class StandardDoubleFormatTest {
                 .withMinDecimalExponent(-3)
                 .withSignedZero(false)
                 .withFractionPlaceholder(false)
-                .withZeroDigit('#')
                 .withDecimalSeparator(',')
                 .withExponentSeparator("e")
                 .withInfinity("inf")
@@ -296,32 +286,32 @@ class StandardDoubleFormatTest {
         checkFormat(fmt, Double.POSITIVE_INFINITY, "inf");
         checkFormat(fmt, Double.NEGATIVE_INFINITY, "!inf");
 
-        checkFormat(fmt, 0.00001, "#");
-        checkFormat(fmt, -0.0001, "#");
+        checkFormat(fmt, 0.00001, "0");
+        checkFormat(fmt, -0.0001, "0");
         checkFormat(fmt, 0.001, "1e!3");
-        checkFormat(fmt, -0.01, "!1#e!3");
-        checkFormat(fmt, 0.1, "1##e!3");
-        checkFormat(fmt, -0.0, "#");
-        checkFormat(fmt, 0.0, "#");
+        checkFormat(fmt, -0.01, "!10e!3");
+        checkFormat(fmt, 0.1, "100e!3");
+        checkFormat(fmt, -0.0, "0");
+        checkFormat(fmt, 0.0, "0");
         checkFormat(fmt, -1.0, "!1");
-        checkFormat(fmt, 10.0, "1#");
-        checkFormat(fmt, -100.0, "!1##");
+        checkFormat(fmt, 10.0, "10");
+        checkFormat(fmt, -100.0, "!100");
         checkFormat(fmt, 1000.0, "1e3");
-        checkFormat(fmt, -10000.0, "!1#e3");
-        checkFormat(fmt, 100000.0, "1##e3");
+        checkFormat(fmt, -10000.0, "!10e3");
+        checkFormat(fmt, 100000.0, "100e3");
         checkFormat(fmt, -1000000.0, "!1e6");
-        checkFormat(fmt, 10000000.0, "1#e6");
-        checkFormat(fmt, -100000000.0, "!1##e6");
+        checkFormat(fmt, 10000000.0, "10e6");
+        checkFormat(fmt, -100000000.0, "!100e6");
 
         checkFormat(fmt, 1.25e-3, "1e!3");
         checkFormat(fmt, -9.975e-4, "!1e!3");
         checkFormat(fmt, 12345, "12,3e3");
-        checkFormat(fmt, -9_999_999, "!1#e6");
-        checkFormat(fmt, 1.00001e7, "1#e6");
+        checkFormat(fmt, -9_999_999, "!10e6");
+        checkFormat(fmt, 1.00001e7, "10e6");
 
-        checkFormat(fmt, Double.MAX_VALUE, "18#e3#6");
-        checkFormat(fmt, Double.MIN_VALUE, "#");
-        checkFormat(fmt, Double.MIN_NORMAL, "#");
+        checkFormat(fmt, Double.MAX_VALUE, "180e306");
+        checkFormat(fmt, Double.MIN_VALUE, "0");
+        checkFormat(fmt, Double.MIN_NORMAL, "0");
         checkFormat(fmt, Math.PI, "3,14");
         checkFormat(fmt, Math.E, "2,72");
     }
@@ -372,7 +362,6 @@ class StandardDoubleFormatTest {
                 .withMinDecimalExponent(-3)
                 .withSignedZero(false)
                 .withFractionPlaceholder(false)
-                .withZeroDigit('#')
                 .withDecimalSeparator(',')
                 .withPlainFormatMaxDecimalExponent(4)
                 .withPlainFormatMinDecimalExponent(-1)
@@ -387,18 +376,18 @@ class StandardDoubleFormatTest {
         checkFormat(fmt, Double.POSITIVE_INFINITY, "inf");
         checkFormat(fmt, Double.NEGATIVE_INFINITY, "!inf");
 
-        checkFormat(fmt, 0.00001, "#");
-        checkFormat(fmt, -0.0001, "#");
+        checkFormat(fmt, 0.00001, "0");
+        checkFormat(fmt, -0.0001, "0");
         checkFormat(fmt, 0.001, "1e!3");
         checkFormat(fmt, -0.01, "!1e!2");
-        checkFormat(fmt, 0.1, "#,1");
-        checkFormat(fmt, -0.0, "#");
-        checkFormat(fmt, 0.0, "#");
+        checkFormat(fmt, 0.1, "0,1");
+        checkFormat(fmt, -0.0, "0");
+        checkFormat(fmt, 0.0, "0");
         checkFormat(fmt, -1.0, "!1");
-        checkFormat(fmt, 10.0, "1#");
-        checkFormat(fmt, -100.0, "!1##");
-        checkFormat(fmt, 1000.0, "1###");
-        checkFormat(fmt, -10000.0, "!1####");
+        checkFormat(fmt, 10.0, "10");
+        checkFormat(fmt, -100.0, "!100");
+        checkFormat(fmt, 1000.0, "1000");
+        checkFormat(fmt, -10000.0, "!10000");
         checkFormat(fmt, 100000.0, "1e5");
         checkFormat(fmt, -1000000.0, "!1e6");
         checkFormat(fmt, 10000000.0, "1e7");
@@ -406,15 +395,31 @@ class StandardDoubleFormatTest {
 
         checkFormat(fmt, 1.25e-3, "1e!3");
         checkFormat(fmt, -9.975e-4, "!1e!3");
-        checkFormat(fmt, 12345, "123##");
+        checkFormat(fmt, 12345, "12300");
         checkFormat(fmt, -9_999_999, "!1e7");
         checkFormat(fmt, 1.00001e7, "1e7");
 
-        checkFormat(fmt, Double.MAX_VALUE, "1,8e3#8");
-        checkFormat(fmt, Double.MIN_VALUE, "#");
-        checkFormat(fmt, Double.MIN_NORMAL, "#");
+        checkFormat(fmt, Double.MAX_VALUE, "1,8e308");
+        checkFormat(fmt, Double.MIN_VALUE, "0");
+        checkFormat(fmt, Double.MIN_NORMAL, "0");
         checkFormat(fmt, Math.PI, "3,14");
         checkFormat(fmt, Math.E, "2,72");
+    }
+
+    @Test
+    void testCustomDigitString() {
+        // arrange
+        final String digits = "abcdefghij";
+        final DoubleFormat plain = StandardDoubleFormat.PLAIN.builder().withDigits(digits).build();
+        final DoubleFormat sci = StandardDoubleFormat.SCIENTIFIC.builder().withDigits(digits).build();
+        final DoubleFormat eng = StandardDoubleFormat.ENGINEERING.builder().withDigits(digits).build();
+        final DoubleFormat mixed = StandardDoubleFormat.MIXED.builder().withDigits(digits).build();
+
+        // act/assert
+        checkFormat(plain, 9876543210.0, "jihgfedcba.a");
+        checkFormat(sci, 9876543210.0, "j.ihgfedcbEj");
+        checkFormat(eng, 9876543210.0, "j.ihgfedcbEj");
+        checkFormat(mixed, 9876543210.0, "j.ihgfedcbEj");
     }
 
     /** Check that the given format type correctly formats doubles when using the

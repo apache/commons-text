@@ -19,6 +19,7 @@ package org.apache.commons.text.numbers;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.text.DecimalFormatSymbols;
+import java.util.Objects;
 import java.util.function.Function;
 
 /** Enum containing standard double format types with methods to produce
@@ -58,6 +59,9 @@ public enum StandardDoubleFormat {
         /** Default value for the plain format min decimal exponent. */
         private static final int DEFAULT_PLAIN_FORMAT_MIN_DECIMAL_EXPONENT = -3;
 
+        /** Default decimal digit characters. */
+        private static final String DEFAULT_DECIMAL_DIGITS = "0123456789";
+
         /** Function used to construct {@link DoubleFormat} instances. */
         private final Function<Builder, DoubleFormat> factory;
 
@@ -85,8 +89,8 @@ public enum StandardDoubleFormat {
         /** Flag determining if signed zero strings are allowed. */
         private boolean signedZero = true;
 
-        /** Character used to represent zero. */
-        private char zeroDigit = '0';
+        /** String of digit characters 0-9. */
+        private String digits = DEFAULT_DECIMAL_DIGITS;
 
         /** Decimal separator character. */
         private char decimalSeparator = '.';
@@ -187,12 +191,21 @@ public enum StandardDoubleFormat {
             return this;
         }
 
-        /** Set the character used to represent zero.
-         * @param zeroDigit character used to represent zero
+        /** Set the string containing the digit characters 0-9, in that order. The
+         * default value is the string {@code "0123456789"}.
+         * @param digits string containing the digit characters 0-9
          * @return this instance
+         * @throws NullPointerException if the argument is null
+         * @throws IllegalArgumentException if the argument does not have a length of 10
          */
-        public Builder withZeroDigit(final char zeroDigit) {
-            this.zeroDigit = zeroDigit;
+        public Builder withDigits(final String digits) {
+            Objects.requireNonNull(digits, "Digits string cannot be null");
+            if (digits.length() != 10) {
+                throw new IllegalArgumentException("Digits string must contain exactly 10 characters; found " +
+                        digits.length());
+            }
+
+            this.digits = digits;
             return this;
         }
 
@@ -234,8 +247,11 @@ public enum StandardDoubleFormat {
          * {@code "1.2E6"}.
          * @param exponentSeparator exponent separator string
          * @return this instance
+         * @throws NullPointerException if the argument is null
          */
         public Builder withExponentSeparator(final String exponentSeparator) {
+            Objects.requireNonNull(exponentSeparator, "Exponent separator cannot be null");
+
             this.exponentSeparator = exponentSeparator;
             return this;
         }
@@ -244,8 +260,11 @@ public enum StandardDoubleFormat {
          * is prefixed with the {@link #withMinusSign(char) minus sign}.
          * @param infinity string used to represent infinity
          * @return this instance
+         * @throws NullPointerException if the argument is null
          */
         public Builder withInfinity(final String infinity) {
+            Objects.requireNonNull(infinity, "Infinity string cannot be null");
+
             this.infinity = infinity;
             return this;
         }
@@ -253,8 +272,11 @@ public enum StandardDoubleFormat {
         /** Set the string used to represent {@link Double#NaN}.
          * @param nan string used to represent {@link Double#NaN}
          * @return this instance
+         * @throws NullPointerException if the argument is null
          */
         public Builder withNaN(final String nan) {
+            Objects.requireNonNull(infinity, "NaN string cannot be null");
+
             this.nan = nan;
             return this;
         }
@@ -262,23 +284,46 @@ public enum StandardDoubleFormat {
         /** Configure this instance with the given format symbols. The following values
          * are set:
          * <ul>
+         *  <li>{@link #withDigits(String) digit characters}</li>
          *  <li>{@link #withDecimalSeparator(char) decimal separator}</li>
          *  <li>{@link #withMinusSign(char) minus sign}</li>
-         *  <li>{@link #withZeroDigit(char) zero digit}</li>
          *  <li>{@link #withExponentSeparator(String) exponent separator}</li>
          *  <li>{@link #withInfinity(String) infinity}</li>
          *  <li>{@link #withNaN(String) NaN}</li>
          * </ul>
+         * The digit character string is constructed by starting at the configured
+         * {@link DecimalFormatSymbols#getZeroDigit() zero digit} and adding the next
+         * 9 consecutive characters.
          * @param symbols format symbols
          * @return this instance
+         * @throws NullPointerException if the argument is null
          */
         public Builder withFormatSymbols(final DecimalFormatSymbols symbols) {
+            Objects.requireNonNull(symbols, "Decimal format symbols cannot be null");
+
             return withDecimalSeparator(symbols.getDecimalSeparator())
                     .withMinusSign(symbols.getMinusSign())
-                    .withZeroDigit(symbols.getZeroDigit())
+                    .withDigits(getDigitString(symbols))
                     .withExponentSeparator(symbols.getExponentSeparator())
                     .withInfinity(symbols.getInfinity())
                     .withNaN(symbols.getNaN());
+        }
+
+        /** Get a string containing the localized digits 0-9 for the given symbols object. The
+         * string is constructed by starting at the {@link DecimalFormatSymbols#getZeroDigit() zero digit}
+         * and adding the next 9 consecutive characters.
+         * @param symbols symbols object
+         * @return string containing the localized digits 0-9
+         */
+        private String getDigitString(final DecimalFormatSymbols symbols) {
+            final int zeroDelta = symbols.getZeroDigit() - DEFAULT_DECIMAL_DIGITS.charAt(0);
+
+            final char[] digitChars = new char[DEFAULT_DECIMAL_DIGITS.length()];
+            for (int i = 0; i < DEFAULT_DECIMAL_DIGITS.length(); ++i) {
+                digitChars[i] = (char) (DEFAULT_DECIMAL_DIGITS.charAt(i) + zeroDelta);
+            }
+
+            return String.valueOf(digitChars);
         }
 
         /** Construct a new {@link DoubleFormat} instance.
@@ -317,8 +362,8 @@ public enum StandardDoubleFormat {
         /** Flag determining if signed zero strings are allowed. */
         private final boolean signedZero;
 
-        /** Difference between the localized character used to represent zero and '0'. */
-        private final int zeroDelta;
+        /** String containing the digits 0-9. */
+        private final String digits;
 
         /** Decimal separator character. */
         private final char decimalSeparator;
@@ -342,7 +387,7 @@ public enum StandardDoubleFormat {
 
             this.fractionPlaceholder = builder.fractionPlaceholder;
             this.signedZero = builder.signedZero;
-            this.zeroDelta = builder.zeroDigit - '0';
+            this.digits = builder.digits;
             this.decimalSeparator = builder.decimalSeparator;
             this.minusSign = builder.minusSign;
             this.exponentSeparator = builder.exponentSeparator;
@@ -362,8 +407,8 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        public int getZeroDelta() {
-            return zeroDelta;
+        public String getDigits() {
+            return digits;
         }
 
         /** {@inheritDoc} */
