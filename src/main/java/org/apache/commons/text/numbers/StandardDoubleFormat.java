@@ -231,7 +231,7 @@ public enum StandardDoubleFormat {
          * <p>The default value is {@value #DEFAULT_PLAIN_FORMAT_MIN_DECIMAL_EXPONENT}.
          *
          * <p>This value is ignored for formats other than {@link StandardDoubleFormat#MIXED}.
-         * @param plainFormatMaxDecimalExponent maximum decimal exponent for values formatted as plain
+         * @param plainFormatMinDecimalExponent maximum decimal exponent for values formatted as plain
          *      strings when using the {@link StandardDoubleFormat#MIXED MIXED} format type.
          * @return this instance
          * @see #withPlainFormatMinDecimalExponent(int)
