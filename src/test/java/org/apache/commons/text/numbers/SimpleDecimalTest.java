@@ -284,6 +284,16 @@ class SimpleDecimalTest {
         checkToPlainString(1.0, "1.0", opts);
         checkToPlainString(1.5, "1.5", opts);
 
+        checkToPlainString(12, "12.0", opts);
+        checkToPlainString(123, "123.0", opts);
+        checkToPlainString(1234, "1234.0", opts);
+        checkToPlainString(12345, "12345.0", opts);
+        checkToPlainString(123456, "123456.0", opts);
+        checkToPlainString(1234567, "1234567.0", opts);
+        checkToPlainString(12345678, "12345678.0", opts);
+        checkToPlainString(123456789, "123456789.0", opts);
+        checkToPlainString(1234567890, "1234567890.0", opts);
+
         checkToPlainString(-0.000123, "-0.000123", opts);
         checkToPlainString(12301, "12301.0", opts);
 
@@ -303,6 +313,8 @@ class SimpleDecimalTest {
         opts.setSignedZero(false);
         opts.setDecimalSeparator(',');
         opts.setMinusSign('!');
+        opts.setThousandsGroupingSeparator('_');
+        opts.setGroupThousands(true);
 
         // act/assert
         checkToPlainString(0.0, "0", opts);
@@ -310,14 +322,24 @@ class SimpleDecimalTest {
         checkToPlainString(1.0, "1", opts);
         checkToPlainString(1.5, "1,5", opts);
 
+        checkToPlainString(12, "12", opts);
+        checkToPlainString(123, "123", opts);
+        checkToPlainString(1234, "1_234", opts);
+        checkToPlainString(12345, "12_345", opts);
+        checkToPlainString(123456, "123_456", opts);
+        checkToPlainString(1234567, "1_234_567", opts);
+        checkToPlainString(12345678, "12_345_678", opts);
+        checkToPlainString(123456789, "123_456_789", opts);
+        checkToPlainString(1234567890, "1_234_567_890", opts);
+
         checkToPlainString(-0.000123, "!0,000123", opts);
-        checkToPlainString(12301, "12301", opts);
+        checkToPlainString(12301, "12_301", opts);
 
         checkToPlainString(Math.PI, "3,141592653589793", opts);
         checkToPlainString(Math.E, "2,718281828459045", opts);
 
-        checkToPlainString(-12345.6789, "!12345,6789", opts);
-        checkToPlainString(1.23e12, "1230000000000", opts);
+        checkToPlainString(-12345.6789, "!12_345,6789", opts);
+        checkToPlainString(1.23e12, "1_230_000_000_000", opts);
         checkToPlainString(1.23e-12, "0,00000000000123", opts);
     }
 
@@ -627,6 +649,10 @@ class SimpleDecimalTest {
 
         private char decimalSeparator = '.';
 
+        private char thousandsGroupingSeparator = ',';
+
+        private boolean groupThousands = false;
+
         private char minusSign = '-';
 
         private String exponentSeparator = "E";
@@ -667,6 +693,24 @@ class SimpleDecimalTest {
 
         public void setDecimalSeparator(final char decimalSeparator) {
             this.decimalSeparator = decimalSeparator;
+        }
+
+        @Override
+        public char getThousandsGroupingSeparator() {
+            return thousandsGroupingSeparator;
+        }
+
+        public void setThousandsGroupingSeparator(final char thousandsGroupingSeparator) {
+            this.thousandsGroupingSeparator = thousandsGroupingSeparator;
+        }
+
+        @Override
+        public boolean getGroupThousands() {
+            return groupThousands;
+        }
+
+        public void setGroupThousands(final boolean groupThousands) {
+            this.groupThousands = groupThousands;
         }
 
         @Override

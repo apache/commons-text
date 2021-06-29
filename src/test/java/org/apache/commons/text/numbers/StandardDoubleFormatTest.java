@@ -144,15 +144,16 @@ class StandardDoubleFormatTest {
 
     @Test
     void testPlain_localeFormatComparison() {
-        // arrange
-        final String pattern = "0.0##";
-        final Function<Locale, DoubleFormat> factory = loc -> StandardDoubleFormat.PLAIN.builder()
+        // act/assert
+        checkLocalizedFormats("0.0##", loc -> StandardDoubleFormat.PLAIN.builder()
                 .withMinDecimalExponent(-3)
                 .withFormatSymbols(DecimalFormatSymbols.getInstance(loc))
-                .build();
-
-        // act/assert
-        checkLocalizedFormats(pattern, factory);
+                .build());
+        checkLocalizedFormats("#,##0.0##", loc -> StandardDoubleFormat.PLAIN.builder()
+                .withMinDecimalExponent(-3)
+                .withGroupThousands(true)
+                .withFormatSymbols(DecimalFormatSymbols.getInstance(loc))
+                .build());
     }
 
     @Test
@@ -245,16 +246,12 @@ class StandardDoubleFormatTest {
 
     @Test
     void testScientific_localeFormatComparison() {
-        // arrange
-        final String pattern = "0.0##E0";
-        final Function<Locale, DoubleFormat> factory = loc -> StandardDoubleFormat.SCIENTIFIC.builder()
+        // act/assert
+        checkLocalizedFormats("0.0##E0", loc -> StandardDoubleFormat.SCIENTIFIC.builder()
                 .withMaxPrecision(4)
                 .withAlwaysIncludeExponent(true)
                 .withFormatSymbols(DecimalFormatSymbols.getInstance(loc))
-                .build();
-
-        // act/assert
-        checkLocalizedFormats(pattern, factory);
+                .build());
     }
 
     @Test
@@ -348,16 +345,12 @@ class StandardDoubleFormatTest {
 
     @Test
     void testEngineering_localeFormatComparison() {
-        // arrange
-        final String pattern = "##0.0##E0";
-        final Function<Locale, DoubleFormat> factory = loc -> StandardDoubleFormat.ENGINEERING.builder()
+        // act/assert
+        checkLocalizedFormats("##0.0##E0", loc -> StandardDoubleFormat.ENGINEERING.builder()
                 .withMaxPrecision(6)
                 .withAlwaysIncludeExponent(true)
                 .withFormatSymbols(DecimalFormatSymbols.getInstance(loc))
-                .build();
-
-        // act/assert
-        checkLocalizedFormats(pattern, factory);
+                .build());
     }
 
     @Test
@@ -555,10 +548,12 @@ class StandardDoubleFormatTest {
         assertLocalizedFormatsAreEqual(Math.PI, df, fmt, loc);
         assertLocalizedFormatsAreEqual(Math.E, df, fmt, loc);
 
-        final Random rnd = new Random(11L);
+        final Random rnd = new Random(12L);
+        final int minExp = -100;
+        final int maxExp = 100;
         final int cnt = 1000;
         for (int i = 0; i < cnt; ++i) {
-            assertLocalizedFormatsAreEqual(randomDouble(rnd), df, fmt, loc);
+            assertLocalizedFormatsAreEqual(randomDouble(minExp, maxExp, rnd), df, fmt, loc);
         }
     }
 

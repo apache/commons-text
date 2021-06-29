@@ -37,7 +37,7 @@ public enum StandardDoubleFormat {
     /** Construct a new instance.
      * @param factory function used to construct format instances
      */
-    StandardDoubleFormat(final Function<Builder, DoubleFormat> factory) {
+    private StandardDoubleFormat(final Function<Builder, DoubleFormat> factory) {
         this.factory = factory;
     }
 
@@ -94,6 +94,12 @@ public enum StandardDoubleFormat {
 
         /** Decimal separator character. */
         private char decimalSeparator = '.';
+
+        /** Character used to separate groups of thousands. */
+        private char thousandsGroupingSeparator = ',';
+
+        /** If true, thousands groups will be separated by the grouping separator. */
+        private boolean groupThousands = false;
 
         /** Minus sign character. */
         private char minusSign = '-';
@@ -244,6 +250,27 @@ public enum StandardDoubleFormat {
             return this;
         }
 
+        /** Set the character used to separate groups of thousands. Default value is {@code ','}.
+         * @param thousandsGroupingSeparator character used to separate groups of thousands
+         * @return this instance
+         * @see #withGroupThousands(boolean)
+         */
+        public Builder withThousandsGroupingSeparator(final char thousandsGroupingSeparator) {
+            this.thousandsGroupingSeparator = thousandsGroupingSeparator;
+            return this;
+        }
+
+        /** If set to true, thousands will be grouped with the
+         * {@link #withThousandsGroupingSeparator(char) grouping separator}. This property only applies
+         * to the {@link StandardDoubleFormat#PLAIN PLAIN} format. Default value is {@code false}.
+         * @param groupThousands if true, thousands will be grouped
+         * @return this instance
+         */
+        public Builder withGroupThousands(final boolean groupThousands) {
+            this.groupThousands = groupThousands;
+            return this;
+        }
+
         /** Set the exponent separator character, i.e., the string placed between
          * the mantissa and the exponent. The default value is {@code "E"}, as in
          * {@code "1.2E6"}.
@@ -260,7 +287,10 @@ public enum StandardDoubleFormat {
 
         /** Set the flag indicating if an exponent value should always be included in the
          * formatted value, even if the exponent value is zero. This property only applies
-         * to formats that use scientific notation. The default value is {@code false}.
+         * to formats that use scientific notation, namely
+         * {@link StandardDoubleFormat#SCIENTIFIC SCIENTIFIC},
+         * {@link StandardDoubleFormat#ENGINEERING ENGINEERING}, and
+         * {@link StandardDoubleFormat#MIXED MIXED}. The default value is {@code false}.
          * @param alwaysIncludeExponent if true, exponents will always be included in formatted
          *      output even if the exponent value is zero
          * @return this instance
@@ -300,6 +330,7 @@ public enum StandardDoubleFormat {
          * <ul>
          *  <li>{@link #withDigits(String) digit characters}</li>
          *  <li>{@link #withDecimalSeparator(char) decimal separator}</li>
+         *  <li>{@link #withThousandsGroupingSeparator(char) thousands grouping separator}</li>
          *  <li>{@link #withMinusSign(char) minus sign}</li>
          *  <li>{@link #withExponentSeparator(String) exponent separator}</li>
          *  <li>{@link #withInfinity(String) infinity}</li>
@@ -317,6 +348,7 @@ public enum StandardDoubleFormat {
 
             return withDigits(getDigitString(symbols))
                     .withDecimalSeparator(symbols.getDecimalSeparator())
+                    .withThousandsGroupingSeparator(symbols.getGroupingSeparator())
                     .withMinusSign(symbols.getMinusSign())
                     .withExponentSeparator(symbols.getExponentSeparator())
                     .withInfinity(symbols.getInfinity())
@@ -382,6 +414,12 @@ public enum StandardDoubleFormat {
         /** Decimal separator character. */
         private final char decimalSeparator;
 
+        /** Thousands grouping separator. */
+        private final char thousandsGroupingSeparator;
+
+        /** Flag indicating if thousands should be grouped. */
+        private final boolean groupThousands;
+
         /** Minus sign character. */
         private final char minusSign;
 
@@ -406,6 +444,8 @@ public enum StandardDoubleFormat {
             this.signedZero = builder.signedZero;
             this.digits = builder.digits;
             this.decimalSeparator = builder.decimalSeparator;
+            this.thousandsGroupingSeparator = builder.thousandsGroupingSeparator;
+            this.groupThousands = builder.groupThousands;
             this.minusSign = builder.minusSign;
             this.exponentSeparator = builder.exponentSeparator;
             this.alwaysIncludeExponent = builder.alwaysIncludeExponent;
@@ -433,6 +473,18 @@ public enum StandardDoubleFormat {
         @Override
         public char getDecimalSeparator() {
             return decimalSeparator;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public char getThousandsGroupingSeparator() {
+            return thousandsGroupingSeparator;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean getGroupThousands() {
+            return groupThousands;
         }
 
         /** {@inheritDoc} */

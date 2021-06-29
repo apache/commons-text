@@ -65,6 +65,16 @@ final class SimpleDecimal {
          */
         char getDecimalSeparator();
 
+        /** Get the character used to separate thousands groupings.
+         * @return character used to separate thousands groupings
+         */
+        char getThousandsGroupingSeparator();
+
+        /** Return true if thousands should be grouped.
+         * @return true if thousand should be grouped
+         */
+        boolean getGroupThousands();
+
         /** Get the minus sign character.
          * @return minus sign character
          */
@@ -254,49 +264,17 @@ final class SimpleDecimal {
      */
     public void toPlainString(final Appendable dst, final FormatOptions opts)
             throws IOException {
-        final int precision = getPrecision();
-        final String digitChars = opts.getDigits();
-        final char zero = digitChars.charAt(0);
+        final int wholeDigitCount = getPrecision() + exponent;
 
-        if (shouldIncludeMinus(opts)) {
-            dst.append(opts.getMinusSign());
-        }
+        final int fractionStartIdx = opts.getGroupThousands() ?
+                appendWholeGrouped(wholeDigitCount, dst, opts) :
+                appendWhole(wholeDigitCount, dst, opts);
 
-        if (exponent < 0) {
-            final int diff = precision + exponent;
+        final int fractionZeroCount = wholeDigitCount < 0 ?
+                Math.abs(wholeDigitCount) :
+                0;
 
-            // add whole digits, using a beginning placeholder zero if
-            // needed
-            int i;
-            for (i = 0; i < diff; ++i) {
-                appendLocalizedDigit(digits.charAt(i), digitChars, dst);
-            }
-            if (i == 0) {
-                dst.append(zero);
-            }
-
-            // decimal separator
-            dst.append(opts.getDecimalSeparator());
-
-            // add placeholder fraction zeros if needed
-            for (int j = 0; j > diff; --j) {
-                dst.append(zero);
-            }
-
-            // fraction digits
-            appendDigits(digits, i, precision, digitChars, dst);
-        } else {
-            appendDigits(digits, 0, precision, digitChars, dst);
-
-            for (int i = 0; i < exponent; ++i) {
-                dst.append(zero);
-            }
-
-            if (opts.getIncludeFractionPlaceholder()) {
-                dst.append(opts.getDecimalSeparator())
-                    .append(zero);
-            }
-        }
+        appendFraction(fractionZeroCount, fractionStartIdx, dst, opts);
     }
 
     /** Append a string representation of this value in scientific notation to {@code dst}.
@@ -313,7 +291,7 @@ final class SimpleDecimal {
      */
     public void toScientificString(final Appendable dst, final FormatOptions opts)
             throws IOException {
-        toScientificString(dst, 1, opts);
+        toScientificString(1, dst, opts);
     }
 
     /** Append a string representation of the value in engineering notation to {@code dst}. This
@@ -332,50 +310,28 @@ final class SimpleDecimal {
      */
     public void toEngineeringString(final Appendable dst, final FormatOptions opts)
             throws IOException {
-        final int wholeDigits = 1 + Math.floorMod(getPrecision() + exponent - 1, 3);
-        toScientificString(dst, wholeDigits, opts);
+        final int wholeDigitCount = 1 + Math.floorMod(getPrecision() + exponent - 1, 3);
+        toScientificString(wholeDigitCount, dst, opts);
     }
 
     /** Append a string representation of the value in scientific notation using the
      * given number of whole digits to {@code dst}. If the exponent field of the result
      * is zero, it is not included in the returned string.
+     * @param wholeDigits number of whole digits; must be greater than 0
      * @param dst destination to append to
-     * @param wholeDigits number of whole digits
      * @param opts format options
      * @throws IOException if an I/O error occurs
      */
-    private void toScientificString(final Appendable dst, final int wholeDigits, final FormatOptions opts)
+    private void toScientificString(final int wholeDigitCount, final Appendable dst, final FormatOptions opts)
             throws IOException {
         final int precision = getPrecision();
-        final String digitChars = opts.getDigits();
-        final char zero = digitChars.charAt(0);
+        final String localizedDigits = opts.getDigits();
 
-        if (shouldIncludeMinus(opts)) {
-            dst.append(opts.getMinusSign());
-        }
+        final int fractionStartIdx = appendWhole(wholeDigitCount, dst, opts);
+        appendFraction(0, fractionStartIdx, dst, opts);
 
-        if (precision <= wholeDigits) {
-            // not enough digits to meet the requested number of whole digits;
-            // we'll need to pad with zeros
-            appendDigits(digits, 0, precision, digitChars, dst);
-
-            for (int i = precision; i < wholeDigits; ++i) {
-                dst.append(zero);
-            }
-
-            if (opts.getIncludeFractionPlaceholder()) {
-                dst.append(opts.getDecimalSeparator())
-                    .append(zero);
-            }
-        } else {
-            // we'll need a fractional portion
-            appendDigits(digits, 0, wholeDigits, digitChars, dst);
-            dst.append(opts.getDecimalSeparator());
-            appendDigits(digits, wholeDigits, precision, digitChars, dst);
-        }
-
-        // add the exponent but only if non-zero
-        final int resultExponent = exponent + precision - wholeDigits;
+        // add the exponent but only if non-zero or explicitly requested
+        final int resultExponent = exponent + precision - wholeDigitCount;
         if (resultExponent != 0 || opts.getAlwaysIncludeExponent()) {
             dst.append(opts.getExponentSeparator());
 
@@ -384,7 +340,121 @@ final class SimpleDecimal {
             }
 
             final String exponentStr = Integer.toString(Math.abs(resultExponent));
-            appendDigits(exponentStr, 0, exponentStr.length(), digitChars, dst);
+            appendLocalizedDigits(exponentStr, 0, exponentStr.length(), localizedDigits, dst);
+        }
+    }
+
+    /** Append {@code count} characters from the beginning of {@code digits} as the whole number
+     * portion of the string representation. The index of the next character from {@code digits}
+     * is returned if any characters remain. Otherwise, {@code digits.length()} is returned.
+     * @param count number of digits to append
+     * @param dst destination to append to
+     * @param opts format options
+     * @return index of the next character from {@code digits} or the {@code digits.length()}
+     *      if all character have been appended
+     * @throws IOException in an I/O error occurs
+     */
+    private int appendWhole(final int count, final Appendable dst, final FormatOptions opts)
+            throws IOException {
+        if (shouldIncludeMinus(opts)) {
+            dst.append(opts.getMinusSign());
+        }
+
+        final String localizedDigits = opts.getDigits();
+        final char localizedZero = localizedDigits.charAt(0);
+
+        final int available = digits.length();
+        final int significantDigitCount = Math.max(0, Math.min(count, available));
+
+        if (significantDigitCount > 0) {
+            int i;
+            for (i = 0; i < significantDigitCount; ++i) {
+                appendLocalizedDigit(digits.charAt(i), localizedDigits, dst);
+            }
+
+            for (;i < count; ++i) {
+                dst.append(localizedZero);
+            }
+        } else {
+            dst.append(localizedZero);
+        }
+
+        return significantDigitCount;
+    }
+
+    /** Same as {@link #appendWhole(int, Appendable, FormatOptions)} but includes thousands
+     * grouping separators.
+     * @param count number of digits to append
+     * @param dst destination to append to
+     * @param opts format options
+     * @return index of the next character from {@code digits} or the {@code digits.length()}
+     *      if all character have been appended
+     * @throws IOException in an I/O error occurs
+     * @see #appendWhole(int, Appendable, FormatOptions)
+     */
+    private int appendWholeGrouped(final int count, final Appendable dst, final FormatOptions opts)
+            throws IOException {
+        if (shouldIncludeMinus(opts)) {
+            dst.append(opts.getMinusSign());
+        }
+
+        final String localizedDigits = opts.getDigits();
+        final char localizedZero = localizedDigits.charAt(0);
+        final char groupingChar = opts.getThousandsGroupingSeparator();
+
+        final int available = digits.length();
+        final int significantDigitCount = Math.max(0, Math.min(count, available));
+
+        if (significantDigitCount > 0) {
+            int i;
+            int pos = count;
+            for (i = 0; i < significantDigitCount; ++i, --pos) {
+                appendLocalizedDigit(digits.charAt(i), localizedDigits, dst);
+                if (pos > 1 && (pos % 3) == 1) {
+                    dst.append(groupingChar);
+                }
+            }
+
+            for (;i < count; ++i, --pos) {
+                dst.append(localizedZero);
+                if (pos > 1 && (pos % 3) == 1) {
+                    dst.append(groupingChar);
+                }
+            }
+        } else {
+            dst.append(localizedZero);
+        }
+
+        return significantDigitCount;
+    }
+
+    /**
+     * @param zeroCount number of zeros to add after the decimal point and before the
+     *      first significant digit
+     * @param fractionStartIdx significant digit start index
+     * @param dst destination to append to
+     * @param opts format options
+     * @throws IOException if an I/O error occurs
+     */
+    private void appendFraction(final int zeroCount, final int startIdx, final Appendable dst,
+            final FormatOptions opts) throws IOException {
+        final String localizedDigits = opts.getDigits();
+        final char localizedZero = localizedDigits.charAt(0);
+
+        final int len = digits.length();
+        if (startIdx < len) {
+            dst.append(opts.getDecimalSeparator());
+
+            // add the zero prefix
+            for (int i = 0; i < zeroCount; ++i) {
+                dst.append(localizedZero);
+            }
+
+            // add the fraction digits
+            appendLocalizedDigits(digits, startIdx, len, localizedDigits, dst);
+        } else if (opts.getIncludeFractionPlaceholder()){
+            dst.append(opts.getDecimalSeparator());
+            dst.append(localizedZero);
         }
     }
 
@@ -407,8 +477,8 @@ final class SimpleDecimal {
      * @param dst destination to append to
      * @throws IOException if an I/O error occurs
      */
-    private void appendDigits(final CharSequence seq, final int startIdx, final int endIdx, final String digitChars,
-            final Appendable dst) throws IOException {
+    private void appendLocalizedDigits(final CharSequence seq, final int startIdx, final int endIdx,
+            final String digitChars, final Appendable dst) throws IOException {
         for (int i = startIdx; i < endIdx; ++i) {
             appendLocalizedDigit(seq.charAt(i), digitChars, dst);
         }
