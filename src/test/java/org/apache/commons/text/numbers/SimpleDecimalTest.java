@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text.numbers;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -256,7 +258,7 @@ class SimpleDecimalTest {
 
             // assert
             Assertions.assertEquals(new BigDecimal(Double.toString(d), ctx).doubleValue(),
-                    Double.parseDouble(result.toScientificString(new FormatOptionsImpl())));
+                    Double.parseDouble(scientificString(result, new FormatOptionsImpl())));
         }
     }
 
@@ -283,7 +285,7 @@ class SimpleDecimalTest {
         checkToPlainString(1.5, "1.5", opts);
 
         checkToPlainString(-0.000123, "-0.000123", opts);
-        checkToPlainString(12300, "12300.0", opts);
+        checkToPlainString(12301, "12301.0", opts);
 
         checkToPlainString(Math.PI, "3.141592653589793", opts);
         checkToPlainString(Math.E, "2.718281828459045", opts);
@@ -299,25 +301,26 @@ class SimpleDecimalTest {
         final FormatOptionsImpl opts = new FormatOptionsImpl();
         opts.setIncludeFractionPlaceholder(false);
         opts.setSignedZero(false);
+//        opts.setZeroDigit('#');
         opts.setDecimalSeparator(',');
         opts.setMinusSign('!');
         opts.setExponentSeparator("10^");
 
         // act/assert
-        checkToPlainString(0.0, "0", opts);
-        checkToPlainString(-0.0, "0", opts);
+        checkToPlainString(0.0, "#", opts);
+        checkToPlainString(-0.0, "#", opts);
         checkToPlainString(1.0, "1", opts);
         checkToPlainString(1.5, "1,5", opts);
 
-        checkToPlainString(-0.000123, "!0,000123", opts);
-        checkToPlainString(12300, "12300", opts);
+        checkToPlainString(-0.000123, "!#,###123", opts);
+        checkToPlainString(12301, "123#1", opts);
 
         checkToPlainString(Math.PI, "3,141592653589793", opts);
-        checkToPlainString(Math.E, "2,718281828459045", opts);
+        checkToPlainString(Math.E, "2,718281828459#45", opts);
 
         checkToPlainString(-12345.6789, "!12345,6789", opts);
-        checkToPlainString(1.23e12, "1230000000000", opts);
-        checkToPlainString(1.23e-12, "0,00000000000123", opts);
+        checkToPlainString(1.23e12, "123##########", opts);
+        checkToPlainString(1.23e-12, "#,###########123", opts);
     }
 
     @Test
@@ -332,7 +335,7 @@ class SimpleDecimalTest {
         checkToScientificString(1.5, "1.5", opts);
 
         checkToScientificString(-0.000123, "-1.23E-4", opts);
-        checkToScientificString(12300, "1.23E4", opts);
+        checkToScientificString(12301, "1.2301E4", opts);
 
         checkToScientificString(Math.PI, "3.141592653589793", opts);
         checkToScientificString(Math.E, "2.718281828459045", opts);
@@ -348,25 +351,26 @@ class SimpleDecimalTest {
         final FormatOptionsImpl opts = new FormatOptionsImpl();
         opts.setIncludeFractionPlaceholder(false);
         opts.setSignedZero(false);
+//        opts.setZeroDigit('#');
         opts.setDecimalSeparator(',');
         opts.setMinusSign('!');
         opts.setExponentSeparator("x10^");
 
         // act/assert
-        checkToScientificString(0.0, "0", opts);
-        checkToScientificString(-0.0, "0", opts);
+        checkToScientificString(0.0, "#", opts);
+        checkToScientificString(-0.0, "#", opts);
         checkToScientificString(1.0, "1", opts);
         checkToScientificString(1.5, "1,5", opts);
 
         checkToScientificString(-0.000123, "!1,23x10^!4", opts);
-        checkToScientificString(12300, "1,23x10^4", opts);
+        checkToScientificString(12301, "1,23#1x10^4", opts);
 
         checkToScientificString(Math.PI, "3,141592653589793", opts);
-        checkToScientificString(Math.E, "2,718281828459045", opts);
+        checkToScientificString(Math.E, "2,718281828459#45", opts);
 
-        checkToScientificString(-Double.MAX_VALUE, "!1,7976931348623157x10^308", opts);
+        checkToScientificString(-Double.MAX_VALUE, "!1,7976931348623157x10^3#8", opts);
         checkToScientificString(Double.MIN_VALUE, "4,9x10^!324", opts);
-        checkToScientificString(Double.MIN_NORMAL, "2,2250738585072014x10^!308", opts);
+        checkToScientificString(Double.MIN_NORMAL, "2,225#738585#72#14x10^!3#8", opts);
     }
 
     @Test
@@ -399,27 +403,28 @@ class SimpleDecimalTest {
         final FormatOptionsImpl opts = new FormatOptionsImpl();
         opts.setIncludeFractionPlaceholder(false);
         opts.setSignedZero(false);
+//        opts.setZeroDigit('#');
         opts.setDecimalSeparator(',');
         opts.setMinusSign('!');
         opts.setExponentSeparator("x10^");
 
         // act/assert
-        checkToEngineeringString(0.0, "0", opts);
-        checkToEngineeringString(-0.0, "0", opts);
+        checkToEngineeringString(0.0, "#", opts);
+        checkToEngineeringString(-0.0, "#", opts);
         checkToEngineeringString(1.0, "1", opts);
         checkToEngineeringString(1.5, "1,5", opts);
 
-        checkToEngineeringString(10, "10", opts);
+        checkToEngineeringString(10, "1#", opts);
 
         checkToEngineeringString(-0.000000123, "!123x10^!9", opts);
         checkToEngineeringString(12300000, "12,3x10^6", opts);
 
         checkToEngineeringString(Math.PI, "3,141592653589793", opts);
-        checkToEngineeringString(Math.E, "2,718281828459045", opts);
+        checkToEngineeringString(Math.E, "2,718281828459#45", opts);
 
-        checkToEngineeringString(-Double.MAX_VALUE, "!179,76931348623157x10^306", opts);
+        checkToEngineeringString(-Double.MAX_VALUE, "!179,76931348623157x10^3#6", opts);
         checkToEngineeringString(Double.MIN_VALUE, "4,9x10^!324", opts);
-        checkToEngineeringString(Double.MIN_NORMAL, "22,250738585072014x10^!309", opts);
+        checkToEngineeringString(Double.MIN_NORMAL, "22,25#738585#72#14x10^!3#9", opts);
     }
 
     @Test
@@ -434,18 +439,18 @@ class SimpleDecimalTest {
         altOpts.setExponentSeparator("e");
         altOpts.setIncludeFractionPlaceholder(false);
 
-        Assertions.assertEquals(10.0, Double.parseDouble(SimpleDecimal.from(10.0).toEngineeringString(stdOpts)));
+        Assertions.assertEquals(10.0, Double.parseDouble(scientificString(SimpleDecimal.from(10.0), stdOpts)));
 
         for (double d = min; d <= max; d += delta) {
             // act/assert
-            Assertions.assertEquals(d, Double.parseDouble(SimpleDecimal.from(d).toScientificString(stdOpts)));
-            Assertions.assertEquals(d, Double.parseDouble(SimpleDecimal.from(d).toScientificString(altOpts)));
+            Assertions.assertEquals(d, Double.parseDouble(scientificString(SimpleDecimal.from(d), stdOpts)));
+            Assertions.assertEquals(d, Double.parseDouble(scientificString(SimpleDecimal.from(d), altOpts)));
 
-            Assertions.assertEquals(d, Double.parseDouble(SimpleDecimal.from(d).toEngineeringString(stdOpts)));
-            Assertions.assertEquals(d, Double.parseDouble(SimpleDecimal.from(d).toEngineeringString(altOpts)));
+            Assertions.assertEquals(d, Double.parseDouble(engineeringString(SimpleDecimal.from(d), stdOpts)));
+            Assertions.assertEquals(d, Double.parseDouble(engineeringString(SimpleDecimal.from(d), altOpts)));
 
-            Assertions.assertEquals(d, Double.parseDouble(SimpleDecimal.from(d).toPlainString(stdOpts)));
-            Assertions.assertEquals(d, Double.parseDouble(SimpleDecimal.from(d).toPlainString(altOpts)));
+            Assertions.assertEquals(d, Double.parseDouble(plainString(SimpleDecimal.from(d), stdOpts)));
+            Assertions.assertEquals(d, Double.parseDouble(plainString(SimpleDecimal.from(d), altOpts)));
         }
     }
 
@@ -464,14 +469,14 @@ class SimpleDecimalTest {
             d = createRandomDouble(rand);
 
             // act/assert
-            Assertions.assertEquals(d, Double.parseDouble(SimpleDecimal.from(d).toScientificString(stdOpts)));
-            Assertions.assertEquals(d, Double.parseDouble(SimpleDecimal.from(d).toScientificString(altOpts)));
+            Assertions.assertEquals(d, Double.parseDouble(scientificString(SimpleDecimal.from(d), stdOpts)));
+            Assertions.assertEquals(d, Double.parseDouble(scientificString(SimpleDecimal.from(d), altOpts)));
 
-            Assertions.assertEquals(d, Double.parseDouble(SimpleDecimal.from(d).toEngineeringString(stdOpts)));
-            Assertions.assertEquals(d, Double.parseDouble(SimpleDecimal.from(d).toEngineeringString(altOpts)));
+            Assertions.assertEquals(d, Double.parseDouble(engineeringString(SimpleDecimal.from(d), stdOpts)));
+            Assertions.assertEquals(d, Double.parseDouble(engineeringString(SimpleDecimal.from(d), altOpts)));
 
-            Assertions.assertEquals(d, Double.parseDouble(SimpleDecimal.from(d).toPlainString(stdOpts)));
-            Assertions.assertEquals(d, Double.parseDouble(SimpleDecimal.from(d).toPlainString(altOpts)));
+            Assertions.assertEquals(d, Double.parseDouble(plainString(SimpleDecimal.from(d), stdOpts)));
+            Assertions.assertEquals(d, Double.parseDouble(plainString(SimpleDecimal.from(d), altOpts)));
         }
     }
 
@@ -484,23 +489,23 @@ class SimpleDecimalTest {
 
     private static void checkToPlainString(final double d, final String expected,
             final SimpleDecimal.FormatOptions opts) {
-        checkToStringMethod(d, expected, SimpleDecimal::toPlainString, opts);
+        checkToStringMethod(d, expected, SimpleDecimalTest::plainString, opts);
     }
 
     private static void checkToScientificString(final double d, final String expected,
             final SimpleDecimal.FormatOptions opts) {
-        checkToStringMethod(d, expected, SimpleDecimal::toScientificString, opts);
+        checkToStringMethod(d, expected, SimpleDecimalTest::scientificString, opts);
     }
 
     private static void checkToEngineeringString(final double d, final String expected,
             final SimpleDecimal.FormatOptions opts) {
-        checkToStringMethod(d, expected, SimpleDecimal::toEngineeringString, opts);
+        checkToStringMethod(d, expected, SimpleDecimalTest::engineeringString, opts);
 
         // check the exponent value to make sure it is a multiple of 3
-        final String pos = SimpleDecimal.from(d).toEngineeringString(opts);
+        final String pos = engineeringString(SimpleDecimal.from(d), opts);
         Assertions.assertEquals(0, parseExponent(pos, opts) % 3);
 
-        final String neg = SimpleDecimal.from(-d).toEngineeringString(opts);
+        final String neg = engineeringString(SimpleDecimal.from(-d), opts);
         Assertions.assertEquals(0, parseExponent(neg, opts) % 3);
     }
 
@@ -516,7 +521,8 @@ class SimpleDecimalTest {
                 ++expIdx;
             }
 
-            final int val = Integer.parseInt(str.substring(expIdx));
+            final String expStr = str.substring(expIdx);
+            final int val = Integer.parseInt(expStr);
             return neg ?
                     -val :
                     val;
@@ -557,11 +563,43 @@ class SimpleDecimalTest {
         return Double.longBitsToDouble(bits | (exp << 52));
     }
 
+    private static String plainString(final SimpleDecimal dec, final SimpleDecimal.FormatOptions opts) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            dec.toPlainString(sb, opts);
+            return sb.toString();
+        } catch (IOException exc) {
+            throw new UncheckedIOException(exc);
+        }
+    }
+
+    private static String scientificString(final SimpleDecimal dec, final SimpleDecimal.FormatOptions opts) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            dec.toScientificString(sb, opts);
+            return sb.toString();
+        } catch (IOException exc) {
+            throw new UncheckedIOException(exc);
+        }
+    }
+
+    private static String engineeringString(final SimpleDecimal dec, final SimpleDecimal.FormatOptions opts) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            dec.toEngineeringString(sb, opts);
+            return sb.toString();
+        } catch (IOException exc) {
+            throw new UncheckedIOException(exc);
+        }
+    }
+
     private static final class FormatOptionsImpl implements SimpleDecimal.FormatOptions {
 
         private boolean includeFractionPlaceholder = true;
 
         private boolean signedZero = true;
+
+        private int zeroDelta = 0;
 
         private char decimalSeparator = '.';
 
@@ -585,6 +623,15 @@ class SimpleDecimalTest {
 
         public void setSignedZero(final boolean signedZero) {
             this.signedZero = signedZero;
+        }
+
+        @Override
+        public int getZeroDelta() {
+            return zeroDelta;
+        }
+
+        public void setZeroDelta(final int zeroDelta) {
+            this.zeroDelta = zeroDelta;
         }
 
         @Override

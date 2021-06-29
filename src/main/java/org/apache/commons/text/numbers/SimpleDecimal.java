@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text.numbers;
 
+import java.io.IOException;
+
 /** Simple class representing a double value parsed into separate decimal components. Each double
  * is represented with
  * <ul>
@@ -51,6 +53,11 @@ final class SimpleDecimal {
          * @return true if the minus zero string should be allowed
          */
         boolean getSignedZero();
+
+        /** Get the difference between the localized character used to represent zero and '0'.
+         * @return difference between the localized character used to represent zero and '0'
+         */
+        int getZeroDelta();
 
         /** Get the decimal separator character.
          * @return decimal separator character
@@ -88,9 +95,6 @@ final class SimpleDecimal {
 
     /** String containing the decimal digits '0' - '9' in sequence. */
     private static final String DECIMAL_DIGITS = "0123456789";
-
-    /** Initial size to use for string builder instances. */
-    private static final int INITIAL_STR_BUILDER_SIZE = 32;
 
     /** Shared instance representing the positive zero double value. */
     private static final SimpleDecimal POS_ZERO = new SimpleDecimal(false, String.valueOf(ZERO_CHAR), 0);
@@ -231,23 +235,24 @@ final class SimpleDecimal {
         return this; // no change needed
     }
 
-    /** Return a string representation of the value with no exponent field. Ex:
+    /** Append a string representation of this value with no exponent field to {@code dst}. Ex:
      * <pre>
      * 10 = "10.0"
      * 1e-6 = "0.000001"
      * 1e11 = "100000000000.0"
      * </pre>
-     * @param includeDecimalPlaceholder if true, then the returned string will contain
-     *      the decimal placeholder ".0" when no fractional value is present, similar
-     *      to {@link Double#toString(double)}
-     * @return a string representation of the value with no exponent field
+     * @param dst destination to append to
+     * @param opts format options
+     * @throws IOException if an I/O error occurs
      */
-    public String toPlainString(final FormatOptions formatOptions) {
+    public void toPlainString(final Appendable dst, final FormatOptions opts)
+            throws IOException {
         final int precision = getPrecision();
+        final int zeroDelta = opts.getZeroDelta();
+        final char zero = (char) (ZERO_CHAR + zeroDelta);
 
-        final StringBuilder sb = new StringBuilder(INITIAL_STR_BUILDER_SIZE);
-        if (shouldIncludeMinus(formatOptions)) {
-            sb.append(formatOptions.getMinusSign());
+        if (shouldIncludeMinus(opts)) {
+            dst.append(opts.getMinusSign());
         }
 
         if (exponent < 0) {
@@ -257,126 +262,150 @@ final class SimpleDecimal {
             // needed
             int i;
             for (i = 0; i < diff; ++i) {
-                sb.append(digits.charAt(i));
+                appendDigit(digits.charAt(i), zeroDelta, dst);
             }
             if (i == 0) {
-                sb.append(ZERO_CHAR);
+                dst.append(zero);
             }
 
             // decimal separator
-            sb.append(formatOptions.getDecimalSeparator());
+            dst.append(opts.getDecimalSeparator());
 
             // add placeholder fraction zeros if needed
             for (int j = 0; j > diff; --j) {
-                sb.append(ZERO_CHAR);
+                dst.append(zero);
             }
 
             // fraction digits
-            sb.append(digits, i, precision);
+            appendDigits(digits, i, precision, zero, dst);
         } else {
-            sb.append(digits);
+            appendDigits(digits, 0, precision, zero, dst);
 
             for (int i = 0; i < exponent; ++i) {
-                sb.append(ZERO_CHAR);
+                dst.append(zero);
             }
 
-            if (formatOptions.getIncludeFractionPlaceholder()) {
-                sb.append(formatOptions.getDecimalSeparator())
-                    .append(ZERO_CHAR);
+            if (opts.getIncludeFractionPlaceholder()) {
+                dst.append(opts.getDecimalSeparator())
+                    .append(zero);
             }
         }
-
-        return sb.toString();
     }
 
-    /** Return a string representation of the value in scientific notation. If the exponent field
-     * is equal to zero, it is not included in the result. Ex:
+    /** Append a string representation of this value in scientific notation to {@code dst}.
+     * If the exponent field is equal to zero, it is not included in the result. Ex:
      * <pre>
      * 0 = "0.0"
      * 10 = "1.0E1"
      * 1e-6 = "1.0E-6"
      * 1e11 = "1.0E11"
      * </pre>
-     * @param includeDecimalPlaceholder if true, then the returned string will contain
-     *      the decimal placeholder ".0" when no fractional value is present, similar
-     *      to {@link Double#toString(double)}
-     * @return a string representation of the value in scientific notation
+     * @param dst destination to append to
+     * @param opts format options
+     * @throws IOException if an I/O error occurs
      */
-    public String toScientificString(final FormatOptions formatOptions) {
-        return toScientificString(1, formatOptions);
+    public void toScientificString(final Appendable dst, final FormatOptions opts)
+            throws IOException {
+        toScientificString(dst, 1, opts);
     }
 
-    /** Return a string representation of the value in engineering notation. This is similar
-     * to {@link #toScientificString(boolean) scientific notation} but with the exponent forced
-     * to be a multiple of 3, allowing easier alignment with SI prefixes. If the exponent field
-     * is equal to zero, it is not included in the result.
+    /** Append a string representation of the value in engineering notation to {@code dst}. This
+     * is similar to {@link #toScientificString(Appendable, FormatOptions) scientific notation}
+     * but with the exponent forced to be a multiple of 3, allowing easier alignment with SI prefixes.
+     * If the exponent field is equal to zero, it is not included in the result.
      * <pre>
      * 0 = "0.0"
      * 10 = "10.0"
      * 1e-6 = "1.0E-6"
      * 1e11 = "100.0E9"
      * </pre>
-     * @param includeDecimalPlaceholder if true, then the returned string will contain
-     *      the decimal placeholder ".0" when no fractional value is present, similar
-     *      to {@link Double#toString(double)}
-     * @return a string representation of the value in engineering notation
+     * @param dst destination to append to
+     * @param opts format options
+     * @throws IOException if an I/O error occurs
      */
-    public String toEngineeringString(final FormatOptions formatOptions) {
+    public void toEngineeringString(final Appendable dst, final FormatOptions opts)
+            throws IOException {
         final int wholeDigits = 1 + Math.floorMod(getPrecision() + exponent - 1, 3);
-        return toScientificString(wholeDigits, formatOptions);
+        toScientificString(dst, wholeDigits, opts);
     }
 
-    /** Return a string representation of the value in scientific notation using the
-     * given number of whole digits. If the exponent field of the result is zero, it
-     * is not included in the returned string.
-     * @param wholeDigits number of whole digits to use in the output
-     * @param includeDecimalPlaceholder if true, then the returned string will contain
-     *      the decimal placeholder ".0" when no fractional value is present, similar
-     *      to {@link Double#toString(double)}
-     * @return a string representation of the value in scientific notation using the
-     *      given number of whole digits
+    /** Append a string representation of the value in scientific notation using the
+     * given number of whole digits to {@code dst}. If the exponent field of the result
+     * is zero, it is not included in the returned string.
+     * @param dst destination to append to
+     * @param wholeDigits number of whole digits
+     * @param opts format options
+     * @throws IOException if an I/O error occurs
      */
-    private String toScientificString(final int wholeDigits, final FormatOptions formatOptions) {
+    private void toScientificString(final Appendable dst, final int wholeDigits, final FormatOptions opts)
+            throws IOException {
         final int precision = getPrecision();
+        final int zeroDelta = opts.getZeroDelta();
+        final char zero = (char) (ZERO_CHAR + zeroDelta);
 
-        final StringBuilder sb = new StringBuilder(INITIAL_STR_BUILDER_SIZE);
-        if (shouldIncludeMinus(formatOptions)) {
-            sb.append(formatOptions.getMinusSign());
+        if (shouldIncludeMinus(opts)) {
+            dst.append(opts.getMinusSign());
         }
 
         if (precision <= wholeDigits) {
             // not enough digits to meet the requested number of whole digits;
             // we'll need to pad with zeros
-            sb.append(digits);
+            appendDigits(digits, 0, precision, zeroDelta, dst);
 
             for (int i = precision; i < wholeDigits; ++i) {
-                sb.append(ZERO_CHAR);
+                dst.append(zero);
             }
 
-            if (formatOptions.getIncludeFractionPlaceholder()) {
-                sb.append(formatOptions.getDecimalSeparator())
-                    .append(ZERO_CHAR);
+            if (opts.getIncludeFractionPlaceholder()) {
+                dst.append(opts.getDecimalSeparator())
+                    .append(zero);
             }
         } else {
             // we'll need a fractional portion
-            sb.append(digits, 0, wholeDigits)
-                .append(formatOptions.getDecimalSeparator())
-                .append(digits, wholeDigits, precision);
+            appendDigits(digits, 0, wholeDigits, zeroDelta, dst);
+            dst.append(opts.getDecimalSeparator());
+            appendDigits(digits, wholeDigits, precision, zeroDelta, dst);
         }
 
         // add the exponent but only if non-zero
         final int resultExponent = exponent + precision - wholeDigits;
         if (resultExponent != 0) {
-            sb.append(formatOptions.getExponentSeparator());
+            dst.append(opts.getExponentSeparator());
 
             if (resultExponent < 0) {
-                sb.append(formatOptions.getMinusSign());
+                dst.append(opts.getMinusSign());
             }
 
-            sb.append(Math.abs(resultExponent));
+            final String exponentStr = Integer.toString(Math.abs(resultExponent));
+            appendDigits(exponentStr, 0, exponentStr.length(), zeroDelta, dst);
         }
+    }
 
-        return sb.toString();
+    /** Append a digit to {@code dst}, substituting {@code zeroDigit} if {@code digit}
+     * is equal to {@code '0'}.
+     * @param digit decimal digit
+     * @param zeroDelta difference between the localized zero character and '0'
+     * @param dst destination to append to
+     * @throws IOException if an I/O error occurs
+     */
+    private void appendDigit(final char digit, final int zeroDelta, final Appendable dst)
+            throws IOException {
+        dst.append((char)(digit + zeroDelta));
+    }
+
+    /** Append digit characters from {@code seq} to {@code dst}.
+     * @param seq sequence to get characters from
+     * @param startIdx start index, inclusive
+     * @param endIdx end index, exclusive
+     * @param zeroDelta difference between the localized zero character and '0'
+     * @param dst destination to append to
+     * @throws IOException if an I/O error occurs
+     */
+    private void appendDigits(final CharSequence seq, final int startIdx, final int endIdx, final int zeroDelta,
+            final Appendable dst) throws IOException {
+        for (int i = startIdx; i < endIdx; ++i) {
+            appendDigit(seq.charAt(i), zeroDelta, dst);
+        }
     }
 
     /** Return true if formatted strings should include the minus sign, considering

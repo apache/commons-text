@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text.numbers;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.text.DecimalFormatSymbols;
 import java.util.function.Function;
 
@@ -51,10 +53,10 @@ public enum StandardDoubleFormat {
     public static final class Builder {
 
         /** Default value for the plain format max decimal exponent. */
-        private static final int DEFAULT_PLAIN_FORMAT_MAX_DECIMAL_EXPONENT = 7;
+        private static final int DEFAULT_PLAIN_FORMAT_MAX_DECIMAL_EXPONENT = 6;
 
         /** Default value for the plain format min decimal exponent. */
-        private static final int DEFAULT_PLAIN_FORMAT_MIN_DECIMAL_EXPONENT = -4;
+        private static final int DEFAULT_PLAIN_FORMAT_MIN_DECIMAL_EXPONENT = -3;
 
         /** Function used to construct {@link DoubleFormat} instances. */
         private final Function<Builder, DoubleFormat> factory;
@@ -82,6 +84,9 @@ public enum StandardDoubleFormat {
 
         /** Flag determining if signed zero strings are allowed. */
         private boolean signedZero = true;
+
+        /** Character used to represent zero. */
+        private char zeroDigit = '0';
 
         /** Decimal separator character. */
         private char decimalSeparator = '.';
@@ -182,6 +187,15 @@ public enum StandardDoubleFormat {
             return this;
         }
 
+        /** Set the character used to represent zero.
+         * @param zeroDigit character used to represent zero
+         * @return this instance
+         */
+        public Builder withZeroDigit(final char zeroDigit) {
+            this.zeroDigit = zeroDigit;
+            return this;
+        }
+
         /** Set the flag determining whether or not a zero character is added in the fraction position
          * when no fractional value is present. For example, if set to true, the number {@code 1} would
          * be formatted as {@code "1.0"}. If false, it would be formatted as {@code "1"}. The default
@@ -250,6 +264,7 @@ public enum StandardDoubleFormat {
          * <ul>
          *  <li>{@link #withDecimalSeparator(char) decimal separator}</li>
          *  <li>{@link #withMinusSign(char) minus sign}</li>
+         *  <li>{@link #withZeroDigit(char) zero digit}</li>
          *  <li>{@link #withExponentSeparator(String) exponent separator}</li>
          *  <li>{@link #withInfinity(String) infinity}</li>
          *  <li>{@link #withNaN(String) NaN}</li>
@@ -260,6 +275,7 @@ public enum StandardDoubleFormat {
         public Builder withFormatSymbols(final DecimalFormatSymbols symbols) {
             return withDecimalSeparator(symbols.getDecimalSeparator())
                     .withMinusSign(symbols.getMinusSign())
+                    .withZeroDigit(symbols.getZeroDigit())
                     .withExponentSeparator(symbols.getExponentSeparator())
                     .withInfinity(symbols.getInfinity())
                     .withNaN(symbols.getNaN());
@@ -276,6 +292,9 @@ public enum StandardDoubleFormat {
     /** Base class for standard double formatting classes.
      */
     private abstract static class AbstractDoubleFormat implements DoubleFormat, SimpleDecimal.FormatOptions {
+
+        /** Initial size to use for string builder instances. */
+        private static final int INITIAL_STR_BUILDER_SIZE = 32;
 
         /** Maximum precision; 0 indicates no limit. */
         private final int maxPrecision;
@@ -297,6 +316,9 @@ public enum StandardDoubleFormat {
 
         /** Flag determining if signed zero strings are allowed. */
         private final boolean signedZero;
+
+        /** Difference between the localized character used to represent zero and '0'. */
+        private final int zeroDelta;
 
         /** Decimal separator character. */
         private final char decimalSeparator;
@@ -320,6 +342,7 @@ public enum StandardDoubleFormat {
 
             this.fractionPlaceholder = builder.fractionPlaceholder;
             this.signedZero = builder.signedZero;
+            this.zeroDelta = builder.zeroDigit - '0';
             this.decimalSeparator = builder.decimalSeparator;
             this.minusSign = builder.minusSign;
             this.exponentSeparator = builder.exponentSeparator;
@@ -335,6 +358,12 @@ public enum StandardDoubleFormat {
         @Override
         public boolean getSignedZero() {
             return signedZero;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public int getZeroDelta() {
+            return zeroDelta;
         }
 
         /** {@inheritDoc} */
@@ -358,21 +387,40 @@ public enum StandardDoubleFormat {
         /** {@inheritDoc} */
         @Override
         public String apply(final double d) {
-            if (Double.isFinite(d)) {
-                return formatFinite(d);
-            } else if (Double.isInfinite(d)) {
-                return d > 0.0 ?
-                    postiveInfinity :
-                    negativeInfinity;
-            }
-            return nan;
+            final StringBuilder sb = new StringBuilder(INITIAL_STR_BUILDER_SIZE);
+            appendTo(sb, d);
+            return sb.toString();
         }
 
-        /** Return a formatted string representing the given finite value.
+        /** {@inheritDoc} */
+        @Override
+        public void appendTo(final Appendable dst, final double d) throws IOException {
+            if (Double.isFinite(d)) {
+                appendFinite(dst, d);
+            } else if (Double.isInfinite(d)) {
+                dst.append(d > 0.0 ? postiveInfinity : negativeInfinity);
+            } else {
+                dst.append(nan);
+            }
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void appendTo(final StringBuilder sb, final double d) {
+            try {
+                appendTo((Appendable) sb, d);
+            } catch (IOException exc) {
+                // cannot end up here since StringBuilder does not throw IOExceptions
+                throw new UncheckedIOException("StringBuilder threw IOException: " + exc.getMessage(), exc);
+            }
+        }
+
+        /** Append a formatted string representation of the given finite value to {@code dst}.
+         * @param dst destination to append to
          * @param d double value
-         * @return formatted string
+         * @throws IOException if an I/O error occurs
          */
-        private String formatFinite(final double d) {
+        private void appendFinite(final Appendable dst, final double d) throws IOException {
             final SimpleDecimal n = SimpleDecimal.from(d);
 
             int roundExponent = Math.max(n.getExponent(), minDecimalExponent);
@@ -382,14 +430,15 @@ public enum StandardDoubleFormat {
 
             final SimpleDecimal rounded = n.round(roundExponent);
 
-            return formatFiniteInternal(rounded);
+            appendFiniteInternal(dst, rounded);
         }
 
-        /** Format the given decimal value.
+        /** Append a formatted representation of the given rounded decimal value to {@code dst}.
+         * @param dst destination to write to
          * @param val value to format
-         * @return formatted double value
+         * @throws IOException if an I/O error occurs
          */
-        protected abstract String formatFiniteInternal(SimpleDecimal val);
+        protected abstract void appendFiniteInternal(Appendable dst, SimpleDecimal val) throws IOException;
     }
 
     /** Format class that produces plain decimal strings that do not use
@@ -409,8 +458,8 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        protected String formatFiniteInternal(final SimpleDecimal val) {
-            return val.toPlainString(this);
+        protected void appendFiniteInternal(final Appendable dst, final SimpleDecimal val) throws IOException {
+            val.toPlainString(dst, this);
         }
     }
 
@@ -439,11 +488,13 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        protected String formatFiniteInternal(final SimpleDecimal val) {
+        protected void appendFiniteInternal(final Appendable dst, final SimpleDecimal val) throws IOException {
             final int sciExp = val.getScientificExponent();
-            return sciExp < plainMaxExponent && sciExp > plainMinExponent ?
-                    val.toPlainString(this) :
-                    val.toScientificString(this);
+            if (sciExp <= plainMaxExponent && sciExp >= plainMinExponent) {
+                val.toPlainString(dst, this);
+            } else {
+                val.toScientificString(dst, this);
+            }
         }
     }
 
@@ -463,8 +514,8 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        public String formatFiniteInternal(final SimpleDecimal val) {
-            return val.toScientificString(this);
+        public void appendFiniteInternal(final Appendable dst, final SimpleDecimal val) throws IOException {
+            val.toScientificString(dst, this);
         }
     }
 
@@ -484,8 +535,8 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        public String formatFiniteInternal(final SimpleDecimal val) {
-            return val.toEngineeringString(this);
+        public void appendFiniteInternal(final Appendable dst, final SimpleDecimal val) throws IOException {
+            val.toEngineeringString(dst, this);
         }
     }
 }
