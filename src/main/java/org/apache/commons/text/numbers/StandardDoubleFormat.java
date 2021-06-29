@@ -201,8 +201,7 @@ public enum StandardDoubleFormat {
         public Builder withDigits(final String digits) {
             Objects.requireNonNull(digits, "Digits string cannot be null");
             if (digits.length() != 10) {
-                throw new IllegalArgumentException("Digits string must contain exactly 10 characters; found " +
-                        digits.length());
+                throw new IllegalArgumentException("Digits string must contain exactly 10 characters.");
             }
 
             this.digits = digits;
@@ -275,7 +274,7 @@ public enum StandardDoubleFormat {
          * @throws NullPointerException if the argument is null
          */
         public Builder withNaN(final String nan) {
-            Objects.requireNonNull(infinity, "NaN string cannot be null");
+            Objects.requireNonNull(nan, "NaN string cannot be null");
 
             this.nan = nan;
             return this;

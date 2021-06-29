@@ -31,6 +31,22 @@ import org.junit.jupiter.api.Test;
 class StandardDoubleFormatTest {
 
     @Test
+    void testBuilder_illegalArgs() {
+        // arrange
+        final StandardDoubleFormat.Builder builder = StandardDoubleFormat.PLAIN.builder();
+
+        // act/assert
+        Assertions.assertThrows(NullPointerException.class, () -> builder.withDigits(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> builder.withDigits("a"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> builder.withDigits("0123456789a"));
+
+        Assertions.assertThrows(NullPointerException.class, () -> builder.withExponentSeparator(null));
+        Assertions.assertThrows(NullPointerException.class, () -> builder.withInfinity(null));
+        Assertions.assertThrows(NullPointerException.class, () -> builder.withNaN(null));
+        Assertions.assertThrows(NullPointerException.class, () -> builder.withFormatSymbols(null));
+    }
+
+    @Test
     void testFormatAccuracy() {
         // act/assert
         checkFormatAccuracyWithDefaults(StandardDoubleFormat.PLAIN);
