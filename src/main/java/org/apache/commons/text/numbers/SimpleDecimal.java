@@ -277,9 +277,9 @@ final class SimpleDecimal {
             }
 
             // fraction digits
-            appendDigits(digits, i, precision, zero, dst);
+            appendDigits(digits, i, precision, zeroDelta, dst);
         } else {
-            appendDigits(digits, 0, precision, zero, dst);
+            appendDigits(digits, 0, precision, zeroDelta, dst);
 
             for (int i = 0; i < exponent; ++i) {
                 dst.append(zero);
