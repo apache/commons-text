@@ -101,6 +101,9 @@ public enum StandardDoubleFormat {
         /** Exponent separator character. */
         private String exponentSeparator = "E";
 
+        /** Flag indicating if the exponent value should always be included, even if zero. */
+        private boolean alwaysIncludeExponent = false;
+
         /** Construct a new instance that delegates {@link DoubleFormat} construction
          * to the given factory function.
          * @param factory factory function
@@ -255,6 +258,18 @@ public enum StandardDoubleFormat {
             return this;
         }
 
+        /** Set the flag indicating if an exponent value should always be included in the
+         * formatted value, even if the exponent value is zero. This property only applies
+         * to formats that use scientific notation. The default value is {@code false}.
+         * @param alwaysIncludeExponent if true, exponents will always be included in formatted
+         *      output even if the exponent value is zero
+         * @return this instance
+         */
+        public Builder withAlwaysIncludeExponent(final boolean alwaysIncludeExponent) {
+            this.alwaysIncludeExponent = alwaysIncludeExponent;
+            return this;
+        }
+
         /** Set the string used to represent infinity. For negative infinity, this string
          * is prefixed with the {@link #withMinusSign(char) minus sign}.
          * @param infinity string used to represent infinity
@@ -373,6 +388,9 @@ public enum StandardDoubleFormat {
         /** Exponent separator character. */
         private final String exponentSeparator;
 
+        /** Flag indicating if exponent values should always be included, even if zero. */
+        private final boolean alwaysIncludeExponent;
+
         /** Construct a new instance configured with the values from the builder.
          * @param builder builder instance containing configuration values
          */
@@ -390,6 +408,7 @@ public enum StandardDoubleFormat {
             this.decimalSeparator = builder.decimalSeparator;
             this.minusSign = builder.minusSign;
             this.exponentSeparator = builder.exponentSeparator;
+            this.alwaysIncludeExponent = builder.alwaysIncludeExponent;
         }
 
         /** {@inheritDoc} */
@@ -426,6 +445,12 @@ public enum StandardDoubleFormat {
         @Override
         public String getExponentSeparator() {
             return exponentSeparator;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean getAlwaysIncludeExponent() {
+            return alwaysIncludeExponent;
         }
 
         /** {@inheritDoc} */

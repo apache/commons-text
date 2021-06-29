@@ -303,7 +303,6 @@ class SimpleDecimalTest {
         opts.setSignedZero(false);
         opts.setDecimalSeparator(',');
         opts.setMinusSign('!');
-        opts.setExponentSeparator("10^");
 
         // act/assert
         checkToPlainString(0.0, "0", opts);
@@ -353,18 +352,19 @@ class SimpleDecimalTest {
         opts.setDecimalSeparator(',');
         opts.setMinusSign('!');
         opts.setExponentSeparator("x10^");
+        opts.setAlwaysIncludeExponent(true);
 
         // act/assert
-        checkToScientificString(0.0, "0", opts);
-        checkToScientificString(-0.0, "0", opts);
-        checkToScientificString(1.0, "1", opts);
-        checkToScientificString(1.5, "1,5", opts);
+        checkToScientificString(0.0, "0x10^0", opts);
+        checkToScientificString(-0.0, "0x10^0", opts);
+        checkToScientificString(1.0, "1x10^0", opts);
+        checkToScientificString(1.5, "1,5x10^0", opts);
 
         checkToScientificString(-0.000123, "!1,23x10^!4", opts);
         checkToScientificString(12301, "1,2301x10^4", opts);
 
-        checkToScientificString(Math.PI, "3,141592653589793", opts);
-        checkToScientificString(Math.E, "2,718281828459045", opts);
+        checkToScientificString(Math.PI, "3,141592653589793x10^0", opts);
+        checkToScientificString(Math.E, "2,718281828459045x10^0", opts);
 
         checkToScientificString(-Double.MAX_VALUE, "!1,7976931348623157x10^308", opts);
         checkToScientificString(Double.MIN_VALUE, "4,9x10^!324", opts);
@@ -404,20 +404,21 @@ class SimpleDecimalTest {
         opts.setDecimalSeparator(',');
         opts.setMinusSign('!');
         opts.setExponentSeparator("x10^");
+        opts.setAlwaysIncludeExponent(true);
 
         // act/assert
-        checkToEngineeringString(0.0, "0", opts);
-        checkToEngineeringString(-0.0, "0", opts);
-        checkToEngineeringString(1.0, "1", opts);
-        checkToEngineeringString(1.5, "1,5", opts);
+        checkToEngineeringString(0.0, "0x10^0", opts);
+        checkToEngineeringString(-0.0, "0x10^0", opts);
+        checkToEngineeringString(1.0, "1x10^0", opts);
+        checkToEngineeringString(1.5, "1,5x10^0", opts);
 
-        checkToEngineeringString(10, "10", opts);
+        checkToEngineeringString(10, "10x10^0", opts);
 
         checkToEngineeringString(-0.000000123, "!123x10^!9", opts);
         checkToEngineeringString(12300000, "12,3x10^6", opts);
 
-        checkToEngineeringString(Math.PI, "3,141592653589793", opts);
-        checkToEngineeringString(Math.E, "2,718281828459045", opts);
+        checkToEngineeringString(Math.PI, "3,141592653589793x10^0", opts);
+        checkToEngineeringString(Math.E, "2,718281828459045x10^0", opts);
 
         checkToEngineeringString(-Double.MAX_VALUE, "!179,76931348623157x10^306", opts);
         checkToEngineeringString(Double.MIN_VALUE, "4,9x10^!324", opts);
@@ -630,6 +631,8 @@ class SimpleDecimalTest {
 
         private String exponentSeparator = "E";
 
+        private boolean alwaysIncludeExponent = false;
+
         @Override
         public boolean getIncludeFractionPlaceholder() {
             return includeFractionPlaceholder;
@@ -682,6 +685,15 @@ class SimpleDecimalTest {
 
         public void setExponentSeparator(final String exponentSeparator) {
             this.exponentSeparator = exponentSeparator;
+        }
+
+        @Override
+        public boolean getAlwaysIncludeExponent() {
+            return alwaysIncludeExponent;
+        }
+
+        public void setAlwaysIncludeExponent(final boolean alwaysIncludeExponent) {
+            this.alwaysIncludeExponent = alwaysIncludeExponent;
         }
     }
 }

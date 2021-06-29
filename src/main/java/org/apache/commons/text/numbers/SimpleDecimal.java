@@ -74,6 +74,12 @@ final class SimpleDecimal {
          * @return exponent separator string
          */
         String getExponentSeparator();
+
+        /** Return true if exponent values should always be included in
+         * formatted output, even if the value is zero.
+         * @return true if exponent values should always be included
+         */
+        boolean getAlwaysIncludeExponent();
     }
 
     /** Minus sign character. */
@@ -370,7 +376,7 @@ final class SimpleDecimal {
 
         // add the exponent but only if non-zero
         final int resultExponent = exponent + precision - wholeDigits;
-        if (resultExponent != 0) {
+        if (resultExponent != 0 || opts.getAlwaysIncludeExponent()) {
             dst.append(opts.getExponentSeparator());
 
             if (resultExponent < 0) {

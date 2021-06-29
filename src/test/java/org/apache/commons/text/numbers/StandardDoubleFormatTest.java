@@ -244,6 +244,20 @@ class StandardDoubleFormatTest {
     }
 
     @Test
+    void testScientific_localeFormatComparison() {
+        // arrange
+        final String pattern = "0.0##E0";
+        final Function<Locale, DoubleFormat> factory = loc -> StandardDoubleFormat.SCIENTIFIC.builder()
+                .withMaxPrecision(4)
+                .withAlwaysIncludeExponent(true)
+                .withFormatSymbols(DecimalFormatSymbols.getInstance(loc))
+                .build();
+
+        // act/assert
+        checkLocalizedFormats(pattern, factory);
+    }
+
+    @Test
     void testEngineering_defaults() {
         // act
         final DoubleFormat fmt = StandardDoubleFormat.ENGINEERING.builder()
@@ -330,6 +344,20 @@ class StandardDoubleFormatTest {
         checkFormat(fmt, Double.MIN_NORMAL, "0");
         checkFormat(fmt, Math.PI, "3,14");
         checkFormat(fmt, Math.E, "2,72");
+    }
+
+    @Test
+    void testEngineering_localeFormatComparison() {
+        // arrange
+        final String pattern = "##0.0##E0";
+        final Function<Locale, DoubleFormat> factory = loc -> StandardDoubleFormat.ENGINEERING.builder()
+                .withMaxPrecision(6)
+                .withAlwaysIncludeExponent(true)
+                .withFormatSymbols(DecimalFormatSymbols.getInstance(loc))
+                .build();
+
+        // act/assert
+        checkLocalizedFormats(pattern, factory);
     }
 
     @Test
