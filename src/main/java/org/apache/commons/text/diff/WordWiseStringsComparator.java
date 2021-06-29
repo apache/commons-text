@@ -16,28 +16,26 @@
  */
 package org.apache.commons.text.diff;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 /**
  * <p>
- * This class is a specialization of {@link Comparator class} adapted for sequences of {@code Character}.
+ * This class is a specialization of {@link Comparator class} adapted for sequences of {@code String} objects.
  * </p>
  *
- * @since 1.0
+ * @since 1.x
  */
-public class StringsComparator extends Comparator<Character> {
+public class WordWiseStringsComparator extends Comparator<String> {
 
     /**
      * Simple constructor.
      * <p>
-     * Creates a new instance of StringsComparator.
+     * Creates a new instance of WordWiseStringsComparator.
      * </p>
      *
-     * @param left first character sequence to be compared
-     * @param right second character sequence to be compared
+     * @param left  first sequence of {@code String} objects to be compared
+     * @param right second sequence of {@code String} objects to be compared
      */
-    public StringsComparator(final String left, final String right) {
-        super(ArrayUtils.toObject(left.toCharArray()), ArrayUtils.toObject(right.toCharArray()));
+    public WordWiseStringsComparator(String[] left, String[] right) {
+        super(left, right);
     }
 
 }
