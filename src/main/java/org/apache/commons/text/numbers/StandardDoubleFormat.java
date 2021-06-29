@@ -24,11 +24,65 @@ import java.util.function.Function;
 
 /** Enum containing standard double format types with methods to produce
  * configured {@link DoubleFormat} instances.
+ * @see DoubleFormat
  */
 public enum StandardDoubleFormat {
+
+    /** Number format without exponents.
+     * Ex:
+     * <pre>
+     * 0.0
+     * 12.401
+     * 100000.0
+     * 1450000000.0
+     * 0.0000000000123
+     * </pre>
+     */
     PLAIN(PlainDoubleFormat::new),
+
+    /** Number format that uses exponents and contains a single digit
+     * to the left of the decimal point.
+     * Ex:
+     * <pre>
+     * 0.0
+     * 1.2401E1
+     * 1.0E5
+     * 1.45E9
+     * 1.23E-11
+     * </pre>
+     */
     SCIENTIFIC(ScientificDoubleFormat::new),
+
+    /** Number format similar to {@link #SCIENTIFIC scientific format} but adjusted
+     * so that the exponent value is always a multiple of 3, allowing easier alignment
+     * with SI prefixes.
+     * Ex:
+     * <pre>
+     * 0.0
+     * 12.401
+     * 100.0E3
+     * 1.45E9
+     * 12.3E-12
+     * </pre>
+     */
     ENGINEERING(EngineeringDoubleFormat::new),
+
+    /** Number format that uses {@link #PLAIN plain format} for small numbers and
+     * {@link #SCIENTIFIC scientific format} for large numbers. The number thresholds
+     * can be configured through the
+     * {@link Builder#plainFormatMinDecimalExponent plainFormatMinDecimalExponent}
+     * and
+     * {@link Builder#plainFormatMaxDecimalExponent plainFormatMaxDecimalExponent}
+     * properties.
+     * Ex:
+     * <pre>
+     * 0.0
+     * 12.401
+     * 100000.0
+     * 1.45E9
+     * 1.23E-11
+     * </pre>
+     */
     MIXED(MixedDoubleFormat::new);
 
     /** Function used to construct {@link DoubleFormat} instances of this format type. */
