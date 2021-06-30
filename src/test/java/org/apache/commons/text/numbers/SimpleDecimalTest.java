@@ -624,7 +624,7 @@ class SimpleDecimalTest {
     private static String digitString(final SimpleDecimal dec) {
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < dec.digitCount; ++i) {
-            sb.append(dec.digitAt(i));
+            sb.append(dec.digits[i]);
         }
         return sb.toString();
     }

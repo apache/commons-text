@@ -122,10 +122,7 @@ final class SimpleDecimal {
     /** Array containing the significant decimal digits for the value. */
     final int[] digits;
 
-    /** Start index in the digits array. */
-    int digitStartIdx;
-
-    /** Number of digits used in the digits array, which is not necessarily equal to the length. */
+    /** Number of digits used in the digits array; not necessarily equal to the length. */
     int digitCount;
 
     /** Exponent for the value. */
@@ -134,15 +131,13 @@ final class SimpleDecimal {
     /** Construct a new instance from its parts.
      * @param negative true if the value is negative
      * @param digits array containing significant digits
-     * @param digitStartIdx index into the {@code digits} array where the digits begin
      * @param digitCount number of digits used from the {@code digits} array
      * @param exponent exponent value
      */
-    SimpleDecimal(final boolean negative, final int[] digits, final int digitStartIdx,
-            final int digitCount, final int exponent) {
+    SimpleDecimal(final boolean negative, final int[] digits, final int digitCount,
+            final int exponent) {
         this.negative = negative;
         this.digits = digits;
-        this.digitStartIdx = digitStartIdx;
         this.digitCount = digitCount;
         this.exponent = exponent;
     }
@@ -321,7 +316,7 @@ final class SimpleDecimal {
         if (significantDigitCount > 0) {
             int i;
             for (i = 0; i < significantDigitCount; ++i) {
-                appendLocalizedDigit(digitAt(i), localizedDigits, dst);
+                appendLocalizedDigit(digits[i], localizedDigits, dst);
             }
 
             for (; i < wholeCount; ++i) {
@@ -360,7 +355,7 @@ final class SimpleDecimal {
             int i;
             int pos = wholeCount;
             for (i = 0; i < appendCount; ++i, --pos) {
-                appendLocalizedDigit(digitAt(i), localizedDigits, dst);
+                appendLocalizedDigit(digits[i], localizedDigits, dst);
                 if (requiresGroupingSeparatorAfterPosition(pos)) {
                     dst.append(groupingChar);
                 }
@@ -412,7 +407,7 @@ final class SimpleDecimal {
 
             // add the fraction digits
             for (int i = startIdx; i < digitCount; ++i) {
-                appendLocalizedDigit(digitAt(i), localizedDigits, dst);
+                appendLocalizedDigit(digits[i], localizedDigits, dst);
             }
         } else if (opts.getIncludeFractionPlaceholder()) {
             dst.append(opts.getDecimalSeparator());
@@ -454,10 +449,10 @@ final class SimpleDecimal {
         //      digits after it.
         // 3. The digit after the last digit is 5, there are no additional digits afterward,
         //      and the last digit is odd (half-even rounding).
-        final int digitAfterLast = digitAt(count);
+        final int digitAfterLast = digits[count];
 
         return digitAfterLast > ROUND_CENTER || (digitAfterLast == ROUND_CENTER
-                && (count < digitCount - 1 || (digitAt(count - 1) % 2) != 0));
+                && (count < digitCount - 1 || (digits[count - 1] % 2) != 0));
     }
 
     /** Round the value up to the given number of digits.
@@ -468,12 +463,11 @@ final class SimpleDecimal {
         int removedDigits = digitCount - count;
         int i;
         for (i = count - 1; i >= 0; --i) {
-            final int realIdx = digitIndex(i);
-            final int d = digits[realIdx] + 1;
+            final int d = digits[i] + 1;
 
             if (d < DECIMAL_RADIX) {
                 // value did not carry over; done adding
-                digits[realIdx] = d;
+                digits[i] = d;
                 break;
             } else {
                 // value carried over; the current position is 0
@@ -491,28 +485,12 @@ final class SimpleDecimal {
         }
     }
 
-    /** Get the digit at the given logical index in the digit array.
-     * @param idx logic index
-     * @return digit value at the given index
-     */
-    int digitAt(final int idx) {
-        return digits[digitIndex(idx)];
-    }
-
-    /** Get the actual digit index corresponding to the given logical digit index.
-     * @param idx logical index
-     * @return real digit index
-     */
-    private int digitIndex(final int idx) {
-        return (idx + digitStartIdx) % digits.length;
-    }
-
     /** Return true if this value is equal to zero. The sign field is ignored,
      * meaning that this method will return true for both {@code +0} and {@code -0}.
      * @return true if the value is equal to zero
      */
     boolean isZero() {
-        return digitCount == 1 && digitAt(0) == 0;
+        return digits[0] == 0;
     }
 
     /** Set the value of this instance to a single digit with the given exponent.
@@ -521,8 +499,7 @@ final class SimpleDecimal {
      * @param newExponent new exponent value
      */
     private void setSingleDigitValue(final int digit, final int newExponent) {
-        digitStartIdx = 0;
-        digits[digitStartIdx] = digit;
+        digits[0] = digit;
         digitCount = 1;
         exponent = newExponent;
     }
@@ -534,7 +511,7 @@ final class SimpleDecimal {
     private void truncate(final int count) {
         int nonZeroCount = count;
         for (int i = count - 1;
-                i >= 0 && digitAt(i) == 0;
+                i >= 0 && digits[i] == 0;
                 --i) {
             --nonZeroCount;
         }
@@ -593,33 +570,37 @@ final class SimpleDecimal {
         if (firstNonZeroDigitIdx > -1) {
             // determine the exponent
             final int explicitExponent = exponentIdx > -1
-                    ? parseExponent(str, exponentIdx + 1)
+                    ? parseExponent(strChars, exponentIdx + 1)
                     : 0;
             final int exponent = explicitExponent + decimalSepIdx - digitStartIdx - lastNonZeroDigitIdx - 1;
 
             // get the number of significant digits, ignoring leading and trailing zeros
             final int significantDigitCount = lastNonZeroDigitIdx - firstNonZeroDigitIdx + 1;
+            final int[] significantDigits = new int[significantDigitCount];
+            System.arraycopy(
+                    digits, firstNonZeroDigitIdx,
+                    significantDigits, 0,
+                    significantDigitCount);
 
-            return new SimpleDecimal(negative, digits, firstNonZeroDigitIdx, significantDigitCount, exponent);
+            return new SimpleDecimal(negative, significantDigits, significantDigitCount, exponent);
         }
 
         // no non-zero digits, so value is zero
-        return new SimpleDecimal(negative, new int[] {0}, 0, 1, 0);
+        return new SimpleDecimal(negative, new int[] {0}, 1, 0);
     }
 
-    /** Parse a double exponent value from {@code seq}, starting at the {@code start}
-     * index and continuing through the end of the sequence.
-     * @param seq sequence to part a double exponent value from
+    /** Parse a double exponent value from {@code chars}, starting at the {@code start}
+     * index and continuing through the end of the array.
+     * @param chars character array to parse a double exponent value from
      * @param start start index
      * @return parsed exponent value
      */
-    private static int parseExponent(final CharSequence seq, final int start) {
+    private static int parseExponent(final char[] chars, final int start) {
         int exp = 0;
         boolean neg = false;
 
-        final int len = seq.length();
-        for (int i = start; i < len; ++i) {
-            final char ch = seq.charAt(i);
+        for (int i = start; i < chars.length; ++i) {
+            final char ch = chars[i];
             if (ch == MINUS_CHAR) {
                 neg = !neg;
             } else if (ch != PLUS_CHAR) {
