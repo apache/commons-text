@@ -107,18 +107,6 @@ final class SimpleDecimal {
     /** Zero digit character. */
     private static final char ZERO_CHAR = '0';
 
-    /** One digit character. */
-    private static final char ONE_CHAR = '1';
-
-    /** String containing the decimal digits '0' - '9' in sequence. */
-    private static final String DECIMAL_DIGITS = "0123456789";
-
-    /** Shared instance representing the positive zero double value. */
-    private static final SimpleDecimal POS_ZERO = new SimpleDecimal(false, String.valueOf(ZERO_CHAR), 0);
-
-    /** Shared instance representing the negative zero double value. */
-    private static final SimpleDecimal NEG_ZERO = new SimpleDecimal(true, String.valueOf(ZERO_CHAR), 0);
-
     /** Number of characters in a thousands grouping. */
     private static final int THOUSANDS_GROUP_SIZE = 3;
 
@@ -129,39 +117,34 @@ final class SimpleDecimal {
     private static final int ROUND_CENTER = DECIMAL_RADIX / 2;
 
     /** True if the value is negative. */
-    private final boolean negative;
+    final boolean negative;
 
-    /** String containing the significant base-10 digits for the value. */
-    private final String digits;
+    /** Array containing the significant decimal digits for the value. */
+    final int[] digits;
+
+    /** Start index in the digits array. */
+    int digitStartIdx;
+
+    /** Number of digits used in the digits array, which is not necessarily equal to the length. */
+    int digitCount;
 
     /** Exponent for the value. */
-    private final int exponent;
+    int exponent;
 
     /** Construct a new instance from its parts.
      * @param negative true if the value is negative
-     * @param digits string containing significant digits
+     * @param digits array containing significant digits
+     * @param digitStartIdx index into the {@code digits} array where the digits begin
+     * @param digitCount number of digits used from the {@code digits} array
      * @param exponent exponent value
      */
-    SimpleDecimal(final boolean negative, final String digits, final int exponent) {
+    SimpleDecimal(final boolean negative, final int[] digits, final int digitStartIdx,
+            final int digitCount, final int exponent) {
         this.negative = negative;
         this.digits = digits;
+        this.digitStartIdx = digitStartIdx;
+        this.digitCount = digitCount;
         this.exponent = exponent;
-    }
-
-    /** Return true if the value is negative.
-     * @return true if the value is negative
-     */
-    public boolean isNegative() {
-        return negative;
-    }
-
-    /** Get a string containing the significant digits of the value. If the value is
-     * {@code 0}, then the returned string is {@code "0"}. Otherwise, the string contains
-     * one or more characters with the first and last characters not equal to {@code '0'}.
-     * @return string containing the significant digits of the value
-     */
-    public String getDigits() {
-        return digits;
     }
 
     /** Get the exponent value. This exponent produces a floating point value with the
@@ -173,92 +156,51 @@ final class SimpleDecimal {
         return exponent;
     }
 
-    /** Return true if the value is equal to zero. The sign field is ignored,
-     * meaning that this method will return true for both {@code +0} and {@code -0}.
-     * @return true if the value is equal to zero
-     */
-    public boolean isZero() {
-        return getPrecision() == 1 && digits.charAt(0) == ZERO_CHAR;
-    }
-
-    /** Return the precision of this instance, meaning the number of significant decimal
-     * digits in the representation.
-     * @return the precision of this instance
-     */
-    public int getPrecision() {
-        return digits.length();
-    }
-
     /** Get the exponent that would be used when representing this number in scientific
      * notation (i.e., with a single non-zero digit in front of the decimal point.
      * @return the exponent that would be used when representing this number in scientific
      *      notation
      */
     public int getScientificExponent() {
-        return getPrecision() + exponent - 1;
+        return digitCount + exponent - 1;
     }
 
     /** Round the instance to the given decimal exponent position using
      * {@link java.math.RoundingMode#HALF_EVEN half-even rounding}. For example, a value of {@code -2}
      * will round the instance to the digit at the position 10<sup>-2</sup> (i.e. to the closest multiple of 0.01).
-     * A new instance is returned if the rounding operation results in a new value.
      * @param roundExponent exponent defining the decimal place to round to
-     * @return result of the rounding operation
      */
-    public SimpleDecimal round(final int roundExponent) {
+    public void round(final int roundExponent) {
         if (roundExponent > exponent) {
-            final int precision = getPrecision();
-            final int max = precision + exponent;
+            final int max = digitCount + exponent;
 
             if (roundExponent < max) {
-                return maxPrecision(max - roundExponent);
+                // rounding to a decimal place less than the max; set max precision
+                maxPrecision(max - roundExponent);
             } else if (roundExponent == max && shouldRoundUp(0)) {
-                return new SimpleDecimal(negative, "1", roundExponent);
+                // rounding up directly on the max decimal place
+                setSingleDigitValue(1, roundExponent);
+            } else {
+                // change to zero
+                setSingleDigitValue(0, 0);
             }
-
-            return isNegative() ? NEG_ZERO : POS_ZERO;
         }
-
-        return this;
     }
 
-    /** Return the value as close as possible to this instance with <em>at most</em> the given number
-     * of significant digits (i.e. precision). If this instance already has a precision less than or equal
-     * to the argument, it is returned directly. If the given precision requires a reduction in the number
-     * of digits, then the value is rounded using {@link java.math.RoundingMode#HALF_EVEN half-even rounding}
-     * and a new instance is returned with the rounded value.
+    /** Ensure that this instance has <em>at most</em> the given number of significant digits
+     * (i.e. precision). If this instance already has a precision less than or equal
+     * to the argument, nothing is done. If the given precision requires a reduction in the number
+     * of digits, then the value is rounded using {@link java.math.RoundingMode#HALF_EVEN half-even rounding}.
      * @param precision maximum number of significant digits to include
-     * @return the instance as close as possible to this value with at most the given number of
-     *      significant digits
-     * @throws IllegalArgumentException if {@code precision} is less than 1
      */
-    public SimpleDecimal maxPrecision(final int precision) {
-        if (precision < 1) {
-            throw new IllegalArgumentException("Precision must be greater than zero; was " + precision);
-        }
-
-        final int currentPrecision = getPrecision();
-        if (currentPrecision > precision) {
-            // we need to round to reduce the number of digits
-            String resultDigits = shouldRoundUp(precision)
-                    ? addOne(digits, precision)
-                    : digits.substring(0, precision);
-
-            // compute the initial result exponent
-            int resultExponent = exponent + (currentPrecision - precision);
-
-            // remove zeros from the end of the integer if present, adjusting the
-            // exponent as needed
-            final int lastNonZeroIdx = findLastNonZero(resultDigits);
-            if (lastNonZeroIdx < resultDigits.length() - 1) {
-                resultExponent += resultDigits.length() - 1 - lastNonZeroIdx;
-                resultDigits = resultDigits.substring(0, lastNonZeroIdx + 1);
+    public void maxPrecision(final int precision) {
+        if (precision > 0 && precision < digitCount) {
+            if (shouldRoundUp(precision)) {
+                roundUp(precision);
+            } else {
+                truncate(precision);
             }
-
-            return new SimpleDecimal(negative, resultDigits, resultExponent);
         }
-
-        return this; // no change needed
     }
 
     /** Append a string representation of this value with no exponent field to {@code dst}. Ex:
@@ -273,7 +215,7 @@ final class SimpleDecimal {
      */
     public void toPlainString(final Appendable dst, final FormatOptions opts)
             throws IOException {
-        final int wholeDigitCount = getPrecision() + exponent;
+        final int wholeDigitCount = digitCount + exponent;
 
         final int fractionStartIdx = opts.getGroupThousands()
                 ? appendWholeGrouped(wholeDigitCount, dst, opts)
@@ -319,7 +261,7 @@ final class SimpleDecimal {
      */
     public void toEngineeringString(final Appendable dst, final FormatOptions opts)
             throws IOException {
-        final int wholeDigitCount = 1 + Math.floorMod(getPrecision() + exponent - 1, 3);
+        final int wholeDigitCount = 1 + Math.floorMod(digitCount + exponent - 1, 3);
         toScientificString(wholeDigitCount, dst, opts);
     }
 
@@ -333,14 +275,13 @@ final class SimpleDecimal {
      */
     private void toScientificString(final int wholeDigitCount, final Appendable dst, final FormatOptions opts)
             throws IOException {
-        final int precision = getPrecision();
         final String localizedDigits = opts.getDigits();
 
         final int fractionStartIdx = appendWhole(wholeDigitCount, dst, opts);
         appendFraction(0, fractionStartIdx, dst, opts);
 
         // add the exponent but only if non-zero or explicitly requested
-        final int resultExponent = exponent + precision - wholeDigitCount;
+        final int resultExponent = digitCount + exponent - wholeDigitCount;
         if (resultExponent != 0 || opts.getAlwaysIncludeExponent()) {
             dst.append(opts.getExponentSeparator());
 
@@ -349,21 +290,24 @@ final class SimpleDecimal {
             }
 
             final String exponentStr = Integer.toString(Math.abs(resultExponent));
-            appendLocalizedDigits(exponentStr, 0, exponentStr.length(), localizedDigits, dst);
+            for (int i = 0; i < exponentStr.length(); ++i) {
+                final int val = digitValue(exponentStr.charAt(i));
+                appendLocalizedDigit(val, localizedDigits, dst);
+            }
         }
     }
 
     /** Append {@code count} characters from the beginning of {@code digits} as the whole number
      * portion of the string representation. The index of the next character from {@code digits}
      * is returned if any characters remain. Otherwise, {@code digits.length()} is returned.
-     * @param count number of digits to append
+     * @param wholeCount number of whole digits to append
      * @param dst destination to append to
      * @param opts format options
      * @return index of the next character from {@code digits} or the {@code digits.length()}
      *      if all character have been appended
      * @throws IOException in an I/O error occurs
      */
-    private int appendWhole(final int count, final Appendable dst, final FormatOptions opts)
+    private int appendWhole(final int wholeCount, final Appendable dst, final FormatOptions opts)
             throws IOException {
         if (shouldIncludeMinus(opts)) {
             dst.append(opts.getMinusSign());
@@ -372,16 +316,15 @@ final class SimpleDecimal {
         final String localizedDigits = opts.getDigits();
         final char localizedZero = localizedDigits.charAt(0);
 
-        final int available = digits.length();
-        final int significantDigitCount = Math.max(0, Math.min(count, available));
+        final int significantDigitCount = Math.max(0, Math.min(wholeCount, digitCount));
 
         if (significantDigitCount > 0) {
             int i;
             for (i = 0; i < significantDigitCount; ++i) {
-                appendLocalizedDigit(digits.charAt(i), localizedDigits, dst);
+                appendLocalizedDigit(digitAt(i), localizedDigits, dst);
             }
 
-            for (; i < count; ++i) {
+            for (; i < wholeCount; ++i) {
                 dst.append(localizedZero);
             }
         } else {
@@ -401,7 +344,7 @@ final class SimpleDecimal {
      * @throws IOException in an I/O error occurs
      * @see #appendWhole(int, Appendable, FormatOptions)
      */
-    private int appendWholeGrouped(final int count, final Appendable dst, final FormatOptions opts)
+    private int appendWholeGrouped(final int wholeCount, final Appendable dst, final FormatOptions opts)
             throws IOException {
         if (shouldIncludeMinus(opts)) {
             dst.append(opts.getMinusSign());
@@ -411,20 +354,19 @@ final class SimpleDecimal {
         final char localizedZero = localizedDigits.charAt(0);
         final char groupingChar = opts.getThousandsGroupingSeparator();
 
-        final int available = digits.length();
-        final int significantDigitCount = Math.max(0, Math.min(count, available));
+        final int appendCount = Math.max(0, Math.min(wholeCount, digitCount));
 
-        if (significantDigitCount > 0) {
+        if (appendCount > 0) {
             int i;
-            int pos = count;
-            for (i = 0; i < significantDigitCount; ++i, --pos) {
-                appendLocalizedDigit(digits.charAt(i), localizedDigits, dst);
+            int pos = wholeCount;
+            for (i = 0; i < appendCount; ++i, --pos) {
+                appendLocalizedDigit(digitAt(i), localizedDigits, dst);
                 if (requiresGroupingSeparatorAfterPosition(pos)) {
                     dst.append(groupingChar);
                 }
             }
 
-            for (; i < count; ++i, --pos) {
+            for (; i < wholeCount; ++i, --pos) {
                 dst.append(localizedZero);
                 if (requiresGroupingSeparatorAfterPosition(pos)) {
                     dst.append(groupingChar);
@@ -434,7 +376,7 @@ final class SimpleDecimal {
             dst.append(localizedZero);
         }
 
-        return significantDigitCount;
+        return appendCount;
     }
 
     /** Return true if a grouping separator should be added after the whole digit
@@ -460,8 +402,7 @@ final class SimpleDecimal {
         final String localizedDigits = opts.getDigits();
         final char localizedZero = localizedDigits.charAt(0);
 
-        final int len = digits.length();
-        if (startIdx < len) {
+        if (startIdx < digitCount) {
             dst.append(opts.getDecimalSeparator());
 
             // add the zero prefix
@@ -470,7 +411,9 @@ final class SimpleDecimal {
             }
 
             // add the fraction digits
-            appendLocalizedDigits(digits, startIdx, len, localizedDigits, dst);
+            for (int i = startIdx; i < digitCount; ++i) {
+                appendLocalizedDigit(digitAt(i), localizedDigits, dst);
+            }
         } else if (opts.getIncludeFractionPlaceholder()) {
             dst.append(opts.getDecimalSeparator());
             dst.append(localizedZero);
@@ -478,29 +421,14 @@ final class SimpleDecimal {
     }
 
     /** Append a localized digit character to {@code dst}.
-     * @param digit standard decimal digit
+     * @param n standard decimal digit
      * @param digitChars string containing the localized digit characters 0-9
      * @param dst destination to append to
      * @throws IOException if an I/O error occurs
      */
-    private void appendLocalizedDigit(final char digit, final String digitChars, final Appendable dst)
+    private void appendLocalizedDigit(final int n, final String digitChars, final Appendable dst)
             throws IOException {
-        dst.append(digitChars.charAt(digitValue(digit)));
-    }
-
-    /** Append localized digit characters from {@code seq} to {@code dst}.
-     * @param seq sequence to get characters from
-     * @param startIdx start index, inclusive
-     * @param endIdx end index, exclusive
-     * @param digitChars string containing the localized digit characters 0-9
-     * @param dst destination to append to
-     * @throws IOException if an I/O error occurs
-     */
-    private void appendLocalizedDigits(final CharSequence seq, final int startIdx, final int endIdx,
-            final String digitChars, final Appendable dst) throws IOException {
-        for (int i = startIdx; i < endIdx; ++i) {
-            appendLocalizedDigit(seq.charAt(i), digitChars, dst);
-        }
+        dst.append(digitChars.charAt(n));
     }
 
     /** Return true if formatted strings should include the minus sign, considering
@@ -512,22 +440,106 @@ final class SimpleDecimal {
         return negative && (opts.getSignedZero() || !isZero());
     }
 
-    /** Return true if a rounding operation at the given index should round up.
-     * @param idx index of the digit to round; must be a valid index into {@code digits}
-     * @return true if a rounding operation at the given index should round up
+    /** Return true if a rounding operation for the given number of digits should
+     * round up.
+     * @param count number of digits to round to; must be greater than zero and less
+     *      than the current number of digits
+     * @return true if a rounding operation for the given number of digits should
+     *      round up
      */
-    private boolean shouldRoundUp(final int idx) {
+    private boolean shouldRoundUp(final int count) {
         // Round up in the following cases:
-        // 1. The digit at the index is greater than 5.
-        // 2. The digit at the index is 5 and there are additional (non-zero)
+        // 1. The digit after the last digit is greater than 5.
+        // 2. The digit after the last digit is 5 and there are additional (non-zero)
         //      digits after it.
-        // 3. The digit is 5, there are no additional digits afterward,
-        //      and the digit before it is odd (half-even rounding).
-        final int precision = getPrecision();
-        final int roundValue = digitValue(digits.charAt(idx));
+        // 3. The digit after the last digit is 5, there are no additional digits afterward,
+        //      and the last digit is odd (half-even rounding).
+        final int digitAfterLast = digitAt(count);
 
-        return roundValue > ROUND_CENTER || (roundValue == ROUND_CENTER
-                && (idx < precision - 1 || (idx > 0 && digitValue(digits.charAt(idx - 1)) % 2 != 0)));
+        return digitAfterLast > ROUND_CENTER || (digitAfterLast == ROUND_CENTER
+                && (count < digitCount - 1 || (digitAt(count - 1) % 2) != 0));
+    }
+
+    /** Round the value up to the given number of digits.
+     * @param count target number of digits; must be greater than zero and
+     *      less than the current number of digits
+     */
+    private void roundUp(final int count) {
+        int removedDigits = digitCount - count;
+        int i;
+        for (i = count - 1; i >= 0; --i) {
+            final int realIdx = digitIndex(i);
+            final int d = digits[realIdx] + 1;
+
+            if (d < DECIMAL_RADIX) {
+                // value did not carry over; done adding
+                digits[realIdx] = d;
+                break;
+            } else {
+                // value carried over; the current position is 0
+                // which we will ignore by shortening the digit count
+                ++removedDigits;
+            }
+        }
+
+        if (i < 0) {
+            // all values carried over
+            setSingleDigitValue(1, exponent + removedDigits);
+        } else {
+            // values were updated in-place; just need to update the length
+            truncate(digitCount - removedDigits);
+        }
+    }
+
+    /** Get the digit at the given logical index in the digit array.
+     * @param idx logic index
+     * @return digit value at the given index
+     */
+    int digitAt(final int idx) {
+        return digits[digitIndex(idx)];
+    }
+
+    /** Get the actual digit index corresponding to the given logical digit index.
+     * @param idx logical index
+     * @return real digit index
+     */
+    private int digitIndex(final int idx) {
+        return (idx + digitStartIdx) % digits.length;
+    }
+
+    /** Return true if this value is equal to zero. The sign field is ignored,
+     * meaning that this method will return true for both {@code +0} and {@code -0}.
+     * @return true if the value is equal to zero
+     */
+    boolean isZero() {
+        return digitCount == 1 && digitAt(0) == 0;
+    }
+
+    /** Set the value of this instance to a single digit with the given exponent.
+     * The sign of the value is retained.
+     * @param digit digit value
+     * @param newExponent new exponent value
+     */
+    private void setSingleDigitValue(final int digit, final int newExponent) {
+        digitStartIdx = 0;
+        digits[digitStartIdx] = digit;
+        digitCount = 1;
+        exponent = newExponent;
+    }
+
+    /** Truncate the value to the given number of digits.
+     * @param count number of digits; must be greater than zero and less than
+     *      the current number of digits
+     */
+    private void truncate(final int count) {
+        int nonZeroCount = count;
+        for (int i = count - 1;
+                i >= 0 && digitAt(i) == 0;
+                --i) {
+            --nonZeroCount;
+        }
+        exponent += digitCount - nonZeroCount;
+        digitCount = nonZeroCount;
     }
 
     /** Construct a new instance from the given double value.
@@ -549,7 +561,7 @@ final class SimpleDecimal {
         final boolean negative = strChars[0] == MINUS_CHAR;
         final int digitStartIdx = negative ? 1 : 0;
 
-        final char[] digitChars = new char[strChars.length];
+        final int[] digits = new int[strChars.length];
 
         int decimalSepIdx = -1;
         int exponentIdx = -1;
@@ -566,14 +578,15 @@ final class SimpleDecimal {
                 exponentIdx = i;
             } else if (exponentIdx < 0) {
                 // this is a significand digit
-                if (ch != ZERO_CHAR) {
+                final int val = digitValue(ch);
+                if (val != 0) {
                     if (firstNonZeroDigitIdx < 0) {
                         firstNonZeroDigitIdx = digitCount;
                     }
                     lastNonZeroDigitIdx = digitCount;
                 }
 
-                digitChars[digitCount++] = ch;
+                digits[digitCount++] = val;
             }
         }
 
@@ -584,19 +597,14 @@ final class SimpleDecimal {
                     : 0;
             final int exponent = explicitExponent + decimalSepIdx - digitStartIdx - lastNonZeroDigitIdx - 1;
 
-            // get the digit string without any leading or trailing zeros
-            final String digits = String.valueOf(
-                    digitChars,
-                    firstNonZeroDigitIdx,
-                    lastNonZeroDigitIdx - firstNonZeroDigitIdx + 1);
+            // get the number of significant digits, ignoring leading and trailing zeros
+            final int significantDigitCount = lastNonZeroDigitIdx - firstNonZeroDigitIdx + 1;
 
-            return new SimpleDecimal(negative, digits, exponent);
+            return new SimpleDecimal(negative, digits, firstNonZeroDigitIdx, significantDigitCount, exponent);
         }
 
         // no non-zero digits, so value is zero
-        return negative
-                ? NEG_ZERO
-                : POS_ZERO;
+        return new SimpleDecimal(negative, new int[] {0}, 0, 1, 0);
     }
 
     /** Parse a double exponent value from {@code seq}, starting at the {@code start}
@@ -622,24 +630,6 @@ final class SimpleDecimal {
         return neg ? -exp : exp;
     }
 
-    /** Return the index of the last character in the argument not equal
-     * to {@code '0'} or {@code -1} if no such character can be found.
-     * @param seq sequence to search
-     * @return the index of the last non-zero character or {@code -1} if not found
-     */
-    private static int findLastNonZero(final CharSequence seq) {
-        int i;
-        char ch;
-        for (i = seq.length() - 1; i >= 0; --i) {
-            ch = seq.charAt(i);
-            if (ch != ZERO_CHAR) {
-                break;
-            }
-        }
-
-        return i;
-    }
-
     /** Get the numeric value of the given digit character. No validation of the
      * character type is performed.
      * @param ch digit character
@@ -647,38 +637,5 @@ final class SimpleDecimal {
      */
     private static int digitValue(final char ch) {
         return ch - ZERO_CHAR;
-    }
-
-    /** Add one to the value of the integer represented by the substring of length {@code len}
-     * starting at index {@code 0}, returning the result as another string. The input is assumed
-     * to contain only digit characters
-     * (i.e. '0' - '9'). No validation is performed.
-     * @param digitStr string containing a representation of an integer
-     * @param len number of characters to use from {@code str}
-     * @return string representation of the result of adding 1 to the integer represented
-     *      by the input substring
-     */
-    private static String addOne(final String digitStr, final int len) {
-        final char[] resultChars = new char[len + 1];
-
-        boolean carrying = true;
-        for (int i = len - 1; i >= 0; --i) {
-            final char inChar = digitStr.charAt(i);
-            final char outChar = carrying
-                    ? DECIMAL_DIGITS.charAt((digitValue(inChar) + 1) % DECIMAL_DIGITS.length())
-                    : inChar;
-            resultChars[i + 1] = outChar;
-
-            if (carrying && outChar != ZERO_CHAR) {
-                carrying = false;
-            }
-        }
-
-        if (carrying) {
-            resultChars[0] = ONE_CHAR;
-            return String.valueOf(resultChars);
-        }
-
-        return String.valueOf(resultChars, 1, len);
     }
 }

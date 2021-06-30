@@ -106,171 +106,163 @@ class SimpleDecimalTest {
     @Test
     void testRound_one() {
         // arrange
-        final SimpleDecimal a = SimpleDecimal.from(1e-10);
-        final SimpleDecimal b = SimpleDecimal.from(-1);
-        final SimpleDecimal c = SimpleDecimal.from(1e10);
+        final double a = 1e-10;
+        final double b = -1;
+        final double c = 1e10;
 
         // act/assert
-        assertSimpleDecimal(a.round(-11), false, "1", -10);
-        assertSimpleDecimal(a.round(-10), false, "1", -10);
-        assertSimpleDecimal(a.round(-9), false, "0", 0);
+        assertRound(a, -11, false, "1", -10);
+        assertRound(a, -10, false, "1", -10);
+        assertRound(a, -9, false, "0", 0);
 
-        assertSimpleDecimal(b.round(-1), true, "1", 0);
-        assertSimpleDecimal(b.round(0), true, "1", 0);
-        assertSimpleDecimal(b.round(1), true, "0", 0);
+        assertRound(b, -1, true, "1", 0);
+        assertRound(b, 0, true, "1", 0);
+        assertRound(b, 1, true, "0", 0);
 
-        assertSimpleDecimal(c.round(9), false, "1", 10);
-        assertSimpleDecimal(c.round(10), false, "1", 10);
-        assertSimpleDecimal(c.round(11), false, "0", 0);
+        assertRound(c, 9, false, "1", 10);
+        assertRound(c, 10, false, "1", 10);
+        assertRound(c, 11, false, "0", 0);
     }
 
     @Test
     void testRound_nine() {
         // arrange
-        final SimpleDecimal a = SimpleDecimal.from(9e-10);
-        final SimpleDecimal b = SimpleDecimal.from(-9);
-        final SimpleDecimal c = SimpleDecimal.from(9e10);
+        final double a = 9e-10;
+        final double b = -9;
+        final double c = 9e10;
 
         // act/assert
-        assertSimpleDecimal(a.round(-11), false, "9", -10);
-        assertSimpleDecimal(a.round(-10), false, "9", -10);
-        assertSimpleDecimal(a.round(-9), false, "1", -9);
+        assertRound(a, -11, false, "9", -10);
+        assertRound(a, -10, false, "9", -10);
+        assertRound(a, -9, false, "1", -9);
 
-        assertSimpleDecimal(b.round(-1), true, "9", 0);
-        assertSimpleDecimal(b.round(0), true, "9", 0);
-        assertSimpleDecimal(b.round(1), true, "1", 1);
+        assertRound(b, -1, true, "9", 0);
+        assertRound(b, 0, true, "9", 0);
+        assertRound(b, 1, true, "1", 1);
 
-        assertSimpleDecimal(c.round(9), false, "9", 10);
-        assertSimpleDecimal(c.round(10), false, "9", 10);
-        assertSimpleDecimal(c.round(11), false, "1", 11);
+        assertRound(c, 9, false, "9", 10);
+        assertRound(c, 10, false, "9", 10);
+        assertRound(c, 11, false, "1", 11);
     }
 
     @Test
     void testRound_mixed() {
         // arrange
-        final SimpleDecimal a = SimpleDecimal.from(9.94e-10);
-        final SimpleDecimal b = SimpleDecimal.from(-3.1415);
-        final SimpleDecimal c = SimpleDecimal.from(5.55e10);
+        final double a = 9.94e-10;
+        final double b = -3.1415;
+        final double c = 5.55e10;
 
         // act/assert
-        assertSimpleDecimal(a.round(-13), false, "994", -12);
-        assertSimpleDecimal(a.round(-12), false, "994", -12);
-        assertSimpleDecimal(a.round(-11), false, "99", -11);
-        assertSimpleDecimal(a.round(-10), false, "1", -9);
-        assertSimpleDecimal(a.round(-9), false, "1", -9);
-        assertSimpleDecimal(a.round(-8), false, "0", 0);
+        assertRound(a, -13, false, "994", -12);
+        assertRound(a, -12, false, "994", -12);
+        assertRound(a, -11, false, "99", -11);
+        assertRound(a, -10, false, "1", -9);
+        assertRound(a, -9, false, "1", -9);
+        assertRound(a, -8, false, "0", 0);
 
-        assertSimpleDecimal(b.round(-5), true, "31415", -4);
-        assertSimpleDecimal(b.round(-4), true, "31415", -4);
-        assertSimpleDecimal(b.round(-3), true, "3142", -3);
-        assertSimpleDecimal(b.round(-2), true, "314", -2);
-        assertSimpleDecimal(b.round(-1), true, "31", -1);
-        assertSimpleDecimal(b.round(0), true, "3", 0);
-        assertSimpleDecimal(b.round(1), true, "0", 0);
-        assertSimpleDecimal(b.round(2), true, "0", 0);
+        assertRound(b, -5, true, "31415", -4);
+        assertRound(b, -4, true, "31415", -4);
+        assertRound(b, -3, true, "3142", -3);
+        assertRound(b, -2, true, "314", -2);
+        assertRound(b, -1, true, "31", -1);
+        assertRound(b, 0, true, "3", 0);
+        assertRound(b, 1, true, "0", 0);
+        assertRound(b, 2, true, "0", 0);
 
-        assertSimpleDecimal(c.round(7), false, "555", 8);
-        assertSimpleDecimal(c.round(8), false, "555", 8);
-        assertSimpleDecimal(c.round(9), false, "56", 9);
-        assertSimpleDecimal(c.round(10), false, "6", 10);
-        assertSimpleDecimal(c.round(11), false, "1", 11);
-        assertSimpleDecimal(c.round(12), false, "0", 0);
+        assertRound(c, 7, false, "555", 8);
+        assertRound(c, 8, false, "555", 8);
+        assertRound(c, 9, false, "56", 9);
+        assertRound(c, 10, false, "6", 10);
+        assertRound(c, 11, false, "1", 11);
+        assertRound(c, 12, false, "0", 0);
     }
 
     @Test
     void testMaxPrecision() {
         // arrange
-        final SimpleDecimal d = SimpleDecimal.from(1.02576552);
+        final double d = 1.02576552;
 
         // act
-        assertSimpleDecimal(d.maxPrecision(10), false, "102576552", -8);
-        assertSimpleDecimal(d.maxPrecision(9), false, "102576552", -8);
-        assertSimpleDecimal(d.maxPrecision(8), false, "10257655", -7);
-        assertSimpleDecimal(d.maxPrecision(7), false, "1025766", -6);
-        assertSimpleDecimal(d.maxPrecision(6), false, "102577", -5);
-        assertSimpleDecimal(d.maxPrecision(5), false, "10258", -4);
-        assertSimpleDecimal(d.maxPrecision(4), false, "1026", -3);
-        assertSimpleDecimal(d.maxPrecision(3), false, "103", -2);
-        assertSimpleDecimal(d.maxPrecision(2), false, "1", 0);
-        assertSimpleDecimal(d.maxPrecision(1), false, "1", 0);
+        assertMaxPrecision(d, 10, false, "102576552", -8);
+        assertMaxPrecision(d, 9, false, "102576552", -8);
+        assertMaxPrecision(d, 8, false, "10257655", -7);
+        assertMaxPrecision(d, 7, false, "1025766", -6);
+        assertMaxPrecision(d, 6, false, "102577", -5);
+        assertMaxPrecision(d, 5, false, "10258", -4);
+        assertMaxPrecision(d, 4, false, "1026", -3);
+        assertMaxPrecision(d, 3, false, "103", -2);
+        assertMaxPrecision(d, 2, false, "1", 0);
+        assertMaxPrecision(d, 1, false, "1", 0);
+
+        assertMaxPrecision(d, 0, false, "102576552", -8);
     }
 
     @Test
     void testMaxPrecision_carry() {
         // arrange
-        final SimpleDecimal d = SimpleDecimal.from(-999.0999e50);
+        final double d = -999.0999e50;
 
         // act
-        assertSimpleDecimal(d.maxPrecision(8), true, "9990999", 46);
-        assertSimpleDecimal(d.maxPrecision(7), true, "9990999", 46);
-        assertSimpleDecimal(d.maxPrecision(6), true, "9991", 49);
-        assertSimpleDecimal(d.maxPrecision(5), true, "9991", 49);
-        assertSimpleDecimal(d.maxPrecision(4), true, "9991", 49);
-        assertSimpleDecimal(d.maxPrecision(3), true, "999", 50);
-        assertSimpleDecimal(d.maxPrecision(2), true, "1", 53);
-        assertSimpleDecimal(d.maxPrecision(1), true, "1", 53);
+        assertMaxPrecision(d, 8, true, "9990999", 46);
+        assertMaxPrecision(d, 7, true, "9990999", 46);
+        assertMaxPrecision(d, 6, true, "9991", 49);
+        assertMaxPrecision(d, 5, true, "9991", 49);
+        assertMaxPrecision(d, 4, true, "9991", 49);
+        assertMaxPrecision(d, 3, true, "999", 50);
+        assertMaxPrecision(d, 2, true, "1", 53);
+        assertMaxPrecision(d, 1, true, "1", 53);
+
+        assertMaxPrecision(d, 0, true, "9990999", 46);
     }
 
     @Test
     void testMaxPrecision_halfEvenRounding() {
         // act/assert
         // Test values taken from RoundingMode.HALF_EVEN javadocs
-        assertSimpleDecimal(SimpleDecimal.from(5.5).maxPrecision(1), false, "6", 0);
-        assertSimpleDecimal(SimpleDecimal.from(2.5).maxPrecision(1), false, "2", 0);
-        assertSimpleDecimal(SimpleDecimal.from(1.6).maxPrecision(1), false, "2", 0);
-        assertSimpleDecimal(SimpleDecimal.from(1.1).maxPrecision(1), false, "1", 0);
-        assertSimpleDecimal(SimpleDecimal.from(1.0).maxPrecision(1), false, "1", 0);
+        assertMaxPrecision(5.5, 1, false, "6", 0);
+        assertMaxPrecision(2.5, 1, false, "2", 0);
+        assertMaxPrecision(1.6, 1, false, "2", 0);
+        assertMaxPrecision(1.1, 1, false, "1", 0);
+        assertMaxPrecision(1.0, 1, false, "1", 0);
 
-        assertSimpleDecimal(SimpleDecimal.from(-1.0).maxPrecision(1), true, "1", 0);
-        assertSimpleDecimal(SimpleDecimal.from(-1.1).maxPrecision(1), true, "1", 0);
-        assertSimpleDecimal(SimpleDecimal.from(-1.6).maxPrecision(1), true, "2", 0);
-        assertSimpleDecimal(SimpleDecimal.from(-2.5).maxPrecision(1), true, "2", 0);
-        assertSimpleDecimal(SimpleDecimal.from(-5.5).maxPrecision(1), true, "6", 0);
+        assertMaxPrecision(-1.0, 1, true, "1", 0);
+        assertMaxPrecision(-1.1, 1, true, "1", 0);
+        assertMaxPrecision(-1.6, 1, true, "2", 0);
+        assertMaxPrecision(-2.5, 1, true, "2", 0);
+        assertMaxPrecision(-5.5, 1, true, "6", 0);
     }
 
     @Test
     void testMaxPrecision_singleDigits() {
         // act
-        assertSimpleDecimal(SimpleDecimal.from(9.0).maxPrecision(1), false, "9", 0);
-        assertSimpleDecimal(SimpleDecimal.from(1.0).maxPrecision(1), false, "1", 0);
-        assertSimpleDecimal(SimpleDecimal.from(0.0).maxPrecision(1), false, "0", 0);
-        assertSimpleDecimal(SimpleDecimal.from(-0.0).maxPrecision(1), true, "0", 0);
-        assertSimpleDecimal(SimpleDecimal.from(-1.0).maxPrecision(1), true, "1", 0);
-        assertSimpleDecimal(SimpleDecimal.from(-9.0).maxPrecision(1), true, "9", 0);
+        assertMaxPrecision(9.0, 1, false, "9", 0);
+        assertMaxPrecision(1.0, 1, false, "1", 0);
+        assertMaxPrecision(0.0, 1, false, "0", 0);
+        assertMaxPrecision(-0.0, 1, true, "0", 0);
+        assertMaxPrecision(-1.0, 1, true, "1", 0);
+        assertMaxPrecision(-9.0, 1, true, "9", 0);
     }
 
     @Test
     void testMaxPrecision_random() {
         // arrange
         final UniformRandomProvider rand = RandomSource.create(RandomSource.XO_RO_SHI_RO_128_PP, 0L);
+        final SimpleDecimal.FormatOptions opts = new FormatOptionsImpl();
 
-        double d;
-        int precision;
-        SimpleDecimal result;
-        MathContext ctx;
         for (int i = 0; i < 10_000; ++i) {
-            d = createRandomDouble(rand);
-            precision = rand.nextInt(20) + 1;
-            ctx = new MathContext(precision, RoundingMode.HALF_EVEN);
+            final double d = createRandomDouble(rand);
+            final int precision = rand.nextInt(20) + 1;
+            final MathContext ctx = new MathContext(precision, RoundingMode.HALF_EVEN);
+
+            final SimpleDecimal dec = SimpleDecimal.from(d);
 
             // act
-            result = SimpleDecimal.from(d).maxPrecision(precision);
+            dec.maxPrecision(precision);
 
             // assert
             Assertions.assertEquals(new BigDecimal(Double.toString(d), ctx).doubleValue(),
-                    Double.parseDouble(scientificString(result, new FormatOptionsImpl())));
+                    Double.parseDouble(scientificString(dec, opts)));
         }
-    }
-
-    @Test
-    void testMaxPrecision_invalidArg() {
-        // arrange
-        final SimpleDecimal d = SimpleDecimal.from(10);
-        final String baseMsg = "Precision must be greater than zero; was ";
-
-        // act/assert
-        assertThrowsWithMessage(() -> d.maxPrecision(0), IllegalArgumentException.class, baseMsg + "0");
-        assertThrowsWithMessage(() -> d.maxPrecision(-1), IllegalArgumentException.class, baseMsg + "-1");
     }
 
     @Test
@@ -587,12 +579,28 @@ class SimpleDecimalTest {
         Assertions.assertEquals(expected, actual);
     }
 
+    private static void assertRound(final double d, final int roundExponent,
+            final boolean negative, final String digits, final int exponent) {
+        final SimpleDecimal dec = SimpleDecimal.from(d);
+        dec.round(roundExponent);
+
+        assertSimpleDecimal(dec, negative, digits, exponent);
+    }
+
+    private static void assertMaxPrecision(final double d, final int maxPrecision,
+            final boolean negative, final String digits, final int exponent) {
+        final SimpleDecimal dec = SimpleDecimal.from(d);
+        dec.maxPrecision(maxPrecision);
+
+        assertSimpleDecimal(dec, negative, digits, exponent);
+    }
+
     private static void assertSimpleDecimal(final SimpleDecimal parsed, final boolean negative, final String digits,
             final int exponent) {
-        Assertions.assertEquals(negative, parsed.isNegative());
-        Assertions.assertEquals(digits, parsed.getDigits());
+        Assertions.assertEquals(negative, parsed.negative);
+        Assertions.assertEquals(digits, digitString(parsed));
         Assertions.assertEquals(exponent, parsed.getExponent());
-        Assertions.assertEquals(digits.length(), parsed.getPrecision());
+        Assertions.assertEquals(digits.length(), parsed.digitCount);
         Assertions.assertEquals(exponent, parsed.getScientificExponent() - digits.length() + 1);
     }
 
@@ -607,6 +615,18 @@ class SimpleDecimalTest {
         final long bits = rng.nextLong() & mask;
         final long exp = rng.nextInt(2045) + 1;
         return Double.longBitsToDouble(bits | (exp << 52));
+    }
+
+    /** Get the raw digits in the given decimal as a string.
+     * @param dec decimal instancE
+     * @return decimal digits as a string
+     */
+    private static String digitString(final SimpleDecimal dec) {
+        final StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < dec.digitCount; ++i) {
+            sb.append(dec.digitAt(i));
+        }
+        return sb.toString();
     }
 
     private static String plainString(final SimpleDecimal dec, final SimpleDecimal.FormatOptions opts) {

@@ -603,10 +603,9 @@ public enum StandardDoubleFormat {
             if (maxPrecision > 0) {
                 roundExponent = Math.max(n.getScientificExponent() - maxPrecision + 1, roundExponent);
             }
+            n.round(roundExponent);
 
-            final SimpleDecimal rounded = n.round(roundExponent);
-
-            appendFiniteInternal(dst, rounded);
+            appendFiniteInternal(dst, n);
         }
 
         /** Append a formatted representation of the given rounded decimal value to {@code dst}.
