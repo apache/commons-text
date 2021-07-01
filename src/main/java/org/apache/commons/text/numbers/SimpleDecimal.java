@@ -540,49 +540,43 @@ final class SimpleDecimal {
 
         final int[] digits = new int[strChars.length];
 
-        int decimalSepIdx = -1;
-        int exponentIdx = -1;
+        boolean foundDecimalPoint = false;
         int digitCount = 0;
-        int firstNonZeroDigitIdx = -1;
-        int lastNonZeroDigitIdx = -1;
+        int significantDigitCount = 0;
+        int decimalPos = 0;
 
-        for (int i = digitStartIdx; i < strChars.length; ++i) {
+        int i;
+        for (i = digitStartIdx; i < strChars.length; ++i) {
             final char ch = strChars[i];
 
             if (ch == DECIMAL_SEP_CHAR) {
-                decimalSepIdx = i;
+                foundDecimalPoint = true;
+                decimalPos = digitCount;
             } else if (ch == EXPONENT_CHAR) {
-                exponentIdx = i;
-            } else if (exponentIdx < 0) {
-                // this is a significand digit
+                // no more mantissa digits
+                break;
+            } else if (ch != ZERO_CHAR || digitCount > 0){
+                // this is either the first non-zero digit or one after it
                 final int val = digitValue(ch);
-                if (val != 0) {
-                    if (firstNonZeroDigitIdx < 0) {
-                        firstNonZeroDigitIdx = digitCount;
-                    }
-                    lastNonZeroDigitIdx = digitCount;
-                }
-
                 digits[digitCount++] = val;
+
+                if (val > 0) {
+                    significantDigitCount = digitCount;
+                }
+            } else if (foundDecimalPoint) {
+                // leading zero in a fraction; adjust the decimal position
+                --decimalPos;
             }
         }
 
-        if (firstNonZeroDigitIdx > -1) {
+        if (digitCount > 0) {
             // determine the exponent
-            final int explicitExponent = exponentIdx > -1
-                    ? parseExponent(strChars, exponentIdx + 1)
+            final int explicitExponent = i < strChars.length
+                    ? parseExponent(strChars, i + 1)
                     : 0;
-            final int exponent = explicitExponent + decimalSepIdx - digitStartIdx - lastNonZeroDigitIdx - 1;
+            final int exponent = explicitExponent + decimalPos - significantDigitCount;
 
-            // get the number of significant digits, ignoring leading and trailing zeros
-            final int significantDigitCount = lastNonZeroDigitIdx - firstNonZeroDigitIdx + 1;
-            final int[] significantDigits = new int[significantDigitCount];
-            System.arraycopy(
-                    digits, firstNonZeroDigitIdx,
-                    significantDigits, 0,
-                    significantDigitCount);
-
-            return new SimpleDecimal(negative, significantDigits, significantDigitCount, exponent);
+            return new SimpleDecimal(negative, digits, significantDigitCount, exponent);
         }
 
         // no non-zero digits, so value is zero
