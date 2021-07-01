@@ -95,9 +95,6 @@ final class SimpleDecimal {
     /** Minus sign character. */
     private static final char MINUS_CHAR = '-';
 
-    /** Plus sign character. */
-    private static final char PLUS_CHAR = '+';
-
     /** Decimal separator character. */
     private static final char DECIMAL_SEP_CHAR = '.';
 
@@ -590,16 +587,15 @@ final class SimpleDecimal {
      * @return parsed exponent value
      */
     private static int parseExponent(final char[] chars, final int start) {
-        int exp = 0;
-        boolean neg = false;
+        int i = start;
+        boolean neg = chars[i] == MINUS_CHAR;
+        if (neg) {
+            ++i;
+        }
 
-        for (int i = start; i < chars.length; ++i) {
-            final char ch = chars[i];
-            if (ch == MINUS_CHAR) {
-                neg = !neg;
-            } else if (ch != PLUS_CHAR) {
-                exp = (exp * DECIMAL_RADIX) + digitValue(ch);
-            }
+        int exp = 0;
+        for (; i < chars.length; ++i) {
+            exp = (exp * DECIMAL_RADIX) + digitValue(chars[i]);
         }
 
         return neg ? -exp : exp;
