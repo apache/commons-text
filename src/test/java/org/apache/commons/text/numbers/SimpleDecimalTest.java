@@ -443,7 +443,7 @@ class SimpleDecimalTest {
     void testStringMethods_customDigits() {
         // arrange
         final FormatOptionsImpl opts = new FormatOptionsImpl();
-        opts.setDigits("abcdefghij");
+        opts.setDigitsFromString("abcdefghij");
 
         // act/assert
         Assertions.assertEquals("b.a", plainString(SimpleDecimal.from(1.0), opts));
@@ -665,7 +665,7 @@ class SimpleDecimalTest {
 
         private boolean signedZero = true;
 
-        private String digits = "0123456789";
+        private char[] digits = "0123456789".toCharArray();
 
         private char decimalSeparator = '.';
 
@@ -698,12 +698,12 @@ class SimpleDecimalTest {
         }
 
         @Override
-        public String getDigits() {
+        public char[] getDigits() {
             return digits;
         }
 
-        public void setDigits(final String digits) {
-            this.digits = digits;
+        public void setDigitsFromString(final String digits) {
+            this.digits = digits.toCharArray();
         }
 
         @Override

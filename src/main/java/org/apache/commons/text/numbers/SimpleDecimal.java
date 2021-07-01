@@ -54,11 +54,11 @@ final class SimpleDecimal {
          */
         boolean getSignedZero();
 
-        /** Get the string containing the localized digit characters 0-9 in that order.
+        /** Get an array containing the localized digit characters 0-9 in that order.
          * This string <em>must</em> be non-null and have a length of 10.
-         * @return string containing the digit characters 0-9
+         * @return array containing the digit characters 0-9
          */
-        String getDigits();
+        char[] getDigits();
 
         /** Get the decimal separator character.
          * @return decimal separator character
@@ -270,7 +270,7 @@ final class SimpleDecimal {
      */
     private void toScientificString(final int wholeDigitCount, final Appendable dst, final FormatOptions opts)
             throws IOException {
-        final String localizedDigits = opts.getDigits();
+        final char[] localizedDigits = opts.getDigits();
 
         final int fractionStartIdx = appendWhole(wholeDigitCount, dst, opts);
         appendFraction(0, fractionStartIdx, dst, opts);
@@ -308,8 +308,8 @@ final class SimpleDecimal {
             dst.append(opts.getMinusSign());
         }
 
-        final String localizedDigits = opts.getDigits();
-        final char localizedZero = localizedDigits.charAt(0);
+        final char[] localizedDigits = opts.getDigits();
+        final char localizedZero = localizedDigits[0];
 
         final int significantDigitCount = Math.max(0, Math.min(wholeCount, digitCount));
 
@@ -345,8 +345,8 @@ final class SimpleDecimal {
             dst.append(opts.getMinusSign());
         }
 
-        final String localizedDigits = opts.getDigits();
-        final char localizedZero = localizedDigits.charAt(0);
+        final char[] localizedDigits = opts.getDigits();
+        final char localizedZero = localizedDigits[0];
         final char groupingChar = opts.getThousandsGroupingSeparator();
 
         final int appendCount = Math.max(0, Math.min(wholeCount, digitCount));
@@ -394,8 +394,8 @@ final class SimpleDecimal {
      */
     private void appendFraction(final int zeroCount, final int startIdx, final Appendable dst,
             final FormatOptions opts) throws IOException {
-        final String localizedDigits = opts.getDigits();
-        final char localizedZero = localizedDigits.charAt(0);
+        final char[] localizedDigits = opts.getDigits();
+        final char localizedZero = localizedDigits[0];
 
         if (startIdx < digitCount) {
             dst.append(opts.getDecimalSeparator());
@@ -417,13 +417,13 @@ final class SimpleDecimal {
 
     /** Append a localized digit character to {@code dst}.
      * @param n standard decimal digit
-     * @param digitChars string containing the localized digit characters 0-9
+     * @param digitChars array containing the localized digit characters 0-9
      * @param dst destination to append to
      * @throws IOException if an I/O error occurs
      */
-    private void appendLocalizedDigit(final int n, final String digitChars, final Appendable dst)
+    private void appendLocalizedDigit(final int n, final char[] digitChars, final Appendable dst)
             throws IOException {
-        dst.append(digitChars.charAt(n));
+        dst.append(digitChars[n]);
     }
 
     /** Return true if formatted strings should include the minus sign, considering

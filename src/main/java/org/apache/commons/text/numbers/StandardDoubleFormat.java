@@ -464,7 +464,7 @@ public enum StandardDoubleFormat {
         private final boolean signedZero;
 
         /** String containing the digits 0-9. */
-        private final String digits;
+        private final char[] digits;
 
         /** Decimal separator character. */
         private final char decimalSeparator;
@@ -497,7 +497,7 @@ public enum StandardDoubleFormat {
 
             this.fractionPlaceholder = builder.fractionPlaceholder;
             this.signedZero = builder.signedZero;
-            this.digits = builder.digits;
+            this.digits = builder.digits.toCharArray();
             this.decimalSeparator = builder.decimalSeparator;
             this.thousandsGroupingSeparator = builder.thousandsGroupingSeparator;
             this.groupThousands = builder.groupThousands;
@@ -520,7 +520,7 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        public String getDigits() {
+        public char[] getDigits() {
             return digits;
         }
 
