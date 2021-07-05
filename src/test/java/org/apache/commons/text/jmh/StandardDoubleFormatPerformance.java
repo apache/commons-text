@@ -16,8 +16,6 @@
  */
 package org.apache.commons.text.jmh;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -166,7 +164,7 @@ public class StandardDoubleFormatPerformance {
      */
     @Benchmark
     public void stringFormat(final DoubleInput input, final Blackhole bh) {
-        runDoubleFunction(input, bh, d -> String.format("%d", d));
+        runDoubleFunction(input, bh, d -> String.format("%f", d));
     }
 
     /** Benchmark testing the BigDecimal formatting performance.
@@ -222,21 +220,6 @@ public class StandardDoubleFormatPerformance {
         runDoubleFunction(input, bh, fmt::format);
     }
 
-    /** Benchmark testing the {@link DecimalFormat} class when appending the content to
-     * a writer.
-     * @param input benchmark state input
-     * @param bh jmh blackhole for consuming output
-     */
-    @Benchmark
-    public void decimalFormatToWriter(final DoubleInput input, final Blackhole bh) {
-        final StringWriter writer = new StringWriter();
-        final DecimalFormat fmt = new DecimalFormat(PLAIN_PATTERN);
-
-        for (final double d : input.getInput()) {
-            writer.append(fmt.format(d));
-        }
-    }
-
     /** Benchmark testing the {@link StandardDoubleFormat#PLAIN} format.
      * @param input benchmark state input
      * @param bh jmh blackhole for consuming output
@@ -287,23 +270,5 @@ public class StandardDoubleFormatPerformance {
                 .withAlwaysIncludeExponent(true)
                 .build();
         runDoubleFunction(input, bh, fmt);
-    }
-
-    /** Benchmark testing the {@link StandardDoubleFormat#PLAIN} format when appending
-     * to a writer.
-     * @param input benchmark state input
-     * @param bh jmh blackhole for consuming output
-     * @throws IOException if an I/O error occurs
-     */
-    @Benchmark
-    public void standardToWriter(final DoubleInput input, final Blackhole bh) throws IOException {
-        final StringWriter writer = new StringWriter();
-        final DoubleFormat fmt = StandardDoubleFormat.PLAIN.builder()
-                .withMinDecimalExponent(-3)
-                .build();
-
-        for (final double d : input.getInput()) {
-            fmt.appendTo(writer, d);
-        }
     }
 }

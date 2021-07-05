@@ -16,8 +16,6 @@
  */
 package org.apache.commons.text.numbers;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.text.DecimalFormatSymbols;
 import java.util.Objects;
 import java.util.function.Function;
@@ -85,7 +83,7 @@ public enum StandardDoubleFormat {
      */
     MIXED(MixedDoubleFormat::new);
 
-    /** Function used to construct {@link DoubleFormat} instances of this format type. */
+    /** Function used to construct instances for this format type. */
     private final Function<Builder, DoubleFormat> factory;
 
     /** Construct a new instance.
@@ -437,10 +435,8 @@ public enum StandardDoubleFormat {
 
     /** Base class for standard double formatting classes.
      */
-    private abstract static class AbstractDoubleFormat implements DoubleFormat, SimpleDecimal.FormatOptions {
-
-        /** Initial size to use for string builder instances. */
-        private static final int INITIAL_STR_BUILDER_SIZE = 32;
+    private abstract static class AbstractDoubleFormat
+        implements DoubleFormat, SimpleDecimal.FormatOptions {
 
         /** Maximum precision; 0 indicates no limit. */
         private final int maxPrecision;
@@ -479,7 +475,7 @@ public enum StandardDoubleFormat {
         private final char minusSign;
 
         /** Exponent separator character. */
-        private final String exponentSeparator;
+        private final char[] exponentSeparatorChars;
 
         /** Flag indicating if exponent values should always be included, even if zero. */
         private final boolean alwaysIncludeExponent;
@@ -502,7 +498,7 @@ public enum StandardDoubleFormat {
             this.thousandsGroupingSeparator = builder.thousandsGroupingSeparator;
             this.groupThousands = builder.groupThousands;
             this.minusSign = builder.minusSign;
-            this.exponentSeparator = builder.exponentSeparator;
+            this.exponentSeparatorChars = builder.exponentSeparator.toCharArray();
             this.alwaysIncludeExponent = builder.alwaysIncludeExponent;
         }
 
@@ -550,8 +546,8 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        public String getExponentSeparator() {
-            return exponentSeparator;
+        public char[] getExponentSeparatorChars() {
+            return exponentSeparatorChars;
         }
 
         /** {@inheritDoc} */
@@ -563,40 +559,20 @@ public enum StandardDoubleFormat {
         /** {@inheritDoc} */
         @Override
         public String apply(final double d) {
-            final StringBuilder sb = new StringBuilder(INITIAL_STR_BUILDER_SIZE);
-            appendTo(sb, d);
-            return sb.toString();
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void appendTo(final Appendable dst, final double d) throws IOException {
             if (Double.isFinite(d)) {
-                appendFinite(dst, d);
+                return applyFinite(d);
             } else if (Double.isInfinite(d)) {
-                dst.append(d > 0.0 ? postiveInfinity : negativeInfinity);
-            } else {
-                dst.append(nan);
+                return d > 0.0
+                        ? postiveInfinity
+                        : negativeInfinity;
             }
+            return nan;
         }
 
-        /** {@inheritDoc} */
-        @Override
-        public void appendTo(final StringBuilder sb, final double d) {
-            try {
-                appendTo((Appendable) sb, d);
-            } catch (IOException exc) {
-                // cannot end up here since StringBuilder does not throw IOExceptions
-                throw new UncheckedIOException("StringBuilder threw IOException: " + exc.getMessage(), exc);
-            }
-        }
-
-        /** Append a formatted string representation of the given finite value to {@code dst}.
-         * @param dst destination to append to
+        /** Return a formatted string representation of the given finite value.
          * @param d double value
-         * @throws IOException if an I/O error occurs
          */
-        private void appendFinite(final Appendable dst, final double d) throws IOException {
+        private String applyFinite(final double d) {
             final SimpleDecimal n = SimpleDecimal.from(d);
 
             int roundExponent = Math.max(n.getExponent(), minDecimalExponent);
@@ -605,15 +581,13 @@ public enum StandardDoubleFormat {
             }
             n.round(roundExponent);
 
-            appendFiniteInternal(dst, n);
+            return applyFiniteInternal(n);
         }
 
-        /** Append a formatted representation of the given rounded decimal value to {@code dst}.
-         * @param dst destination to write to
+        /** Return a formatted representation of the given rounded decimal value to {@code dst}.
          * @param val value to format
-         * @throws IOException if an I/O error occurs
          */
-        protected abstract void appendFiniteInternal(Appendable dst, SimpleDecimal val) throws IOException;
+        protected abstract String applyFiniteInternal(SimpleDecimal val);
     }
 
     /** Format class that produces plain decimal strings that do not use
@@ -633,8 +607,8 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        protected void appendFiniteInternal(final Appendable dst, final SimpleDecimal val) throws IOException {
-            val.toPlainString(dst, this);
+        protected String applyFiniteInternal(final SimpleDecimal val) {
+            return val.toPlainString(this);
         }
     }
 
@@ -665,13 +639,12 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        protected void appendFiniteInternal(final Appendable dst, final SimpleDecimal val) throws IOException {
+        protected String applyFiniteInternal(final SimpleDecimal val) {
             final int sciExp = val.getScientificExponent();
             if (sciExp <= plainMaxExponent && sciExp >= plainMinExponent) {
-                val.toPlainString(dst, this);
-            } else {
-                val.toScientificString(dst, this);
+                return val.toPlainString(this);
             }
+            return val.toScientificString(this);
         }
     }
 
@@ -691,8 +664,8 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        public void appendFiniteInternal(final Appendable dst, final SimpleDecimal val) throws IOException {
-            val.toScientificString(dst, this);
+        public String applyFiniteInternal(final SimpleDecimal val) {
+            return val.toScientificString(this);
         }
     }
 
@@ -712,8 +685,8 @@ public enum StandardDoubleFormat {
 
         /** {@inheritDoc} */
         @Override
-        public void appendFiniteInternal(final Appendable dst, final SimpleDecimal val) throws IOException {
-            val.toEngineeringString(dst, this);
+        public String applyFiniteInternal(final SimpleDecimal val) {
+            return val.toEngineeringString(this);
         }
     }
 }

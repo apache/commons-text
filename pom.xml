@@ -179,6 +179,7 @@
           <suppressionsLocation>${basedir}/checkstyle-suppressions.xml</suppressionsLocation>
           <suppressionsFileExpression>${basedir}/checkstyle-suppressions.xml</suppressionsFileExpression>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
+          <excludes>**/generated/**.java,**/jmh_generated/**.java</excludes>
         </configuration>
         <dependencies>
           <dependency>
@@ -262,6 +263,7 @@
           <suppressionsLocation>${basedir}/checkstyle-suppressions.xml</suppressionsLocation>
           <suppressionsFileExpression>${basedir}/checkstyle-suppressions.xml</suppressionsFileExpression>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
+          <excludes>**/generated/**.java,**/jmh_generated/**.java</excludes>
         </configuration>
         <reportSets>
           <reportSet>

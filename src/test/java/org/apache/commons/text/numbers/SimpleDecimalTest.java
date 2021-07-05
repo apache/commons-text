@@ -16,8 +16,6 @@
  */
 package org.apache.commons.text.numbers;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -548,11 +546,11 @@ class SimpleDecimalTest {
     }
 
     private static int parseExponent(final String str, final SimpleDecimal.FormatOptions opts) {
-        final String expSep = opts.getExponentSeparator();
+        final char[] expSep = opts.getExponentSeparatorChars();
 
-        final int expStartIdx = str.indexOf(expSep);
+        final int expStartIdx = str.indexOf(String.valueOf(expSep));
         if (expStartIdx > -1) {
-            int expIdx = expStartIdx + expSep.length();
+            int expIdx = expStartIdx + expSep.length;
 
             boolean neg = false;
             if (str.charAt(expIdx) == opts.getMinusSign()) {
@@ -630,33 +628,36 @@ class SimpleDecimalTest {
     }
 
     private static String plainString(final SimpleDecimal dec, final SimpleDecimal.FormatOptions opts) {
-        try {
-            StringBuilder sb = new StringBuilder();
-            dec.toPlainString(sb, opts);
-            return sb.toString();
-        } catch (IOException exc) {
-            throw new UncheckedIOException(exc);
-        }
+//        try {
+//            StringBuilder sb = new StringBuilder();
+//            dec.toPlainString(sb, opts);
+//            return sb.toString();
+//        } catch (IOException exc) {
+//            throw new UncheckedIOException(exc);
+//        }
+        return dec.toPlainString(opts);
     }
 
     private static String scientificString(final SimpleDecimal dec, final SimpleDecimal.FormatOptions opts) {
-        try {
-            StringBuilder sb = new StringBuilder();
-            dec.toScientificString(sb, opts);
-            return sb.toString();
-        } catch (IOException exc) {
-            throw new UncheckedIOException(exc);
-        }
+//        try {
+//            StringBuilder sb = new StringBuilder();
+//            dec.toScientificString(sb, opts);
+//            return sb.toString();
+//        } catch (IOException exc) {
+//            throw new UncheckedIOException(exc);
+//        }
+        return dec.toScientificString(opts);
     }
 
     private static String engineeringString(final SimpleDecimal dec, final SimpleDecimal.FormatOptions opts) {
-        try {
-            StringBuilder sb = new StringBuilder();
-            dec.toEngineeringString(sb, opts);
-            return sb.toString();
-        } catch (IOException exc) {
-            throw new UncheckedIOException(exc);
-        }
+//        try {
+//            StringBuilder sb = new StringBuilder();
+//            dec.toEngineeringString(sb, opts);
+//            return sb.toString();
+//        } catch (IOException exc) {
+//            throw new UncheckedIOException(exc);
+//        }
+        return dec.toEngineeringString(opts);
     }
 
     private static final class FormatOptionsImpl implements SimpleDecimal.FormatOptions {
@@ -743,8 +744,8 @@ class SimpleDecimalTest {
         }
 
         @Override
-        public String getExponentSeparator() {
-            return exponentSeparator;
+        public char[] getExponentSeparatorChars() {
+            return exponentSeparator.toCharArray();
         }
 
         public void setExponentSeparator(final String exponentSeparator) {
