@@ -34,7 +34,7 @@ package org.apache.commons.text.numbers;
  *  <tr><td>56300</td><td>true</td><td>[5, 6, 3]</td><td>2</td></tr>
  * </table>
  */
-final class SimpleDecimal {
+final class ParsedDecimal {
 
     /** Interface containing values used during string formatting.
      */
@@ -66,7 +66,7 @@ final class SimpleDecimal {
         /** Get the character used to separate thousands groupings.
          * @return character used to separate thousands groupings
          */
-        char getThousandsGroupingSeparator();
+        char getGroupingSeparator();
 
         /** Return true if thousands should be grouped.
          * @return true if thousand should be grouped
@@ -138,7 +138,7 @@ final class SimpleDecimal {
      * @param digitCount number of digits used from the {@code digits} array
      * @param exponent exponent value
      */
-    SimpleDecimal(final boolean negative, final int[] digits, final int digitCount,
+    ParsedDecimal(final boolean negative, final int[] digits, final int digitCount,
             final int exponent) {
         this.negative = negative;
         this.digits = digits;
@@ -385,7 +385,7 @@ final class SimpleDecimal {
 
         final char[] localizedDigits = opts.getDigits();
         final char localizedZero = localizedDigits[0];
-        final char groupingChar = opts.getThousandsGroupingSeparator();
+        final char groupingChar = opts.getGroupingSeparator();
 
         final int appendCount = Math.max(0, Math.min(wholeCount, digitCount));
 
@@ -621,7 +621,7 @@ final class SimpleDecimal {
      * @return a new instance containing the parsed components of the given double value
      * @throws IllegalArgumentException if {@code d} is {@code NaN} or infinite
      */
-    public static SimpleDecimal from(final double d) {
+    public static ParsedDecimal from(final double d) {
         if (!Double.isFinite(d)) {
             throw new IllegalArgumentException("Double is not finite");
         }
@@ -676,11 +676,11 @@ final class SimpleDecimal {
                     : 0;
             final int exponent = explicitExponent + decimalPos - significantDigitCount;
 
-            return new SimpleDecimal(negative, digits, significantDigitCount, exponent);
+            return new ParsedDecimal(negative, digits, significantDigitCount, exponent);
         }
 
         // no non-zero digits, so value is zero
-        return new SimpleDecimal(negative, new int[] {0}, 1, 0);
+        return new ParsedDecimal(negative, new int[] {0}, 1, 0);
     }
 
     /** Parse a double exponent value from {@code chars}, starting at the {@code start}

@@ -25,7 +25,6 @@ import java.util.function.DoubleFunction;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.text.numbers.DoubleFormat;
-import org.apache.commons.text.numbers.StandardDoubleFormat;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -47,7 +46,7 @@ import org.openjdk.jmh.infra.Blackhole;
 @Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
 @Fork(value = 1, jvmArgs = {"-server", "-Xms512M", "-Xmx512M"})
-public class StandardDoubleFormatPerformance {
+public class DoubleFormatPerformance {
 
     /** Decimal format pattern for plain output. */
     private static final String PLAIN_PATTERN = "0.0##";
@@ -226,8 +225,8 @@ public class StandardDoubleFormatPerformance {
      */
     @Benchmark
     public void standardPlain(final DoubleInput input, final Blackhole bh) {
-        final DoubleFormat fmt = StandardDoubleFormat.PLAIN.builder()
-                .withMinDecimalExponent(-3)
+        final DoubleFunction<String> fmt = DoubleFormat.PLAIN.builder()
+                .minDecimalExponent(-3)
                 .build();
         runDoubleFunction(input, bh, fmt);
     }
@@ -239,9 +238,9 @@ public class StandardDoubleFormatPerformance {
      */
     @Benchmark
     public void standardPlainGrouped(final DoubleInput input, final Blackhole bh) {
-        final DoubleFormat fmt = StandardDoubleFormat.PLAIN.builder()
-                .withMinDecimalExponent(-3)
-                .withGroupThousands(true)
+        final DoubleFunction<String> fmt = DoubleFormat.PLAIN.builder()
+                .minDecimalExponent(-3)
+                .groupThousands(true)
                 .build();
         runDoubleFunction(input, bh, fmt);
     }
@@ -252,9 +251,9 @@ public class StandardDoubleFormatPerformance {
      */
     @Benchmark
     public void standardScientific(final DoubleInput input, final Blackhole bh) {
-        final DoubleFormat fmt = StandardDoubleFormat.SCIENTIFIC.builder()
-                .withMaxPrecision(4)
-                .withAlwaysIncludeExponent(true)
+        final DoubleFunction<String> fmt = DoubleFormat.SCIENTIFIC.builder()
+                .maxPrecision(4)
+                .alwaysIncludeExponent(true)
                 .build();
         runDoubleFunction(input, bh, fmt);
     }
@@ -265,9 +264,9 @@ public class StandardDoubleFormatPerformance {
      */
     @Benchmark
     public void standardEngineering(final DoubleInput input, final Blackhole bh) {
-        final DoubleFormat fmt = StandardDoubleFormat.ENGINEERING.builder()
-                .withMaxPrecision(6)
-                .withAlwaysIncludeExponent(true)
+        final DoubleFunction<String> fmt = DoubleFormat.ENGINEERING.builder()
+                .maxPrecision(6)
+                .alwaysIncludeExponent(true)
                 .build();
         runDoubleFunction(input, bh, fmt);
     }
