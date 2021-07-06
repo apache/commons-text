@@ -22,7 +22,58 @@ import java.util.function.DoubleFunction;
 import java.util.function.Function;
 
 /** Enum containing standard double format types with methods to produce
- * configured formatter functions.
+ * configured formatter instances. This type is intended to provide a
+ * quick and convenient way to create lightweight, thread-safe double format functions
+ * for common format types using a builder pattern.
+ *
+ * <p><strong>Comparison with DecimalFormat</strong>
+ * <p>This type provides some of the same functionality as Java's own
+ * {@link java.text.DecimalFormat}. However, unlike {@code DecimalFormat}, the format
+ * functions produced by this type are lightweight and thread-safe, making them
+ * much easier to work with in multi-threaded environments. They also provide performance
+ * comparable to, and in many cases faster than, {@code DecimalFormat}.
+ *
+ * <p><strong>Examples</strong>
+ * <pre>
+ * // construct a formatter equivalent to Double.toString()
+ * DoubleFunction&lt;String&gt; fmt = DoubleFormat.MIXED.builder().build();
+ *
+ * // construct a formatter equivalent to Double.toString() but using
+ * // format symbols for a specific locale
+ * DoubleFunction&lt;String&gt; fmt = DoubleFormat.MIXED.builder()
+ *      .formatSymbols(DecimalFormatSymbols.getInstance(locale))
+ *      .build();
+ *
+ * // construct a formatter equivalent to the DecimalFormat pattern "0.0##"
+ * DoubleFunction&lt;String&gt; fmt = DoubleFormat.PLAIN.builder()
+ *      .minDecimalExponent(-3)
+ *      .build();
+ *
+ * // construct a formatter equivalent to the DecimalFormat pattern "#,##0.0##",
+ * // where whole number groups of thousands are separated
+ * DoubleFunction&lt;String&gt; fmt = DoubleFormat.PLAIN.builder()
+ *      .minDecimalExponent(-3)
+ *      .groupThousands(true)
+ *      .build();
+ *
+ * // construct a formatter equivalent to the DecimalFormat pattern "0.0##E0"
+ * DoubleFunction&lt;String&gt; fmt = DoubleFormat.SCIENTIFIC.builder()
+ *      .maxPrecision(4)
+ *      .alwaysIncludeExponent(true)
+ *      .build()
+ *
+ * // construct a formatter equivalent to the DecimalFormat pattern "##0.0##E0",
+ * // i.e. "engineering format"
+ * DoubleFunction&lt;String&gt; fmt = DoubleFormat.ENGINEERING.builder()
+ *      .maxPrecision(6)
+ *      .alwaysIncludeExponent(true)
+ *      .build()
+ * </pre>
+ *
+ * <p><strong>Implementation Notes</strong>
+ * <p>{@link java.math.RoundingMode#HALF_EVEN Half-even} rounding is used in cases where the
+ * decimal value must be rounded in order to meet the configuration requirements of the formatter
+ * instance.
  */
 public enum DoubleFormat {
 
