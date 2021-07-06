@@ -52,6 +52,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-186" type="fix" dev="ggregory" due-to="Gautam Korlam, Gary Gregory">StringSubstitutor map constructor throws NPE on 1.9 with null map.</action>
     <action issue="TEXT-191" type="fix" dev="kinow" due-to="Bradley David Rumball">JaroWinklerDistance returns the same values as JaroWinklerSimilarity.</action>
     <!-- ADD -->
+    <action issue="TEXT-207" type="add" dev="mattjuntunen">Add DoubleFormat utility.</action>
     <action issue="TEXT-190" type="add" dev="kinow" due-to="Benjamin Bing">Document negative limit for WordUtils abbreviate method</action>
     <action issue="TEXT-188" type="add" dev="kinow" due-to="Jakob Vesterstrøm">Speed up LevenshteinDistance with threshold by exiting early</action>
     <action issue="TEXT-185" type="add" dev="ggregory" due-to="Larry West, Gary Gregory">Release Notes page hasn't been updated for 1.9 release yet.</action>
@@ -98,7 +99,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Johan Hammar">[javadoc] Fix compiler warnings in Java code example in Javadoc #124.</action>
     <action issue="TEXT-177" type="update" dev="ggregory" due-to="Gary Gregory">Update from Apache Commons Lang 3.9 to 3.11.</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StringMatcher.size().</action>
-    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Refactor TextStringBuilder.readFrom(Readable), extracting readFrom(CharBuffer) and readFrom(Reader).</action>    
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Refactor TextStringBuilder.readFrom(Readable), extracting readFrom(CharBuffer) and readFrom(Reader).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add BiStringLookup and implementation BiFunctionStringLookup.</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.StringSubstitutor.StringSubstitutor(StringSubstitutor).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.text.TextStringBuilder.TextStringBuilder(CharSequence).</action>
@@ -128,9 +129,9 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] checkstyle.version 8.27 -> 8.33.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] org.apache.commons:commons-parent 48 -> 51.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] maven-pmd-plugin 3.12.0 -> 3.13.0.</action>
-    <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] org.mockito 3.3.3 -> 3.4.4.</action>    
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] org.mockito 3.3.3 -> 3.4.4.</action>
   </release>
-  
+
   <release version="1.8" date="2019-08-30" description="Release 1.8. Requires Java 8.">
     <action issue="TEXT-167" type="fix" dev="ggregory" due-to="Larry West">commons-text web page missing "RELEASE-NOTES-1.7.txt"</action>
     <action issue="TEXT-168" type="fix" dev="ggregory" due-to="luksan47">(doc) Fixed wrong value for Jaro-Winkler example #117</action>
@@ -140,7 +141,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Expand Javadoc for StringSubstitutor and friends.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[site] checkstyle.version 8.21 -> 8.23.</action>
   </release>
-  
+
   <release version="1.7" date="2019-06-30" description="Release 1.7. Requires Java 8.">
     <action issue="TEXT-111" type="fix" dev="kinow" due-to="@CAPS50">WordUtils.wrap must calculate offset increment from wrapOn pattern length</action>
     <action issue="TEXT-104" type="update" dev="kinow" due-to="Sascha Szott">Jaro Winkler Distance refers to similarity</action>
@@ -187,8 +188,8 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-120" type="fix" dev="pschumacher">StringEscapeUtils#unescapeJson does not unescape double quotes and forward slash</action>
     <action issue="TEXT-119" type="fix" dev="pschumacher">Remove mention of SQL escaping from user guide</action>
     <action issue="TEXT-121" type="update" dev="ggregory" due-to="pschumacher">Update Java requirement from version 7 to 8.</action>
-    <action issue="TEXT-122" type="update" dev="ggregory">Allow full customization with new API org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup(Map&lt;String, StringLookup>, StringLookup, boolean).</action>    
-    <action issue="TEXT-123" type="fix" dev="ggregory" due-to="Takanobu Asanuma">WordUtils.wrap throws StringIndexOutOfBoundsException when wrapLength is Integer.MAX_VALUE.</action>   
+    <action issue="TEXT-122" type="update" dev="ggregory">Allow full customization with new API org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup(Map&lt;String, StringLookup>, StringLookup, boolean).</action>
+    <action issue="TEXT-123" type="fix" dev="ggregory" due-to="Takanobu Asanuma">WordUtils.wrap throws StringIndexOutOfBoundsException when wrapLength is Integer.MAX_VALUE.</action>
   </release>
 
   <release version="1.3" date="2018-03-16" description="Release 1.3. Requires Java 7.">
