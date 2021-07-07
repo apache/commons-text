@@ -20,7 +20,6 @@ package org.apache.commons.text.io;
 import java.io.FilterReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Objects;
 
 import org.apache.commons.text.StringSubstitutor;
 import org.apache.commons.text.TextStringBuilder;
@@ -73,7 +72,7 @@ public class StringSubstitutorReader extends FilterReader {
      */
     public StringSubstitutorReader(final Reader reader, final StringSubstitutor stringSubstitutor) {
         super(reader);
-        this.stringSubstitutor = Objects.requireNonNull(stringSubstitutor);
+        this.stringSubstitutor = new StringSubstitutor(stringSubstitutor);
         this.prefixEscapeMatcher = StringMatcherFactory.INSTANCE.charMatcher(stringSubstitutor.getEscapeChar())
             .andThen(stringSubstitutor.getVariablePrefixMatcher());
     }

@@ -21,6 +21,8 @@ import java.text.MessageFormat;
 import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Locale.Category;
@@ -160,7 +162,9 @@ public class ExtendedMessageFormat extends MessageFormat {
                                  final Map<String, ? extends FormatFactory> registry) {
         super(DUMMY_PATTERN);
         setLocale(locale);
-        this.registry = registry;
+        this.registry = registry != null
+                ? Collections.unmodifiableMap(new HashMap<>(registry))
+                : null;
         applyPattern(pattern);
     }
 

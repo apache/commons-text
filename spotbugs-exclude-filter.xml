@@ -23,6 +23,13 @@
   </Match>
 
   <Match>
+    <!-- False positives in regard to Locale property exposing inner implementation
+    details of class. However, Locale is not mutable and therefore safe in this context. -->
+    <Class name="org.apache.commons.text.similarity.FuzzyScore" />
+    <Bug code="EI,EI2" />
+  </Match>
+
+  <Match>
     <Class name="org.apache.commons.text.StrTokenizer" />
     <Method name="clone" />
     <Bug code="CN" />
