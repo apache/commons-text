@@ -18,6 +18,7 @@ package org.apache.commons.text;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.BiPredicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -442,7 +443,16 @@ public class WordUtils {
         if (StringUtils.isEmpty(str)) {
             return str;
         }
-        final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
+        final BiPredicate<String, Integer> isDelimiter;
+        final Set<Integer> delimiterSet;
+        if (delimiters == null) {
+            delimiterSet = null;
+            isDelimiter = (s, i) -> Character.isWhitespace(s.charAt(i));
+        } else {
+            delimiterSet = generateDelimiterSet(delimiters);
+            isDelimiter = (s, i) -> delimiterSet.contains(s.codePointAt(i));
+        }
+
         final int strLen = str.length();
         final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
@@ -451,7 +461,7 @@ public class WordUtils {
         for (int index = 0; index < strLen;) {
             final int codePoint = str.codePointAt(index);
 
-            if (delimiterSet.contains(codePoint)) {
+            if (isDelimiter.test(str, index)) {
                 capitalizeNext = true;
                 newCodePoints[outOffset++] = codePoint;
                 index += Character.charCount(codePoint);
