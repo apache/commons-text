@@ -16,13 +16,13 @@
  */
 package org.apache.commons.text;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -104,7 +104,11 @@ public final class RandomStringGenerator {
         this.minimumCodePoint = minimumCodePoint;
         this.maximumCodePoint = maximumCodePoint;
         this.inclusivePredicates = inclusivePredicates;
-        this.random = random;
+        if (random != null) {
+            this.random = random;
+        } else {
+            this.random = TextRandomProviderForThreadLocal.getInstance();
+        }
         this.characterList = characterList;
     }
 
@@ -119,10 +123,7 @@ public final class RandomStringGenerator {
      * @return The random number.
      */
     private int generateRandomNumber(final int minInclusive, final int maxInclusive) {
-        if (random != null) {
-            return random.nextInt(maxInclusive - minInclusive + 1) + minInclusive;
-        }
-        return ThreadLocalRandom.current().nextInt(minInclusive, maxInclusive + 1);
+        return random.nextInt(maxInclusive - minInclusive + 1) + minInclusive;
     }
 
     /**
@@ -134,10 +135,7 @@ public final class RandomStringGenerator {
      */
     private int generateRandomNumber(final List<Character> characterList) {
         final int listSize = characterList.size();
-        if (random != null) {
-            return String.valueOf(characterList.get(random.nextInt(listSize))).codePointAt(0);
-        }
-        return String.valueOf(characterList.get(ThreadLocalRandom.current().nextInt(0, listSize))).codePointAt(0);
+        return String.valueOf(characterList.get(random.nextInt(listSize))).codePointAt(0);
     }
 
     /**
@@ -428,6 +426,21 @@ public final class RandomStringGenerator {
         public Builder usingRandom(final TextRandomProvider random) {
             this.random = random;
             return this;
+        }
+
+        /**
+         * <p>
+         * Overrides the default source of randomness to {@link SecureRandom}.
+         * </p>
+         *
+         * @return {@code this}, to allow method chaining
+         */
+        public Builder usingSecuredRandom() {
+            return this.usingRandom(
+                    new TextRandomProviderForRandom(
+                            new SecureRandom()
+                    )
+            );
         }
 
         /**
