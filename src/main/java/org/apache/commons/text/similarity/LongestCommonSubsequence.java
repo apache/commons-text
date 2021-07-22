@@ -29,19 +29,28 @@ package org.apache.commons.text.similarity;
  * </p>
  *
  * <p>
- * This implementation is based on the Longest Commons Substring algorithm
- * from <a href="https://en.wikipedia.org/wiki/Longest_common_subsequence_problem">
- * https://en.wikipedia.org/wiki/Longest_common_subsequence_problem</a>.
+ * As of version 2.0 a more space-efficient of the algorithm is implemented. The new algorithm has linear space
+ * complexity instead of quadratic. However, time complexity is still quadratic in the size of input strings.
+ * </p>
+ *
+ * <p>
+ * The implementation is based on Hirschberg's Longest Commons Substring algorithm (cited below).
  * </p>
  *
  * <p>For further reading see:</p>
- *
- * <p>Lothaire, M. <i>Applied combinatorics on words</i>. New York: Cambridge U Press, 2005. <b>12-13</b></p>
+ * <ul>
+ * <li>
+ * Lothaire, M. <i>Applied combinatorics on words</i>. New York: Cambridge U Press, 2005. <b>12-13</b>
+ * </li>
+ * <li>
+ * D. S. Hirschberg, "A linear space algorithm for computing maximal common subsequences," CACM, 1975, pp. 341--343.
+ * </li>
+ * </ul>
+ * <p></p>
  *
  * @since 1.0
  */
 public class LongestCommonSubsequence implements SimilarityScore<Integer> {
-
     /**
      * Calculates longest common subsequence similarity score of two {@code CharSequence}'s passed as
      * input.
@@ -62,20 +71,29 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
         final int leftSz = left.length();
         final int rightSz = right.length();
 
+        // Check if we can avoid calling algorithmB which involves heap space allocation
+        if (leftSz == 0 || rightSz == 0) {
+            return 0;
+        }
+
         // Check if we can save even more space
         if (leftSz < rightSz) {
             return algorithmB(right, rightSz, left, leftSz)[leftSz];
         }
+
         return algorithmB(left, leftSz, right, rightSz)[rightSz];
     }
 
     /**
-     * An implementation of "ALG B" from Hirschberg's paper <a href="https://dl.acm.org/doi/10.1145/360825.360861">A linear space algorithm for computing maximal common subsequences</a>.
-     * Assuming the sequence <code>left</code> is of size <code>m</code> and the sequence <code>right</code> is of size <code>n</code>,
-     * this method returns the last row of the dynamic programming table when calculating LCS the two sequences.
-     * Therefore, the last element of the returned array, is the size of LCS of <code>left</code> and <code>right</code>.
-     * This method runs in O(m * n) time and O(n) space.
-     * To save more space, it is preferable to pass the shorter sequence as <code>right</code>.
+     * An implementation of "ALG B" from Hirschberg's CACM'71 paper.
+     * Assuming the sequence <code>left</code> is of size <code>m</code> and the sequence <code>right</code> is
+     * of size <code>n</code>, this method returns the last row of the dynamic programming table when calculating
+     * the LCS of the two sequences. Therefore, the last element of the returned array, is the size of the LCS of
+     * <code>left</code> and <code>right</code>.
+     *
+     * <i>Note. </i> To save more space, it is preferable to pass the shorter sequence as <code>right</code>.
+     *
+     * <p>This method runs in <i>O(m*n)</i> time and <i>O(n)</i> space.</p>
      *
      * @param left Left sequence
      * @param m Length of left sequence
@@ -85,7 +103,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      */
     static int[] algorithmB(final CharSequence left, final int m,
                             final CharSequence right, final int n) {
-        final int[][] dp = new int[2][1 + n];
+        final int[][] dpRows = new int[2][1 + n];
 
         for (int i = 1; i <= m; i++) {
             // K(0, j) <- K(1, j) [j = 0...n], as per the paper:
@@ -93,22 +111,22 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
             // We could also use a "binary index" using modulus operator, but directly swapping the
             // two rows helps readability and keeps the code consistent with the algorithm description
             // in the paper.
-            final int[] temp = dp[0];
-            dp[0] = dp[1];
-            dp[1] = temp;
+            final int[] temp = dpRows[0];
+            dpRows[0] = dpRows[1];
+            dpRows[1] = temp;
             // Hoisting the virtual call out of the inner loop to help with performance.
             final int leftCh = left.charAt(i - 1);
             for (int j = 1; j <= n; j++) {
                 if (leftCh == right.charAt(j - 1)) {
-                    dp[1][j] = dp[0][j - 1] + 1;
+                    dpRows[1][j] = dpRows[0][j - 1] + 1;
                 } else {
-                    dp[1][j] = Math.max(dp[1][j - 1], dp[0][j]);
+                    dpRows[1][j] = Math.max(dpRows[1][j - 1], dpRows[0][j]);
                 }
             }
         }
         // LL(j) <- K(1, j) [j=0...n], as per the paper:
         // We don't need literal copying of the array, we can just return the reference
-        return dp[1];
+        return dpRows[1];
     }
 
     /**
@@ -174,18 +192,24 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
        final int leftSz = left.length();
        final int rightSz = right.length();
 
+       // Check if we can avoid calling algorithmC which involves heap space allocation
+       if (leftSz == 0 || rightSz == 0) {
+           return "";
+       }
+
        // Check if we can save even more space
        if (leftSz < rightSz) {
            return algorithmC(right, rightSz, left, leftSz);
        }
+
        return algorithmC(left, leftSz, right, rightSz);
    }
 
     /**
-     * An implementation of "ALG C" from Hirschberg's paper <a href="https://dl.acm.org/doi/10.1145/360825.360861">A linear space algorithm for computing maximal common subsequences</a>.
-     * Assuming the sequence <code>left</code> is of size <code>m</code> and the sequence <code>right</code> is of size <code>n</code>,
-     * this method returns Longest Common Subsequence (LCS) the two sequences.
-     * As per the paper, this method runs in O(m * n) time and O(m + n) space.
+     * An implementation of "ALG C" from Hirschberg's CACM'71 paper.
+     * Assuming the sequence <code>left</code> is of size <code>m</code> and the sequence <code>right</code> is
+     * of size <code>n</code>, this method returns the Longest Common Subsequence (LCS) the two sequences.
+     * As per the paper, this method runs in <i>O(m*n)</i> time and <i>O(m+n)</i> space.
      *
      * @param left Left sequence
      * @param m Length of left sequence
@@ -206,7 +230,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
                }
            }
        } else if (n > 0 && m > 1) {
-           final int i = m >> 1; // Find the middle point
+           final int i = m / 2; // Find the middle point
 
            final CharSequence left0Toi = left.subSequence(0, i);
            final CharSequence leftiTom = left.subSequence(i, m);
@@ -247,7 +271,10 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * @param left first character sequence
      * @param right second character sequence
      * @return lcsLengthArray
+     * @deprecated Deprecated as of 2.0. A more efficient implementation for calculating LCS is now available.
+     * Use {@link #longestCommonSubsequence(CharSequence, CharSequence)} instead to directly calculate LCS.
      */
+    @Deprecated
     public int[][] longestCommonSubstringLengthArray(final CharSequence left, final CharSequence right) {
         final int[][] lcsLengthArray = new int[left.length() + 1][right.length() + 1];
         for (int i = 0; i < left.length(); i++) {
