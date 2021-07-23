@@ -78,14 +78,16 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
 
         // Check if we can save even more space
         if (leftSz < rightSz) {
-            return algorithmB(right, rightSz, left, leftSz)[leftSz];
+            return algorithmB(right, 0, rightSz - 1,
+                    left, 0, leftSz - 1, false)[leftSz];
         }
 
-        return algorithmB(left, leftSz, right, rightSz)[rightSz];
+        return algorithmB(left, 0, leftSz - 1,
+                right, 0, rightSz - 1, false)[rightSz];
     }
 
     /**
-     * An implementation of "ALG B" from Hirschberg's CACM'71 paper.
+     * An implementation of "ALG B" from Hirschberg's CACM '71 paper.
      * Assuming the sequence <code>left</code> is of size <code>m</code> and the sequence <code>right</code> is
      * of size <code>n</code>, this method returns the last row of the dynamic programming table when calculating
      * the LCS of the two sequences. Therefore, the last element of the returned array, is the size of the LCS of
@@ -96,17 +98,24 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * <p>This method runs in <i>O(m*n)</i> time and <i>O(n)</i> space.</p>
      *
      * @param left Left sequence
-     * @param m Length of left sequence
+     * @param leftStart Start index of the left sequence
+     * @param leftEnd End index (inclusive) of the left sequence
      * @param right Right sequence
-     * @param n Length of right sequence
-     * @return Last row of DP table for calculating LCS of <code>left</code> and <code>right</code>
+     * @param rightStart Start index of the right sequence
+     * @param rightEnd End index (inclusive) of the right sequence
+     * @param reverseSequences If true {@code left} and {@code right} will be accessed in reverse order
+     * @return Last row of DP table for calculating the LCS of <code>left</code> and <code>right</code>
      */
-    static int[] algorithmB(final CharSequence left, final int m,
-                            final CharSequence right, final int n) {
-        final int[][] dpRows = new int[2][1 + n];
+    static int[] algorithmB(final CharSequence left, final int leftStart, final int leftEnd,
+                            final CharSequence right, final int rightStart, final int rightEnd,
+                            final boolean reverseSequences) {
+        final int leftSz = 1 + leftEnd - leftStart;
+        final int rightSz = 1 + rightEnd - rightStart;
 
-        for (int i = 1; i <= m; i++) {
-            // K(0, j) <- K(1, j) [j = 0...n], as per the paper:
+        final int[][] dpRows = new int[2][1 + rightSz];
+
+        for (int i = 1; i <= leftSz; i++) {
+            // K(0, j) <- K(1, j) [j = 0...rightSz], as per the paper:
             // Since we have references in Java, we can swap references instead of literal copying.
             // We could also use a "binary index" using modulus operator, but directly swapping the
             // two rows helps readability and keeps the code consistent with the algorithm description
@@ -115,16 +124,18 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
             dpRows[0] = dpRows[1];
             dpRows[1] = temp;
             // Hoisting the virtual call out of the inner loop to help with performance.
-            final int leftCh = left.charAt(i - 1);
-            for (int j = 1; j <= n; j++) {
-                if (leftCh == right.charAt(j - 1)) {
+            // Note that we could also hoist the ternary operator and move i and j in forward/backward direction,
+            // depending on the value of reverseSequences.
+            final int leftCh = left.charAt(reverseSequences ? (leftEnd - i + 1) : (leftStart + i - 1));
+            for (int j = 1; j <= rightSz; j++) {
+                if (leftCh == right.charAt(reverseSequences ? (rightEnd - j + 1) : (rightStart + j - 1))) {
                     dpRows[1][j] = dpRows[0][j - 1] + 1;
                 } else {
                     dpRows[1][j] = Math.max(dpRows[1][j - 1], dpRows[0][j]);
                 }
             }
         }
-        // LL(j) <- K(1, j) [j=0...n], as per the paper:
+        // LL(j) <- K(1, j) [j=0...rightSz], as per the paper:
         // We don't need literal copying of the array, we can just return the reference
         return dpRows[1];
     }
@@ -199,50 +210,54 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
 
        // Check if we can save even more space
        if (leftSz < rightSz) {
-           return algorithmC(right, rightSz, left, leftSz);
+           return algorithmC(right, 0, rightSz - 1, left, 0, leftSz - 1);
        }
 
-       return algorithmC(left, leftSz, right, rightSz);
+       return algorithmC(left, 0, leftSz - 1, right, 0, rightSz - 1);
    }
 
     /**
-     * An implementation of "ALG C" from Hirschberg's CACM'71 paper.
+     * An implementation of "ALG C" from Hirschberg's CACM '71 paper.
      * Assuming the sequence <code>left</code> is of size <code>m</code> and the sequence <code>right</code> is
      * of size <code>n</code>, this method returns the Longest Common Subsequence (LCS) the two sequences.
      * As per the paper, this method runs in <i>O(m*n)</i> time and <i>O(m+n)</i> space.
      *
      * @param left Left sequence
-     * @param m Length of left sequence
+     * @param leftStart Start index of the left sequence
+     * @param leftEnd End index (inclusive) of the left sequence
      * @param right Right sequence
-     * @param n Length of right sequence
-     * @return LCS of <code>left</code> and <code>right</code>
+     * @param rightStart Start index of the right sequence
+     * @param rightEnd End index (inclusive) of the right sequence
+     * @return The LCS of <code>left</code> and <code>right</code>
      */
-   static CharSequence algorithmC(final CharSequence left, final int m,
-                                  final CharSequence right, final int n) {
-       final StringBuilder sb = new StringBuilder(Math.max(m, n));
+    static CharSequence algorithmC(final CharSequence left, final int leftStart, final int leftEnd,
+                                   final CharSequence right, final int rightStart, final int rightEnd) {
+       final int leftSz = 1 + leftEnd - leftStart;
+       final int rightSz = 1 + rightEnd - rightStart;
 
-       if (m == 1) { // Handle trivial cases, as per the paper
-           final int leftCh = left.charAt(0);
-           for (int j = 0; j < n; j++) {
-               if (leftCh == right.charAt(j)) {
+       final StringBuilder sb = new StringBuilder(Math.max(leftSz, rightSz));
+
+       if (leftSz == 1) { // Handle trivial cases, as per the paper
+           final int leftCh = left.charAt(leftStart);
+           for (int j = 0; j < rightSz; j++) {
+               if (leftCh == right.charAt(rightStart + j)) {
                    sb.appendCodePoint(leftCh);
                    break;
                }
            }
-       } else if (n > 0 && m > 1) {
-           final int i = m / 2; // Find the middle point
+       } else if (rightSz > 0 && leftSz > 1) {
+           final int mid = leftSz / 2; // Find the middle point
 
-           final CharSequence left0Toi = left.subSequence(0, i);
-           final CharSequence leftiTom = left.subSequence(i, m);
-
-           final int[] l1 = algorithmB(left0Toi, i, right, n);
-           final int[] l2 = algorithmB(reverseSequence(leftiTom), m - i, reverseSequence(right), n);
+           final int[] l1 = algorithmB(left, leftStart, leftStart + (mid - 1),
+                   right, rightStart, rightEnd, false);
+           final int[] l2 = algorithmB(left, leftStart + mid, leftEnd,
+                   right, rightStart, rightEnd, true);
 
            // Find k, as per the Step 4 of the algorithm
            int k = 0;
            int t = 0;
-           for (int j = 0; j <= n; j++) {
-               final int s = l1[j] + l2[n - j];
+           for (int j = 0; j <= rightSz; j++) {
+               final int s = l1[j] + l2[rightSz - j];
                if (t < s) {
                    t = s;
                    k = j;
@@ -250,17 +265,14 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
            }
 
            // Solve simpler problems
-           final CharSequence c1 = algorithmC(left0Toi, i, right.subSequence(0, k), k);
-           final CharSequence c2 = algorithmC(leftiTom, m - i, right.subSequence(k, n), n - k);
+           final CharSequence c1 = algorithmC(left, leftStart, leftStart + (mid - 1),
+                   right, rightStart, rightStart + (k - 1));
+           final CharSequence c2 = algorithmC(left, leftStart + mid, leftEnd,
+                   right, rightStart + k, rightEnd);
            sb.append(c1).append(c2);
-      }
-      return sb.toString();
-   }
-
-   // Auxiliary method for reversing a sequence
-   static CharSequence reverseSequence(final CharSequence sequence) {
-       return new StringBuilder(sequence).reverse().toString();
-   }
+       }
+       return sb.toString();
+    }
 
     /**
      *
