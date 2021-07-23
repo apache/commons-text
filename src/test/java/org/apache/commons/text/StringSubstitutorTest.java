@@ -46,7 +46,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 /**
  * Test class for {@link StringSubstitutor}.
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class) // temp, for my sanity during dev
+@TestMethodOrder(MethodOrderer.MethodName.class) // temp, for my sanity during dev
 public class StringSubstitutorTest {
 
     private static final String ACTUAL_ANIMAL = "quick brown fox";
