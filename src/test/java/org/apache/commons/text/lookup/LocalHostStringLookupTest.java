@@ -35,7 +35,7 @@ public class LocalHostStringLookupTest {
     }
 
     @Test
-    public void testBadKey() throws UnknownHostException {
+    public void testBadKey() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> LocalHostStringLookup.INSTANCE.lookup("FOO"));
     }
 
