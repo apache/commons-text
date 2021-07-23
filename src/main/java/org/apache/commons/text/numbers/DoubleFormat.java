@@ -667,6 +667,7 @@ public enum DoubleFormat {
         /**
          * Return a formatted representation of the given rounded decimal value to {@code dst}.
          * @param val value to format
+         * @return a formatted representation of the given rounded decimal value to {@code dst}.
          */
         protected abstract String applyFiniteInternal(ParsedDecimal val);
     }
