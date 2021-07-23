@@ -227,4 +227,13 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
     }
 
+    @Test
+    public void testSystemPropertyDefaultStringLookup() {
+        final StringSubstitutor strSubst = new StringSubstitutor(
+            StringLookupFactory.INSTANCE.interpolatorStringLookup(StringLookupFactory.INSTANCE.systemPropertyStringLookup()));
+        final String spKey = "user.name";
+        Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${" + spKey + "}"));
+        Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
+    }
+
 }
