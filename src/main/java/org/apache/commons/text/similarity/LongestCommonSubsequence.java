@@ -29,19 +29,28 @@ package org.apache.commons.text.similarity;
  * </p>
  *
  * <p>
- * This implementation is based on the Longest Commons Substring algorithm
- * from <a href="https://en.wikipedia.org/wiki/Longest_common_subsequence_problem">
- * https://en.wikipedia.org/wiki/Longest_common_subsequence_problem</a>.
+ * As of version 2.0 a more space-efficient of the algorithm is implemented. The new algorithm has linear space
+ * complexity instead of quadratic. However, time complexity is still quadratic in the size of input strings.
+ * </p>
+ *
+ * <p>
+ * The implementation is based on Hirschberg's Longest Commons Substring algorithm (cited below).
  * </p>
  *
  * <p>For further reading see:</p>
- *
- * <p>Lothaire, M. <i>Applied combinatorics on words</i>. New York: Cambridge U Press, 2005. <b>12-13</b></p>
+ * <ul>
+ * <li>
+ * Lothaire, M. <i>Applied combinatorics on words</i>. New York: Cambridge U Press, 2005. <b>12-13</b>
+ * </li>
+ * <li>
+ * D. S. Hirschberg, "A linear space algorithm for computing maximal common subsequences," CACM, 1975, pp. 341--343.
+ * </li>
+ * </ul>
+ * <p></p>
  *
  * @since 1.0
  */
 public class LongestCommonSubsequence implements SimilarityScore<Integer> {
-
     /**
      * Calculates longest common subsequence similarity score of two {@code CharSequence}'s passed as
      * input.
@@ -58,7 +67,77 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Inputs must not be null");
         }
-        return longestCommonSubsequence(left, right).length();
+        // Find lengths of two strings
+        final int leftSz = left.length();
+        final int rightSz = right.length();
+
+        // Check if we can avoid calling algorithmB which involves heap space allocation
+        if (leftSz == 0 || rightSz == 0) {
+            return 0;
+        }
+
+        // Check if we can save even more space
+        if (leftSz < rightSz) {
+            return algorithmB(right, 0, rightSz - 1,
+                    left, 0, leftSz - 1, false)[leftSz];
+        }
+
+        return algorithmB(left, 0, leftSz - 1,
+                right, 0, rightSz - 1, false)[rightSz];
+    }
+
+    /**
+     * An implementation of "ALG B" from Hirschberg's CACM '71 paper.
+     * Assuming the sequence <code>left</code> is of size <code>m</code> and the sequence <code>right</code> is
+     * of size <code>n</code>, this method returns the last row of the dynamic programming table when calculating
+     * the LCS of the two sequences. Therefore, the last element of the returned array, is the size of the LCS of
+     * <code>left</code> and <code>right</code>.
+     *
+     * <i>Note. </i> To save more space, it is preferable to pass the shorter sequence as <code>right</code>.
+     *
+     * <p>This method runs in <i>O(m*n)</i> time and <i>O(n)</i> space.</p>
+     *
+     * @param left Left sequence
+     * @param leftStart Start index of the left sequence
+     * @param leftEnd End index (inclusive) of the left sequence
+     * @param right Right sequence
+     * @param rightStart Start index of the right sequence
+     * @param rightEnd End index (inclusive) of the right sequence
+     * @param reverseSequences If true {@code left} and {@code right} will be accessed in reverse order
+     * @return Last row of DP table for calculating the LCS of <code>left</code> and <code>right</code>
+     */
+    static int[] algorithmB(final CharSequence left, final int leftStart, final int leftEnd,
+                            final CharSequence right, final int rightStart, final int rightEnd,
+                            final boolean reverseSequences) {
+        final int leftSz = 1 + leftEnd - leftStart;
+        final int rightSz = 1 + rightEnd - rightStart;
+
+        final int[][] dpRows = new int[2][1 + rightSz];
+
+        for (int i = 1; i <= leftSz; i++) {
+            // K(0, j) <- K(1, j) [j = 0...rightSz], as per the paper:
+            // Since we have references in Java, we can swap references instead of literal copying.
+            // We could also use a "binary index" using modulus operator, but directly swapping the
+            // two rows helps readability and keeps the code consistent with the algorithm description
+            // in the paper.
+            final int[] temp = dpRows[0];
+            dpRows[0] = dpRows[1];
+            dpRows[1] = temp;
+            // Hoisting the virtual call out of the inner loop to help with performance.
+            // Note that we could also hoist the ternary operator and move i and j in forward/backward direction,
+            // depending on the value of reverseSequences.
+            final int leftCh = left.charAt(reverseSequences ? (leftEnd - i + 1) : (leftStart + i - 1));
+            for (int j = 1; j <= rightSz; j++) {
+                if (leftCh == right.charAt(reverseSequences ? (rightEnd - j + 1) : (rightStart + j - 1))) {
+                    dpRows[1][j] = dpRows[0][j - 1] + 1;
+                } else {
+                    dpRows[1][j] = Math.max(dpRows[1][j - 1], dpRows[0][j]);
+                }
+            }
+        }
+        // LL(j) <- K(1, j) [j=0...rightSz], as per the paper:
+        // We don't need literal copying of the array, we can just return the reference
+        return dpRows[1];
     }
 
     /**
@@ -120,25 +199,80 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
        if (left == null || right == null) {
            throw new IllegalArgumentException("Inputs must not be null");
        }
-       final StringBuilder longestCommonSubstringArray = new StringBuilder(Math.max(left.length(), right.length()));
-       final int[][] lcsLengthArray = longestCommonSubstringLengthArray(left, right);
-       int i = left.length() - 1;
-       int j = right.length() - 1;
-       int k = lcsLengthArray[left.length()][right.length()] - 1;
-       while (k >= 0) {
-           if (left.charAt(i) == right.charAt(j)) {
-               longestCommonSubstringArray.append(left.charAt(i));
-               i = i - 1;
-               j = j - 1;
-               k = k - 1;
-           } else if (lcsLengthArray[i + 1][j] < lcsLengthArray[i][j + 1]) {
-               i = i - 1;
-           } else {
-               j = j - 1;
-           }
+       // Find lengths of two strings
+       final int leftSz = left.length();
+       final int rightSz = right.length();
+
+       // Check if we can avoid calling algorithmC which involves heap space allocation
+       if (leftSz == 0 || rightSz == 0) {
+           return "";
        }
-       return longestCommonSubstringArray.reverse().toString();
+
+       // Check if we can save even more space
+       if (leftSz < rightSz) {
+           return algorithmC(right, 0, rightSz - 1, left, 0, leftSz - 1);
+       }
+
+       return algorithmC(left, 0, leftSz - 1, right, 0, rightSz - 1);
    }
+
+    /**
+     * An implementation of "ALG C" from Hirschberg's CACM '71 paper.
+     * Assuming the sequence <code>left</code> is of size <code>m</code> and the sequence <code>right</code> is
+     * of size <code>n</code>, this method returns the Longest Common Subsequence (LCS) the two sequences.
+     * As per the paper, this method runs in <i>O(m*n)</i> time and <i>O(m+n)</i> space.
+     *
+     * @param left Left sequence
+     * @param leftStart Start index of the left sequence
+     * @param leftEnd End index (inclusive) of the left sequence
+     * @param right Right sequence
+     * @param rightStart Start index of the right sequence
+     * @param rightEnd End index (inclusive) of the right sequence
+     * @return The LCS of <code>left</code> and <code>right</code>
+     */
+    static CharSequence algorithmC(final CharSequence left, final int leftStart, final int leftEnd,
+                                   final CharSequence right, final int rightStart, final int rightEnd) {
+       final int leftSz = 1 + leftEnd - leftStart;
+       final int rightSz = 1 + rightEnd - rightStart;
+
+       final StringBuilder sb = new StringBuilder(Math.max(leftSz, rightSz));
+
+       if (leftSz == 1) { // Handle trivial cases, as per the paper
+           final int leftCh = left.charAt(leftStart);
+           for (int j = 0; j < rightSz; j++) {
+               if (leftCh == right.charAt(rightStart + j)) {
+                   sb.appendCodePoint(leftCh);
+                   break;
+               }
+           }
+       } else if (rightSz > 0 && leftSz > 1) {
+           final int mid = leftSz / 2; // Find the middle point
+
+           final int[] l1 = algorithmB(left, leftStart, leftStart + (mid - 1),
+                   right, rightStart, rightEnd, false);
+           final int[] l2 = algorithmB(left, leftStart + mid, leftEnd,
+                   right, rightStart, rightEnd, true);
+
+           // Find k, as per the Step 4 of the algorithm
+           int k = 0;
+           int t = 0;
+           for (int j = 0; j <= rightSz; j++) {
+               final int s = l1[j] + l2[rightSz - j];
+               if (t < s) {
+                   t = s;
+                   k = j;
+               }
+           }
+
+           // Solve simpler problems
+           final CharSequence c1 = algorithmC(left, leftStart, leftStart + (mid - 1),
+                   right, rightStart, rightStart + (k - 1));
+           final CharSequence c2 = algorithmC(left, leftStart + mid, leftEnd,
+                   right, rightStart + k, rightEnd);
+           sb.append(c1).append(c2);
+       }
+       return sb.toString();
+    }
 
     /**
      *
@@ -149,7 +283,10 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * @param left first character sequence
      * @param right second character sequence
      * @return lcsLengthArray
+     * @deprecated Deprecated as of 2.0. A more efficient implementation for calculating LCS is now available.
+     * Use {@link #longestCommonSubsequence(CharSequence, CharSequence)} instead to directly calculate LCS.
      */
+    @Deprecated
     public int[][] longestCommonSubstringLengthArray(final CharSequence left, final CharSequence right) {
         final int[][] lcsLengthArray = new int[left.length() + 1][right.length() + 1];
         for (int i = 0; i < left.length(); i++) {
