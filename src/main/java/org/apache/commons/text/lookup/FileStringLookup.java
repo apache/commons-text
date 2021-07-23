@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
 
 /**
- * Looks up keys from an XML document.
+ * Looks up keys from a file.
  * <p>
  * Using a {@link StringLookup} from the {@link StringLookupFactory}:
  * </p>
@@ -60,9 +60,9 @@ final class FileStringLookup extends AbstractStringLookup {
     }
 
     /**
-     * Looks up the value for the key in the format "DocumentPath:XPath".
+     * Looks up the value for the key in the format "charsetName:DocumentPath".
      * <p>
-     * For example: "com/domain/document.xml:/path/to/node".
+     * For example: "UTF-8:com/domain/document.properties".
      * </p>
      *
      * @param key the key to be looked up, may be null

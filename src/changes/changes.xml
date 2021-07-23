@@ -51,6 +51,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-158" type="fix" dev="kinow">Incorrect values for Jaccard similarity with empty strings.</action>
     <action issue="TEXT-186" type="fix" dev="ggregory" due-to="Gautam Korlam, Gary Gregory">StringSubstitutor map constructor throws NPE on 1.9 with null map.</action>
     <action issue="TEXT-191" type="fix" dev="kinow" due-to="Bradley David Rumball">JaroWinklerDistance returns the same values as JaroWinklerSimilarity.</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Correct Javadoc in FileStringLookup.</action>
     <!-- ADD -->
     <action issue="TEXT-207" type="add" dev="mattjuntunen">Add DoubleFormat utility.</action>
     <action issue="TEXT-190" type="add" dev="kinow" due-to="Benjamin Bing">Document negative limit for WordUtils abbreviate method</action>
