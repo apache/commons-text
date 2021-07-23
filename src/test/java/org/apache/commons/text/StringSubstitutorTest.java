@@ -1042,6 +1042,21 @@ public class StringSubstitutorTest {
     }
 
     /**
+     * Tests interpolation with system properties.
+     */
+    @Test
+    public void testStaticReplaceSystemPropertiesWithUpdate() {
+        System.setProperty("foo", "bar1");
+        try {
+            assertEqualsCharSeq("bar1", StringSubstitutor.replaceSystemProperties("${foo}"));
+            System.setProperty("foo", "bar2");
+            assertEqualsCharSeq("bar2", StringSubstitutor.replaceSystemProperties("${foo}"));
+        } finally {
+            System.getProperties().remove("foo");
+        }
+    }
+
+    /**
      * Test the replace of a properties object
      */
     @Test
