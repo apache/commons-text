@@ -572,11 +572,10 @@ final class ParsedDecimal {
                 // value did not carry over; done adding
                 digits[i] = d;
                 break;
-            } else {
-                // value carried over; the current position is 0
-                // which we will ignore by shortening the digit count
-                ++removedDigits;
             }
+            // value carried over; the current position is 0
+            // which we will ignore by shortening the digit count
+            ++removedDigits;
         }
 
         if (i < 0) {
