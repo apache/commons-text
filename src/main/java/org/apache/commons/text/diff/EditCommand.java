@@ -57,7 +57,7 @@ public abstract class EditCommand<T> {
     private final T object;
 
     /**
-     * Constructs a new instance of EditCommand
+     * Constructs a new instance of EditCommand.
      *
      * @param object  reference to the object associated with this command, this
      *   refers to an element of one of the sequences being compared

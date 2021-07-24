@@ -35,7 +35,7 @@ package org.apache.commons.text.diff;
 public class InsertCommand<T> extends EditCommand<T> {
 
     /**
-     * Constructs a new instance of InsertCommand
+     * Constructs a new instance of InsertCommand.
      *
      * @param object  the object of the second sequence that should be inserted
      */

@@ -35,7 +35,7 @@ package org.apache.commons.text.diff;
 public class KeepCommand<T> extends EditCommand<T> {
 
     /**
-     * Constructs a new instance of KeepCommand
+     * Constructs a new instance of KeepCommand.
      *
      * @param object  the object belonging to both sequences (the object is a
      *   reference to the instance in the first sequence which is known
