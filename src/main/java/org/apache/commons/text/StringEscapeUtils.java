@@ -55,6 +55,115 @@ public class StringEscapeUtils {
     /* ESCAPE TRANSLATORS */
 
     /**
+     * Convenience wrapper for {@link java.lang.StringBuilder} providing escape methods.
+     *
+     * <p>Example:</p>
+     * <pre>
+     * new Builder(ESCAPE_HTML4)
+     *      .append("&lt;p&gt;")
+     *      .escape("This is paragraph 1 and special chars like &amp; get escaped.")
+     *      .append("&lt;/p&gt;&lt;p&gt;")
+     *      .escape("This is paragraph 2 &amp; more...")
+     *      .append("&lt;/p&gt;")
+     *      .toString()
+     * </pre>
+     *
+     */
+    public static final class Builder {
+
+        /**
+         * StringBuilder to be used in the Builder class.
+         */
+        private final StringBuilder sb;
+
+        /**
+         * CharSequenceTranslator to be used in the Builder class.
+         */
+        private final CharSequenceTranslator translator;
+
+        /**
+         * Builder constructor.
+         *
+         * @param translator a CharSequenceTranslator.
+         */
+        private Builder(final CharSequenceTranslator translator) {
+            this.sb = new StringBuilder();
+            this.translator = translator;
+        }
+
+        /**
+         * Literal append, no escaping being done.
+         *
+         * @param input the String to append
+         * @return {@code this}, to enable chaining
+         */
+        public Builder append(final String input) {
+            sb.append(input);
+            return this;
+        }
+
+        /**
+         * Escape {@code input} according to the given {@link CharSequenceTranslator}.
+         *
+         * @param input the String to escape
+         * @return {@code this}, to enable chaining
+         */
+        public Builder escape(final String input) {
+            sb.append(translator.translate(input));
+            return this;
+        }
+
+        /**
+         * Return the escaped string.
+         *
+         * @return The escaped string
+         */
+        @Override
+        public String toString() {
+            return sb.toString();
+        }
+    }
+    /**
+     * Translator object for unescaping backslash escaped entries.
+     */
+    static class XsiUnescaper extends CharSequenceTranslator {
+
+        /**
+         * Escaped backslash constant.
+         */
+        private static final char BACKSLASH = '\\';
+
+        @Override
+        public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
+
+            if (index != 0) {
+                throw new IllegalStateException("XsiUnescaper should never reach the [1] index");
+            }
+
+            final String s = input.toString();
+
+            int segmentStart = 0;
+            int searchOffset = 0;
+            while (true) {
+                final int pos = s.indexOf(BACKSLASH, searchOffset);
+                if (pos == -1) {
+                    if (segmentStart < s.length()) {
+                        writer.write(s.substring(segmentStart));
+                    }
+                    break;
+                }
+                if (pos > segmentStart) {
+                    writer.write(s.substring(segmentStart, pos));
+                }
+                segmentStart = pos + 1;
+                searchOffset = pos + 2;
+            }
+
+            return Character.codePointCount(input, 0, input.length());
+        }
+    }
+
+    /**
      * Translator object for escaping Java.
      *
      * While {@link #escapeJava(String)} is the expected method of use, this
@@ -173,6 +282,7 @@ public class StringEscapeUtils {
      * as the foundation for a custom translator.
      */
     public static final CharSequenceTranslator ESCAPE_XML11;
+
     static {
         final Map<CharSequence, CharSequence> escapeXml11Map = new HashMap<>();
         escapeXml11Map.put("\u0000", StringUtils.EMPTY);
@@ -218,7 +328,6 @@ public class StringEscapeUtils {
                     new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE),
                     new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE)
             );
-
     /**
      * Translator object for escaping individual Comma Separated Values.
      *
@@ -227,6 +336,8 @@ public class StringEscapeUtils {
      * as the foundation for a custom translator.
      */
     public static final CharSequenceTranslator ESCAPE_CSV = new CsvTranslators.CsvEscaper();
+
+    /* UNESCAPE TRANSLATORS */
 
     /**
      * Translator object for escaping Shell command language.
@@ -264,8 +375,6 @@ public class StringEscapeUtils {
         );
     }
 
-    /* UNESCAPE TRANSLATORS */
-
     /**
      * Translator object for unescaping escaped Java.
      *
@@ -274,6 +383,7 @@ public class StringEscapeUtils {
      * as the foundation for a custom translator.
      */
     public static final CharSequenceTranslator UNESCAPE_JAVA;
+
     static {
         final Map<CharSequence, CharSequence> unescapeJavaMap = new HashMap<>();
         unescapeJavaMap.put("\\\\", "\\");
@@ -358,6 +468,8 @@ public class StringEscapeUtils {
      */
     public static final CharSequenceTranslator UNESCAPE_CSV = new CsvTranslators.CsvUnescaper();
 
+    /* Helper functions */
+
     /**
      * Translator object for unescaping escaped XSI Value entries.
      *
@@ -368,131 +480,6 @@ public class StringEscapeUtils {
     public static final CharSequenceTranslator UNESCAPE_XSI = new XsiUnescaper();
 
     /**
-     * Translator object for unescaping backslash escaped entries.
-     */
-    static class XsiUnescaper extends CharSequenceTranslator {
-
-        /**
-         * Escaped backslash constant.
-         */
-        private static final char BACKSLASH = '\\';
-
-        @Override
-        public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
-
-            if (index != 0) {
-                throw new IllegalStateException("XsiUnescaper should never reach the [1] index");
-            }
-
-            final String s = input.toString();
-
-            int segmentStart = 0;
-            int searchOffset = 0;
-            while (true) {
-                final int pos = s.indexOf(BACKSLASH, searchOffset);
-                if (pos == -1) {
-                    if (segmentStart < s.length()) {
-                        writer.write(s.substring(segmentStart));
-                    }
-                    break;
-                }
-                if (pos > segmentStart) {
-                    writer.write(s.substring(segmentStart, pos));
-                }
-                segmentStart = pos + 1;
-                searchOffset = pos + 2;
-            }
-
-            return Character.codePointCount(input, 0, input.length());
-        }
-    }
-
-    /* Helper functions */
-
-    /**
-     * {@code StringEscapeUtils} instances should NOT be constructed in
-     * standard programming.
-     *
-     * <p>Instead, the class should be used as:</p>
-     * <pre>StringEscapeUtils.escapeJava("foo");</pre>
-     *
-     * <p>This constructor is public to permit tools that require a JavaBean
-     * instance to operate.</p>
-     */
-    public StringEscapeUtils() {
-    }
-
-    /**
-     * Convenience wrapper for {@link java.lang.StringBuilder} providing escape methods.
-     *
-     * <p>Example:</p>
-     * <pre>
-     * new Builder(ESCAPE_HTML4)
-     *      .append("&lt;p&gt;")
-     *      .escape("This is paragraph 1 and special chars like &amp; get escaped.")
-     *      .append("&lt;/p&gt;&lt;p&gt;")
-     *      .escape("This is paragraph 2 &amp; more...")
-     *      .append("&lt;/p&gt;")
-     *      .toString()
-     * </pre>
-     *
-     */
-    public static final class Builder {
-
-        /**
-         * StringBuilder to be used in the Builder class.
-         */
-        private final StringBuilder sb;
-
-        /**
-         * CharSequenceTranslator to be used in the Builder class.
-         */
-        private final CharSequenceTranslator translator;
-
-        /**
-         * Builder constructor.
-         *
-         * @param translator a CharSequenceTranslator.
-         */
-        private Builder(final CharSequenceTranslator translator) {
-            this.sb = new StringBuilder();
-            this.translator = translator;
-        }
-
-        /**
-         * Escape {@code input} according to the given {@link CharSequenceTranslator}.
-         *
-         * @param input the String to escape
-         * @return {@code this}, to enable chaining
-         */
-        public Builder escape(final String input) {
-            sb.append(translator.translate(input));
-            return this;
-        }
-
-        /**
-         * Literal append, no escaping being done.
-         *
-         * @param input the String to append
-         * @return {@code this}, to enable chaining
-         */
-        public Builder append(final String input) {
-            sb.append(input);
-            return this;
-        }
-
-        /**
-         * Return the escaped string.
-         *
-         * @return The escaped string
-         */
-        @Override
-        public String toString() {
-            return sb.toString();
-        }
-    }
-
-    /**
      * Get a {@link Builder}.
      * @param translator the text translator
      * @return {@link Builder}
@@ -501,30 +488,27 @@ public class StringEscapeUtils {
         return new Builder(translator);
     }
 
-    // Java and JavaScript
-    //--------------------------------------------------------------------------
     /**
-     * Escapes the characters in a {@code String} using Java String rules.
+     * Returns a {@code String} value for a CSV column enclosed in double quotes,
+     * if required.
      *
-     * <p>Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
+     * <p>If the value contains a comma, newline or double quote, then the
+     *    String value is returned enclosed in double quotes.</p>
      *
-     * <p>So a tab becomes the characters {@code '\\'} and
-     * {@code 't'}.</p>
+     * <p>Any double quote characters in the value are escaped with another double quote.</p>
      *
-     * <p>The only difference between Java strings and JavaScript strings
-     * is that in JavaScript, a single quote and forward-slash (/) are escaped.</p>
+     * <p>If the value does not contain a comma, newline or double quote, then the
+     *    String value is returned unchanged.</p>
      *
-     * <p>Example:</p>
-     * <pre>
-     * input string: He didn't say, "Stop!"
-     * output string: He didn't say, \"Stop!\"
-     * </pre>
+     * see <a href="http://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia</a> and
+     * <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a>.
      *
-     * @param input  String to escape values in, may be null
-     * @return String with escaped values, {@code null} if null string input
+     * @param input the input CSV column String, may be null
+     * @return The input String, enclosed in double quotes if the value contains a comma,
+     * newline or double quote, {@code null} if null string input
      */
-    public static final String escapeJava(final String input) {
-        return ESCAPE_JAVA.translate(input);
+    public static final String escapeCsv(final String input) {
+        return ESCAPE_CSV.translate(input);
     }
 
     /**
@@ -562,73 +546,15 @@ public class StringEscapeUtils {
     }
 
     /**
-     * Escapes the characters in a {@code String} using Json String rules.
+     * Escapes the characters in a {@code String} using HTML entities.
      *
-     * <p>Escapes any values it finds into their Json String form.
-     * Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
+     * <p>Supports only the HTML 3.0 entities.</p>
      *
-     * <p>So a tab becomes the characters {@code '\\'} and
-     * {@code 't'}.</p>
-     *
-     * <p>The only difference between Java strings and Json strings
-     * is that in Json, forward-slash (/) is escaped.</p>
-     *
-     * <p>See http://www.ietf.org/rfc/rfc4627.txt for further details.</p>
-     *
-     * <p>Example:</p>
-     * <pre>
-     * input string: He didn't say, "Stop!"
-     * output string: He didn't say, \"Stop!\"
-     * </pre>
-     *
-     * @param input  String to escape values in, may be null
-     * @return String with escaped values, {@code null} if null string input
+     * @param input  the {@code String} to escape, may be null
+     * @return a new escaped {@code String}, {@code null} if null string input
      */
-    public static final String escapeJson(final String input) {
-        return ESCAPE_JSON.translate(input);
-    }
-
-    /**
-     * Unescapes any Java literals found in the {@code String}.
-     * For example, it will turn a sequence of {@code '\'} and
-     * {@code 'n'} into a newline character, unless the {@code '\'}
-     * is preceded by another {@code '\'}.
-     *
-     * @param input  the {@code String} to unescape, may be null
-     * @return a new unescaped {@code String}, {@code null} if null string input
-     */
-    public static final String unescapeJava(final String input) {
-        return UNESCAPE_JAVA.translate(input);
-    }
-
-    /**
-     * Unescapes any EcmaScript literals found in the {@code String}.
-     *
-     * <p>For example, it will turn a sequence of {@code '\'} and {@code 'n'}
-     * into a newline character, unless the {@code '\'} is preceded by another
-     * {@code '\'}.</p>
-     *
-     * @see #unescapeJava(String)
-     * @param input  the {@code String} to unescape, may be null
-     * @return A new unescaped {@code String}, {@code null} if null string input
-     */
-    public static final String unescapeEcmaScript(final String input) {
-        return UNESCAPE_ECMASCRIPT.translate(input);
-    }
-
-    /**
-     * Unescapes any Json literals found in the {@code String}.
-     *
-     * <p>For example, it will turn a sequence of {@code '\'} and {@code 'n'}
-     * into a newline character, unless the {@code '\'} is preceded by another
-     * {@code '\'}.</p>
-     *
-     * @see #unescapeJava(String)
-     * @param input  the {@code String} to unescape, may be null
-     * @return A new unescaped {@code String}, {@code null} if null string input
-     */
-    public static final String unescapeJson(final String input) {
-        return UNESCAPE_JSON.translate(input);
+    public static final String escapeHtml3(final String input) {
+        return ESCAPE_HTML3.translate(input);
     }
 
     // HTML and XML
@@ -662,47 +588,57 @@ public class StringEscapeUtils {
         return ESCAPE_HTML4.translate(input);
     }
 
+    // Java and JavaScript
+    //--------------------------------------------------------------------------
     /**
-     * Escapes the characters in a {@code String} using HTML entities.
+     * Escapes the characters in a {@code String} using Java String rules.
      *
-     * <p>Supports only the HTML 3.0 entities.</p>
+     * <p>Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
      *
-     * @param input  the {@code String} to escape, may be null
-     * @return a new escaped {@code String}, {@code null} if null string input
+     * <p>So a tab becomes the characters {@code '\\'} and
+     * {@code 't'}.</p>
+     *
+     * <p>The only difference between Java strings and JavaScript strings
+     * is that in JavaScript, a single quote and forward-slash (/) are escaped.</p>
+     *
+     * <p>Example:</p>
+     * <pre>
+     * input string: He didn't say, "Stop!"
+     * output string: He didn't say, \"Stop!\"
+     * </pre>
+     *
+     * @param input  String to escape values in, may be null
+     * @return String with escaped values, {@code null} if null string input
      */
-    public static final String escapeHtml3(final String input) {
-        return ESCAPE_HTML3.translate(input);
+    public static final String escapeJava(final String input) {
+        return ESCAPE_JAVA.translate(input);
     }
 
     /**
-     * Unescapes a string containing entity escapes to a string
-     * containing the actual Unicode characters corresponding to the
-     * escapes. Supports HTML 4.0 entities.
+     * Escapes the characters in a {@code String} using Json String rules.
      *
-     * <p>For example, the string {@code "&lt;Fran&ccedil;ais&gt;"}
-     * will become {@code "<Fran�ais>"}</p>
+     * <p>Escapes any values it finds into their Json String form.
+     * Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
      *
-     * <p>If an entity is unrecognized, it is left alone, and inserted
-     * verbatim into the result string. e.g. {@code "&gt;&zzzz;x"} will
-     * become {@code ">&zzzz;x"}.</p>
+     * <p>So a tab becomes the characters {@code '\\'} and
+     * {@code 't'}.</p>
      *
-     * @param input  the {@code String} to unescape, may be null
-     * @return a new unescaped {@code String}, {@code null} if null string input
+     * <p>The only difference between Java strings and Json strings
+     * is that in Json, forward-slash (/) is escaped.</p>
+     *
+     * <p>See http://www.ietf.org/rfc/rfc4627.txt for further details.</p>
+     *
+     * <p>Example:</p>
+     * <pre>
+     * input string: He didn't say, "Stop!"
+     * output string: He didn't say, \"Stop!\"
+     * </pre>
+     *
+     * @param input  String to escape values in, may be null
+     * @return String with escaped values, {@code null} if null string input
      */
-    public static final String unescapeHtml4(final String input) {
-        return UNESCAPE_HTML4.translate(input);
-    }
-
-    /**
-     * Unescapes a string containing entity escapes to a string
-     * containing the actual Unicode characters corresponding to the
-     * escapes. Supports only HTML 3.0 entities.
-     *
-     * @param input  the {@code String} to unescape, may be null
-     * @return a new unescaped {@code String}, {@code null} if null string input
-     */
-    public static final String unescapeHtml3(final String input) {
-        return UNESCAPE_HTML3.translate(input);
+    public static final String escapeJson(final String input) {
+        return ESCAPE_JSON.translate(input);
     }
 
     /**
@@ -766,46 +702,24 @@ public class StringEscapeUtils {
     }
 
     /**
-     * Unescapes a string containing XML entity escapes to a string
-     * containing the actual Unicode characters corresponding to the
-     * escapes.
+     * Escapes the characters in a {@code String} using XSI rules.
      *
-     * <p>Supports only the five basic XML entities (gt, lt, quot, amp, apos).
-     * Does not support DTDs or external entities.</p>
+     * <p><b>Beware!</b> In most cases you don't want to escape shell commands but use multi-argument
+     * methods provided by {@link java.lang.ProcessBuilder} or {@link java.lang.Runtime#exec(String[])}
+     * instead.</p>
      *
-     * <p>Note that numerical \\u Unicode codes are unescaped to their respective
-     *    Unicode characters. This may change in future releases.</p>
+     * <p>Example:</p>
+     * <pre>
+     * input string: He didn't say, "Stop!"
+     * output string: He\ didn\'t\ say,\ \"Stop!\"
+     * </pre>
      *
-     * @param input  the {@code String} to unescape, may be null
-     * @return a new unescaped {@code String}, {@code null} if null string input
-     * @see #escapeXml10(String)
-     * @see #escapeXml11(String)
+     * @see <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcu/chap2.html">Shell Command Language</a>
+     * @param input  String to escape values in, may be null
+     * @return String with escaped values, {@code null} if null string input
      */
-    public static final String unescapeXml(final String input) {
-        return UNESCAPE_XML.translate(input);
-    }
-
-    /**
-     * Returns a {@code String} value for a CSV column enclosed in double quotes,
-     * if required.
-     *
-     * <p>If the value contains a comma, newline or double quote, then the
-     *    String value is returned enclosed in double quotes.</p>
-     *
-     * <p>Any double quote characters in the value are escaped with another double quote.</p>
-     *
-     * <p>If the value does not contain a comma, newline or double quote, then the
-     *    String value is returned unchanged.</p>
-     *
-     * see <a href="http://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia</a> and
-     * <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a>.
-     *
-     * @param input the input CSV column String, may be null
-     * @return The input String, enclosed in double quotes if the value contains a comma,
-     * newline or double quote, {@code null} if null string input
-     */
-    public static final String escapeCsv(final String input) {
-        return ESCAPE_CSV.translate(input);
+    public static final String escapeXSI(final String input) {
+        return ESCAPE_XSI.translate(input);
     }
 
     /**
@@ -833,24 +747,97 @@ public class StringEscapeUtils {
     }
 
     /**
-     * Escapes the characters in a {@code String} using XSI rules.
+     * Unescapes any EcmaScript literals found in the {@code String}.
      *
-     * <p><b>Beware!</b> In most cases you don't want to escape shell commands but use multi-argument
-     * methods provided by {@link java.lang.ProcessBuilder} or {@link java.lang.Runtime#exec(String[])}
-     * instead.</p>
+     * <p>For example, it will turn a sequence of {@code '\'} and {@code 'n'}
+     * into a newline character, unless the {@code '\'} is preceded by another
+     * {@code '\'}.</p>
      *
-     * <p>Example:</p>
-     * <pre>
-     * input string: He didn't say, "Stop!"
-     * output string: He\ didn\'t\ say,\ \"Stop!\"
-     * </pre>
-     *
-     * @see <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcu/chap2.html">Shell Command Language</a>
-     * @param input  String to escape values in, may be null
-     * @return String with escaped values, {@code null} if null string input
+     * @see #unescapeJava(String)
+     * @param input  the {@code String} to unescape, may be null
+     * @return A new unescaped {@code String}, {@code null} if null string input
      */
-    public static final String escapeXSI(final String input) {
-        return ESCAPE_XSI.translate(input);
+    public static final String unescapeEcmaScript(final String input) {
+        return UNESCAPE_ECMASCRIPT.translate(input);
+    }
+
+    /**
+     * Unescapes a string containing entity escapes to a string
+     * containing the actual Unicode characters corresponding to the
+     * escapes. Supports only HTML 3.0 entities.
+     *
+     * @param input  the {@code String} to unescape, may be null
+     * @return a new unescaped {@code String}, {@code null} if null string input
+     */
+    public static final String unescapeHtml3(final String input) {
+        return UNESCAPE_HTML3.translate(input);
+    }
+
+    /**
+     * Unescapes a string containing entity escapes to a string
+     * containing the actual Unicode characters corresponding to the
+     * escapes. Supports HTML 4.0 entities.
+     *
+     * <p>For example, the string {@code "&lt;Fran&ccedil;ais&gt;"}
+     * will become {@code "<Fran�ais>"}</p>
+     *
+     * <p>If an entity is unrecognized, it is left alone, and inserted
+     * verbatim into the result string. e.g. {@code "&gt;&zzzz;x"} will
+     * become {@code ">&zzzz;x"}.</p>
+     *
+     * @param input  the {@code String} to unescape, may be null
+     * @return a new unescaped {@code String}, {@code null} if null string input
+     */
+    public static final String unescapeHtml4(final String input) {
+        return UNESCAPE_HTML4.translate(input);
+    }
+
+    /**
+     * Unescapes any Java literals found in the {@code String}.
+     * For example, it will turn a sequence of {@code '\'} and
+     * {@code 'n'} into a newline character, unless the {@code '\'}
+     * is preceded by another {@code '\'}.
+     *
+     * @param input  the {@code String} to unescape, may be null
+     * @return a new unescaped {@code String}, {@code null} if null string input
+     */
+    public static final String unescapeJava(final String input) {
+        return UNESCAPE_JAVA.translate(input);
+    }
+
+    /**
+     * Unescapes any Json literals found in the {@code String}.
+     *
+     * <p>For example, it will turn a sequence of {@code '\'} and {@code 'n'}
+     * into a newline character, unless the {@code '\'} is preceded by another
+     * {@code '\'}.</p>
+     *
+     * @see #unescapeJava(String)
+     * @param input  the {@code String} to unescape, may be null
+     * @return A new unescaped {@code String}, {@code null} if null string input
+     */
+    public static final String unescapeJson(final String input) {
+        return UNESCAPE_JSON.translate(input);
+    }
+
+    /**
+     * Unescapes a string containing XML entity escapes to a string
+     * containing the actual Unicode characters corresponding to the
+     * escapes.
+     *
+     * <p>Supports only the five basic XML entities (gt, lt, quot, amp, apos).
+     * Does not support DTDs or external entities.</p>
+     *
+     * <p>Note that numerical \\u Unicode codes are unescaped to their respective
+     *    Unicode characters. This may change in future releases.</p>
+     *
+     * @param input  the {@code String} to unescape, may be null
+     * @return a new unescaped {@code String}, {@code null} if null string input
+     * @see #escapeXml10(String)
+     * @see #escapeXml11(String)
+     */
+    public static final String unescapeXml(final String input) {
+        return UNESCAPE_XML.translate(input);
     }
 
     /**
@@ -862,6 +849,19 @@ public class StringEscapeUtils {
      */
     public static final String unescapeXSI(final String input) {
         return UNESCAPE_XSI.translate(input);
+    }
+
+    /**
+     * {@code StringEscapeUtils} instances should NOT be constructed in
+     * standard programming.
+     *
+     * <p>Instead, the class should be used as:</p>
+     * <pre>StringEscapeUtils.escapeJava("foo");</pre>
+     *
+     * <p>This constructor is public to permit tools that require a JavaBean
+     * instance to operate.</p>
+     */
+    public StringEscapeUtils() {
     }
 
 }

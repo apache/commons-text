@@ -76,298 +76,22 @@ import org.apache.commons.lang3.StringUtils;
 public final class AlphabetConverter {
 
     /**
-     * Original string to be encoded.
-     */
-    private final Map<Integer, String> originalToEncoded;
-
-    /**
-     * Encoding alphabet.
-     */
-    private final Map<String, String> encodedToOriginal;
-
-    /**
-     * Length of the encoded letter.
-     */
-    private final int encodedLetterLength;
-
-    /**
      * Arrow constant, used for converting the object into a string.
      */
     private static final String ARROW = " -> ";
 
     /**
-     * Hidden constructor for alphabet converter. Used by static helper methods.
+     * Creates new String that contains just the given code point.
      *
-     * @param originalToEncoded original string to be encoded
-     * @param encodedToOriginal encoding alphabet
-     * @param encodedLetterLength length of the encoded letter
+     * @param i code point
+     * @return a new string with the new code point
+     * @see "http://www.oracle.com/us/technologies/java/supplementary-142654.html"
      */
-    private AlphabetConverter(final Map<Integer, String> originalToEncoded,
-                              final Map<String, String> encodedToOriginal,
-                              final int encodedLetterLength) {
-
-        this.originalToEncoded = originalToEncoded;
-        this.encodedToOriginal = encodedToOriginal;
-        this.encodedLetterLength = encodedLetterLength;
-    }
-
-    /**
-     * Encodes a given string.
-     *
-     * @param original the string to be encoded
-     * @return The encoded string, {@code null} if the given string is null
-     * @throws UnsupportedEncodingException if chars that are not supported are
-     *                                      encountered
-     */
-    public String encode(final String original)
-            throws UnsupportedEncodingException {
-        if (original == null) {
-            return null;
+    private static String codePointToString(final int i) {
+        if (Character.charCount(i) == 1) {
+            return String.valueOf((char) i);
         }
-
-        final StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < original.length();) {
-            final int codepoint = original.codePointAt(i);
-
-            final String nextLetter = originalToEncoded.get(codepoint);
-
-            if (nextLetter == null) {
-                throw new UnsupportedEncodingException(
-                        "Couldn't find encoding for '"
-                                + codePointToString(codepoint)
-                                + "' in "
-                                + original
-                );
-            }
-
-            sb.append(nextLetter);
-
-            i += Character.charCount(codepoint);
-        }
-
-        return sb.toString();
-    }
-
-    /**
-     * Decodes a given string.
-     *
-     * @param encoded a string that has been encoded using this
-     *                AlphabetConverter
-     * @return The decoded string, {@code null} if the given string is null
-     * @throws UnsupportedEncodingException if unexpected characters that
-     *                                      cannot be handled are encountered
-     */
-    public String decode(final String encoded)
-            throws UnsupportedEncodingException {
-        if (encoded == null) {
-            return null;
-        }
-
-        final StringBuilder result = new StringBuilder();
-
-        for (int j = 0; j < encoded.length();) {
-            final int i = encoded.codePointAt(j);
-            final String s = codePointToString(i);
-
-            if (s.equals(originalToEncoded.get(i))) {
-                result.append(s);
-                j++; // because we do not encode in Unicode extended the
-                     // length of each encoded char is 1
-            } else {
-                if (j + encodedLetterLength > encoded.length()) {
-                    throw new UnsupportedEncodingException("Unexpected end "
-                            + "of string while decoding " + encoded);
-                }
-                final String nextGroup = encoded.substring(j,
-                        j + encodedLetterLength);
-                final String next = encodedToOriginal.get(nextGroup);
-                if (next == null) {
-                    throw new UnsupportedEncodingException(
-                            "Unexpected string without decoding ("
-                                    + nextGroup + ") in " + encoded);
-                }
-                result.append(next);
-                j += encodedLetterLength;
-            }
-        }
-
-        return result.toString();
-    }
-
-    /**
-     * Gets the length of characters in the encoded alphabet that are necessary
-     * for each character in the original
-     * alphabet.
-     *
-     * @return The length of the encoded char
-     */
-    public int getEncodedCharLength() {
-        return encodedLetterLength;
-    }
-
-    /**
-     * Gets the mapping from integer code point of source language to encoded
-     * string. Use to reconstruct converter from
-     * serialized map.
-     *
-     * @return The original map
-     */
-    public Map<Integer, String> getOriginalToEncoded() {
-        return Collections.unmodifiableMap(originalToEncoded);
-    }
-
-    /**
-     * Recursive method used when creating encoder/decoder.
-     *
-     * @param level at which point it should add a single encoding
-     * @param currentEncoding current encoding
-     * @param encoding letters encoding
-     * @param originals original values
-     * @param doNotEncodeMap map of values that should not be encoded
-     */
-    @SuppressWarnings("PMD")
-    private void addSingleEncoding(final int level,
-                                   final String currentEncoding,
-                                   final Collection<Integer> encoding,
-                                   final Iterator<Integer> originals,
-                                   final Map<Integer, String> doNotEncodeMap) {
-
-        if (level > 0) {
-            for (final int encodingLetter : encoding) {
-                if (!originals.hasNext()) {
-                    return; // done encoding all the original alphabet
-                }
-                // this skips the doNotEncode chars if they are in the
-                // leftmost place
-                if (level != encodedLetterLength
-                        || !doNotEncodeMap.containsKey(encodingLetter)) {
-                    addSingleEncoding(level - 1,
-                            currentEncoding
-                                    + codePointToString(encodingLetter),
-                            encoding,
-                            originals,
-                            doNotEncodeMap
-                    );
-                }
-            }
-        } else {
-            Integer next = originals.next();
-
-            while (doNotEncodeMap.containsKey(next)) {
-                final String originalLetterAsString = codePointToString(next);
-
-                originalToEncoded.put(next, originalLetterAsString);
-                encodedToOriginal.put(originalLetterAsString,
-                        originalLetterAsString);
-
-                if (!originals.hasNext()) {
-                    return;
-                }
-
-                next = originals.next();
-            }
-
-            final String originalLetterAsString = codePointToString(next);
-
-            originalToEncoded.put(next, currentEncoding);
-            encodedToOriginal.put(currentEncoding, originalLetterAsString);
-        }
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder();
-
-        for (final Entry<Integer, String> entry
-                : originalToEncoded.entrySet()) {
-            sb.append(codePointToString(entry.getKey()))
-                    .append(ARROW)
-                    .append(entry.getValue()).append(System.lineSeparator());
-        }
-
-        return sb.toString();
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        if (!(obj instanceof AlphabetConverter)) {
-            return false;
-        }
-        final AlphabetConverter other = (AlphabetConverter) obj;
-        return originalToEncoded.equals(other.originalToEncoded)
-                && encodedToOriginal.equals(other.encodedToOriginal)
-                && encodedLetterLength == other.encodedLetterLength;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(originalToEncoded,
-                encodedToOriginal,
-                encodedLetterLength);
-    }
-
-    /**
-     * Creates a new converter from a map.
-     *
-     * @param originalToEncoded a map returned from getOriginalToEncoded()
-     * @return The reconstructed AlphabetConverter
-     * @see AlphabetConverter#getOriginalToEncoded()
-     */
-    public static AlphabetConverter createConverterFromMap(
-            final Map<Integer, String> originalToEncoded) {
-        final Map<Integer, String> unmodifiableOriginalToEncoded =
-                Collections.unmodifiableMap(originalToEncoded);
-        final Map<String, String> encodedToOriginal = new LinkedHashMap<>();
-
-        int encodedLetterLength = 1;
-
-        for (final Entry<Integer, String> e
-                : unmodifiableOriginalToEncoded.entrySet()) {
-            final String originalAsString = codePointToString(e.getKey());
-            encodedToOriginal.put(e.getValue(), originalAsString);
-
-            if (e.getValue().length() > encodedLetterLength) {
-                encodedLetterLength = e.getValue().length();
-            }
-        }
-
-        return new AlphabetConverter(unmodifiableOriginalToEncoded,
-                encodedToOriginal,
-                encodedLetterLength);
-    }
-
-    /**
-     * Creates an alphabet converter, for converting from the original alphabet,
-     * to the encoded alphabet, while leaving the characters in
-     * <em>doNotEncode</em> as they are (if possible).
-     *
-     * <p>Duplicate letters in either original or encoding will be ignored.</p>
-     *
-     * @param original an array of chars representing the original alphabet
-     * @param encoding an array of chars representing the alphabet to be used
-     *                 for encoding
-     * @param doNotEncode an array of chars to be encoded using the original
-     *                    alphabet - every char here must appear in
-     *                    both the previous params
-     * @return The AlphabetConverter
-     * @throws IllegalArgumentException if an AlphabetConverter cannot be
-     *                                  constructed
-     */
-    public static AlphabetConverter createConverterFromChars(
-            final Character[] original,
-            final Character[] encoding,
-            final Character[] doNotEncode) {
-        return AlphabetConverter.createConverter(
-                convertCharsToIntegers(original),
-                convertCharsToIntegers(encoding),
-                convertCharsToIntegers(doNotEncode));
+        return new String(Character.toChars(i));
     }
 
     /**
@@ -507,16 +231,292 @@ public final class AlphabetConverter {
     }
 
     /**
-     * Creates new String that contains just the given code point.
+     * Creates an alphabet converter, for converting from the original alphabet,
+     * to the encoded alphabet, while leaving the characters in
+     * <em>doNotEncode</em> as they are (if possible).
      *
-     * @param i code point
-     * @return a new string with the new code point
-     * @see "http://www.oracle.com/us/technologies/java/supplementary-142654.html"
+     * <p>Duplicate letters in either original or encoding will be ignored.</p>
+     *
+     * @param original an array of chars representing the original alphabet
+     * @param encoding an array of chars representing the alphabet to be used
+     *                 for encoding
+     * @param doNotEncode an array of chars to be encoded using the original
+     *                    alphabet - every char here must appear in
+     *                    both the previous params
+     * @return The AlphabetConverter
+     * @throws IllegalArgumentException if an AlphabetConverter cannot be
+     *                                  constructed
      */
-    private static String codePointToString(final int i) {
-        if (Character.charCount(i) == 1) {
-            return String.valueOf((char) i);
+    public static AlphabetConverter createConverterFromChars(
+            final Character[] original,
+            final Character[] encoding,
+            final Character[] doNotEncode) {
+        return AlphabetConverter.createConverter(
+                convertCharsToIntegers(original),
+                convertCharsToIntegers(encoding),
+                convertCharsToIntegers(doNotEncode));
+    }
+
+    /**
+     * Creates a new converter from a map.
+     *
+     * @param originalToEncoded a map returned from getOriginalToEncoded()
+     * @return The reconstructed AlphabetConverter
+     * @see AlphabetConverter#getOriginalToEncoded()
+     */
+    public static AlphabetConverter createConverterFromMap(
+            final Map<Integer, String> originalToEncoded) {
+        final Map<Integer, String> unmodifiableOriginalToEncoded =
+                Collections.unmodifiableMap(originalToEncoded);
+        final Map<String, String> encodedToOriginal = new LinkedHashMap<>();
+
+        int encodedLetterLength = 1;
+
+        for (final Entry<Integer, String> e
+                : unmodifiableOriginalToEncoded.entrySet()) {
+            final String originalAsString = codePointToString(e.getKey());
+            encodedToOriginal.put(e.getValue(), originalAsString);
+
+            if (e.getValue().length() > encodedLetterLength) {
+                encodedLetterLength = e.getValue().length();
+            }
         }
-        return new String(Character.toChars(i));
+
+        return new AlphabetConverter(unmodifiableOriginalToEncoded,
+                encodedToOriginal,
+                encodedLetterLength);
+    }
+
+    /**
+     * Original string to be encoded.
+     */
+    private final Map<Integer, String> originalToEncoded;
+
+    /**
+     * Encoding alphabet.
+     */
+    private final Map<String, String> encodedToOriginal;
+
+    /**
+     * Length of the encoded letter.
+     */
+    private final int encodedLetterLength;
+
+    /**
+     * Hidden constructor for alphabet converter. Used by static helper methods.
+     *
+     * @param originalToEncoded original string to be encoded
+     * @param encodedToOriginal encoding alphabet
+     * @param encodedLetterLength length of the encoded letter
+     */
+    private AlphabetConverter(final Map<Integer, String> originalToEncoded,
+                              final Map<String, String> encodedToOriginal,
+                              final int encodedLetterLength) {
+
+        this.originalToEncoded = originalToEncoded;
+        this.encodedToOriginal = encodedToOriginal;
+        this.encodedLetterLength = encodedLetterLength;
+    }
+
+    /**
+     * Recursive method used when creating encoder/decoder.
+     *
+     * @param level at which point it should add a single encoding
+     * @param currentEncoding current encoding
+     * @param encoding letters encoding
+     * @param originals original values
+     * @param doNotEncodeMap map of values that should not be encoded
+     */
+    @SuppressWarnings("PMD")
+    private void addSingleEncoding(final int level,
+                                   final String currentEncoding,
+                                   final Collection<Integer> encoding,
+                                   final Iterator<Integer> originals,
+                                   final Map<Integer, String> doNotEncodeMap) {
+
+        if (level > 0) {
+            for (final int encodingLetter : encoding) {
+                if (!originals.hasNext()) {
+                    return; // done encoding all the original alphabet
+                }
+                // this skips the doNotEncode chars if they are in the
+                // leftmost place
+                if (level != encodedLetterLength
+                        || !doNotEncodeMap.containsKey(encodingLetter)) {
+                    addSingleEncoding(level - 1,
+                            currentEncoding
+                                    + codePointToString(encodingLetter),
+                            encoding,
+                            originals,
+                            doNotEncodeMap
+                    );
+                }
+            }
+        } else {
+            Integer next = originals.next();
+
+            while (doNotEncodeMap.containsKey(next)) {
+                final String originalLetterAsString = codePointToString(next);
+
+                originalToEncoded.put(next, originalLetterAsString);
+                encodedToOriginal.put(originalLetterAsString,
+                        originalLetterAsString);
+
+                if (!originals.hasNext()) {
+                    return;
+                }
+
+                next = originals.next();
+            }
+
+            final String originalLetterAsString = codePointToString(next);
+
+            originalToEncoded.put(next, currentEncoding);
+            encodedToOriginal.put(currentEncoding, originalLetterAsString);
+        }
+    }
+
+    /**
+     * Decodes a given string.
+     *
+     * @param encoded a string that has been encoded using this
+     *                AlphabetConverter
+     * @return The decoded string, {@code null} if the given string is null
+     * @throws UnsupportedEncodingException if unexpected characters that
+     *                                      cannot be handled are encountered
+     */
+    public String decode(final String encoded)
+            throws UnsupportedEncodingException {
+        if (encoded == null) {
+            return null;
+        }
+
+        final StringBuilder result = new StringBuilder();
+
+        for (int j = 0; j < encoded.length();) {
+            final int i = encoded.codePointAt(j);
+            final String s = codePointToString(i);
+
+            if (s.equals(originalToEncoded.get(i))) {
+                result.append(s);
+                j++; // because we do not encode in Unicode extended the
+                     // length of each encoded char is 1
+            } else {
+                if (j + encodedLetterLength > encoded.length()) {
+                    throw new UnsupportedEncodingException("Unexpected end "
+                            + "of string while decoding " + encoded);
+                }
+                final String nextGroup = encoded.substring(j,
+                        j + encodedLetterLength);
+                final String next = encodedToOriginal.get(nextGroup);
+                if (next == null) {
+                    throw new UnsupportedEncodingException(
+                            "Unexpected string without decoding ("
+                                    + nextGroup + ") in " + encoded);
+                }
+                result.append(next);
+                j += encodedLetterLength;
+            }
+        }
+
+        return result.toString();
+    }
+
+    /**
+     * Encodes a given string.
+     *
+     * @param original the string to be encoded
+     * @return The encoded string, {@code null} if the given string is null
+     * @throws UnsupportedEncodingException if chars that are not supported are
+     *                                      encountered
+     */
+    public String encode(final String original)
+            throws UnsupportedEncodingException {
+        if (original == null) {
+            return null;
+        }
+
+        final StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < original.length();) {
+            final int codepoint = original.codePointAt(i);
+
+            final String nextLetter = originalToEncoded.get(codepoint);
+
+            if (nextLetter == null) {
+                throw new UnsupportedEncodingException(
+                        "Couldn't find encoding for '"
+                                + codePointToString(codepoint)
+                                + "' in "
+                                + original
+                );
+            }
+
+            sb.append(nextLetter);
+
+            i += Character.charCount(codepoint);
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof AlphabetConverter)) {
+            return false;
+        }
+        final AlphabetConverter other = (AlphabetConverter) obj;
+        return originalToEncoded.equals(other.originalToEncoded)
+                && encodedToOriginal.equals(other.encodedToOriginal)
+                && encodedLetterLength == other.encodedLetterLength;
+    }
+
+    /**
+     * Gets the length of characters in the encoded alphabet that are necessary
+     * for each character in the original
+     * alphabet.
+     *
+     * @return The length of the encoded char
+     */
+    public int getEncodedCharLength() {
+        return encodedLetterLength;
+    }
+
+    /**
+     * Gets the mapping from integer code point of source language to encoded
+     * string. Use to reconstruct converter from
+     * serialized map.
+     *
+     * @return The original map
+     */
+    public Map<Integer, String> getOriginalToEncoded() {
+        return Collections.unmodifiableMap(originalToEncoded);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(originalToEncoded,
+                encodedToOriginal,
+                encodedLetterLength);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+
+        for (final Entry<Integer, String> entry
+                : originalToEncoded.entrySet()) {
+            sb.append(codePointToString(entry.getKey()))
+                    .append(ARROW)
+                    .append(entry.getValue()).append(System.lineSeparator());
+        }
+
+        return sb.toString();
     }
 }

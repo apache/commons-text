@@ -45,76 +45,6 @@ import org.apache.commons.text.lookup.StringLookupFactory;
 public abstract class StrLookup<V> implements StringLookup {
 
     /**
-     * Lookup that always returns null.
-     */
-    private static final StrLookup<String> NONE_LOOKUP = new MapStrLookup<>(null);
-
-    /**
-     * Lookup based on system properties.
-     */
-    private static final StrLookup<String> SYSTEM_PROPERTIES_LOOKUP = new SystemPropertiesStrLookup();
-
-    /**
-     * Returns a lookup which always returns null.
-     *
-     * @return a lookup that always returns null, not null
-     */
-    public static StrLookup<?> noneLookup() {
-        return NONE_LOOKUP;
-    }
-
-    /**
-     * Returns a new lookup which uses a copy of the current {@link System#getProperties() System properties}.
-     * <p>
-     * If a security manager blocked access to system properties, then null will be returned from every lookup.
-     * </p>
-     * <p>
-     * If a null key is used, this lookup will throw a NullPointerException.
-     * </p>
-     *
-     * @return a lookup using system properties, not null
-     */
-    public static StrLookup<String> systemPropertiesLookup() {
-        return SYSTEM_PROPERTIES_LOOKUP;
-    }
-
-    /**
-     * Returns a lookup which looks up values using a map.
-     * <p>
-     * If the map is null, then null will be returned from every lookup. The map result object is converted to a string
-     * using toString().
-     * </p>
-     *
-     * @param <V> the type of the values supported by the lookup
-     * @param map the map of keys to values, may be null
-     * @return a lookup using the map, not null
-     */
-    public static <V> StrLookup<V> mapLookup(final Map<String, V> map) {
-        return new MapStrLookup<>(map);
-    }
-
-    /**
-     * Returns a lookup which looks up values using a ResourceBundle.
-     * <p>
-     * If the ResourceBundle is null, then null will be returned from every lookup. The map result object is converted
-     * to a string using toString().
-     * </p>
-     *
-     * @param resourceBundle the map of keys to values, may be null
-     * @return a lookup using the map, not null
-     * @see StringLookupFactory#resourceBundleStringLookup(String)
-     */
-    public static StrLookup<String> resourceBundleLookup(final ResourceBundle resourceBundle) {
-        return new ResourceBundleLookup(resourceBundle);
-    }
-
-    /**
-     * Constructor.
-     */
-    protected StrLookup() {
-    }
-
-    /**
      * Lookup implementation that uses a Map.
      *
      * @param <V> the type of the values supported by the lookup
@@ -210,5 +140,75 @@ public abstract class StrLookup<V> implements StringLookup {
             }
             return null;
         }
+    }
+
+    /**
+     * Lookup that always returns null.
+     */
+    private static final StrLookup<String> NONE_LOOKUP = new MapStrLookup<>(null);
+
+    /**
+     * Lookup based on system properties.
+     */
+    private static final StrLookup<String> SYSTEM_PROPERTIES_LOOKUP = new SystemPropertiesStrLookup();
+
+    /**
+     * Returns a lookup which looks up values using a map.
+     * <p>
+     * If the map is null, then null will be returned from every lookup. The map result object is converted to a string
+     * using toString().
+     * </p>
+     *
+     * @param <V> the type of the values supported by the lookup
+     * @param map the map of keys to values, may be null
+     * @return a lookup using the map, not null
+     */
+    public static <V> StrLookup<V> mapLookup(final Map<String, V> map) {
+        return new MapStrLookup<>(map);
+    }
+
+    /**
+     * Returns a lookup which always returns null.
+     *
+     * @return a lookup that always returns null, not null
+     */
+    public static StrLookup<?> noneLookup() {
+        return NONE_LOOKUP;
+    }
+
+    /**
+     * Returns a lookup which looks up values using a ResourceBundle.
+     * <p>
+     * If the ResourceBundle is null, then null will be returned from every lookup. The map result object is converted
+     * to a string using toString().
+     * </p>
+     *
+     * @param resourceBundle the map of keys to values, may be null
+     * @return a lookup using the map, not null
+     * @see StringLookupFactory#resourceBundleStringLookup(String)
+     */
+    public static StrLookup<String> resourceBundleLookup(final ResourceBundle resourceBundle) {
+        return new ResourceBundleLookup(resourceBundle);
+    }
+
+    /**
+     * Returns a new lookup which uses a copy of the current {@link System#getProperties() System properties}.
+     * <p>
+     * If a security manager blocked access to system properties, then null will be returned from every lookup.
+     * </p>
+     * <p>
+     * If a null key is used, this lookup will throw a NullPointerException.
+     * </p>
+     *
+     * @return a lookup using system properties, not null
+     */
+    public static StrLookup<String> systemPropertiesLookup() {
+        return SYSTEM_PROPERTIES_LOOKUP;
+    }
+
+    /**
+     * Constructor.
+     */
+    protected StrLookup() {
     }
 }

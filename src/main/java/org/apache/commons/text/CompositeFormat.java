@@ -71,18 +71,12 @@ public class CompositeFormat extends Format {
     }
 
     /**
-     * Parses the input.
+     * Gets the parser Format implementation.
      *
-     * @param source the String source
-     * @param pos the ParsePosition containing the position to parse from, will
-     *            be updated according to parsing success (index) or failure
-     *            (error index)
-     * @return The parsed Object
-     * @see Format#parseObject(String, ParsePosition)
+     * @return formatter Format implementation
      */
-    @Override
-    public Object parseObject(final String source, final ParsePosition pos) {
-        return parser.parseObject(source, pos);
+    public Format getFormatter() {
+        return this.formatter;
     }
 
     /**
@@ -95,12 +89,18 @@ public class CompositeFormat extends Format {
     }
 
     /**
-     * Gets the parser Format implementation.
+     * Parses the input.
      *
-     * @return formatter Format implementation
+     * @param source the String source
+     * @param pos the ParsePosition containing the position to parse from, will
+     *            be updated according to parsing success (index) or failure
+     *            (error index)
+     * @return The parsed Object
+     * @see Format#parseObject(String, ParsePosition)
      */
-    public Format getFormatter() {
-        return this.formatter;
+    @Override
+    public Object parseObject(final String source, final ParsePosition pos) {
+        return parser.parseObject(source, pos);
     }
 
     /**

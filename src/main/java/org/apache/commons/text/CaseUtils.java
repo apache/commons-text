@@ -34,17 +34,6 @@ import org.apache.commons.lang3.StringUtils;
 public class CaseUtils {
 
     /**
-     * {@code CaseUtils} instances should NOT be constructed in
-     * standard programming. Instead, the class should be used as
-     * {@code CaseUtils.toCamelCase("foo bar", true, new char[]{'-'});}.
-     *
-     * <p>This constructor is public to permit tools that require a JavaBean
-     * instance to operate.</p>
-     */
-    public CaseUtils() {
-    }
-
-    /**
      * Converts all the delimiter separated words in a String into camelCase,
      * that is each word is made up of a title case character and then a series of
      * lowercase characters.
@@ -125,6 +114,17 @@ public class CaseUtils {
             delimiterHashSet.add(Character.codePointAt(delimiters, index));
         }
         return delimiterHashSet;
+    }
+
+    /**
+     * {@code CaseUtils} instances should NOT be constructed in
+     * standard programming. Instead, the class should be used as
+     * {@code CaseUtils.toCamelCase("foo bar", true, new char[]{'-'});}.
+     *
+     * <p>This constructor is public to permit tools that require a JavaBean
+     * instance to operate.</p>
+     */
+    public CaseUtils() {
     }
 }
 

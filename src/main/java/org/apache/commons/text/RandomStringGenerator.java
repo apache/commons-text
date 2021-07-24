@@ -60,6 +60,235 @@ import org.apache.commons.lang3.Validate;
 public final class RandomStringGenerator {
 
     /**
+     * A builder for generating {@code RandomStringGenerator} instances.
+     *
+     * <p>The behavior of a generator is controlled by properties set by this
+     * builder. Each property has a default value, which can be overridden by
+     * calling the methods defined in this class, prior to calling {@link #build()}.</p>
+     *
+     * <p>All the property setting methods return the {@code Builder} instance to allow for method chaining.</p>
+     *
+     * <p>The minimum and maximum code point values are defined using {@link #withinRange(int, int)}. The
+     * default values are {@code 0} and {@link Character#MAX_CODE_POINT} respectively.</p>
+     *
+     * <p>The source of randomness can be set using {@link #usingRandom(TextRandomProvider)},
+     * otherwise {@link ThreadLocalRandom} is used.</p>
+     *
+     * <p>The type of code points returned can be filtered using {@link #filteredBy(CharacterPredicate...)},
+     * which defines a collection of tests that are applied to the randomly generated code points.
+     * The code points will only be included in the result if they pass at least one of the tests.
+     * Some commonly used predicates are provided by the {@link CharacterPredicates} enum.</p>
+     *
+     * <p>This class is not thread safe.</p>
+     * @since 1.1
+     */
+    public static class Builder implements org.apache.commons.text.Builder<RandomStringGenerator> {
+
+        /**
+         * The default maximum code point allowed: {@link Character#MAX_CODE_POINT}
+         * ({@value}).
+         */
+        public static final int DEFAULT_MAXIMUM_CODE_POINT = Character.MAX_CODE_POINT;
+
+        /**
+         * The default string length produced by this builder: {@value}.
+         */
+        public static final int DEFAULT_LENGTH = 0;
+
+        /**
+         * The default minimum code point allowed: {@value}.
+         */
+        public static final int DEFAULT_MINIMUM_CODE_POINT = 0;
+
+        /**
+         * The minimum code point allowed.
+         */
+        private int minimumCodePoint = DEFAULT_MINIMUM_CODE_POINT;
+
+        /**
+         * The maximum code point allowed.
+         */
+        private int maximumCodePoint = DEFAULT_MAXIMUM_CODE_POINT;
+
+        /**
+         * Filters for code points.
+         */
+        private Set<CharacterPredicate> inclusivePredicates;
+
+        /**
+         * The source of randomness.
+         */
+        private TextRandomProvider random;
+
+        /**
+         * The source of provided characters.
+         */
+        private List<Character> characterList;
+
+        /**
+         * Builds the {@code RandomStringGenerator} using the properties specified.
+         *
+         * @return The configured {@code RandomStringGenerator}
+         */
+        @Override
+        public RandomStringGenerator build() {
+            return new RandomStringGenerator(minimumCodePoint, maximumCodePoint, inclusivePredicates,
+                    random, characterList);
+        }
+
+        /**
+         * Limits the characters in the generated string to those that match at
+         * least one of the predicates supplied.
+         *
+         * <p>
+         * Passing {@code null} or an empty array to this method will revert to the
+         * default behavior of allowing any character. Multiple calls to this
+         * method will replace the previously stored predicates.
+         * </p>
+         *
+         * @param predicates
+         *            the predicates, may be {@code null} or empty
+         * @return {@code this}, to allow method chaining
+         */
+        public Builder filteredBy(final CharacterPredicate... predicates) {
+            if (ArrayUtils.isEmpty(predicates)) {
+                inclusivePredicates = null;
+                return this;
+            }
+
+            if (inclusivePredicates == null) {
+                inclusivePredicates = new HashSet<>();
+            } else {
+                inclusivePredicates.clear();
+            }
+
+            Collections.addAll(inclusivePredicates, predicates);
+
+            return this;
+        }
+
+        /**
+         * Limits the characters in the generated string to those who match at
+         * supplied list of Character.
+         *
+         * <p>
+         * Passing {@code null} or an empty array to this method will revert to the
+         * default behavior of allowing any character. Multiple calls to this
+         * method will replace the previously stored Character.
+         * </p>
+         *
+         * @param chars set of predefined Characters for random string generation
+         *            the Character can be, may be {@code null} or empty
+         * @return {@code this}, to allow method chaining
+         * @since 1.2
+         */
+        public Builder selectFrom(final char... chars) {
+            characterList = new ArrayList<>();
+            for (final char c : chars) {
+                characterList.add(c);
+            }
+            return this;
+        }
+
+        /**
+         * Overrides the default source of randomness.  It is highly
+         * recommended that a random number generator library like
+         * <a href="https://commons.apache.org/proper/commons-rng/">Apache Commons RNG</a>
+         * be used to provide the random number generation.
+         *
+         * <p>
+         * When using Java 8 or later, {@link TextRandomProvider} is a
+         * functional interface and need not be explicitly implemented:
+         * </p>
+         * <pre>
+         * {@code
+         *     UniformRandomProvider rng = RandomSource.create(...);
+         *     RandomStringGenerator gen = new RandomStringGenerator.Builder()
+         *         .usingRandom(rng::nextInt)
+         *         // additional builder calls as needed
+         *         .build();
+         * }
+         * </pre>
+         *
+         * <p>
+         * Passing {@code null} to this method will revert to the default source of
+         * randomness.
+         * </p>
+         *
+         * @param random
+         *            the source of randomness, may be {@code null}
+         * @return {@code this}, to allow method chaining
+         */
+        public Builder usingRandom(final TextRandomProvider random) {
+            this.random = random;
+            return this;
+        }
+
+        /**
+         * Sets the array of minimum and maximum char allowed in the
+         * generated string.
+         *
+         * For example:
+         * <pre>
+         * {@code
+         *     char [][] pairs = {{'0','9'}};
+         *     char [][] pairs = {{'a','z'}};
+         *     char [][] pairs = {{'a','z'},{'0','9'}};
+         * }
+         * </pre>
+         *
+         * @param pairs array of characters array, expected is to pass min, max pairs through this arg.
+         * @return {@code this}, to allow method chaining.
+         */
+        public Builder withinRange(final char[]... pairs) {
+            characterList = new ArrayList<>();
+            for (final char[] pair :  pairs) {
+                Validate.isTrue(pair.length == 2,
+                      "Each pair must contain minimum and maximum code point");
+                final int minimumCodePoint = pair[0];
+                final int maximumCodePoint = pair[1];
+                Validate.isTrue(minimumCodePoint <= maximumCodePoint,
+                    "Minimum code point %d is larger than maximum code point %d", minimumCodePoint, maximumCodePoint);
+
+                for (int index = minimumCodePoint; index <= maximumCodePoint; index++) {
+                    characterList.add((char) index);
+                }
+            }
+            return this;
+
+        }
+
+        /**
+         * Sets the minimum and maximum code points allowed in the
+         * generated string.
+         *
+         * @param minimumCodePoint
+         *            the smallest code point allowed (inclusive)
+         * @param maximumCodePoint
+         *            the largest code point allowed (inclusive)
+         * @return {@code this}, to allow method chaining
+         * @throws IllegalArgumentException
+         *             if {@code maximumCodePoint >}
+         *             {@link Character#MAX_CODE_POINT}
+         * @throws IllegalArgumentException
+         *             if {@code minimumCodePoint < 0}
+         * @throws IllegalArgumentException
+         *             if {@code minimumCodePoint > maximumCodePoint}
+         */
+        public Builder withinRange(final int minimumCodePoint, final int maximumCodePoint) {
+            Validate.isTrue(minimumCodePoint <= maximumCodePoint,
+                    "Minimum code point %d is larger than maximum code point %d", minimumCodePoint, maximumCodePoint);
+            Validate.isTrue(minimumCodePoint >= 0, "Minimum code point %d is negative", minimumCodePoint);
+            Validate.isTrue(maximumCodePoint <= Character.MAX_CODE_POINT,
+                    "Value %d is larger than Character.MAX_CODE_POINT.", maximumCodePoint);
+
+            this.minimumCodePoint = minimumCodePoint;
+            this.maximumCodePoint = maximumCodePoint;
+            return this;
+        }
+    }
+
+    /**
      * The smallest allowed code point (inclusive).
      */
     private final int minimumCodePoint;
@@ -105,38 +334,6 @@ public final class RandomStringGenerator {
         this.inclusivePredicates = inclusivePredicates;
         this.random = random;
         this.characterList = characterList;
-    }
-
-    /**
-     * Generates a random number within a range, using a {@link ThreadLocalRandom} instance
-     * or the user-supplied source of randomness.
-     *
-     * @param minInclusive
-     *            the minimum value allowed
-     * @param maxInclusive
-     *            the maximum value allowed
-     * @return The random number.
-     */
-    private int generateRandomNumber(final int minInclusive, final int maxInclusive) {
-        if (random != null) {
-            return random.nextInt(maxInclusive - minInclusive + 1) + minInclusive;
-        }
-        return ThreadLocalRandom.current().nextInt(minInclusive, maxInclusive + 1);
-    }
-
-    /**
-     * Generates a random number within a range, using a {@link ThreadLocalRandom} instance
-     * or the user-supplied source of randomness.
-     *
-     * @param characterList predefined char list.
-     * @return The random number.
-     */
-    private int generateRandomNumber(final List<Character> characterList) {
-        final int listSize = characterList.size();
-        if (random != null) {
-            return String.valueOf(characterList.get(random.nextInt(listSize))).codePointAt(0);
-        }
-        return String.valueOf(characterList.get(ThreadLocalRandom.current().nextInt(0, listSize))).codePointAt(0);
     }
 
     /**
@@ -229,231 +426,34 @@ public final class RandomStringGenerator {
     }
 
     /**
-     * A builder for generating {@code RandomStringGenerator} instances.
+     * Generates a random number within a range, using a {@link ThreadLocalRandom} instance
+     * or the user-supplied source of randomness.
      *
-     * <p>The behavior of a generator is controlled by properties set by this
-     * builder. Each property has a default value, which can be overridden by
-     * calling the methods defined in this class, prior to calling {@link #build()}.</p>
-     *
-     * <p>All the property setting methods return the {@code Builder} instance to allow for method chaining.</p>
-     *
-     * <p>The minimum and maximum code point values are defined using {@link #withinRange(int, int)}. The
-     * default values are {@code 0} and {@link Character#MAX_CODE_POINT} respectively.</p>
-     *
-     * <p>The source of randomness can be set using {@link #usingRandom(TextRandomProvider)},
-     * otherwise {@link ThreadLocalRandom} is used.</p>
-     *
-     * <p>The type of code points returned can be filtered using {@link #filteredBy(CharacterPredicate...)},
-     * which defines a collection of tests that are applied to the randomly generated code points.
-     * The code points will only be included in the result if they pass at least one of the tests.
-     * Some commonly used predicates are provided by the {@link CharacterPredicates} enum.</p>
-     *
-     * <p>This class is not thread safe.</p>
-     * @since 1.1
+     * @param minInclusive
+     *            the minimum value allowed
+     * @param maxInclusive
+     *            the maximum value allowed
+     * @return The random number.
      */
-    public static class Builder implements org.apache.commons.text.Builder<RandomStringGenerator> {
-
-        /**
-         * The default maximum code point allowed: {@link Character#MAX_CODE_POINT}
-         * ({@value}).
-         */
-        public static final int DEFAULT_MAXIMUM_CODE_POINT = Character.MAX_CODE_POINT;
-
-        /**
-         * The default string length produced by this builder: {@value}.
-         */
-        public static final int DEFAULT_LENGTH = 0;
-
-        /**
-         * The default minimum code point allowed: {@value}.
-         */
-        public static final int DEFAULT_MINIMUM_CODE_POINT = 0;
-
-        /**
-         * The minimum code point allowed.
-         */
-        private int minimumCodePoint = DEFAULT_MINIMUM_CODE_POINT;
-
-        /**
-         * The maximum code point allowed.
-         */
-        private int maximumCodePoint = DEFAULT_MAXIMUM_CODE_POINT;
-
-        /**
-         * Filters for code points.
-         */
-        private Set<CharacterPredicate> inclusivePredicates;
-
-        /**
-         * The source of randomness.
-         */
-        private TextRandomProvider random;
-
-        /**
-         * The source of provided characters.
-         */
-        private List<Character> characterList;
-
-        /**
-         * Sets the minimum and maximum code points allowed in the
-         * generated string.
-         *
-         * @param minimumCodePoint
-         *            the smallest code point allowed (inclusive)
-         * @param maximumCodePoint
-         *            the largest code point allowed (inclusive)
-         * @return {@code this}, to allow method chaining
-         * @throws IllegalArgumentException
-         *             if {@code maximumCodePoint >}
-         *             {@link Character#MAX_CODE_POINT}
-         * @throws IllegalArgumentException
-         *             if {@code minimumCodePoint < 0}
-         * @throws IllegalArgumentException
-         *             if {@code minimumCodePoint > maximumCodePoint}
-         */
-        public Builder withinRange(final int minimumCodePoint, final int maximumCodePoint) {
-            Validate.isTrue(minimumCodePoint <= maximumCodePoint,
-                    "Minimum code point %d is larger than maximum code point %d", minimumCodePoint, maximumCodePoint);
-            Validate.isTrue(minimumCodePoint >= 0, "Minimum code point %d is negative", minimumCodePoint);
-            Validate.isTrue(maximumCodePoint <= Character.MAX_CODE_POINT,
-                    "Value %d is larger than Character.MAX_CODE_POINT.", maximumCodePoint);
-
-            this.minimumCodePoint = minimumCodePoint;
-            this.maximumCodePoint = maximumCodePoint;
-            return this;
+    private int generateRandomNumber(final int minInclusive, final int maxInclusive) {
+        if (random != null) {
+            return random.nextInt(maxInclusive - minInclusive + 1) + minInclusive;
         }
+        return ThreadLocalRandom.current().nextInt(minInclusive, maxInclusive + 1);
+    }
 
-        /**
-         * Sets the array of minimum and maximum char allowed in the
-         * generated string.
-         *
-         * For example:
-         * <pre>
-         * {@code
-         *     char [][] pairs = {{'0','9'}};
-         *     char [][] pairs = {{'a','z'}};
-         *     char [][] pairs = {{'a','z'},{'0','9'}};
-         * }
-         * </pre>
-         *
-         * @param pairs array of characters array, expected is to pass min, max pairs through this arg.
-         * @return {@code this}, to allow method chaining.
-         */
-        public Builder withinRange(final char[]... pairs) {
-            characterList = new ArrayList<>();
-            for (final char[] pair :  pairs) {
-                Validate.isTrue(pair.length == 2,
-                      "Each pair must contain minimum and maximum code point");
-                final int minimumCodePoint = pair[0];
-                final int maximumCodePoint = pair[1];
-                Validate.isTrue(minimumCodePoint <= maximumCodePoint,
-                    "Minimum code point %d is larger than maximum code point %d", minimumCodePoint, maximumCodePoint);
-
-                for (int index = minimumCodePoint; index <= maximumCodePoint; index++) {
-                    characterList.add((char) index);
-                }
-            }
-            return this;
-
+    /**
+     * Generates a random number within a range, using a {@link ThreadLocalRandom} instance
+     * or the user-supplied source of randomness.
+     *
+     * @param characterList predefined char list.
+     * @return The random number.
+     */
+    private int generateRandomNumber(final List<Character> characterList) {
+        final int listSize = characterList.size();
+        if (random != null) {
+            return String.valueOf(characterList.get(random.nextInt(listSize))).codePointAt(0);
         }
-
-        /**
-         * Limits the characters in the generated string to those that match at
-         * least one of the predicates supplied.
-         *
-         * <p>
-         * Passing {@code null} or an empty array to this method will revert to the
-         * default behavior of allowing any character. Multiple calls to this
-         * method will replace the previously stored predicates.
-         * </p>
-         *
-         * @param predicates
-         *            the predicates, may be {@code null} or empty
-         * @return {@code this}, to allow method chaining
-         */
-        public Builder filteredBy(final CharacterPredicate... predicates) {
-            if (ArrayUtils.isEmpty(predicates)) {
-                inclusivePredicates = null;
-                return this;
-            }
-
-            if (inclusivePredicates == null) {
-                inclusivePredicates = new HashSet<>();
-            } else {
-                inclusivePredicates.clear();
-            }
-
-            Collections.addAll(inclusivePredicates, predicates);
-
-            return this;
-        }
-
-        /**
-         * Overrides the default source of randomness.  It is highly
-         * recommended that a random number generator library like
-         * <a href="https://commons.apache.org/proper/commons-rng/">Apache Commons RNG</a>
-         * be used to provide the random number generation.
-         *
-         * <p>
-         * When using Java 8 or later, {@link TextRandomProvider} is a
-         * functional interface and need not be explicitly implemented:
-         * </p>
-         * <pre>
-         * {@code
-         *     UniformRandomProvider rng = RandomSource.create(...);
-         *     RandomStringGenerator gen = new RandomStringGenerator.Builder()
-         *         .usingRandom(rng::nextInt)
-         *         // additional builder calls as needed
-         *         .build();
-         * }
-         * </pre>
-         *
-         * <p>
-         * Passing {@code null} to this method will revert to the default source of
-         * randomness.
-         * </p>
-         *
-         * @param random
-         *            the source of randomness, may be {@code null}
-         * @return {@code this}, to allow method chaining
-         */
-        public Builder usingRandom(final TextRandomProvider random) {
-            this.random = random;
-            return this;
-        }
-
-        /**
-         * Limits the characters in the generated string to those who match at
-         * supplied list of Character.
-         *
-         * <p>
-         * Passing {@code null} or an empty array to this method will revert to the
-         * default behavior of allowing any character. Multiple calls to this
-         * method will replace the previously stored Character.
-         * </p>
-         *
-         * @param chars set of predefined Characters for random string generation
-         *            the Character can be, may be {@code null} or empty
-         * @return {@code this}, to allow method chaining
-         * @since 1.2
-         */
-        public Builder selectFrom(final char... chars) {
-            characterList = new ArrayList<>();
-            for (final char c : chars) {
-                characterList.add(c);
-            }
-            return this;
-        }
-
-        /**
-         * Builds the {@code RandomStringGenerator} using the properties specified.
-         *
-         * @return The configured {@code RandomStringGenerator}
-         */
-        @Override
-        public RandomStringGenerator build() {
-            return new RandomStringGenerator(minimumCodePoint, maximumCodePoint, inclusivePredicates,
-                    random, characterList);
-        }
+        return String.valueOf(characterList.get(ThreadLocalRandom.current().nextInt(0, listSize))).codePointAt(0);
     }
 }
