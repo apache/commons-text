@@ -28,12 +28,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 /**
- * <p>
  * Generates random Unicode strings containing the specified number of code points.
  * Instances are created using a builder class, which allows the
  * callers to define the properties of the generator. See the documentation for the
  * {@link Builder} class to see available properties.
- * </p>
+ *
  * <pre>
  * // Generates a 20 code point string, using only the letters a-z
  * RandomStringGenerator generator = new RandomStringGenerator.Builder()
@@ -141,10 +140,10 @@ public final class RandomStringGenerator {
     }
 
     /**
-     * <p>
      * Generates a random string, containing the specified number of code points.
-     * </p>
-     * <p>Code points are randomly selected between the minimum and maximum values defined
+     *
+     * <p>
+     * Code points are randomly selected between the minimum and maximum values defined
      * in the generator.
      * Surrogate and private use characters are not returned, although the
      * resulting string may contain pairs of surrogates that together encode a
@@ -230,7 +229,8 @@ public final class RandomStringGenerator {
     }
 
     /**
-     * <p>A builder for generating {@code RandomStringGenerator} instances.</p>
+     * A builder for generating {@code RandomStringGenerator} instances.
+     *
      * <p>The behavior of a generator is controlled by properties set by this
      * builder. Each property has a default value, which can be overridden by
      * calling the methods defined in this class, prior to calling {@link #build()}.</p>
@@ -295,10 +295,8 @@ public final class RandomStringGenerator {
         private List<Character> characterList;
 
         /**
-         * <p>
-         * Specifies the minimum and maximum code points allowed in the
+         * Sets the minimum and maximum code points allowed in the
          * generated string.
-         * </p>
          *
          * @param minimumCodePoint
          *            the smallest code point allowed (inclusive)
@@ -326,10 +324,8 @@ public final class RandomStringGenerator {
         }
 
         /**
-         * <p>
-         * Specifies the array of minimum and maximum char allowed in the
+         * Sets the array of minimum and maximum char allowed in the
          * generated string.
-         * </p>
          *
          * For example:
          * <pre>
@@ -362,10 +358,8 @@ public final class RandomStringGenerator {
         }
 
         /**
-         * <p>
          * Limits the characters in the generated string to those that match at
          * least one of the predicates supplied.
-         * </p>
          *
          * <p>
          * Passing {@code null} or an empty array to this method will revert to the
@@ -395,12 +389,10 @@ public final class RandomStringGenerator {
         }
 
         /**
-         * <p>
          * Overrides the default source of randomness.  It is highly
          * recommended that a random number generator library like
          * <a href="https://commons.apache.org/proper/commons-rng/">Apache Commons RNG</a>
          * be used to provide the random number generation.
-         * </p>
          *
          * <p>
          * When using Java 8 or later, {@link TextRandomProvider} is a
@@ -431,10 +423,8 @@ public final class RandomStringGenerator {
         }
 
         /**
-         * <p>
          * Limits the characters in the generated string to those who match at
          * supplied list of Character.
-         * </p>
          *
          * <p>
          * Passing {@code null} or an empty array to this method will revert to the
@@ -456,7 +446,8 @@ public final class RandomStringGenerator {
         }
 
         /**
-         * <p>Builds the {@code RandomStringGenerator} using the properties specified.</p>
+         * Builds the {@code RandomStringGenerator} using the properties specified.
+         *
          * @return The configured {@code RandomStringGenerator}
          */
         @Override

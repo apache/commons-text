@@ -42,7 +42,7 @@ public class FuzzyScore {
 
 
     /**
-     * <p>This returns a {@link Locale}-specific {@link FuzzyScore}.</p>
+     * This returns a {@link Locale}-specific {@link FuzzyScore}.
      *
      * @param locale The string matching logic is case insensitive.
                      A {@link Locale} is necessary to normalize both Strings to lower case.
@@ -57,10 +57,8 @@ public class FuzzyScore {
     }
 
     /**
-     * <p>
      * Find the Fuzzy Score which indicates the similarity score between two
      * Strings.
-     * </p>
      *
      * <pre>
      * score.fuzzyScore(null, null)                          = IllegalArgumentException

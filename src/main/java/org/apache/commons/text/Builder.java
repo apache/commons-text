@@ -17,12 +17,10 @@
 package org.apache.commons.text;
 
 /**
- * <p>
  * The Builder interface is designed to designate a class as a <em>builder</em>
  * object in the Builder design pattern. Builders are capable of creating and
  * configuring objects or results that normally take multiple steps to construct
  * or are very complex to derive.
- * </p>
  *
  * <p>
  * The builder interface defines a single method, {@link #build()}, that

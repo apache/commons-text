@@ -33,6 +33,7 @@ import org.apache.commons.lang3.Validate;
  * @since 1.0
  */
 class RegexTokenizer implements Tokenizer<CharSequence> {
+
     /** The whitespace pattern. */
     private static final Pattern PATTERN = Pattern.compile("(\\w)+");
 

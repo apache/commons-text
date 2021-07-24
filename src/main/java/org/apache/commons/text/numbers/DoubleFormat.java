@@ -149,7 +149,7 @@ public enum DoubleFormat {
     private final Function<Builder, DoubleFunction<String>> factory;
 
     /**
-     * Construct a new instance.
+     * Constructs a new instance.
      * @param factory function used to construct format instances
      */
     DoubleFormat(final Function<Builder, DoubleFunction<String>> factory) {
@@ -157,7 +157,7 @@ public enum DoubleFormat {
     }
 
     /**
-     * Return a {@link Builder} for constructing formatter functions for this format type.
+     * Creates a {@link Builder} for building formatter functions for this format type.
      * @return builder instance
      */
     public Builder builder() {
@@ -165,7 +165,7 @@ public enum DoubleFormat {
     }
 
     /**
-     * Class for constructing configured format functions for standard double format types.
+     * Builds configured format functions for standard double format types.
      */
     public static final class Builder {
 
@@ -227,7 +227,7 @@ public enum DoubleFormat {
         private boolean alwaysIncludeExponent = false;
 
         /**
-         * Construct a new instance that delegates double function construction
+         * Builds a new instance that delegates double function construction
          * to the given factory object.
          * @param factory factory function
          */
@@ -236,7 +236,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the maximum number of significant decimal digits used in format
+         * Sets the maximum number of significant decimal digits used in format
          * results. A value of {@code 0} indicates no limit. The default value is {@code 0}.
          * @param maxPrecision maximum precision
          * @return this instance
@@ -247,7 +247,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the minimum decimal exponent for formatted strings. No digits with an
+         * Sets the minimum decimal exponent for formatted strings. No digits with an
          * absolute value of less than <code>10<sup>minDecimalExponent</sup></code> will
          * be included in format results. If the number being formatted does not contain
          * any such digits, then zero is returned. For example, if {@code minDecimalExponent}
@@ -263,7 +263,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the maximum decimal exponent for numbers formatted as plain decimal strings when
+         * Sets the maximum decimal exponent for numbers formatted as plain decimal strings when
          * using the {@link DoubleFormat#MIXED MIXED} format type. If the number being formatted
          * has an absolute value less than <code>10<sup>plainFormatMaxDecimalExponent + 1</sup></code> and
          * greater than or equal to <code>10<sup>plainFormatMinDecimalExponent</sup></code> after any
@@ -286,7 +286,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the minimum decimal exponent for numbers formatted as plain decimal strings when
+         * Sets the minimum decimal exponent for numbers formatted as plain decimal strings when
          * using the {@link DoubleFormat#MIXED MIXED} format type. If the number being formatted
          * has an absolute value less than <code>10<sup>plainFormatMaxDecimalExponent + 1</sup></code> and
          * greater than or equal to <code>10<sup>plainFormatMinDecimalExponent</sup></code> after any
@@ -309,7 +309,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the flag determining whether or not the zero string may be returned with the minus
+         * Sets the flag determining whether or not the zero string may be returned with the minus
          * sign or if it will always be returned in the positive form. For example, if set to {@code true},
          * the string {@code "-0.0"} may be returned for some input numbers. If {@code false}, only {@code "0.0"}
          * will be returned, regardless of the sign of the input number. The default value is {@code true}.
@@ -323,7 +323,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the string containing the digit characters 0-9, in that order. The
+         * Sets the string containing the digit characters 0-9, in that order. The
          * default value is the string {@code "0123456789"}.
          * @param digits string containing the digit characters 0-9
          * @return this instance
@@ -342,7 +342,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the flag determining whether or not a zero character is added in the fraction position
+         * Sets the flag determining whether or not a zero character is added in the fraction position
          * when no fractional value is present. For example, if set to {@code true}, the number {@code 1} would
          * be formatted as {@code "1.0"}. If {@code false}, it would be formatted as {@code "1"}. The default
          * value is {@code true}.
@@ -356,7 +356,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the character used as the minus sign.
+         * Sets the character used as the minus sign.
          * @param minusSign character to use as the minus sign
          * @return this instance
          */
@@ -366,7 +366,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the decimal separator character, i.e., the character placed between the
+         * Sets the decimal separator character, i.e., the character placed between the
          * whole number and fractional portions of the formatted strings. The default value
          * is {@code '.'}.
          * @param decimalSeparator decimal separator character
@@ -378,7 +378,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the character used to separate groups of thousands. Default value is {@code ','}.
+         * Sets the character used to separate groups of thousands. Default value is {@code ','}.
          * @param groupingSeparator character used to separate groups of thousands
          * @return this instance
          * @see #groupThousands(boolean)
@@ -403,7 +403,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the exponent separator character, i.e., the string placed between
+         * Sets the exponent separator character, i.e., the string placed between
          * the mantissa and the exponent. The default value is {@code "E"}, as in
          * {@code "1.2E6"}.
          * @param exponentSeparator exponent separator string
@@ -416,7 +416,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the flag indicating if an exponent value should always be included in the
+         * Sets the flag indicating if an exponent value should always be included in the
          * formatted value, even if the exponent value is zero. This property only applies
          * to formats that use scientific notation, namely
          * {@link DoubleFormat#SCIENTIFIC SCIENTIFIC},
@@ -432,7 +432,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the string used to represent infinity. For negative infinity, this string
+         * Sets the string used to represent infinity. For negative infinity, this string
          * is prefixed with the {@link #minusSign(char) minus sign}.
          * @param infinity string used to represent infinity
          * @return this instance
@@ -444,7 +444,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Set the string used to represent {@link Double#NaN}.
+         * Sets the string used to represent {@link Double#NaN}.
          * @param nan string used to represent {@link Double#NaN}
          * @return this instance
          * @throws NullPointerException if the argument is {@code null}
@@ -455,7 +455,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Configure this instance with the given format symbols. The following values
+         * Configures this instance with the given format symbols. The following values
          * are set:
          * <ul>
          *  <li>{@link #digits(String) digit characters}</li>
@@ -486,7 +486,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Get a string containing the localized digits 0-9 for the given symbols object. The
+         * Gets a string containing the localized digits 0-9 for the given symbols object. The
          * string is constructed by starting at the {@link DecimalFormatSymbols#getZeroDigit() zero digit}
          * and adding the next 9 consecutive characters.
          * @param symbols symbols object
@@ -504,7 +504,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Construct a new double format function.
+         * Builds a new double format function.
          * @return format function
          */
         public DoubleFunction<String> build() {
@@ -561,7 +561,7 @@ public enum DoubleFormat {
         private final boolean alwaysIncludeExponent;
 
         /**
-         * Construct a new instance.
+         * Constructs a new instance.
          * @param builder builder instance containing configuration values
          */
         AbstractDoubleFormat(final Builder builder) {
@@ -651,7 +651,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Return a formatted string representation of the given finite value.
+         * Returns a formatted string representation of the given finite value.
          * @param d double value
          */
         private String applyFinite(final double d) {
@@ -667,7 +667,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * Return a formatted representation of the given rounded decimal value to {@code dst}.
+         * Returns a formatted representation of the given rounded decimal value to {@code dst}.
          * @param val value to format
          * @return a formatted representation of the given rounded decimal value to {@code dst}.
          */
@@ -680,7 +680,8 @@ public enum DoubleFormat {
      */
     private static class PlainDoubleFormat extends AbstractDoubleFormat {
 
-        /** Construct a new instance.
+        /** 
+         * Constructs a new instance.
          * @param builder builder instance containing configuration values
          */
         PlainDoubleFormat(final Builder builder) {
@@ -688,7 +689,8 @@ public enum DoubleFormat {
         }
 
         /**
-         * {@inheritDoc} */
+         * {@inheritDoc} 
+         */
         @Override
         protected String applyFiniteInternal(final ParsedDecimal val) {
             return val.toPlainString(this);
@@ -709,7 +711,7 @@ public enum DoubleFormat {
         private final int plainMinExponent;
 
         /**
-         * Construct a new instance.
+         * Constructs a new instance.
          * @param builder builder instance containing configuration values
          */
         MixedDoubleFormat(final Builder builder) {
@@ -736,7 +738,7 @@ public enum DoubleFormat {
     private static class ScientificDoubleFormat extends AbstractDoubleFormat {
 
         /**
-         * Construct a new instance.
+         * Constructs a new instance.
          * @param builder builder instance containing configuration values
          */
         ScientificDoubleFormat(final Builder builder) {
@@ -756,7 +758,7 @@ public enum DoubleFormat {
     private static class EngineeringDoubleFormat extends AbstractDoubleFormat {
 
         /**
-         * Construct a new instance.
+         * Constructs a new instance.
          * @param builder builder instance containing configuration values
          */
         EngineeringDoubleFormat(final Builder builder) {

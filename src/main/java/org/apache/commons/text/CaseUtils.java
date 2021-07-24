@@ -23,7 +23,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>Case manipulation operations on Strings that contain words.</p>
+ * Case manipulation operations on Strings that contain words.
  *
  * <p>This class tries to handle {@code null} input gracefully.
  * An exception will not be thrown for a {@code null} input.
@@ -34,9 +34,9 @@ import org.apache.commons.lang3.StringUtils;
 public class CaseUtils {
 
     /**
-     * <p>{@code CaseUtils} instances should NOT be constructed in
+     * {@code CaseUtils} instances should NOT be constructed in
      * standard programming. Instead, the class should be used as
-     * {@code CaseUtils.toCamelCase("foo bar", true, new char[]{'-'});}.</p>
+     * {@code CaseUtils.toCamelCase("foo bar", true, new char[]{'-'});}.
      *
      * <p>This constructor is public to permit tools that require a JavaBean
      * instance to operate.</p>
@@ -45,9 +45,9 @@ public class CaseUtils {
     }
 
     /**
-     * <p>Converts all the delimiter separated words in a String into camelCase,
+     * Converts all the delimiter separated words in a String into camelCase,
      * that is each word is made up of a title case character and then a series of
-     * lowercase characters.</p>
+     * lowercase characters.
      *
      * <p>The delimiters represent a set of characters understood to separate words.
      * The first non-delimiter character after a delimiter will be capitalized. The first String
@@ -85,7 +85,7 @@ public class CaseUtils {
         final int strLen = str.length();
         final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
-        final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
+        final Set<Integer> delimiterSet = toDelimiterSet(delimiters);
         boolean capitalizeNext = capitalizeFirstLetter;
         for (int index = 0; index < strLen;) {
             final int codePoint = str.codePointAt(index);
@@ -108,13 +108,13 @@ public class CaseUtils {
     }
 
     /**
-     * <p>Converts an array of delimiters to a hash set of code points. Code point of space(32) is added
-     * as the default value. The generated hash set provides O(1) lookup time.</p>
+     * Converts an array of delimiters to a hash set of code points. Code point of space(32) is added
+     * as the default value. The generated hash set provides O(1) lookup time.
      *
      * @param delimiters  set of characters to determine capitalization, null means whitespace
      * @return Set<Integer>
      */
-    private static Set<Integer> generateDelimiterSet(final char[] delimiters) {
+    private static Set<Integer> toDelimiterSet(final char[] delimiters) {
         final Set<Integer> delimiterHashSet = new HashSet<>();
         delimiterHashSet.add(Character.codePointAt(new char[]{' '}, 0));
         if (ArrayUtils.isEmpty(delimiters)) {

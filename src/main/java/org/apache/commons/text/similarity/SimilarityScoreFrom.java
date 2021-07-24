@@ -19,11 +19,9 @@ package org.apache.commons.text.similarity;
 import org.apache.commons.lang3.Validate;
 
 /**
- * <p>
  * This stores a {@link SimilarityScore} implementation and a {@link CharSequence} "left" string.
  * The {@link #apply(CharSequence right)} method accepts the "right" string and invokes the
  * comparison function for the pair of strings.
- * </p>
  *
  * <p>
  * The following is an example which finds the most similar string:
@@ -58,13 +56,14 @@ public class SimilarityScoreFrom<R> {
      * Similarity score.
      */
     private final SimilarityScore<R> similarityScore;
+
     /**
      * Left parameter used in distance function.
      */
     private final CharSequence left;
 
     /**
-     * <p>This accepts the similarity score implementation and the "left" string.</p>
+     * This accepts the similarity score implementation and the "left" string.
      *
      * @param similarityScore This may not be null.
      * @param left This may be null here,
@@ -79,10 +78,8 @@ public class SimilarityScoreFrom<R> {
     }
 
     /**
-     * <p>
      * This compares "left" field against the "right" parameter
      * using the "similarity score" implementation.
-     * </p>
      *
      * @param right the second CharSequence
      * @return The similarity score between two CharSequences

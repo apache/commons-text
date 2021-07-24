@@ -325,7 +325,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     private int size;
 
     /**
-     * Constructor that creates an empty builder initial capacity 32 characters.
+     * Constructs an empty builder initial capacity 32 characters.
      */
     public TextStringBuilder() {
         this(CAPACITY);
@@ -1002,7 +1002,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         return append(value).appendNewLine();
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Appends an object followed by a new line to this string builder. Appending null will call {@link #appendNull()}.
      *
@@ -1125,6 +1124,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * <p>
      * The new line string can be altered using {@link #setNewLineText(String)}. This might be used to force the output
      * to always use Unix line endings even when on Windows.
+     * </p>
      *
      * @return this, to enable chaining
      */
@@ -1193,7 +1193,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Append one of both separators to the builder If the builder is currently empty it will append the
+     * Appends one of both separators to the builder If the builder is currently empty it will append the
      * defaultIfEmpty-separator Otherwise it will append the standard-separator
      *
      * The separator is appended using {@link #append(char)}.
@@ -1425,7 +1425,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         return this;
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Gets the contents of this builder as a Reader.
      * <p>
@@ -1566,7 +1565,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Checks if the string builder contains the specified char.
+     * Tests if the string builder contains the specified char.
      *
      * @param ch the character to find
      * @return true if the builder contains the character
@@ -1582,7 +1581,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Checks if the string builder contains the specified string.
+     * Tests if the string builder contains the specified string.
      *
      * @param str the string to find
      * @return true if the builder contains the string
@@ -1592,7 +1591,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Checks if the string builder contains a string matched using the specified matcher.
+     * Tests if the string builder contains a string matched using the specified matcher.
      * <p>
      * Matchers can be used to perform advanced searching behavior. For example you could write a matcher to search for
      * the character 'a' followed by a number.
@@ -1668,6 +1667,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * <p>
      * Matchers can be used to perform advanced deletion behavior. For example you could write a matcher to delete all
      * occurrences where the character 'a' is followed by a number.
+     * </p>
      *
      * @param matcher the matcher to use to find the deletion, null causes no action
      * @return this, to enable chaining
@@ -1729,6 +1729,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * <p>
      * Matchers can be used to perform advanced deletion behavior. For example you could write a matcher to delete where
      * the character 'a' is followed by a number.
+     * </p>
      *
      * @param matcher the matcher to use to find the deletion, null causes no action
      * @return this, to enable chaining
@@ -1819,7 +1820,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Checks the capacity and ensures that it is at least the size specified.
+     * Tests the capacity and ensures that it is at least the size specified.
      *
      * @param capacity the capacity to ensure
      * @return this, to enable chaining
@@ -1832,7 +1833,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Checks the contents of this builder against another to see if they contain the same character content.
+     * Tests the contents of this builder against another to see if they contain the same character content.
      *
      * @param obj the object to check, null returns false
      * @return true if the builders contain the same characters in the same order
@@ -1843,7 +1844,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Checks the contents of this builder against another to see if they contain the same character content.
+     * Tests the contents of this builder against another to see if they contain the same character content.
      *
      * @param other the object to check, null returns false
      * @return true if the builders contain the same characters in the same order
@@ -1853,7 +1854,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Checks the contents of this builder against another to see if they contain the same character content ignoring
+     * Tests the contents of this builder against another to see if they contain the same character content ignoring
      * case.
      *
      * @param other the object to check, null returns false
@@ -1984,6 +1985,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Searches the string builder to find the first reference to the specified string.
      * <p>
      * Note that a null input string will return -1, whereas the JDK throws an exception.
+     * </p>
      *
      * @param str the string to find, null returns -1
      * @return The first index of the string, or -1 if not found
@@ -2322,6 +2324,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Searches the string builder to find the last reference to the specified string.
      * <p>
      * Note that a null input string will return -1, whereas the JDK throws an exception.
+     * </p>
      *
      * @param str the string to find, null returns -1
      * @return The last index of the string, or -1 if not found
@@ -3026,6 +3029,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Gets a String version of the string builder, creating a new instance each time the method is called.
      * <p>
      * Note that unlike StringBuffer, the string version returned is independent of the string builder.
+     * </p>
      *
      * @return The builder as a String
      */

@@ -128,8 +128,8 @@ public abstract class CharSequenceTranslator {
     }
 
     /**
-     * <p>Returns an upper case hexadecimal {@code String} for the given
-     * character.</p>
+     * Returns an upper case hexadecimal {@code String} for the given
+     * character.
      *
      * @param codepoint The codepoint to convert.
      * @return An upper case hexadecimal {@code String}

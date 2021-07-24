@@ -30,21 +30,24 @@ import java.util.Objects;
  * @see <a href="https://en.wikipedia.org/wiki/Intersection_(set_theory)">Intersection</a>
  */
 public class IntersectionResult {
+
     /**
      * The size of set A.
      */
     private final int sizeA;
+
     /**
      * The size of set B.
      */
     private final int sizeB;
+
     /**
      * The size of the intersection between set A and B.
      */
     private final int intersection;
 
     /**
-     * Create the results for an intersection between two sets.
+     * Constructs the results for an intersection between two sets.
      *
      * @param sizeA the size of set A ({@code |A|})
      * @param sizeB the size of set B ({@code |B|})
@@ -68,7 +71,7 @@ public class IntersectionResult {
     }
 
     /**
-     * Get the size of set A.
+     * Gets the size of set A.
      *
      * @return |A|
      */
@@ -77,7 +80,7 @@ public class IntersectionResult {
     }
 
     /**
-     * Get the size of set B.
+     * Gets the size of set B.
      *
      * @return |B|
      */
@@ -86,7 +89,7 @@ public class IntersectionResult {
     }
 
     /**
-     * Get the size of the intersection between set A and B.
+     * Gets the size of the intersection between set A and B.
      *
      * @return {@code |A &#8745; B|}
      */

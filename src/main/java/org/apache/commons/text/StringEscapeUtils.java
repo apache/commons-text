@@ -410,8 +410,8 @@ public class StringEscapeUtils {
     /* Helper functions */
 
     /**
-     * <p>{@code StringEscapeUtils} instances should NOT be constructed in
-     * standard programming.</p>
+     * {@code StringEscapeUtils} instances should NOT be constructed in
+     * standard programming.
      *
      * <p>Instead, the class should be used as:</p>
      * <pre>StringEscapeUtils.escapeJava("foo");</pre>
@@ -423,7 +423,7 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Convenience wrapper for {@link java.lang.StringBuilder} providing escape methods.</p>
+     * Convenience wrapper for {@link java.lang.StringBuilder} providing escape methods.
      *
      * <p>Example:</p>
      * <pre>
@@ -460,7 +460,7 @@ public class StringEscapeUtils {
         }
 
         /**
-         * <p>Escape {@code input} according to the given {@link CharSequenceTranslator}.</p>
+         * Escape {@code input} according to the given {@link CharSequenceTranslator}.
          *
          * @param input the String to escape
          * @return {@code this}, to enable chaining
@@ -482,7 +482,7 @@ public class StringEscapeUtils {
         }
 
         /**
-         * <p>Return the escaped string.</p>
+         * Return the escaped string.
          *
          * @return The escaped string
          */
@@ -504,7 +504,7 @@ public class StringEscapeUtils {
     // Java and JavaScript
     //--------------------------------------------------------------------------
     /**
-     * <p>Escapes the characters in a {@code String} using Java String rules.</p>
+     * Escapes the characters in a {@code String} using Java String rules.
      *
      * <p>Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
      *
@@ -528,7 +528,8 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Escapes the characters in a {@code String} using EcmaScript String rules.</p>
+     * Escapes the characters in a {@code String} using EcmaScript String rules.
+     *
      * <p>Escapes any values it finds into their EcmaScript String form.
      * Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
      *
@@ -561,7 +562,8 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Escapes the characters in a {@code String} using Json String rules.</p>
+     * Escapes the characters in a {@code String} using Json String rules.
+     *
      * <p>Escapes any values it finds into their Json String form.
      * Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
      *
@@ -587,10 +589,10 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Unescapes any Java literals found in the {@code String}.
+     * Unescapes any Java literals found in the {@code String}.
      * For example, it will turn a sequence of {@code '\'} and
      * {@code 'n'} into a newline character, unless the {@code '\'}
-     * is preceded by another {@code '\'}.</p>
+     * is preceded by another {@code '\'}.
      *
      * @param input  the {@code String} to unescape, may be null
      * @return a new unescaped {@code String}, {@code null} if null string input
@@ -600,7 +602,7 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Unescapes any EcmaScript literals found in the {@code String}.</p>
+     * Unescapes any EcmaScript literals found in the {@code String}.
      *
      * <p>For example, it will turn a sequence of {@code '\'} and {@code 'n'}
      * into a newline character, unless the {@code '\'} is preceded by another
@@ -615,7 +617,7 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Unescapes any Json literals found in the {@code String}.</p>
+     * Unescapes any Json literals found in the {@code String}.
      *
      * <p>For example, it will turn a sequence of {@code '\'} and {@code 'n'}
      * into a newline character, unless the {@code '\'} is preceded by another
@@ -632,7 +634,7 @@ public class StringEscapeUtils {
     // HTML and XML
     //--------------------------------------------------------------------------
     /**
-     * <p>Escapes the characters in a {@code String} using HTML entities.</p>
+     * Escapes the characters in a {@code String} using HTML entities.
      *
      * <p>
      * For example:
@@ -661,7 +663,8 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Escapes the characters in a {@code String} using HTML entities.</p>
+     * Escapes the characters in a {@code String} using HTML entities.
+     *
      * <p>Supports only the HTML 3.0 entities.</p>
      *
      * @param input  the {@code String} to escape, may be null
@@ -671,11 +674,10 @@ public class StringEscapeUtils {
         return ESCAPE_HTML3.translate(input);
     }
 
-    //-----------------------------------------------------------------------
     /**
-     * <p>Unescapes a string containing entity escapes to a string
+     * Unescapes a string containing entity escapes to a string
      * containing the actual Unicode characters corresponding to the
-     * escapes. Supports HTML 4.0 entities.</p>
+     * escapes. Supports HTML 4.0 entities.
      *
      * <p>For example, the string {@code "&lt;Fran&ccedil;ais&gt;"}
      * will become {@code "<Fran�ais>"}</p>
@@ -692,9 +694,9 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Unescapes a string containing entity escapes to a string
+     * Unescapes a string containing entity escapes to a string
      * containing the actual Unicode characters corresponding to the
-     * escapes. Supports only HTML 3.0 entities.</p>
+     * escapes. Supports only HTML 3.0 entities.
      *
      * @param input  the {@code String} to unescape, may be null
      * @return a new unescaped {@code String}, {@code null} if null string input
@@ -704,7 +706,7 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Escapes the characters in a {@code String} using XML entities.</p>
+     * Escapes the characters in a {@code String} using XML entities.
      *
      * <p>For example: {@code "bread" & "butter"} =&gt;
      * {@code &quot;bread&quot; &amp; &quot;butter&quot;}.
@@ -735,7 +737,7 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Escapes the characters in a {@code String} using XML entities.</p>
+     * Escapes the characters in a {@code String} using XML entities.
      *
      * <p>For example: {@code "bread" & "butter"} =&gt;
      * {@code &quot;bread&quot; &amp; &quot;butter&quot;}.
@@ -763,11 +765,10 @@ public class StringEscapeUtils {
         return ESCAPE_XML11.translate(input);
     }
 
-    //-----------------------------------------------------------------------
     /**
-     * <p>Unescapes a string containing XML entity escapes to a string
+     * Unescapes a string containing XML entity escapes to a string
      * containing the actual Unicode characters corresponding to the
-     * escapes.</p>
+     * escapes.
      *
      * <p>Supports only the five basic XML entities (gt, lt, quot, amp, apos).
      * Does not support DTDs or external entities.</p>
@@ -784,11 +785,9 @@ public class StringEscapeUtils {
         return UNESCAPE_XML.translate(input);
     }
 
-    //-----------------------------------------------------------------------
-
     /**
-     * <p>Returns a {@code String} value for a CSV column enclosed in double quotes,
-     * if required.</p>
+     * Returns a {@code String} value for a CSV column enclosed in double quotes,
+     * if required.
      *
      * <p>If the value contains a comma, newline or double quote, then the
      *    String value is returned enclosed in double quotes.</p>
@@ -810,7 +809,7 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Returns a {@code String} value for an unescaped CSV column.</p>
+     * Returns a {@code String} value for an unescaped CSV column.
      *
      * <p>If the value is enclosed in double quotes, and contains a comma, newline
      *    or double quote, then quotes are removed.
@@ -834,7 +833,7 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Escapes the characters in a {@code String} using XSI rules.</p>
+     * Escapes the characters in a {@code String} using XSI rules.
      *
      * <p><b>Beware!</b> In most cases you don't want to escape shell commands but use multi-argument
      * methods provided by {@link java.lang.ProcessBuilder} or {@link java.lang.Runtime#exec(String[])}
@@ -855,7 +854,7 @@ public class StringEscapeUtils {
     }
 
     /**
-     * <p>Unescapes the characters in a {@code String} using XSI rules.</p>
+     * Unescapes the characters in a {@code String} using XSI rules.
      *
      * @see StringEscapeUtils#escapeXSI(String)
      * @param input  the {@code String} to unescape, may be null

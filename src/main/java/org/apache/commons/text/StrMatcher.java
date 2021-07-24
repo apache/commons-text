@@ -27,6 +27,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * <p>
  * This class comes complete with various factory methods.
  * If these do not suffice, you can subclass and implement your own matcher.
+ * </p>
  *
  * @since 1.0
  * @deprecated Deprecated as of 1.3, use {@link StringMatcherFactory} instead. This class will be removed in 2.0.
@@ -79,8 +80,6 @@ public abstract class StrMatcher {
      * Matches no characters.
      */
     private static final StrMatcher NONE_MATCHER = new NoMatcher();
-
-    // -----------------------------------------------------------------------
 
     /**
      * Returns a matcher which matches the comma character.
@@ -219,7 +218,6 @@ public abstract class StrMatcher {
         return new StringMatcher(str);
     }
 
-    //-----------------------------------------------------------------------
     /**
      * Constructor.
      */
@@ -234,16 +232,20 @@ public abstract class StrMatcher {
      * checked in the string {@code buffer} (a character array which must
      * not be changed).
      * The API guarantees that {@code pos} is a valid index for {@code buffer}.
+     * </p>
      * <p>
      * The character array may be larger than the active area to be matched.
      * Only values in the buffer between the specified indices may be accessed.
+     * </p>
      * <p>
      * The matching code may check one character or many.
      * It may check characters preceding {@code pos} as well as those
      * after, so long as no checks exceed the bounds specified.
+     * </p>
      * <p>
      * It must return zero for no match, or a positive number if a match was found.
      * The number indicates the number of characters that matched.
+     * </p>
      *
      * @param buffer  the text content to match against, do not change
      * @param pos  the starting position for the match, valid for buffer
@@ -261,12 +263,15 @@ public abstract class StrMatcher {
      * checked in the string {@code buffer} (a character array which must
      * not be changed).
      * The API guarantees that {@code pos} is a valid index for {@code buffer}.
+     * </p>
      * <p>
      * The matching code may check one character or many.
      * It may check characters preceding {@code pos} as well as those after.
+     * </p>
      * <p>
      * It must return zero for no match, or a positive number if a match was found.
      * The number indicates the number of characters that matched.
+     * </p>
      *
      * @param buffer  the text content to match against, do not change
      * @param pos  the starting position for the match, valid for buffer
@@ -276,7 +281,6 @@ public abstract class StrMatcher {
         return isMatch(buffer, pos, 0, buffer.length);
     }
 
-    //-----------------------------------------------------------------------
     /**
      * Class used to define a set of characters for matching purposes.
      */
@@ -309,7 +313,6 @@ public abstract class StrMatcher {
         }
     }
 
-    //-----------------------------------------------------------------------
     /**
      * Class used to define a character for matching purposes.
      */
@@ -341,7 +344,6 @@ public abstract class StrMatcher {
         }
     }
 
-    //-----------------------------------------------------------------------
     /**
      * Class used to define a set of characters for matching purposes.
      */
@@ -388,7 +390,6 @@ public abstract class StrMatcher {
 
     }
 
-    //-----------------------------------------------------------------------
     /**
      * Class used to match no characters.
      */
@@ -415,7 +416,6 @@ public abstract class StrMatcher {
         }
     }
 
-    //-----------------------------------------------------------------------
     /**
      * Class used to match whitespace as per trim().
      */

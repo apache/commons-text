@@ -17,12 +17,10 @@
 package org.apache.commons.text;
 
 /**
- * <p>
  * TextRandomProvider implementations are used by {@link RandomStringGenerator}
  * as a source of randomness.  It is highly recommended that the
  * <a href="https://commons.apache.org/proper/commons-rng/">Apache Commons RNG</a>
  * library be used to provide the random number generation.
- * </p>
  *
  * <p>
  * When using Java 8 or later, TextRandomProvider is a functional interface and

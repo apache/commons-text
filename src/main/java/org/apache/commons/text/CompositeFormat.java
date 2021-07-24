@@ -39,11 +39,12 @@ public class CompositeFormat extends Format {
 
     /** The parser to use. */
     private final Format parser;
+
     /** The formatter to use. */
     private final Format formatter;
 
     /**
-     * Create a format that points its parseObject method to one implementation
+     * Constructs a format that points its parseObject method to one implementation
      * and its format method to another.
      *
      * @param parser implementation
@@ -55,7 +56,7 @@ public class CompositeFormat extends Format {
     }
 
     /**
-     * Uses the formatter Format instance.
+     * Formats the input.
      *
      * @param obj the object to format
      * @param toAppendTo the {@link StringBuffer} to append to
@@ -70,7 +71,7 @@ public class CompositeFormat extends Format {
     }
 
     /**
-     * Uses the parser Format instance.
+     * Parses the input.
      *
      * @param source the String source
      * @param pos the ParsePosition containing the position to parse from, will
@@ -85,7 +86,7 @@ public class CompositeFormat extends Format {
     }
 
     /**
-     * Provides access to the parser Format implementation.
+     * Gets the parser Format implementation.
      *
      * @return parser Format implementation
      */
@@ -94,7 +95,7 @@ public class CompositeFormat extends Format {
     }
 
     /**
-     * Provides access to the parser Format implementation.
+     * Gets the parser Format implementation.
      *
      * @return formatter Format implementation
      */
@@ -103,7 +104,7 @@ public class CompositeFormat extends Format {
     }
 
     /**
-     * Utility method to parse and then reformat a String.
+     * Parses and then reformats a String.
      *
      * @param input String to reformat
      * @return A reformatted String

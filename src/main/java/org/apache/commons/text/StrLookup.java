@@ -27,12 +27,15 @@ import org.apache.commons.text.lookup.StringLookupFactory;
  * <p>
  * This class represents the simplest form of a string to string map. It has a benefit over a map in that it can create
  * the result on demand based on the key.
+ * </p>
  * <p>
  * This class comes complete with various factory methods. If these do not suffice, you can subclass and implement your
  * own matcher.
+ * </p>
  * <p>
  * For example, it would be possible to implement a lookup that used the key as a primary key, and looked up the value
  * on demand from the database
+ * </p>
  *
  * @param <V> the type of the values supported by the lookup
  * @since 1.0
@@ -51,7 +54,6 @@ public abstract class StrLookup<V> implements StringLookup {
      */
     private static final StrLookup<String> SYSTEM_PROPERTIES_LOOKUP = new SystemPropertiesStrLookup();
 
-    // -----------------------------------------------------------------------
     /**
      * Returns a lookup which always returns null.
      *
@@ -65,8 +67,10 @@ public abstract class StrLookup<V> implements StringLookup {
      * Returns a new lookup which uses a copy of the current {@link System#getProperties() System properties}.
      * <p>
      * If a security manager blocked access to system properties, then null will be returned from every lookup.
+     * </p>
      * <p>
      * If a null key is used, this lookup will throw a NullPointerException.
+     * </p>
      *
      * @return a lookup using system properties, not null
      */
@@ -79,6 +83,7 @@ public abstract class StrLookup<V> implements StringLookup {
      * <p>
      * If the map is null, then null will be returned from every lookup. The map result object is converted to a string
      * using toString().
+     * </p>
      *
      * @param <V> the type of the values supported by the lookup
      * @param map the map of keys to values, may be null
@@ -93,6 +98,7 @@ public abstract class StrLookup<V> implements StringLookup {
      * <p>
      * If the ResourceBundle is null, then null will be returned from every lookup. The map result object is converted
      * to a string using toString().
+     * </p>
      *
      * @param resourceBundle the map of keys to values, may be null
      * @return a lookup using the map, not null
@@ -102,14 +108,12 @@ public abstract class StrLookup<V> implements StringLookup {
         return new ResourceBundleLookup(resourceBundle);
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Constructor.
      */
     protected StrLookup() {
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Lookup implementation that uses a Map.
      *
@@ -133,6 +137,7 @@ public abstract class StrLookup<V> implements StringLookup {
          * Looks up a String key to a String value using the map.
          * <p>
          * If the map is null, then null is returned. The map result object is converted to a string using toString().
+         * </p>
          *
          * @param key the key to be looked up, may be null
          * @return The matching value, null if no match
@@ -155,7 +160,6 @@ public abstract class StrLookup<V> implements StringLookup {
         }
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Lookup implementation based on a ResourceBundle.
      */
@@ -188,7 +192,6 @@ public abstract class StrLookup<V> implements StringLookup {
 
     }
 
-    // -----------------------------------------------------------------------
     /**
      * Lookup implementation based on system properties.
      */

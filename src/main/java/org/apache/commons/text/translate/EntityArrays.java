@@ -74,7 +74,7 @@ public class EntityArrays {
         initialMap.put("\u00C2", "&Acirc;"); // Â - uppercase A, circumflex accent
         initialMap.put("\u00C3", "&Atilde;"); // Ã - uppercase A, tilde
         initialMap.put("\u00C4", "&Auml;"); // Ä - uppercase A, umlaut
-        initialMap.put("\u00C5", "&Aring;"); // Å - uppercase A, ring
+        initialMap.put("\u00C5", "&Aring;"); // � - uppercase A, ring
         initialMap.put("\u00C6", "&AElig;"); // Æ - uppercase AE
         initialMap.put("\u00C7", "&Ccedil;"); // Ç - uppercase C, cedilla
         initialMap.put("\u00C8", "&Egrave;"); // È - uppercase E, grave accent
@@ -140,6 +140,7 @@ public class EntityArrays {
      * Reverse of {@link #ISO8859_1_ESCAPE} for unescaping purposes.
      */
     public static final Map<CharSequence, CharSequence> ISO8859_1_UNESCAPE;
+
     static {
         ISO8859_1_UNESCAPE = Collections.unmodifiableMap(invert(ISO8859_1_ESCAPE));
     }
@@ -151,6 +152,7 @@ public class EntityArrays {
      * HTML 4.0 character entities.
      */
     public static final Map<CharSequence, CharSequence> HTML40_EXTENDED_ESCAPE;
+
     static {
         final Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         // <!-- Latin Extended-B -->
@@ -354,6 +356,7 @@ public class EntityArrays {
      * Reverse of {@link #HTML40_EXTENDED_ESCAPE} for unescaping purposes.
      */
     public static final Map<CharSequence, CharSequence> HTML40_EXTENDED_UNESCAPE;
+
     static {
         HTML40_EXTENDED_UNESCAPE = Collections.unmodifiableMap(invert(HTML40_EXTENDED_ESCAPE));
     }
@@ -365,6 +368,7 @@ public class EntityArrays {
      * Namely: {@code " & < >}
      */
     public static final Map<CharSequence, CharSequence> BASIC_ESCAPE;
+
     static {
         final Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         initialMap.put("\"", "&quot;"); // " - double-quote
@@ -378,6 +382,7 @@ public class EntityArrays {
      * Reverse of {@link #BASIC_ESCAPE} for unescaping purposes.
      */
     public static final Map<CharSequence, CharSequence> BASIC_UNESCAPE;
+
     static {
         BASIC_UNESCAPE = Collections.unmodifiableMap(invert(BASIC_ESCAPE));
     }
@@ -387,6 +392,7 @@ public class EntityArrays {
      * its XML character entity.
      */
     public static final Map<CharSequence, CharSequence> APOS_ESCAPE;
+
     static {
         final Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         initialMap.put("'", "&apos;"); // XML apostrophe
@@ -397,6 +403,7 @@ public class EntityArrays {
      * Reverse of {@link #APOS_ESCAPE} for unescaping purposes.
      */
     public static final Map<CharSequence, CharSequence> APOS_UNESCAPE;
+
     static {
         APOS_UNESCAPE = Collections.unmodifiableMap(invert(APOS_ESCAPE));
     }
@@ -408,6 +415,7 @@ public class EntityArrays {
      * Namely: {@code \b \n \t \f \r}
      */
     public static final Map<CharSequence, CharSequence> JAVA_CTRL_CHARS_ESCAPE;
+
     static {
         final Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         initialMap.put("\b", "\\b");
@@ -422,12 +430,14 @@ public class EntityArrays {
      * Reverse of {@link #JAVA_CTRL_CHARS_ESCAPE} for unescaping purposes.
      */
     public static final Map<CharSequence, CharSequence> JAVA_CTRL_CHARS_UNESCAPE;
+
     static {
         JAVA_CTRL_CHARS_UNESCAPE = Collections.unmodifiableMap(invert(JAVA_CTRL_CHARS_ESCAPE));
     }
 
     /**
-     * Used to invert an escape Map into an unescape Map.
+     * Inverts an escape Map into an unescape Map.
+     *
      * @param map Map&lt;String, String&gt; to be inverted
      * @return Map&lt;String, String&gt; inverted array
      */

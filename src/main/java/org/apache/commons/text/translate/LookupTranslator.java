@@ -32,15 +32,18 @@ public class LookupTranslator extends CharSequenceTranslator {
 
     /** The mapping to be used in translation. */
     private final Map<String, String> lookupMap;
+
     /** The first character of each key in the lookupMap. */
     private final BitSet prefixSet;
+
     /** The length of the shortest key in the lookupMap. */
     private final int shortest;
+
     /** The length of the longest key in the lookupMap. */
     private final int longest;
 
     /**
-     * Define the lookup table to be used in translation
+     * Constructs the lookup table to be used in translation
      *
      * Note that, as of Lang 3.1 (the origin of this code), the key to the lookup
      * table is converted to a java.lang.String. This is because we need the key

@@ -39,7 +39,7 @@ public abstract class CodePointTranslator extends CharSequenceTranslator {
     }
 
     /**
-     * Translate the specified codepoint into another.
+     * Translates the specified codepoint into another.
      *
      * @param codepoint int character input to translate
      * @param writer Writer to optionally push the translated output to

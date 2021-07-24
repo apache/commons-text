@@ -117,7 +117,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     private final Map<String, ? extends FormatFactory> registry;
 
     /**
-     * Create a new ExtendedMessageFormat for the default locale.
+     * Constructs a new ExtendedMessageFormat for the default locale.
      *
      * @param pattern  the pattern to use, not null
      * @throws IllegalArgumentException in case of a bad pattern.
@@ -127,7 +127,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Create a new ExtendedMessageFormat.
+     * Constructs a new ExtendedMessageFormat.
      *
      * @param pattern  the pattern to use, not null
      * @param locale  the locale to use, not null
@@ -138,7 +138,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Create a new ExtendedMessageFormat for the default locale.
+     * Constructs a new ExtendedMessageFormat for the default locale.
      *
      * @param pattern  the pattern to use, not null
      * @param registry  the registry of format factories, may be null
@@ -150,7 +150,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Create a new ExtendedMessageFormat.
+     * Constructs a new ExtendedMessageFormat.
      *
      * @param pattern  the pattern to use, not null
      * @param locale  the locale to use, not null
@@ -177,7 +177,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Apply the specified pattern.
+     * Applies the specified pattern.
      *
      * @param pattern String
      */
@@ -304,7 +304,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Check if this extended message format is equal to another object.
+     * Tests if this extended message format is equal to another object.
      *
      * @param obj the object to compare to
      * @return true if this object equals the other, otherwise false
@@ -342,7 +342,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Get a custom format from a format description.
+     * Gets a custom format from a format description.
      *
      * @param desc String
      * @return Format
@@ -365,7 +365,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Read the argument index from the current format element.
+     * Reads the argument index from the current format element.
      *
      * @param pattern pattern to parse
      * @param pos current parse position
@@ -407,7 +407,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Parse the format component of a format element.
+     * Parses the format component of a format element.
      *
      * @param pattern string to parse
      * @param pos current parse position
@@ -444,7 +444,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Insert formats back into the pattern for toPattern() support.
+     * Inserts formats back into the pattern for toPattern() support.
      *
      * @param pattern source
      * @param customPatterns The custom patterns to re-insert, if any
@@ -488,7 +488,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Consume whitespace from the current parse position.
+     * Consumes whitespace from the current parse position.
      *
      * @param pattern String to read
      * @param pos current position
@@ -503,7 +503,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Convenience method to advance parse position by 1.
+     * Advances parse position by 1.
      *
      * @param pos ParsePosition
      * @return {@code pos}
@@ -514,7 +514,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Consume a quoted string, adding it to {@code appendTo} if
+     * Consumes a quoted string, adding it to {@code appendTo} if
      * specified.
      *
      * @param pattern pattern to parse
@@ -551,7 +551,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Consume quoted string only.
+     * Consumes quoted string only.
      *
      * @param pattern pattern to parse
      * @param pos current parse position
@@ -561,7 +561,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Learn whether the specified Collection contains non-null elements.
+     * Tests whether the specified Collection contains non-null elements.
      * @param coll to check
      * @return {@code true} if some Object was found, {@code false} otherwise.
      */

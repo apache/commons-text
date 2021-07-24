@@ -70,10 +70,7 @@ public class StringsComparator {
     private final int[] vUp;
 
     /**
-     * Simple constructor.
-     * <p>
-     * Creates a new instance of StringsComparator.
-     * </p>
+     * Constructs a new instance of StringsComparator.
      * <p>
      * It is <em>guaranteed</em> that the comparisons will always be done as
      * {@code o1.equals(o2)} where {@code o1} belongs to the first
@@ -95,7 +92,7 @@ public class StringsComparator {
     }
 
     /**
-     * Get the {@link EditScript} object.
+     * Gets the {@link EditScript} object.
      * <p>
      * It is guaranteed that the objects embedded in the {@link InsertCommand
      * insert commands} come from the second sequence and that the objects
@@ -115,7 +112,7 @@ public class StringsComparator {
     }
 
     /**
-     * Build an edit script.
+     * Builds an edit script.
      *
      * @param start1  the begin of the first sequence to be compared
      * @param end1  the end of the first sequence to be compared
@@ -164,7 +161,7 @@ public class StringsComparator {
     }
 
     /**
-     * Get the middle snake corresponding to two subsequences of the
+     * Gets the middle snake corresponding to two subsequences of the
      * main sequences.
      * <p>
      * The snake is found using the MYERS Algorithm (this algorithms has
@@ -254,7 +251,7 @@ public class StringsComparator {
     }
 
     /**
-     * Build a snake.
+     * Builds a snake.
      *
      * @param start  the value of the start of the snake
      * @param diag  the value of the diagonal of the snake
@@ -288,7 +285,7 @@ public class StringsComparator {
         private final int diag;
 
         /**
-         * Simple constructor. Creates a new instance of Snake with specified indices.
+         * Constructs a new instance of Snake with specified indices.
          *
          * @param start  start index of the snake
          * @param end  end index of the snake
@@ -301,7 +298,7 @@ public class StringsComparator {
         }
 
         /**
-         * Get the start index of the snake.
+         * Gets the start index of the snake.
          *
          * @return start index of the snake
          */
@@ -310,7 +307,7 @@ public class StringsComparator {
         }
 
         /**
-         * Get the end index of the snake.
+         * Gets the end index of the snake.
          *
          * @return end index of the snake
          */
@@ -319,7 +316,7 @@ public class StringsComparator {
         }
 
         /**
-         * Get the diagonal number of the snake.
+         * Gets the diagonal number of the snake.
          *
          * @return diagonal number of the snake
          */

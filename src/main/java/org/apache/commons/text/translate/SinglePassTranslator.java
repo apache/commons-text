@@ -48,7 +48,7 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
     }
 
     /**
-     * Translate whole set of code points passed in input.
+     * Translates whole set of code points passed in input.
      *
      * @param input CharSequence that is being translated
      * @param writer Writer to translate the text to

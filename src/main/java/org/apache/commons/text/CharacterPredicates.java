@@ -17,10 +17,8 @@
 package org.apache.commons.text;
 
 /**
- * <p>
  * Commonly used implementations of {@link CharacterPredicate}. Per the interface
  * requirements, all implementations are thread safe.
- * </p>
  *
  * @since 1.0
  */

@@ -46,10 +46,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     private final Integer threshold;
 
     /**
-     * <p>
      * This returns the default instance that uses a version
      * of the algorithm that does not use a threshold parameter.
-     * </p>
      *
      * @see LevenshteinDistance#getDefaultInstance()
      */
@@ -58,10 +56,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     }
 
     /**
-     * <p>
      * If the threshold is not null, distance calculations will be limited to a maximum length.
      * If the threshold is null, the unlimited version of the algorithm will be used.
-     * </p>
      *
      * @param threshold
      *        If this is null then distances calculations will not be limited.
@@ -75,7 +71,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     }
 
     /**
-     * <p>Find the Levenshtein distance between two Strings.</p>
+     * Finds the Levenshtein distance between two Strings.
      *
      * <p>A higher score indicates a greater distance.</p>
      *
@@ -310,7 +306,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     }
 
     /**
-     * <p>Find the Levenshtein distance between two Strings.</p>
+     * Finds the Levenshtein distance between two Strings.
      *
      * <p>A higher score indicates a greater distance.</p>
      *

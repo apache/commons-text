@@ -121,9 +121,11 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
     /**
      * Create a new intersection similarity using the provided converter.
      *
-     * <p>If the converter returns a {@link Set} then the intersection result will
+     * <p>
+     * If the converter returns a {@link Set} then the intersection result will
      * not include duplicates. Any other {@link Collection} is used to produce a result
      * that will include duplicates in the intersect and union.
+     * </p>
      *
      * @param converter the converter used to create the elements from the characters
      * @throws IllegalArgumentException if the converter is null
@@ -183,7 +185,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
     }
 
     /**
-     * Convert the collection to a bag. The bag will contain the count of each element
+     * Converts the collection to a bag. The bag will contain the count of each element
      * in the collection.
      *
      * @param objects the objects
@@ -198,7 +200,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
     }
 
     /**
-     * Compute the intersection between two sets. This is the count of all the elements
+     * Computes the intersection between two sets. This is the count of all the elements
      * that are within both sets.
      *
      * @param <T> the type of the elements in the set
@@ -217,7 +219,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
     }
 
     /**
-     * Compute the intersection between two bags. This is the sum of the minimum
+     * Computes the intersection between two bags. This is the sum of the minimum
      * count of each element that is within both sets.
      *
      * @param bagA the bag A

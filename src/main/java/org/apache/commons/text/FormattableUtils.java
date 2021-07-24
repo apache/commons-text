@@ -24,7 +24,7 @@ import java.util.Formatter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>Provides utilities for working with the {@code Formattable} interface.</p>
+ * Provides utilities for working with the {@code Formattable} interface.
  *
  * <p>The {@link Formattable} interface provides basic control over formatting
  * when using a {@code Formatter}. It is primarily concerned with numeric precision
@@ -41,9 +41,9 @@ public class FormattableUtils {
     private static final String SIMPLEST_FORMAT = "%s";
 
     /**
-     * <p>{@code FormattableUtils} instances should NOT be constructed in
+     * {@code FormattableUtils} instances should NOT be constructed in
      * standard programming. Instead, the methods of the class should be invoked
-     * statically.</p>
+     * statically.
      *
      * <p>This constructor is public to permit tools that require a JavaBean
      * instance to operate.</p>
@@ -51,9 +51,8 @@ public class FormattableUtils {
     public FormattableUtils() {
     }
 
-    //-----------------------------------------------------------------------
     /**
-     * Get the default formatted representation of the specified
+     * Gets the default formatted representation of the specified
      * {@code Formattable}.
      *
      * @param formattable  the instance to convert to a string, not null

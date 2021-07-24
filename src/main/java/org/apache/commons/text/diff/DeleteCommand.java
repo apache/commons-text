@@ -35,7 +35,7 @@ package org.apache.commons.text.diff;
 public class DeleteCommand<T> extends EditCommand<T> {
 
     /**
-     * Simple constructor. Creates a new instance of {@link DeleteCommand}.
+     * Constructs a new instance of {@link DeleteCommand}.
      *
      * @param object  the object of the first sequence that should be deleted
      */
@@ -44,7 +44,7 @@ public class DeleteCommand<T> extends EditCommand<T> {
     }
 
     /**
-     * Accept a visitor. When a {@code DeleteCommand} accepts a visitor, it calls
+     * Accepts a visitor. When a {@code DeleteCommand} accepts a visitor, it calls
      * its {@link CommandVisitor#visitDeleteCommand visitDeleteCommand} method.
      *
      * @param visitor  the visitor to be accepted

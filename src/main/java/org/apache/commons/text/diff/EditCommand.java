@@ -57,7 +57,7 @@ public abstract class EditCommand<T> {
     private final T object;
 
     /**
-     * Simple constructor. Creates a new instance of EditCommand
+     * Constructs a new instance of EditCommand
      *
      * @param object  reference to the object associated with this command, this
      *   refers to an element of one of the sequences being compared
@@ -67,7 +67,7 @@ public abstract class EditCommand<T> {
     }
 
     /**
-     * Returns the object associated with this command.
+     * Gets the object associated with this command.
      *
      * @return The object on which the command is applied
      */
@@ -80,6 +80,7 @@ public abstract class EditCommand<T> {
      * <p>
      * This method is invoked for each commands belonging to
      * an {@link EditScript EditScript}, in order to implement the visitor design pattern
+     * </p>
      *
      * @param visitor  the visitor to be accepted
      */

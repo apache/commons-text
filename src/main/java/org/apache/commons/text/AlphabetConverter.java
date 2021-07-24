@@ -79,14 +79,17 @@ public final class AlphabetConverter {
      * Original string to be encoded.
      */
     private final Map<Integer, String> originalToEncoded;
+
     /**
      * Encoding alphabet.
      */
     private final Map<String, String> encodedToOriginal;
+
     /**
      * Length of the encoded letter.
      */
     private final int encodedLetterLength;
+
     /**
      * Arrow constant, used for converting the object into a string.
      */
@@ -109,7 +112,7 @@ public final class AlphabetConverter {
     }
 
     /**
-     * Encode a given string.
+     * Encodes a given string.
      *
      * @param original the string to be encoded
      * @return The encoded string, {@code null} if the given string is null
@@ -147,7 +150,7 @@ public final class AlphabetConverter {
     }
 
     /**
-     * Decode a given string.
+     * Decodes a given string.
      *
      * @param encoded a string that has been encoded using this
      *                AlphabetConverter
@@ -193,7 +196,7 @@ public final class AlphabetConverter {
     }
 
     /**
-     * Get the length of characters in the encoded alphabet that are necessary
+     * Gets the length of characters in the encoded alphabet that are necessary
      * for each character in the original
      * alphabet.
      *
@@ -204,7 +207,7 @@ public final class AlphabetConverter {
     }
 
     /**
-     * Get the mapping from integer code point of source language to encoded
+     * Gets the mapping from integer code point of source language to encoded
      * string. Use to reconstruct converter from
      * serialized map.
      *
@@ -310,10 +313,8 @@ public final class AlphabetConverter {
                 encodedLetterLength);
     }
 
-    // -- static methods
-
     /**
-     * Create a new converter from a map.
+     * Creates a new converter from a map.
      *
      * @param originalToEncoded a map returned from getOriginalToEncoded()
      * @return The reconstructed AlphabetConverter
@@ -343,7 +344,7 @@ public final class AlphabetConverter {
     }
 
     /**
-     * Create an alphabet converter, for converting from the original alphabet,
+     * Creates an alphabet converter, for converting from the original alphabet,
      * to the encoded alphabet, while leaving the characters in
      * <em>doNotEncode</em> as they are (if possible).
      *
@@ -370,7 +371,7 @@ public final class AlphabetConverter {
     }
 
     /**
-     * Convert characters to integers.
+     * Converts characters to integers.
      *
      * @param chars array of characters
      * @return an equivalent array of integers
@@ -387,7 +388,7 @@ public final class AlphabetConverter {
     }
 
     /**
-     * Create an alphabet converter, for converting from the original alphabet,
+     * Creates an alphabet converter, for converting from the original alphabet,
      * to the encoded alphabet, while leaving
      * the characters in <em>doNotEncode</em> as they are (if possible).
      *
@@ -506,7 +507,7 @@ public final class AlphabetConverter {
     }
 
     /**
-     * Create new String that contains just the given code point.
+     * Creates new String that contains just the given code point.
      *
      * @param i code point
      * @return a new string with the new code point

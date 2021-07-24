@@ -35,7 +35,7 @@ package org.apache.commons.text.diff;
 public class InsertCommand<T> extends EditCommand<T> {
 
     /**
-     * Simple constructor. Creates a new instance of InsertCommand
+     * Constructs a new instance of InsertCommand
      *
      * @param object  the object of the second sequence that should be inserted
      */
@@ -44,7 +44,7 @@ public class InsertCommand<T> extends EditCommand<T> {
     }
 
     /**
-     * Accept a visitor. When an {@code InsertCommand} accepts a visitor,
+     * Accepts a visitor. When an {@code InsertCommand} accepts a visitor,
      * it calls its {@link CommandVisitor#visitInsertCommand visitInsertCommand}
      * method.
      *

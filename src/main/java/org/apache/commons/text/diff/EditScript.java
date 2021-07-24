@@ -27,6 +27,7 @@ import java.util.List;
  * sequences. It is built as the result of the comparison between two sequences
  * by the {@link StringsComparator StringsComparator} class. The user can
  * walk through it using the <em>visitor</em> design pattern.
+ * </p>
  * <p>
  * It is guaranteed that the objects embedded in the {@link InsertCommand insert
  * commands} come from the second sequence and that the objects embedded in
@@ -34,6 +35,7 @@ import java.util.List;
  * commands} come from the first sequence. This can be important if subclassing
  * is used for some elements in the first sequence and the {@code equals}
  * method is specialized.
+ * </p>
  *
  * @see StringsComparator
  * @see EditCommand
@@ -55,7 +57,7 @@ public class EditScript<T> {
     private int modifications;
 
     /**
-     * Simple constructor. Creates a new empty script.
+     * Constructs a new empty script.
      */
     public EditScript() {
         commands = new ArrayList<>();
@@ -64,7 +66,7 @@ public class EditScript<T> {
     }
 
     /**
-     * Add a keep command to the script.
+     * Appends a keep command to the script.
      *
      * @param command  command to add
      */
@@ -74,7 +76,7 @@ public class EditScript<T> {
     }
 
     /**
-     * Add an insert command to the script.
+     * Appends an insert command to the script.
      *
      * @param command  command to add
      */
@@ -84,7 +86,7 @@ public class EditScript<T> {
     }
 
     /**
-     * Add a delete command to the script.
+     * Appends a delete command to the script.
      *
      * @param command  command to add
      */
@@ -94,7 +96,7 @@ public class EditScript<T> {
     }
 
     /**
-     * Visit the script. The script implements the <em>visitor</em> design
+     * Visits the script. The script implements the <em>visitor</em> design
      * pattern, this method is the entry point to which the user supplies its
      * own visitor, the script will be responsible to drive it through the
      * commands in order and call the appropriate method as each command is
@@ -109,7 +111,7 @@ public class EditScript<T> {
     }
 
     /**
-     * Get the length of the Longest Common Subsequence (LCS). The length of the
+     * Gets the length of the Longest Common Subsequence (LCS). The length of the
      * longest common subsequence is the number of {@link KeepCommand keep
      * commands} in the script.
      *
@@ -120,7 +122,7 @@ public class EditScript<T> {
     }
 
     /**
-     * Get the number of effective modifications. The number of effective
+     * Gets the number of effective modifications. The number of effective
      * modification is the number of {@link DeleteCommand delete} and
      * {@link InsertCommand insert} commands in the script.
      *

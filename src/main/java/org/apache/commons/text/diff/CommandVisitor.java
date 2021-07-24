@@ -69,6 +69,7 @@ package org.apache.commons.text.diff;
  * <p>
  * The second example is a visitor that shows the commands and the way
  * they transform the first sequence into the second one:
+ * </p>
  * <pre>
  * import org.apache.commons.text.diff.CommandVisitor;
  *

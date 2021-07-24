@@ -144,7 +144,7 @@ final class ParsedDecimal {
     private int outputIdx;
 
     /**
-     * Construct a new instance from its parts.
+     * Constructs a new instance from its parts.
      * @param negative {@code true} if the value is negative
      * @param digits array containing significant digits
      * @param digitCount number of digits used from the {@code digits} array
@@ -159,7 +159,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Get the exponent value. This exponent produces a floating point value with the
+     * Gets the exponent value. This exponent produces a floating point value with the
      * correct magnitude when applied to the internal unsigned integer.
      * @return exponent value
      */
@@ -168,7 +168,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Get the exponent that would be used when representing this number in scientific
+     * Get sthe exponent that would be used when representing this number in scientific
      * notation (i.e., with a single non-zero digit in front of the decimal point).
      * @return the exponent that would be used when representing this number in scientific
      *      notation
@@ -178,7 +178,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Round the instance to the given decimal exponent position using
+     * Rounds the instance to the given decimal exponent position using
      * {@link java.math.RoundingMode#HALF_EVEN half-even rounding}. For example, a value of {@code -2}
      * will round the instance to the digit at the position 10<sup>-2</sup> (i.e. to the closest multiple of 0.01).
      * @param roundExponent exponent defining the decimal place to round to
@@ -201,7 +201,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Ensure that this instance has <em>at most</em> the given number of significant digits
+     * Ensures that this instance has <em>at most</em> the given number of significant digits
      * (i.e. precision). If this instance already has a precision less than or equal
      * to the argument, nothing is done. If the given precision requires a reduction in the number
      * of digits, then the value is rounded using {@link java.math.RoundingMode#HALF_EVEN half-even rounding}.
@@ -218,7 +218,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Return a string representation of this value with no exponent field. Ex:
+     * Returns a string representation of this value with no exponent field. Ex:
      * <pre>
      * 10 = "10.0"
      * 1e-6 = "0.000001"
@@ -245,7 +245,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Return a string representation of this value in scientific notation. Ex:
+     * Returns a string representation of this value in scientific notation. Ex:
      * <pre>
      * 0 = "0.0"
      * 10 = "1.0E1"
@@ -260,7 +260,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Return a string representation of this value in engineering notation. This
+     * Returns a string representation of this value in engineering notation. This
      * is similar to {@link #toScientificString(FormatOptions) scientific notation}
      * but with the exponent forced to be a multiple of 3, allowing easier alignment with SI prefixes.
      * <pre>
@@ -278,7 +278,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Return a string representation of the value in scientific notation using the
+     * Returns a string representation of the value in scientific notation using the
      * given decimal point position.
      * @param decimalPos decimal position relative to the {@code digits} array; this value
      *      is expected to be greater than 0
@@ -336,7 +336,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Prepare the output buffer for a string of the given size.
+     * Prepares the output buffer for a string of the given size.
      * @param size buffer size
      */
     private void prepareOutput(final int size) {
@@ -345,7 +345,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Get the output buffer as a string.
+     * Gets the output buffer as a string.
      * @return output buffer as a string
      */
     private String outputString() {
@@ -355,7 +355,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Append the given character to the output buffer.
+     * Appends the given character to the output buffer.
      * @param ch character to append
      */
     private void append(final char ch) {
@@ -363,7 +363,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Append the given character array directly to the output buffer.
+     * Appends the given character array directly to the output buffer.
      * @param chars characters to append
      */
     private void append(final char[] chars) {
@@ -373,7 +373,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Append the localized representation of the digit {@code n} to the output buffer.
+     * Appends the localized representation of the digit {@code n} to the output buffer.
      * @param n digit to append
      * @param digitChars character array containing localized versions of the digits {@code 0-9}
      *      in that order
@@ -383,7 +383,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Append the whole number portion of this value to the output buffer. No thousands
+     * Appends the whole number portion of this value to the output buffer. No thousands
      * separators are added.
      * @param wholeCount total number of digits required to the left of the decimal point
      * @param opts format options
@@ -417,7 +417,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Append the whole number portion of this value to the output buffer, adding thousands
+     * Appends the whole number portion of this value to the output buffer, adding thousands
      * separators as needed.
      * @param wholeCount total number of digits required to the right of the decimal point
      * @param opts format options
@@ -459,7 +459,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Return {@code true} if a grouping separator should be added after the whole digit
+     * Returns {@code true} if a grouping separator should be added after the whole digit
      * character at the given position.
      * @param pos whole digit character position, with values starting at 1 and increasing
      *      from right to left.
@@ -470,7 +470,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Append the fractional component of the number to the current output buffer.
+     * Appends the fractional component of the number to the current output buffer.
      * @param zeroCount number of zeros to add after the decimal point and before the
      *      first significant digit
      * @param startIdx significant digit start index
@@ -499,7 +499,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Get the number of characters required to create a plain format representation
+     * Gets the number of characters required to create a plain format representation
      * of this value.
      * @param decimalPos decimal position relative to the {@code digits} array
      * @param opts format options
@@ -518,7 +518,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Get the number of characters required for the digit portion of a string representation of
+     * Gets the number of characters required for the digit portion of a string representation of
      * this value. This excludes any exponent or thousands groupings characters.
      * @param decimalPos decimal point position relative to the {@code digits} array
      * @param opts format options
@@ -551,7 +551,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Return {@code true} if formatted strings should include the minus sign, considering
+     * Returns {@code true} if formatted strings should include the minus sign, considering
      * the value of this instance and the given format options.
      * @param opts format options
      * @return {@code true} if a minus sign should be included in the output
@@ -561,7 +561,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Return {@code true} if a formatted string with the given target exponent should include
+     * Returns {@code true} if a formatted string with the given target exponent should include
      * the exponent field.
      * @param targetExponent exponent of the formatted result
      * @param opts format options
@@ -572,7 +572,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Return {@code true} if a rounding operation for the given number of digits should
+     * Returns {@code true} if a rounding operation for the given number of digits should
      * round up.
      * @param count number of digits to round to; must be greater than zero and less
      *      than the current number of digits
@@ -593,7 +593,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Round the value up to the given number of digits.
+     * Rounds the value up to the given number of digits.
      * @param count target number of digits; must be greater than zero and
      *      less than the current number of digits
      */
@@ -623,7 +623,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Return {@code true} if this value is equal to zero. The sign field is ignored,
+     * Returns {@code true} if this value is equal to zero. The sign field is ignored,
      * meaning that this method will return {@code true} for both {@code +0} and {@code -0}.
      * @return {@code true} if the value is equal to zero
      */
@@ -632,7 +632,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Set the value of this instance to a single digit with the given exponent.
+     * Sets the value of this instance to a single digit with the given exponent.
      * The sign of the value is retained.
      * @param digit digit value
      * @param newExponent new exponent value
@@ -644,7 +644,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Truncate the value to the given number of digits.
+     * Truncates the value to the given number of digits.
      * @param count number of digits; must be greater than zero and less than
      *      the current number of digits
      */
@@ -662,7 +662,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Construct a new instance from the given double value.
+     * Constructs a new instance from the given double value.
      * @param d double value
      * @return a new instance containing the parsed components of the given double value
      * @throws IllegalArgumentException if {@code d} is {@code NaN} or infinite
@@ -730,7 +730,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Parse a double exponent value from {@code chars}, starting at the {@code start}
+     * Parses a double exponent value from {@code chars}, starting at the {@code start}
      * index and continuing through the end of the array.
      * @param chars character array to parse a double exponent value from
      * @param start start index
@@ -752,7 +752,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Get the numeric value of the given digit character. No validation of the
+     * Gets the numeric value of the given digit character. No validation of the
      * character type is performed.
      * @param ch digit character
      * @return numeric value of the digit character, ex: '1' = 1

@@ -71,7 +71,7 @@ public class ReplacementsFinder<T> implements CommandVisitor<T> {
     private final ReplacementsHandler<T> handler;
 
     /**
-     * Simple constructor. Creates a new instance of {@link ReplacementsFinder}.
+     * Constructs a new instance of {@link ReplacementsFinder}.
      *
      * @param handler  handler to call when synchronized sequences are found
      */

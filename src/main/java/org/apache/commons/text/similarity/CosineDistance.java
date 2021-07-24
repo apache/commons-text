@@ -34,10 +34,12 @@ import java.util.Map;
  * @see CosineSimilarity
  */
 public class CosineDistance implements EditDistance<Double> {
+
     /**
      * Tokenizer used to convert the character sequence into a vector.
      */
     private final Tokenizer<CharSequence> tokenizer = new RegexTokenizer();
+
     /**
      * Cosine similarity.
      */

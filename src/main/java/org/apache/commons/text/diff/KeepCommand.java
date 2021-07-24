@@ -35,7 +35,7 @@ package org.apache.commons.text.diff;
 public class KeepCommand<T> extends EditCommand<T> {
 
     /**
-     * Simple constructor. Creates a new instance of KeepCommand
+     * Constructs a new instance of KeepCommand
      *
      * @param object  the object belonging to both sequences (the object is a
      *   reference to the instance in the first sequence which is known
@@ -46,7 +46,7 @@ public class KeepCommand<T> extends EditCommand<T> {
     }
 
     /**
-     * Accept a visitor. When a {@code KeepCommand} accepts a visitor, it
+     * Accepts a visitor. When a {@code KeepCommand} accepts a visitor, it
      * calls its {@link CommandVisitor#visitKeepCommand visitKeepCommand} method.
      *
      * @param visitor  the visitor to be accepted

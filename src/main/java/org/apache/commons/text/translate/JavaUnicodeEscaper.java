@@ -24,9 +24,7 @@ package org.apache.commons.text.translate;
 public class JavaUnicodeEscaper extends UnicodeEscaper {
 
     /**
-     * <p>
      * Constructs a {@code JavaUnicodeEscaper} above the specified value (exclusive).
-     * </p>
      *
      * @param codepoint
      *            above which to escape
@@ -37,9 +35,7 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
     }
 
     /**
-     * <p>
      * Constructs a {@code JavaUnicodeEscaper} below the specified value (exclusive).
-     * </p>
      *
      * @param codepoint
      *            below which to escape
@@ -50,9 +46,7 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
     }
 
     /**
-     * <p>
      * Constructs a {@code JavaUnicodeEscaper} between the specified values (inclusive).
-     * </p>
      *
      * @param codepointLow
      *            above which to escape
@@ -65,9 +59,7 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
     }
 
     /**
-     * <p>
      * Constructs a {@code JavaUnicodeEscaper} outside of the specified values (exclusive).
-     * </p>
      *
      * @param codepointLow
      *            below which to escape
@@ -80,11 +72,9 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
     }
 
     /**
-     * <p>
      * Constructs a {@code JavaUnicodeEscaper} for the specified range. This is the underlying method for the
      * other constructors/builders. The {@code below} and {@code above} boundaries are inclusive when
      * {@code between} is {@code true} and exclusive when it is {@code false}.
-     * </p>
      *
      * @param below
      *            int value representing the lowest codepoint boundary

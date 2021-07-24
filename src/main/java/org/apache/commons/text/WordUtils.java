@@ -26,9 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 /**
- * <p>
  * Operations on Strings that contain words.
- * </p>
  *
  * <p>
  * This class tries to handle {@code null} input gracefully. An exception will not be thrown for a
@@ -40,9 +38,9 @@ import org.apache.commons.lang3.Validate;
 public class WordUtils {
 
     /**
-     * <p>{@code WordUtils} instances should NOT be constructed in
+     * {@code WordUtils} instances should NOT be constructed in
      * standard programming. Instead, the class should be used as
-     * {@code WordUtils.wrap("foo bar", 20);}.</p>
+     * {@code WordUtils.wrap("foo bar", 20);}.
      *
      * <p>This constructor is public to permit tools that require a JavaBean
      * instance to operate.</p>
@@ -50,10 +48,8 @@ public class WordUtils {
     public WordUtils() {
     }
 
-    // Wrapping
-    //--------------------------------------------------------------------------
     /**
-     * <p>Wraps a single line of text, identifying words by {@code ' '}.</p>
+     * Wraps a single line of text, identifying words by {@code ' '}.
      *
      * <p>New lines will be separated by the system property line separator.
      * Very long words, such as URLs will <i>not</i> be wrapped.</p>
@@ -106,7 +102,7 @@ public class WordUtils {
     }
 
     /**
-     * <p>Wraps a single line of text, identifying words by {@code ' '}.</p>
+     * Wraps a single line of text, identifying words by {@code ' '}.
      *
      * <p>Leading spaces on a new line are stripped.
      * Trailing spaces are not stripped.</p>
@@ -188,7 +184,7 @@ public class WordUtils {
     }
 
     /**
-     * <p>Wraps a single line of text, identifying words by {@code wrapOn}.</p>
+     * Wraps a single line of text, identifying words by {@code wrapOn}.
      *
      * <p>Leading spaces on a new line are stripped.
      * Trailing spaces are not stripped.</p>
@@ -381,13 +377,11 @@ public class WordUtils {
         return wrappedLine.toString();
     }
 
-    // Capitalizing
-    //-----------------------------------------------------------------------
     /**
-     * <p>Capitalizes all the whitespace separated words in a String.
+     * Capitalizes all the whitespace separated words in a String.
      * Only the first character of each word is changed. To convert the
      * rest of each word to lowercase at the same time,
-     * use {@link #capitalizeFully(String)}.</p>
+     * use {@link #capitalizeFully(String)}.
      *
      * <p>Whitespace is defined by {@link Character#isWhitespace(char)}.
      * A {@code null} input String returns {@code null}.
@@ -410,10 +404,10 @@ public class WordUtils {
     }
 
     /**
-     * <p>Capitalizes all the delimiter separated words in a String.
+     * Capitalizes all the delimiter separated words in a String.
      * Only the first character of each word is changed. To convert the
      * rest of each word to lowercase at the same time,
-     * use {@link #capitalizeFully(String, char[])}.</p>
+     * use {@link #capitalizeFully(String, char[])}.
      *
      * <p>The delimiters represent a set of characters understood to separate words.
      * The first string character and the first non-delimiter character after a
@@ -468,11 +462,10 @@ public class WordUtils {
         return new String(newCodePoints, 0, outOffset);
     }
 
-    //-----------------------------------------------------------------------
     /**
-     * <p>Converts all the whitespace separated words in a String into capitalized words,
+     * Converts all the whitespace separated words in a String into capitalized words,
      * that is each word is made up of a titlecase character and then a series of
-     * lowercase characters.</p>
+     * lowercase characters.
      *
      * <p>Whitespace is defined by {@link Character#isWhitespace(char)}.
      * A {@code null} input String returns {@code null}.
@@ -493,9 +486,9 @@ public class WordUtils {
     }
 
     /**
-     * <p>Converts all the delimiter separated words in a String into capitalized words,
+     * Converts all the delimiter separated words in a String into capitalized words,
      * that is each word is made up of a titlecase character and then a series of
-     * lowercase characters.</p>
+     * lowercase characters.
      *
      * <p>The delimiters represent a set of characters understood to separate words.
      * The first string character and the first non-delimiter character after a
@@ -525,10 +518,9 @@ public class WordUtils {
         return capitalize(str, delimiters);
     }
 
-    //-----------------------------------------------------------------------
     /**
-     * <p>Uncapitalizes all the whitespace separated words in a String.
-     * Only the first character of each word is changed.</p>
+     * Uncapitalizes all the whitespace separated words in a String.
+     * Only the first character of each word is changed.
      *
      * <p>Whitespace is defined by {@link Character#isWhitespace(char)}.
      * A {@code null} input String returns {@code null}.</p>
@@ -548,8 +540,8 @@ public class WordUtils {
     }
 
     /**
-     * <p>Uncapitalizes all the whitespace separated words in a String.
-     * Only the first character of each word is changed.</p>
+     * Uncapitalizes all the whitespace separated words in a String.
+     * Only the first character of each word is changed.
      *
      * <p>The delimiters represent a set of characters understood to separate words.
      * The first string character and the first non-delimiter character after a
@@ -602,9 +594,8 @@ public class WordUtils {
         return new String(newCodePoints, 0, outOffset);
     }
 
-    //-----------------------------------------------------------------------
     /**
-     * <p>Swaps the case of a String using a word based algorithm.</p>
+     * Swaps the case of a String using a word based algorithm.
      *
      * <ul>
      *  <li>Upper case character converts to Lower case</li>
@@ -656,9 +647,8 @@ public class WordUtils {
         return new String(newCodePoints, 0, outOffset);
     }
 
-    //-----------------------------------------------------------------------
     /**
-     * <p>Extracts the initial characters from each word in the String.</p>
+     * Extracts the initial characters from each word in the String.
      *
      * <p>All first characters after whitespace are returned as a new string.
      * Their case is not changed.</p>
@@ -682,7 +672,7 @@ public class WordUtils {
     }
 
     /**
-     * <p>Extracts the initial characters from each word in the String.</p>
+     * Extracts the initial characters from each word in the String.
      *
      * <p>All first characters after the defined delimiters are returned as a new string.
      * Their case is not changed.</p>
@@ -733,9 +723,8 @@ public class WordUtils {
         return new String(newCodePoints, 0, count);
     }
 
-    //-----------------------------------------------------------------------
     /**
-     * <p>Checks if the String contains all words in the given array.</p>
+     * Checks if the String contains all words in the given array.
      *
      * <p>
      * A {@code null} String will return {@code false}. A {@code null}, zero
@@ -771,7 +760,6 @@ public class WordUtils {
         return true;
     }
 
-    //-----------------------------------------------------------------------
     /**
      * Is the character a delimiter.
      *
@@ -793,7 +781,6 @@ public class WordUtils {
         return false;
     }
 
-  //-----------------------------------------------------------------------
     /**
      * Is the codePoint a delimiter.
      *
@@ -816,14 +803,15 @@ public class WordUtils {
         return false;
     }
 
-    //-----------------------------------------------------------------------
     /**
      * Abbreviates the words nicely.
      *
+     * <p>
      * This method searches for the first space after the lower limit and abbreviates
      * the String there. It will also append any String passed as a parameter
      * to the end of the String. The upper limit can be specified to forcibly
      * abbreviate a String.
+     * </p>
      *
      * @param str         the string to be abbreviated. If null is passed, null is returned.
      *                    If the empty String is passed, the empty string is returned.
@@ -893,12 +881,9 @@ public class WordUtils {
         return result.toString();
     }
 
-    // -----------------------------------------------------------------------
     /**
-     * <p>
      * Converts an array of delimiters to a hash set of code points. Code point of space(32) is added as the default
      * value if delimiters is null. The generated hash set provides O(1) lookup time.
-     * </p>
      *
      * @param delimiters set of characters to determine capitalization, null means whitespace
      * @return Set<Integer>

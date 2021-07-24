@@ -29,25 +29,29 @@ import java.util.Objects;
  * @since 1.0
  */
 public class LevenshteinResults {
+
     /**
      * Edit distance.
      */
     private final Integer distance;
+
     /**
      * Insert character count.
      */
     private final Integer insertCount;
+
     /**
      * Delete character count.
      */
     private final Integer deleteCount;
+
     /**
      * Substitute character count.
      */
     private final Integer substituteCount;
 
     /**
-     * Create the results for a detailed Levenshtein distance.
+     * Constructs the results for a detailed Levenshtein distance.
      *
      * @param distance distance between two character sequences.
      * @param insertCount insert character count
@@ -63,7 +67,7 @@ public class LevenshteinResults {
     }
 
     /**
-     * Get the distance between two character sequences.
+     * Gets the distance between two character sequences.
      *
      * @return distance between two character sequence
      */
@@ -72,7 +76,7 @@ public class LevenshteinResults {
     }
 
     /**
-     * Get the number of insertion needed to change one character sequence into another.
+     * Gets the number of insertion needed to change one character sequence into another.
      *
      * @return insert character count
      */
@@ -81,7 +85,7 @@ public class LevenshteinResults {
     }
 
     /**
-     * Get the number of character deletion needed to change one character sequence to other.
+     * Gets the number of character deletion needed to change one character sequence to other.
      *
      * @return delete character count
      */
@@ -90,7 +94,7 @@ public class LevenshteinResults {
     }
 
     /**
-     * Get the number of character substitution needed to change one character sequence into another.
+     * Gets the number of character substitution needed to change one character sequence into another.
      *
      * @return substitute character count
      */

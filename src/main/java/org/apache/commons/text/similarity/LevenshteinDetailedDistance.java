@@ -35,6 +35,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * Default instance.
      */
     private static final LevenshteinDetailedDistance DEFAULT_INSTANCE = new LevenshteinDetailedDistance();
+
     /**
      * Threshold.
      */
@@ -67,7 +68,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
     }
 
     /**
-     * <p>Find the Levenshtein distance between two Strings.</p>
+     * Finds the Levenshtein distance between two Strings.
      *
      * <p>A higher score indicates a greater distance.</p>
      *
@@ -125,7 +126,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
     }
 
     /**
-     * Find the Levenshtein distance between two CharSequences if it's less than or
+     * Finds the Levenshtein distance between two CharSequences if it's less than or
      * equal to a given threshold.
      *
      * <p>
@@ -306,7 +307,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
     }
 
     /**
-     * <p>Find the Levenshtein distance between two Strings.</p>
+     * Finds the Levenshtein distance between two Strings.
      *
      * <p>A higher score indicates a greater distance.</p>
      *
