@@ -25,6 +25,16 @@ import java.io.Writer;
  */
 abstract class SinglePassTranslator extends CharSequenceTranslator {
 
+    /**
+     * A utility method to be used in the {@link #translate(CharSequence, int, Writer)} method.
+     *
+     * @return The name of this or the extending class.
+     */
+    private String getClassName() {
+        final Class<? extends SinglePassTranslator> clazz = this.getClass();
+        return clazz.isAnonymousClass() ?  clazz.getName() : clazz.getSimpleName();
+    }
+
     @Override
     public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
         if (index != 0) {
@@ -35,16 +45,6 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
         translateWhole(input, writer);
 
         return Character.codePointCount(input, index, input.length());
-    }
-
-    /**
-     * A utility method to be used in the {@link #translate(CharSequence, int, Writer)} method.
-     *
-     * @return The name of this or the extending class.
-     */
-    private String getClassName() {
-        final Class<? extends SinglePassTranslator> clazz = this.getClass();
-        return clazz.isAnonymousClass() ?  clazz.getName() : clazz.getSimpleName();
     }
 
     /**

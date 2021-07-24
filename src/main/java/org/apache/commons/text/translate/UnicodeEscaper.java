@@ -26,10 +26,52 @@ import java.io.Writer;
  */
 public class UnicodeEscaper extends CodePointTranslator {
 
+    /**
+     * Constructs a {@code UnicodeEscaper} above the specified value (exclusive).
+     *
+     * @param codepoint above which to escape
+     * @return The newly created {@code UnicodeEscaper} instance
+     */
+    public static UnicodeEscaper above(final int codepoint) {
+        return outsideOf(0, codepoint);
+    }
+    /**
+     * Constructs a {@code UnicodeEscaper} below the specified value (exclusive).
+     *
+     * @param codepoint below which to escape
+     * @return The newly created {@code UnicodeEscaper} instance
+     */
+    public static UnicodeEscaper below(final int codepoint) {
+        return outsideOf(codepoint, Integer.MAX_VALUE);
+    }
+    /**
+     * Constructs a {@code UnicodeEscaper} between the specified values (inclusive).
+     *
+     * @param codepointLow above which to escape
+     * @param codepointHigh below which to escape
+     * @return The newly created {@code UnicodeEscaper} instance
+     */
+    public static UnicodeEscaper between(final int codepointLow, final int codepointHigh) {
+        return new UnicodeEscaper(codepointLow, codepointHigh, true);
+    }
+
+    /**
+     * Constructs a {@code UnicodeEscaper} outside of the specified values (exclusive).
+     *
+     * @param codepointLow below which to escape
+     * @param codepointHigh above which to escape
+     * @return The newly created {@code UnicodeEscaper} instance
+     */
+    public static UnicodeEscaper outsideOf(final int codepointLow, final int codepointHigh) {
+        return new UnicodeEscaper(codepointLow, codepointHigh, false);
+    }
+
     /** int value representing the lowest codepoint boundary. */
     private final int below;
+
     /** int value representing the highest codepoint boundary. */
     private final int above;
+
     /** whether to escape between the boundaries or outside them. */
     private final boolean between;
 
@@ -58,45 +100,15 @@ public class UnicodeEscaper extends CodePointTranslator {
     }
 
     /**
-     * Constructs a {@code UnicodeEscaper} below the specified value (exclusive).
+     * Converts the given codepoint to a hex string of the form {@code "\\uXXXX"}.
      *
-     * @param codepoint below which to escape
-     * @return The newly created {@code UnicodeEscaper} instance
-     */
-    public static UnicodeEscaper below(final int codepoint) {
-        return outsideOf(codepoint, Integer.MAX_VALUE);
-    }
-
-    /**
-     * Constructs a {@code UnicodeEscaper} above the specified value (exclusive).
+     * @param codepoint
+     *            a Unicode code point
+     * @return The hex string for the given codepoint
      *
-     * @param codepoint above which to escape
-     * @return The newly created {@code UnicodeEscaper} instance
      */
-    public static UnicodeEscaper above(final int codepoint) {
-        return outsideOf(0, codepoint);
-    }
-
-    /**
-     * Constructs a {@code UnicodeEscaper} outside of the specified values (exclusive).
-     *
-     * @param codepointLow below which to escape
-     * @param codepointHigh above which to escape
-     * @return The newly created {@code UnicodeEscaper} instance
-     */
-    public static UnicodeEscaper outsideOf(final int codepointLow, final int codepointHigh) {
-        return new UnicodeEscaper(codepointLow, codepointHigh, false);
-    }
-
-    /**
-     * Constructs a {@code UnicodeEscaper} between the specified values (inclusive).
-     *
-     * @param codepointLow above which to escape
-     * @param codepointHigh below which to escape
-     * @return The newly created {@code UnicodeEscaper} instance
-     */
-    public static UnicodeEscaper between(final int codepointLow, final int codepointHigh) {
-        return new UnicodeEscaper(codepointLow, codepointHigh, true);
+    protected String toUtf16Escape(final int codepoint) {
+        return "\\u" + hex(codepoint);
     }
 
     /**
@@ -124,17 +136,5 @@ public class UnicodeEscaper extends CodePointTranslator {
           writer.write(HEX_DIGITS[(codepoint) & 15]);
         }
         return true;
-    }
-
-    /**
-     * Converts the given codepoint to a hex string of the form {@code "\\uXXXX"}.
-     *
-     * @param codepoint
-     *            a Unicode code point
-     * @return The hex string for the given codepoint
-     *
-     */
-    protected String toUtf16Escape(final int codepoint) {
-        return "\\u" + hex(codepoint);
     }
 }

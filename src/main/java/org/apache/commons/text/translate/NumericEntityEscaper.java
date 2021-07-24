@@ -28,32 +28,14 @@ import org.apache.commons.lang3.Range;
  */
 public class NumericEntityEscaper extends CodePointTranslator {
 
-    /** whether to escape between the boundaries or outside them. */
-    private final boolean between;
-
-    /** range from lowest codepoint to highest codepoint. */
-    private final Range<Integer> range;
-
     /**
-     * Constructs a {@code NumericEntityEscaper} for the specified range. This is
-     * the underlying method for the other constructors/builders. The {@code below}
-     * and {@code above} boundaries are inclusive when {@code between} is
-     * {@code true} and exclusive when it is {@code false}.
+     * Constructs a {@code NumericEntityEscaper} above the specified value (exclusive).
      *
-     * @param below int value representing the lowest codepoint boundary
-     * @param above int value representing the highest codepoint boundary
-     * @param between whether to escape between the boundaries or outside them
+     * @param codepoint above which to escape
+     * @return The newly created {@code NumericEntityEscaper} instance
      */
-    private NumericEntityEscaper(final int below, final int above, final boolean between) {
-        this.range = Range.between(below, above);
-        this.between = between;
-    }
-
-    /**
-     * Constructs a {@code NumericEntityEscaper} for all characters.
-     */
-    public NumericEntityEscaper() {
-        this(0, Integer.MAX_VALUE, true);
+    public static NumericEntityEscaper above(final int codepoint) {
+        return outsideOf(0, codepoint);
     }
 
     /**
@@ -64,16 +46,6 @@ public class NumericEntityEscaper extends CodePointTranslator {
      */
     public static NumericEntityEscaper below(final int codepoint) {
         return outsideOf(codepoint, Integer.MAX_VALUE);
-    }
-
-    /**
-     * Constructs a {@code NumericEntityEscaper} above the specified value (exclusive).
-     *
-     * @param codepoint above which to escape
-     * @return The newly created {@code NumericEntityEscaper} instance
-     */
-    public static NumericEntityEscaper above(final int codepoint) {
-        return outsideOf(0, codepoint);
     }
 
     /**
@@ -96,6 +68,34 @@ public class NumericEntityEscaper extends CodePointTranslator {
      */
     public static NumericEntityEscaper outsideOf(final int codepointLow, final int codepointHigh) {
         return new NumericEntityEscaper(codepointLow, codepointHigh, false);
+    }
+
+    /** whether to escape between the boundaries or outside them. */
+    private final boolean between;
+
+    /** range from lowest codepoint to highest codepoint. */
+    private final Range<Integer> range;
+
+    /**
+     * Constructs a {@code NumericEntityEscaper} for all characters.
+     */
+    public NumericEntityEscaper() {
+        this(0, Integer.MAX_VALUE, true);
+    }
+
+    /**
+     * Constructs a {@code NumericEntityEscaper} for the specified range. This is
+     * the underlying method for the other constructors/builders. The {@code below}
+     * and {@code above} boundaries are inclusive when {@code between} is
+     * {@code true} and exclusive when it is {@code false}.
+     *
+     * @param below int value representing the lowest codepoint boundary
+     * @param above int value representing the highest codepoint boundary
+     * @param between whether to escape between the boundaries or outside them
+     */
+    private NumericEntityEscaper(final int below, final int above, final boolean between) {
+        this.range = Range.between(below, above);
+        this.between = between;
     }
 
     /**

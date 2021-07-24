@@ -34,10 +34,6 @@ import org.apache.commons.lang3.ArrayUtils;
  */
 public class NumericEntityUnescaper extends CharSequenceTranslator {
 
-    /** Default options. */
-    private static final EnumSet<OPTION> DEFAULT_OPTIONS = EnumSet
-        .copyOf(Collections.singletonList(OPTION.semiColonRequired));
-
     /** Enumerates NumericEntityUnescaper options for unescaping. */
     public enum OPTION {
 
@@ -56,6 +52,10 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
          */
         errorIfNoSemiColon
     }
+
+    /** Default options. */
+    private static final EnumSet<OPTION> DEFAULT_OPTIONS = EnumSet
+        .copyOf(Collections.singletonList(OPTION.semiColonRequired));
 
     /** EnumSet of OPTIONS, given from the constructor, read-only. */
     private final EnumSet<OPTION> options;

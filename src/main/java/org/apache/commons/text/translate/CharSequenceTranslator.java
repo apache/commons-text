@@ -41,18 +41,15 @@ public abstract class CharSequenceTranslator {
                                                  'C', 'D', 'E', 'F'};
 
     /**
-     * Translate a set of codepoints, represented by an int index into a CharSequence,
-     * into another set of codepoints. The number of codepoints consumed must be returned,
-     * and the only IOExceptions thrown must be from interacting with the Writer so that
-     * the top level API may reliably ignore StringWriter IOExceptions.
+     * Returns an upper case hexadecimal {@code String} for the given
+     * character.
      *
-     * @param input CharSequence that is being translated
-     * @param index int representing the current point of translation
-     * @param writer Writer to translate the text to
-     * @return int count of codepoints consumed
-     * @throws IOException if and only if the Writer produces an IOException
+     * @param codepoint The codepoint to convert.
+     * @return An upper case hexadecimal {@code String}
      */
-    public abstract int translate(CharSequence input, int index, Writer writer) throws IOException;
+    public static String hex(final int codepoint) {
+        return Integer.toHexString(codepoint).toUpperCase(Locale.ENGLISH);
+    }
 
     /**
      * Helper for non-Writer usage.
@@ -72,6 +69,20 @@ public abstract class CharSequenceTranslator {
             throw new RuntimeException(ioe);
         }
     }
+
+    /**
+     * Translate a set of codepoints, represented by an int index into a CharSequence,
+     * into another set of codepoints. The number of codepoints consumed must be returned,
+     * and the only IOExceptions thrown must be from interacting with the Writer so that
+     * the top level API may reliably ignore StringWriter IOExceptions.
+     *
+     * @param input CharSequence that is being translated
+     * @param index int representing the current point of translation
+     * @param writer Writer to translate the text to
+     * @return int count of codepoints consumed
+     * @throws IOException if and only if the Writer produces an IOException
+     */
+    public abstract int translate(CharSequence input, int index, Writer writer) throws IOException;
 
     /**
      * Translate an input onto a Writer. This is intentionally final as its algorithm is
@@ -125,17 +136,6 @@ public abstract class CharSequenceTranslator {
         newArray[0] = this;
         System.arraycopy(translators, 0, newArray, 1, translators.length);
         return new AggregateTranslator(newArray);
-    }
-
-    /**
-     * Returns an upper case hexadecimal {@code String} for the given
-     * character.
-     *
-     * @param codepoint The codepoint to convert.
-     * @return An upper case hexadecimal {@code String}
-     */
-    public static String hex(final int codepoint) {
-        return Integer.toHexString(codepoint).toUpperCase(Locale.ENGLISH);
     }
 
 }
