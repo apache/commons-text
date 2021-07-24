@@ -79,6 +79,8 @@ import java.util.function.Function;
  * <p>{@link java.math.RoundingMode#HALF_EVEN Half-even} rounding is used in cases where the
  * decimal value must be rounded in order to meet the configuration requirements of the formatter
  * instance.
+ *
+ * @since 1.10.0
  */
 public enum DoubleFormat {
 
