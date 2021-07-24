@@ -66,13 +66,13 @@ public class EditScript<T> {
     }
 
     /**
-     * Appends a keep command to the script.
+     * Appends a delete command to the script.
      *
      * @param command  command to add
      */
-    public void append(final KeepCommand<T> command) {
+    public void append(final DeleteCommand<T> command) {
         commands.add(command);
-        ++lcsLength;
+        ++modifications;
     }
 
     /**
@@ -86,28 +86,13 @@ public class EditScript<T> {
     }
 
     /**
-     * Appends a delete command to the script.
+     * Appends a keep command to the script.
      *
      * @param command  command to add
      */
-    public void append(final DeleteCommand<T> command) {
+    public void append(final KeepCommand<T> command) {
         commands.add(command);
-        ++modifications;
-    }
-
-    /**
-     * Visits the script. The script implements the <em>visitor</em> design
-     * pattern, this method is the entry point to which the user supplies its
-     * own visitor, the script will be responsible to drive it through the
-     * commands in order and call the appropriate method as each command is
-     * encountered.
-     *
-     * @param visitor  the visitor that will visit all commands in turn
-     */
-    public void visit(final CommandVisitor<T> visitor) {
-        for (final EditCommand<T> command : commands) {
-            command.accept(visitor);
-        }
+        ++lcsLength;
     }
 
     /**
@@ -130,6 +115,21 @@ public class EditScript<T> {
      */
     public int getModifications() {
         return modifications;
+    }
+
+    /**
+     * Visits the script. The script implements the <em>visitor</em> design
+     * pattern, this method is the entry point to which the user supplies its
+     * own visitor, the script will be responsible to drive it through the
+     * commands in order and call the appropriate method as each command is
+     * encountered.
+     *
+     * @param visitor  the visitor that will visit all commands in turn
+     */
+    public void visit(final CommandVisitor<T> visitor) {
+        for (final EditCommand<T> command : commands) {
+            command.accept(visitor);
+        }
     }
 
 }

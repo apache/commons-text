@@ -53,6 +53,61 @@ package org.apache.commons.text.diff;
 public class StringsComparator {
 
     /**
+     * This class is a simple placeholder to hold the end part of a path
+     * under construction in a {@link StringsComparator StringsComparator}.
+     */
+    private static class Snake {
+
+        /** Start index. */
+        private final int start;
+
+        /** End index. */
+        private final int end;
+
+        /** Diagonal number. */
+        private final int diag;
+
+        /**
+         * Constructs a new instance of Snake with specified indices.
+         *
+         * @param start  start index of the snake
+         * @param end  end index of the snake
+         * @param diag  diagonal number
+         */
+        Snake(final int start, final int end, final int diag) {
+            this.start = start;
+            this.end   = end;
+            this.diag  = diag;
+        }
+
+        /**
+         * Gets the diagonal number of the snake.
+         *
+         * @return diagonal number of the snake
+         */
+        public int getDiag() {
+            return diag;
+        }
+
+        /**
+         * Gets the end index of the snake.
+         *
+         * @return end index of the snake
+         */
+        public int getEnd() {
+            return end;
+        }
+
+        /**
+         * Gets the start index of the snake.
+         *
+         * @return start index of the snake
+         */
+        public int getStart() {
+            return start;
+        }
+    }
+    /**
      * First character sequence.
      */
     private final String left;
@@ -64,6 +119,7 @@ public class StringsComparator {
      * Temporary array.
      */
     private final int[] vDown;
+
     /**
      * Temporary array.
      */
@@ -89,26 +145,6 @@ public class StringsComparator {
         final int size = left.length() + right.length() + 2;
         vDown = new int[size];
         vUp   = new int[size];
-    }
-
-    /**
-     * Gets the {@link EditScript} object.
-     * <p>
-     * It is guaranteed that the objects embedded in the {@link InsertCommand
-     * insert commands} come from the second sequence and that the objects
-     * embedded in either the {@link DeleteCommand delete commands} or
-     * {@link KeepCommand keep commands} come from the first sequence. This can
-     * be important if subclassing is used for some elements in the first
-     * sequence and the {@code equals} method is specialized.
-     * </p>
-     *
-     * @return The edit script resulting from the comparison of the two
-     *         sequences
-     */
-    public EditScript<Character> getScript() {
-        final EditScript<Character> script = new EditScript<>();
-        buildScript(0, left.length(), 0, right.length(), script);
-        return script;
     }
 
     /**
@@ -158,6 +194,25 @@ public class StringsComparator {
                         middle.getEnd() - middle.getDiag(), end2,
                         script);
         }
+    }
+
+    /**
+     * Builds a snake.
+     *
+     * @param start  the value of the start of the snake
+     * @param diag  the value of the diagonal of the snake
+     * @param end1  the value of the end of the first sequence to be compared
+     * @param end2  the value of the end of the second sequence to be compared
+     * @return The snake built
+     */
+    private Snake buildSnake(final int start, final int diag, final int end1, final int end2) {
+        int end = start;
+        while (end - diag < end2
+                && end < end1
+                && left.charAt(end) == right.charAt(end - diag)) {
+            ++end;
+        }
+        return new Snake(start, end, diag);
     }
 
     /**
@@ -251,78 +306,23 @@ public class StringsComparator {
     }
 
     /**
-     * Builds a snake.
+     * Gets the {@link EditScript} object.
+     * <p>
+     * It is guaranteed that the objects embedded in the {@link InsertCommand
+     * insert commands} come from the second sequence and that the objects
+     * embedded in either the {@link DeleteCommand delete commands} or
+     * {@link KeepCommand keep commands} come from the first sequence. This can
+     * be important if subclassing is used for some elements in the first
+     * sequence and the {@code equals} method is specialized.
+     * </p>
      *
-     * @param start  the value of the start of the snake
-     * @param diag  the value of the diagonal of the snake
-     * @param end1  the value of the end of the first sequence to be compared
-     * @param end2  the value of the end of the second sequence to be compared
-     * @return The snake built
+     * @return The edit script resulting from the comparison of the two
+     *         sequences
      */
-    private Snake buildSnake(final int start, final int diag, final int end1, final int end2) {
-        int end = start;
-        while (end - diag < end2
-                && end < end1
-                && left.charAt(end) == right.charAt(end - diag)) {
-            ++end;
-        }
-        return new Snake(start, end, diag);
-    }
-
-    /**
-     * This class is a simple placeholder to hold the end part of a path
-     * under construction in a {@link StringsComparator StringsComparator}.
-     */
-    private static class Snake {
-
-        /** Start index. */
-        private final int start;
-
-        /** End index. */
-        private final int end;
-
-        /** Diagonal number. */
-        private final int diag;
-
-        /**
-         * Constructs a new instance of Snake with specified indices.
-         *
-         * @param start  start index of the snake
-         * @param end  end index of the snake
-         * @param diag  diagonal number
-         */
-        Snake(final int start, final int end, final int diag) {
-            this.start = start;
-            this.end   = end;
-            this.diag  = diag;
-        }
-
-        /**
-         * Gets the start index of the snake.
-         *
-         * @return start index of the snake
-         */
-        public int getStart() {
-            return start;
-        }
-
-        /**
-         * Gets the end index of the snake.
-         *
-         * @return end index of the snake
-         */
-        public int getEnd() {
-            return end;
-        }
-
-        /**
-         * Gets the diagonal number of the snake.
-         *
-         * @return diagonal number of the snake
-         */
-        public int getDiag() {
-            return diag;
-        }
+    public EditScript<Character> getScript() {
+        final EditScript<Character> script = new EditScript<>();
+        buildScript(0, left.length(), 0, right.length(), script);
+        return script;
     }
 
 }
