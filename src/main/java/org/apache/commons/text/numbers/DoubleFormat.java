@@ -145,23 +145,166 @@ public enum DoubleFormat {
      */
     MIXED(MixedDoubleFormat::new);
 
-    /** Function used to construct instances for this format type. */
-    private final Function<Builder, DoubleFunction<String>> factory;
-
     /**
-     * Constructs a new instance.
-     * @param factory function used to construct format instances
+     * Base class for standard double formatting classes.
      */
-    DoubleFormat(final Function<Builder, DoubleFunction<String>> factory) {
-        this.factory = factory;
-    }
+    private abstract static class AbstractDoubleFormat
+        implements DoubleFunction<String>, ParsedDecimal.FormatOptions {
 
-    /**
-     * Creates a {@link Builder} for building formatter functions for this format type.
-     * @return builder instance
-     */
-    public Builder builder() {
-        return new Builder(factory);
+        /** Maximum precision; 0 indicates no limit. */
+        private final int maxPrecision;
+
+        /** Minimum decimal exponent. */
+        private final int minDecimalExponent;
+
+        /** String representing positive infinity. */
+        private final String positiveInfinity;
+
+        /** String representing negative infinity. */
+        private final String negativeInfinity;
+
+        /** String representing NaN. */
+        private final String nan;
+
+        /** Flag determining if fraction placeholders should be used. */
+        private final boolean fractionPlaceholder;
+
+        /** Flag determining if signed zero strings are allowed. */
+        private final boolean signedZero;
+
+        /** String containing the digits 0-9. */
+        private final char[] digits;
+
+        /** Decimal separator character. */
+        private final char decimalSeparator;
+
+        /** Thousands grouping separator. */
+        private final char groupingSeparator;
+
+        /** Flag indicating if thousands should be grouped. */
+        private final boolean groupThousands;
+
+        /** Minus sign character. */
+        private final char minusSign;
+
+        /** Exponent separator character. */
+        private final char[] exponentSeparatorChars;
+
+        /** Flag indicating if exponent values should always be included, even if zero. */
+        private final boolean alwaysIncludeExponent;
+
+        /**
+         * Constructs a new instance.
+         * @param builder builder instance containing configuration values
+         */
+        AbstractDoubleFormat(final Builder builder) {
+            this.maxPrecision = builder.maxPrecision;
+            this.minDecimalExponent = builder.minDecimalExponent;
+
+            this.positiveInfinity = builder.infinity;
+            this.negativeInfinity = builder.minusSign + builder.infinity;
+            this.nan = builder.nan;
+
+            this.fractionPlaceholder = builder.fractionPlaceholder;
+            this.signedZero = builder.signedZero;
+            this.digits = builder.digits.toCharArray();
+            this.decimalSeparator = builder.decimalSeparator;
+            this.groupingSeparator = builder.groupingSeparator;
+            this.groupThousands = builder.groupThousands;
+            this.minusSign = builder.minusSign;
+            this.exponentSeparatorChars = builder.exponentSeparator.toCharArray();
+            this.alwaysIncludeExponent = builder.alwaysIncludeExponent;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String apply(final double d) {
+            if (Double.isFinite(d)) {
+                return applyFinite(d);
+            } else if (Double.isInfinite(d)) {
+                return d > 0.0
+                        ? positiveInfinity
+                        : negativeInfinity;
+            }
+            return nan;
+        }
+
+        /**
+         * Returns a formatted string representation of the given finite value.
+         * @param d double value
+         */
+        private String applyFinite(final double d) {
+            final ParsedDecimal n = ParsedDecimal.from(d);
+
+            int roundExponent = Math.max(n.getExponent(), minDecimalExponent);
+            if (maxPrecision > 0) {
+                roundExponent = Math.max(n.getScientificExponent() - maxPrecision + 1, roundExponent);
+            }
+            n.round(roundExponent);
+
+            return applyFiniteInternal(n);
+        }
+
+        /**
+         * Returns a formatted representation of the given rounded decimal value to {@code dst}.
+         * @param val value to format
+         * @return a formatted representation of the given rounded decimal value to {@code dst}.
+         */
+        protected abstract String applyFiniteInternal(ParsedDecimal val);
+
+        /** {@inheritDoc} */
+        @Override
+        public char getDecimalSeparator() {
+            return decimalSeparator;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public char[] getDigits() {
+            return digits;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public char[] getExponentSeparatorChars() {
+            return exponentSeparatorChars;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public char getGroupingSeparator() {
+            return groupingSeparator;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public char getMinusSign() {
+            return minusSign;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean isAlwaysIncludeExponent() {
+            return alwaysIncludeExponent;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean isGroupThousands() {
+            return groupThousands;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean isIncludeFractionPlaceholder() {
+            return fractionPlaceholder;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean isSignedZero() {
+            return signedZero;
+        }
     }
 
     /**
@@ -236,79 +379,6 @@ public enum DoubleFormat {
         }
 
         /**
-         * Sets the maximum number of significant decimal digits used in format
-         * results. A value of {@code 0} indicates no limit. The default value is {@code 0}.
-         * @param maxPrecision maximum precision
-         * @return this instance
-         */
-        public Builder maxPrecision(final int maxPrecision) {
-            this.maxPrecision = maxPrecision;
-            return this;
-        }
-
-        /**
-         * Sets the minimum decimal exponent for formatted strings. No digits with an
-         * absolute value of less than <code>10<sup>minDecimalExponent</sup></code> will
-         * be included in format results. If the number being formatted does not contain
-         * any such digits, then zero is returned. For example, if {@code minDecimalExponent}
-         * is set to {@code -2} and the number {@code 3.14159} is formatted, the plain
-         * format result will be {@code "3.14"}. If {@code 0.001} is formatted, then the
-         * result is the zero string.
-         * @param minDecimalExponent minimum decimal exponent
-         * @return this instance
-         */
-        public Builder minDecimalExponent(final int minDecimalExponent) {
-            this.minDecimalExponent = minDecimalExponent;
-            return this;
-        }
-
-        /**
-         * Sets the maximum decimal exponent for numbers formatted as plain decimal strings when
-         * using the {@link DoubleFormat#MIXED MIXED} format type. If the number being formatted
-         * has an absolute value less than <code>10<sup>plainFormatMaxDecimalExponent + 1</sup></code> and
-         * greater than or equal to <code>10<sup>plainFormatMinDecimalExponent</sup></code> after any
-         * necessary rounding, then the formatted result will use the {@link DoubleFormat#PLAIN PLAIN} format type.
-         * Otherwise, {@link DoubleFormat#SCIENTIFIC SCIENTIFIC} format will be used. For example,
-         * if this value is set to {@code 2}, the number {@code 999} will be formatted as {@code "999.0"}
-         * while {@code 1000} will be formatted as {@code "1.0E3"}.
-         *
-         * <p>The default value is {@value #DEFAULT_PLAIN_FORMAT_MAX_DECIMAL_EXPONENT}.
-         *
-         * <p>This value is ignored for formats other than {@link DoubleFormat#MIXED}.
-         * @param plainFormatMaxDecimalExponent maximum decimal exponent for values formatted as plain
-         *      strings when using the {@link DoubleFormat#MIXED MIXED} format type.
-         * @return this instance
-         * @see #plainFormatMinDecimalExponent(int)
-         */
-        public Builder plainFormatMaxDecimalExponent(final int plainFormatMaxDecimalExponent) {
-            this.plainFormatMaxDecimalExponent = plainFormatMaxDecimalExponent;
-            return this;
-        }
-
-        /**
-         * Sets the minimum decimal exponent for numbers formatted as plain decimal strings when
-         * using the {@link DoubleFormat#MIXED MIXED} format type. If the number being formatted
-         * has an absolute value less than <code>10<sup>plainFormatMaxDecimalExponent + 1</sup></code> and
-         * greater than or equal to <code>10<sup>plainFormatMinDecimalExponent</sup></code> after any
-         * necessary rounding, then the formatted result will use the {@link DoubleFormat#PLAIN PLAIN} format type.
-         * Otherwise, {@link DoubleFormat#SCIENTIFIC SCIENTIFIC} format will be used. For example,
-         * if this value is set to {@code -2}, the number {@code 0.01} will be formatted as {@code "0.01"}
-         * while {@code 0.0099} will be formatted as {@code "9.9E-3"}.
-         *
-         * <p>The default value is {@value #DEFAULT_PLAIN_FORMAT_MIN_DECIMAL_EXPONENT}.
-         *
-         * <p>This value is ignored for formats other than {@link DoubleFormat#MIXED}.
-         * @param plainFormatMinDecimalExponent maximum decimal exponent for values formatted as plain
-         *      strings when using the {@link DoubleFormat#MIXED MIXED} format type.
-         * @return this instance
-         * @see #plainFormatMinDecimalExponent(int)
-         */
-        public Builder plainFormatMinDecimalExponent(final int plainFormatMinDecimalExponent) {
-            this.plainFormatMinDecimalExponent = plainFormatMinDecimalExponent;
-            return this;
-        }
-
-        /**
          * Sets the flag determining whether or not the zero string may be returned with the minus
          * sign or if it will always be returned in the positive form. For example, if set to {@code true},
          * the string {@code "-0.0"} may be returned for some input numbers. If {@code false}, only {@code "0.0"}
@@ -319,6 +389,42 @@ public enum DoubleFormat {
          */
         public Builder allowSignedZero(final boolean signedZero) {
             this.signedZero = signedZero;
+            return this;
+        }
+
+        /**
+         * Sets the flag indicating if an exponent value should always be included in the
+         * formatted value, even if the exponent value is zero. This property only applies
+         * to formats that use scientific notation, namely
+         * {@link DoubleFormat#SCIENTIFIC SCIENTIFIC},
+         * {@link DoubleFormat#ENGINEERING ENGINEERING}, and
+         * {@link DoubleFormat#MIXED MIXED}. The default value is {@code false}.
+         * @param alwaysIncludeExponent if {@code true}, exponents will always be included in formatted
+         *      output even if the exponent value is zero
+         * @return this instance
+         */
+        public Builder alwaysIncludeExponent(final boolean alwaysIncludeExponent) {
+            this.alwaysIncludeExponent = alwaysIncludeExponent;
+            return this;
+        }
+
+        /**
+         * Builds a new double format function.
+         * @return format function
+         */
+        public DoubleFunction<String> build() {
+            return factory.apply(this);
+        }
+
+        /**
+         * Sets the decimal separator character, i.e., the character placed between the
+         * whole number and fractional portions of the formatted strings. The default value
+         * is {@code '.'}.
+         * @param decimalSeparator decimal separator character
+         * @return this instance
+         */
+        public Builder decimalSeparator(final char decimalSeparator) {
+            this.decimalSeparator = decimalSeparator;
             return this;
         }
 
@@ -342,67 +448,6 @@ public enum DoubleFormat {
         }
 
         /**
-         * Sets the flag determining whether or not a zero character is added in the fraction position
-         * when no fractional value is present. For example, if set to {@code true}, the number {@code 1} would
-         * be formatted as {@code "1.0"}. If {@code false}, it would be formatted as {@code "1"}. The default
-         * value is {@code true}.
-         * @param fractionPlaceholder if {@code true}, a zero character is placed in the fraction position when
-         *      no fractional value is present; if {@code false}, fractional digits are only included when needed
-         * @return this instance
-         */
-        public Builder includeFractionPlaceholder(final boolean fractionPlaceholder) {
-            this.fractionPlaceholder = fractionPlaceholder;
-            return this;
-        }
-
-        /**
-         * Sets the character used as the minus sign.
-         * @param minusSign character to use as the minus sign
-         * @return this instance
-         */
-        public Builder minusSign(final char minusSign) {
-            this.minusSign = minusSign;
-            return this;
-        }
-
-        /**
-         * Sets the decimal separator character, i.e., the character placed between the
-         * whole number and fractional portions of the formatted strings. The default value
-         * is {@code '.'}.
-         * @param decimalSeparator decimal separator character
-         * @return this instance
-         */
-        public Builder decimalSeparator(final char decimalSeparator) {
-            this.decimalSeparator = decimalSeparator;
-            return this;
-        }
-
-        /**
-         * Sets the character used to separate groups of thousands. Default value is {@code ','}.
-         * @param groupingSeparator character used to separate groups of thousands
-         * @return this instance
-         * @see #groupThousands(boolean)
-         */
-        public Builder groupingSeparator(final char groupingSeparator) {
-            this.groupingSeparator = groupingSeparator;
-            return this;
-        }
-
-        /**
-         * If set to {@code true}, thousands will be grouped with the
-         * {@link #groupingSeparator(char) grouping separator}. For example, if set to {@code true},
-         * the number {@code 1000} could be formatted as {@code "1,000"}. This property only applies
-         * to the {@link DoubleFormat#PLAIN PLAIN} format. Default value is {@code false}.
-         * @param groupThousands if {@code true}, thousands will be grouped
-         * @return this instance
-         * @see #groupingSeparator(char)
-         */
-        public Builder groupThousands(final boolean groupThousands) {
-            this.groupThousands = groupThousands;
-            return this;
-        }
-
-        /**
          * Sets the exponent separator character, i.e., the string placed between
          * the mantissa and the exponent. The default value is {@code "E"}, as in
          * {@code "1.2E6"}.
@@ -412,45 +457,6 @@ public enum DoubleFormat {
          */
         public Builder exponentSeparator(final String exponentSeparator) {
             this.exponentSeparator = Objects.requireNonNull(exponentSeparator, "Exponent separator cannot be null");
-            return this;
-        }
-
-        /**
-         * Sets the flag indicating if an exponent value should always be included in the
-         * formatted value, even if the exponent value is zero. This property only applies
-         * to formats that use scientific notation, namely
-         * {@link DoubleFormat#SCIENTIFIC SCIENTIFIC},
-         * {@link DoubleFormat#ENGINEERING ENGINEERING}, and
-         * {@link DoubleFormat#MIXED MIXED}. The default value is {@code false}.
-         * @param alwaysIncludeExponent if {@code true}, exponents will always be included in formatted
-         *      output even if the exponent value is zero
-         * @return this instance
-         */
-        public Builder alwaysIncludeExponent(final boolean alwaysIncludeExponent) {
-            this.alwaysIncludeExponent = alwaysIncludeExponent;
-            return this;
-        }
-
-        /**
-         * Sets the string used to represent infinity. For negative infinity, this string
-         * is prefixed with the {@link #minusSign(char) minus sign}.
-         * @param infinity string used to represent infinity
-         * @return this instance
-         * @throws NullPointerException if the argument is {@code null}
-         */
-        public Builder infinity(final String infinity) {
-            this.infinity = Objects.requireNonNull(infinity, "Infinity string cannot be null");
-            return this;
-        }
-
-        /**
-         * Sets the string used to represent {@link Double#NaN}.
-         * @param nan string used to represent {@link Double#NaN}
-         * @return this instance
-         * @throws NullPointerException if the argument is {@code null}
-         */
-        public Builder nan(final String nan) {
-            this.nan = Objects.requireNonNull(nan, "NaN string cannot be null");
             return this;
         }
 
@@ -504,196 +510,168 @@ public enum DoubleFormat {
         }
 
         /**
-         * Builds a new double format function.
-         * @return format function
+         * Sets the character used to separate groups of thousands. Default value is {@code ','}.
+         * @param groupingSeparator character used to separate groups of thousands
+         * @return this instance
+         * @see #groupThousands(boolean)
          */
-        public DoubleFunction<String> build() {
-            return factory.apply(this);
+        public Builder groupingSeparator(final char groupingSeparator) {
+            this.groupingSeparator = groupingSeparator;
+            return this;
+        }
+
+        /**
+         * If set to {@code true}, thousands will be grouped with the
+         * {@link #groupingSeparator(char) grouping separator}. For example, if set to {@code true},
+         * the number {@code 1000} could be formatted as {@code "1,000"}. This property only applies
+         * to the {@link DoubleFormat#PLAIN PLAIN} format. Default value is {@code false}.
+         * @param groupThousands if {@code true}, thousands will be grouped
+         * @return this instance
+         * @see #groupingSeparator(char)
+         */
+        public Builder groupThousands(final boolean groupThousands) {
+            this.groupThousands = groupThousands;
+            return this;
+        }
+
+        /**
+         * Sets the flag determining whether or not a zero character is added in the fraction position
+         * when no fractional value is present. For example, if set to {@code true}, the number {@code 1} would
+         * be formatted as {@code "1.0"}. If {@code false}, it would be formatted as {@code "1"}. The default
+         * value is {@code true}.
+         * @param fractionPlaceholder if {@code true}, a zero character is placed in the fraction position when
+         *      no fractional value is present; if {@code false}, fractional digits are only included when needed
+         * @return this instance
+         */
+        public Builder includeFractionPlaceholder(final boolean fractionPlaceholder) {
+            this.fractionPlaceholder = fractionPlaceholder;
+            return this;
+        }
+
+        /**
+         * Sets the string used to represent infinity. For negative infinity, this string
+         * is prefixed with the {@link #minusSign(char) minus sign}.
+         * @param infinity string used to represent infinity
+         * @return this instance
+         * @throws NullPointerException if the argument is {@code null}
+         */
+        public Builder infinity(final String infinity) {
+            this.infinity = Objects.requireNonNull(infinity, "Infinity string cannot be null");
+            return this;
+        }
+
+        /**
+         * Sets the maximum number of significant decimal digits used in format
+         * results. A value of {@code 0} indicates no limit. The default value is {@code 0}.
+         * @param maxPrecision maximum precision
+         * @return this instance
+         */
+        public Builder maxPrecision(final int maxPrecision) {
+            this.maxPrecision = maxPrecision;
+            return this;
+        }
+
+        /**
+         * Sets the minimum decimal exponent for formatted strings. No digits with an
+         * absolute value of less than <code>10<sup>minDecimalExponent</sup></code> will
+         * be included in format results. If the number being formatted does not contain
+         * any such digits, then zero is returned. For example, if {@code minDecimalExponent}
+         * is set to {@code -2} and the number {@code 3.14159} is formatted, the plain
+         * format result will be {@code "3.14"}. If {@code 0.001} is formatted, then the
+         * result is the zero string.
+         * @param minDecimalExponent minimum decimal exponent
+         * @return this instance
+         */
+        public Builder minDecimalExponent(final int minDecimalExponent) {
+            this.minDecimalExponent = minDecimalExponent;
+            return this;
+        }
+
+        /**
+         * Sets the character used as the minus sign.
+         * @param minusSign character to use as the minus sign
+         * @return this instance
+         */
+        public Builder minusSign(final char minusSign) {
+            this.minusSign = minusSign;
+            return this;
+        }
+
+        /**
+         * Sets the string used to represent {@link Double#NaN}.
+         * @param nan string used to represent {@link Double#NaN}
+         * @return this instance
+         * @throws NullPointerException if the argument is {@code null}
+         */
+        public Builder nan(final String nan) {
+            this.nan = Objects.requireNonNull(nan, "NaN string cannot be null");
+            return this;
+        }
+
+        /**
+         * Sets the maximum decimal exponent for numbers formatted as plain decimal strings when
+         * using the {@link DoubleFormat#MIXED MIXED} format type. If the number being formatted
+         * has an absolute value less than <code>10<sup>plainFormatMaxDecimalExponent + 1</sup></code> and
+         * greater than or equal to <code>10<sup>plainFormatMinDecimalExponent</sup></code> after any
+         * necessary rounding, then the formatted result will use the {@link DoubleFormat#PLAIN PLAIN} format type.
+         * Otherwise, {@link DoubleFormat#SCIENTIFIC SCIENTIFIC} format will be used. For example,
+         * if this value is set to {@code 2}, the number {@code 999} will be formatted as {@code "999.0"}
+         * while {@code 1000} will be formatted as {@code "1.0E3"}.
+         *
+         * <p>The default value is {@value #DEFAULT_PLAIN_FORMAT_MAX_DECIMAL_EXPONENT}.
+         *
+         * <p>This value is ignored for formats other than {@link DoubleFormat#MIXED}.
+         * @param plainFormatMaxDecimalExponent maximum decimal exponent for values formatted as plain
+         *      strings when using the {@link DoubleFormat#MIXED MIXED} format type.
+         * @return this instance
+         * @see #plainFormatMinDecimalExponent(int)
+         */
+        public Builder plainFormatMaxDecimalExponent(final int plainFormatMaxDecimalExponent) {
+            this.plainFormatMaxDecimalExponent = plainFormatMaxDecimalExponent;
+            return this;
+        }
+
+        /**
+         * Sets the minimum decimal exponent for numbers formatted as plain decimal strings when
+         * using the {@link DoubleFormat#MIXED MIXED} format type. If the number being formatted
+         * has an absolute value less than <code>10<sup>plainFormatMaxDecimalExponent + 1</sup></code> and
+         * greater than or equal to <code>10<sup>plainFormatMinDecimalExponent</sup></code> after any
+         * necessary rounding, then the formatted result will use the {@link DoubleFormat#PLAIN PLAIN} format type.
+         * Otherwise, {@link DoubleFormat#SCIENTIFIC SCIENTIFIC} format will be used. For example,
+         * if this value is set to {@code -2}, the number {@code 0.01} will be formatted as {@code "0.01"}
+         * while {@code 0.0099} will be formatted as {@code "9.9E-3"}.
+         *
+         * <p>The default value is {@value #DEFAULT_PLAIN_FORMAT_MIN_DECIMAL_EXPONENT}.
+         *
+         * <p>This value is ignored for formats other than {@link DoubleFormat#MIXED}.
+         * @param plainFormatMinDecimalExponent maximum decimal exponent for values formatted as plain
+         *      strings when using the {@link DoubleFormat#MIXED MIXED} format type.
+         * @return this instance
+         * @see #plainFormatMinDecimalExponent(int)
+         */
+        public Builder plainFormatMinDecimalExponent(final int plainFormatMinDecimalExponent) {
+            this.plainFormatMinDecimalExponent = plainFormatMinDecimalExponent;
+            return this;
         }
     }
 
     /**
-     * Base class for standard double formatting classes.
+     * Format class that uses engineering notation for all values.
      */
-    private abstract static class AbstractDoubleFormat
-        implements DoubleFunction<String>, ParsedDecimal.FormatOptions {
-
-        /** Maximum precision; 0 indicates no limit. */
-        private final int maxPrecision;
-
-        /** Minimum decimal exponent. */
-        private final int minDecimalExponent;
-
-        /** String representing positive infinity. */
-        private final String positiveInfinity;
-
-        /** String representing negative infinity. */
-        private final String negativeInfinity;
-
-        /** String representing NaN. */
-        private final String nan;
-
-        /** Flag determining if fraction placeholders should be used. */
-        private final boolean fractionPlaceholder;
-
-        /** Flag determining if signed zero strings are allowed. */
-        private final boolean signedZero;
-
-        /** String containing the digits 0-9. */
-        private final char[] digits;
-
-        /** Decimal separator character. */
-        private final char decimalSeparator;
-
-        /** Thousands grouping separator. */
-        private final char groupingSeparator;
-
-        /** Flag indicating if thousands should be grouped. */
-        private final boolean groupThousands;
-
-        /** Minus sign character. */
-        private final char minusSign;
-
-        /** Exponent separator character. */
-        private final char[] exponentSeparatorChars;
-
-        /** Flag indicating if exponent values should always be included, even if zero. */
-        private final boolean alwaysIncludeExponent;
+    private static class EngineeringDoubleFormat extends AbstractDoubleFormat {
 
         /**
          * Constructs a new instance.
          * @param builder builder instance containing configuration values
          */
-        AbstractDoubleFormat(final Builder builder) {
-            this.maxPrecision = builder.maxPrecision;
-            this.minDecimalExponent = builder.minDecimalExponent;
-
-            this.positiveInfinity = builder.infinity;
-            this.negativeInfinity = builder.minusSign + builder.infinity;
-            this.nan = builder.nan;
-
-            this.fractionPlaceholder = builder.fractionPlaceholder;
-            this.signedZero = builder.signedZero;
-            this.digits = builder.digits.toCharArray();
-            this.decimalSeparator = builder.decimalSeparator;
-            this.groupingSeparator = builder.groupingSeparator;
-            this.groupThousands = builder.groupThousands;
-            this.minusSign = builder.minusSign;
-            this.exponentSeparatorChars = builder.exponentSeparator.toCharArray();
-            this.alwaysIncludeExponent = builder.alwaysIncludeExponent;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public boolean isIncludeFractionPlaceholder() {
-            return fractionPlaceholder;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public boolean isSignedZero() {
-            return signedZero;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public char[] getDigits() {
-            return digits;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public char getDecimalSeparator() {
-            return decimalSeparator;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public char getGroupingSeparator() {
-            return groupingSeparator;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public boolean isGroupThousands() {
-            return groupThousands;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public char getMinusSign() {
-            return minusSign;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public char[] getExponentSeparatorChars() {
-            return exponentSeparatorChars;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public boolean isAlwaysIncludeExponent() {
-            return alwaysIncludeExponent;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public String apply(final double d) {
-            if (Double.isFinite(d)) {
-                return applyFinite(d);
-            } else if (Double.isInfinite(d)) {
-                return d > 0.0
-                        ? positiveInfinity
-                        : negativeInfinity;
-            }
-            return nan;
-        }
-
-        /**
-         * Returns a formatted string representation of the given finite value.
-         * @param d double value
-         */
-        private String applyFinite(final double d) {
-            final ParsedDecimal n = ParsedDecimal.from(d);
-
-            int roundExponent = Math.max(n.getExponent(), minDecimalExponent);
-            if (maxPrecision > 0) {
-                roundExponent = Math.max(n.getScientificExponent() - maxPrecision + 1, roundExponent);
-            }
-            n.round(roundExponent);
-
-            return applyFiniteInternal(n);
-        }
-
-        /**
-         * Returns a formatted representation of the given rounded decimal value to {@code dst}.
-         * @param val value to format
-         * @return a formatted representation of the given rounded decimal value to {@code dst}.
-         */
-        protected abstract String applyFiniteInternal(ParsedDecimal val);
-    }
-
-    /**
-     * Format class that produces plain decimal strings that do not use
-     * scientific notation.
-     */
-    private static class PlainDoubleFormat extends AbstractDoubleFormat {
-
-        /**
-         * Constructs a new instance.
-         * @param builder builder instance containing configuration values
-         */
-        PlainDoubleFormat(final Builder builder) {
+        EngineeringDoubleFormat(final Builder builder) {
             super(builder);
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        /** {@inheritDoc} */
         @Override
-        protected String applyFiniteInternal(final ParsedDecimal val) {
-            return val.toPlainString(this);
+        public String applyFiniteInternal(final ParsedDecimal val) {
+            return val.toEngineeringString(this);
         }
     }
 
@@ -733,6 +711,29 @@ public enum DoubleFormat {
     }
 
     /**
+     * Format class that produces plain decimal strings that do not use
+     * scientific notation.
+     */
+    private static class PlainDoubleFormat extends AbstractDoubleFormat {
+
+        /**
+         * Constructs a new instance.
+         * @param builder builder instance containing configuration values
+         */
+        PlainDoubleFormat(final Builder builder) {
+            super(builder);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected String applyFiniteInternal(final ParsedDecimal val) {
+            return val.toPlainString(this);
+        }
+    }
+
+    /**
      * Format class that uses scientific notation for all values.
      */
     private static class ScientificDoubleFormat extends AbstractDoubleFormat {
@@ -752,23 +753,22 @@ public enum DoubleFormat {
         }
     }
 
+    /** Function used to construct instances for this format type. */
+    private final Function<Builder, DoubleFunction<String>> factory;
+
     /**
-     * Format class that uses engineering notation for all values.
+     * Constructs a new instance.
+     * @param factory function used to construct format instances
      */
-    private static class EngineeringDoubleFormat extends AbstractDoubleFormat {
+    DoubleFormat(final Function<Builder, DoubleFunction<String>> factory) {
+        this.factory = factory;
+    }
 
-        /**
-         * Constructs a new instance.
-         * @param builder builder instance containing configuration values
-         */
-        EngineeringDoubleFormat(final Builder builder) {
-            super(builder);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public String applyFiniteInternal(final ParsedDecimal val) {
-            return val.toEngineeringString(this);
-        }
+    /**
+     * Creates a {@link Builder} for building formatter functions for this format type.
+     * @return builder instance
+     */
+    public Builder builder() {
+        return new Builder(factory);
     }
 }
