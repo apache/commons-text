@@ -605,7 +605,7 @@ class ParsedDecimalTest {
 
     private static void assertThrowsWithMessage(final Executable fn, final Class<? extends Throwable> type,
             final String msg) {
-        Throwable exc = Assertions.assertThrows(type, fn);
+        final Throwable exc = Assertions.assertThrows(type, fn);
         Assertions.assertEquals(msg, exc.getMessage());
     }
 

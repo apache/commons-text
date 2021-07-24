@@ -680,7 +680,7 @@ public enum DoubleFormat {
      */
     private static class PlainDoubleFormat extends AbstractDoubleFormat {
 
-        /** 
+        /**
          * Constructs a new instance.
          * @param builder builder instance containing configuration values
          */
@@ -689,7 +689,7 @@ public enum DoubleFormat {
         }
 
         /**
-         * {@inheritDoc} 
+         * {@inheritDoc}
          */
         @Override
         protected String applyFiniteInternal(final ParsedDecimal val) {

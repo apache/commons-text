@@ -738,7 +738,7 @@ final class ParsedDecimal {
      */
     private static int parseExponent(final char[] chars, final int start) {
         int i = start;
-        boolean neg = chars[i] == MINUS_CHAR;
+        final boolean neg = chars[i] == MINUS_CHAR;
         if (neg) {
             ++i;
         }

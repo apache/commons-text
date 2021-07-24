@@ -56,7 +56,7 @@ class DoubleFormatTest {
     @Test
     void testPlain_defaults() {
         // arrange
-        DoubleFunction<String> fmt = DoubleFormat.PLAIN.builder()
+        final DoubleFunction<String> fmt = DoubleFormat.PLAIN.builder()
             .build();
 
         // act/assert
@@ -93,7 +93,7 @@ class DoubleFormatTest {
     @Test
     void testPlain_custom() {
         // arrange
-        DoubleFunction<String> fmt = DoubleFormat.PLAIN.builder()
+        final DoubleFunction<String> fmt = DoubleFormat.PLAIN.builder()
             .maxPrecision(3)
             .minDecimalExponent(-3)
             .allowSignedZero(false)
@@ -549,8 +549,8 @@ class DoubleFormatTest {
         // JDK 16 adds directionality characters to strings for certain locales, such as Arabic, whereas
         // previous JDKs do not. We will match the behavior of the previous versions here and ignore formatting
         // for test purposes.
-        String dfStr = trimFormatChars(df.format(d));
-        String fmtStr = trimFormatChars(fmt.apply(d));
+        final String dfStr = trimFormatChars(df.format(d));
+        final String fmtStr = trimFormatChars(fmt.apply(d));
 
         Assertions.assertEquals(dfStr, fmtStr,
                 () -> "Unexpected output for locale [" + loc.toLanguageTag() + "] and double value " + d);

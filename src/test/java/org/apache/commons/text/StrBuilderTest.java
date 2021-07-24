@@ -217,7 +217,7 @@ public class StrBuilderTest {
     @Test
     public void testAppendToStringBuffer() throws Exception {
         final StrBuilder sb = new StrBuilder("1234567890");
-        final StringBuffer buffer = new StringBuffer("Test ");
+        final StringBuilder buffer = new StringBuilder("Test ");
 
         sb.appendTo(buffer);
 
