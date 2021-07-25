@@ -177,8 +177,8 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      * (which can be overridden with the setTrimmer method).
      * <p>
      * You must call a "reset" method to set the string which you want to parse.
-     * @return a new tokenizer instance which parses Tab Separated Value strings.
      * </p>
+     * @return a new tokenizer instance which parses Tab Separated Value strings.
      */
     public static StrTokenizer getTSVInstance() {
         return getTSVClone();
