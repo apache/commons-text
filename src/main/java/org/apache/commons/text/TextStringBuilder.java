@@ -2484,12 +2484,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *
      * @param charBuffer CharBuffer to read.
      * @return The number of characters read.
-     * @throws IOException if an I/O error occurs.
      *
      * @see #appendTo(Appendable)
      * @since 1.9
      */
-    public int readFrom(final CharBuffer charBuffer) throws IOException {
+    public int readFrom(final CharBuffer charBuffer) {
         final int oldSize = size;
         final int remaining = charBuffer.remaining();
         ensureCapacity(size + remaining);
