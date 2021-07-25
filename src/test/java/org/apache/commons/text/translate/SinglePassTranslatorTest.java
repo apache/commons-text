@@ -27,7 +27,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit test for {@link SinglePassTranslator}
+ * Unit test for {@link SinglePassTranslator}.
  */
 public class SinglePassTranslatorTest {
 
@@ -54,7 +54,7 @@ public class SinglePassTranslatorTest {
     }
 
     @Test
-    public void indexIsValidated() throws Exception {
+    public void indexIsValidated() {
         assertThatIllegalArgumentException().isThrownBy(() -> dummyTranslator.translate("abc", 1, out));
     }
 

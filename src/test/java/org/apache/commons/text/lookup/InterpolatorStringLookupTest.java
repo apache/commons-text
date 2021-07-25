@@ -43,13 +43,13 @@ public class InterpolatorStringLookupTest {
     private static final String TESTVAL = "TestValue";
 
     @AfterAll
-    public static void afterAll() throws Throwable {
+    public static void afterAll() {
         System.clearProperty(TESTKEY);
         System.clearProperty(TESTKEY2);
     }
 
     @BeforeAll
-    public static void beforeAll() throws Throwable {
+    public static void beforeAll() {
         System.setProperty(TESTKEY, TESTVAL);
         System.setProperty(TESTKEY2, TESTVAL);
     }
