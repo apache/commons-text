@@ -65,6 +65,7 @@
     <clirr.skip>true</clirr.skip>
 
     <jmh.version>1.32</jmh.version>
+    <commons.project-info.version>3.1.2</commons.project-info.version>
 
     <!-- Commons Release Plugin -->
     <commons.bc.version>1.9</commons.bc.version>
