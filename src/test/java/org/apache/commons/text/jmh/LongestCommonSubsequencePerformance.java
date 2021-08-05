@@ -61,7 +61,8 @@ public class LongestCommonSubsequencePerformance {
                  InputStreamReader isr = new InputStreamReader(Objects.requireNonNull(is));
                  BufferedReader br = new BufferedReader(isr)) {
                 String line;
-                while ((line = br.readLine()) != null && !(line = line.trim()).isEmpty()) {
+                while ((line = br.readLine()) != null && !line.trim().isEmpty()) {
+                    line = line.trim();
                     final int indexOfComma = line.indexOf(',');
                     final String inputA = line.substring(0, indexOfComma);
                     final String inputB = line.substring(1 + indexOfComma);
