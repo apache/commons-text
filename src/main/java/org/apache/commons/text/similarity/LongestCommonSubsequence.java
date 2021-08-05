@@ -64,9 +64,9 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * An evaluation using JMH revealed that this method is almost two times faster than its previous version.
      * </p>
      *
-     * @param left First character sequence
-     * @param right Second character sequence
-     * @return Length of the longest common subsequence of <code>left</code> and <code>right</code>
+     * @param left first character sequence
+     * @param right second character sequence
+     * @return length of the longest common subsequence of <code>left</code> and <code>right</code>
      * @throws IllegalArgumentException if either String input {@code null}
      */
     @Override
@@ -98,12 +98,12 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * the LCS of the two sequences in <i>O(m*n)</i> time and <i>O(n)</i> space.
      * The last element of the returned array, is the size of the LCS of the two input sequences.
      *
-     * @param left First input sequence.
-     * @param right Second input sequence.
-     * @return Last row of DP table for calculating the LCS of <code>left</code> and <code>right</code>
+     * @param left first input sequence.
+     * @param right second input sequence.
+     * @return last row of the dynamic-programming (DP) table for calculating the LCS of <code>left</code> and <code>right</code>
      * @since 1.10
      */
-    static int[] algorithmB(final CharSequence left, final CharSequence right) {
+    private static int[] algorithmB(final CharSequence left, final CharSequence right) {
         final int m = left.length();
         final int n = right.length();
 
@@ -152,7 +152,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      *
      * @param left first character sequence
      * @param right second character sequence
-     * @return The longest common subsequence found
+     * @return the longest common subsequence found
      * @throws IllegalArgumentException if either String input {@code null}
      * @deprecated Deprecated as of 1.2 due to a typo in the method name.
      * Use {@link #longestCommonSubsequence(CharSequence, CharSequence)} instead.
@@ -186,9 +186,9 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * elements.
      * </p>
      *
-     * @param left First character sequence
-     * @param right Second character sequence
-     * @return The longest common subsequence found
+     * @param left first character sequence
+     * @param right second character sequence
+     * @return the longest common subsequence found
      * @throws IllegalArgumentException if either String input {@code null}
      * @since 1.2
      */
@@ -216,25 +216,25 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
     /**
      * An implementation of "ALG C" from Hirschberg's CACM '71 paper.
      * Assuming the first input sequence is of size <code>m</code> and the second input sequence is of size
-     * <code>n</code>, this method return the Longest Common Subsequence (LCS) the two sequences in
+     * <code>n</code>, this method returns the Longest Common Subsequence (LCS) of the two sequences in
      * <i>O(m*n)</i> time and <i>O(m+n)</i> space.
      *
-     * @param left First input sequence.
-     * @param right Second input sequence.
-     * @return The LCS of <code>left</code> and <code>right</code>
+     * @param left first input sequence.
+     * @param right second input sequence.
+     * @return the LCS of <code>left</code> and <code>right</code>
      * @since 1.10
      */
-    static String algorithmC(final CharSequence left, final CharSequence right) {
+    private static String algorithmC(final CharSequence left, final CharSequence right) {
         final int m = left.length();
         final int n = right.length();
 
-        String out = "";
+        final StringBuilder out = new StringBuilder();
 
         if (m == 1) { // Handle trivial cases, as per the paper
             final char leftCh = left.charAt(0);
             for (int j = 0; j < n; j++) {
                 if (leftCh == right.charAt(j)) {
-                    out += leftCh;
+                    out.append(leftCh);
                     break;
                 }
             }
@@ -260,11 +260,11 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
             }
 
             // Step 5: solve simpler problems, recursively
-            out = out.concat(algorithmC(leftFirstPart, right.subSequence(0, k)));
-            out = out.concat(algorithmC(leftSecondPart, right.subSequence(k, n)));
+            out.append(algorithmC(leftFirstPart, right.subSequence(0, k)));
+            out.append(algorithmC(leftSecondPart, right.subSequence(k, n)));
         }
 
-        return out;
+        return out.toString();
     }
 
     // An auxiliary method for CharSequence reversal
