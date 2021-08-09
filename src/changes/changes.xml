@@ -89,6 +89,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update commons-lang3 3.11 -> 3.12.0.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.javadoc.version from 3.2.0 to 3.3.0.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.project-info.version from 3.1.0 to 3.1.2.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump jmh.version from 1.32 to 1.33 #254.</action>
   </release>
   <release version="1.9" date="2020-07-21" description="Release 1.9. Requires Java 8.">
     <action issue="TEXT-166" type="fix" dev="kinow" due-to="Mikko Maunu">Removed non-existing parameter from Javadocs and spelled out parameters in throws.</action>
