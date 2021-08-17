@@ -22,6 +22,7 @@ jdk:
   - openjdk-ea
 
 matrix:
+  fast_finish: true
   allow_failures:
     - jdk: openjdk-ea
 
@@ -30,3 +31,7 @@ script:
 
 after_success:
   - mvn -V --no-transfer-progress clean test jacoco:report coveralls:report -Ptravis-jacoco
+
+cache:
+  directories:
+  - $HOME/.m2
