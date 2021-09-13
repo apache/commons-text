@@ -58,7 +58,7 @@
     <commons.javadoc.version>3.3.0</commons.javadoc.version>
 
     <graalvm.version>21.2.0</graalvm.version>
-    <commons.rng.version>1.3</commons.rng.version>
+    <commons.rng.version>1.4</commons.rng.version>
 
     <commons.japicmp.version>0.15.3</commons.japicmp.version>
     <japicmp.skip>false</japicmp.skip>
