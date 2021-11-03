@@ -1057,15 +1057,24 @@ public class TextStringBuilderTest {
         final TextStringBuilder sb = new TextStringBuilder();
         final int hc1a = sb.hashCode();
         final int hc1b = sb.hashCode();
-        final int emptyHc = Arrays.hashCode(sb.getBuffer());
-        assertEquals(emptyHc, hc1a);
         assertEquals(hc1a, hc1b);
 
         sb.append("abc");
         final int hc2a = sb.hashCode();
         final int hc2b = sb.hashCode();
-        assertTrue(hc2a != emptyHc);
         assertEquals(hc2a, hc2b);
+        
+        final TextStringBuilder sb2 = new TextStringBuilder(100);
+        final TextStringBuilder sb3 = new TextStringBuilder(10);
+        final int hc2 = sb2.hashCode();
+        final int hc3 = sb3.hashCode();
+        assertEquals(hc2, hc3);
+
+        sb2.append("abc");
+        sb3.append("abc");
+        final int hc2b2 = sb2.hashCode();
+        final int hc3b2 = sb3.hashCode();
+        assertEquals(hc2b2, hc3b2);       
     }
 
     @Test

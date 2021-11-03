@@ -1954,7 +1954,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     @Override
     public int hashCode() {
-        return Arrays.hashCode(buffer);
+        return Arrays.hashCode(ArrayUtils.subarray(buffer, 0, size));
     }
 
     /**
