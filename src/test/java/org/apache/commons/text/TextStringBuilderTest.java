@@ -900,8 +900,8 @@ public class TextStringBuilderTest {
 
     @Test
     public void testEquals() {
-        final TextStringBuilder sb1 = new TextStringBuilder();
-        final TextStringBuilder sb2 = new TextStringBuilder();
+        final TextStringBuilder sb1 = new TextStringBuilder(50);
+        final TextStringBuilder sb2 = new TextStringBuilder(100);
         assertTrue(sb1.equals(sb2));
         assertTrue(sb1.equals(sb1));
         assertTrue(sb2.equals(sb2));

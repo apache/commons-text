@@ -1850,7 +1850,14 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return true if the builders contain the same characters in the same order
      */
     public boolean equals(final TextStringBuilder other) {
-        return other != null && Arrays.equals(buffer, other.buffer);
+    	
+    	if(other == null) {
+    		return false;
+    	}
+    	if (this.size != other.size) {
+            return false;
+        }
+        return Arrays.equals(ArrayUtils.subarray(buffer, 0, size), ArrayUtils.subarray(other.buffer, 0, size));
     }
 
     /**
