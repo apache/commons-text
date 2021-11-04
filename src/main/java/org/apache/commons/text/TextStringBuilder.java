@@ -1857,7 +1857,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     	if (this.size != other.size) {
             return false;
         }
-        return Arrays.equals(ArrayUtils.subarray(buffer, 0, size), ArrayUtils.subarray(other.buffer, 0, size));
+        return this.toString().equals(other.toString());
     }
 
     /**
@@ -1954,7 +1954,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     @Override
     public int hashCode() {
-        return Arrays.hashCode(ArrayUtils.subarray(buffer, 0, size));
+        return this.toString().hashCode();
     }
 
     /**
