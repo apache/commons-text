@@ -1851,10 +1851,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public boolean equals(final TextStringBuilder other) {
     	
-    	if(other == null) {
-    		return false;
-    	}
-    	if (this.size != other.size) {
+        if(other == null) {
+            return false;
+        }
+        if (this.size != other.size) {
             return false;
         }
         return this.toString().equals(other.toString());
