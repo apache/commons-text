@@ -1850,9 +1850,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return true if the builders contain the same characters in the same order
      */
     public boolean equals(final TextStringBuilder other) {
-    	if(this == other) {
-    	    return true;
-    	}
+        if(this == other) {
+            return true;
+        }
         if(other == null) {
             return false;
         }
