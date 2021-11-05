@@ -1058,6 +1058,10 @@ public class TextStringBuilderTest {
         final int hc1a = sb.hashCode();
         final int hc1b = sb.hashCode();
         assertEquals(hc1a, hc1b);
+        
+        // following TEXT-211 : the hashcode of the buffer may not be equals to the hashcode of the TextStringBuilder itself        
+        final int emptyHc = Arrays.hashCode(sb.getBuffer());
+        assertNotEquals(emptyHc, hc1a);
 
         sb.append("abc");
         final int hc2a = sb.hashCode();
