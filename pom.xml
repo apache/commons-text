@@ -29,6 +29,9 @@
   <url>https://commons.apache.org/proper/commons-text</url>
 
   <properties>
+    <sonar.organization>denislilajfox</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+   
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
