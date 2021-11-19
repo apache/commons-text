@@ -41,4 +41,15 @@
     <Bug code="CN" />
   </Match>
 
+  <Match>
+    <Class name="org.apache.commons.text.lookup.BiFunctionStringLookup" />
+    <Method name="lookup" />
+    <Bug code="DCN_NULLPOINTER_EXCEPTION" />
+  </Match>
+
+  <Match>
+    <Class name="org.apache.commons.text.lookup.FunctionStringLookup" />
+    <Method name="lookup" />
+    <Bug code="DCN_NULLPOINTER_EXCEPTION" />
+  </Match>
 </FindBugsFilter>
