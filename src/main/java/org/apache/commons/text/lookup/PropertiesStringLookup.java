@@ -25,7 +25,7 @@ import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Looks up keys from an XML document.
+ * Looks up keys from a properties file.
  * <p>
  * Looks up the value for a given key in the format "Document::Key".
  * </p>
@@ -36,6 +36,7 @@ import org.apache.commons.lang3.StringUtils;
  * For example: "com/domain/document.properties:key".
  * </p>
  *
+ * @see Properties
  * @since 1.5
  */
 final class PropertiesStringLookup extends AbstractStringLookup {
