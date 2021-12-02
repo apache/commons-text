@@ -52,4 +52,18 @@
     <Method name="lookup" />
     <Bug code="DCN_NULLPOINTER_EXCEPTION" />
   </Match>
+
+  <!-- BiFunctionStringLookup#lookup catches NPE to return null -->
+  <Match>
+    <Class name="org.apache.commons.text.lookup.BiFunctionStringLookup" />
+    <Method name="lookup" />
+    <Bug code="DCN_NULLPOINTER_EXCEPTION" />
+  </Match>
+
+  <!-- FunctionStringLookup#lookup catches NPE to return null -->
+  <Match>
+    <Class name="org.apache.commons.text.lookup.FunctionStringLookup" />
+    <Method name="lookup" />
+    <Bug code="DCN_NULLPOINTER_EXCEPTION" />
+  </Match>
 </FindBugsFilter>
