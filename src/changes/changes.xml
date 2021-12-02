@@ -73,7 +73,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Dependabot">Update checkstyle from 8.34 to 9.2, #141, #168, #182, #188, #193, #201, #208, #211, #228, #235, #245, #253, #255, #262, #270, #280, #287.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump spotbugs-maven-plugin from 4.0.0 to 4.5.0.0, #144, #150, #167, #176, #194, #210, #223, #250, #268, #273, #277, #278, #286.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Update mockito-inline from 3.4.4 to 4.1.0, #143 #148 #149 #152 #153 #154 #158 #159 #166 #177 #180 #187 #195 #197 #207 #216 #231 #236 #237 #243 #258 #259 #260 #261 #272 #285.</action>
-    <action                  type="update" dev="kinow" due-to="Dependabot">Bump junit-jupiter from 5.6.2 to 5.8.1 #163 #204 #232 #265 #269.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump junit-jupiter from 5.6.2 to 5.8.2 #163, #204, #232, #265, #269, #288.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump assertj-core from 3.16.1 to 3.21.0 #151 #157 #160 #178 #184 #199 #244 #267.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot, Gary Gregory">Bump commons-io from 2.7 to 2.11.0 #161 #251.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/setup-java from v1.4.0 to v1.4.3 #147 #156 #155 #172 #215.</action>
