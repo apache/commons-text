@@ -51,7 +51,7 @@
     <checkstyle.version>9.2</checkstyle.version>
 
     <spotbugs.plugin.version>4.5.0.0</spotbugs.plugin.version>
-    <spotbugs.impl.version>4.5.0</spotbugs.impl.version>
+    <spotbugs.impl.version>4.5.1</spotbugs.impl.version>
 
     <commons.mockito.version>4.1.0</commons.mockito.version>
     <commons.jacoco.version>0.8.7</commons.jacoco.version>
