@@ -64,7 +64,7 @@
     <japicmp.skip>false</japicmp.skip>
     <clirr.skip>true</clirr.skip>
 
-    <jmh.version>1.33</jmh.version>
+    <jmh.version>1.34</jmh.version>
     <commons.project-info.version>3.1.2</commons.project-info.version>
 
     <!-- Commons Release Plugin -->
