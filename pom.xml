@@ -50,7 +50,7 @@
     <checkstyle.plugin.version>3.1.2</checkstyle.plugin.version>
     <checkstyle.version>9.2</checkstyle.version>
 
-    <spotbugs.plugin.version>4.5.0.0</spotbugs.plugin.version>
+    <spotbugs.plugin.version>4.5.2.0</spotbugs.plugin.version>
     <spotbugs.impl.version>4.5.2</spotbugs.impl.version>
 
     <commons.mockito.version>4.2.0</commons.mockito.version>
