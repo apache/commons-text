@@ -160,7 +160,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             if (n < 0) {
                 return 0;
             }
-            pos += n;
+            pos = Math.addExact(pos, Math.toIntExact(n));
             return n;
         }
     }

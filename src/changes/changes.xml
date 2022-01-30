@@ -63,6 +63,8 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-202" type="fix" dev="kinow" due-to="Arturo Bernal">Extract duplicate code.</action>
     <action issue="TEXT-205" type="fix" dev="kinow" due-to="Arturo Bernal">Set void return method.</action>
     <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Remove unused exception from TextStringBuilder.readFrom(CharBuffer). This preserves binary compatibility but not source compatibility.</action>
+    <action                  type="fix" dev="ggregory" due-to="CodeQL, Gary Gregory">StrBuilder.StrBuilderReader.skip(long): Throw an exception when an implicit narrowing conversion in a compound assignment would result in information loss or a numeric error such as an overflows.</action>
+    <action                  type="fix" dev="ggregory" due-to="CodeQL, Gary Gregory">TextStringBuilder.TextStringBuilderReader.skip(long): Throw an exception when an implicit narrowing conversion in a compound assignment would result in information loss or a numeric error such as an overflows.</action>
     <!-- ADD -->
     <action issue="TEXT-207" type="add" dev="mattjuntunen">Add DoubleFormat utility.</action>
     <action issue="TEXT-190" type="add" dev="kinow" due-to="Benjamin Bing">Document negative limit for WordUtils abbreviate method</action>
