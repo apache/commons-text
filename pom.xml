@@ -57,7 +57,7 @@
     <commons.jacoco.version>0.8.7</commons.jacoco.version>
     <commons.javadoc.version>3.3.0</commons.javadoc.version>
 
-    <graalvm.version>22.0.0</graalvm.version>
+    <graalvm.version>22.0.0.2</graalvm.version>
     <commons.rng.version>1.4</commons.rng.version>
 
     <commons.japicmp.version>0.15.3</commons.japicmp.version>
