@@ -61,7 +61,7 @@ limitations under the License.
         or future standard Java classes.
       </p>
 
-      <p>Beyond the text utilities ported over from lang, we have also included various
+      <p>Beyond the text utilities ported over from Commons Lang, we have also included various
         string similarity and distance functions. Lastly, there are also utilities for
         addressing differences between bodies of text for the sake of viewing these
         differences.
@@ -69,7 +69,7 @@ limitations under the License.
 
       <subsection name="StringEscapeUtils">
         <p>From Lang 3.5, we have moved into Text StringEscapeUtils and StrTokenizer.
-          It's provides ways in which to generate pieces of text, such as might
+          It provides ways in which to generate pieces of text, such as might
           be used for default passwords. StringEscapeUtils contains methods to
           escape and unescape Java, JavaScript, HTML and XML. It is worth noting that
           the package <code>org.apache.commons.text.translate</code> holds the
@@ -223,7 +223,7 @@ final String text = interpolator.replace(
 
       <p>The algorithms that implement the EditDistance interface follow the
         same
-        simple principle: the more similar (closer) strings are, lower is the
+        simple principle: the more similar (closer) strings are, the lower is the
         distance.
         For example, the words house and hose are closer than house and
         trousers.
