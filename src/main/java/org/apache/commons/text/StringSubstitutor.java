@@ -136,7 +136,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  *
  * <h2>Using Interpolation</h2>
  * <p>
- * The default interpolator let's you use string lookups like:
+ * The default interpolator lets you use string lookups like:
  * </p>
  *
  * <pre>
@@ -558,7 +558,7 @@ public class StringSubstitutor {
     /**
      * Creates a new instance based on the given StringSubstitutor.
      *
-     * @param other The StringSubstitutor is use as the source.
+     * @param other The StringSubstitutor used as the source.
      * @since 1.9
      */
     public StringSubstitutor(final StringSubstitutor other) {
@@ -1316,7 +1316,7 @@ public class StringSubstitutor {
      * @param length the length within the builder to be processed, must be valid
      * @param priorVariables the stack keeping track of the replaced variables, may be null
      * @return The result.
-     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     * @throws IllegalArgumentException if variable is not found and <pre>isEnableUndefinedVariableException()==true</pre>
      * @since 1.9
      */
     private Result substitute(final TextStringBuilder builder, final int offset, final int length,
