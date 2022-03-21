@@ -112,7 +112,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     private String toPattern;
 
     /**
-     * Our registry of FormatFactory's.
+     * Our registry of FormatFactory.
      */
     private final Map<String, ? extends FormatFactory> registry;
 
