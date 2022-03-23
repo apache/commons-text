@@ -51,8 +51,7 @@ public class WordUtils {
      *                    If the empty String is passed, the empty string is returned.
      * @param lower       the lower limit; negative value is treated as zero.
      * @param upper       the upper limit; specify -1 if no limit is desired.
-     *                    If the upper limit is lower than the lower limit, it will be
-     *                    adjusted to be the same as the lower limit.
+     *                    The upper limit cannot be lower than the lower limit.
      * @param appendToEnd String to be appended to the end of the abbreviated string.
      *                    This is appended ONLY if the string was indeed abbreviated.
      *                    The append does not count towards the lower or upper limits.
