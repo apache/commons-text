@@ -17,6 +17,7 @@
 
 package org.apache.commons.text;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -1083,6 +1084,28 @@ public class StringSubstitutorTest {
         sub.setPreserveEscapes(true);
         assertTrue(sub.isPreserveEscapes());
         assertEqualsCharSeq("value $${escaped}", replace(sub, org));
+    }
+
+    @Test
+    public void testReplaceThrowsStringIndexOutOfBoundsException() {
+        final StringSubstitutor sub = new StringSubstitutor();
+
+        // replace(char[], int, int)
+        final char[] emptyCharArray = new char[] {};
+        // offset greater than array length
+        assertThatExceptionOfType(StringIndexOutOfBoundsException.class).isThrownBy(
+                () -> sub.replace(emptyCharArray, 0, 1));
+        // source != null && (offset > source.length || offset < 0)
+        assertThatExceptionOfType(StringIndexOutOfBoundsException.class).isThrownBy(
+                () -> sub.replace(emptyCharArray, 1, 0));
+
+        // replace(String, int, int)
+        // offset greater than source length
+        assertThatExceptionOfType(StringIndexOutOfBoundsException.class).isThrownBy(
+                () -> sub.replace("", 1, 1));
+        // source != null && offset >= 0 && offset <= source.length() && (length > -offset + source.length() || length < 0)
+        assertThatExceptionOfType(StringIndexOutOfBoundsException.class).isThrownBy(
+                () -> sub.replace("", 0, 1));
     }
 
 }

@@ -440,6 +440,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @param startIndex the start index, inclusive, must be valid
      * @param length the length to append, must be valid
      * @return this, to enable chaining
+     * @throws StringIndexOutOfBoundsException if {@code startIndex} is not in the
+     *  range {@code 0 <= startIndex <= chars.length}
+     * @throws StringIndexOutOfBoundsException if {@code length < 0}
+     * @throws StringIndexOutOfBoundsException if {@code startIndex + length > chars.length}
      */
     public TextStringBuilder append(final char[] chars, final int startIndex, final int length) {
         if (chars == null) {
@@ -621,6 +625,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @param startIndex the start index, inclusive, must be valid
      * @param length the length to append, must be valid
      * @return this, to enable chaining
+     * @throws StringIndexOutOfBoundsException if {@code startIndex} is not in the
+     *  range {@code 0 <= startIndex <= str.length()}
+     * @throws StringIndexOutOfBoundsException if {@code length < 0}
+     * @throws StringIndexOutOfBoundsException if {@code startIndex + length > str.length()}
      */
     public TextStringBuilder append(final String str, final int startIndex, final int length) {
         if (str == null) {
