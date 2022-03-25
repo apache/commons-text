@@ -86,6 +86,8 @@ public class FormattableUtils {
      * @param ellipsis  the ellipsis to use when precision dictates truncation, null or
      *  empty causes a hard truncation
      * @return The {@code formatter} instance, not null
+     * @throws IllegalArgumentException if {@code ellipsis.length() > precision},
+     *  given that {@code ellipsis} is not null and {@code precision >= 0}
      */
     public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
             final int precision, final char padChar, final CharSequence ellipsis) {
@@ -125,6 +127,8 @@ public class FormattableUtils {
      * @param ellipsis  the ellipsis to use when precision dictates truncation, null or
      *  empty causes a hard truncation
      * @return The {@code formatter} instance, not null
+     * @throws IllegalArgumentException if {@code ellipsis.length() > precision},
+     *  given that {@code ellipsis} is not null and {@code precision >= 0}
      */
     public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
             final int precision, final CharSequence ellipsis) {

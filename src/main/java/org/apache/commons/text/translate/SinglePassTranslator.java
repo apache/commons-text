@@ -35,6 +35,10 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
         return clazz.isAnonymousClass() ?  clazz.getName() : clazz.getSimpleName();
     }
 
+    /**
+     * {@inheritDoc}
+     * @throws IllegalArgumentException if {@code index != 0}
+     */
     @Override
     public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
         if (index != 0) {
