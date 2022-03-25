@@ -734,6 +734,10 @@ public class StringSubstitutor {
      * @param length the length within the array to be processed, must be valid
      * @return The result of the replace operation
      * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     * @throws StringIndexOutOfBoundsException if {@code offset} is not in the
+     *  range {@code 0 <= offset <= chars.length}
+     * @throws StringIndexOutOfBoundsException if {@code length < 0}
+     * @throws StringIndexOutOfBoundsException if {@code offset + length > chars.length}
      */
     public String replace(final char[] source, final int offset, final int length) {
         if (source == null) {
@@ -831,6 +835,10 @@ public class StringSubstitutor {
      * @param length the length within the source to be processed, must be valid
      * @return The result of the replace operation
      * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     * @throws StringIndexOutOfBoundsException if {@code offset} is not in the
+     *  range {@code 0 <= offset <= source.length()}
+     * @throws StringIndexOutOfBoundsException if {@code length < 0}
+     * @throws StringIndexOutOfBoundsException if {@code offset + length > source.length()}
      */
     public String replace(final String source, final int offset, final int length) {
         if (source == null) {
