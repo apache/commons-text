@@ -22,6 +22,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
 
@@ -43,10 +47,17 @@ public class EntityArraysTest  {
                 + "/EntityArrays.java"))) {
             String line;
             int mapDeclarationCounter = 0;
+            final Map<String, Integer> mapsSize = new HashMap<>();
+            final Pattern pattern = Pattern.compile("invert\\((\\w+)\\)");
             while ((line = br.readLine()) != null) {
+                final Matcher matcher = pattern.matcher(line);
                 //Start with map declaration and count put lines
                 if (line.contains("new HashMap<>();")) {
                     mapDeclarationCounter = 0;
+                } else if (matcher.find()) {
+                    final String mapVariableName = matcher.group(1);
+                    assertThat(mapsSize).containsKeys(mapVariableName);
+                    mapDeclarationCounter = mapsSize.get(mapVariableName);
                 } else if (line.contains(".put(")) {
                     mapDeclarationCounter++;
                 } else if (line.contains("Collections.unmodifiableMap(initialMap);")) {
@@ -58,6 +69,7 @@ public class EntityArraysTest  {
                     // Validate that we are not inserting into the same key twice in the map declaration. If this,
                     // indeed was the case the keySet().size() would be smaller than the number of put() statements
                     assertThat(mapValue.size()).isEqualTo(mapDeclarationCounter);
+                    mapsSize.put(mapVariableName, mapDeclarationCounter);
                 }
             }
         }
@@ -83,6 +95,38 @@ public class EntityArraysTest  {
     @Test
     public void testHtml40ExtendedMap() {
         testEscapeVsUnescapeMaps(EntityArrays.HTML40_EXTENDED_ESCAPE, EntityArrays.HTML40_EXTENDED_UNESCAPE);
+    }
+
+    @Test
+    public void testForDuplicateDeclaredMapValuesHtml50ExtendedMap() {
+        assertThat(EntityArrays.HTML50_EXTENDED_UNESCAPE.keySet().size()).isGreaterThanOrEqualTo(
+                EntityArrays.HTML50_EXTENDED_ESCAPE.values().size());
+    }
+
+    @Test
+    public void testHtml50ExtendedMap() {
+        final String[] emptyArray = new String[0];
+        assertThat(EntityArrays.HTML50_EXTENDED_UNESCAPE).containsKeys(
+                EntityArrays.HTML50_EXTENDED_ESCAPE.values().toArray(emptyArray));
+        assertThat(EntityArrays.HTML50_EXTENDED_UNESCAPE).containsValues(
+                EntityArrays.HTML50_EXTENDED_ESCAPE.keySet().toArray(emptyArray));
+        for (final Map.Entry<CharSequence,CharSequence> entry : EntityArrays.HTML50_EXTENDED_ESCAPE.entrySet()) {
+            assertThat(entry.getKey()).isEqualTo(EntityArrays.HTML50_EXTENDED_UNESCAPE.get(entry.getValue()));
+        }
+    }
+
+    @Test
+    public void testNoSemicolonMap() {
+        final Map<CharSequence,CharSequence> aggregateMap = new HashMap<>();
+        aggregateMap.putAll(EntityArrays.BASIC_UNESCAPE);
+        aggregateMap.putAll(EntityArrays.ISO8859_1_UNESCAPE);
+        aggregateMap.putAll(EntityArrays.HTML40_EXTENDED_UNESCAPE);
+        aggregateMap.putAll(EntityArrays.HTML50_EXTENDED_UNESCAPE);
+        for (final Map.Entry<CharSequence,CharSequence> entry : EntityArrays.NO_SEMICOLON_UNESCAPE.entrySet()) {
+            final CharSequence entityWithSemicolon = entry.getKey() + ";";
+            assertThat(aggregateMap).containsKey(entityWithSemicolon);
+            assertThat(aggregateMap.get(entityWithSemicolon)).isEqualTo(entry.getValue());
+        }
     }
 
     @Test
