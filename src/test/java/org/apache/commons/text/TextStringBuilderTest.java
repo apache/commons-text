@@ -905,19 +905,19 @@ public class TextStringBuilderTest {
         assertTrue(sb1.equals(sb2));
         assertTrue(sb1.equals(sb1));
         assertTrue(sb2.equals(sb2));
-        assertEquals(sb1, (Object) sb2);
+        assertEquals(sb1, sb2);
 
         sb1.append("abc");
         assertFalse(sb1.equals(sb2));
-        assertNotEquals(sb1, (Object) sb2);
+        assertNotEquals(sb1, sb2);
 
         sb2.append("ABC");
         assertFalse(sb1.equals(sb2));
-        assertNotEquals(sb1, (Object) sb2);
+        assertNotEquals(sb1, sb2);
 
         sb2.set("abc");
         assertTrue(sb1.equals(sb2));
-        assertEquals(sb1, (Object) sb2);
+        assertEquals(sb1, sb2);
 
         assertNotEquals(sb1, Integer.valueOf(1));
         assertNotEquals("abc", sb1);
@@ -1058,8 +1058,8 @@ public class TextStringBuilderTest {
         final int hc1a = sb.hashCode();
         final int hc1b = sb.hashCode();
         assertEquals(hc1a, hc1b);
-        
-        // following TEXT-211 : the hashcode of the buffer may not be equals to the hashcode of the TextStringBuilder itself        
+
+        // following TEXT-211 : the hashcode of the buffer may not be equals to the hashcode of the TextStringBuilder itself
         final int emptyHc = Arrays.hashCode(sb.getBuffer());
         assertNotEquals(emptyHc, hc1a);
 
@@ -1067,7 +1067,7 @@ public class TextStringBuilderTest {
         final int hc2a = sb.hashCode();
         final int hc2b = sb.hashCode();
         assertEquals(hc2a, hc2b);
-        
+
         final TextStringBuilder sb2 = new TextStringBuilder(100);
         final TextStringBuilder sb3 = new TextStringBuilder(10);
         final int hc2 = sb2.hashCode();
@@ -1078,7 +1078,7 @@ public class TextStringBuilderTest {
         sb3.append("abc");
         final int hc2b2 = sb2.hashCode();
         final int hc3b2 = sb3.hashCode();
-        assertEquals(hc2b2, hc3b2);       
+        assertEquals(hc2b2, hc3b2);
     }
 
     @Test
