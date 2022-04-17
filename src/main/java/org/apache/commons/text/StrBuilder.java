@@ -1970,7 +1970,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * @return The first index of the character, or -1 if not found
      */
     public int indexOf(final char ch, int startIndex) {
-        startIndex = startIndex < 0 ? 0 : startIndex;
+        startIndex = Math.max(startIndex, 0);
         if (startIndex >= size) {
             return -1;
         }
@@ -2008,7 +2008,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * @return The first index of the string, or -1 if not found
      */
     public int indexOf(final String str, int startIndex) {
-        startIndex = startIndex < 0 ? 0 : startIndex;
+        startIndex = Math.max(startIndex, 0);
         if (str == null || startIndex >= size) {
             return -1;
         }
@@ -2065,7 +2065,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * @return The first index matched, or -1 if not found
      */
     public int indexOf(final StrMatcher matcher, int startIndex) {
-        startIndex = startIndex < 0 ? 0 : startIndex;
+        startIndex = Math.max(startIndex, 0);
         if (matcher == null || startIndex >= size) {
             return -1;
         }
