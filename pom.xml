@@ -55,7 +55,7 @@
     <commons.pmd.version>3.16.0</commons.pmd.version>
     <commons.pmd-impl.version>6.44.0</commons.pmd-impl.version>
 
-    <commons.mockito.version>4.4.0</commons.mockito.version>
+    <commons.mockito.version>4.5.1</commons.mockito.version>
     <commons.jacoco.version>0.8.7</commons.jacoco.version>
     <commons.javadoc.version>3.3.0</commons.javadoc.version>
 
