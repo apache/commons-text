@@ -73,9 +73,9 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-185" type="add" dev="ggregory" due-to="Larry West, Gary Gregory">Release Notes page hasn't been updated for 1.9 release yet.</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StrBuilder.isNotEmpty().</action>
     <!-- UPDATE -->
-    <action                  type="update" dev="ggregory" due-to="Dependabot">Update checkstyle from 8.34 to 10.1, #141, #168, #182, #188, #193, #201, #208, #211, #228, #235, #245, #253, #255, #262, #270, #280, #287, #299, #315.</action>
+    <action                  type="update" dev="ggregory" due-to="Dependabot">Bump checkstyle from 8.34 to 10.1, #141, #168, #182, #188, #193, #201, #208, #211, #228, #235, #245, #253, #255, #262, #270, #280, #287, #299, #315.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump spotbugs-maven-plugin from 4.0.0 to 4.5.3.0, #144, #150, #167, #176, #194, #210, #223, #250, #268, #273, #277, #278, #286, #293, #303.</action>
-    <action                  type="update" dev="ggregory" due-to="Dependabot">Update mockito-inline from 3.4.4 to 4.5.1, #143, #148, #149, #152, #153, #154, #158, #159, #166, #177, #180, #187, #195, #197, #207, #216, #231, #236, #237, #243, #258, #259, #260, #261, #272, #285, #291, #305, #317.</action>
+    <action                  type="update" dev="ggregory" due-to="Dependabot">Bump mockito-inline from 3.4.4 to 4.5.1, #143, #148, #149, #152, #153, #154, #158, #159, #166, #177, #180, #187, #195, #197, #207, #216, #231, #236, #237, #243, #258, #259, #260, #261, #272, #285, #291, #305, #317.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump junit-jupiter from 5.6.2 to 5.8.2 #163, #204, #232, #265, #269, #288.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump assertj-core from 3.16.1 to 3.22.0 #151, #157, #160, #178, #184, #199, #244, #267, #294.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot, Gary Gregory">Bump commons-io from 2.7 to 2.11.0 #161 #251.</action>
@@ -85,12 +85,12 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump maven-pmd-plugin from 3.13.0 to 3.16.0 #186, #263, #302.</action>
     <action                  type="update" dev="kinow" due-to="Gary Gregory">Bump pmd from 6.42.0to 6.44.0.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump graalvm.version from 20.2.0 to 22.0.0.2 #185, #198, #206, #227, #252, #276, #295, #300.</action>
-    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update commons.japicmp.version 0.14.3 -> 0.15.3.</action>
-    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update commons.jacoco.version 0.8.5 to 0.8.7; fixes Java 15 build.</action>
-    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update spotbugs from 4.1.3 to 4.6.0 #175, 189, #209, #218, #247, #256, #264, #275, #284, #289, #296, #306.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.japicmp.version 0.14.3 -> 0.15.3.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.jacoco.version 0.8.5 to 0.8.7; fixes Java 15 build.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump spotbugs from 4.1.3 to 4.6.0 #175, 189, #209, #218, #247, #256, #264, #275, #284, #289, #296, #306.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump maven-checkstyle-plugin from 3.1.1 to 3.1.2 #202.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/cache from v2 to v2.1.6 #205 #217 #234.</action>
-    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Update commons-lang3 3.11 -> 3.12.0.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-lang3 3.11 -> 3.12.0.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.javadoc.version from 3.2.0 to 3.3.0.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.project-info.version from 3.1.0 to 3.1.2.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump jmh.version from 1.32 to 1.35 #254, #292, #313.</action>
