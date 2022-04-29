@@ -97,6 +97,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT=212" type="update" dev="kinow" due-to="Ali Ghanbari">A More Efficient Implementation for Calculating Size of Longest Common Subsequence</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump commons-rng-simple from 1.3 to 1.4 #266.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump taglist-maven-plugin from 2.4 to 3.0.0 #297.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump github/codeql-action from 1 to 2 #319.</action>
   </release>
   <release version="1.9" date="2020-07-21" description="Release 1.9. Requires Java 8.">
     <action issue="TEXT-166" type="fix" dev="kinow" due-to="Mikko Maunu">Removed non-existing parameter from Javadocs and spelled out parameters in throws.</action>
