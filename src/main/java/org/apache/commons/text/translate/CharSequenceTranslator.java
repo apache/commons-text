@@ -36,10 +36,7 @@ public abstract class CharSequenceTranslator {
     /**
      * Array containing the hexadecimal alphabet.
      */
-    static final char[] HEX_DIGITS = new char[] {'0', '1', '2', '3',
-                                                 '4', '5', '6', '7',
-                                                 '8', '9', 'A', 'B',
-                                                 'C', 'D', 'E', 'F'};
+    static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
     /**
      * Returns an upper case hexadecimal {@code String} for the given

@@ -103,11 +103,12 @@ public class WordUtils {
             if (upper != str.length()) {
                 result.append(StringUtils.defaultString(appendToEnd));
             }
-        } else if (index > upper) {
-            result.append(str, 0, upper);
-            result.append(StringUtils.defaultString(appendToEnd));
         } else {
-            result.append(str, 0, index);
+            if (index > upper) {
+                result.append(str, 0, upper);
+            } else {
+                result.append(str, 0, index);
+            }
             result.append(StringUtils.defaultString(appendToEnd));
         }
 

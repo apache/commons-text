@@ -86,8 +86,7 @@ public final class CsvTranslators {
     private static final String CSV_ESCAPED_QUOTE_STR = CSV_QUOTE_STR + CSV_QUOTE_STR;
 
     /** CSV key characters in an array. */
-    private static final char[] CSV_SEARCH_CHARS =
-            new char[] {CSV_DELIMITER, CSV_QUOTE, CharUtils.CR, CharUtils.LF};
+    private static final char[] CSV_SEARCH_CHARS = { CSV_DELIMITER, CSV_QUOTE, CharUtils.CR, CharUtils.LF };
 
     /** Hidden constructor. */
     private CsvTranslators() { }
