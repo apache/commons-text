@@ -92,7 +92,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump spotbugs from 4.1.3 to 4.6.0 #175, 189, #209, #218, #247, #256, #264, #275, #284, #289, #296, #306.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump maven-checkstyle-plugin from 3.1.1 to 3.1.2 #202.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-lang3 3.11 -> 3.12.0.</action>
-    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.javadoc.version from 3.2.0 to 3.3.0.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.javadoc.version from 3.2.0 to 3.4.0.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.project-info.version from 3.1.0 to 3.1.2.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump jmh.version from 1.32 to 1.35 #254, #292, #313.</action>
     <action issue="TEXT=212" type="update" dev="kinow" due-to="Ali Ghanbari">A More Efficient Implementation for Calculating Size of Longest Common Subsequence</action>
