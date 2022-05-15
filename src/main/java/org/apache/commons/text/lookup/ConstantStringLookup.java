@@ -140,9 +140,9 @@ class ConstantStringLookup extends AbstractStringLookup {
      * @param className the name of the class
      * @param fieldName the name of the member field of that class to read
      * @return The field's value
-     * @throws Exception if an error occurs
+     * @throws ReflectiveOperationException if an error occurs
      */
-    protected Object resolveField(final String className, final String fieldName) throws Exception {
+    protected Object resolveField(final String className, final String fieldName) throws ReflectiveOperationException {
         final Class<?> clazz = fetchClass(className);
         if (clazz == null) {
             return null;

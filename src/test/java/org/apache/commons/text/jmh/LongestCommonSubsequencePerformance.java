@@ -16,6 +16,16 @@
  */
 package org.apache.commons.text.jmh;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.similarity.LongestCommonSubsequence;
@@ -31,15 +41,6 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Performance analysis for LongestCommonSubsequence
@@ -69,7 +70,7 @@ public class LongestCommonSubsequencePerformance {
                     this.inputs.add(ImmutablePair.of(inputA, inputB));
                 }
             } catch (final IOException exception) {
-                throw new RuntimeException(exception.getMessage(), exception.getCause());
+                throw new UncheckedIOException(exception.getMessage(), exception);
             }
         }
     }

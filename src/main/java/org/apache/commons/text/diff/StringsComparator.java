@@ -302,7 +302,7 @@ public class StringsComparator {
         }
 
         // this should not happen
-        throw new RuntimeException("Internal Error");
+        throw new IllegalStateException("Internal Error");
     }
 
     /**
