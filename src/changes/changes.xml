@@ -83,7 +83,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump junit-jupiter from 5.6.2 to 5.8.2 #163, #204, #232, #265, #269, #288.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump assertj-core from 3.16.1 to 3.22.0 #151, #157, #160, #178, #184, #199, #244, #267, #294.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot, Gary Gregory">Bump commons-io from 2.7 to 2.11.0 #161 #251.</action>
-    <action                  type="update" dev="kinow" due-to="Dependabot">Bump commons-parent from 51 to 52 #145.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot, Gary Gregory">Bump commons-parent from 51 to 53 #145.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump maven-pmd-plugin from 3.13.0 to 3.16.0 #186, #263, #302.</action>
     <action                  type="update" dev="kinow" due-to="Gary Gregory">Bump pmd from 6.42.0to 6.44.0.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump graalvm.version from 20.2.0 to 22.0.0.2 #185, #198, #206, #227, #252, #276, #295, #300.</action>
