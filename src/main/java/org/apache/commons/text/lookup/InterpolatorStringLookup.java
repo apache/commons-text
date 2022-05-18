@@ -50,7 +50,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
     private final Map<String, StringLookup> stringLookupMap;
 
     /**
-     * Creates an instance using only lookups that work without initial properties and are stateless.
+     * Constructs an instance using only lookups that work without initial properties and are stateless.
      * <p>
      * Uses the {@link StringLookupFactory default lookups}.
      * </p>
@@ -60,7 +60,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
     }
 
     /**
-     * Creates a fully customized instance.
+     * Constructs a fully customized instance.
      *
      * @param stringLookupMap the map of string lookups.
      * @param defaultStringLookup the default string lookup.
@@ -79,7 +79,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
     }
 
     /**
-     * Creates an instance using only lookups that work without initial properties and are stateless.
+     * Constructs an instance using only lookups that work without initial properties and are stateless.
      * <p>
      * Uses the {@link StringLookupFactory default lookups}.
      * </p>
@@ -92,7 +92,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
     }
 
     /**
-     * Creates an instance with the given lookup.
+     * Constructs an instance with the given lookup.
      *
      * @param defaultStringLookup the default lookup.
      */

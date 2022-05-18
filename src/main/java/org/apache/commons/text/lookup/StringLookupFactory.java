@@ -679,7 +679,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns a new InterpolatorStringLookup using the {@link StringLookupFactory default lookups}.
+     * Returns the default {@link InterpolatorStringLookup} configured with the {@link StringLookupFactory default lookups}.
      * <p>
      * The lookups available to an interpolator are defined in
      * </p>
@@ -701,7 +701,7 @@ public final class StringLookupFactory {
      * The above examples convert {@code "${sys:os.name}, ${env:USER}"} to the OS name and Linux user name.
      * </p>
      *
-     * @return a new InterpolatorStringLookup.
+     * @return the default {@link InterpolatorStringLookup}.
      */
     public StringLookup interpolatorStringLookup() {
         return InterpolatorStringLookup.INSTANCE;
