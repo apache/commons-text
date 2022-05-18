@@ -287,7 +287,7 @@ public class StringSubstitutor {
      * Creates a new instance using the interpolator string lookup
      * {@link StringLookupFactory#interpolatorStringLookup()}.
      * <p>
-     * This StringSubstitutor lets you perform substituions like:
+     * This StringSubstitutor lets you perform substitutions like:
      * </p>
      *
      * <pre>
