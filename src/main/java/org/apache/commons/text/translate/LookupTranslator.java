@@ -95,7 +95,7 @@ public class LookupTranslator extends CharSequenceTranslator {
 
                 if (result != null) {
                     writer.write(result);
-                    return i;
+                    return Character.codePointCount(subSeq, 0, subSeq.length());
                 }
             }
         }
