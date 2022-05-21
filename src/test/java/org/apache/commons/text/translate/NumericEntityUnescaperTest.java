@@ -95,4 +95,13 @@ public class NumericEntityUnescaperTest  {
         assertThat(numericEntityUnescaper.translate("Ws2v8|O=7NR&#cB")).isEqualTo("Ws2v8|O=7NR&#cB");
     }
 
+    @Test
+    public void testSemiColonOptional() {
+        NumericEntityUnescaper neu = new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.semiColonOptional);
+        assertThat(neu.translate("This is a &#x74;est")).as("Test hexadecimal entity with semi-colon").isEqualTo("This is a test");
+        assertThat(neu.translate("This is a &#x74est")).as("Test hexadecimal entity without semi-colon").isEqualTo("This is a \u074Est");
+        assertThat(neu.translate("This is a &#116;est")).as("Test decimal entity with semi-colon").isEqualTo("This is a test");
+        assertThat(neu.translate("This is a &#116est")).as("Test decimal entity without semi-colon").isEqualTo("This is a test");
+    }
+
 }
