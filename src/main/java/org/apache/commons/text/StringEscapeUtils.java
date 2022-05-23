@@ -329,6 +329,20 @@ public class StringEscapeUtils {
                     new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE)
             );
     /**
+     * Translator object for escaping HTML version 5.0.
+     *
+     * While {@link #escapeHtml5(String)} is the expected method of use, this
+     * object allows the HTML escaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+    public static final CharSequenceTranslator ESCAPE_HTML5 =
+            new AggregateTranslator(
+                    new LookupTranslator(EntityArrays.HTML50_EXTENDED_ESCAPE),
+                    new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE),
+                    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE),
+                    new LookupTranslator(EntityArrays.BASIC_ESCAPE)
+            );
+    /**
      * Translator object for escaping individual Comma Separated Values.
      *
      * While {@link #escapeCsv(String)} is the expected method of use, this
@@ -442,6 +456,22 @@ public class StringEscapeUtils {
                     new LookupTranslator(EntityArrays.BASIC_UNESCAPE),
                     new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE),
                     new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE),
+                    new NumericEntityUnescaper()
+            );
+
+    /**
+     * Translator object for unescaping escaped HTML 5.0.
+     *
+     * While {@link #unescapeHtml5(String)} is the expected method of use, this
+     * object allows the HTML unescaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+    public static final CharSequenceTranslator UNESCAPE_HTML5 =
+            new AggregateTranslator(
+                    new LookupTranslator(EntityArrays.HTML50_EXTENDED_UNESCAPE),
+                    new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE),
+                    new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE),
+                    new LookupTranslator(EntityArrays.BASIC_UNESCAPE),
                     new NumericEntityUnescaper()
             );
 
@@ -586,6 +616,22 @@ public class StringEscapeUtils {
      */
     public static final String escapeHtml4(final String input) {
         return ESCAPE_HTML4.translate(input);
+    }
+
+    // HTML and XML
+    //--------------------------------------------------------------------------
+    /**
+     * Escapes the characters in a {@code String} using HTML entities.
+     *
+     * <p>Supports all known HTML 5.0 entities.</p>
+     *
+     * @param input  the {@code String} to escape, may be null
+     * @return a new escaped {@code String}, {@code null} if null string input
+     *
+     * @see <a href="https://html.spec.whatwg.org/multipage/named-characters.html">HTML 5.0 Entities</a>
+     */
+    public static final String escapeHtml5(final String input) {
+        return ESCAPE_HTML5.translate(input);
     }
 
     // Java and JavaScript
@@ -790,6 +836,18 @@ public class StringEscapeUtils {
      */
     public static final String unescapeHtml4(final String input) {
         return UNESCAPE_HTML4.translate(input);
+    }
+
+    /**
+     * Unescapes a string containing entity escapes to a string
+     * containing the actual Unicode characters corresponding to the
+     * escapes. Supports all known HTML 5.0 entities.
+     *
+     * @param input  the {@code String} to unescape, may be null
+     * @return a new unescaped {@code String}, {@code null} if null string input
+     */
+    public static final String unescapeHtml5(final String input) {
+        return UNESCAPE_HTML5.translate(input);
     }
 
     /**

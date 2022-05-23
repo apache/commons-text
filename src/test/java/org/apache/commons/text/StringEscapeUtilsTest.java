@@ -62,6 +62,22 @@ public class StringEscapeUtilsTest {
             {"8-bit ascii shouldn't number-escape", "\u0080\u009F", "\u0080\u009F"},
     };
 
+    private static final String[][] HTML5_ESCAPES = {
+            {"no escaping", "plain text", "plain text"},
+            {"no escaping", "plain text", "plain text"},
+            {"empty string", "", ""},
+            {"null", null, null},
+            {"ampersand", "bread &AMP; butter", "bread & butter"},
+            {"quotes", "&QUOT;bread&QUOT; &AMP; butter", "\"bread\" & butter"},
+            {"final character only", "greater than &GT;", "greater than >"},
+            {"first character only", "&LT; less than", "< less than"},
+            {"apostrophe", "Huntington&apos;s chorea", "Huntington's chorea"},
+            {"languages", "English&comma;Fran&ccedil;ais&comma;\u65E5\u672C\u8A9E &lpar;nihongo&rpar;",
+                "English,Fran\u00E7ais,\u65E5\u672C\u8A9E (nihongo)"},
+            {"8-bit ascii shouldn't number-escape", "\u0080\u009F", "\u0080\u009F"},
+            {"tabulation and new line", "&Tab;Hello world&excl;&NewLine;", "\u0009Hello world!\n"}
+    };
+
     private void assertEscapeJava(final String escaped, final String original) throws IOException {
         assertEscapeJava(escaped, original, null);
     }
@@ -214,7 +230,7 @@ public void testEscapeEcmaScript() {
             final String message = element[0];
             final String expected = element[1];
             final String original = element[2];
-            assertEquals(expected, StringEscapeUtils.escapeHtml4(original), message);
+            assertEquals(expected, StringEscapeUtils.escapeHtml3(original), message);
             final StringWriter sw = new StringWriter();
             try {
                 StringEscapeUtils.ESCAPE_HTML3.translate(original, sw);
@@ -243,6 +259,24 @@ public void testEscapeEcmaScript() {
                 assertEquals(expected, actual, message);
             }
         }
+
+    @Test
+    public void testEscapeHtml5() {
+        for (final String[] element : HTML5_ESCAPES) {
+            final String message = element[0];
+            final String expected = element[1];
+            final String original = element[2];
+            assertEquals(expected, StringEscapeUtils.escapeHtml5(original), message);
+            final StringWriter sw = new StringWriter();
+            try {
+                StringEscapeUtils.ESCAPE_HTML5.translate(original, sw);
+            } catch (final IOException e) {
+                // expected
+            }
+            final String actual = original == null ? null : sw.toString();
+            assertEquals(expected, actual, message);
+        }
+    }
 
     /**
      * Tests // https://issues.apache.org/jira/browse/LANG-480
@@ -563,6 +597,34 @@ public void testEscapeEcmaScript() {
         assertEquals("Hello&#;World", StringEscapeUtils.unescapeHtml4("Hello&#;World"));
         assertEquals("Hello&# ;World", StringEscapeUtils.unescapeHtml4("Hello&# ;World"));
         assertEquals("Hello&##;World", StringEscapeUtils.unescapeHtml4("Hello&##;World"));
+    }
+
+    @Test
+    public void testUnescapeHtml5() {
+        for (final String[] element : HTML5_ESCAPES) {
+            final String message = element[0];
+            final String expected = element[2];
+            final String original = element[1];
+            assertEquals(expected, StringEscapeUtils.unescapeHtml5(original), message);
+
+            final StringWriter sw = new StringWriter();
+            try {
+                StringEscapeUtils.UNESCAPE_HTML5.translate(original, sw);
+            } catch (final IOException e) {
+                // expected
+            }
+            final String actual = original == null ? null : sw.toString();
+            assertEquals(expected, actual, message);
+        }
+        // \u00E7 is a cedilla (c with wiggle under)
+        // note that the test string must be 7-bit-clean (Unicode escaped) or else it will compile incorrectly
+        // on some locales
+        assertEquals("Fran\u00E7ais", StringEscapeUtils.unescapeHtml5("Fran\u00E7ais"), "funny chars pass through OK");
+
+        assertEquals("Hello&;World", StringEscapeUtils.unescapeHtml5("Hello&;World"));
+        assertEquals("Hello&#;World", StringEscapeUtils.unescapeHtml5("Hello&#;World"));
+        assertEquals("Hello&# ;World", StringEscapeUtils.unescapeHtml5("Hello&# ;World"));
+        assertEquals("Hello&##;World", StringEscapeUtils.unescapeHtml5("Hello&##;World"));
     }
 
     @Test
