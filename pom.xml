@@ -210,10 +210,10 @@
         <version>${checkstyle.plugin.version}</version>
         <configuration>
           <enableRulesSummary>false</enableRulesSummary>
-          <configLocation>${basedir}/checkstyle.xml</configLocation>
-          <headerLocation>${basedir}/checkstyle-header.txt</headerLocation>
-          <suppressionsLocation>${basedir}/checkstyle-suppressions.xml</suppressionsLocation>
-          <suppressionsFileExpression>${basedir}/checkstyle-suppressions.xml</suppressionsFileExpression>
+          <configLocation>checkstyle.xml</configLocation>
+          <headerLocation>checkstyle-header.txt</headerLocation>
+          <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+          <suppressionsFileExpression>checkstyle-suppressions.xml</suppressionsFileExpression>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
           <excludes>**/generated/**.java,**/jmh_generated/**.java</excludes>
         </configuration>
