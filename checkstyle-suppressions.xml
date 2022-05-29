@@ -19,7 +19,6 @@
    limitations under the License.
 -->
 <suppressions>
-  <suppress checks="LocalFinalVariableName" files="FormattableUtils.java" />
   <suppress checks="MagicNumber" files="JaccardDistance.java" />
   <suppress checks="MagicNumber" files="JaccardSimilarity.java" />
   <suppress checks="MagicNumber" files="JaroWinklerDistance.java" />

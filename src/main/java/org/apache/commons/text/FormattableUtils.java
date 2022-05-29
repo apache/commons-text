@@ -83,29 +83,29 @@ public class FormattableUtils {
      * @param width  the width of the output, see {@code Formattable}
      * @param precision  the precision of the output, see {@code Formattable}
      * @param padChar  the pad character to use
-     * @param ellipsis  the ellipsis to use when precision dictates truncation, null or
+     * @param truncateEllipsis  the ellipsis to use when precision dictates truncation, null or
      *  empty causes a hard truncation
      * @return The {@code formatter} instance, not null
      * @throws IllegalArgumentException if {@code ellipsis.length() > precision},
      *  given that {@code ellipsis} is not null and {@code precision >= 0}
      */
     public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
-            final int precision, final char padChar, final CharSequence ellipsis) {
-        if (!(ellipsis == null || precision < 0 || ellipsis.length() <= precision)) {
+            final int precision, final char padChar, final CharSequence truncateEllipsis) {
+        if (!(truncateEllipsis == null || precision < 0 || truncateEllipsis.length() <= precision)) {
             throw new IllegalArgumentException(
                     String.format("Specified ellipsis '%s' exceeds precision of %s",
-                            ellipsis,
+                            truncateEllipsis,
                             precision));
         }
         final StringBuilder buf = new StringBuilder(seq);
         if (precision >= 0 && precision < seq.length()) {
-            final CharSequence _ellipsis;
-            if (ellipsis == null) {
-                _ellipsis = StringUtils.EMPTY;
+            final CharSequence ellipsis;
+            if (truncateEllipsis == null) {
+                ellipsis = StringUtils.EMPTY;
             } else {
-                _ellipsis = ellipsis;
+                ellipsis = truncateEllipsis;
             }
-            buf.replace(precision - _ellipsis.length(), seq.length(), _ellipsis.toString());
+            buf.replace(precision - ellipsis.length(), seq.length(), ellipsis.toString());
         }
         final boolean leftJustify = (flags & LEFT_JUSTIFY) == LEFT_JUSTIFY;
         for (int i = buf.length(); i < width; i++) {
