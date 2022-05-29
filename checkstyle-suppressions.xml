@@ -36,10 +36,6 @@
   <suppress checks="MagicNumber" files=".*[/\\]test[/\\].*" />
   <suppress checks="MethodName" files=".*[/\\]test[/\\].*" />
   <suppress checks="Javadoc" files=".*[/\\]test[/\\].*" />
-  <suppress checks="FileLength" files="StrBuilderTest.java" />
-  <suppress checks="FileLength" files="StrBuilder.java" />
-  <suppress checks="FileLength" files="TextStringBuilderTest.java" />
-  <suppress checks="FileLength" files="TextStringBuilder.java" />
   <suppress checks="MethodLength" files="LevenshteinDetailedDistanceTest.java" />
   <suppress checks="MethodLength" files="StrBuilderAppendInsertTest.java" />
   <suppress checks="MethodLength" files="TextStringBuilderAppendInsertTest.java" />
