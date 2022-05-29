@@ -2230,7 +2230,6 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
         return insert(index, String.valueOf(value));
     }
 
-    //-----------------------------------------------------------------------
     /**
      * Inserts the string representation of an object into this builder.
      * Inserting null will use the stored null text value.
