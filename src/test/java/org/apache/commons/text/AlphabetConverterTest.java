@@ -34,31 +34,29 @@ import org.junit.jupiter.api.Test;
  */
 public class AlphabetConverterTest {
 
-    private static final Character[] LOWER_CASE_ENGLISH = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-        'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    private static final Character[] LOWER_CASE_ENGLISH = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+        't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-    private static final Character[] ENGLISH_AND_NUMBERS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b',
-        'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
-        'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-        'U', 'V', 'W', 'X', 'Y', 'Z', ' '};
+    private static final Character[] ENGLISH_AND_NUMBERS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+        'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+        'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' '};
 
-    private static final Character[] LOWER_CASE_ENGLISH_AND_NUMBERS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-        'w', 'x', 'y', 'z', ' '};
+    private static final Character[] LOWER_CASE_ENGLISH_AND_NUMBERS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' '};
 
     private static final Character[] NUMBERS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
     private static final Character[] BINARY = {'0', '1'};
 
-    private static final Character[] HEBREW = {'_', ' ', '\u05e7', '\u05e8', '\u05d0', '\u05d8', '\u05d5', '\u05df',
-        '\u05dd', '\u05e4', '\u05e9', '\u05d3', '\u05d2', '\u05db', '\u05e2', '\u05d9', '\u05d7', '\u05dc', '\u05da',
-        '\u05e3', '\u05d6', '\u05e1', '\u05d1', '\u05d4', '\u05e0', '\u05de', '\u05e6', '\u05ea', '\u05e5'};
+    private static final Character[] HEBREW = {'_', ' ', '\u05e7', '\u05e8', '\u05d0', '\u05d8', '\u05d5', '\u05df', '\u05dd', '\u05e4', '\u05e9', '\u05d3',
+        '\u05d2', '\u05db', '\u05e2', '\u05d9', '\u05d7', '\u05dc', '\u05da', '\u05e3', '\u05d6', '\u05e1', '\u05d1', '\u05d4', '\u05e0', '\u05de', '\u05e6',
+        '\u05ea', '\u05e5'};
 
-    private static final Integer[] UNICODE = {32, 35395, 35397, 36302, 36291, 35203, 35201, 35215, 35219, 35268, 97, 98,
-        99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 1001, 1002, 1003, 1004, 1005};
+    private static final Integer[] UNICODE = {32, 35395, 35397, 36302, 36291, 35203, 35201, 35215, 35219, 35268, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106,
+        107, 108, 109, 110, 1001, 1002, 1003, 1004, 1005};
 
-    private static final Integer[] LOWER_CASE_ENGLISH_CODEPOINTS = {32, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106,
-        107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122};
+    private static final Integer[] LOWER_CASE_ENGLISH_CODEPOINTS = {32, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114,
+        115, 116, 117, 118, 119, 120, 121, 122};
 
     private static final Integer[] DO_NOT_ENCODE_CODEPOINTS = {32, 97, 98, 99}; // space, a, b, c
 
@@ -79,15 +77,14 @@ public class AlphabetConverterTest {
 
     @Test
     public void doNotEncodeTest() throws UnsupportedEncodingException {
-        test(ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH, "1", "456", "abc", "ABC",
-                "this will not be converted but THIS WILL");
-        test(ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH_AND_NUMBERS, NUMBERS, "1", "456", "abc", "ABC",
-                "this will be converted but 12345 and this will be");
+        test(ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH, "1", "456", "abc", "ABC", "this will not be converted but THIS WILL");
+        test(ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH_AND_NUMBERS, NUMBERS, "1", "456", "abc", "ABC", "this will be converted but 12345 and this will be");
     }
 
     @Test
     public void encodeFailureTest() {
-        assertThatThrownBy(() -> test(BINARY, NUMBERS, ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY, "3")).isInstanceOf(UnsupportedEncodingException.class).hasMessage("Couldn't find encoding for '3' in 3");
+        assertThatThrownBy(() -> test(BINARY, NUMBERS, ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY, "3")).isInstanceOf(UnsupportedEncodingException.class)
+            .hasMessage("Couldn't find encoding for '3' in 3");
     }
 
     @Test
@@ -118,20 +115,20 @@ public class AlphabetConverterTest {
 
     @Test
     public void missingDoNotEncodeLettersFromEncodingTest() {
-        assertThatThrownBy(() -> AlphabetConverter.createConverterFromChars(ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH, NUMBERS)).isInstanceOf(IllegalArgumentException.class).hasMessage(
-                "Can not use 'do not encode' list because encoding alphabet does not contain '0'");
+        assertThatThrownBy(() -> AlphabetConverter.createConverterFromChars(ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH, NUMBERS))
+            .isInstanceOf(IllegalArgumentException.class).hasMessage("Can not use 'do not encode' list because encoding alphabet does not contain '0'");
     }
 
     @Test
     public void missingDoNotEncodeLettersFromOriginalTest() {
-        assertThatThrownBy(() -> AlphabetConverter.createConverterFromChars(LOWER_CASE_ENGLISH, ENGLISH_AND_NUMBERS, NUMBERS)).isInstanceOf(IllegalArgumentException.class).hasMessage(
-                "Can not use 'do not encode' list because original alphabet does not contain '0'");
+        assertThatThrownBy(() -> AlphabetConverter.createConverterFromChars(LOWER_CASE_ENGLISH, ENGLISH_AND_NUMBERS, NUMBERS))
+            .isInstanceOf(IllegalArgumentException.class).hasMessage("Can not use 'do not encode' list because original alphabet does not contain '0'");
     }
 
     @Test
     public void noEncodingLettersTest() {
-        assertThatThrownBy(() -> AlphabetConverter.createConverterFromChars(ENGLISH_AND_NUMBERS, NUMBERS, NUMBERS)).isInstanceOf(IllegalArgumentException.class).hasMessage(
-            "Must have at least two encoding characters (excluding those in the 'do not encode' list), but has 0");
+        assertThatThrownBy(() -> AlphabetConverter.createConverterFromChars(ENGLISH_AND_NUMBERS, NUMBERS, NUMBERS)).isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Must have at least two encoding characters (excluding those in the 'do not encode' list), but has 0");
     }
 
     @Test
@@ -141,18 +138,16 @@ public class AlphabetConverterTest {
             numbersPlusUnderscore[numbersPlusUnderscore.length - 1] = '_';
 
             AlphabetConverter.createConverterFromChars(ENGLISH_AND_NUMBERS, numbersPlusUnderscore, NUMBERS);
-        }).isInstanceOf(IllegalArgumentException.class).hasMessage(
-            "Must have at least two encoding characters (excluding those in the 'do not encode' list), but has 1");
+        }).isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Must have at least two encoding characters (excluding those in the 'do not encode' list), but has 1");
     }
 
-    private void test(final Character[] originalChars, final Character[] encodingChars,
-            final Character[] doNotEncodeChars, final String... strings) throws UnsupportedEncodingException {
+    private void test(final Character[] originalChars, final Character[] encodingChars, final Character[] doNotEncodeChars, final String... strings)
+        throws UnsupportedEncodingException {
 
-        final AlphabetConverter ac = AlphabetConverter.createConverterFromChars(originalChars, encodingChars,
-                doNotEncodeChars);
+        final AlphabetConverter ac = AlphabetConverter.createConverterFromChars(originalChars, encodingChars, doNotEncodeChars);
 
-        final AlphabetConverter reconstructedAlphabetConverter = AlphabetConverter
-                .createConverterFromMap(ac.getOriginalToEncoded());
+        final AlphabetConverter reconstructedAlphabetConverter = AlphabetConverter.createConverterFromMap(ac.getOriginalToEncoded());
 
         assertThat(reconstructedAlphabetConverter).isEqualTo(ac);
         assertThat(reconstructedAlphabetConverter.hashCode()).isEqualTo(ac.hashCode());
@@ -178,8 +173,7 @@ public class AlphabetConverterTest {
                 assertThat(originalCharsList.contains(decoded.charAt(i))).isTrue();
             }
 
-            assertThat(decoded).as("Encoded '" + s + "' into '" + encoded + "', but decoded into '" + decoded + "'")
-                .isEqualTo(s);
+            assertThat(decoded).as("Encoded '" + s + "' into '" + encoded + "', but decoded into '" + decoded + "'").isEqualTo(s);
         }
     }
 
@@ -190,8 +184,7 @@ public class AlphabetConverterTest {
         final char character = '+';
         characterArray[0] = character;
         characterArray[1] = characterArray[0];
-        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
-                characterArray, characterArray);
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
 
         assertThat(alphabetConverter.equals(charOne)).isFalse();
     }
@@ -201,8 +194,7 @@ public class AlphabetConverterTest {
         final Character[] characterArray = new Character[2];
         characterArray[0] = '5';
         characterArray[1] = characterArray[0];
-        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
-                characterArray, characterArray);
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
 
         assertThat(alphabetConverter.getEncodedCharLength()).isEqualTo(1);
     }
@@ -244,8 +236,7 @@ public class AlphabetConverterTest {
         final char character = 'R';
         characterArray[0] = character;
         characterArray[1] = character;
-        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
-                characterArray, characterArray);
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
         final Map<Integer, String> map = new HashMap<>();
         final AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(map);
 
@@ -256,8 +247,7 @@ public class AlphabetConverterTest {
     @Test
     public void testEqualsWithNull() {
         final Character[] characterArray = ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY;
-        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, null,
-            null);
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, null, null);
 
         assertThat(alphabetConverter.equals(null)).isFalse();
     }
@@ -268,8 +258,7 @@ public class AlphabetConverterTest {
         final char character = 'R';
         characterArray[0] = character;
         characterArray[1] = character;
-        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray,
-                characterArray, characterArray);
+        final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
 
         assertThat(alphabetConverter.equals(alphabetConverter)).isTrue();
     }
@@ -280,8 +269,7 @@ public class AlphabetConverterTest {
         assertThatThrownBy(() -> {
             final AlphabetConverter ac = createJavadocExample();
             ac.decode(toDecode);
-        }).isInstanceOf(UnsupportedEncodingException.class).hasMessage(
-                "Unexpected end of string while decoding " + toDecode);
+        }).isInstanceOf(UnsupportedEncodingException.class).hasMessage("Unexpected end of string while decoding " + toDecode);
     }
 
     @Test
@@ -290,8 +278,7 @@ public class AlphabetConverterTest {
         assertThatThrownBy(() -> {
             final AlphabetConverter ac = createJavadocExample();
             ac.decode(toDecode);
-        }).isInstanceOf(UnsupportedEncodingException.class).hasMessage(
-                "Unexpected string without decoding (XX) in " + toDecode);
+        }).isInstanceOf(UnsupportedEncodingException.class).hasMessage("Unexpected string without decoding (XX) in " + toDecode);
     }
 
     /**
@@ -299,8 +286,7 @@ public class AlphabetConverterTest {
      */
     @Test
     public void unicodeTest() throws UnsupportedEncodingException {
-        final AlphabetConverter ac = AlphabetConverter.createConverter(UNICODE, LOWER_CASE_ENGLISH_CODEPOINTS,
-            DO_NOT_ENCODE_CODEPOINTS);
+        final AlphabetConverter ac = AlphabetConverter.createConverter(UNICODE, LOWER_CASE_ENGLISH_CODEPOINTS, DO_NOT_ENCODE_CODEPOINTS);
 
         assertThat(ac.getEncodedCharLength()).isEqualTo(2);
 
@@ -308,8 +294,7 @@ public class AlphabetConverterTest {
         final String encoded = ac.encode(original);
         final String decoded = ac.decode(encoded);
 
-        assertThat(decoded).as("Encoded '" + original + "' into '" + encoded + "', but decoded into '" + decoded + "'")
-            .isEqualTo(original);
+        assertThat(decoded).as("Encoded '" + original + "' into '" + encoded + "', but decoded into '" + decoded + "'").isEqualTo(original);
     }
 
 }

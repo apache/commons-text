@@ -39,8 +39,7 @@ public class IntersectionSimilarityTest {
     public void testIntersectionUsingSetCharacter() {
         // Compute using single characters.
         // This test uses a set and so should not allow duplicates.
-        final IntersectionSimilarity<Character> similarity =
-                new IntersectionSimilarity<>(IntersectionSimilarityTest::toCharacterSet);
+        final IntersectionSimilarity<Character> similarity = new IntersectionSimilarity<>(IntersectionSimilarityTest::toCharacterSet);
 
         // Expected:
         // size A or B = count of unique characters (exclude duplicates)
@@ -64,8 +63,7 @@ public class IntersectionSimilarityTest {
     public void testIntersectionUsingListCharacter() {
         // Compute using single characters.
         // This test uses a list and so duplicates should be matched.
-        final IntersectionSimilarity<Character> similarity =
-                new IntersectionSimilarity<>(IntersectionSimilarityTest::toCharacterList);
+        final IntersectionSimilarity<Character> similarity = new IntersectionSimilarity<>(IntersectionSimilarityTest::toCharacterList);
 
         // Expected:
         // size A or B = sequence length
@@ -90,8 +88,7 @@ public class IntersectionSimilarityTest {
         // Compute using pairs of characters (bigrams).
         // This can be done using a 32-bit int to store two 16-bit characters.
         // This test uses a set and so should not allow duplicates.
-        final IntersectionSimilarity<Integer> similarity =
-                new IntersectionSimilarity<>(IntersectionSimilarityTest::toBigramSet);
+        final IntersectionSimilarity<Integer> similarity = new IntersectionSimilarity<>(IntersectionSimilarityTest::toBigramSet);
 
         // Expected:
         // size A or B = count of unique bigrams (exclude duplicates)
@@ -116,8 +113,7 @@ public class IntersectionSimilarityTest {
         // Compute using pairs of characters (bigrams).
         // This can be done using a 32-bit int to store two 16-bit characters.
         // This test uses a list and so duplicates should be matched.
-        final IntersectionSimilarity<Integer> similarity =
-                new IntersectionSimilarity<>(IntersectionSimilarityTest::toBigramList);
+        final IntersectionSimilarity<Integer> similarity = new IntersectionSimilarity<>(IntersectionSimilarityTest::toBigramList);
 
         // Expected:
         // size A or B = sequence length - 1
@@ -146,8 +142,7 @@ public class IntersectionSimilarityTest {
         final String sequence2 = "aaaaaabbbfffff";
         converter.put(sequence1, toCharacterSet(sequence1));
         converter.put(sequence2, toCharacterList(sequence2));
-        final IntersectionSimilarity<Character> similarity =
-                new IntersectionSimilarity<>(converter::get);
+        final IntersectionSimilarity<Character> similarity = new IntersectionSimilarity<>(converter::get);
 
         // Expected:
         // size A = count of unique characters (exclude duplicates)
@@ -188,8 +183,8 @@ public class IntersectionSimilarityTest {
     }
 
     /**
-     * Convert the {@link CharSequence} to a {@link Set} of bigrams (pairs of characters).
-     * These are represented using 2 16-bit chars packed into a 32-bit int.
+     * Convert the {@link CharSequence} to a {@link Set} of bigrams (pairs of characters). These are represented using 2
+     * 16-bit chars packed into a 32-bit int.
      *
      * @param sequence the sequence
      * @return the set
@@ -209,8 +204,8 @@ public class IntersectionSimilarityTest {
     }
 
     /**
-     * Convert the {@link CharSequence} to a {@link List} of bigrams (pairs of characters).
-     * These are represented using 2 16-bit chars packed into a 32-bit int.
+     * Convert the {@link CharSequence} to a {@link List} of bigrams (pairs of characters). These are represented using 2
+     * 16-bit chars packed into a 32-bit int.
      *
      * @param sequence the sequence
      * @return the list
@@ -229,8 +224,8 @@ public class IntersectionSimilarityTest {
         return list;
     }
 
-    private static <T> void assertIntersection(final IntersectionSimilarity<T> similarity,
-            final CharSequence cs1, final CharSequence cs2, final int sizeA, final int sizeB, final int intersection) {
+    private static <T> void assertIntersection(final IntersectionSimilarity<T> similarity, final CharSequence cs1, final CharSequence cs2, final int sizeA,
+        final int sizeB, final int intersection) {
         final IntersectionResult result = similarity.apply(cs1, cs2);
         assertEquals(sizeA, result.getSizeA(), "Size A error");
         assertEquals(sizeB, result.getSizeB(), "Size B error");
@@ -317,16 +312,19 @@ public class IntersectionSimilarityTest {
 
     @Test
     public void testApplyNullNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, null));
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, null));
     }
 
     @Test
     public void testApplyStringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply("left", null));
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply("left", null));
     }
 
     @Test
     public void testApplyNullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, "right"));
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, "right"));
     }
 }
