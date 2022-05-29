@@ -36,8 +36,7 @@ public class WordUtilsTest {
         assertThatIllegalArgumentException().isThrownBy(() -> assertThat(WordUtils.abbreviate("01 23 45 67 89", 9, -10, null)).isEqualTo("01 23 45 67"));
     }
 
-    // -----------------------------------------------------------------------
-    @Test
+     @Test
     public void testAbbreviateForLowerValue() {
         assertThat(WordUtils.abbreviate("012 3456789", 0, 5, null)).isEqualTo("012");
         assertThat(WordUtils.abbreviate("01234 56789", 5, 10, null)).isEqualTo("01234");
@@ -46,8 +45,7 @@ public class WordUtilsTest {
         assertThat(WordUtils.abbreviate("0123456789", 15, 20, null)).isEqualTo("0123456789");
     }
 
-    // -----------------------------------------------------------------------
-    @Test
+     @Test
     public void testAbbreviateForLowerValueAndAppendedString() {
         assertThat(WordUtils.abbreviate("012 3456789", 0, 5, null)).isEqualTo("012");
         assertThat(WordUtils.abbreviate("01234 56789", 5, 10, "-")).isEqualTo("01234-");
@@ -55,8 +53,7 @@ public class WordUtilsTest {
         assertThat(WordUtils.abbreviate("01 23 45 67 89", 9, 10, "")).isEqualTo("01 23 45 6");
     }
 
-    // -----------------------------------------------------------------------
-    @Test
+     @Test
     public void testAbbreviateForNullAndEmptyString() {
         assertThat((WordUtils.abbreviate(null, 1, -1, ""))).isNull();
         assertThat(WordUtils.abbreviate("", 1, -1, "")).isEqualTo(StringUtils.EMPTY);
@@ -64,16 +61,14 @@ public class WordUtilsTest {
         assertThat(WordUtils.abbreviate(" 0123456790", 0, -1, "")).isEqualTo("");
     }
 
-    // -----------------------------------------------------------------------
-    @Test
+     @Test
     public void testAbbreviateForUpperLimit() {
         assertThat(WordUtils.abbreviate("0123456789", 0, 5, "")).isEqualTo("01234");
         assertThat(WordUtils.abbreviate("012 3456789", 2, 5, "")).isEqualTo("012");
         assertThat(WordUtils.abbreviate("0123456789", 0, -1, "")).isEqualTo("0123456789");
     }
 
-    // -----------------------------------------------------------------------
-    @Test
+     @Test
     public void testAbbreviateForUpperLimitAndAppendedString() {
         assertThat(WordUtils.abbreviate("0123456789", 0, 5, "-")).isEqualTo("01234-");
         assertThat(WordUtils.abbreviate("012 3456789", 2, 5, null)).isEqualTo("012");
@@ -85,8 +80,7 @@ public class WordUtilsTest {
         assertThatIllegalArgumentException().isThrownBy(() -> assertThat(WordUtils.abbreviate("0123456789", 5, 2, "")).isEqualTo("01234"));
     }
 
-    // -----------------------------------------------------------------------
-    @Test
+     @Test
     public void testCapitalize_String() {
         assertThat(WordUtils.capitalize(null)).isNull();
         assertThat(WordUtils.capitalize("")).isEqualTo("");
@@ -158,8 +152,7 @@ public class WordUtilsTest {
         assertThat(WordUtils.capitalize("i am.fine", null)).isEqualTo("I Am.fine");
     }
 
-    // -----------------------------------------------------------------------
-    @Test
+     @Test
     public void testConstructor() {
         assertThat(new WordUtils()).isNotNull();
         final Constructor<?>[] cons = WordUtils.class.getDeclaredConstructors();
@@ -195,8 +188,7 @@ public class WordUtilsTest {
         assertThat(WordUtils.containsAllWords("M", (CharSequence) null)).isFalse();
     }
 
-    // -----------------------------------------------------------------------
-    @Test
+     @Test
     public void testInitials_String() {
         assertThat(WordUtils.initials(null)).isNull();
         assertThat(WordUtils.initials("")).isEqualTo("");
@@ -211,8 +203,7 @@ public class WordUtilsTest {
         assertThat(WordUtils.initials("i am here 123")).isEqualTo("iah1");
     }
 
-    // -----------------------------------------------------------------------
-    @Test
+     @Test
     public void testInitials_String_charArray() {
         char[] array = null;
         assertThat(WordUtils.initials(null, array)).isNull();
@@ -335,8 +326,7 @@ public class WordUtilsTest {
         assertThat(WordUtils.abbreviate("01 23 45 67 89", 40, 40, "")).isEqualTo("01 23 45 67 89");
     }
 
-    // -----------------------------------------------------------------------
-    @Test
+     @Test
     public void testSwapCase_String() {
         assertThat(WordUtils.swapCase(null)).isNull();
         assertThat(WordUtils.swapCase("")).isEqualTo("");
@@ -398,8 +388,7 @@ public class WordUtilsTest {
         assertThat(WordUtils.uncapitalize("I AM.FINE", null)).isEqualTo("i aM.FINE");
     }
 
-    // -----------------------------------------------------------------------
-    @Test
+     @Test
     public void testWrap_StringInt() {
         assertThat(WordUtils.wrap(null, 20)).isNull();
         assertThat(WordUtils.wrap(null, -1)).isNull();

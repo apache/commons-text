@@ -308,8 +308,7 @@ public class StringMatcherOnCharSequenceStringTest {
             .isSameAs(StringMatcherFactory.INSTANCE.noneMatcher());
     }
 
-    // -----------------------------------------------------------------------
-    @Test
+     @Test
     public void testTabMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.tabMatcher();
         assertEquals(1, matcher.size());

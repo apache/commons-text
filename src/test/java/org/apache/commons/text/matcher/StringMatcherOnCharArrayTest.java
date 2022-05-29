@@ -317,8 +317,7 @@ public class StringMatcherOnCharArrayTest {
         testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher("bc"));
     }
 
-    // -----------------------------------------------------------------------
-    @Test
+     @Test
     public void testTabMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.tabMatcher();
         assertEquals(1, matcher.size());

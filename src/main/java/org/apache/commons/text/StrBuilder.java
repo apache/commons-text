@@ -994,7 +994,6 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
         return append(value).appendNewLine();
     }
 
-    //-----------------------------------------------------------------------
     /**
      * Appends an object followed by a new line to this string builder.
      * Appending null will call {@link #appendNull()}.

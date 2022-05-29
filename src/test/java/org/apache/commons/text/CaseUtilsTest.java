@@ -28,7 +28,6 @@ import org.junit.jupiter.api.Test;
  */
 public class CaseUtilsTest {
 
-    //-----------------------------------------------------------------------
     @Test
     public void testConstructor() {
         assertThat(new CaseUtils()).isNotNull();
@@ -39,7 +38,6 @@ public class CaseUtilsTest {
         assertThat(Modifier.isFinal(CaseUtils.class.getModifiers())).isFalse();
     }
 
-    //------------------------------------------------------------------------
     @Test
     public void testToCamelCase() {
         assertThat(CaseUtils.toCamelCase(null, false, null)).isNull();

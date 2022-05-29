@@ -134,8 +134,6 @@ public class StringEscapeUtilsTest {
 
 
     // HTML and XML
-    //--------------------------------------------------------------
-
     @Test
     public void testDeleteCharacter() {
       final String deleteString = "Delete: \u007F";

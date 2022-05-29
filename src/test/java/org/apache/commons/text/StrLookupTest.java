@@ -55,7 +55,6 @@ public class StrLookupTest  {
         assertNull(StrLookup.mapLookup(map).lookup("any"));
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testNoneLookup() {
         assertNull(StrLookup.noneLookup().lookup(null));

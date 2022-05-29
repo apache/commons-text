@@ -49,7 +49,6 @@ public class StrBuilderAppendInsertTest {
         }
     };
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_Boolean() {
         final StrBuilder sb = new StrBuilder();
@@ -63,7 +62,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("truefalse!");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_CharArray() {
         StrBuilder sb = new StrBuilder();
@@ -78,7 +76,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foo");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_CharArray_int_int() {
         StrBuilder sb = new StrBuilder();
@@ -138,7 +135,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foobar");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_FormattedString() {
         StrBuilder sb;
@@ -163,7 +159,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo(expected);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_Object() {
         final StrBuilder sb = new StrBuilder();
@@ -192,7 +187,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foobazyesSeqbld");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_PrimitiveNumber() {
         final StrBuilder sb = new StrBuilder();
@@ -209,7 +203,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("012.34.5");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_StrBuilder() {
         StrBuilder sb = new StrBuilder();
@@ -227,7 +220,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foobar");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_StrBuilder_int_int() {
         StrBuilder sb = new StrBuilder();
@@ -287,7 +279,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foobar");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_String() {
         StrBuilder sb = new StrBuilder();
@@ -305,7 +296,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foobar");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_String_int_int() {
         StrBuilder sb = new StrBuilder();
@@ -368,7 +358,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foobarard");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_StringBuffer() {
         StrBuilder sb = new StrBuilder();
@@ -386,7 +375,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foobar");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_StringBuffer_int_int() {
         StrBuilder sb = new StrBuilder();
@@ -446,7 +434,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foobar");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_StringBuilder() {
         StrBuilder sb = new StrBuilder();
@@ -464,7 +451,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foobar");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppend_StringBuilder_int_int() {
         StrBuilder sb = new StrBuilder();
@@ -527,7 +513,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foobarard");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendAll_Array() {
         final StrBuilder sb = new StrBuilder();
@@ -547,7 +532,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foobarbaz");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendAll_Collection() {
         final StrBuilder sb = new StrBuilder();
@@ -563,7 +547,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foobarbaz");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendAll_Iterator() {
         final StrBuilder sb = new StrBuilder();
@@ -579,7 +562,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foobarbaz");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendFixedWidthPadLeft() {
         final StrBuilder sb = new StrBuilder();
@@ -618,7 +600,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("-null");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendFixedWidthPadLeft_int() {
         final StrBuilder sb = new StrBuilder();
@@ -652,7 +633,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("-------123");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendFixedWidthPadRight() {
         final StrBuilder sb = new StrBuilder();
@@ -691,7 +671,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("null-");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendFixedWidthPadRight_int() {
         final StrBuilder sb = new StrBuilder();
@@ -725,7 +704,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("123-------");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_Boolean() {
         final StrBuilder sb = new StrBuilder();
@@ -737,7 +715,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("false" + SEP);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_CharArray() {
         final int[] count = new int[2];
@@ -761,7 +738,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(count[1]).isEqualTo(1);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_CharArray_int_int() {
         final int[] count = new int[2];
@@ -785,7 +761,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(count[1]).isEqualTo(1);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_FormattedString() {
         final int[] count = new int[2];
@@ -809,7 +784,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(count[1]).isEqualTo(1);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_Object() {
         final StrBuilder sb = new StrBuilder();
@@ -823,7 +797,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo(SEP + "foo" + SEP + "6" + SEP);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_PrimitiveNumber() {
         final StrBuilder sb = new StrBuilder();
@@ -843,7 +816,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("4.5" + SEP);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_StrBuilder() {
         final int[] count = new int[2];
@@ -867,7 +839,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(count[1]).isEqualTo(1);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_StrBuilder_int_int() {
         final int[] count = new int[2];
@@ -891,7 +862,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(count[1]).isEqualTo(1);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_String() {
         final int[] count = new int[2];
@@ -915,7 +885,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(count[1]).isEqualTo(1);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_String_int_int() {
         final int[] count = new int[2];
@@ -939,7 +908,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(count[1]).isEqualTo(1);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_StringBuffer() {
         final int[] count = new int[2];
@@ -963,7 +931,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(count[1]).isEqualTo(1);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_StringBuffer_int_int() {
         final int[] count = new int[2];
@@ -987,7 +954,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(count[1]).isEqualTo(1);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_StringBuilder() {
         final int[] count = new int[2];
@@ -1011,7 +977,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(count[1]).isEqualTo(1);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendln_StringBuilder_int_int() {
         final int[] count = new int[2];
@@ -1035,7 +1000,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(count[1]).isEqualTo(1);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendNewLine() {
         StrBuilder sb = new StrBuilder("---");
@@ -1047,7 +1011,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("---#" + SEP);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendPadding() {
         final StrBuilder sb = new StrBuilder();
@@ -1069,7 +1032,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foo-----------------");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendSeparator_char() {
         final StrBuilder sb = new StrBuilder();
@@ -1095,7 +1057,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo(String.valueOf(startSeparator) + foo + standardSeparator);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendSeparator_char_int() {
         final StrBuilder sb = new StrBuilder();
@@ -1110,7 +1071,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foo,");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendSeparator_String() {
         final StrBuilder sb = new StrBuilder();
@@ -1122,7 +1082,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foo,");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendSeparator_String_int() {
         final StrBuilder sb = new StrBuilder();
@@ -1137,7 +1096,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foo,");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendSeparator_String_String() {
         final StrBuilder sb = new StrBuilder();
@@ -1160,7 +1118,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo(startSeparator + foo + standardSeparator);
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendWithNullText() {
         final StrBuilder sb = new StrBuilder();
@@ -1192,7 +1149,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("NULLNULLfooNULLbarNULLbaz");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendWithSeparators_Array() {
         final StrBuilder sb = new StrBuilder();
@@ -1216,7 +1172,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foo,,baz");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendWithSeparators_Collection() {
         final StrBuilder sb = new StrBuilder();
@@ -1239,7 +1194,6 @@ public class StrBuilderAppendInsertTest {
         sb.appendWithSeparators(Arrays.asList("foo", null, "baz"), ",");
         assertThat(sb.toString()).isEqualTo("foo,,baz");
     }
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendWithSeparators_Iterator() {
         final StrBuilder sb = new StrBuilder();
@@ -1263,7 +1217,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foo,,baz");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testAppendWithSeparatorsWithNullText() {
         final StrBuilder sb = new StrBuilder();
@@ -1276,7 +1229,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("foo,null,baz");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testInsert() {
 
@@ -1429,7 +1381,6 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("4.5barbaz");
     }
 
-    //-----------------------------------------------------------------------
     @Test
     public void testInsertWithNullText() {
         final StrBuilder sb = new StrBuilder();

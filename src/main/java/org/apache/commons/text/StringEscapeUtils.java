@@ -558,7 +558,6 @@ public class StringEscapeUtils {
     }
 
     // HTML and XML
-    //--------------------------------------------------------------------------
     /**
      * Escapes the characters in a {@code String} using HTML entities.
      *
@@ -589,7 +588,6 @@ public class StringEscapeUtils {
     }
 
     // Java and JavaScript
-    //--------------------------------------------------------------------------
     /**
      * Escapes the characters in a {@code String} using Java String rules.
      *
