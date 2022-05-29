@@ -53,7 +53,7 @@ public class NumericEntityEscaperTest  {
         assertThat(result).as("Failed to escape numeric entities via the between method").isEqualTo("AD&#70;&#71;Z");
     }
 
-    // See LANG-617
+    /** See LANG-617 */
     @Test
     public void testSupplementary() {
         final NumericEntityEscaper nee = new NumericEntityEscaper();

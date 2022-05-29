@@ -1419,7 +1419,7 @@ public class StrBuilderAppendInsertTest {
         assertThat(sb.toString()).isEqualTo("nullnullfoonullbarbaz");
     }
 
-    // See: https://issues.apache.org/jira/browse/LANG-299
+    /** See: https://issues.apache.org/jira/browse/LANG-299 */
     @Test
     public void testLang299() {
         final StrBuilder sb = new StrBuilder(1);
