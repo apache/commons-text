@@ -33,12 +33,6 @@ import java.util.Map;
 final class Counter {
 
     /**
-     * Hidden constructor.
-     */
-    private Counter() {
-    }
-
-    /**
      * It counts how many times each element provided occurred in an array and
      * returns a dict with the element as key and the count as value.
      *
@@ -56,6 +50,12 @@ final class Counter {
             }
         }
         return innerCounter;
+    }
+
+    /**
+     * Hidden constructor.
+     */
+    private Counter() {
     }
 
 }

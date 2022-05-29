@@ -29,6 +29,36 @@ public class LevenshteinDistanceTest {
     private static final LevenshteinDistance UNLIMITED_DISTANCE = new LevenshteinDistance();
 
     @Test
+    public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDistanceTakingInteger() {
+        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDistance(0).apply(null, null));
+    }
+
+    @Test
+    public void testConstructorWithNegativeThreshold() {
+        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDistance(-1));
+    }
+
+    @Test
+    public void testGetLevenshteinDistance_NullString() {
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
+    }
+
+    @Test
+    public void testGetLevenshteinDistance_NullStringInt() {
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
+    }
+
+    @Test
+    public void testGetLevenshteinDistance_StringNull() {
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
+    }
+
+    @Test
+    public void testGetLevenshteinDistance_StringNullInt() {
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
+    }
+
+    @Test
     public void testGetLevenshteinDistance_StringString() {
         assertThat(UNLIMITED_DISTANCE.apply("", "")).isEqualTo(0);
         assertThat(UNLIMITED_DISTANCE.apply("", "a")).isEqualTo(1);
@@ -40,16 +70,6 @@ public class LevenshteinDistanceTest {
         assertThat(UNLIMITED_DISTANCE.apply("hippo", "zzzzzzzz")).isEqualTo(8);
         assertThat(UNLIMITED_DISTANCE.apply("zzzzzzzz", "hippo")).isEqualTo(8);
         assertThat(UNLIMITED_DISTANCE.apply("hello", "hallo")).isEqualTo(1);
-    }
-
-    @Test
-    public void testGetLevenshteinDistance_NullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
-    }
-
-    @Test
-    public void testGetLevenshteinDistance_StringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
     }
 
     @Test
@@ -115,26 +135,6 @@ public class LevenshteinDistanceTest {
         assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("zzzzzzzz", "hippo")).isEqualTo(8);
         assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("hello", "hallo")).isEqualTo(1);
         assertThat(new LevenshteinDistance(1).apply("abc", "acb")).isEqualTo(-1);
-    }
-
-    @Test
-    public void testGetLevenshteinDistance_NullStringInt() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
-    }
-
-    @Test
-    public void testGetLevenshteinDistance_StringNullInt() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
-    }
-
-    @Test
-    public void testConstructorWithNegativeThreshold() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDistance(-1));
-    }
-
-    @Test
-    public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDistanceTakingInteger() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDistance(0).apply(null, null));
     }
 
     @Test

@@ -31,20 +31,6 @@ import org.junit.jupiter.api.Test;
 public class AggregateTranslatorTest {
 
     @Test
-    public void testNullConstructor() {
-        final String testString = "foo";
-        final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator[]) null);
-        assertThat(subject.translate(testString)).isEqualTo(testString);
-    }
-
-    @Test
-    public void testNullVarargConstructor() {
-        final String testString = "foo";
-        final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator) null);
-        assertThat(subject.translate(testString)).isEqualTo(testString);
-    }
-
-    @Test
     public void testNonNull() throws IOException {
         final Map<CharSequence, CharSequence> oneTwoMap = new HashMap<>();
         oneTwoMap.put("one", "two");
@@ -61,6 +47,20 @@ public class AggregateTranslatorTest {
         final int result2 = subject.translate(new StringBuffer("three"), 0, out2);
         assertThat(result2).as("Incorrect codepoint consumption").isEqualTo(5);
         assertThat(out2.toString()).as("Incorrect value").isEqualTo("four");
+    }
+
+    @Test
+    public void testNullConstructor() {
+        final String testString = "foo";
+        final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator[]) null);
+        assertThat(subject.translate(testString)).isEqualTo(testString);
+    }
+
+    @Test
+    public void testNullVarargConstructor() {
+        final String testString = "foo";
+        final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator) null);
+        assertThat(subject.translate(testString)).isEqualTo(testString);
     }
 
 }

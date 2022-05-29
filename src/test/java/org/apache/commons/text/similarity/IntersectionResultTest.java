@@ -27,63 +27,6 @@ import org.junit.jupiter.api.Test;
  */
 public class IntersectionResultTest {
     @Test
-    public void testNewIntersectionResult_WithZeros() {
-        final int sizeA = 0;
-        final int sizeB = 0;
-        final int intersection = 0;
-        new IntersectionResult(sizeA, sizeB, intersection);
-    }
-
-    @Test
-    public void testNewIntersectionResult_WithNegativeSizeA() {
-        final int sizeA = -1;
-        final int sizeB = 0;
-        final int intersection = 0;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
-    }
-
-    @Test
-    public void testNewIntersectionResult_WithNegativeSizeB() {
-        final int sizeA = 0;
-        final int sizeB = -1;
-        final int intersection = 0;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
-    }
-
-    @Test
-    public void testNewIntersectionResult_WithNegativeIntersection() {
-        final int sizeA = 0;
-        final int sizeB = 0;
-        final int intersection = -1;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
-    }
-
-    @Test
-    public void testNewIntersectionResult_WithIntersectionAboveSizeAorB() {
-        final int sizeA = 1;
-        final int sizeB = 2;
-        final int intersection = Math.max(sizeA, sizeB) + 1;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeB, sizeA, intersection));
-    }
-
-    @Test
-    public void testProperties() {
-        final ThreadLocalRandom rand = ThreadLocalRandom.current();
-        final int max = 1024;
-        for (int i = 0; i < 5; i++) {
-            // Ensure the min is above 0
-            final int sizeA = rand.nextInt(max) + 1;
-            final int sizeB = rand.nextInt(max) + 1;
-            final int intersection = rand.nextInt(Math.min(sizeA, sizeB));
-            final IntersectionResult result = new IntersectionResult(sizeA, sizeB, intersection);
-            Assertions.assertEquals(sizeA, result.getSizeA());
-            Assertions.assertEquals(sizeB, result.getSizeB());
-            Assertions.assertEquals(intersection, result.getIntersection());
-        }
-    }
-
-    @Test
     public void testEquals() {
         final IntersectionResult[] results = {
                 new IntersectionResult(0, 0, 0),
@@ -119,6 +62,63 @@ public class IntersectionResultTest {
         }
         for (int i = 0; i < results.length; i++) {
             Assertions.assertEquals(i + offset, map.get(results[i]));
+        }
+    }
+
+    @Test
+    public void testNewIntersectionResult_WithIntersectionAboveSizeAorB() {
+        final int sizeA = 1;
+        final int sizeB = 2;
+        final int intersection = Math.max(sizeA, sizeB) + 1;
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeB, sizeA, intersection));
+    }
+
+    @Test
+    public void testNewIntersectionResult_WithNegativeIntersection() {
+        final int sizeA = 0;
+        final int sizeB = 0;
+        final int intersection = -1;
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
+    }
+
+    @Test
+    public void testNewIntersectionResult_WithNegativeSizeA() {
+        final int sizeA = -1;
+        final int sizeB = 0;
+        final int intersection = 0;
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
+    }
+
+    @Test
+    public void testNewIntersectionResult_WithNegativeSizeB() {
+        final int sizeA = 0;
+        final int sizeB = -1;
+        final int intersection = 0;
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
+    }
+
+    @Test
+    public void testNewIntersectionResult_WithZeros() {
+        final int sizeA = 0;
+        final int sizeB = 0;
+        final int intersection = 0;
+        new IntersectionResult(sizeA, sizeB, intersection);
+    }
+
+    @Test
+    public void testProperties() {
+        final ThreadLocalRandom rand = ThreadLocalRandom.current();
+        final int max = 1024;
+        for (int i = 0; i < 5; i++) {
+            // Ensure the min is above 0
+            final int sizeA = rand.nextInt(max) + 1;
+            final int sizeB = rand.nextInt(max) + 1;
+            final int intersection = rand.nextInt(Math.min(sizeA, sizeB));
+            final IntersectionResult result = new IntersectionResult(sizeA, sizeB, intersection);
+            Assertions.assertEquals(sizeA, result.getSizeA());
+            Assertions.assertEquals(sizeB, result.getSizeB());
+            Assertions.assertEquals(intersection, result.getIntersection());
         }
     }
 

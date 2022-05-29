@@ -43,6 +43,18 @@ public class CosineDistanceTest {
     }
 
     /**
+     * Rounds up a value.
+     *
+     * @param value a value
+     * @return rounded up value
+     */
+    private Double roundValue(final Double value) {
+        return new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
+    }
+
+    // --- Utility methods
+
+    /**
      * Tests the cosine distance with several inputs.
      */
     @Test
@@ -54,18 +66,6 @@ public class CosineDistanceTest {
                 "the boy was from tamana shi, kumamoto ken, and the girl was from rio de janeiro, rio",
                 "the boy was from tamana shi, kumamoto, and the boy was from rio de janeiro, rio de janeiro")))
                 .isEqualTo(Double.valueOf(0.08d));
-    }
-
-    // --- Utility methods
-
-    /**
-     * Rounds up a value.
-     *
-     * @param value a value
-     * @return rounded up value
-     */
-    private Double roundValue(final Double value) {
-        return new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
 }

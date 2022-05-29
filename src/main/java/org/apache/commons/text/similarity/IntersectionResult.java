@@ -70,6 +70,27 @@ public class IntersectionResult {
         this.intersection = intersection;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final IntersectionResult result = (IntersectionResult) o;
+        return sizeA == result.sizeA && sizeB == result.sizeB && intersection == result.intersection;
+    }
+
+    /**
+     * Gets the size of the intersection between set A and B.
+     *
+     * @return {@code |A &#8745; B|}
+     */
+    public int getIntersection() {
+        return intersection;
+    }
+
     /**
      * Gets the size of set A.
      *
@@ -86,27 +107,6 @@ public class IntersectionResult {
      */
     public int getSizeB() {
         return sizeB;
-    }
-
-    /**
-     * Gets the size of the intersection between set A and B.
-     *
-     * @return {@code |A &#8745; B|}
-     */
-    public int getIntersection() {
-        return intersection;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final IntersectionResult result = (IntersectionResult) o;
-        return sizeA == result.sizeA && sizeB == result.sizeB && intersection == result.intersection;
     }
 
     @Override

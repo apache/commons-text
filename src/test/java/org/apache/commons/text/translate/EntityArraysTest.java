@@ -31,8 +31,29 @@ import org.junit.jupiter.api.Test;
 public class EntityArraysTest  {
 
     @Test
+    public void testAposMap() {
+        testEscapeVsUnescapeMaps(EntityArrays.APOS_ESCAPE, EntityArrays.APOS_UNESCAPE);
+    }
+
+    @Test
+    public void testBasicMap() {
+        testEscapeVsUnescapeMaps(EntityArrays.BASIC_ESCAPE, EntityArrays.BASIC_UNESCAPE);
+    }
+
+    @Test
     public void testConstructorExists() {
         new EntityArrays();
+    }
+
+    private void testEscapeVsUnescapeMaps(final Map<CharSequence, CharSequence> escapeMap,
+                                          final Map<CharSequence, CharSequence> unescapeMap) {
+        for (final CharSequence escapeKey : escapeMap.keySet()) {
+            for (final CharSequence unescapeKey : unescapeMap.keySet()) {
+                if (escapeKey == unescapeMap.get(unescapeKey)) {
+                    assertThat(unescapeKey).isEqualTo(escapeMap.get(escapeKey));
+                }
+            }
+        }
     }
 
     // LANG-659, LANG-658 - avoid duplicate entries
@@ -64,36 +85,9 @@ public class EntityArraysTest  {
     }
 
     @Test
-    public void testForDuplicateDeclaredMapValuesISO8859Map() {
-        assertThat(EntityArrays.ISO8859_1_ESCAPE.keySet()).hasSameSizeAs(
-                EntityArrays.ISO8859_1_UNESCAPE.keySet());
-    }
-
-    @Test
-    public void testISO8859Map() {
-        testEscapeVsUnescapeMaps(EntityArrays.ISO8859_1_ESCAPE, EntityArrays.ISO8859_1_UNESCAPE);
-    }
-
-    @Test
-    public void testForDuplicateDeclaredMapValuesHtml40ExtendedMap() {
-        assertThat(EntityArrays.HTML40_EXTENDED_ESCAPE.keySet()).hasSameSizeAs(
-                EntityArrays.HTML40_EXTENDED_UNESCAPE.keySet());
-    }
-
-    @Test
-    public void testHtml40ExtendedMap() {
-        testEscapeVsUnescapeMaps(EntityArrays.HTML40_EXTENDED_ESCAPE, EntityArrays.HTML40_EXTENDED_UNESCAPE);
-    }
-
-    @Test
     public void testForDuplicateDeclaredMapValuesAposMap() {
         assertThat(EntityArrays.APOS_ESCAPE.keySet()).hasSameSizeAs(
                 EntityArrays.APOS_UNESCAPE.keySet());
-    }
-
-    @Test
-    public void testAposMap() {
-        testEscapeVsUnescapeMaps(EntityArrays.APOS_ESCAPE, EntityArrays.APOS_UNESCAPE);
     }
 
     @Test
@@ -103,8 +97,15 @@ public class EntityArraysTest  {
     }
 
     @Test
-    public void testBasicMap() {
-        testEscapeVsUnescapeMaps(EntityArrays.BASIC_ESCAPE, EntityArrays.BASIC_UNESCAPE);
+    public void testForDuplicateDeclaredMapValuesHtml40ExtendedMap() {
+        assertThat(EntityArrays.HTML40_EXTENDED_ESCAPE.keySet()).hasSameSizeAs(
+                EntityArrays.HTML40_EXTENDED_UNESCAPE.keySet());
+    }
+
+    @Test
+    public void testForDuplicateDeclaredMapValuesISO8859Map() {
+        assertThat(EntityArrays.ISO8859_1_ESCAPE.keySet()).hasSameSizeAs(
+                EntityArrays.ISO8859_1_UNESCAPE.keySet());
     }
 
     @Test
@@ -114,19 +115,18 @@ public class EntityArraysTest  {
     }
 
     @Test
-    public void testJavaCtrlCharsMap() {
-        testEscapeVsUnescapeMaps(EntityArrays.JAVA_CTRL_CHARS_ESCAPE, EntityArrays.JAVA_CTRL_CHARS_UNESCAPE);
+    public void testHtml40ExtendedMap() {
+        testEscapeVsUnescapeMaps(EntityArrays.HTML40_EXTENDED_ESCAPE, EntityArrays.HTML40_EXTENDED_UNESCAPE);
     }
 
-    private void testEscapeVsUnescapeMaps(final Map<CharSequence, CharSequence> escapeMap,
-                                          final Map<CharSequence, CharSequence> unescapeMap) {
-        for (final CharSequence escapeKey : escapeMap.keySet()) {
-            for (final CharSequence unescapeKey : unescapeMap.keySet()) {
-                if (escapeKey == unescapeMap.get(unescapeKey)) {
-                    assertThat(unescapeKey).isEqualTo(escapeMap.get(escapeKey));
-                }
-            }
-        }
+    @Test
+    public void testISO8859Map() {
+        testEscapeVsUnescapeMaps(EntityArrays.ISO8859_1_ESCAPE, EntityArrays.ISO8859_1_UNESCAPE);
+    }
+
+    @Test
+    public void testJavaCtrlCharsMap() {
+        testEscapeVsUnescapeMaps(EntityArrays.JAVA_CTRL_CHARS_ESCAPE, EntityArrays.JAVA_CTRL_CHARS_UNESCAPE);
     }
 
 }

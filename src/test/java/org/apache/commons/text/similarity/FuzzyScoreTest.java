@@ -42,8 +42,8 @@ public class FuzzyScoreTest {
     }
 
     @Test
-    public void testGetFuzzyScore_StringNullLocale() {
-        assertThatIllegalArgumentException().isThrownBy(() -> ENGLISH_SCORE.fuzzyScore("not null", null));
+    public void testGetFuzzyScore_NullNullLocale() {
+        assertThatIllegalArgumentException().isThrownBy(() -> ENGLISH_SCORE.fuzzyScore(null, null));
     }
 
     @Test
@@ -52,13 +52,8 @@ public class FuzzyScoreTest {
     }
 
     @Test
-    public void testGetFuzzyScore_NullNullLocale() {
-        assertThatIllegalArgumentException().isThrownBy(() -> ENGLISH_SCORE.fuzzyScore(null, null));
-    }
-
-    @Test
-    public void testMissingLocale() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new FuzzyScore((Locale) null));
+    public void testGetFuzzyScore_StringNullLocale() {
+        assertThatIllegalArgumentException().isThrownBy(() -> ENGLISH_SCORE.fuzzyScore("not null", null));
     }
 
     @Test
@@ -68,6 +63,11 @@ public class FuzzyScoreTest {
         final Locale localeTwo = fuzzyScore.getLocale();
 
         assertThat(localeTwo).isSameAs(locale);
+    }
+
+    @Test
+    public void testMissingLocale() {
+        assertThatIllegalArgumentException().isThrownBy(() -> new FuzzyScore((Locale) null));
     }
 
 }

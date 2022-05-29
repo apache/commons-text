@@ -28,36 +28,6 @@ import org.junit.jupiter.api.Test;
  * Tests for the StringsComparator.
  */
 public class StringsComparatorTest {
-    private List<String> before;
-    private List<String> after;
-    private int[]        length;
-    private int[]        lcs;
-
-    @Test
-    public void testLength() {
-        for (int i = 0; i < before.size(); ++i) {
-            final StringsComparator comparator =  new StringsComparator(before.get(i), after.get(i));
-            assertThat(comparator.getScript().getModifications()).isEqualTo(length[i]);
-        }
-    }
-
-    @Test
-    public void testLongestCommonSubsequence() {
-        for (int i = 0; i < before.size(); ++i) {
-            final StringsComparator comparator =  new StringsComparator(before.get(i), after.get(i));
-            assertThat(comparator.getScript().getLCSLength()).isEqualTo(lcs[i]);
-        }
-    }
-
-    @Test
-    public void testExecution() {
-        for (int i = 0; i < before.size(); ++i) {
-            final ExecutionVisitor<Character> ev = new ExecutionVisitor<>();
-            new StringsComparator(before.get(i), after.get(i)).getScript().visit(ev);
-            assertThat(ev.getString()).isEqualTo(after.get(i));
-        }
-    }
-
     private static class ExecutionVisitor<T> implements CommandVisitor<T> {
 
         private final StringBuilder v;
@@ -66,24 +36,29 @@ public class StringsComparatorTest {
             v = new StringBuilder();
         }
 
-        @Override
-        public void visitInsertCommand(final T object) {
-            v.append(object);
-        }
-
-        @Override
-        public void visitKeepCommand(final T object) {
-            v.append(object);
+        public String getString() {
+            return v.toString();
         }
 
         @Override
         public void visitDeleteCommand(final T object) {
             // noop
         }
-        public String getString() {
-            return v.toString();
+
+        @Override
+        public void visitInsertCommand(final T object) {
+            v.append(object);
+        }
+        @Override
+        public void visitKeepCommand(final T object) {
+            v.append(object);
         }
     }
+    private List<String> before;
+    private List<String> after;
+    private int[]        length;
+
+    private int[]        lcs;
 
     @BeforeEach
     public void setUp() {
@@ -130,10 +105,35 @@ public class StringsComparatorTest {
             2
         };
     }
+
     @AfterEach
     public void tearDown() {
         before = null;
         after  = null;
         length = null;
+    }
+
+    @Test
+    public void testExecution() {
+        for (int i = 0; i < before.size(); ++i) {
+            final ExecutionVisitor<Character> ev = new ExecutionVisitor<>();
+            new StringsComparator(before.get(i), after.get(i)).getScript().visit(ev);
+            assertThat(ev.getString()).isEqualTo(after.get(i));
+        }
+    }
+
+    @Test
+    public void testLength() {
+        for (int i = 0; i < before.size(); ++i) {
+            final StringsComparator comparator =  new StringsComparator(before.get(i), after.get(i));
+            assertThat(comparator.getScript().getModifications()).isEqualTo(length[i]);
+        }
+    }
+    @Test
+    public void testLongestCommonSubsequence() {
+        for (int i = 0; i < before.size(); ++i) {
+            final StringsComparator comparator =  new StringsComparator(before.get(i), after.get(i));
+            assertThat(comparator.getScript().getLCSLength()).isEqualTo(lcs[i]);
+        }
     }
 }

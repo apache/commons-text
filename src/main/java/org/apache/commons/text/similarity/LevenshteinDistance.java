@@ -41,91 +41,12 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     private static final LevenshteinDistance DEFAULT_INSTANCE = new LevenshteinDistance();
 
     /**
-     * Threshold.
-     */
-    private final Integer threshold;
-
-    /**
-     * This returns the default instance that uses a version
-     * of the algorithm that does not use a threshold parameter.
-     *
-     * @see LevenshteinDistance#getDefaultInstance()
-     */
-    public LevenshteinDistance() {
-        this(null);
-    }
-
-    /**
-     * If the threshold is not null, distance calculations will be limited to a maximum length.
-     * If the threshold is null, the unlimited version of the algorithm will be used.
-     *
-     * @param threshold
-     *        If this is null then distances calculations will not be limited.
-     *        This may not be negative.
-     */
-    public LevenshteinDistance(final Integer threshold) {
-        if (threshold != null && threshold < 0) {
-            throw new IllegalArgumentException("Threshold must not be negative");
-        }
-        this.threshold = threshold;
-    }
-
-    /**
-     * Finds the Levenshtein distance between two Strings.
-     *
-     * <p>A higher score indicates a greater distance.</p>
-     *
-     * <p>The previous implementation of the Levenshtein distance algorithm
-     * was from <a href="http://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a></p>
-     *
-     * <p>Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError
-     * which can occur when my Java implementation is used with very large strings.<br>
-     * This implementation of the Levenshtein distance algorithm
-     * is from <a href="http://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a></p>
-     *
-     * <pre>
-     * distance.apply(null, *)             = IllegalArgumentException
-     * distance.apply(*, null)             = IllegalArgumentException
-     * distance.apply("","")               = 0
-     * distance.apply("","a")              = 1
-     * distance.apply("aaapppp", "")       = 7
-     * distance.apply("frog", "fog")       = 1
-     * distance.apply("fly", "ant")        = 3
-     * distance.apply("elephant", "hippo") = 7
-     * distance.apply("hippo", "elephant") = 7
-     * distance.apply("hippo", "zzzzzzzz") = 8
-     * distance.apply("hello", "hallo")    = 1
-     * </pre>
-     *
-     * @param left the first string, must not be null
-     * @param right the second string, must not be null
-     * @return result distance, or -1
-     * @throws IllegalArgumentException if either String input {@code null}
-     */
-    @Override
-    public Integer apply(final CharSequence left, final CharSequence right) {
-        if (threshold != null) {
-            return limitedCompare(left, right, threshold);
-        }
-        return unlimitedCompare(left, right);
-    }
-
-    /**
      * Gets the default instance.
      *
      * @return The default instance
      */
     public static LevenshteinDistance getDefaultInstance() {
         return DEFAULT_INSTANCE;
-    }
-
-    /**
-     * Gets the distance threshold.
-     *
-     * @return The distance threshold
-     */
-    public Integer getThreshold() {
-        return threshold;
     }
 
     /**
@@ -394,6 +315,85 @@ public class LevenshteinDistance implements EditDistance<Integer> {
         }
 
         return p[n];
+    }
+
+    /**
+     * Threshold.
+     */
+    private final Integer threshold;
+
+    /**
+     * This returns the default instance that uses a version
+     * of the algorithm that does not use a threshold parameter.
+     *
+     * @see LevenshteinDistance#getDefaultInstance()
+     */
+    public LevenshteinDistance() {
+        this(null);
+    }
+
+    /**
+     * If the threshold is not null, distance calculations will be limited to a maximum length.
+     * If the threshold is null, the unlimited version of the algorithm will be used.
+     *
+     * @param threshold
+     *        If this is null then distances calculations will not be limited.
+     *        This may not be negative.
+     */
+    public LevenshteinDistance(final Integer threshold) {
+        if (threshold != null && threshold < 0) {
+            throw new IllegalArgumentException("Threshold must not be negative");
+        }
+        this.threshold = threshold;
+    }
+
+    /**
+     * Finds the Levenshtein distance between two Strings.
+     *
+     * <p>A higher score indicates a greater distance.</p>
+     *
+     * <p>The previous implementation of the Levenshtein distance algorithm
+     * was from <a href="http://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a></p>
+     *
+     * <p>Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError
+     * which can occur when my Java implementation is used with very large strings.<br>
+     * This implementation of the Levenshtein distance algorithm
+     * is from <a href="http://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a></p>
+     *
+     * <pre>
+     * distance.apply(null, *)             = IllegalArgumentException
+     * distance.apply(*, null)             = IllegalArgumentException
+     * distance.apply("","")               = 0
+     * distance.apply("","a")              = 1
+     * distance.apply("aaapppp", "")       = 7
+     * distance.apply("frog", "fog")       = 1
+     * distance.apply("fly", "ant")        = 3
+     * distance.apply("elephant", "hippo") = 7
+     * distance.apply("hippo", "elephant") = 7
+     * distance.apply("hippo", "zzzzzzzz") = 8
+     * distance.apply("hello", "hallo")    = 1
+     * </pre>
+     *
+     * @param left the first string, must not be null
+     * @param right the second string, must not be null
+     * @return result distance, or -1
+     * @throws IllegalArgumentException if either String input {@code null}
+     */
+    @Override
+    public Integer apply(final CharSequence left, final CharSequence right) {
+        if (threshold != null) {
+            return limitedCompare(left, right, threshold);
+        }
+        return unlimitedCompare(left, right);
+    }
+
+    /**
+     * Gets the distance threshold.
+     *
+     * @return The distance threshold
+     */
+    public Integer getThreshold() {
+        return threshold;
     }
 
 }

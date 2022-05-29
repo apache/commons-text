@@ -66,6 +66,29 @@ public class LevenshteinResults {
         this.substituteCount = substituteCount;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final LevenshteinResults result = (LevenshteinResults) o;
+        return Objects.equals(distance, result.distance) && Objects.equals(insertCount, result.insertCount)
+                && Objects.equals(deleteCount, result.deleteCount)
+                && Objects.equals(substituteCount, result.substituteCount);
+    }
+
+    /**
+     * Gets the number of character deletion needed to change one character sequence to other.
+     *
+     * @return delete character count
+     */
+    public Integer getDeleteCount() {
+        return deleteCount;
+    }
+
     /**
      * Gets the distance between two character sequences.
      *
@@ -85,35 +108,12 @@ public class LevenshteinResults {
     }
 
     /**
-     * Gets the number of character deletion needed to change one character sequence to other.
-     *
-     * @return delete character count
-     */
-    public Integer getDeleteCount() {
-        return deleteCount;
-    }
-
-    /**
      * Gets the number of character substitution needed to change one character sequence into another.
      *
      * @return substitute character count
      */
     public Integer getSubstituteCount() {
         return substituteCount;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final LevenshteinResults result = (LevenshteinResults) o;
-        return Objects.equals(distance, result.distance) && Objects.equals(insertCount, result.insertCount)
-                && Objects.equals(deleteCount, result.deleteCount)
-                && Objects.equals(substituteCount, result.substituteCount);
     }
 
     @Override

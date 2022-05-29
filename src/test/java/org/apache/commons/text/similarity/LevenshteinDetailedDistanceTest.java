@@ -27,6 +27,98 @@ public class LevenshteinDetailedDistanceTest {
     private static final LevenshteinDetailedDistance UNLIMITED_DISTANCE = new LevenshteinDetailedDistance();
 
     @Test
+    public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDetailedDistanceTakingInteger() {
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
+            final CharSequence charSequence = new TextStringBuilder();
+
+            levenshteinDetailedDistance.apply(charSequence, null);
+        });
+    }
+
+    @Test
+    public void testApplyWithNull() {
+        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDetailedDistance(0).apply(null, null));
+    }
+
+    @Test
+    public void testConstructorWithNegativeThreshold() {
+        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDetailedDistance(-1));
+    }
+
+    @Test
+    public void testCreatesLevenshteinDetailedDistanceTakingInteger6() {
+        final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
+        final LevenshteinResults levenshteinResults =
+                levenshteinDetailedDistance.apply("", "Distance: 38, Insert: 0, Delete: 0, Substitute: 0");
+
+        assertThat(levenshteinResults.getSubstituteCount()).isEqualTo(0);
+        assertThat(levenshteinResults.getDeleteCount()).isEqualTo(0);
+
+        assertThat(levenshteinResults.getInsertCount()).isEqualTo(0);
+        assertThat(levenshteinResults.getDistance()).isEqualTo(-1);
+    }
+
+    @Test
+    public void testEquals() {
+     final LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
+     LevenshteinResults actualResult = classBeingTested.apply("hello", "hallo");
+     LevenshteinResults expectedResult = new LevenshteinResults(1, 0, 0, 1);
+     assertThat(expectedResult).isEqualTo(actualResult);
+
+     actualResult = classBeingTested.apply("zzzzzzzz", "hippo");
+     expectedResult = new LevenshteinResults(8, 0, 3, 5);
+     assertThat(expectedResult).isEqualTo(actualResult);
+     assertThat(actualResult).isEqualTo(actualResult); //intentionally added
+
+     actualResult = classBeingTested.apply("", "");
+     expectedResult = new LevenshteinResults(0, 0, 0, 0);
+     assertThat(expectedResult).isEqualTo(actualResult);
+    }
+
+    @Test
+    public void testGetDefaultInstanceOne() {
+        final LevenshteinDetailedDistance levenshteinDetailedDistance =
+                LevenshteinDetailedDistance.getDefaultInstance();
+        final LevenshteinResults levenshteinResults =
+                levenshteinDetailedDistance.apply("Distance: -2147483643, Insert: 0, Delete: 0, Substitute: 0",
+                        "Distance: 0, Insert: 2147483536, Delete: 0, Substitute: 0");
+
+        assertThat(levenshteinResults.getDistance()).isEqualTo(21);
+    }
+
+    @Test
+    public void testGetDefaultInstanceTwo() {
+        final LevenshteinDetailedDistance levenshteinDetailedDistance =
+                LevenshteinDetailedDistance.getDefaultInstance();
+        final LevenshteinResults levenshteinResults =
+                levenshteinDetailedDistance.apply("Distance: 2147483647, Insert: 0, Delete: 0, Substitute: 0",
+                        "Distance: 0, Insert: 2147483647, Delete: 0, Substitute: 0");
+
+        assertThat(levenshteinResults.getDistance()).isEqualTo(20);
+    }
+
+    @Test
+    public void testGetLevenshteinDetailedDistance_NullString() {
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
+    }
+
+    @Test
+    public void testGetLevenshteinDetailedDistance_NullStringInt() {
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
+    }
+
+    @Test
+    public void testGetLevenshteinDetailedDistance_StringNull() {
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
+    }
+
+    @Test
+    public void testGetLevenshteinDetailedDistance_StringNullInt() {
+        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
+    }
+
+    @Test
     public void testGetLevenshteinDetailedDistance_StringString() {
         LevenshteinResults result = UNLIMITED_DISTANCE.apply("", "");
         assertThat(result.getDistance()).isEqualTo(0);
@@ -87,65 +179,6 @@ public class LevenshteinDetailedDistanceTest {
         assertThat(result.getInsertCount()).isEqualTo(0);
         assertThat(result.getDeleteCount()).isEqualTo(0);
         assertThat(result.getSubstituteCount()).isEqualTo(1);
-    }
-
-    @Test
-    public void testEquals() {
-     final LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
-     LevenshteinResults actualResult = classBeingTested.apply("hello", "hallo");
-     LevenshteinResults expectedResult = new LevenshteinResults(1, 0, 0, 1);
-     assertThat(expectedResult).isEqualTo(actualResult);
-
-     actualResult = classBeingTested.apply("zzzzzzzz", "hippo");
-     expectedResult = new LevenshteinResults(8, 0, 3, 5);
-     assertThat(expectedResult).isEqualTo(actualResult);
-     assertThat(actualResult).isEqualTo(actualResult); //intentionally added
-
-     actualResult = classBeingTested.apply("", "");
-     expectedResult = new LevenshteinResults(0, 0, 0, 0);
-     assertThat(expectedResult).isEqualTo(actualResult);
-    }
-
-    @Test
-    public void testHashCode() {
-     final LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
-     LevenshteinResults actualResult = classBeingTested.apply("aaapppp", "");
-     LevenshteinResults expectedResult = new LevenshteinResults(7, 0, 7, 0);
-     assertThat(expectedResult.hashCode()).isEqualTo(actualResult.hashCode());
-
-     actualResult = classBeingTested.apply("frog", "fog");
-     expectedResult = new LevenshteinResults(1, 0, 1, 0);
-     assertThat(expectedResult.hashCode()).isEqualTo(actualResult.hashCode());
-
-     actualResult = classBeingTested.apply("elephant", "hippo");
-     expectedResult = new LevenshteinResults(7, 0, 3, 4);
-     assertThat(expectedResult.hashCode()).isEqualTo(actualResult.hashCode());
-    }
-
-    @Test
-    public void testToString() {
-     final LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
-     LevenshteinResults actualResult = classBeingTested.apply("fly", "ant");
-     LevenshteinResults expectedResult = new LevenshteinResults(3, 0, 0, 3);
-     assertThat(expectedResult.toString()).isEqualTo(actualResult.toString());
-
-     actualResult = classBeingTested.apply("hippo", "elephant");
-     expectedResult = new LevenshteinResults(7, 3, 0, 4);
-     assertThat(expectedResult.toString()).isEqualTo(actualResult.toString());
-
-     actualResult = classBeingTested.apply("", "a");
-     expectedResult = new LevenshteinResults(1, 1, 0, 0);
-     assertThat(expectedResult.toString()).isEqualTo(actualResult.toString());
-    }
-
-    @Test
-    public void testGetLevenshteinDetailedDistance_NullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
-    }
-
-    @Test
-    public void testGetLevenshteinDetailedDistance_StringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
     }
 
     @Test
@@ -388,75 +421,42 @@ public class LevenshteinDetailedDistanceTest {
     }
 
     @Test
-    public void testGetLevenshteinDetailedDistance_NullStringInt() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
-    }
-
-    @Test
-    public void testGetLevenshteinDetailedDistance_StringNullInt() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
-    }
-
-    @Test
-    public void testConstructorWithNegativeThreshold() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDetailedDistance(-1));
-    }
-
-    @Test
-    public void testGetDefaultInstanceOne() {
-        final LevenshteinDetailedDistance levenshteinDetailedDistance =
-                LevenshteinDetailedDistance.getDefaultInstance();
-        final LevenshteinResults levenshteinResults =
-                levenshteinDetailedDistance.apply("Distance: -2147483643, Insert: 0, Delete: 0, Substitute: 0",
-                        "Distance: 0, Insert: 2147483536, Delete: 0, Substitute: 0");
-
-        assertThat(levenshteinResults.getDistance()).isEqualTo(21);
-    }
-
-    @Test
-    public void testGetDefaultInstanceTwo() {
-        final LevenshteinDetailedDistance levenshteinDetailedDistance =
-                LevenshteinDetailedDistance.getDefaultInstance();
-        final LevenshteinResults levenshteinResults =
-                levenshteinDetailedDistance.apply("Distance: 2147483647, Insert: 0, Delete: 0, Substitute: 0",
-                        "Distance: 0, Insert: 2147483647, Delete: 0, Substitute: 0");
-
-        assertThat(levenshteinResults.getDistance()).isEqualTo(20);
-    }
-
-    @Test
-    public void testCreatesLevenshteinDetailedDistanceTakingInteger6() {
-        final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
-        final LevenshteinResults levenshteinResults =
-                levenshteinDetailedDistance.apply("", "Distance: 38, Insert: 0, Delete: 0, Substitute: 0");
-
-        assertThat(levenshteinResults.getSubstituteCount()).isEqualTo(0);
-        assertThat(levenshteinResults.getDeleteCount()).isEqualTo(0);
-
-        assertThat(levenshteinResults.getInsertCount()).isEqualTo(0);
-        assertThat(levenshteinResults.getDistance()).isEqualTo(-1);
-    }
-
-    @Test
-    public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDetailedDistanceTakingInteger() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
-            final CharSequence charSequence = new TextStringBuilder();
-
-            levenshteinDetailedDistance.apply(charSequence, null);
-        });
-    }
-
-    @Test
-    public void testApplyWithNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDetailedDistance(0).apply(null, null));
-    }
-
-    @Test
     public void testGetThreshold() {
         final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
 
         assertThat(levenshteinDetailedDistance.getThreshold()).isEqualTo(0);
+    }
+
+    @Test
+    public void testHashCode() {
+     final LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
+     LevenshteinResults actualResult = classBeingTested.apply("aaapppp", "");
+     LevenshteinResults expectedResult = new LevenshteinResults(7, 0, 7, 0);
+     assertThat(expectedResult.hashCode()).isEqualTo(actualResult.hashCode());
+
+     actualResult = classBeingTested.apply("frog", "fog");
+     expectedResult = new LevenshteinResults(1, 0, 1, 0);
+     assertThat(expectedResult.hashCode()).isEqualTo(actualResult.hashCode());
+
+     actualResult = classBeingTested.apply("elephant", "hippo");
+     expectedResult = new LevenshteinResults(7, 0, 3, 4);
+     assertThat(expectedResult.hashCode()).isEqualTo(actualResult.hashCode());
+    }
+
+    @Test
+    public void testToString() {
+     final LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
+     LevenshteinResults actualResult = classBeingTested.apply("fly", "ant");
+     LevenshteinResults expectedResult = new LevenshteinResults(3, 0, 0, 3);
+     assertThat(expectedResult.toString()).isEqualTo(actualResult.toString());
+
+     actualResult = classBeingTested.apply("hippo", "elephant");
+     expectedResult = new LevenshteinResults(7, 3, 0, 4);
+     assertThat(expectedResult.toString()).isEqualTo(actualResult.toString());
+
+     actualResult = classBeingTested.apply("", "a");
+     expectedResult = new LevenshteinResults(1, 1, 0, 0);
+     assertThat(expectedResult.toString()).isEqualTo(actualResult.toString());
     }
 
 }

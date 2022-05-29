@@ -88,21 +88,21 @@ public class EditDistanceFrom<R> {
     }
 
     /**
-     * Gets the left parameter.
-     *
-     * @return The left parameter
-     */
-    public CharSequence getLeft() {
-        return left;
-    }
-
-    /**
      * Gets the edit distance.
      *
      * @return The edit distance
      */
     public EditDistance<R> getEditDistance() {
         return editDistance;
+    }
+
+    /**
+     * Gets the left parameter.
+     *
+     * @return The left parameter
+     */
+    public CharSequence getLeft() {
+        return left;
     }
 
 }

@@ -34,6 +34,46 @@ public class JaroWinklerSimilarityTest {
         similarity = new JaroWinklerSimilarity();
     }
 
+    /**
+     * Wrap the string to a {@link CharSequence}. This ensures that using the
+     * {@link Object#equals(Object)} method on the input CharSequence to test for
+     * equality will fail.
+     *
+     * @param string the string
+     * @return the char sequence
+     */
+    private static CharSequence wrap(final String string) {
+        return new CharSequence() {
+            @Override
+            public char charAt(final int index) {
+                return string.charAt(index);
+            }
+            @Override
+            public int length() {
+                return string.length();
+            }
+            @Override
+            public CharSequence subSequence(final int start, final int end) {
+                return string.subSequence(start, end);
+            }
+        };
+    }
+
+    @Test
+    public void testGetJaroWinklerSimilarity_NullNull() {
+        assertThatIllegalArgumentException().isThrownBy(() -> similarity.apply(null, null));
+    }
+
+    @Test
+    public void testGetJaroWinklerSimilarity_NullString() {
+        assertThatIllegalArgumentException().isThrownBy(() -> similarity.apply(null, "clear"));
+    }
+
+    @Test
+    public void testGetJaroWinklerSimilarity_StringNull() {
+        assertThatIllegalArgumentException().isThrownBy(() -> similarity.apply(" ", null));
+    }
+
     @Test
     public void testGetJaroWinklerSimilarity_StringString() {
         assertEquals(1d, similarity.apply(wrap(""), ""), 0.00001d);
@@ -53,46 +93,6 @@ public class JaroWinklerSimilarityTest {
         assertEquals(0.971428d, similarity.apply(wrap("/opt/software1"), "/opt/software2"), 0.00001d);
         assertEquals(0.941666d, similarity.apply(wrap("aaabcd"), "aaacdb"), 0.00001d);
         assertEquals(0.911111d, similarity.apply(wrap("John Horn"), "John Hopkins"), 0.00001d);
-    }
-
-    /**
-     * Wrap the string to a {@link CharSequence}. This ensures that using the
-     * {@link Object#equals(Object)} method on the input CharSequence to test for
-     * equality will fail.
-     *
-     * @param string the string
-     * @return the char sequence
-     */
-    private static CharSequence wrap(final String string) {
-        return new CharSequence() {
-            @Override
-            public int length() {
-                return string.length();
-            }
-            @Override
-            public char charAt(final int index) {
-                return string.charAt(index);
-            }
-            @Override
-            public CharSequence subSequence(final int start, final int end) {
-                return string.subSequence(start, end);
-            }
-        };
-    }
-
-    @Test
-    public void testGetJaroWinklerSimilarity_NullNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> similarity.apply(null, null));
-    }
-
-    @Test
-    public void testGetJaroWinklerSimilarity_StringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> similarity.apply(" ", null));
-    }
-
-    @Test
-    public void testGetJaroWinklerSimilarity_NullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> similarity.apply(null, "clear"));
     }
 
 }

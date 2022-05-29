@@ -51,47 +51,6 @@ package org.apache.commons.text.similarity;
  */
 public class LongestCommonSubsequence implements SimilarityScore<Integer> {
     /**
-     * Calculates the longest common subsequence similarity score of two {@code CharSequence}'s passed as
-     * input.
-     *
-     * <p>
-     * This method implements a more efficient version of LCS algorithm which has quadratic time and
-     * linear space complexity.
-     * </p>
-     *
-     * <p>
-     * This method is based on newly implemented {@link #algorithmB(CharSequence, CharSequence)}.
-     * An evaluation using JMH revealed that this method is almost two times faster than its previous version.
-     * </p>
-     *
-     * @param left first character sequence
-     * @param right second character sequence
-     * @return length of the longest common subsequence of <code>left</code> and <code>right</code>
-     * @throws IllegalArgumentException if either String input {@code null}
-     */
-    @Override
-    public Integer apply(final CharSequence left, final CharSequence right) {
-        // Quick return for invalid inputs
-        if (left == null || right == null) {
-            throw new IllegalArgumentException("Inputs must not be null");
-        }
-        // Find lengths of two strings
-        final int leftSz = left.length();
-        final int rightSz = right.length();
-
-        // Check if we can avoid calling algorithmB which involves heap space allocation
-        if (leftSz == 0 || rightSz == 0) {
-            return 0;
-        }
-
-        // Check if we can save even more space
-        if (leftSz < rightSz) {
-            return algorithmB(right, left)[leftSz];
-        }
-        return algorithmB(left, right)[rightSz];
-    }
-
-    /**
      * An implementation of "ALG B" from Hirschberg's CACM '71 paper.
      * Assuming the first input sequence is of size <code>m</code> and the second input sequence is of size
      * <code>n</code>, this method returns the last row of the dynamic programming (DP) table when calculating
@@ -132,6 +91,106 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
         // LL(j) <- K(1, j) [j=0...n], as per the paper:
         // We don't need literal copying of the array, we can just return the reference
         return dpRows[1];
+    }
+
+    /**
+     * An implementation of "ALG C" from Hirschberg's CACM '71 paper.
+     * Assuming the first input sequence is of size <code>m</code> and the second input sequence is of size
+     * <code>n</code>, this method returns the Longest Common Subsequence (LCS) of the two sequences in
+     * <i>O(m*n)</i> time and <i>O(m+n)</i> space.
+     *
+     * @param left first input sequence.
+     * @param right second input sequence.
+     * @return the LCS of <code>left</code> and <code>right</code>
+     * @since 1.10
+     */
+    private static String algorithmC(final CharSequence left, final CharSequence right) {
+        final int m = left.length();
+        final int n = right.length();
+
+        final StringBuilder out = new StringBuilder();
+
+        if (m == 1) { // Handle trivial cases, as per the paper
+            final char leftCh = left.charAt(0);
+            for (int j = 0; j < n; j++) {
+                if (leftCh == right.charAt(j)) {
+                    out.append(leftCh);
+                    break;
+                }
+            }
+        } else if (n > 0 && m > 1) {
+            final int mid = m / 2; // Find the middle point
+
+            final CharSequence leftFirstPart = left.subSequence(0, mid);
+            final CharSequence leftSecondPart = left.subSequence(mid, m);
+
+            // Step 3 of the algorithm: two calls to Algorithm B
+            final int[] l1 = algorithmB(leftFirstPart, right);
+            final int[] l2 = algorithmB(reverse(leftSecondPart), reverse(right));
+
+            // Find k, as per the Step 4 of the algorithm
+            int k = 0;
+            int t = 0;
+            for (int j = 0; j <= n; j++) {
+                final int s = l1[j] + l2[n - j];
+                if (t < s) {
+                    t = s;
+                    k = j;
+                }
+            }
+
+            // Step 5: solve simpler problems, recursively
+            out.append(algorithmC(leftFirstPart, right.subSequence(0, k)));
+            out.append(algorithmC(leftSecondPart, right.subSequence(k, n)));
+        }
+
+        return out.toString();
+    }
+
+    // An auxiliary method for CharSequence reversal
+    private static String reverse(final CharSequence s) {
+        return (new StringBuilder(s)).reverse().toString();
+    }
+
+    /**
+     * Calculates the longest common subsequence similarity score of two {@code CharSequence}'s passed as
+     * input.
+     *
+     * <p>
+     * This method implements a more efficient version of LCS algorithm which has quadratic time and
+     * linear space complexity.
+     * </p>
+     *
+     * <p>
+     * This method is based on newly implemented {@link #algorithmB(CharSequence, CharSequence)}.
+     * An evaluation using JMH revealed that this method is almost two times faster than its previous version.
+     * </p>
+     *
+     * @param left first character sequence
+     * @param right second character sequence
+     * @return length of the longest common subsequence of <code>left</code> and <code>right</code>
+     * @throws IllegalArgumentException if either String input {@code null}
+     */
+    @Override
+    public Integer apply(final CharSequence left, final CharSequence right) {
+        // Quick return for invalid inputs
+        if (left == null || right == null) {
+            throw new IllegalArgumentException("Inputs must not be null");
+        }
+        // Find lengths of two strings
+        final int leftSz = left.length();
+        final int rightSz = right.length();
+
+        // Check if we can avoid calling algorithmB which involves heap space allocation
+        if (leftSz == 0 || rightSz == 0) {
+            return 0;
+        }
+
+        // Check if we can save even more space
+        if (leftSz < rightSz) {
+            return algorithmB(right, left)[leftSz];
+        }
+        return algorithmB(left, right)[rightSz];
     }
 
     /**
@@ -211,65 +270,6 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
             return algorithmC(right, left);
         }
         return algorithmC(left, right);
-    }
-
-    /**
-     * An implementation of "ALG C" from Hirschberg's CACM '71 paper.
-     * Assuming the first input sequence is of size <code>m</code> and the second input sequence is of size
-     * <code>n</code>, this method returns the Longest Common Subsequence (LCS) of the two sequences in
-     * <i>O(m*n)</i> time and <i>O(m+n)</i> space.
-     *
-     * @param left first input sequence.
-     * @param right second input sequence.
-     * @return the LCS of <code>left</code> and <code>right</code>
-     * @since 1.10
-     */
-    private static String algorithmC(final CharSequence left, final CharSequence right) {
-        final int m = left.length();
-        final int n = right.length();
-
-        final StringBuilder out = new StringBuilder();
-
-        if (m == 1) { // Handle trivial cases, as per the paper
-            final char leftCh = left.charAt(0);
-            for (int j = 0; j < n; j++) {
-                if (leftCh == right.charAt(j)) {
-                    out.append(leftCh);
-                    break;
-                }
-            }
-        } else if (n > 0 && m > 1) {
-            final int mid = m / 2; // Find the middle point
-
-            final CharSequence leftFirstPart = left.subSequence(0, mid);
-            final CharSequence leftSecondPart = left.subSequence(mid, m);
-
-            // Step 3 of the algorithm: two calls to Algorithm B
-            final int[] l1 = algorithmB(leftFirstPart, right);
-            final int[] l2 = algorithmB(reverse(leftSecondPart), reverse(right));
-
-            // Find k, as per the Step 4 of the algorithm
-            int k = 0;
-            int t = 0;
-            for (int j = 0; j <= n; j++) {
-                final int s = l1[j] + l2[n - j];
-                if (t < s) {
-                    t = s;
-                    k = j;
-                }
-            }
-
-            // Step 5: solve simpler problems, recursively
-            out.append(algorithmC(leftFirstPart, right.subSequence(0, k)));
-            out.append(algorithmC(leftSecondPart, right.subSequence(k, n)));
-        }
-
-        return out.toString();
-    }
-
-    // An auxiliary method for CharSequence reversal
-    private static String reverse(final CharSequence s) {
-        return (new StringBuilder(s)).reverse().toString();
     }
 
     /**

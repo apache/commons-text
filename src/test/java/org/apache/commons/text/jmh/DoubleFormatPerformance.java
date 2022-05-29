@@ -48,18 +48,6 @@ import org.openjdk.jmh.infra.Blackhole;
 @Fork(value = 1, jvmArgs = {"-server", "-Xms512M", "-Xmx512M"})
 public class DoubleFormatPerformance {
 
-    /** Decimal format pattern for plain output. */
-    private static final String PLAIN_PATTERN = "0.0##";
-
-    /** Decimal format pattern for plain output with thousands grouping. */
-    private static final String PLAIN_GROUPED_PATTERN = "#,##0.0##";
-
-    /** Decimal format pattern for scientific output. */
-    private static final String SCI_PATTERN = "0.0##E0";
-
-    /** Decimal format pattern for engineering output. */
-    private static final String ENG_PATTERN = "##0.0##E0";
-
     /** Benchmark input providing a source of random double values. */
     @State(Scope.Thread)
     public static class DoubleInput {
@@ -93,6 +81,18 @@ public class DoubleFormatPerformance {
                 RandomSource.create(RandomSource.XO_RO_SHI_RO_128_PP));
         }
     }
+
+    /** Decimal format pattern for plain output. */
+    private static final String PLAIN_PATTERN = "0.0##";
+
+    /** Decimal format pattern for plain output with thousands grouping. */
+    private static final String PLAIN_GROUPED_PATTERN = "#,##0.0##";
+
+    /** Decimal format pattern for scientific output. */
+    private static final String SCI_PATTERN = "0.0##E0";
+
+    /** Decimal format pattern for engineering output. */
+    private static final String ENG_PATTERN = "##0.0##E0";
 
     /** Create a random double value with exponent in the range {@code [minExp, maxExp]}.
      * @param minExp minimum exponent; must be less than {@code maxExp}
@@ -148,24 +148,6 @@ public class DoubleFormatPerformance {
         runDoubleFunction(input, bh, d -> "0.0");
     }
 
-    /** Benchmark testing the {@link Double#toString()} method.
-     * @param input benchmark state input
-     * @param bh jmh blackhole for consuming output
-     */
-    @Benchmark
-    public void doubleToString(final DoubleInput input, final Blackhole bh) {
-        runDoubleFunction(input, bh, Double::toString);
-    }
-
-    /** Benchmark testing the {@link String#format(String, Object...)} method.
-     * @param input benchmark state input
-     * @param bh jmh blackhole for consuming output
-     */
-    @Benchmark
-    public void stringFormat(final DoubleInput input, final Blackhole bh) {
-        runDoubleFunction(input, bh, d -> String.format("%f", d));
-    }
-
     /** Benchmark testing the BigDecimal formatting performance.
      * @param input benchmark state input
      * @param bh jmh blackhole for consuming output
@@ -177,6 +159,16 @@ public class DoubleFormatPerformance {
                 .stripTrailingZeros()
                 .toString();
         runDoubleFunction(input, bh, fn);
+    }
+
+    /** Benchmark testing the {@link DecimalFormat} class with engineering format.
+     * @param input benchmark state input
+     * @param bh jmh blackhole for consuming output
+     */
+    @Benchmark
+    public void decimalFormatEngineering(final DoubleInput input, final Blackhole bh) {
+        final DecimalFormat fmt = new DecimalFormat(ENG_PATTERN);
+        runDoubleFunction(input, bh, fmt::format);
     }
 
     /** Benchmark testing the {@link DecimalFormat} class.
@@ -209,14 +201,17 @@ public class DoubleFormatPerformance {
         runDoubleFunction(input, bh, fmt::format);
     }
 
-    /** Benchmark testing the {@link DecimalFormat} class with engineering format.
+    /** Benchmark testing the {@link DoubleFormat#ENGINEERING} format.
      * @param input benchmark state input
      * @param bh jmh blackhole for consuming output
      */
     @Benchmark
-    public void decimalFormatEngineering(final DoubleInput input, final Blackhole bh) {
-        final DecimalFormat fmt = new DecimalFormat(ENG_PATTERN);
-        runDoubleFunction(input, bh, fmt::format);
+    public void doubleFormatEngineering(final DoubleInput input, final Blackhole bh) {
+        final DoubleFunction<String> fmt = DoubleFormat.ENGINEERING.builder()
+                .maxPrecision(6)
+                .alwaysIncludeExponent(true)
+                .build();
+        runDoubleFunction(input, bh, fmt);
     }
 
     /** Benchmark testing the {@link DoubleFormat#PLAIN} format.
@@ -258,16 +253,21 @@ public class DoubleFormatPerformance {
         runDoubleFunction(input, bh, fmt);
     }
 
-    /** Benchmark testing the {@link DoubleFormat#ENGINEERING} format.
+    /** Benchmark testing the {@link Double#toString()} method.
      * @param input benchmark state input
      * @param bh jmh blackhole for consuming output
      */
     @Benchmark
-    public void doubleFormatEngineering(final DoubleInput input, final Blackhole bh) {
-        final DoubleFunction<String> fmt = DoubleFormat.ENGINEERING.builder()
-                .maxPrecision(6)
-                .alwaysIncludeExponent(true)
-                .build();
-        runDoubleFunction(input, bh, fmt);
+    public void doubleToString(final DoubleInput input, final Blackhole bh) {
+        runDoubleFunction(input, bh, Double::toString);
+    }
+
+    /** Benchmark testing the {@link String#format(String, Object...)} method.
+     * @param input benchmark state input
+     * @param bh jmh blackhole for consuming output
+     */
+    @Benchmark
+    public void stringFormat(final DoubleInput input, final Blackhole bh) {
+        runDoubleFunction(input, bh, d -> String.format("%f", d));
     }
 }

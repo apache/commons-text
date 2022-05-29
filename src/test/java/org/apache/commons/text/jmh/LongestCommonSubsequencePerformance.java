@@ -51,62 +51,6 @@ import org.openjdk.jmh.annotations.Warmup;
 @Measurement(iterations = 5, time = 1)
 @Fork(value = 1, jvmArgs = {"-server", "-Xms512M", "-Xmx512M"})
 public class LongestCommonSubsequencePerformance {
-    @State(Scope.Benchmark)
-    public static class InputData {
-        final List<Pair<CharSequence, CharSequence>> inputs = new ArrayList<>();
-
-        @Setup(Level.Trial)
-        public void setup() {
-            final ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            try (InputStream is = classloader.getResourceAsStream("org/apache/commons/text/lcs-perf-analysis-inputs.csv");
-                 InputStreamReader isr = new InputStreamReader(Objects.requireNonNull(is));
-                 BufferedReader br = new BufferedReader(isr)) {
-                String line;
-                while ((line = br.readLine()) != null && !line.trim().isEmpty()) {
-                    line = line.trim();
-                    final int indexOfComma = line.indexOf(',');
-                    final String inputA = line.substring(0, indexOfComma);
-                    final String inputB = line.substring(1 + indexOfComma);
-                    this.inputs.add(ImmutablePair.of(inputA, inputB));
-                }
-            } catch (final IOException exception) {
-                throw new UncheckedIOException(exception.getMessage(), exception);
-            }
-        }
-    }
-
-    @Benchmark
-    public void testLCSLenBaseline(final InputData data) {
-        final BaselineLongestCommonSubsequence lcs = new BaselineLongestCommonSubsequence();
-        for (final Pair<CharSequence, CharSequence> input : data.inputs) {
-            lcs.apply(input.getLeft(), input.getRight());
-        }
-    }
-
-    @Benchmark
-    public void testLCSBaseline(final InputData data) {
-        final BaselineLongestCommonSubsequence lcs = new BaselineLongestCommonSubsequence();
-        for (final Pair<CharSequence, CharSequence> input : data.inputs) {
-            lcs.longestCommonSubsequence(input.getLeft(), input.getRight());
-        }
-    }
-
-    @Benchmark
-    public void testLCSLen(final InputData data) {
-        final LongestCommonSubsequence lcs = new LongestCommonSubsequence();
-        for (final Pair<CharSequence, CharSequence> input : data.inputs) {
-            lcs.apply(input.getLeft(), input.getRight());
-        }
-    }
-
-    @Benchmark
-    public void testLCS(final InputData data) {
-        final LongestCommonSubsequence lcs = new LongestCommonSubsequence();
-        for (final Pair<CharSequence, CharSequence> input : data.inputs) {
-            lcs.longestCommonSubsequence(input.getLeft(), input.getRight());
-        }
-    }
-
     /**
      * Older implementation of LongestCommonSubsequence.
      * Code is copied from Apache Commons Text version 1.10.0-SNAPSHOT
@@ -162,6 +106,62 @@ public class LongestCommonSubsequencePerformance {
                 }
             }
             return lcsLengthArray;
+        }
+    }
+
+    @State(Scope.Benchmark)
+    public static class InputData {
+        final List<Pair<CharSequence, CharSequence>> inputs = new ArrayList<>();
+
+        @Setup(Level.Trial)
+        public void setup() {
+            final ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            try (InputStream is = classloader.getResourceAsStream("org/apache/commons/text/lcs-perf-analysis-inputs.csv");
+                 InputStreamReader isr = new InputStreamReader(Objects.requireNonNull(is));
+                 BufferedReader br = new BufferedReader(isr)) {
+                String line;
+                while ((line = br.readLine()) != null && !line.trim().isEmpty()) {
+                    line = line.trim();
+                    final int indexOfComma = line.indexOf(',');
+                    final String inputA = line.substring(0, indexOfComma);
+                    final String inputB = line.substring(1 + indexOfComma);
+                    this.inputs.add(ImmutablePair.of(inputA, inputB));
+                }
+            } catch (final IOException exception) {
+                throw new UncheckedIOException(exception.getMessage(), exception);
+            }
+        }
+    }
+
+    @Benchmark
+    public void testLCS(final InputData data) {
+        final LongestCommonSubsequence lcs = new LongestCommonSubsequence();
+        for (final Pair<CharSequence, CharSequence> input : data.inputs) {
+            lcs.longestCommonSubsequence(input.getLeft(), input.getRight());
+        }
+    }
+
+    @Benchmark
+    public void testLCSBaseline(final InputData data) {
+        final BaselineLongestCommonSubsequence lcs = new BaselineLongestCommonSubsequence();
+        for (final Pair<CharSequence, CharSequence> input : data.inputs) {
+            lcs.longestCommonSubsequence(input.getLeft(), input.getRight());
+        }
+    }
+
+    @Benchmark
+    public void testLCSLen(final InputData data) {
+        final LongestCommonSubsequence lcs = new LongestCommonSubsequence();
+        for (final Pair<CharSequence, CharSequence> input : data.inputs) {
+            lcs.apply(input.getLeft(), input.getRight());
+        }
+    }
+
+    @Benchmark
+    public void testLCSLenBaseline(final InputData data) {
+        final BaselineLongestCommonSubsequence lcs = new BaselineLongestCommonSubsequence();
+        for (final Pair<CharSequence, CharSequence> input : data.inputs) {
+            lcs.apply(input.getLeft(), input.getRight());
         }
     }
 }

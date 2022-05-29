@@ -35,6 +35,21 @@ public class JaroWinklerDistanceTest {
     }
 
     @Test
+    public void testGetJaroWinklerDistance_NullNull() {
+        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply(null, null));
+    }
+
+    @Test
+    public void testGetJaroWinklerDistance_NullString() {
+        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply(null, "clear"));
+    }
+
+    @Test
+    public void testGetJaroWinklerDistance_StringNull() {
+        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply(" ", null));
+    }
+
+    @Test
     public void testGetJaroWinklerDistance_StringString() {
         assertEquals(0.07501d, distance.apply("frog", "fog"), 0.00001d);
         assertEquals(1.0d, distance.apply("fly", "ant"), 0.00000000000000000001d);
@@ -52,21 +67,6 @@ public class JaroWinklerDistanceTest {
         assertEquals(1 - 0.90666d, distance.apply("foo", "foo  "), 0.00001d);
         assertEquals(1 - 0.86666d, distance.apply("foo", " foo "), 0.00001d);
         assertEquals(1 - 0.51111d, distance.apply("foo", "  foo"), 0.00001d);
-    }
-
-    @Test
-    public void testGetJaroWinklerDistance_NullNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply(null, null));
-    }
-
-    @Test
-    public void testGetJaroWinklerDistance_StringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply(" ", null));
-    }
-
-    @Test
-    public void testGetJaroWinklerDistance_NullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply(null, "clear"));
     }
 
 }

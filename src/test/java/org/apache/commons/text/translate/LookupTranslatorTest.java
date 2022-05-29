@@ -44,6 +44,11 @@ public class LookupTranslatorTest  {
         assertThat(out.toString()).as("Incorrect value").isEqualTo("two");
     }
 
+    @Test
+    public void testFailsToCreateLookupTranslatorThrowsInvalidParameterException() {
+        assertThatExceptionOfType(InvalidParameterException.class).isThrownBy(() -> new LookupTranslator(null));
+    }
+
     // Tests: https://issues.apache.org/jira/browse/LANG-882
     @Test
     public void testLang882() throws IOException {
@@ -54,11 +59,6 @@ public class LookupTranslatorTest  {
         final int result = lt.translate(new StringBuffer("one"), 0, out);
         assertThat(result).as("Incorrect codepoint consumption").isEqualTo(3);
         assertThat(out.toString()).as("Incorrect value").isEqualTo("two");
-    }
-
-    @Test
-    public void testFailsToCreateLookupTranslatorThrowsInvalidParameterException() {
-        assertThatExceptionOfType(InvalidParameterException.class).isThrownBy(() -> new LookupTranslator(null));
     }
 
     @Test

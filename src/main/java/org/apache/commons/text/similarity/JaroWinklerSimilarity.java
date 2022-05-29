@@ -44,59 +44,6 @@ import org.apache.commons.lang3.StringUtils;
 public class JaroWinklerSimilarity implements SimilarityScore<Double> {
 
     /**
-     * Computes the Jaro Winkler Similarity between two character sequences.
-     *
-     * <pre>
-     * sim.apply(null, null)          = IllegalArgumentException
-     * sim.apply("foo", null)         = IllegalArgumentException
-     * sim.apply(null, "foo")         = IllegalArgumentException
-     * sim.apply("", "")              = 1.0
-     * sim.apply("foo", "foo")        = 1.0
-     * sim.apply("foo", "foo ")       = 0.94
-     * sim.apply("foo", "foo  ")      = 0.91
-     * sim.apply("foo", " foo ")      = 0.87
-     * sim.apply("foo", "  foo")      = 0.51
-     * sim.apply("", "a")             = 0.0
-     * sim.apply("aaapppp", "")       = 0.0
-     * sim.apply("frog", "fog")       = 0.93
-     * sim.apply("fly", "ant")        = 0.0
-     * sim.apply("elephant", "hippo") = 0.44
-     * sim.apply("hippo", "elephant") = 0.44
-     * sim.apply("hippo", "zzzzzzzz") = 0.0
-     * sim.apply("hello", "hallo")    = 0.88
-     * sim.apply("ABC Corporation", "ABC Corp") = 0.91
-     * sim.apply("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.95
-     * sim.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.92
-     * sim.apply("PENNSYLVANIA", "PENNCISYLVNIA") = 0.88
-     * </pre>
-     *
-     * @param left the first CharSequence, must not be null
-     * @param right the second CharSequence, must not be null
-     * @return result similarity
-     * @throws IllegalArgumentException if either CharSequence input is {@code null}
-     */
-    @Override
-    public Double apply(final CharSequence left, final CharSequence right) {
-        final double defaultScalingFactor = 0.1;
-
-        if (left == null || right == null) {
-            throw new IllegalArgumentException("CharSequences must not be null");
-        }
-
-        if (StringUtils.equals(left, right)) {
-            return 1d;
-        }
-
-        final int[] mtp = matches(left, right);
-        final double m = mtp[0];
-        if (m == 0) {
-            return 0d;
-        }
-        final double j = ((m / left.length() + m / right.length() + (m - (double) mtp[1] / 2) / m)) / 3;
-        return j < 0.7d ? j : j + defaultScalingFactor * mtp[2] * (1d - j);
-    }
-
-    /**
      * This method returns the Jaro-Winkler string matches, half transpositions, prefix array.
      *
      * @param first the first string to be matched
@@ -157,6 +104,59 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
             prefix++;
         }
         return new int[] {matches, halfTranspositions, prefix};
+    }
+
+    /**
+     * Computes the Jaro Winkler Similarity between two character sequences.
+     *
+     * <pre>
+     * sim.apply(null, null)          = IllegalArgumentException
+     * sim.apply("foo", null)         = IllegalArgumentException
+     * sim.apply(null, "foo")         = IllegalArgumentException
+     * sim.apply("", "")              = 1.0
+     * sim.apply("foo", "foo")        = 1.0
+     * sim.apply("foo", "foo ")       = 0.94
+     * sim.apply("foo", "foo  ")      = 0.91
+     * sim.apply("foo", " foo ")      = 0.87
+     * sim.apply("foo", "  foo")      = 0.51
+     * sim.apply("", "a")             = 0.0
+     * sim.apply("aaapppp", "")       = 0.0
+     * sim.apply("frog", "fog")       = 0.93
+     * sim.apply("fly", "ant")        = 0.0
+     * sim.apply("elephant", "hippo") = 0.44
+     * sim.apply("hippo", "elephant") = 0.44
+     * sim.apply("hippo", "zzzzzzzz") = 0.0
+     * sim.apply("hello", "hallo")    = 0.88
+     * sim.apply("ABC Corporation", "ABC Corp") = 0.91
+     * sim.apply("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.95
+     * sim.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.92
+     * sim.apply("PENNSYLVANIA", "PENNCISYLVNIA") = 0.88
+     * </pre>
+     *
+     * @param left the first CharSequence, must not be null
+     * @param right the second CharSequence, must not be null
+     * @return result similarity
+     * @throws IllegalArgumentException if either CharSequence input is {@code null}
+     */
+    @Override
+    public Double apply(final CharSequence left, final CharSequence right) {
+        final double defaultScalingFactor = 0.1;
+
+        if (left == null || right == null) {
+            throw new IllegalArgumentException("CharSequences must not be null");
+        }
+
+        if (StringUtils.equals(left, right)) {
+            return 1d;
+        }
+
+        final int[] mtp = matches(left, right);
+        final double m = mtp[0];
+        if (m == 0) {
+            return 0d;
+        }
+        final double j = ((m / left.length() + m / right.length() + (m - (double) mtp[1] / 2) / m)) / 3;
+        return j < 0.7d ? j : j + defaultScalingFactor * mtp[2] * (1d - j);
     }
 
 }

@@ -67,20 +67,6 @@ public class CosineSimilarity {
     }
 
     /**
-     * Returns a set with strings common to the two given maps.
-     *
-     * @param leftVector left vector map
-     * @param rightVector right vector map
-     * @return common strings
-     */
-    private Set<CharSequence> getIntersection(final Map<CharSequence, Integer> leftVector,
-            final Map<CharSequence, Integer> rightVector) {
-        final Set<CharSequence> intersection = new HashSet<>(leftVector.keySet());
-        intersection.retainAll(rightVector.keySet());
-        return intersection;
-    }
-
-    /**
      * Computes the dot product of two vectors. It ignores remaining elements. It means
      * that if a vector is longer than other, then a smaller part of it will be used to compute
      * the dot product.
@@ -97,6 +83,20 @@ public class CosineSimilarity {
             dotProduct += leftVector.get(key) * (long) rightVector.get(key);
         }
         return dotProduct;
+    }
+
+    /**
+     * Returns a set with strings common to the two given maps.
+     *
+     * @param leftVector left vector map
+     * @param rightVector right vector map
+     * @return common strings
+     */
+    private Set<CharSequence> getIntersection(final Map<CharSequence, Integer> leftVector,
+            final Map<CharSequence, Integer> rightVector) {
+        final Set<CharSequence> intersection = new HashSet<>(leftVector.keySet());
+        intersection.retainAll(rightVector.keySet());
+        return intersection;
     }
 
 }

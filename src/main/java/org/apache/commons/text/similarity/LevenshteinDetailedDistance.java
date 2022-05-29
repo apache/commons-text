@@ -37,74 +37,99 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
     private static final LevenshteinDetailedDistance DEFAULT_INSTANCE = new LevenshteinDetailedDistance();
 
     /**
-     * Threshold.
+     * Finds count for each of the three [insert, delete, substitute] operations
+     * needed. This is based on the matrix formed based on the two character
+     * sequence.
+     *
+     * @param left character sequence which need to be converted from
+     * @param right character sequence which need to be converted to
+     * @param matrix two dimensional array containing
+     * @param swapped tells whether the value for left character sequence and right
+     *            character sequence were swapped to save memory
+     * @return result object containing the count of insert, delete and substitute and total count needed
      */
-    private final Integer threshold;
+    private static LevenshteinResults findDetailedResults(final CharSequence left,
+                                                          final CharSequence right,
+                                                          final int[][] matrix,
+                                                          final boolean swapped) {
 
-    /**
-     * <p>
-     * This returns the default instance that uses a version
-     * of the algorithm that does not use a threshold parameter.
-     * </p>
-     *
-     * @see LevenshteinDetailedDistance#getDefaultInstance()
-     */
-    public LevenshteinDetailedDistance() {
-        this(null);
-    }
+        int delCount = 0;
+        int addCount = 0;
+        int subCount = 0;
 
-    /**
-     * If the threshold is not null, distance calculations will be limited to a maximum length.
-     *
-     * <p>If the threshold is null, the unlimited version of the algorithm will be used.</p>
-     *
-     * @param threshold If this is null then distances calculations will not be limited. This may not be negative.
-     */
-    public LevenshteinDetailedDistance(final Integer threshold) {
-        if (threshold != null && threshold < 0) {
-            throw new IllegalArgumentException("Threshold must not be negative");
+        int rowIndex = right.length();
+        int columnIndex = left.length();
+
+        int dataAtLeft = 0;
+        int dataAtTop = 0;
+        int dataAtDiagonal = 0;
+        int data = 0;
+        boolean deleted = false;
+        boolean added = false;
+
+        while (rowIndex >= 0 && columnIndex >= 0) {
+
+            if (columnIndex == 0) {
+                dataAtLeft = -1;
+            } else {
+                dataAtLeft = matrix[rowIndex][columnIndex - 1];
+            }
+            if (rowIndex == 0) {
+                dataAtTop = -1;
+            } else {
+                dataAtTop = matrix[rowIndex - 1][columnIndex];
+            }
+            if (rowIndex > 0 && columnIndex > 0) {
+                dataAtDiagonal = matrix[rowIndex - 1][columnIndex - 1];
+            } else {
+                dataAtDiagonal = -1;
+            }
+            if (dataAtLeft == -1 && dataAtTop == -1 && dataAtDiagonal == -1) {
+                break;
+            }
+            data = matrix[rowIndex][columnIndex];
+
+            // case in which the character at left and right are the same,
+            // in this case none of the counters will be incremented.
+            if (columnIndex > 0 && rowIndex > 0 && left.charAt(columnIndex - 1) == right.charAt(rowIndex - 1)) {
+                columnIndex--;
+                rowIndex--;
+                continue;
+            }
+
+            // handling insert and delete cases.
+            deleted = false;
+            added = false;
+            if (data - 1 == dataAtLeft && (data <= dataAtDiagonal && data <= dataAtTop)
+                    || (dataAtDiagonal == -1 && dataAtTop == -1)) { // NOPMD
+                columnIndex--;
+                if (swapped) {
+                    addCount++;
+                    added = true;
+                } else {
+                    delCount++;
+                    deleted = true;
+                }
+            } else if (data - 1 == dataAtTop && (data <= dataAtDiagonal && data <= dataAtLeft)
+                    || (dataAtDiagonal == -1 && dataAtLeft == -1)) { // NOPMD
+                rowIndex--;
+                if (swapped) {
+                    delCount++;
+                    deleted = true;
+                } else {
+                    addCount++;
+                    added = true;
+                }
+            }
+
+            // substituted case
+            if (!added && !deleted) {
+                subCount++;
+                columnIndex--;
+                rowIndex--;
+            }
         }
-        this.threshold = threshold;
-    }
-
-    /**
-     * Finds the Levenshtein distance between two Strings.
-     *
-     * <p>A higher score indicates a greater distance.</p>
-     *
-     * <p>The previous implementation of the Levenshtein distance algorithm
-     * was from <a href="http://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a></p>
-     *
-     * <p>Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError
-     * which can occur when my Java implementation is used with very large strings.<br>
-     * This implementation of the Levenshtein distance algorithm
-     * is from <a href="http://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a></p>
-     *
-     * <pre>
-     * distance.apply(null, *)             = IllegalArgumentException
-     * distance.apply(*, null)             = IllegalArgumentException
-     * distance.apply("","")               = 0
-     * distance.apply("","a")              = 1
-     * distance.apply("aaapppp", "")       = 7
-     * distance.apply("frog", "fog")       = 1
-     * distance.apply("fly", "ant")        = 3
-     * distance.apply("elephant", "hippo") = 7
-     * distance.apply("hippo", "elephant") = 7
-     * distance.apply("hippo", "zzzzzzzz") = 8
-     * distance.apply("hello", "hallo")    = 1
-     * </pre>
-     *
-     * @param left the first string, must not be null
-     * @param right the second string, must not be null
-     * @return result distance, or -1
-     * @throws IllegalArgumentException if either String input {@code null}
-     */
-    @Override
-    public LevenshteinResults apply(final CharSequence left, final CharSequence right) {
-        if (threshold != null) {
-            return limitedCompare(left, right, threshold);
-        }
-        return unlimitedCompare(left, right);
+        return new LevenshteinResults(addCount + delCount + subCount, addCount, delCount, subCount);
     }
 
     /**
@@ -114,15 +139,6 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      */
     public static LevenshteinDetailedDistance getDefaultInstance() {
         return DEFAULT_INSTANCE;
-    }
-
-    /**
-     * Gets the distance threshold.
-     *
-     * @return The distance threshold
-     */
-    public Integer getThreshold() {
-        return threshold;
     }
 
     /**
@@ -425,98 +441,82 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
     }
 
     /**
-     * Finds count for each of the three [insert, delete, substitute] operations
-     * needed. This is based on the matrix formed based on the two character
-     * sequence.
-     *
-     * @param left character sequence which need to be converted from
-     * @param right character sequence which need to be converted to
-     * @param matrix two dimensional array containing
-     * @param swapped tells whether the value for left character sequence and right
-     *            character sequence were swapped to save memory
-     * @return result object containing the count of insert, delete and substitute and total count needed
+     * Threshold.
      */
-    private static LevenshteinResults findDetailedResults(final CharSequence left,
-                                                          final CharSequence right,
-                                                          final int[][] matrix,
-                                                          final boolean swapped) {
+    private final Integer threshold;
 
-        int delCount = 0;
-        int addCount = 0;
-        int subCount = 0;
+    /**
+     * <p>
+     * This returns the default instance that uses a version
+     * of the algorithm that does not use a threshold parameter.
+     * </p>
+     *
+     * @see LevenshteinDetailedDistance#getDefaultInstance()
+     */
+    public LevenshteinDetailedDistance() {
+        this(null);
+    }
 
-        int rowIndex = right.length();
-        int columnIndex = left.length();
-
-        int dataAtLeft = 0;
-        int dataAtTop = 0;
-        int dataAtDiagonal = 0;
-        int data = 0;
-        boolean deleted = false;
-        boolean added = false;
-
-        while (rowIndex >= 0 && columnIndex >= 0) {
-
-            if (columnIndex == 0) {
-                dataAtLeft = -1;
-            } else {
-                dataAtLeft = matrix[rowIndex][columnIndex - 1];
-            }
-            if (rowIndex == 0) {
-                dataAtTop = -1;
-            } else {
-                dataAtTop = matrix[rowIndex - 1][columnIndex];
-            }
-            if (rowIndex > 0 && columnIndex > 0) {
-                dataAtDiagonal = matrix[rowIndex - 1][columnIndex - 1];
-            } else {
-                dataAtDiagonal = -1;
-            }
-            if (dataAtLeft == -1 && dataAtTop == -1 && dataAtDiagonal == -1) {
-                break;
-            }
-            data = matrix[rowIndex][columnIndex];
-
-            // case in which the character at left and right are the same,
-            // in this case none of the counters will be incremented.
-            if (columnIndex > 0 && rowIndex > 0 && left.charAt(columnIndex - 1) == right.charAt(rowIndex - 1)) {
-                columnIndex--;
-                rowIndex--;
-                continue;
-            }
-
-            // handling insert and delete cases.
-            deleted = false;
-            added = false;
-            if (data - 1 == dataAtLeft && (data <= dataAtDiagonal && data <= dataAtTop)
-                    || (dataAtDiagonal == -1 && dataAtTop == -1)) { // NOPMD
-                columnIndex--;
-                if (swapped) {
-                    addCount++;
-                    added = true;
-                } else {
-                    delCount++;
-                    deleted = true;
-                }
-            } else if (data - 1 == dataAtTop && (data <= dataAtDiagonal && data <= dataAtLeft)
-                    || (dataAtDiagonal == -1 && dataAtLeft == -1)) { // NOPMD
-                rowIndex--;
-                if (swapped) {
-                    delCount++;
-                    deleted = true;
-                } else {
-                    addCount++;
-                    added = true;
-                }
-            }
-
-            // substituted case
-            if (!added && !deleted) {
-                subCount++;
-                columnIndex--;
-                rowIndex--;
-            }
+    /**
+     * If the threshold is not null, distance calculations will be limited to a maximum length.
+     *
+     * <p>If the threshold is null, the unlimited version of the algorithm will be used.</p>
+     *
+     * @param threshold If this is null then distances calculations will not be limited. This may not be negative.
+     */
+    public LevenshteinDetailedDistance(final Integer threshold) {
+        if (threshold != null && threshold < 0) {
+            throw new IllegalArgumentException("Threshold must not be negative");
         }
-        return new LevenshteinResults(addCount + delCount + subCount, addCount, delCount, subCount);
+        this.threshold = threshold;
+    }
+
+    /**
+     * Finds the Levenshtein distance between two Strings.
+     *
+     * <p>A higher score indicates a greater distance.</p>
+     *
+     * <p>The previous implementation of the Levenshtein distance algorithm
+     * was from <a href="http://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a></p>
+     *
+     * <p>Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError
+     * which can occur when my Java implementation is used with very large strings.<br>
+     * This implementation of the Levenshtein distance algorithm
+     * is from <a href="http://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a></p>
+     *
+     * <pre>
+     * distance.apply(null, *)             = IllegalArgumentException
+     * distance.apply(*, null)             = IllegalArgumentException
+     * distance.apply("","")               = 0
+     * distance.apply("","a")              = 1
+     * distance.apply("aaapppp", "")       = 7
+     * distance.apply("frog", "fog")       = 1
+     * distance.apply("fly", "ant")        = 3
+     * distance.apply("elephant", "hippo") = 7
+     * distance.apply("hippo", "elephant") = 7
+     * distance.apply("hippo", "zzzzzzzz") = 8
+     * distance.apply("hello", "hallo")    = 1
+     * </pre>
+     *
+     * @param left the first string, must not be null
+     * @param right the second string, must not be null
+     * @return result distance, or -1
+     * @throws IllegalArgumentException if either String input {@code null}
+     */
+    @Override
+    public LevenshteinResults apply(final CharSequence left, final CharSequence right) {
+        if (threshold != null) {
+            return limitedCompare(left, right, threshold);
+        }
+        return unlimitedCompare(left, right);
+    }
+
+    /**
+     * Gets the distance threshold.
+     *
+     * @return The distance threshold
+     */
+    public Integer getThreshold() {
+        return threshold;
     }
 }

@@ -27,6 +27,14 @@ import org.junit.jupiter.api.Test;
  */
 public class UnicodeUnescaperTest {
 
+    @Test
+    public void testLessThanFour() {
+        final UnicodeUnescaper uu = new UnicodeUnescaper();
+
+        final String input = "\\0047\\u006";
+        assertThrows(IllegalArgumentException.class, () -> uu.translate(input));
+    }
+
     // Requested in LANG-507
     @Test
     public void testUPlus() {
@@ -43,13 +51,5 @@ public class UnicodeUnescaperTest {
         final String input = "\\uuuuuuuu0047";
         final String result = uu.translate(input);
         assertThat(result).as("Failed to unescape Unicode characters with many 'u' characters").isEqualTo("G");
-    }
-
-    @Test
-    public void testLessThanFour() {
-        final UnicodeUnescaper uu = new UnicodeUnescaper();
-
-        final String input = "\\0047\\u006";
-        assertThrows(IllegalArgumentException.class, () -> uu.translate(input));
     }
 }

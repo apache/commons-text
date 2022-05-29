@@ -60,12 +60,12 @@ public class JaccardDistanceTest {
     }
 
     @Test
-    public void testGettingJaccardDistanceStringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> classBeingTested.apply(" ", null));
+    public void testGettingJaccardDistanceNullString() {
+        assertThatIllegalArgumentException().isThrownBy(() -> classBeingTested.apply(null, "right"));
     }
 
     @Test
-    public void testGettingJaccardDistanceNullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> classBeingTested.apply(null, "right"));
+    public void testGettingJaccardDistanceStringNull() {
+        assertThatIllegalArgumentException().isThrownBy(() -> classBeingTested.apply(" ", null));
     }
 }

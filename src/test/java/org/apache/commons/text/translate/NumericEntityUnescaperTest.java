@@ -28,13 +28,21 @@ import org.junit.jupiter.api.Test;
 public class NumericEntityUnescaperTest  {
 
     @Test
-    public void testSupplementaryUnescaping() {
-        final NumericEntityUnescaper neu = new NumericEntityUnescaper();
-        final String input = "&#68642;";
-        final String expected = "\uD803\uDC22";
+    public void testCreatesNumericEntityUnescaperOne() {
+        final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = {};
+        final NumericEntityUnescaper numericEntityUnescaper =
+                new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
 
-        final String result = neu.translate(input);
-        assertThat(result).as("Failed to unescape numeric entities supplementary characters").isEqualTo(expected);
+        assertThat(numericEntityUnescaper.translate("2|y|O7y`&#uVWj")).isEqualTo("2|y|O7y`&#uVWj");
+    }
+
+    @Test
+    public void testCreatesNumericEntityUnescaperTwo() {
+        final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = {};
+        final NumericEntityUnescaper numericEntityUnescaper =
+                new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
+
+        assertThat(numericEntityUnescaper.translate("Ws2v8|O=7NR&#cB")).isEqualTo("Ws2v8|O=7NR&#cB");
     }
 
     @Test
@@ -45,6 +53,16 @@ public class NumericEntityUnescaperTest  {
         assertThat(neu.translate("Test &#")).as("Failed to ignore when last character is &").isEqualTo("Test &#");
         assertThat(neu.translate("Test &#x")).as("Failed to ignore when last character is &").isEqualTo("Test &#x");
         assertThat(neu.translate("Test &#X")).as("Failed to ignore when last character is &").isEqualTo("Test &#X");
+    }
+
+    @Test
+    public void testSupplementaryUnescaping() {
+        final NumericEntityUnescaper neu = new NumericEntityUnescaper();
+        final String input = "&#68642;";
+        final String expected = "\uD803\uDC22";
+
+        final String result = neu.translate(input);
+        assertThat(result).as("Failed to unescape numeric entities supplementary characters").isEqualTo(expected);
     }
 
     @Test
@@ -75,24 +93,6 @@ public class NumericEntityUnescaperTest  {
         } catch (final IllegalArgumentException iae) {
             // expected
         }
-    }
-
-    @Test
-    public void testCreatesNumericEntityUnescaperOne() {
-        final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = {};
-        final NumericEntityUnescaper numericEntityUnescaper =
-                new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
-
-        assertThat(numericEntityUnescaper.translate("2|y|O7y`&#uVWj")).isEqualTo("2|y|O7y`&#uVWj");
-    }
-
-    @Test
-    public void testCreatesNumericEntityUnescaperTwo() {
-        final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = {};
-        final NumericEntityUnescaper numericEntityUnescaper =
-                new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
-
-        assertThat(numericEntityUnescaper.translate("Ws2v8|O=7NR&#cB")).isEqualTo("Ws2v8|O=7NR&#cB");
     }
 
 }

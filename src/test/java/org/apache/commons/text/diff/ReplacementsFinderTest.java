@@ -34,17 +34,49 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 public class ReplacementsFinderTest {
 
-    private SimpleHandler handler;
+    // Helper ReplacementsHandler implementation for testing
+    private static class SimpleHandler implements ReplacementsHandler<Character> {
+        private int skipped;
+        private final List<Character> from;
+        private final List<Character> to;
 
-    @BeforeEach
-    public void setUp() {
-        handler = new SimpleHandler();
+        SimpleHandler() {
+            skipped = 0;
+            from = new ArrayList<>();
+            to = new ArrayList<>();
+        }
+
+        public List<Character> getFrom() {
+            return from;
+        }
+
+        public int getSkipped() {
+            return skipped;
+        }
+
+        public List<Character> getTo() {
+            return to;
+        }
+
+        @Override
+        public void handleReplacement(final int skipped, final List<Character> from, final List<Character> to) {
+            this.skipped += skipped;
+            this.from.addAll(from);
+            this.to.addAll(to);
+        }
     }
 
     public static Stream<Arguments> parameters() {
         return Stream.of(Arguments.of("branco", "blanco", 1, new Character[] {'r'}, new Character[] {'l'}),
             Arguments.of("test the blocks before you use it", "try the blocks before you put it", 25,
                 new Character[] {'e', 's', 't', 's', 'e'}, new Character[] {'r', 'y', 'p', 't'}));
+    }
+
+    private SimpleHandler handler;
+
+    @BeforeEach
+    public void setUp() {
+        handler = new SimpleHandler();
     }
 
     @ParameterizedTest
@@ -59,37 +91,5 @@ public class ReplacementsFinderTest {
             "From characters do not match");
         assertArrayEquals(to, handler.getTo().toArray(ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY),
             "To characters do not match");
-    }
-
-    // Helper ReplacementsHandler implementation for testing
-    private static class SimpleHandler implements ReplacementsHandler<Character> {
-        private int skipped;
-        private final List<Character> from;
-        private final List<Character> to;
-
-        SimpleHandler() {
-            skipped = 0;
-            from = new ArrayList<>();
-            to = new ArrayList<>();
-        }
-
-        public int getSkipped() {
-            return skipped;
-        }
-
-        public List<Character> getFrom() {
-            return from;
-        }
-
-        public List<Character> getTo() {
-            return to;
-        }
-
-        @Override
-        public void handleReplacement(final int skipped, final List<Character> from, final List<Character> to) {
-            this.skipped += skipped;
-            this.from.addAll(from);
-            this.to.addAll(to);
-        }
     }
 }
