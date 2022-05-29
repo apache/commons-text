@@ -845,40 +845,38 @@ public class WordUtils {
                 wrappedLine.append(newLineStr);
                 offset = spaceToWrapAt + 1;
 
+            } else // really long word or URL
+            if (wrapLongWords) {
+                if (matcherSize == 0) {
+                    offset--;
+                }
+                // wrap really long word one line at a time
+                wrappedLine.append(str, offset, wrapLength + offset);
+                wrappedLine.append(newLineStr);
+                offset += wrapLength;
+                matcherSize = -1;
             } else {
-                // really long word or URL
-                if (wrapLongWords) {
-                    if (matcherSize == 0) {
+                // do not wrap really long word, just extend beyond limit
+                matcher = patternToWrapOn.matcher(str.substring(offset + wrapLength));
+                if (matcher.find()) {
+                    matcherSize = matcher.end() - matcher.start();
+                    spaceToWrapAt = matcher.start() + offset + wrapLength;
+                }
+
+                if (spaceToWrapAt >= 0) {
+                    if (matcherSize == 0 && offset != 0) {
                         offset--;
                     }
-                    // wrap really long word one line at a time
-                    wrappedLine.append(str, offset, wrapLength + offset);
+                    wrappedLine.append(str, offset, spaceToWrapAt);
                     wrappedLine.append(newLineStr);
-                    offset += wrapLength;
-                    matcherSize = -1;
+                    offset = spaceToWrapAt + 1;
                 } else {
-                    // do not wrap really long word, just extend beyond limit
-                    matcher = patternToWrapOn.matcher(str.substring(offset + wrapLength));
-                    if (matcher.find()) {
-                        matcherSize = matcher.end() - matcher.start();
-                        spaceToWrapAt = matcher.start() + offset + wrapLength;
+                    if (matcherSize == 0 && offset != 0) {
+                        offset--;
                     }
-
-                    if (spaceToWrapAt >= 0) {
-                        if (matcherSize == 0 && offset != 0) {
-                            offset--;
-                        }
-                        wrappedLine.append(str, offset, spaceToWrapAt);
-                        wrappedLine.append(newLineStr);
-                        offset = spaceToWrapAt + 1;
-                    } else {
-                        if (matcherSize == 0 && offset != 0) {
-                            offset--;
-                        }
-                        wrappedLine.append(str, offset, str.length());
-                        offset = inputLineLength;
-                        matcherSize = -1;
-                    }
+                    wrappedLine.append(str, offset, str.length());
+                    offset = inputLineLength;
+                    matcherSize = -1;
                 }
             }
         }

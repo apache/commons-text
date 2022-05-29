@@ -162,8 +162,8 @@ public class FormattableUtilsTest {
 
     @Test
     public void testIllegalEllipsisWith7Args() {
-        String ellipsis = "xxxx";
-        int precisionLessThanEllipsisLength = ellipsis.length() - 1;
+        final String ellipsis = "xxxx";
+        final int precisionLessThanEllipsisLength = ellipsis.length() - 1;
         assertThatIllegalArgumentException().isThrownBy(() -> FormattableUtils.append("foo", createFormatter(), 0, 0,
                 precisionLessThanEllipsisLength, '}', ellipsis));
     }

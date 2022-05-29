@@ -221,7 +221,8 @@ public enum DoubleFormat {
         public String apply(final double d) {
             if (Double.isFinite(d)) {
                 return applyFinite(d);
-            } else if (Double.isInfinite(d)) {
+            }
+            if (Double.isInfinite(d)) {
                 return d > 0.0
                         ? positiveInfinity
                         : negativeInfinity;

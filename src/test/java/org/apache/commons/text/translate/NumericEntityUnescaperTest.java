@@ -79,7 +79,7 @@ public class NumericEntityUnescaperTest  {
 
     @Test
     public void testCreatesNumericEntityUnescaperOne() {
-        final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = new NumericEntityUnescaper.OPTION[0];
+        final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = {};
         final NumericEntityUnescaper numericEntityUnescaper =
                 new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
 
@@ -88,7 +88,7 @@ public class NumericEntityUnescaperTest  {
 
     @Test
     public void testCreatesNumericEntityUnescaperTwo() {
-        final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = new NumericEntityUnescaper.OPTION[0];
+        final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = {};
         final NumericEntityUnescaper numericEntityUnescaper =
                 new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
 

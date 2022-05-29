@@ -546,7 +546,7 @@ public class StringTokenizerTest {
 
     @Test
     public void testCloneReset() {
-        final char[] input = new char[] {'a' };
+        final char[] input = { 'a' };
         final StringTokenizer tokenizer = new StringTokenizer(input);
         // Start sanity check
         assertEquals("a", tokenizer.nextToken());
@@ -812,7 +812,7 @@ public class StringTokenizerTest {
     public void testReset_charArray() {
         final StringTokenizer tok = new StringTokenizer("x x x");
 
-        final char[] array = new char[] {'a', 'b', 'c' };
+        final char[] array = {'a', 'b', 'c' };
         tok.reset(array);
         assertEquals("abc", tok.next());
         assertFalse(tok.hasNext());

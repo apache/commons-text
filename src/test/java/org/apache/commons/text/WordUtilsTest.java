@@ -126,7 +126,7 @@ public class WordUtilsTest {
         assertThat(WordUtils.capitalizeFully("", ArrayUtils.EMPTY_CHAR_ARRAY)).isEqualTo("");
         assertThat(WordUtils.capitalizeFully("  ", ArrayUtils.EMPTY_CHAR_ARRAY)).isEqualTo("  ");
 
-        char[] chars = new char[] {'-', '+', ' ', '@'};
+        char[] chars = {'-', '+', ' ', '@'};
         assertThat(WordUtils.capitalizeFully("I", chars)).isEqualTo("I");
         assertThat(WordUtils.capitalizeFully("i", chars)).isEqualTo("I");
         assertThat(WordUtils.capitalizeFully("i-am here+123", chars)).isEqualTo("I-Am Here+123");
@@ -146,7 +146,7 @@ public class WordUtilsTest {
         assertThat(WordUtils.capitalize("", ArrayUtils.EMPTY_CHAR_ARRAY)).isEqualTo("");
         assertThat(WordUtils.capitalize("  ", ArrayUtils.EMPTY_CHAR_ARRAY)).isEqualTo("  ");
 
-        char[] chars = new char[] {'-', '+', ' ', '@'};
+        char[] chars = {'-', '+', ' ', '@'};
         assertThat(WordUtils.capitalize("I", chars)).isEqualTo("I");
         assertThat(WordUtils.capitalize("i", chars)).isEqualTo("I");
         assertThat(WordUtils.capitalize("i-am here+123", chars)).isEqualTo("I-Am Here+123");
@@ -386,7 +386,7 @@ public class WordUtilsTest {
         assertThat(WordUtils.uncapitalize("", ArrayUtils.EMPTY_CHAR_ARRAY)).isEqualTo("");
         assertThat(WordUtils.uncapitalize("  ", ArrayUtils.EMPTY_CHAR_ARRAY)).isEqualTo("  ");
 
-        char[] chars = new char[] {'-', '+', ' ', '@'};
+        char[] chars = {'-', '+', ' ', '@'};
         assertThat(WordUtils.uncapitalize("I", chars)).isEqualTo("i");
         assertThat(WordUtils.uncapitalize("i", chars)).isEqualTo("i");
         assertThat(WordUtils.uncapitalize("i am-here+123", chars)).isEqualTo("i am-here+123");

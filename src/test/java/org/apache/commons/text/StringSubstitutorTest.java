@@ -1091,7 +1091,7 @@ public class StringSubstitutorTest {
         final StringSubstitutor sub = new StringSubstitutor();
 
         // replace(char[], int, int)
-        final char[] emptyCharArray = new char[] {};
+        final char[] emptyCharArray = {};
         // offset greater than array length
         assertThatExceptionOfType(StringIndexOutOfBoundsException.class).isThrownBy(
                 () -> sub.replace(emptyCharArray, 0, 1));

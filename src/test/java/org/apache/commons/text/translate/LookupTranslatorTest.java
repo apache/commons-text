@@ -64,12 +64,12 @@ public class LookupTranslatorTest  {
     @Test
     public void testTranslateSupplementaryCharacter() {
         /* Key: string with Mathematical double-struck capital A (U+1D538) */
-        String symbol = new StringBuilder().appendCodePoint(0x1D538).toString();
+        final String symbol = new StringBuilder().appendCodePoint(0x1D538).toString();
         /* Map U+1D538 to "A" */
-        Map<CharSequence, CharSequence> map = new HashMap<>();
+        final Map<CharSequence, CharSequence> map = new HashMap<>();
         map.put(symbol, "A");
-        LookupTranslator translator = new LookupTranslator(map);
-        String translated = translator.translate(symbol + "=A");
+        final LookupTranslator translator = new LookupTranslator(map);
+        final String translated = translator.translate(symbol + "=A");
         /* we should get "A=A". */
         assertThat(translated).as("Incorrect value").isEqualTo("A=A");
     }

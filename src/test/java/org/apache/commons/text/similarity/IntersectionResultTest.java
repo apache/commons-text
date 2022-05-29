@@ -85,7 +85,7 @@ public class IntersectionResultTest {
 
     @Test
     public void testEquals() {
-        final IntersectionResult[] results = new IntersectionResult[] {
+        final IntersectionResult[] results = {
                 new IntersectionResult(0, 0, 0),
                 new IntersectionResult(10, 0, 0),
                 new IntersectionResult(10, 10, 0),
@@ -107,7 +107,7 @@ public class IntersectionResultTest {
 
     @Test
     public void testHashCode() {
-        final IntersectionResult[] results = new IntersectionResult[] {
+        final IntersectionResult[] results = {
                 new IntersectionResult(10, 0, 0),
                 new IntersectionResult(10, 10, 0),
                 new IntersectionResult(10, 10, 10),

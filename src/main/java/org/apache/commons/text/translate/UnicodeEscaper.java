@@ -120,10 +120,8 @@ public class UnicodeEscaper extends CodePointTranslator {
             if (codepoint < below || codepoint > above) {
                 return false;
             }
-        } else {
-            if (codepoint >= below && codepoint <= above) {
-                return false;
-            }
+        } else if (codepoint >= below && codepoint <= above) {
+            return false;
         }
 
         if (codepoint > 0xffff) {
