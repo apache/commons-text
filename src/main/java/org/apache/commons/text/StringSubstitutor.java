@@ -150,7 +150,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  *     + "File Content:          ${file:UTF-8:src/test/resources/document.properties}\n"
  *     + "Java:                  ${java:version}\n" + "Localhost:             ${localhost:canonical-name}\n"
  *     + "Properties File:       ${properties:src/test/resources/document.properties::mykey}\n"
- *     + "Resource Bundle:       ${resourceBundle:org.example.testResourceBundleLookup:mykey}\n"
+ *     + "Resource Bundle:       ${resourceBundle:org.apache.commons.text.example.testResourceBundleLookup:mykey}\n"
  *     + "Script:                ${script:javascript:3 + 4}\n" + "System Property:       ${sys:user.dir}\n"
  *     + "URL Decoder:           ${urlDecoder:Hello%20World%21}\n"
  *     + "URL Encoder:           ${urlEncoder:Hello World!}\n"
