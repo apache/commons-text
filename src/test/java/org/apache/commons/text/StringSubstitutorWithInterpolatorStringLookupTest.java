@@ -99,10 +99,10 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
               + "Date:                  ${date:yyyy-MM-dd}\n"
               + "DNS:                   ${dns:address|apache.org}\n"
               + "Environment Variable:  ${env:USERNAME}\n"
-              + "File Content:          ${file:UTF-8:src/test/resources/document.properties}\n"
+              + "File Content:          ${file:UTF-8:src/test/resources/org/apache/commons/text/document.properties}\n"
               + "Java:                  ${java:version}\n"
               + "Localhost:             ${localhost:canonical-name}\n"
-              + "Properties File:       ${properties:src/test/resources/document.properties::mykey}\n"
+              + "Properties File:       ${properties:src/test/resources/org/apache/commons/text/document.properties::mykey}\n"
               + "Resource Bundle:       ${resourceBundle:org.apache.commons.text.example.testResourceBundleLookup:mykey}\n"
               + "Script:                ${script:javascript:3 + 4}\n"
               + "System Property:       ${sys:user.dir}\n"
@@ -110,8 +110,8 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
               + "URL Encoder:           ${urlEncoder:Hello World!}\n"
               + "URL Content (HTTP):    ${url:UTF-8:http://www.apache.org}\n"
               + "URL Content (HTTPS):   ${url:UTF-8:https://www.apache.org}\n"
-              + "URL Content (File):    ${url:UTF-8:file:///${sys:user.dir}/src/test/resources/document.properties}\n"
-              + "XML XPath:             ${xml:src/test/resources/document.xml:/root/path/to/node}\n"
+              + "URL Content (File):    ${url:UTF-8:file:///${sys:user.dir}/src/test/resources/org/apache/commons/text/document.properties}\n"
+              + "XML XPath:             ${xml:src/test/resources/org/apache/commons/text/document.xml:/root/path/to/node}\n"
         );
         // @formatter:on
         Assertions.assertNotNull(text);

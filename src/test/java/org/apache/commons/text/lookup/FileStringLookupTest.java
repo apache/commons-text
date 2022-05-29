@@ -33,7 +33,7 @@ public class FileStringLookupTest {
 
     @Test
     public void testBadCharsetName() {
-        assertThrows(IllegalArgumentException.class, () -> FileStringLookup.INSTANCE.lookup("BAD_CHARSET_NAME:src/test/resources/document.properties"));
+        assertThrows(IllegalArgumentException.class, () -> FileStringLookup.INSTANCE.lookup("BAD_CHARSET_NAME:src/test/resources/org/apache/commons/text/document.properties"));
     }
 
     @Test
@@ -53,10 +53,10 @@ public class FileStringLookupTest {
 
     @Test
     public void testOne() throws Exception {
-        final byte[] expectedBytes = Files.readAllBytes(Paths.get("src/test/resources/document.properties"));
+        final byte[] expectedBytes = Files.readAllBytes(Paths.get("src/test/resources/org/apache/commons/text/document.properties"));
         final String expectedString = new String(expectedBytes, StandardCharsets.UTF_8);
         Assertions.assertEquals(expectedString,
-            FileStringLookup.INSTANCE.lookup("UTF-8:src/test/resources/document.properties"));
+            FileStringLookup.INSTANCE.lookup("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
     }
 
     @Test

@@ -58,7 +58,7 @@ public class LongestCommonSubsequencePerformance {
         @Setup(Level.Trial)
         public void setup() {
             final ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            try (InputStream is = classloader.getResourceAsStream("lcs-perf-analysis-inputs.csv");
+            try (InputStream is = classloader.getResourceAsStream("org/apache/commons/text/lcs-perf-analysis-inputs.csv");
                  InputStreamReader isr = new InputStreamReader(Objects.requireNonNull(is));
                  BufferedReader br = new BufferedReader(isr)) {
                 String line;

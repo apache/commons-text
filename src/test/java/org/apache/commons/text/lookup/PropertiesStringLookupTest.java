@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  */
 public class PropertiesStringLookupTest {
 
-    private static final String DOC_PATH = "src/test/resources/document.properties";
+    private static final String DOC_PATH = "src/test/resources/org/apache/commons/text/document.properties";
     private static final String KEY = "mykey";
     private static final String KEY_PATH = PropertiesStringLookup.toPropertyKey(DOC_PATH, KEY);
 
@@ -48,7 +48,7 @@ public class PropertiesStringLookupTest {
         // Need to handle "C:" in the sys prop user.dir.
         final String replaced = stringSubstitutor.replace("$${properties:${sys:user.dir}/" + KEY_PATH + "}");
         assertEquals(
-            "${properties:" + System.getProperty("user.dir") + "/src/test/resources/document.properties::mykey}",
+            "${properties:" + System.getProperty("user.dir") + "/src/test/resources/org/apache/commons/text/document.properties::mykey}",
             replaced);
         assertEquals("Hello World!", stringSubstitutor.replace(replaced));
     }

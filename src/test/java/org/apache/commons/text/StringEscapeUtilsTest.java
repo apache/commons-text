@@ -425,7 +425,7 @@ public void testEscapeEcmaScript() {
      */
     @Test
     public void testLang708() throws IOException {
-        final byte[] inputBytes = Files.readAllBytes(Paths.get("src/test/resources/stringEscapeUtilsTestData.txt"));
+        final byte[] inputBytes = Files.readAllBytes(Paths.get("src/test/resources/org/apache/commons/text/stringEscapeUtilsTestData.txt"));
         final String input = new String(inputBytes, StandardCharsets.UTF_8);
         final String escaped = StringEscapeUtils.escapeEcmaScript(input);
         // just the end:

@@ -50,7 +50,7 @@ public class UrlStringLookupTest {
 
     @Test
     public void testFileScheme() throws Exception {
-        final Path path = Paths.get("src/test/resources/document.properties");
+        final Path path = Paths.get("src/test/resources/org/apache/commons/text/document.properties");
         final URI uri = path.toUri();
         // System.out.println(uri);
         final byte[] expectedBytes = Files.readAllBytes(path);

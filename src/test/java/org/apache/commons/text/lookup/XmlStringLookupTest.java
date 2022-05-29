@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  */
 public class XmlStringLookupTest {
 
-    private static final String DOC_PATH = "src/test/resources/document.xml";
+    private static final String DOC_PATH = "src/test/resources/org/apache/commons/text/document.xml";
 
     @Test
     public void testBadXPath() {
