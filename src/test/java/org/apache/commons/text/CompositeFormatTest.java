@@ -28,7 +28,7 @@ import java.util.Locale;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link CompositeFormat}.
+ * Tests {@link CompositeFormat}.
  */
 public class CompositeFormatTest {
 

@@ -26,7 +26,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link EntityArrays}.
+ * Tests {@link EntityArrays}.
  */
 public class EntityArraysTest  {
 

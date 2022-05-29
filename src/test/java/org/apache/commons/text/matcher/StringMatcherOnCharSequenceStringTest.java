@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link StringMatcher}.
+ * Tests {@link StringMatcher}.
  */
 public class StringMatcherOnCharSequenceStringTest {
 

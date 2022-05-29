@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link IntersectionSimilarity}.
+ * Tests {@link IntersectionSimilarity}.
  */
 public class IntersectionSimilarityTest {
     private static <T> void assertIntersection(final IntersectionSimilarity<T> similarity, final CharSequence cs1, final CharSequence cs2, final int sizeA,

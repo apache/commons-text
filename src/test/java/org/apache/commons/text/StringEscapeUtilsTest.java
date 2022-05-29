@@ -37,7 +37,7 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link StringEscapeUtils}.
+ * Tests {@link StringEscapeUtils}.
  *
  * <p>
  * This code has been adapted from Apache Commons Lang 3.5.

@@ -47,7 +47,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link TextStringBuilder}.
+ * Tests {@link TextStringBuilder}.
  */
 public class TextStringBuilderTest {
 

@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link UnicodeEscaper}.
+ * Tests {@link UnicodeEscaper}.
  */
 public class UnicodeUnescaperTest {
 

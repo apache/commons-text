@@ -26,7 +26,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link AggregateTranslator}.
+ * Tests {@link AggregateTranslator}.
  */
 public class AggregateTranslatorTest {
 

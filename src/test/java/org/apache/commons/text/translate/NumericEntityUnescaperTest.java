@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link NumericEntityUnescaper}.
+ * Tests {@link NumericEntityUnescaper}.
  */
 public class NumericEntityUnescaperTest  {
 

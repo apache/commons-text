@@ -29,7 +29,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link LookupTranslator}.
+ * Tests {@link LookupTranslator}.
  */
 public class LookupTranslatorTest  {
 

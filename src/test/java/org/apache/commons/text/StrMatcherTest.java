@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link StrMatcher}.
+ * Tests {@link StrMatcher}.
  *
  * @deprecated This class will be removed in 2.0.
  */

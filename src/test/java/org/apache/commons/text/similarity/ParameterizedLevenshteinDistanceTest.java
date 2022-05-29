@@ -25,7 +25,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Unit tests for {@link LevenshteinDistance}.
+ * Tests {@link LevenshteinDistance}.
  */
 public class ParameterizedLevenshteinDistanceTest {
 

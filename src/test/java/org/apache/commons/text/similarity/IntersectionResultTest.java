@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link IntersectionResult}.
+ * Tests {@link IntersectionResult}.
  */
 public class IntersectionResultTest {
     @Test

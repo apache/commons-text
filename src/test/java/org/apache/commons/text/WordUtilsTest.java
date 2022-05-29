@@ -27,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link WordUtils} class.
+ * Tests {@link WordUtils} class.
  */
 public class WordUtilsTest {
 

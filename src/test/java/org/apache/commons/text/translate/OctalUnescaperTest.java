@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link OctalUnescaper}.
+ * Tests {@link OctalUnescaper}.
  */
 public class OctalUnescaperTest {
 

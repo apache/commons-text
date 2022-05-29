@@ -30,7 +30,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link AlphabetConverter}.
+ * Tests {@link AlphabetConverter}.
  */
 public class AlphabetConverterTest {
 

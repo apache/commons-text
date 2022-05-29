@@ -37,7 +37,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link TextStringBuilder}.
+ * Tests {@link TextStringBuilder}.
  */
 public class TextStringBuilderAppendInsertTest {
 

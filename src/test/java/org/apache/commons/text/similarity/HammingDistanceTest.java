@@ -23,7 +23,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link HammingDistance}.
+ * Tests {@link HammingDistance}.
  */
 public class HammingDistanceTest {
 

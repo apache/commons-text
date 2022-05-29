@@ -24,7 +24,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link UnicodeUnpairedSurrogateRemover}.
+ * Tests {@link UnicodeUnpairedSurrogateRemover}.
  */
 public class UnicodeUnpairedSurrogateRemoverTest {
     final UnicodeUnpairedSurrogateRemover subject = new UnicodeUnpairedSurrogateRemover();

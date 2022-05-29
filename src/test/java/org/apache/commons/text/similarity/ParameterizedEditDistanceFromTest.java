@@ -26,7 +26,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 
 /**
- * Unit tests for {@link EditDistanceFrom}.
+ * Tests {@link EditDistanceFrom}.
  *
  * @param <R> The {@link EditDistance} return type.
  */

@@ -25,7 +25,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Unit tests for {@link SimilarityScoreFrom}.
+ * Tests {@link SimilarityScoreFrom}.
  *
  * @param <R> The {@link SimilarityScore} return type.
  */

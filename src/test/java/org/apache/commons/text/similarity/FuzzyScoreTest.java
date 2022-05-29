@@ -24,7 +24,7 @@ import java.util.Locale;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link FuzzyScore}.
+ * Tests {@link FuzzyScore}.
  */
 public class FuzzyScoreTest {
 

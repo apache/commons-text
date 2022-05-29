@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link EditDistanceFrom}.
+ * Tests {@link EditDistanceFrom}.
  */
 public class StringMetricFromTest {
 

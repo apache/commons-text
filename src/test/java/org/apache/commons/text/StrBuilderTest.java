@@ -42,7 +42,7 @@ import java.nio.charset.Charset;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link StrBuilder}.
+ * Tests {@link StrBuilder}.
  *
  * @deprecated This class will be removed in 2.0.
  */
