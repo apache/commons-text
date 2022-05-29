@@ -40,6 +40,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Locale;
 
+import org.apache.commons.io.output.NullAppendable;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.matcher.StringMatcher;
@@ -203,26 +204,7 @@ public class TextStringBuilderTest {
         final TextStringBuilder sb = new TextStringBuilder("1234567890");
         final StringWriter writer = new StringWriter();
         writer.append("Test");
-
-        // TODO Use Commons IO NullAppendable.INSTANCE
-        sb.appendTo(new Appendable() {
-
-            @Override
-            public Appendable append(final char c) throws IOException {
-                return this;
-            }
-
-            @Override
-            public Appendable append(final CharSequence csq) throws IOException {
-                return this;
-            }
-
-            @Override
-            public Appendable append(final CharSequence csq, final int start, final int end) throws IOException {
-                return this;
-            }
-        });
-
+        sb.appendTo(NullAppendable.INSTANCE);
         assertEquals("Test", writer.toString());
     }
 
