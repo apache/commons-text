@@ -187,7 +187,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
         if (objectsA instanceof Set && objectsB instanceof Set) {
             // If a Set then the elements will only have a count of 1.
             // Iterate over the smaller set.
-            intersection = (sizeA < sizeB)
+            intersection = sizeA < sizeB
                     ? getIntersection((Set<T>) objectsA, (Set<T>) objectsB)
                     : getIntersection((Set<T>) objectsB, (Set<T>) objectsA);
         } else  {
@@ -195,7 +195,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
             final TinyBag bagA = toBag(objectsA);
             final TinyBag bagB = toBag(objectsB);
             // Iterate over the smaller number of unique elements
-            intersection = (bagA.uniqueElementSize() < bagB.uniqueElementSize())
+            intersection = bagA.uniqueElementSize() < bagB.uniqueElementSize()
                     ? getIntersection(bagA, bagB)
                     : getIntersection(bagB, bagA);
         }

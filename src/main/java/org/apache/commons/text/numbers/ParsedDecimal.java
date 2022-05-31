@@ -219,7 +219,7 @@ final class ParsedDecimal {
 
         int exp = 0;
         for (; i < chars.length; ++i) {
-            exp = (exp * DECIMAL_RADIX) + digitValue(chars[i]);
+            exp = exp * DECIMAL_RADIX + digitValue(chars[i]);
         }
 
         return neg ? -exp : exp;
@@ -515,7 +515,7 @@ final class ParsedDecimal {
      * @return {@code true} if a grouping separator should be added
      */
     private boolean requiresGroupingSeparatorAfterPosition(final int pos) {
-        return pos > 1 && (pos % THOUSANDS_GROUP_SIZE) == 1;
+        return pos > 1 && pos % THOUSANDS_GROUP_SIZE == 1;
     }
 
     /**
@@ -621,8 +621,8 @@ final class ParsedDecimal {
         //      and the last digit is odd (half-even rounding).
         final int digitAfterLast = digits[count];
 
-        return digitAfterLast > ROUND_CENTER || (digitAfterLast == ROUND_CENTER
-                && (count < digitCount - 1 || (digits[count - 1] % 2) != 0));
+        return digitAfterLast > ROUND_CENTER || digitAfterLast == ROUND_CENTER
+                && (count < digitCount - 1 || digits[count - 1] % 2 != 0);
     }
 
     /**

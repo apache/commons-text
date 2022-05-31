@@ -100,8 +100,8 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
             // handling insert and delete cases.
             deleted = false;
             added = false;
-            if (data - 1 == dataAtLeft && (data <= dataAtDiagonal && data <= dataAtTop)
-                    || (dataAtDiagonal == -1 && dataAtTop == -1)) { // NOPMD
+            if (data - 1 == dataAtLeft && data <= dataAtDiagonal && data <= dataAtTop
+                    || dataAtDiagonal == -1 && dataAtTop == -1) { // NOPMD
                 columnIndex--;
                 if (swapped) {
                     addCount++;
@@ -110,8 +110,8 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
                     delCount++;
                     deleted = true;
                 }
-            } else if (data - 1 == dataAtTop && (data <= dataAtDiagonal && data <= dataAtLeft)
-                    || (dataAtDiagonal == -1 && dataAtLeft == -1)) { // NOPMD
+            } else if (data - 1 == dataAtTop && data <= dataAtDiagonal && data <= dataAtLeft
+                    || dataAtDiagonal == -1 && dataAtLeft == -1) { // NOPMD
                 rowIndex--;
                 if (swapped) {
                     delCount++;

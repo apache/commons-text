@@ -380,7 +380,7 @@ public class WordUtils {
         for (int i = 0; i < strLen;) {
             final int codePoint = str.codePointAt(i);
 
-            if (delimiterSet.contains(codePoint) || (delimiters == null && Character.isWhitespace(codePoint))) {
+            if (delimiterSet.contains(codePoint) || delimiters == null && Character.isWhitespace(codePoint)) {
                 lastWasGap = true;
             } else if (lastWasGap) {
                 newCodePoints[count++] = codePoint;

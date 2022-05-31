@@ -149,7 +149,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
 
     // An auxiliary method for CharSequence reversal
     private static String reverse(final CharSequence s) {
-        return (new StringBuilder(s)).reverse().toString();
+        return new StringBuilder(s).reverse().toString();
     }
 
     /**
