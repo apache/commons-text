@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text.lookup;
 
+import java.util.stream.Stream;
+
 /**
  * An enumeration defining {@link StringLookup} objects available through {@link StringLookupFactory}.
  * <p>
@@ -114,6 +116,14 @@ public enum DefaultStringLookup {
      * The lookup for URL decoding using the key {@value StringLookupFactory#KEY_XML}.
      */
     XML(StringLookupFactory.KEY_XML, StringLookupFactory.INSTANCE.xmlStringLookup());
+
+    /**
+     * Prints out to the console the mapping from enum keys to enum name.
+     * @param args ignored.
+     */
+    public static void main(String[] args) {
+        Stream.of(values()).forEach(e -> System.out.println(e.getKey() + "=" + e.name()));
+    }
 
     /** The prefix under which the associated lookup object is registered. */
     private final String key;

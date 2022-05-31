@@ -17,9 +17,14 @@
 
 package org.apache.commons.text.lookup;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Properties;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -177,6 +182,16 @@ import org.apache.commons.text.StringSubstitutor;
  * @since 1.3
  */
 public final class StringLookupFactory {
+
+    /**
+     * Default properties file classpath location.
+     */
+    private static final String DEFAULT_RESOURCE = "org/apache/commons/text/lookup/defaults.properties";
+
+    /**
+     * Default mapping.
+     */
+    private static final Properties DEFAULTS = loadProperties();
 
     /**
      * Defines the singleton for this class.
@@ -391,6 +406,16 @@ public final class StringLookupFactory {
         ConstantStringLookup.clear();
     }
 
+    private static Properties loadProperties() {
+        final Properties properties = new Properties();
+        try (InputStream inputStream = ClassLoader.getSystemResourceAsStream(DEFAULT_RESOURCE)) {
+            properties.load(inputStream);
+        } catch (final IOException e) {
+            throw new UncheckedIOException(e);
+        }
+        return properties;
+    }
+
     /**
      * No need to build instances for now.
      */
@@ -399,19 +424,17 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Adds the {@link StringLookupFactory default lookups}.
+     * Adds the {@link StringLookupFactory default lookups} as defined in {@value #DEFAULT_RESOURCE}.
      *
-     * @param stringLookupMap the map of string lookups.
+     * @param stringLookupMap the map of string lookups to edit.
      * @since 1.5
      */
     public void addDefaultStringLookups(final Map<String, StringLookup> stringLookupMap) {
         if (stringLookupMap != null) {
-            // "base64" is deprecated in favor of KEY_BASE64_DECODER.
-            stringLookupMap.put("base64", StringLookupFactory.INSTANCE_BASE64_DECODER);
-            for (final DefaultStringLookup stringLookup : DefaultStringLookup.values()) {
-                stringLookupMap.put(InterpolatorStringLookup.toKey(stringLookup.getKey()),
-                    stringLookup.getStringLookup());
-            }
+            DEFAULTS.forEach((k, v) -> {
+                final DefaultStringLookup stringLookup = DefaultStringLookup.valueOf(Objects.toString(v));
+                stringLookupMap.put(InterpolatorStringLookup.toKey(Objects.toString(k)), stringLookup.getStringLookup());
+            });
         }
     }
 
