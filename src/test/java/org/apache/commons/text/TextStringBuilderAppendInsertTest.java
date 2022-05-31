@@ -80,7 +80,7 @@ public class TextStringBuilderAppendInsertTest {
 
     @Test
     public void testAppend_CharArray_int_int() {
-        TextStringBuilder sb0 = new TextStringBuilder();
+        final TextStringBuilder sb0 = new TextStringBuilder();
         sb0.setNullText("NULL").append((char[]) null, 0, 1);
         assertThat(sb0.toString()).isEqualTo("NULL");
 
@@ -200,7 +200,7 @@ public class TextStringBuilderAppendInsertTest {
 
     @Test
     public void testAppend_String_int_int() {
-        TextStringBuilder sb0 = new TextStringBuilder();
+        final TextStringBuilder sb0 = new TextStringBuilder();
         sb0.setNullText("NULL").append((String) null, 0, 1);
         assertThat(sb0.toString()).isEqualTo("NULL");
 
@@ -247,7 +247,7 @@ public class TextStringBuilderAppendInsertTest {
 
     @Test
     public void testAppend_StringBuffer_int_int() {
-        TextStringBuilder sb0 = new TextStringBuilder();
+        final TextStringBuilder sb0 = new TextStringBuilder();
         sb0.setNullText("NULL").append((StringBuffer) null, 0, 1);
         assertThat(sb0.toString()).isEqualTo("NULL");
 
@@ -298,7 +298,7 @@ public class TextStringBuilderAppendInsertTest {
 
     @Test
     public void testAppend_StringBuilder_int_int() {
-        TextStringBuilder sb0 = new TextStringBuilder();
+        final TextStringBuilder sb0 = new TextStringBuilder();
         sb0.setNullText("NULL").append((String) null, 0, 1);
         assertThat(sb0.toString()).isEqualTo("NULL");
 
@@ -353,7 +353,7 @@ public class TextStringBuilderAppendInsertTest {
 
     @Test
     public void testAppend_TextStringBuilder_int_int() {
-        TextStringBuilder sb0 = new TextStringBuilder();
+        final TextStringBuilder sb0 = new TextStringBuilder();
         sb0.setNullText("NULL").append((TextStringBuilder) null, 0, 1);
         assertThat(sb0.toString()).isEqualTo("NULL");
 
