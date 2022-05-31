@@ -237,7 +237,7 @@
          </dependency>
         </dependencies>
         <configuration>
-          <excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</excludeFilterFile>
+          <excludeFilterFile>src/conf/spotbugs-exclude-filter.xml</excludeFilterFile>
         </configuration>
       </plugin>
       <plugin>
