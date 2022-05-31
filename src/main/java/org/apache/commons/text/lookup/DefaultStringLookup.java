@@ -121,7 +121,7 @@ public enum DefaultStringLookup {
      * Prints out to the console the mapping from enum keys to enum name.
      * @param args ignored.
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         Stream.of(values()).forEach(e -> System.out.println(e.getKey() + "=" + e.name()));
     }
 
