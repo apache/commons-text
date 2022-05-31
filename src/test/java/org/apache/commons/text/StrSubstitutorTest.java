@@ -476,7 +476,7 @@ public class StrSubstitutorTest {
         final StrSubstitutor strSubstitutor =
                 new StrSubstitutor(strLookupMapStrLookup, strMatcher, strMatcher, 'b', strMatcher);
 
-        assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, (-1369)));
+        assertFalse(strSubstitutor.replaceIn((StringBuilder) null, 1315, -1369));
         assertEquals('b', strSubstitutor.getEscapeChar());
         assertFalse(strSubstitutor.isPreserveEscapes());
     }

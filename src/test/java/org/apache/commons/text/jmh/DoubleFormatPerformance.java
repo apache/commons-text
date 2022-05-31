@@ -102,11 +102,11 @@ public class DoubleFormatPerformance {
      */
     private static double randomDouble(final int minExp, final int maxExp, final UniformRandomProvider rng) {
         // Create random doubles using random bits in the sign bit and the mantissa.
-        final long mask = ((1L << 52) - 1) | 1L << 63;
+        final long mask = (1L << 52) - 1 | 1L << 63;
         final long bits = rng.nextLong() & mask;
         // The exponent must be unsigned so + 1023 to the signed exponent
         final long exp = rng.nextInt(maxExp - minExp + 1) + minExp + 1023;
-        return Double.longBitsToDouble(bits | (exp << 52));
+        return Double.longBitsToDouble(bits | exp << 52);
     }
 
     /** Create an array with the given length containing random doubles with exponents in the range

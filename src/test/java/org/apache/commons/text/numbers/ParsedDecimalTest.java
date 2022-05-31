@@ -202,10 +202,10 @@ class ParsedDecimalTest {
     }
 
     private static double createRandomDouble(final UniformRandomProvider rng) {
-        final long mask = ((1L << 52) - 1) | 1L << 63;
+        final long mask = (1L << 52) - 1 | 1L << 63;
         final long bits = rng.nextLong() & mask;
         final long exp = rng.nextInt(2045) + 1;
-        return Double.longBitsToDouble(bits | (exp << 52));
+        return Double.longBitsToDouble(bits | exp << 52);
     }
 
     /** Get the raw digits in the given decimal as a string.

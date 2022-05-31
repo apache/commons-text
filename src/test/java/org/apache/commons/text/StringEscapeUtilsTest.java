@@ -68,7 +68,7 @@ public class StringEscapeUtilsTest {
 
     private void assertEscapeJava(final String expected, final String original, String message) throws IOException {
         final String converted = StringEscapeUtils.escapeJava(original);
-        message = "escapeJava(String) failed" + (message == null ? "" : (": " + message));
+        message = "escapeJava(String) failed" + (message == null ? "" : ": " + message);
         assertEquals(expected, converted, message);
 
         final StringWriter writer = new StringWriter();
@@ -85,7 +85,7 @@ public class StringEscapeUtilsTest {
         final String actual = StringEscapeUtils.unescapeJava(original);
 
         assertEquals(unescaped, actual, "unescape(String) failed"
-                        + (message == null ? "" : (": " + message))
+                        + (message == null ? "" : ": " + message)
                         + ": expected '" + StringEscapeUtils.escapeJava(unescaped)
                         // we escape this so we can see it in the error message
                         + "' actual '" + StringEscapeUtils.escapeJava(actual) + "'");

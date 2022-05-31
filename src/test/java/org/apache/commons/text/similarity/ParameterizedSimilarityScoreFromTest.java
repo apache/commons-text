@@ -39,7 +39,7 @@ public class ParameterizedSimilarityScoreFromTest<R> {
 
                 Arguments.of(
                         (SimilarityScore<Boolean>) (left, right) -> left == right
-                                || (left != null && left.equals(right)),
+                                || left != null && left.equals(right),
                         "Bob's your uncle.",
                         "Every good boy does fine.",
                         false

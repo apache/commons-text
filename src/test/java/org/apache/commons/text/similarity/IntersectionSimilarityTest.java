@@ -58,7 +58,7 @@ public class IntersectionSimilarityTest {
             for (int i = 1; i < length; i++) {
                 final char ch1 = ch2;
                 ch2 = sequence.charAt(i);
-                list.add(Integer.valueOf((ch1 << 16) | ch2));
+                list.add(Integer.valueOf(ch1 << 16 | ch2));
             }
         }
         return list;
@@ -79,7 +79,7 @@ public class IntersectionSimilarityTest {
             for (int i = 1; i < length; i++) {
                 final char ch1 = ch2;
                 ch2 = sequence.charAt(i);
-                set.add(Integer.valueOf((ch1 << 16) | ch2));
+                set.add(Integer.valueOf(ch1 << 16 | ch2));
             }
         }
         return set;
@@ -165,7 +165,7 @@ public class IntersectionSimilarityTest {
                     for (int i = 1; i < word.length(); i++) {
                         final char ch1 = ch2;
                         ch2 = Character.toUpperCase(word.charAt(i));
-                        set.add(Integer.valueOf((ch1 << 16) | ch2));
+                        set.add(Integer.valueOf(ch1 << 16 | ch2));
                     }
                 }
             }

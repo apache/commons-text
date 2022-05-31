@@ -43,7 +43,7 @@ public class IntersectionResultTest {
             Assertions.assertNotEquals(results[i], something);
             Assertions.assertNotEquals(null, results[i]);
             for (int j = 0; j < results.length; j++) {
-                Assertions.assertEquals(results[i].equals(results[j]), (i == j));
+                Assertions.assertEquals(results[i].equals(results[j]), i == j);
             }
         }
     }
