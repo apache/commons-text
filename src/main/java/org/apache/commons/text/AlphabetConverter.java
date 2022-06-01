@@ -327,7 +327,6 @@ public final class AlphabetConverter {
      * @param originals original values
      * @param doNotEncodeMap map of values that should not be encoded
      */
-    @SuppressWarnings("PMD")
     private void addSingleEncoding(final int level,
                                    final String currentEncoding,
                                    final Collection<Integer> encoding,
