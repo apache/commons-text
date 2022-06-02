@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
@@ -414,6 +415,18 @@ public final class StringLookupFactory {
             throw new UncheckedIOException(e);
         }
         return properties;
+    }
+
+    /**
+     * Returns the given map if the input is non-null or an empty immutable map if the input is null.
+     *
+     * @param <K> the class of the map keys
+     * @param <V> the class of the map values
+     * @param map The map to test
+     * @return the given map if the input is non-null or an empty immutable map if the input is null.
+     */
+    static <K, V> Map<K, V> toMap(final Map<K, V> map) {
+        return map == null ? Collections.emptyMap() : map;
     }
 
     /**

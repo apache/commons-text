@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text.lookup;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -88,7 +89,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * @param defaultMap the default map for string lookups.
      */
     <V> InterpolatorStringLookup(final Map<String, V> defaultMap) {
-        this(StringLookupFactory.INSTANCE.mapStringLookup(defaultMap == null ? new HashMap<>() : defaultMap));
+        this(StringLookupFactory.INSTANCE.mapStringLookup(defaultMap));
     }
 
     /**
@@ -97,7 +98,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * @param defaultStringLookup the default lookup.
      */
     InterpolatorStringLookup(final StringLookup defaultStringLookup) {
-        this(new HashMap<>(), defaultStringLookup, true);
+        this(Collections.emptyMap(), defaultStringLookup, true);
     }
 
     /**

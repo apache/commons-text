@@ -16,7 +16,6 @@
  */
 package org.apache.commons.text.lookup;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -49,7 +48,7 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
      * @return a new instance backed by the given map.
      */
     static <V> FunctionStringLookup<V> on(final Map<String, V> map) {
-        return on((map == null ? Collections.<String, V>emptyMap() : map)::get);
+        return on(StringLookupFactory.toMap(map)::get);
     }
 
     /**
