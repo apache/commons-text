@@ -16,7 +16,9 @@
  */
 package org.apache.commons.text;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import org.apache.commons.text.lookup.StringLookup;
@@ -60,7 +62,7 @@ public abstract class StrLookup<V> implements StringLookup {
          * @param map the map of keys to values, may be null
          */
         MapStrLookup(final Map<String, V> map) {
-            this.map = map;
+            this.map = map != null ? map : Collections.emptyMap();
         }
 
         /**
@@ -74,14 +76,7 @@ public abstract class StrLookup<V> implements StringLookup {
          */
         @Override
         public String lookup(final String key) {
-            if (map == null) {
-                return null;
-            }
-            final Object obj = map.get(key);
-            if (obj == null) {
-                return null;
-            }
-            return obj.toString();
+            return Objects.toString(map.get(key), null);
         }
 
         @Override
