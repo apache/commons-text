@@ -134,8 +134,8 @@ public abstract class StrLookup<V> implements StringLookup {
             if (!key.isEmpty()) {
                 try {
                     return System.getProperty(key);
-                } catch (final SecurityException scex) {
-                    // Squelched. All lookup(String) will return null.
+                } catch (final SecurityException ignored) {
+                    // Noop: All lookup(String) will return null.
                 }
             }
             return null;
