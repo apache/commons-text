@@ -878,6 +878,9 @@ public class TextStringBuilderTest {
         sb.append("HelloWorld");
         sb.ensureCapacity(40);
         assertTrue(sb.capacity() >= 40);
+        
+        sb.ensureCapacity(Integer.MAX_VALUE / 2);
+        assertTrue(sb.capacity() >= Integer.MAX_VALUE / 2);
     }
 
     @Test
