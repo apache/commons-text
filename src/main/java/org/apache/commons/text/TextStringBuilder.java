@@ -1835,7 +1835,12 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder ensureCapacity(final int capacity) {
         if (capacity > buffer.length) {
-            reallocate(capacity * 2);
+            final int MAX_CAPACITY = (Integer.MAX_VALUE - 8) / 2;
+            int newCapacity = capacity;
+            if (newCapacity > MAX_CAPACITY) {
+                newCapacity = MAX_CAPACITY;
+            }
+            reallocate(newCapacity * 2);
         }
         return this;
     }
