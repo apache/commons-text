@@ -41,11 +41,11 @@ public class AggregateTranslatorTest {
         final AggregateTranslator subject = new AggregateTranslator(translator1, translator2);
         final StringWriter out1 = new StringWriter();
         final int result1 = subject.translate(new StringBuffer("one"), 0, out1);
-        assertThat(result1).as("Incorrect codepoint consumption").isEqualTo(3);
+        assertThat(result1).as("Incorrect code point consumption").isEqualTo(3);
         assertThat(out1.toString()).as("Incorrect value").isEqualTo("two");
         final StringWriter out2 = new StringWriter();
         final int result2 = subject.translate(new StringBuffer("three"), 0, out2);
-        assertThat(result2).as("Incorrect codepoint consumption").isEqualTo(5);
+        assertThat(result2).as("Incorrect code point consumption").isEqualTo(5);
         assertThat(out2.toString()).as("Incorrect value").isEqualTo("four");
     }
 

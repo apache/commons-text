@@ -26,7 +26,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * Translates XML numeric entities of the form &amp;#[xX]?\d+;? to
- * the specific codepoint.
+ * the specific code point.
  *
  * Note that the semicolon is optional.
  *

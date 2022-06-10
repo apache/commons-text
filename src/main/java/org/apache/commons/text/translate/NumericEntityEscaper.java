@@ -22,7 +22,7 @@ import java.io.Writer;
 import org.apache.commons.lang3.Range;
 
 /**
- * Translates codepoints to their XML numeric entity escaped value.
+ * Translates code points to their XML numeric entity escaped value.
  *
  * @since 1.0
  */
@@ -31,49 +31,49 @@ public class NumericEntityEscaper extends CodePointTranslator {
     /**
      * Constructs a {@code NumericEntityEscaper} above the specified value (exclusive).
      *
-     * @param codepoint above which to escape
+     * @param codePoint above which to escape
      * @return The newly created {@code NumericEntityEscaper} instance
      */
-    public static NumericEntityEscaper above(final int codepoint) {
-        return outsideOf(0, codepoint);
+    public static NumericEntityEscaper above(final int codePoint) {
+        return outsideOf(0, codePoint);
     }
 
     /**
      * Constructs a {@code NumericEntityEscaper} below the specified value (exclusive).
      *
-     * @param codepoint below which to escape
+     * @param codePoint below which to escape
      * @return The newly created {@code NumericEntityEscaper} instance
      */
-    public static NumericEntityEscaper below(final int codepoint) {
-        return outsideOf(codepoint, Integer.MAX_VALUE);
+    public static NumericEntityEscaper below(final int codePoint) {
+        return outsideOf(codePoint, Integer.MAX_VALUE);
     }
 
     /**
      * Constructs a {@code NumericEntityEscaper} between the specified values (inclusive).
      *
-     * @param codepointLow above which to escape
-     * @param codepointHigh below which to escape
+     * @param codePointLow above which to escape
+     * @param codePointHigh below which to escape
      * @return The newly created {@code NumericEntityEscaper} instance
      */
-    public static NumericEntityEscaper between(final int codepointLow, final int codepointHigh) {
-        return new NumericEntityEscaper(codepointLow, codepointHigh, true);
+    public static NumericEntityEscaper between(final int codePointLow, final int codePointHigh) {
+        return new NumericEntityEscaper(codePointLow, codePointHigh, true);
     }
 
     /**
      * Constructs a {@code NumericEntityEscaper} outside of the specified values (exclusive).
      *
-     * @param codepointLow below which to escape
-     * @param codepointHigh above which to escape
+     * @param codePointLow below which to escape
+     * @param codePointHigh above which to escape
      * @return The newly created {@code NumericEntityEscaper} instance
      */
-    public static NumericEntityEscaper outsideOf(final int codepointLow, final int codepointHigh) {
-        return new NumericEntityEscaper(codepointLow, codepointHigh, false);
+    public static NumericEntityEscaper outsideOf(final int codePointLow, final int codePointHigh) {
+        return new NumericEntityEscaper(codePointLow, codePointHigh, false);
     }
 
     /** whether to escape between the boundaries or outside them. */
     private final boolean between;
 
-    /** range from lowest codepoint to highest codepoint. */
+    /** range from lowest code point to highest code point. */
     private final Range<Integer> range;
 
     /**
@@ -89,8 +89,8 @@ public class NumericEntityEscaper extends CodePointTranslator {
      * and {@code above} boundaries are inclusive when {@code between} is
      * {@code true} and exclusive when it is {@code false}.
      *
-     * @param below int value representing the lowest codepoint boundary
-     * @param above int value representing the highest codepoint boundary
+     * @param below int value representing the lowest code point boundary
+     * @param above int value representing the highest code point boundary
      * @param between whether to escape between the boundaries or outside them
      */
     private NumericEntityEscaper(final int below, final int above, final boolean between) {
@@ -102,12 +102,12 @@ public class NumericEntityEscaper extends CodePointTranslator {
      * {@inheritDoc}
      */
     @Override
-    public boolean translate(final int codepoint, final Writer writer) throws IOException {
-        if (this.between != this.range.contains(codepoint)) {
+    public boolean translate(final int codePoint, final Writer writer) throws IOException {
+        if (this.between != this.range.contains(codePoint)) {
             return false;
         }
         writer.write("&#");
-        writer.write(Integer.toString(codepoint, 10));
+        writer.write(Integer.toString(codePoint, 10));
         writer.write(';');
         return true;
     }

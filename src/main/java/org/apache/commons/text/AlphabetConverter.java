@@ -119,9 +119,9 @@ public final class AlphabetConverter {
      * <p>Duplicate letters in either original or encoding will be ignored.</p>
      *
      * @param original an array of ints representing the original alphabet in
-     *                 codepoints
+     *                 code points
      * @param encoding an array of ints representing the alphabet to be used for
-     *                 encoding, in codepoints
+     *                 encoding, in code points
      * @param doNotEncode an array of ints representing the chars to be encoded
      *                    using the original alphabet - every char
      *                    here must appear in both the previous params
@@ -438,14 +438,14 @@ public final class AlphabetConverter {
         final StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < original.length();) {
-            final int codepoint = original.codePointAt(i);
+            final int codePoint = original.codePointAt(i);
 
-            final String nextLetter = originalToEncoded.get(codepoint);
+            final String nextLetter = originalToEncoded.get(codePoint);
 
             if (nextLetter == null) {
                 throw new UnsupportedEncodingException(
                         "Couldn't find encoding for '"
-                                + codePointToString(codepoint)
+                                + codePointToString(codePoint)
                                 + "' in "
                                 + original
                 );
@@ -453,7 +453,7 @@ public final class AlphabetConverter {
 
             sb.append(nextLetter);
 
-            i += Character.charCount(codepoint);
+            i += Character.charCount(codePoint);
         }
 
         return sb.toString();

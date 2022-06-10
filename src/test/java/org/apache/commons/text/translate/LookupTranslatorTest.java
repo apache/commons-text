@@ -40,7 +40,7 @@ public class LookupTranslatorTest  {
         final LookupTranslator lt = new LookupTranslator(translatorMap);
         final StringWriter out = new StringWriter();
         final int result = lt.translate("one", 0, out);
-        assertThat(result).as("Incorrect codepoint consumption").isEqualTo(3);
+        assertThat(result).as("Incorrect code point consumption").isEqualTo(3);
         assertThat(out.toString()).as("Incorrect value").isEqualTo("two");
     }
 
@@ -57,7 +57,7 @@ public class LookupTranslatorTest  {
         final LookupTranslator lt = new LookupTranslator(translatorMap);
         final StringWriter out = new StringWriter();
         final int result = lt.translate(new StringBuffer("one"), 0, out);
-        assertThat(result).as("Incorrect codepoint consumption").isEqualTo(3);
+        assertThat(result).as("Incorrect code point consumption").isEqualTo(3);
         assertThat(out.toString()).as("Incorrect value").isEqualTo("two");
     }
 
