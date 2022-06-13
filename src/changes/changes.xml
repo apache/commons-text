@@ -66,8 +66,9 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="fix" dev="ggregory" due-to="CodeQL, Gary Gregory">StrBuilder.StrBuilderReader.skip(long): Throw an exception when an implicit narrowing conversion in a compound assignment would result in information loss or a numeric error such as an overflows.</action>
     <action                  type="fix" dev="ggregory" due-to="CodeQL, Gary Gregory">TextStringBuilder.TextStringBuilderReader.skip(long): Throw an exception when an implicit narrowing conversion in a compound assignment would result in information loss or a numeric error such as an overflows.</action>
     <action issue="TEXT-211" type="fix" dev="ggregory" due-to="sebx59">TextStringBuilder.equals whatever the capacity is #281.</action>
-    <action issue="TEXT=212" type="fix" dev="kinow" due-to="Ali Ghanbari">A More Efficient Implementation for Calculating Size of Longest Common Subsequence</action>
-    <action issue="TEXT-209" type="fix" dev="kinow" due-to="fourAjeff">LookupTranslator returns count of chars consumed, not of codepoints consumed</action>
+    <action issue="TEXT=212" type="fix" dev="kinow" due-to="Ali Ghanbari">A More Efficient Implementation for Calculating Size of Longest Common Subsequence.</action>
+    <action issue="TEXT-209" type="fix" dev="kinow" due-to="fourAjeff">LookupTranslator returns count of chars consumed, not of codepoints consumed.</action>
+    <action issue="TEXT-209" type="fix" dev="ggregory" due-to="Arturo Bernal">Use Math.min() call instead of doing it manually. #335.</action>
     <!-- ADD -->
     <action issue="TEXT-207" type="add" dev="mattjuntunen">Add DoubleFormat utility.</action>
     <action issue="TEXT-190" type="add" dev="kinow" due-to="Benjamin Bing">Document negative limit for WordUtils abbreviate method</action>
