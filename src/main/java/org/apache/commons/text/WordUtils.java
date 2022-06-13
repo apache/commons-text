@@ -104,11 +104,7 @@ public class WordUtils {
                 result.append(StringUtils.defaultString(appendToEnd));
             }
         } else {
-            if (index > upper) {
-                result.append(str, 0, upper);
-            } else {
-                result.append(str, 0, index);
-            }
+            result.append(str, 0, Math.min(index, upper));
             result.append(StringUtils.defaultString(appendToEnd));
         }
 
