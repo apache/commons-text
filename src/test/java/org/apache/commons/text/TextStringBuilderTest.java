@@ -887,7 +887,9 @@ public class TextStringBuilderTest {
         sb.ensureCapacity(Integer.MIN_VALUE);
         sb.ensureCapacity(-1);
         sb.ensureCapacity(0);
-        sb.ensureCapacity(Integer.MAX_VALUE / 2);
+        // Might fail in a CI:
+        // sb.ensureCapacity(Integer.MAX_VALUE / 2);
+        sb.ensureCapacity(10_000);
         assertThrows(OutOfMemoryError.class, () -> sb.ensureCapacity(Integer.MAX_VALUE));
     }
 
