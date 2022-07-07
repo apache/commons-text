@@ -781,9 +781,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder appendAll(final Iterable<?> iterable) {
         if (iterable != null) {
-            for (final Object o : iterable) {
-                append(o);
-            }
+            iterable.forEach(this::append);
         }
         return this;
     }
@@ -797,9 +795,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder appendAll(final Iterator<?> it) {
         if (it != null) {
-            while (it.hasNext()) {
-                append(it.next());
-            }
+            it.forEachRemaining(this::append);
         }
         return this;
     }
