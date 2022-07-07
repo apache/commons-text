@@ -325,7 +325,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     private int size;
 
     /**
-     * Constructs an empty builder initial capacity 32 characters.
+     * Constructs an empty builder with an initial capacity of 32 characters.
      */
     public TextStringBuilder() {
         this(CAPACITY);
@@ -1834,8 +1834,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder ensureCapacity(final int capacity) {
-        if (capacity > buffer.length) {
-            reallocate(capacity * 2);
+        // checks for overflow
+        if (capacity > 0 && capacity - buffer.length > 0) {
+            reallocate(capacity);
         }
         return this;
     }

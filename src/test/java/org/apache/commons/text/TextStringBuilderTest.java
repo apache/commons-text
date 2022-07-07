@@ -881,6 +881,17 @@ public class TextStringBuilderTest {
     }
 
     @Test
+    public void testEnsureCapacityOutOfMemoryError() {
+        final TextStringBuilder sb = new TextStringBuilder();
+        // Should not be a NegativeArraySizeException
+        sb.ensureCapacity(Integer.MIN_VALUE);
+        sb.ensureCapacity(-1);
+        sb.ensureCapacity(0);
+        sb.ensureCapacity(Integer.MAX_VALUE / 2);
+        assertThrows(OutOfMemoryError.class, () -> sb.ensureCapacity(Integer.MAX_VALUE));
+    }
+
+    @Test
     public void testEquals() {
         final TextStringBuilder sb1 = new TextStringBuilder(50);
         final TextStringBuilder sb2 = new TextStringBuilder(100);
