@@ -52,8 +52,6 @@ public class CosineDistanceTest {
         return new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
-    // --- Utility methods
-
     /**
      * Tests the cosine distance with several inputs.
      */

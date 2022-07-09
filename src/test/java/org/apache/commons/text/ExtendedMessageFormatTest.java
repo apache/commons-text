@@ -60,7 +60,6 @@ public class ExtendedMessageFormatTest {
         }
     }
 
-    // ------------------------ Test Format Factories ---------------
     /**
      * {@link FormatFactory} implementation for lower case format.
      */
@@ -498,8 +497,6 @@ public class ExtendedMessageFormatTest {
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionThree() {
         assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("9jLh_D9{ ", new HashMap<String, FormatFactory>()));
     }
-
-    // ------------------------ Test Formats ------------------------
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionTwo() {
