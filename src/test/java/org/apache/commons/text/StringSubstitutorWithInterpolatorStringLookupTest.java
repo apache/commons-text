@@ -24,6 +24,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.text.lookup.DefaultStringLookup;
 import org.apache.commons.text.lookup.StringLookup;
 import org.apache.commons.text.lookup.StringLookupFactory;
 import org.junit.jupiter.api.Assertions;
@@ -91,26 +92,20 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         // Used to cut and paste into the docs.
         // @formatter:off
         final StringSubstitutor interpolator = StringSubstitutor.createInterpolator();
-        interpolator.setEnableSubstitutionInVariables(true); // Allows for nested $'s.
         final String text = interpolator.replace(
                 "Base64 Decoder:        ${base64Decoder:SGVsbG9Xb3JsZCE=}\n"
               + "Base64 Encoder:        ${base64Encoder:HelloWorld!}\n"
               + "Java Constant:         ${const:java.awt.event.KeyEvent.VK_ESCAPE}\n"
               + "Date:                  ${date:yyyy-MM-dd}\n"
-              + "DNS:                   ${dns:address|apache.org}\n"
               + "Environment Variable:  ${env:USERNAME}\n"
               + "File Content:          ${file:UTF-8:src/test/resources/org/apache/commons/text/document.properties}\n"
               + "Java:                  ${java:version}\n"
               + "Localhost:             ${localhost:canonical-name}\n"
               + "Properties File:       ${properties:src/test/resources/org/apache/commons/text/document.properties::mykey}\n"
               + "Resource Bundle:       ${resourceBundle:org.apache.commons.text.example.testResourceBundleLookup:mykey}\n"
-              + "Script:                ${script:javascript:3 + 4}\n"
               + "System Property:       ${sys:user.dir}\n"
               + "URL Decoder:           ${urlDecoder:Hello%20World%21}\n"
               + "URL Encoder:           ${urlEncoder:Hello World!}\n"
-              + "URL Content (HTTP):    ${url:UTF-8:http://www.apache.org}\n"
-              + "URL Content (HTTPS):   ${url:UTF-8:https://www.apache.org}\n"
-              + "URL Content (File):    ${url:UTF-8:file:///${sys:user.dir}/src/test/resources/org/apache/commons/text/document.properties}\n"
               + "XML XPath:             ${xml:src/test/resources/org/apache/commons/text/document.xml:/root/path/to/node}\n"
         );
         // @formatter:on
@@ -121,7 +116,6 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         Assertions.assertFalse(text.contains("${urlDecoder:Hello%20World%21}"));
         Assertions.assertFalse(text.contains("${urlEncoder:Hello World!}"));
         Assertions.assertFalse(text.contains("${resourceBundle:org.apache.commons.text.example.testResourceBundleLookup:mykey}"));
-        // System.out.println(text);
     }
     @Test
     public void testDefaultValueForMissingKeyInResourceBundle() {
@@ -135,7 +129,8 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
 
     @Test
     public void testDnsLookup() throws UnknownHostException {
-        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final StringSubstitutor strSubst =
+                new StringSubstitutor(createInterpolatorWithLookups(DefaultStringLookup.DNS));
         final String hostName = InetAddress.getLocalHost().getHostName();
         Assertions.assertEquals(InetAddress.getByName(hostName).getHostAddress(),
             strSubst.replace("${dns:" + hostName + "}"));
@@ -143,14 +138,16 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
 
     @Test
     public void testDnsLookupAddress() throws UnknownHostException {
-        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final StringSubstitutor strSubst =
+                new StringSubstitutor(createInterpolatorWithLookups(DefaultStringLookup.DNS));
         Assertions.assertEquals(InetAddress.getByName("apache.org").getHostAddress(),
             strSubst.replace("${dns:address|apache.org}"));
     }
 
     @Test
     public void testDnsLookupCanonicalName() throws UnknownHostException {
-        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final StringSubstitutor strSubst =
+                new StringSubstitutor(createInterpolatorWithLookups(DefaultStringLookup.DNS));
         final String address = InetAddress.getLocalHost().getHostAddress();
         final InetAddress inetAddress = InetAddress.getByName(address);
         Assertions.assertEquals(inetAddress.getCanonicalHostName(),
@@ -159,7 +156,8 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
 
     @Test
     public void testDnsLookupName() throws UnknownHostException {
-        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final StringSubstitutor strSubst =
+                new StringSubstitutor(createInterpolatorWithLookups(DefaultStringLookup.DNS));
         final String address = InetAddress.getLocalHost().getHostAddress();
         final InetAddress inetAddress = InetAddress.getByName(address);
         Assertions.assertEquals(inetAddress.getHostName(), strSubst.replace("${dns:name|" + address + "}"));
@@ -167,7 +165,8 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
 
     @Test
     public void testDnsLookupNameUntrimmed() throws UnknownHostException {
-        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final StringSubstitutor strSubst =
+                new StringSubstitutor(createInterpolatorWithLookups(DefaultStringLookup.DNS));
         final String address = InetAddress.getLocalHost().getHostAddress();
         final InetAddress inetAddress = InetAddress.getByName(address);
         Assertions.assertEquals(inetAddress.getHostName(), strSubst.replace("${dns:name| " + address + " }"));
@@ -175,17 +174,34 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
 
     @Test
     public void testDnsLookupUnknown() {
-        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final StringSubstitutor strSubst =
+                new StringSubstitutor(createInterpolatorWithLookups(DefaultStringLookup.DNS));
         final String unknown = "${dns: u n k n o w n}";
         Assertions.assertEquals(unknown, strSubst.replace(unknown));
     }
 
     @Test
+    public void testDnsLookup_disabledByDefault() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final String hostName = InetAddress.getLocalHost().getHostName();
+        final String input = "${dns:" + hostName + "}";
+        Assertions.assertEquals(input, strSubst.replace(input));
+    }
+
+    @Test
     public void testJavaScript() {
-        Assertions.assertEquals("Hello World!",
-                StringSubstitutor.createInterpolator().replace("${script:javascript:\"Hello World!\"}"));
-        Assertions.assertEquals("7",
-                StringSubstitutor.createInterpolator().replace("${script:javascript:3 + 4}"));
+        final StringSubstitutor strSubst =
+                new StringSubstitutor(createInterpolatorWithLookups(DefaultStringLookup.SCRIPT));
+
+        Assertions.assertEquals("Hello World!", strSubst.replace("${script:javascript:\"Hello World!\"}"));
+        Assertions.assertEquals("7", strSubst.replace("${script:javascript:3 + 4}"));
+    }
+
+    @Test
+    public void testJavaScript_disabledByDefault() {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+
+        Assertions.assertEquals("${script:javascript:3 + 4}", strSubst.replace("${script:javascript:3 + 4}"));
     }
 
     @Test
@@ -236,4 +252,12 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
     }
 
+    private static StringLookup createInterpolatorWithLookups(final DefaultStringLookup... lookups) {
+        final Map<String, StringLookup> lookupMap = new HashMap<>();
+        for (final DefaultStringLookup lookup : lookups) {
+            lookupMap.put(lookup.getKey().toLowerCase(), lookup.getStringLookup());
+        }
+
+        return StringLookupFactory.INSTANCE.interpolatorStringLookup(lookupMap, null, false);
+    }
 }

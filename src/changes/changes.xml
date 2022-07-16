@@ -78,6 +78,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-185" type="add" dev="ggregory" due-to="Larry West, Gary Gregory">Release Notes page hasn't been updated for 1.9 release yet.</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StrBuilder.isNotEmpty().</action>
     <!-- UPDATE -->
+    <action                  type="update" dev="mattjuntunen">Make default string lookups configurable via system property. Remove dns, url, and script lookups from defaults. If these lookups are required for use in StringSubstitutor.createInterpolator(), they must be enabled via system property. See StringLookupFactory for details.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/setup-java from v1.4.0 to 3 #147, #156, #155, #172, #215, #314.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/checkout from v1 to 3 #138, #146, #165, #183, #274, #279, #304.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/cache from v2 to v3.0.5 #205, #217, #234, #339.</action>
