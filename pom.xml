@@ -57,7 +57,12 @@
 
     <commons.mockito.version>4.6.1</commons.mockito.version>
     <commons.jacoco.version>0.8.8</commons.jacoco.version>
-    <commons.javadoc.version>3.4.0</commons.javadoc.version>
+
+    <!-- apache-rat-plugin 0.13 and jdepend-maven-plugin 2.0 both fail with LinkageError when generating reports 
+    with maven site plugin 3.11+. However, javadoc 3.4.0+ fails with site plugin versions lower than 3.11. So, we'll 
+    use slightly older site and javadoc versions here in order to be able to generate all reports. -->
+    <commons.site-plugin.version>3.10.0</commons.site-plugin.version>
+    <commons.javadoc.version>3.3.2</commons.javadoc.version> 
 
     <!-- 22.1.0 requires Java 11 -->
     <graalvm.version>22.0.0.2</graalvm.version>
@@ -294,10 +299,10 @@
         <version>${checkstyle.plugin.version}</version>
         <configuration>
           <enableRulesSummary>false</enableRulesSummary>
-          <configLocation>${basedir}/checkstyle.xml</configLocation>
-          <headerLocation>${basedir}/checkstyle-header.txt</headerLocation>
-          <suppressionsLocation>${basedir}/checkstyle-suppressions.xml</suppressionsLocation>
-          <suppressionsFileExpression>${basedir}/checkstyle-suppressions.xml</suppressionsFileExpression>
+          <configLocation>src/conf/checkstyle.xml</configLocation>
+          <headerLocation>src/conf/checkstyle-header.txt</headerLocation>
+          <suppressionsLocation>src/conf/checkstyle-suppressions.xml</suppressionsLocation>
+          <suppressionsFileExpression>src/conf/checkstyle-suppressions.xml</suppressionsFileExpression>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
           <excludes>**/generated/**.java,**/jmh_generated/**.java</excludes>
         </configuration>
@@ -315,7 +320,7 @@
         <artifactId>spotbugs-maven-plugin</artifactId>
         <version>${commons.spotbugs.plugin.version}</version>
         <configuration>
-          <excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</excludeFilterFile>
+          <excludeFilterFile>src/conf/spotbugs-exclude-filter.xml</excludeFilterFile>
         </configuration>
       </plugin>
       <plugin>
@@ -510,7 +515,7 @@
                 </goals>
                 <phase>pre-site</phase>
                 <configuration>
-                  <tasks>
+                  <target>
                     <exec executable="svn">
                       <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}"/>
                     </exec>
@@ -523,7 +528,7 @@
                     <exec executable="svn">
                       <arg line="update --set-depth infinity ${dirs}"/>
                     </exec>
-                  </tasks>
+                  </target>
                 </configuration>
               </execution>
             </executions>
