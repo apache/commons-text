@@ -86,7 +86,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump spotbugs-maven-plugin from 4.0.0 to 4.7.1.0, #144, #150, #167, #176, #194, #210, #223, #250, #268, #273, #277, #278, #286, #293, #303, #320, #325, #338.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump spotbugs from 4.1.3 to 4.7.1 #175, 189, #209, #218, #247, #256, #264, #275, #284, #289, #296, #306.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump mockito-inline from 3.4.4 to 4.6.1, #143, #148, #149, #152, #153, #154, #158, #159, #166, #177, #180, #187, #195, #197, #207, #216, #231, #236, #237, #243, #258, #259, #260, #261, #272, #285, #291, #305, #317, #330, #331.</action>
-    <action                  type="update" dev="kinow" due-to="Dependabot">Bump junit-jupiter from 5.6.2 to 5.8.2 #163, #204, #232, #265, #269, #288.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump junit-jupiter from 5.6.2 to 5.9.0 #163, #204, #232, #265, #269, #288, #343.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot, Gary Gregory">Bump assertj-core from 3.16.1 to 3.23.1 #151, #157, #160, #178, #184, #199, #244, #267, #294.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot, Gary Gregory">Bump commons-io from 2.7 to 2.11.0 #161 #251.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot, Gary Gregory">Bump commons-parent from 51 to 53 #145.</action>
