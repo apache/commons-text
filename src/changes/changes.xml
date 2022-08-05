@@ -78,9 +78,9 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-185" type="add" dev="ggregory" due-to="Larry West, Gary Gregory">Release Notes page hasn't been updated for 1.9 release yet.</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StrBuilder.isNotEmpty().</action>
     <!-- UPDATE -->
-    <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/setup-java from v1.4.0 to 3 #147, #156, #155, #172, #215, #314.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/cache from v2 to v3.0.6 #205, #217, #234, #339.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/checkout from v1 to 3 #138, #146, #165, #183, #274, #279, #304.</action>
-    <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/cache from v2 to v3.0.5 #205, #217, #234, #339.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/setup-java from v1.4.0 to 3 #147, #156, #155, #172, #215, #314.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump github/codeql-action from 1 to 2 #319.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump checkstyle from 8.34 to 9.3, #141, #168, #182, #188, #193, #201, #208, #211, #228, #235, #245, #253, #255, #262, #270, #280, #287, #299, #315, #321.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump spotbugs-maven-plugin from 4.0.0 to 4.7.1.1, #144, #150, #167, #176, #194, #210, #223, #250, #268, #273, #277, #278, #286, #293, #303, #320, #325, #338, #344.</action>
