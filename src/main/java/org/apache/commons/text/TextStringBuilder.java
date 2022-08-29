@@ -68,7 +68,7 @@ import org.apache.commons.text.matcher.StringMatcher;
  * </p>
  * <p>
  * This class is called {@code TextStringBuilder} instead of {@code StringBuilder} to avoid clashing with
- * {@link java.lang.StringBuilder}.
+ * {@link StringBuilder}.
  * </p>
  *
  * @since 1.3
