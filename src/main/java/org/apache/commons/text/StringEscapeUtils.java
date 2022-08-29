@@ -664,7 +664,7 @@ public class StringEscapeUtils {
      *
      * @param input  the {@code String} to escape, may be null
      * @return a new escaped {@code String}, {@code null} if null string input
-     * @see #unescapeXml(java.lang.String)
+     * @see #unescapeXml(String)
      */
     public static String escapeXml10(final String input) {
         return ESCAPE_XML10.translate(input);
@@ -693,7 +693,7 @@ public class StringEscapeUtils {
      *
      * @param input  the {@code String} to escape, may be null
      * @return a new escaped {@code String}, {@code null} if null string input
-     * @see #unescapeXml(java.lang.String)
+     * @see #unescapeXml(String)
      */
     public static String escapeXml11(final String input) {
         return ESCAPE_XML11.translate(input);
