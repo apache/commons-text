@@ -44,7 +44,7 @@ Apache Commons Text
 ===================
 
 [![Build Status](https://travis-ci.org/apache/commons-text.svg)](https://travis-ci.org/apache/commons-text)
-[![Coverage Status](https://coveralls.io/repos/apache/commons-text/badge.svg)](https://coveralls.io/r/apache/commons-text)
+[![Coverage Status](https://codecov.io/gh/apache/commons-text/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-text)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/)
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-text/1.9.svg)](https://javadoc.io/doc/org.apache.commons/commons-text/1.9)
 [![CodeQL](https://github.com/apache/commons-text/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-text/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
