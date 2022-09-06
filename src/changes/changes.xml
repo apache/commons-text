@@ -79,7 +79,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StrBuilder.isNotEmpty().</action>
     <!-- UPDATE -->
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/cache from v2 to v3.0.8 #205, #217, #234, #339.</action>
-    <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/checkout from v1 to 3 #138, #146, #165, #183, #274, #279, #304.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot, Gary Gregory">Bump actions/checkout from 1 to 3.0.2 #138, #146, #165, #183, #274, #279, #304.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/setup-java from v1.4.0 to 3 #147, #156, #155, #172, #215, #314.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump github/codeql-action from 1 to 2 #319.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump checkstyle from 8.34 to 9.3, #141, #168, #182, #188, #193, #201, #208, #211, #228, #235, #245, #253, #255, #262, #270, #280, #287, #299, #315, #321.</action>
