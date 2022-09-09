@@ -50,7 +50,7 @@
     <checkstyle.plugin.version>3.2.0</checkstyle.plugin.version>
     <checkstyle.version>9.3</checkstyle.version>
 
-    <commons.spotbugs.plugin.version>4.7.1.1</commons.spotbugs.plugin.version>
+    <commons.spotbugs.plugin.version>4.7.2.0</commons.spotbugs.plugin.version>
     <commons.spotbugs.impl.version>4.7.1</commons.spotbugs.impl.version>
     <commons.pmd.version>3.19.0</commons.pmd.version>
     <commons.pmd-impl.version>6.49.0</commons.pmd-impl.version>
