@@ -31,7 +31,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.matcher.StringMatcher;
 
 /**
- * Builds a string from constituent parts providing a more flexible and powerful API than StringBuffer.
+ * Builds a string from constituent parts providing a more flexible and powerful API than {@link StringBuffer} and
+ * {@link StringBuilder}.
  * <p>
  * The main differences from StringBuffer/StringBuilder are:
  * </p>
