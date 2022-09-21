@@ -29,8 +29,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Builds a string from constituent parts providing a more flexible and powerful API
- * than StringBuffer.
+ * Builds a string from constituent parts providing a more flexible and powerful API than {@link StringBuffer} and
+ * {@link StringBuilder}.
  * <p>
  * The main differences from StringBuffer/StringBuilder are:
  * </p>
@@ -39,32 +39,31 @@ import org.apache.commons.lang3.StringUtils;
  * <li>Not final</li>
  * <li>Subclasses have direct access to character array</li>
  * <li>Additional methods
- *  <ul>
- *   <li>appendWithSeparators - adds an array of values, with a separator</li>
- *   <li>appendPadding - adds a length padding characters</li>
- *   <li>appendFixedLength - adds a fixed width field to the builder</li>
- *   <li>toCharArray/getChars - simpler ways to get a range of the character array</li>
- *   <li>delete - delete char or string</li>
- *   <li>replace - search and replace for a char or string</li>
- *   <li>leftString/rightString/midString - substring without exceptions</li>
- *   <li>contains - whether the builder contains a char or string</li>
- *   <li>size/clear/isEmpty - collections style API methods</li>
- *  </ul>
+ * <ul>
+ * <li>appendWithSeparators - adds an array of values, with a separator</li>
+ * <li>appendPadding - adds a length padding characters</li>
+ * <li>appendFixedLength - adds a fixed width field to the builder</li>
+ * <li>toCharArray/getChars - simpler ways to get a range of the character array</li>
+ * <li>delete - delete char or string</li>
+ * <li>replace - search and replace for a char or string</li>
+ * <li>leftString/rightString/midString - substring without exceptions</li>
+ * <li>contains - whether the builder contains a char or string</li>
+ * <li>size/clear/isEmpty - collections style API methods</li>
+ * </ul>
  * </li>
  * <li>Views
- *  <ul>
- *   <li>asTokenizer - uses the internal buffer as the source of a StrTokenizer</li>
- *   <li>asReader - uses the internal buffer as the source of a Reader</li>
- *   <li>asWriter - allows a Writer to write directly to the internal buffer</li>
- *  </ul>
+ * <ul>
+ * <li>asTokenizer - uses the internal buffer as the source of a StrTokenizer</li>
+ * <li>asReader - uses the internal buffer as the source of a Reader</li>
+ * <li>asWriter - allows a Writer to write directly to the internal buffer</li>
+ * </ul>
  * </li>
  * </ul>
  * <p>
- * The aim has been to provide an API that mimics very closely what StringBuffer
- * provides, but with additional methods. It should be noted that some edge cases,
- * with invalid indices or null input, have been altered - see individual methods.
- * The biggest of these changes is that by default, null will not output the text
- * 'null'. This can be controlled by a property, {@link #setNullText(String)}.
+ * The aim has been to provide an API that mimics very closely what StringBuffer provides, but with additional methods.
+ * It should be noted that some edge cases, with invalid indices or null input, have been altered - see individual
+ * methods. The biggest of these changes is that by default, null will not output the text 'null'. This can be
+ * controlled by a property, {@link #setNullText(String)}.
  * </p>
  *
  * @since 1.0

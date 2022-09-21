@@ -44,9 +44,11 @@ Apache Commons Text
 ===================
 
 [![Build Status](https://travis-ci.org/apache/commons-text.svg)](https://travis-ci.org/apache/commons-text)
-[![Coverage Status](https://coveralls.io/repos/apache/commons-text/badge.svg)](https://coveralls.io/r/apache/commons-text)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/)
+[![Coverage Status](https://codecov.io/gh/apache/commons-text/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-text/branch/master)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/?gav=true)
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-text/1.9.svg)](https://javadoc.io/doc/org.apache.commons/commons-text/1.9)
+[![CodeQL](https://github.com/apache/commons-text/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-text/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/apache/commons-text/badge)](https://api.securityscorecards.dev/projects/github.com/apache/commons-text)
 
 Apache Commons Text is a library focused on algorithms working on strings.
 
@@ -79,7 +81,7 @@ There are some guidelines which will make applying PRs easier for us:
 + No tabs! Please use spaces for indentation.
 + Respect the code style.
 + Create minimal diffs - disable on save actions like reformat source code or organize imports. If you feel the source code should be reformatted create a separate PR for this change.
-+ Provide JUnit tests for your changes and make sure your changes don't break any existing tests by running ```mvn clean test```.
++ Provide JUnit tests for your changes and make sure your changes don't break any existing tests by running ```mvn```.
 
 If you plan to contribute on a regular basis, please consider filing a [contributor license agreement](https://www.apache.org/licenses/#clas).
 You can learn more about contributing via GitHub in our [contribution guidelines](CONTRIBUTING.md).
