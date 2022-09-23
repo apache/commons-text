@@ -547,16 +547,6 @@
       </properties>
     </profile>
     <profile>
-      <id>java13+</id>
-      <activation>
-        <jdk>[13,)</jdk>
-      </activation>
-      <properties>
-        <!-- jacoco does not work with java 13 yet -->
-        <jacoco.skip>true</jacoco.skip>
-      </properties>
-    </profile>
-    <profile>
       <id>java16-ea</id>
       <!-- bytebuddy Java 16 support is experimental (Mockito uses bytebuddy) -->
       <activation>
