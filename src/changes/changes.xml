@@ -71,6 +71,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-209" type="fix" dev="ggregory" due-to="Arturo Bernal">Use Math.min() call instead of doing it manually. #335.</action>
     <action                  type="fix" dev="ggregory" due-to="ValentijnvdBeek, Gary Gregory">TextStringBuilder: Throw OutOfMemoryError instead of NegativeArraySizeException.</action>
     <action                  type="fix" dev="ggregory" due-to="ValentijnvdBeek, Gary Gregory">TextStringBuilder: Can't grow to sizes up to Integer.MAX_VALUE.</action>
+    <action                  type="fix" dev="mattjuntunen">Make default string lookups configurable via system property. Remove dns, url, and script lookups from defaults. If these lookups are required for use in StringSubstitutor.createInterpolator(), they must be enabled via system property. See StringLookupFactory for details.</action>
     <!-- ADD -->
     <action issue="TEXT-207" type="add" dev="mattjuntunen">Add DoubleFormat utility.</action>
     <action issue="TEXT-190" type="add" dev="kinow" due-to="Benjamin Bing">Document negative limit for WordUtils abbreviate method</action>
@@ -78,8 +79,6 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-185" type="add" dev="ggregory" due-to="Larry West, Gary Gregory">Release Notes page hasn't been updated for 1.9 release yet.</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StrBuilder.isNotEmpty().</action>
     <!-- UPDATE -->
-    <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/cache from v2 to v3.0.8 #205, #217, #234, #339.</action>
-    <action                  type="update" dev="kinow" due-to="Dependabot, Gary Gregory">Bump actions/checkout from 1 to 3.0.2 #138, #146, #165, #183, #274, #279, #304.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/setup-java from v1.4.0 to 3 #147, #156, #155, #172, #215, #314.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump github/codeql-action from 1 to 2 #319.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump checkstyle from 8.34 to 9.3, #141, #168, #182, #188, #193, #201, #208, #211, #228, #235, #245, #253, #255, #262, #270, #280, #287, #299, #315, #321.</action>

@@ -18,7 +18,6 @@ package org.apache.commons.text.lookup;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -39,10 +38,6 @@ class InterpolatorStringLookup extends AbstractStringLookup {
 
     /** Constant for the prefix separator. */
     private static final char PREFIX_SEPARATOR = ':';
-
-    static String toKey(final String key) {
-        return key.toLowerCase(Locale.ROOT);
-    }
 
     /** The default string lookup. */
     private final StringLookup defaultStringLookup;
@@ -72,7 +67,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
         this.defaultStringLookup = defaultStringLookup;
         this.stringLookupMap = new HashMap<>(stringLookupMap.size());
         for (final Entry<String, StringLookup> entry : stringLookupMap.entrySet()) {
-            this.stringLookupMap.put(toKey(entry.getKey()), entry.getValue());
+            this.stringLookupMap.put(StringLookupFactory.toKey(entry.getKey()), entry.getValue());
         }
         if (addDefaultLookups) {
             StringLookupFactory.INSTANCE.addDefaultStringLookups(this.stringLookupMap);
@@ -127,7 +122,7 @@ class InterpolatorStringLookup extends AbstractStringLookup {
 
         final int prefixPos = key.indexOf(PREFIX_SEPARATOR);
         if (prefixPos >= 0) {
-            final String prefix = toKey(key.substring(0, prefixPos));
+            final String prefix = StringLookupFactory.toKey(key.substring(0, prefixPos));
             final String name = key.substring(prefixPos + 1);
             final StringLookup lookup = stringLookupMap.get(prefix);
             String value = null;

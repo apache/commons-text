@@ -141,26 +141,28 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  *
  * <pre>
  * final StringSubstitutor interpolator = StringSubstitutor.createInterpolator();
- * interpolator.setEnableSubstitutionInVariables(true); // Allows for nested $'s.
- * final String text = interpolator.replace("Base64 Decoder:        ${base64Decoder:SGVsbG9Xb3JsZCE=}\n"
+ * final String text = interpolator.replace(
+ *       "Base64 Decoder:        ${base64Decoder:SGVsbG9Xb3JsZCE=}\n"
  *     + "Base64 Encoder:        ${base64Encoder:HelloWorld!}\n"
  *     + "Java Constant:         ${const:java.awt.event.KeyEvent.VK_ESCAPE}\n"
- *     + "Date:                  ${date:yyyy-MM-dd}\n" + "DNS:                   ${dns:address|apache.org}\n"
+ *     + "Date:                  ${date:yyyy-MM-dd}\n"
  *     + "Environment Variable:  ${env:USERNAME}\n"
  *     + "File Content:          ${file:UTF-8:src/test/resources/document.properties}\n"
- *     + "Java:                  ${java:version}\n" + "Localhost:             ${localhost:canonical-name}\n"
+ *     + "Java:                  ${java:version}\n"
+ *     + "Localhost:             ${localhost:canonical-name}\n"
  *     + "Properties File:       ${properties:src/test/resources/document.properties::mykey}\n"
  *     + "Resource Bundle:       ${resourceBundle:org.apache.commons.text.example.testResourceBundleLookup:mykey}\n"
- *     + "Script:                ${script:javascript:3 + 4}\n" + "System Property:       ${sys:user.dir}\n"
+ *     + "System Property:       ${sys:user.dir}\n"
  *     + "URL Decoder:           ${urlDecoder:Hello%20World%21}\n"
  *     + "URL Encoder:           ${urlEncoder:Hello World!}\n"
- *     + "URL Content (HTTP):    ${url:UTF-8:http://www.apache.org}\n"
- *     + "URL Content (HTTPS):   ${url:UTF-8:https://www.apache.org}\n"
- *     + "URL Content (File):    ${url:UTF-8:file:///${sys:user.dir}/src/test/resources/document.properties}\n"
  *     + "XML XPath:             ${xml:src/test/resources/document.xml:/root/path/to/node}\n");
  * </pre>
  * <p>
- * For documentation of each lookup, see {@link StringLookupFactory}.
+ * For documentation and a full list of available lookups, see {@link StringLookupFactory}.
+ * </p>
+ * <p><strong>NOTE:</strong> The list of lookups available by default in {@link #createInterpolator()} changed
+ * in version {@code 1.10.0}. See the {@link StringLookupFactory} documentation for details and an explanation
+ * on how to reproduce the previous functionality.
  * </p>
  *
  * <h2>Using Recursive Variable Replacement</h2>
@@ -292,8 +294,80 @@ public class StringSubstitutor {
      *
      * <pre>
      * StringSubstitutor.createInterpolator().replace(
-     *   "OS name: ${sys:os.name}, " + "3 + 4 = ${script:javascript:3 + 4}");
+     *   "OS name: ${sys:os.name}, user: ${env:USER}");
      * </pre>
+     *
+     * <p>The table below lists the lookups available by default in the returned instance. These
+     * may be modified through the use of the {@value StringLookupFactory#DEFAULT_STRING_LOOKUPS_PROPERTY}
+     * system property, as described in the {@link StringLookupFactory} documentation.</p>
+     *
+     * <p><strong>NOTE:</strong> The list of lookups available by default changed in version {@code 1.10.0}.
+     * Configuration via system property (as mentioned above) may be necessary to reproduce previous functionality.
+     * </p>
+     *
+     * <table>
+     * <caption>Default Lookups</caption>
+     * <tr>
+     * <th>Key</th>
+     * <th>Lookup</th>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_BASE64_DECODER}</td>
+     * <td>{@link StringLookupFactory#base64DecoderStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_BASE64_ENCODER}</td>
+     * <td>{@link StringLookupFactory#base64EncoderStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_CONST}</td>
+     * <td>{@link StringLookupFactory#constantStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_DATE}</td>
+     * <td>{@link StringLookupFactory#dateStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_ENV}</td>
+     * <td>{@link StringLookupFactory#environmentVariableStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_FILE}</td>
+     * <td>{@link StringLookupFactory#fileStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_JAVA}</td>
+     * <td>{@link StringLookupFactory#javaPlatformStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_LOCALHOST}</td>
+     * <td>{@link StringLookupFactory#localHostStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_PROPERTIES}</td>
+     * <td>{@link StringLookupFactory#propertiesStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_RESOURCE_BUNDLE}</td>
+     * <td>{@link StringLookupFactory#resourceBundleStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_SYS}</td>
+     * <td>{@link StringLookupFactory#systemPropertyStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_URL_DECODER}</td>
+     * <td>{@link StringLookupFactory#urlDecoderStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_URL_ENCODER}</td>
+     * <td>{@link StringLookupFactory#urlEncoderStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value StringLookupFactory#KEY_XML}</td>
+     * <td>{@link StringLookupFactory#xmlStringLookup()}</td>
+     * </tr>
+     * </table>
      *
      * @return a new instance using the interpolator string lookup.
      * @see StringLookupFactory#interpolatorStringLookup()

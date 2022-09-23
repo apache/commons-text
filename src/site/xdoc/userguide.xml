@@ -105,7 +105,7 @@ limitations under the License.
       </ul>
       <p>
         The available substitutions are defined in 
-        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html">org.apache.commons.text.lookup.StringLookupFactory</a>:
+        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html">org.apache.commons.text.lookup.StringLookupFactory</a>.
       </p>
       </subsection>
 
@@ -181,36 +181,39 @@ limitations under the License.
     <section name="text.lookup">
       <p>Provides algorithms for looking up strings used by a 
         <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">StringSubstitutor</a>.
-        where you can select which lookup are used from 
-        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html">StringLookupFactory</a>.</p>
+        Standard lookups are defined in
+        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html">StringLookupFactory</a>
+        and the associated
+        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/DefaultStringLookup.html">DefaultStringLookup</a>
+        enum.
+        </p>
       <p>
-        The SS lets you build complex strings:
+        The example below demonstrates use of the default lookups for <code>StringSubstitutor</code> in order to
+        construct a complex string.
       </p>
-      <code>
+      <p><strong>NOTE:</strong> The list of lookups available by default changed in version 1.10.0. See the documentation for
+        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html">StringLookupFactory</a>
+        for details and instructions on how to reproduce the previous behavior.
+      </p>
+      <source>
 final StringSubstitutor interpolator = StringSubstitutor.createInterpolator();
-interpolator.setEnableSubstitutionInVariables(true); // Allows for nested $'s.
 final String text = interpolator.replace(
     "Base64 Decoder:        ${base64Decoder:SGVsbG9Xb3JsZCE=}\n" +
     "Base64 Encoder:        ${base64Encoder:HelloWorld!}\n" +
     "Java Constant:         ${const:java.awt.event.KeyEvent.VK_ESCAPE}\n" +
     "Date:                  ${date:yyyy-MM-dd}\n" +
-    "DNS:                   ${dns:address|apache.org}\n" +
     "Environment Variable:  ${env:USERNAME}\n" +
     "File Content:          ${file:UTF-8:src/test/resources/document.properties}\n" +
     "Java:                  ${java:version}\n" +
     "Localhost:             ${localhost:canonical-name}\n" +
     "Properties File:       ${properties:src/test/resources/document.properties::mykey}\n" +
     "Resource Bundle:       ${resourceBundle:org.apache.commons.text.example.testResourceBundleLookup:mykey}\n" +
-    "Script:                ${script:javascript:3 + 4}\n" +
     "System Property:       ${sys:user.dir}\n" +
     "URL Decoder:           ${urlDecoder:Hello%20World%21}\n" +
     "URL Encoder:           ${urlEncoder:Hello World!}\n" +
-    "URL Content (HTTP):    ${url:UTF-8:http://www.apache.org}\n" +
-    "URL Content (HTTPS):   ${url:UTF-8:https://www.apache.org}\n" +
-    "URL Content (File):    ${url:UTF-8:file:///${sys:user.dir}/src/test/resources/document.properties}\n" +
     "XML XPath:             ${xml:src/test/resources/document.xml:/root/path/to/node}\n"
 );
-      </code>
+      </source>
     </section>
 
     <section name="text.similarity">
