@@ -68,7 +68,7 @@
     <graalvm.version>22.0.0.2</graalvm.version>
     <commons.rng.version>1.4</commons.rng.version>
 
-    <commons.japicmp.version>0.15.7</commons.japicmp.version>
+    <commons.japicmp.version>0.16.0</commons.japicmp.version>
     <japicmp.skip>false</japicmp.skip>
 
     <jmh.version>1.35</jmh.version>
