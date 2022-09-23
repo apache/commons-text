@@ -15,7 +15,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.apache.commons</groupId>
@@ -164,19 +164,6 @@
             </excludes>
           </configuration>
         </plugin><!-- override skip property of parent pom -->
-        <plugin>
-          <groupId>com.github.siom79.japicmp</groupId>
-          <artifactId>japicmp-maven-plugin</artifactId>
-          <configuration>
-            <skip>false</skip>
-            <parameter>
-              <excludes>
-                <!-- Workaround for https://github.com/siom79/japicmp/issues/265 -->
-                <exclude>org.apache.commons.text.StringSubstitutor#substitute(org.apache.commons.text.TextStringBuilder,int,int,java.util.List)</exclude>
-              </excludes>
-            </parameter>
-          </configuration>
-        </plugin>
         <plugin>
           <artifactId>maven-pmd-plugin</artifactId>
           <version>${commons.pmd.version}</version>
@@ -475,7 +462,7 @@
   </contributors>
 
   <scm>
-    <connection>scm:git:http://gitbox.apache.org/repos/asf/commons-text</connection>
+    <connection>scm:git:https://gitbox.apache.org/repos/asf/commons-text</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-text</developerConnection>
     <url>https://gitbox.apache.org/repos/asf?p=commons-text.git</url>
   </scm>
