@@ -42,17 +42,10 @@ The <a href="scm.html">Git repository</a> can be
 </section>
 <!-- ================================================== -->
 <section name="Release Information">
-<p>The latest stable release of Text is 1.9.</p>
-<p>Download it from <a href="https://commons.apache.org/proper/commons-text/download_text.cgi">here</a>.</p>
 <p>
-Alternatively you can pull it from the central Maven repositories:
-<pre>
-&lt;dependency&gt;
-   &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
-   &lt;artifactId&gt;commons-text&lt;/artifactId&gt;
-   &lt;version&gt;1.9&lt;/version&gt;
-&lt;/dependency&gt;
-</pre>
+  Download the latest release from dependency-info.html</p>
+<p>
+  Alternatively, you can use a <a href="dependency-info.html">build tool dependency</a>.
 </p>
 
  <p>

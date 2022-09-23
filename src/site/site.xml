@@ -24,11 +24,12 @@
 
     <body>
         <menu name="Text">
-            <item name="Overview"                 href="/index.html"/>
-            <item name="Download"                 href="/download_text.cgi"/>
-            <item name="User Guide"               href="/userguide.html" />
-            <item name="Release History"          href="/changes-report.html"/>
-            <item name="Javadoc (Latest release)" href="javadocs/api-release/index.html"/>
+            <item name="Overview"             href="/index.html"/>
+            <item name="Download"             href="/download_text.cgi"/>
+            <item name="User Guide"           href="/userguide.html" />
+            <item name="Release History"      href="/changes-report.html"/>
+            <item name="Javadoc"              href="/apidocs/index.html"/>
+            <item name="Javadoc Archive"      href="https://javadoc.io/doc/org.apache.commons/commons-text"/>
         </menu>
 
         <menu name="Development">
@@ -37,7 +38,6 @@
             <item name="Proposal"             href="/proposal.html"/>
             <item name="Developer Guide"      href="/developerguide.html"/>
             <item name="Source Repository"    href="/scm.html"/>
-            <item name="Javadoc (latest)"     href="apidocs/index.html"/>
         </menu>
 
     </body>
