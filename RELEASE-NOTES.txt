@@ -1,4 +1,96 @@
 Apache Commons Text
+Version 1.10.0
+Release Notes
+
+INTRODUCTION:
+
+This document contains the release notes for the 1.10.0 version of Apache Commons Text.
+Commons Text is a set of utility functions and reusable components for the purpose of processing
+and manipulating text that should be of use in a Java environment.
+
+Apache Commons Text is a library focused on algorithms working on strings.
+
+Release 1.10.0. Requires Java 8.
+
+Changes in this version include:
+
+New features:
+o TEXT-207:  Add DoubleFormat utility.
+o TEXT-190:  Document negative limit for WordUtils abbreviate method Thanks to Benjamin Bing.
+o TEXT-188:  Speed up LevenshteinDistance with threshold by exiting early Thanks to Jakob Vesterstrøm.
+o TEXT-185:  Release Notes page hasn't been updated for 1.9 release yet. Thanks to Larry West, Gary Gregory.
+o            Add StrBuilder.isNotEmpty(). Thanks to Gary Gregory.
+
+Fixed Bugs:
+o TEXT-189:  Fix CaseUtils when the input string contains only delimiters Thanks to Gongpu Zhu.
+o TEXT-187:  Add GraalVM test dependencies to fix test failures with Java 15.
+o TEXT-158:  Incorrect values for Jaccard similarity with empty strings.
+o TEXT-186:  StringSubstitutor map constructor throws NPE on 1.9 with null map. Thanks to Gautam Korlam, Gary Gregory.
+o TEXT-191:  JaroWinklerDistance returns the same values as JaroWinklerSimilarity. Thanks to Bradley David Rumball.
+o            Correct Javadoc in FileStringLookup. Thanks to Gary Gregory.
+o            Minor Improvements #192, #196. Thanks to Arturo Bernal.
+o TEXT-194:  Use StringUtils.INDEX_NOT_FOUND constant. Thanks to Arturo Bernal.
+o TEXT-199:  Remove redundant local variable. Thanks to Arturo Bernal.
+o TEXT-198:  Replace lambda with method reference. Thanks to Arturo Bernal.
+o TEXT-200:  Simplify statements. Thanks to Arturo Bernal.
+o TEXT-197:  Replace statement lambda with expression lambda. Thanks to Arturo Bernal.
+o TEXT-204:  Use static class inner class in tests. Thanks to Arturo Bernal.
+o TEXT-201:  Simplify assertion. Thanks to Arturo Bernal.
+o TEXT-202:  Extract duplicate code. Thanks to Arturo Bernal.
+o TEXT-205:  Set void return method. Thanks to Arturo Bernal.
+o            Remove unused exception from TextStringBuilder.readFrom(CharBuffer). This preserves binary compatibility but not source compatibility. Thanks to Gary Gregory.
+o            StrBuilder.StrBuilderReader.skip(long): Throw an exception when an implicit narrowing conversion in a compound assignment would result in information loss or a numeric error such as an overflows. Thanks to CodeQL, Gary Gregory.
+o            TextStringBuilder.TextStringBuilderReader.skip(long): Throw an exception when an implicit narrowing conversion in a compound assignment would result in information loss or a numeric error such as an overflows. Thanks to CodeQL, Gary Gregory.
+o TEXT-211:  TextStringBuilder.equals whatever the capacity is #281. Thanks to sebx59.
+o TEXT=212:  A More Efficient Implementation for Calculating Size of Longest Common Subsequence. Thanks to Ali Ghanbari.
+o TEXT-209:  LookupTranslator returns count of chars consumed, not of codepoints consumed. Thanks to fourAjeff.
+o TEXT-209:  Use Math.min() call instead of doing it manually. #335. Thanks to Arturo Bernal.
+o            TextStringBuilder: Throw OutOfMemoryError instead of NegativeArraySizeException. Thanks to ValentijnvdBeek, Gary Gregory.
+o            TextStringBuilder: Can't grow to sizes up to Integer.MAX_VALUE. Thanks to ValentijnvdBeek, Gary Gregory.
+o            Make default string lookups configurable via system property. Remove dns, url, and script lookups from defaults. If these lookups are required for use in StringSubstitutor.createInterpolator(), they must be enabled via system property. See StringLookupFactory for details.
+
+Changes:
+o            Bump actions/setup-java from v1.4.0 to 3 #147, #156, #155, #172, #215, #314. Thanks to Dependabot.
+o            Bump github/codeql-action from 1 to 2 #319. Thanks to Dependabot.
+o            Bump checkstyle from 8.34 to 9.3, #141, #168, #182, #188, #193, #201, #208, #211, #228, #235, #245, #253, #255, #262, #270, #280, #287, #299, #315, #321. Thanks to Dependabot.
+o            Bump spotbugs-maven-plugin from 4.0.0 to 4.7.2.0, #144, #150, #167, #176, #194, #210, #223, #250, #268, #273, #277, #278, #286, #293, #303, #320, #325, #338, #344, #354. Thanks to Gary Gregory, Dependabot.
+o            Bump spotbugs from 4.1.3 to 4.7.2 #175, 189, #209, #218, #247, #256, #264, #275, #284, #289, #296, #306, #355. Thanks to Gary Gregory, Dependabot.
+o            Bump mockito-inline from 3.4.4 to 4.8.0, #143, #148, #149, #152, #153, #154, #158, #159, #166, #177, #180, #187, #195, #197, #207, #216, #231, #236, #237, #243, #258, #259, #260, #261, #272, #285, #291, #305, #317, #330, #331, #347, #352. Thanks to Dependabot.
+o            Bump junit-jupiter from 5.6.2 to 5.9.1 #163, #204, #232, #265, #269, #288, #343, #357. Thanks to Dependabot.
+o            Bump assertj-core from 3.16.1 to 3.23.1 #151, #157, #160, #178, #184, #199, #244, #267, #294. Thanks to Dependabot, Gary Gregory.
+o            Bump commons-io from 2.7 to 2.11.0 #161 #251. Thanks to Dependabot, Gary Gregory.
+o            Bump commons-parent from 51 to 54 #145, #358. Thanks to Dependabot, Gary Gregory.
+o            Bump maven-pmd-plugin from 3.13.0 to 3.19.0 #186, #263, #302, #334, #349, #353. Thanks to Dependabot.
+o            Bump pmd from 6.42.0 to 6.46.0. Thanks to Gary Gregory.
+o            Bump graalvm.version from 20.2.0 to 22.0.0.2 #185, #198, #206, #227, #252, #276, #295, #300. Thanks to Dependabot.
+o            Bump commons.japicmp.version from 0.14.3 to 0.16.0. Thanks to Gary Gregory.
+o            Bump commons.jacoco.version 0.8.5 to 0.8.8; fixes Java 15 build. Thanks to Gary Gregory.
+o            Bump maven-checkstyle-plugin from 3.1.1 to 3.2.0 #202, #348. Thanks to Dependabot.
+o            Bump commons-lang3 3.11 -> 3.12.0. Thanks to Gary Gregory.
+o            Bump commons.javadoc.version from 3.2.0 to 3.4.1. Thanks to Gary Gregory.
+o            Bump commons.project-info.version from 3.1.0 to 3.1.2. Thanks to Gary Gregory.
+o            Bump jmh.version from 1.32 to 1.35 #254, #292, #313. Thanks to Dependabot.
+o            Bump commons-rng-simple from 1.3 to 1.4 #266. Thanks to Dependabot.
+o            Bump taglist-maven-plugin from 2.4 to 3.0.0 #297. Thanks to Dependabot.
+o            Bump commons.pmd-impl.version from 6.44.0 to 6.49.0 #323, #336, #345, #350. Thanks to Dependabot.
+o            Bump exec-maven-plugin from 3.0.0 to 3.1.0 #340. Thanks to Dependabot.
+
+
+Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
+
+For complete information on Apache Commons Text, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons Text website:
+
+https://commons.apache.org/proper/commons-text
+
+Download page: https://commons.apache.org/proper/commons-text/download_text.cgi
+
+Have fun!
+-Apache Commons Team
+
+=============================================================================
+
+Apache Commons Text
 Version 1.9
 Release Notes
 
