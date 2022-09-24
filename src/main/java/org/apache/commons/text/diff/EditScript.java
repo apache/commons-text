@@ -127,9 +127,7 @@ public class EditScript<T> {
      * @param visitor  the visitor that will visit all commands in turn
      */
     public void visit(final CommandVisitor<T> visitor) {
-        for (final EditCommand<T> command : commands) {
-            command.accept(visitor);
-        }
+        commands.forEach(command -> command.accept(visitor));
     }
 
 }

@@ -33,7 +33,7 @@ import java.util.Map;
 final class Counter {
 
     /**
-     * It counts how many times each element provided occurred in an array and
+     * Counts how many times each element provided occurred in an array and
      * returns a dict with the element as key and the count as value.
      *
      * @param tokens array of tokens
@@ -42,12 +42,7 @@ final class Counter {
     public static Map<CharSequence, Integer> of(final CharSequence[] tokens) {
         final Map<CharSequence, Integer> innerCounter = new HashMap<>();
         for (final CharSequence token : tokens) {
-            if (innerCounter.containsKey(token)) {
-                int value = innerCounter.get(token);
-                innerCounter.put(token, ++value);
-            } else {
-                innerCounter.put(token, 1);
-            }
+            innerCounter.put(token, innerCounter.containsKey(token) ? innerCounter.get(token) + 1 : 1);
         }
         return innerCounter;
     }

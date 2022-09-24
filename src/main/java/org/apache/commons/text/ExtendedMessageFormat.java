@@ -289,12 +289,7 @@ public class ExtendedMessageFormat extends MessageFormat {
         if (coll == null || coll.isEmpty()) {
             return false;
         }
-        for (final Object name : coll) {
-            if (name != null) {
-                return true;
-            }
-        }
-        return false;
+        return coll.stream().anyMatch(Objects::nonNull);
     }
 
     /**

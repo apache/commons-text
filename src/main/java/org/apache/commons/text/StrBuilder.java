@@ -767,9 +767,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      */
     public StrBuilder appendAll(final Iterable<?> iterable) {
         if (iterable != null) {
-            for (final Object o : iterable) {
-                append(o);
-            }
+            iterable.forEach(this::append);
         }
         return this;
     }

@@ -19,6 +19,8 @@ package org.apache.commons.text.translate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 /**
  * Class holding various entity data for HTML and XML - generally for use with
@@ -442,11 +444,7 @@ public class EntityArrays {
      * @return Map&lt;String, String&gt; inverted array
      */
     public static Map<CharSequence, CharSequence> invert(final Map<CharSequence, CharSequence> map) {
-        final Map<CharSequence, CharSequence> newMap = new HashMap<>();
-        for (final Map.Entry<CharSequence, CharSequence> pair : map.entrySet()) {
-            newMap.put(pair.getValue(), pair.getKey());
-        }
-        return newMap;
+        return map.entrySet().stream().collect(Collectors.toMap(Entry::getValue, Entry::getKey));
     }
 
 }

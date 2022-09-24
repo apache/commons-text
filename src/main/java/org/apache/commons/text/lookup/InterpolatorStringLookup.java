@@ -17,9 +17,9 @@
 package org.apache.commons.text.lookup;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 /**
  * Proxies other {@link StringLookup}s using a keys within ${} markers using the format "${StringLookup:Key}".
@@ -63,12 +63,9 @@ class InterpolatorStringLookup extends AbstractStringLookup {
      * @param addDefaultLookups whether the default lookups should be used.
      */
     InterpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup,
-        final boolean addDefaultLookups) {
+            final boolean addDefaultLookups) {
         this.defaultStringLookup = defaultStringLookup;
-        this.stringLookupMap = new HashMap<>(stringLookupMap.size());
-        for (final Entry<String, StringLookup> entry : stringLookupMap.entrySet()) {
-            this.stringLookupMap.put(StringLookupFactory.toKey(entry.getKey()), entry.getValue());
-        }
+        this.stringLookupMap = stringLookupMap.entrySet().stream().collect(Collectors.toMap(e -> StringLookupFactory.toKey(e.getKey()), Entry::getValue));
         if (addDefaultLookups) {
             StringLookupFactory.INSTANCE.addDefaultStringLookups(this.stringLookupMap);
         }

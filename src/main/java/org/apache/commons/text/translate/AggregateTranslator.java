@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Executes a sequence of translators one after the other. Execution ends whenever
@@ -41,11 +43,7 @@ public class AggregateTranslator extends CharSequenceTranslator {
      */
     public AggregateTranslator(final CharSequenceTranslator... translators) {
         if (translators != null) {
-            for (final CharSequenceTranslator translator : translators) {
-                if (translator != null) {
-                    this.translators.add(translator);
-                }
-            }
+            Stream.of(translators).filter(Objects::nonNull).forEach(this.translators::add);
         }
     }
 

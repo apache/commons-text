@@ -36,12 +36,21 @@ import java.util.function.Function;
  * @see HashMap
  */
 public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionResult> {
+
     /**
      * Mutable counter class for storing the count of elements.
      */
-    private static class BagCount {
-        /** The count. This is initialized to 1 upon construction. */
-        int count = 1;
+    private static final class BagCount {
+
+        /** Private, mutable but must be used as immutable. */
+        private static final BagCount ZERO = new BagCount();
+
+        private BagCount() {
+            this.count = 0;
+        }
+
+        /** The count. */
+        int count;
     }
 
     // The following is adapted from commons-collections for a Bag.
@@ -73,12 +82,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
          * @param object the object to add
          */
         void add(final T object) {
-            final BagCount mut = map.get(object);
-            if (mut == null) {
-                map.put(object, new BagCount());
-            } else {
-                mut.count++;
-            }
+            map.computeIfAbsent(object, k -> new BagCount()).count++;
         }
 
         /**
@@ -98,11 +102,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
          * @return The number of occurrences of the object, zero if not found
          */
         int getCount(final Object object) {
-            final BagCount count = map.get(object);
-            if (count != null) {
-                return count.count;
-            }
-            return 0;
+            return map.getOrDefault(object, BagCount.ZERO).count;
         }
 
         /**
@@ -231,9 +231,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
      */
     private TinyBag toBag(final Collection<T> objects) {
         final TinyBag bag = new TinyBag(objects.size());
-        for (final T t : objects) {
-            bag.add(t);
-        }
+        objects.forEach(bag::add);
         return bag;
     }
 }

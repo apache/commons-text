@@ -264,16 +264,13 @@ public final class AlphabetConverter {
      * @return The reconstructed AlphabetConverter
      * @see AlphabetConverter#getOriginalToEncoded()
      */
-    public static AlphabetConverter createConverterFromMap(
-            final Map<Integer, String> originalToEncoded) {
-        final Map<Integer, String> unmodifiableOriginalToEncoded =
-                Collections.unmodifiableMap(originalToEncoded);
+    public static AlphabetConverter createConverterFromMap(final Map<Integer, String> originalToEncoded) {
+        final Map<Integer, String> unmodifiableOriginalToEncoded = Collections.unmodifiableMap(originalToEncoded);
         final Map<String, String> encodedToOriginal = new LinkedHashMap<>();
 
         int encodedLetterLength = 1;
 
-        for (final Entry<Integer, String> e
-                : unmodifiableOriginalToEncoded.entrySet()) {
+        for (final Entry<Integer, String> e : unmodifiableOriginalToEncoded.entrySet()) {
             final String originalAsString = codePointToString(e.getKey());
             encodedToOriginal.put(e.getValue(), originalAsString);
 
@@ -282,9 +279,7 @@ public final class AlphabetConverter {
             }
         }
 
-        return new AlphabetConverter(unmodifiableOriginalToEncoded,
-                encodedToOriginal,
-                encodedLetterLength);
+        return new AlphabetConverter(unmodifiableOriginalToEncoded, encodedToOriginal, encodedLetterLength);
     }
 
     /**
@@ -508,14 +503,14 @@ public final class AlphabetConverter {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-
-        for (final Entry<Integer, String> entry
-                : originalToEncoded.entrySet()) {
-            sb.append(codePointToString(entry.getKey()))
-                    .append(ARROW)
-                    .append(entry.getValue()).append(System.lineSeparator());
-        }
-
+        // @formatter:off
+        originalToEncoded.forEach((k, v) -> {
+            sb.append(codePointToString(k))
+              .append(ARROW)
+              .append(k)
+              .append(System.lineSeparator());
+        });
+        // @formatter:on
         return sb.toString();
     }
 }
