@@ -50,6 +50,7 @@ package org.apache.commons.text.similarity;
  * @since 1.0
  */
 public class LongestCommonSubsequence implements SimilarityScore<Integer> {
+
     /**
      * An implementation of "ALG B" from Hirschberg's CACM '71 paper.
      * Assuming the first input sequence is of size <code>m</code> and the second input sequence is of size
