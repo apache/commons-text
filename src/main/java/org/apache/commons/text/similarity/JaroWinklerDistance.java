@@ -43,59 +43,7 @@ public class JaroWinklerDistance implements EditDistance<Double> {
      */
     @Deprecated
     protected static int[] matches(final CharSequence first, final CharSequence second) {
-        final CharSequence max;
-        final CharSequence min;
-        if (first.length() > second.length()) {
-            max = first;
-            min = second;
-        } else {
-            max = second;
-            min = first;
-        }
-        final int range = Math.max(max.length() / 2 - 1, 0);
-        final int[] matchIndexes = new int[min.length()];
-        Arrays.fill(matchIndexes, -1);
-        final boolean[] matchFlags = new boolean[max.length()];
-        int matches = 0;
-        for (int mi = 0; mi < min.length(); mi++) {
-            final char c1 = min.charAt(mi);
-            for (int xi = Math.max(mi - range, 0), xn = Math.min(mi + range + 1, max.length()); xi < xn; xi++) {
-                if (!matchFlags[xi] && c1 == max.charAt(xi)) {
-                    matchIndexes[mi] = xi;
-                    matchFlags[xi] = true;
-                    matches++;
-                    break;
-                }
-            }
-        }
-        final char[] ms1 = new char[matches];
-        final char[] ms2 = new char[matches];
-        for (int i = 0, si = 0; i < min.length(); i++) {
-            if (matchIndexes[i] != -1) {
-                ms1[si] = min.charAt(i);
-                si++;
-            }
-        }
-        for (int i = 0, si = 0; i < max.length(); i++) {
-            if (matchFlags[i]) {
-                ms2[si] = max.charAt(i);
-                si++;
-            }
-        }
-        int halfTranspositions = 0;
-        for (int mi = 0; mi < ms1.length; mi++) {
-            if (ms1[mi] != ms2[mi]) {
-                halfTranspositions++;
-            }
-        }
-        int prefix = 0;
-        for (int mi = 0; mi < Math.min(4, min.length()); mi++) {
-            if (first.charAt(mi) != second.charAt(mi)) {
-                break;
-            }
-            prefix++;
-        }
-        return new int[] {matches, halfTranspositions, prefix};
+        return JaroWinklerSimilarity.matches(first, second);
     }
 
     /**
