@@ -32,7 +32,6 @@ public class JaroWinklerDistance implements EditDistance<Double> {
     @Deprecated
     public static final int INDEX_NOT_FOUND = -1;
 
-    // TODO: remove this method in 2.0, see TEXT-104
     /**
      * This method returns the Jaro-Winkler string matches, half transpositions, prefix array.
      *
@@ -40,7 +39,7 @@ public class JaroWinklerDistance implements EditDistance<Double> {
      * @param second the second string to be matched
      * @return mtp array containing: matches, half transpositions, and prefix
      * @deprecated Deprecated as of 1.7. This method will be removed in 2.0, and moved to a Jaro Winkler similarity
-     *             class.
+     *             class. TODO see TEXT-104.
      */
     @Deprecated
     protected static int[] matches(final CharSequence first, final CharSequence second) {
