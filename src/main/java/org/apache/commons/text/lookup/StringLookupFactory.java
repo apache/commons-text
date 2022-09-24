@@ -512,10 +512,9 @@ public final class StringLookupFactory {
      * in cases where the set of default lookups must be modified. (See the class documentation
      * for details.)
      *
-     * @since 1.10
+     * @since 1.10.0
      */
-    public static final String DEFAULT_STRING_LOOKUPS_PROPERTY =
-            "org.apache.commons.text.lookup.StringLookupFactory.defaultStringLookups";
+    public static final String DEFAULT_STRING_LOOKUPS_PROPERTY = "org.apache.commons.text.lookup.StringLookupFactory.defaultStringLookups";
 
     /**
      * Clears any static resources.

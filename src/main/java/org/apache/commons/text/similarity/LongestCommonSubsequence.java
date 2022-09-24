@@ -60,7 +60,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * @param left first input sequence.
      * @param right second input sequence.
      * @return last row of the dynamic-programming (DP) table for calculating the LCS of <code>left</code> and <code>right</code>
-     * @since 1.10
+     * @since 1.10.0
      */
     private static int[] algorithmB(final CharSequence left, final CharSequence right) {
         final int m = left.length();
@@ -102,7 +102,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * @param left first input sequence.
      * @param right second input sequence.
      * @return the LCS of <code>left</code> and <code>right</code>
-     * @since 1.10
+     * @since 1.10.0
      */
     private static String algorithmC(final CharSequence left, final CharSequence right) {
         final int m = left.length();

@@ -19,6 +19,6 @@
  * Provides algorithms for converting numbers to strings.
  * </p>
  *
- * @since 1.10
+ * @since 1.10.0
  */
 package org.apache.commons.text.numbers;
