@@ -45,12 +45,12 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
         /** Private, mutable but must be used as immutable. */
         private static final BagCount ZERO = new BagCount();
 
+        /** The count. */
+        int count;
+
         private BagCount() {
             this.count = 0;
         }
-
-        /** The count. */
-        int count;
     }
 
     // The following is adapted from commons-collections for a Bag.

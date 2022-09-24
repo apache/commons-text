@@ -32,6 +32,15 @@ import org.junit.jupiter.api.Test;
 
 public class StringSubstitutorWithInterpolatorStringLookupTest {
 
+    private static StringLookup createInterpolatorWithLookups(final DefaultStringLookup... lookups) {
+        final Map<String, StringLookup> lookupMap = new HashMap<>();
+        for (final DefaultStringLookup lookup : lookups) {
+            lookupMap.put(lookup.getKey().toLowerCase(), lookup.getStringLookup());
+        }
+
+        return StringLookupFactory.INSTANCE.interpolatorStringLookup(lookupMap, null, false);
+    }
+
     @Test
     public void testCustomFunctionWithDefaults() {
         testCustomFunctionWithDefaults(true);
@@ -86,7 +95,6 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
     public void testCustomMapWithoutDefaults() {
         testCustomMapWithDefaults(false);
     }
-
     @Test
     public void testDefaultInterpolator() {
         // Used to cut and paste into the docs.
@@ -117,6 +125,7 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         Assertions.assertFalse(text.contains("${urlEncoder:Hello World!}"));
         Assertions.assertFalse(text.contains("${resourceBundle:org.apache.commons.text.example.testResourceBundleLookup:mykey}"));
     }
+
     @Test
     public void testDefaultValueForMissingKeyInResourceBundle() {
         final StringLookup interpolatorStringLookup = StringLookupFactory.INSTANCE.interpolatorStringLookup(
@@ -134,6 +143,14 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         final String hostName = InetAddress.getLocalHost().getHostName();
         Assertions.assertEquals(InetAddress.getByName(hostName).getHostAddress(),
             strSubst.replace("${dns:" + hostName + "}"));
+    }
+
+    @Test
+    public void testDnsLookup_disabledByDefault() throws UnknownHostException {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        final String hostName = InetAddress.getLocalHost().getHostName();
+        final String input = "${dns:" + hostName + "}";
+        Assertions.assertEquals(input, strSubst.replace(input));
     }
 
     @Test
@@ -178,14 +195,6 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
                 new StringSubstitutor(createInterpolatorWithLookups(DefaultStringLookup.DNS));
         final String unknown = "${dns: u n k n o w n}";
         Assertions.assertEquals(unknown, strSubst.replace(unknown));
-    }
-
-    @Test
-    public void testDnsLookup_disabledByDefault() throws UnknownHostException {
-        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
-        final String hostName = InetAddress.getLocalHost().getHostName();
-        final String input = "${dns:" + hostName + "}";
-        Assertions.assertEquals(input, strSubst.replace(input));
     }
 
     @Test
@@ -250,14 +259,5 @@ public class StringSubstitutorWithInterpolatorStringLookupTest {
         final String spKey = "user.name";
         Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${" + spKey + "}"));
         Assertions.assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
-    }
-
-    private static StringLookup createInterpolatorWithLookups(final DefaultStringLookup... lookups) {
-        final Map<String, StringLookup> lookupMap = new HashMap<>();
-        for (final DefaultStringLookup lookup : lookups) {
-            lookupMap.put(lookup.getKey().toLowerCase(), lookup.getStringLookup());
-        }
-
-        return StringLookupFactory.INSTANCE.interpolatorStringLookup(lookupMap, null, false);
     }
 }
