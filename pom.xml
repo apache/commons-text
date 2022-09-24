@@ -23,7 +23,7 @@
     <version>54</version>
   </parent>
   <artifactId>commons-text</artifactId>
-  <version>1.10.0-SNAPSHOT</version>
+  <version>1.10.0</version>
   <name>Apache Commons Text</name>
   <description>Apache Commons Text is a library focused on algorithms working on strings.</description>
   <url>https://commons.apache.org/proper/commons-text</url>

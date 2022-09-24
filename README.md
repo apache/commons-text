@@ -43,12 +43,11 @@
 Apache Commons Text
 ===================
 
-[![Build Status](https://travis-ci.org/apache/commons-text.svg)](https://travis-ci.org/apache/commons-text)
-[![Coverage Status](https://codecov.io/gh/apache/commons-text/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-text/branch/master)
+[![GitHub Actions Status](https://github.com/apache/commons-text/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-text/actions)
+[![Coverage Status](https://codecov.io/gh/apache/commons-text/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-text)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/?gav=true)
-[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-text/1.9.svg)](https://javadoc.io/doc/org.apache.commons/commons-text/1.9)
-[![CodeQL](https://github.com/apache/commons-text/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-text/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/apache/commons-text/badge)](https://api.securityscorecards.dev/projects/github.com/apache/commons-text)
+[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-text/1.10.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-text/1.10.0)
+[![CodeQL](https://github.com/apache/commons-text/workflows/CodeQL/badge.svg)](hhttps://github.com/apache/commons-text/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
 
 Apache Commons Text is a library focused on algorithms working on strings.
 
@@ -69,7 +68,7 @@ Alternatively you can pull it from the central Maven repositories:
 <dependency>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-text</artifactId>
-  <version>1.9</version>
+  <version>1.10.0</version>
 </dependency>
 ```
 
