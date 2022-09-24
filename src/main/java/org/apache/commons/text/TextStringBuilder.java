@@ -1377,14 +1377,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder appendWithSeparators(final Iterable<?> iterable, final String separator) {
         if (iterable != null) {
-            final String sep = Objects.toString(separator, StringUtils.EMPTY);
-            final Iterator<?> it = iterable.iterator();
-            while (it.hasNext()) {
-                append(it.next());
-                if (it.hasNext()) {
-                    append(sep);
-                }
-            }
+            appendWithSeparators(iterable.iterator(), separator);
         }
         return this;
     }

@@ -1364,14 +1364,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      */
     public StrBuilder appendWithSeparators(final Iterable<?> iterable, final String separator) {
         if (iterable != null) {
-            final String sep = Objects.toString(separator, StringUtils.EMPTY);
-            final Iterator<?> it = iterable.iterator();
-            while (it.hasNext()) {
-                append(it.next());
-                if (it.hasNext()) {
-                    append(sep);
-                }
-            }
+            appendWithSeparators(iterable.iterator(), separator);
         }
         return this;
     }
@@ -1382,16 +1375,16 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * Appending a null iterator will have no effect.
      * Each object is appended using {@link #append(Object)}.
      *
-     * @param it  the iterator to append
+     * @param iterator  the iterator to append
      * @param separator  the separator to use, null means no separator
      * @return this, to enable chaining
      */
-    public StrBuilder appendWithSeparators(final Iterator<?> it, final String separator) {
-        if (it != null) {
+    public StrBuilder appendWithSeparators(final Iterator<?> iterator, final String separator) {
+        if (iterator != null) {
             final String sep = Objects.toString(separator, StringUtils.EMPTY);
-            while (it.hasNext()) {
-                append(it.next());
-                if (it.hasNext()) {
+            while (iterator.hasNext()) {
+                append(iterator.next());
+                if (iterator.hasNext()) {
                     append(sep);
                 }
             }
