@@ -16,8 +16,6 @@
  */
 package org.apache.commons.text.similarity;
 
-import java.util.Arrays;
-
 /**
  * Measures the Jaro-Winkler distance of two character sequences.
  * It is the complementary of Jaro-Winkler similarity.
