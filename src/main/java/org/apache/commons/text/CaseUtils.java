@@ -105,17 +105,17 @@ public class CaseUtils {
         final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
         final Set<Integer> delimiterSet = toDelimiterSet(delimiters);
-        boolean capitalizeNext = false;
+        boolean toAddDelimiter = false;
         for (int index = 0; index < strLen;) {
             final int codePoint = str.codePointAt(index);
 
             if (delimiterSet.contains(codePoint)) {
-                capitalizeNext = outOffset != 0;
+                toAddDelimiter = outOffset != 0;
                 index += Character.charCount(codePoint);
             } else {
-                if (capitalizeNext) {
+                if (toAddDelimiter) {
                     newCodePoints[outOffset++] = newDelimiter;
-                    capitalizeNext = false;
+                    toAddDelimiter = false;
                 }
                 newCodePoints[outOffset++] = codePoint;
                 index += Character.charCount(codePoint);
