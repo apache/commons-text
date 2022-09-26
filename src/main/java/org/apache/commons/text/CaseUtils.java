@@ -96,11 +96,100 @@ public class CaseUtils {
         return new String(newCodePoints, 0, outOffset);
     }
 
+    private static String toDelimiterCase(String str, final char newDelimiter, final char... delimiters) {
+        if (StringUtils.isEmpty(str)) {
+            return str;
+        }
+        str = str.toLowerCase();
+        final int strLen = str.length();
+        final int[] newCodePoints = new int[strLen];
+        int outOffset = 0;
+        final Set<Integer> delimiterSet = toDelimiterSet(delimiters);
+        boolean capitalizeNext = false;
+        for (int index = 0; index < strLen;) {
+            final int codePoint = str.codePointAt(index);
+
+            if (delimiterSet.contains(codePoint)) {
+                capitalizeNext = outOffset != 0;
+                index += Character.charCount(codePoint);
+            } else {
+                if (capitalizeNext) {
+                    newCodePoints[outOffset++] = newDelimiter;
+                    capitalizeNext = false;
+                }
+                newCodePoints[outOffset++] = codePoint;
+                index += Character.charCount(codePoint);
+            }
+        }
+
+        return new String(newCodePoints, 0, outOffset);
+    }
+
+    /**
+     * Converts all the delimiter separated words in a String into snake_case,
+     * that is each word is separated by an underscore (_) character and the String
+     * is converted to lower case.
+     *
+     * <p>The delimiters represent a set of characters understood to separate words.</p>
+     *
+     * <p>A {@code null} input String returns {@code null}.</p>
+     *
+     * <p>A input string with only delimiter characters returns {@code ""}.</p>
+     *
+     * <pre>
+     * CaseUtils.toSnakeCase(null)                                 = null
+     * CaseUtils.toSnakeCase("", *)                                = ""
+     * CaseUtils.toSnakeCase(*, null)                              = *
+     * CaseUtils.toSnakeCase(*, new char[0])                       = *
+     * CaseUtils.toSnakeCase("To.Snake.Case", new char[]{'.'})     = "to_snake_case"
+     * CaseUtils.toSnakeCase(" to @ Snake case", new char[]{'@'})  = "to_snake_case"
+     * CaseUtils.toSnakeCase(" @to @ Snake case", new char[]{'@'}) = "to_snake_case"
+     * CaseUtils.toSnakeCase(" @", new char[]{'@'})                = ""
+     * </pre>
+     *
+     * @param str  the String to be converted to snake_case, may be null
+     * @param delimiters  set of characters to determine a new word, null and/or empty array means whitespace
+     * @return snake_case of String, {@code null} if null String input
+     */
+    public static String toSnakeCase(String str, final char... delimiters) {
+        return toDelimiterCase(str, '_', delimiters);
+    }
+
+    /**
+     * Converts all the delimiter separated words in a String into kebab-case,
+     * that is each word is separated by aa dash (-) character and the String
+     * is converted to lower case.
+     *
+     * <p>The delimiters represent a set of characters understood to separate words.</p>
+     *
+     * <p>A {@code null} input String returns {@code null}.</p>
+     *
+     * <p>A input string with only delimiter characters returns {@code ""}.</p>
+     *
+     * <pre>
+     * CaseUtils.toKebabCase(null)                                 = null
+     * CaseUtils.toKebabCase("", *)                                = ""
+     * CaseUtils.toKebabCase(*, null)                              = *
+     * CaseUtils.toKebabCase(*, new char[0])                       = *
+     * CaseUtils.toKebabCase("To.Kebab.Case", new char[]{'.'})     = "to-kebab-case"
+     * CaseUtils.toKebabCase(" to @ Kebab case", new char[]{'@'})  = "to-kebab-case"
+     * CaseUtils.toKebabCase(" @to @ Kebab case", new char[]{'@'}) = "to-kebab-case"
+     * CaseUtils.toKebabCase(" @", new char[]{'@'})                = ""
+     * </pre>
+     *
+     * @param str  the String to be converted to kebab-case, may be null
+     * @param delimiters  set of characters to determine a new word, null and/or empty array means whitespace
+     * @return kebab-case of String, {@code null} if null String input
+     */
+    public static String toKebabCase(String str, final char... delimiters) {
+        return toDelimiterCase(str, '-', delimiters);
+    }
+
     /**
      * Converts an array of delimiters to a hash set of code points. Code point of space(32) is added
      * as the default value. The generated hash set provides O(1) lookup time.
      *
-     * @param delimiters  set of characters to determine capitalization, null means whitespace
+     * @param delimiters  set of characters to determine words, null means whitespace
      * @return Set<Integer>
      */
     private static Set<Integer> toDelimiterSet(final char[] delimiters) {
