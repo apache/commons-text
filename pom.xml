@@ -49,7 +49,7 @@
 
     <commons.junit.version>5.9.1</commons.junit.version>
     <checkstyle.plugin.version>3.2.0</checkstyle.plugin.version>
-    <checkstyle.version>9.3</checkstyle.version>
+    <checkstyle.version>10.3.4</checkstyle.version>
 
     <commons.spotbugs.plugin.version>4.7.2.0</commons.spotbugs.plugin.version>
     <commons.spotbugs.impl.version>4.7.2</commons.spotbugs.impl.version>
