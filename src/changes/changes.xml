@@ -44,6 +44,12 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Apache Commons Text Changes</title>
   </properties>
   <body>
+  <release version="1.11.0" date="20??-??-??" description="Release 1.11.0. Requires Java 8.">
+    <!-- FIX -->
+    <!-- ADD -->
+    <!-- UPDATE -->
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump commons.pmd-impl.version from 6.49.0 to 6.50.0 #364.</action>
+  </release>
   <release version="1.10.0" date="2022-09-24" description="Release 1.10.0. Requires Java 8.">
     <!-- FIX -->
     <action issue="TEXT-189" type="fix" dev="kinow" due-to="Gongpu Zhu">Fix CaseUtils when the input string contains only delimiters</action>
