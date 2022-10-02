@@ -72,7 +72,7 @@ public class CaseUtils {
         }
         str = str.toLowerCase();
         final int strLen = str.length();
-        final int[] newCodePoints = new int[strLen];
+        final int[] newCodePoints = new int[str.codePointCount(0, strLen)];
         int outOffset = 0;
         final Set<Integer> delimiterSet = toDelimiterSet(delimiters);
         boolean capitalizeNext = capitalizeFirstLetter;
@@ -102,7 +102,7 @@ public class CaseUtils {
         }
         str = str.toLowerCase();
         final int strLen = str.length();
-        final int[] newCodePoints = new int[strLen];
+        final int[] newCodePoints = new int[str.codePointCount(0, strLen)];
         int outOffset = 0;
         final Set<Integer> delimiterSet = toDelimiterSet(delimiters);
         boolean toAddDelimiter = false;
