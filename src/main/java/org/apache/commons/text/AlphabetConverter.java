@@ -504,12 +504,10 @@ public final class AlphabetConverter {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         // @formatter:off
-        originalToEncoded.forEach((k, v) -> {
-            sb.append(codePointToString(k))
-              .append(ARROW)
-              .append(k)
-              .append(System.lineSeparator());
-        });
+        originalToEncoded.forEach((k, v) -> sb.append(codePointToString(k))
+          .append(ARROW)
+          .append(k)
+          .append(System.lineSeparator()));
         // @formatter:on
         return sb.toString();
     }
