@@ -44,14 +44,15 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Apache Commons Text Changes</title>
   </properties>
   <body>
-  <release version="1.11.0" date="20??-??-??" description="Release 1.11.0. Requires Java 8.">
+  <release version="1.10.1" date="20YY-MM-DD" description="Release 1.10.1. Requires Java 8.">
     <!-- FIX -->
     <!-- ADD -->
     <!-- UPDATE -->
-    <action                  type="update" dev="kinow" due-to="Dependabot">Bump commons.pmd-impl.version from 6.49.0 to 6.50.0 #364.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/cache from 3.0.8 to 3.0.10 #361, #365.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/setup-java from 3 to 3.5.1.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump actions/checkout from 3.0.2 to 3.1.0 #366.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump commons.pmd-impl.version from 6.49.0 to 6.50.0 #364.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump commons-rng-simple from 1.4 to 1.5 #370.</action>
   </release>
   <release version="1.10.0" date="2022-09-24" description="Release 1.10.0. Requires Java 8.">
     <!-- FIX -->
