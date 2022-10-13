@@ -66,7 +66,7 @@
     <commons.javadoc.version>3.4.1</commons.javadoc.version> 
 
     <!-- 22.1.0 requires Java 11 -->
-    <graalvm.version>22.0.0.2</graalvm.version>
+    <graalvm.version>22.2.0.1</graalvm.version>
     <commons.rng.version>1.5</commons.rng.version>
 
     <commons.japicmp.version>0.16.0</commons.japicmp.version>
