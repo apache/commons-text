@@ -767,10 +767,24 @@ public class StringTokenizerTest {
         final String input = "a  b c";
         final StringTokenizer tok = new StringTokenizer(input);
         final String[] array = tok.getTokenArray();
-        final List<?> list = tok.getTokenList();
+        final List<String> list = tok.getTokenList();
 
         assertEquals(Arrays.asList(array), list);
         assertEquals(3, list.size());
+
+        // Test modification of the returned list
+        list.set(0, "z");
+        list.remove(1);
+        list.set(1, "y");
+        list.add("x");
+
+        assertEquals(Arrays.asList(new String[] {"z", "y", "x"}), list);
+
+        // The tokenizer is unchanged
+        assertEquals(Arrays.asList(array), tok.getTokenList());
+        assertEquals("a", tok.next());
+        assertEquals("b", tok.next());
+        assertEquals("c", tok.next());
     }
 
     @Test

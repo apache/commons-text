@@ -558,7 +558,7 @@ public class StringTokenizer implements ListIterator<String>, Cloneable {
      */
     public List<String> getTokenList() {
         checkTokenized();
-        return Arrays.asList(tokens);
+        return new ArrayList<>(Arrays.asList(tokens));
     }
 
     /**
