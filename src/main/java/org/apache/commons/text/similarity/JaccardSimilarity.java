@@ -18,6 +18,8 @@ package org.apache.commons.text.similarity;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Measures the Jaccard similarity (aka Jaccard index) of two sets of character
@@ -70,14 +72,8 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
         if (leftLength == 0 || rightLength == 0) {
             return 0d;
         }
-        final Set<Character> leftSet = new HashSet<>();
-        for (int i = 0; i < leftLength; i++) {
-            leftSet.add(left.charAt(i));
-        }
-        final Set<Character> rightSet = new HashSet<>();
-        for (int i = 0; i < rightLength; i++) {
-            rightSet.add(right.charAt(i));
-        }
+        final Set<Character> leftSet = IntStream.range(0, leftLength).mapToObj(left::charAt).collect(Collectors.toSet());
+        final Set<Character> rightSet = IntStream.range(0, rightLength).mapToObj(right::charAt).collect(Collectors.toSet());
         final Set<Character> unionSet = new HashSet<>(leftSet);
         unionSet.addAll(rightSet);
         final int intersectionSize = leftSet.size() + rightSet.size() - unionSet.size();

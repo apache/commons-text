@@ -384,13 +384,7 @@ public final class RandomStringGenerator {
             }
 
             if (inclusivePredicates != null) {
-                boolean matchedFilter = false;
-                for (final CharacterPredicate predicate : inclusivePredicates) {
-                    if (predicate.test(codePoint)) {
-                        matchedFilter = true;
-                        break;
-                    }
-                }
+                boolean matchedFilter = inclusivePredicates.stream().anyMatch(predicate -> predicate.test(codePoint));
                 if (!matchedFilter) {
                     continue;
                 }

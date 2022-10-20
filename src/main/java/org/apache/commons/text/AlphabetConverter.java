@@ -105,9 +105,7 @@ public final class AlphabetConverter {
             return ArrayUtils.EMPTY_INTEGER_OBJECT_ARRAY;
         }
         final Integer[] integers = new Integer[chars.length];
-        for (int i = 0; i < chars.length; i++) {
-            integers[i] = (int) chars[i];
-        }
+        Arrays.setAll(integers, i -> (int) chars[i]);
         return integers;
     }
 

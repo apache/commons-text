@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text.similarity;
 
+import java.util.stream.IntStream;
+
 /**
  * A similarity algorithm indicating the length of the longest common subsequence between two strings.
  *
@@ -113,11 +115,8 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
 
         if (m == 1) { // Handle trivial cases, as per the paper
             final char leftCh = left.charAt(0);
-            for (int j = 0; j < n; j++) {
-                if (leftCh == right.charAt(j)) {
-                    out.append(leftCh);
-                    break;
-                }
+            if (IntStream.range(0, n).anyMatch(j -> leftCh == right.charAt(j))) {
+                out.append(leftCh);
             }
         } else if (n > 0 && m > 1) {
             final int mid = m / 2; // Find the middle point
