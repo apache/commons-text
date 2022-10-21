@@ -56,7 +56,7 @@
     <commons.pmd.version>3.19.0</commons.pmd.version>
     <commons.pmd-impl.version>6.50.0</commons.pmd-impl.version>
 
-    <commons.mockito.version>4.8.0</commons.mockito.version>
+    <commons.mockito.version>4.8.1</commons.mockito.version>
     <commons.jacoco.version>0.8.8</commons.jacoco.version>
 
     <!-- apache-rat-plugin 0.13 and jdepend-maven-plugin 2.0 both fail with LinkageError when generating reports 
