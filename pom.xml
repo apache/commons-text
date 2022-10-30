@@ -54,7 +54,7 @@
     <commons.spotbugs.plugin.version>4.7.2.1</commons.spotbugs.plugin.version>
     <commons.spotbugs.impl.version>4.7.3</commons.spotbugs.impl.version>
     <commons.pmd.version>3.19.0</commons.pmd.version>
-    <commons.pmd-impl.version>6.50.0</commons.pmd-impl.version>
+    <commons.pmd-impl.version>6.51.0</commons.pmd-impl.version>
 
     <commons.mockito.version>4.8.1</commons.mockito.version>
     <commons.jacoco.version>0.8.8</commons.jacoco.version>
