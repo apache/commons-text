@@ -47,6 +47,7 @@ The <action> type attribute can be add,update,fix,remove.
   <release version="1.10.1" date="20YY-MM-DD" description="Release 1.10.1. Requires Java 8.">
     <!-- FIX -->
     <action issue="TEXT-219" type="fix" dev="aherbert" due-to="Jaap Sperling">Fix StringTokenizer.getTokenList to return an independent modifiable list</action>
+    <action                  type="fix" dev="aherbert" due-to="James Nord">Fix javadoc for StringEscapeUtils.escapeHtml4 #382</action>
     <!-- ADD -->
     <!-- UPDATE -->
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump actions/cache from 3.0.8 to 3.0.10 #361, #365.</action>
