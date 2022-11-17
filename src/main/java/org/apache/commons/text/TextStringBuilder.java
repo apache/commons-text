@@ -1964,7 +1964,13 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     @Override
     public int hashCode() {
-        return this.toString().hashCode();
+        // no allocation
+        final char[] buf = buffer;
+        int result = 0;
+        for (int i = 0; i < size; i++) {
+            result = 31 * result + buf[i];
+        }
+        return result;
     }
 
     /**
