@@ -72,7 +72,7 @@
     <commons.japicmp.version>0.16.0</commons.japicmp.version>
     <japicmp.skip>false</japicmp.skip>
 
-    <jmh.version>1.35</jmh.version>
+    <jmh.version>1.36</jmh.version>
     <commons.project-info.version>3.1.2</commons.project-info.version>
 
     <!-- Commons Release Plugin -->
