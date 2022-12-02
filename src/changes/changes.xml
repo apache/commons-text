@@ -49,6 +49,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-219" type="fix" dev="aherbert" due-to="Jaap Sperling">Fix StringTokenizer.getTokenList to return an independent modifiable list</action>
     <action                  type="fix" dev="aherbert" due-to="James Nord">Fix javadoc for StringEscapeUtils.escapeHtml4 #382</action>
     <action                  type="fix" dev="ggregory" due-to="Pavel Belousov, Gary Gregory">TextStringBuidler#hashCode() allocates a String on each call #387.</action>
+    <action issue="TEXT-221" type="fix" dev="aherbert" due-to="Remco Riswick">Fix Bundle-SymbolicName to use the package name org.apache.commons.text</action>
     <!-- ADD -->
     <!-- UPDATE -->
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump actions/cache from 3.0.8 to 3.0.10 #361, #365.</action>
