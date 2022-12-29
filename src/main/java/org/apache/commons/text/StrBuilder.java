@@ -21,6 +21,7 @@ import java.io.Reader;
 import java.io.Serializable;
 import java.io.Writer;
 import java.nio.CharBuffer;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -2950,12 +2951,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * @return a new array that represents the contents of the builder
      */
     public char[] toCharArray() {
-        if (size == 0) {
-            return ArrayUtils.EMPTY_CHAR_ARRAY;
-        }
-        final char[] chars = new char[size];
-        System.arraycopy(buffer, 0, chars, 0, size);
-        return chars;
+        return size == 0 ? ArrayUtils.EMPTY_CHAR_ARRAY : Arrays.copyOf(buffer, size);
     }
 
     /**
