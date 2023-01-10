@@ -51,9 +51,6 @@
     <checkstyle.plugin.version>3.2.0</checkstyle.plugin.version>
     <checkstyle.version>9.3</checkstyle.version>
 
-    <commons.spotbugs.plugin.version>4.7.3.0</commons.spotbugs.plugin.version>
-    <commons.spotbugs.impl.version>4.7.3</commons.spotbugs.impl.version>
-
     <commons.mockito.version>4.11.0</commons.mockito.version>
 
     <!-- apache-rat-plugin 0.13 and jdepend-maven-plugin 2.0 both fail with LinkageError when generating reports 
