@@ -62,7 +62,6 @@
     with maven site plugin 3.11+. However, javadoc 3.4.0+ fails with site plugin versions lower than 3.11. So, we'll 
     use slightly older site and javadoc versions here in order to be able to generate all reports. -->
     <commons.site-plugin.version>3.10.0</commons.site-plugin.version>
-    <commons.javadoc.version>3.4.1</commons.javadoc.version> 
 
     <!-- 22.1.0 requires Java 11 -->
     <graalvm.version>22.0.0.2</graalvm.version>
