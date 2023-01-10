@@ -57,7 +57,6 @@
     <commons.pmd-impl.version>6.52.0</commons.pmd-impl.version>
 
     <commons.mockito.version>4.11.0</commons.mockito.version>
-    <commons.jacoco.version>0.8.8</commons.jacoco.version>
 
     <!-- apache-rat-plugin 0.13 and jdepend-maven-plugin 2.0 both fail with LinkageError when generating reports 
     with maven site plugin 3.11+. However, javadoc 3.4.0+ fails with site plugin versions lower than 3.11. So, we'll 
