@@ -62,7 +62,6 @@
     <japicmp.skip>false</japicmp.skip>
 
     <jmh.version>1.36</jmh.version>
-    <commons.project-info.version>3.1.2</commons.project-info.version>
 
     <!-- Commons Release Plugin -->
     <commons.bc.version>1.9</commons.bc.version>
@@ -174,13 +173,6 @@
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
           <excludes>**/generated/**.java,**/jmh_generated/**.java</excludes>
         </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>${checkstyle.version}</version>
-          </dependency>
-        </dependencies>
       </plugin>
       <plugin>
         <groupId>com.github.spotbugs</groupId>
