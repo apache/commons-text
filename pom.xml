@@ -49,7 +49,7 @@
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
     <checkstyle.plugin.version>3.2.1</checkstyle.plugin.version>
-    <checkstyle.version>9.3</checkstyle.version>
+    <checkstyle.version>10.6.0</checkstyle.version>
 
     <commons.mockito.version>4.11.0</commons.mockito.version>
 
