@@ -48,9 +48,6 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
-    <checkstyle.plugin.version>3.2.1</checkstyle.plugin.version>
-    <checkstyle.version>9.3</checkstyle.version>
-
     <commons.mockito.version>4.11.0</commons.mockito.version>
 
     <!-- apache-rat-plugin 0.13 and jdepend-maven-plugin 2.0 both fail with LinkageError when generating reports 
