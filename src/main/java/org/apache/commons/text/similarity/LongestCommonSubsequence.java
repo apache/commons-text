@@ -52,6 +52,11 @@ package org.apache.commons.text.similarity;
 public class LongestCommonSubsequence implements SimilarityScore<Integer> {
 
     /**
+     * Singleton instance.
+     */
+    static final LongestCommonSubsequence INSTANCE = new LongestCommonSubsequence();
+
+    /**
      * An implementation of "ALG B" from Hirschberg's CACM '71 paper.
      * Assuming the first input sequence is of size <code>m</code> and the second input sequence is of size
      * <code>n</code>, this method returns the last row of the dynamic programming (DP) table when calculating

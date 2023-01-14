@@ -52,6 +52,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-221" type="fix" dev="aherbert" due-to="Remco Riswick">Fix Bundle-SymbolicName to use the package name org.apache.commons.text</action>
     <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Add and use a package-private singleton for RegexTokenizer.</action>
     <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Add and use a package-private singleton for CosineSimilarity.</action>
+    <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Add and use a package-private singleton for LongestCommonSubsequence.</action>
     <!-- ADD -->
     <!-- UPDATE -->
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump actions/cache from 3.0.8 to 3.0.10 #361, #365.</action>
