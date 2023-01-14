@@ -21,17 +21,22 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Measures the Cosine similarity of two vectors of an inner product space and
- * compares the angle between them.
- *
+ * Measures the Cosine similarity of two vectors of an inner product space and compares the angle between them.
  * <p>
- * For further explanation about the Cosine Similarity, refer to
- * http://en.wikipedia.org/wiki/Cosine_similarity.
+ * For further explanation about the Cosine Similarity, refer to http://en.wikipedia.org/wiki/Cosine_similarity.
+ * </p>
+ * <p>
+ * Instances of this class are immutable and are safe for use by multiple concurrent threads.
  * </p>
  *
  * @since 1.0
  */
 public class CosineSimilarity {
+
+    /**
+     * Singleton instance.
+     */
+    static final CosineSimilarity INSTANCE = new CosineSimilarity();
 
     /**
      * Calculates the cosine similarity for two given vectors.

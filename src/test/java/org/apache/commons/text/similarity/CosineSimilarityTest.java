@@ -26,42 +26,36 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-
 public class CosineSimilarityTest {
 
     @Test
     public void testCosineSimilarityReturningDoubleWhereByteValueIsZero() {
-        final CosineSimilarity cosineSimilarity = new CosineSimilarity();
         final Map<CharSequence, Integer> hashMap = new HashMap<>();
-
-        assertThat(cosineSimilarity.cosineSimilarity(hashMap, hashMap)).isEqualTo(0.0, within(0.01));
+        assertThat(CosineSimilarity.INSTANCE.cosineSimilarity(hashMap, hashMap)).isEqualTo(0.0, within(0.01));
     }
 
     @Test
     public void testCosineSimilarityThrowsIllegalArgumentException() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
-            final CosineSimilarity cosineSimilarity = new CosineSimilarity();
             final Map<CharSequence, Integer> map = new HashMap<>();
-            cosineSimilarity.cosineSimilarity(map, null);
+            CosineSimilarity.INSTANCE.cosineSimilarity(map, null);
         });
     }
 
     @Test
     public void testCosineSimilarityWithNonEmptyMap() {
-        final CosineSimilarity cosineSimilarity = new CosineSimilarity();
         final Map<CharSequence, Integer> hashMap = new HashMap<>();
         final Integer integer = -397;
         hashMap.put("3J/$3.L", integer);
         final Map<CharSequence, Integer> hashMapTwo = new HashMap<>();
 
-        assertThat(cosineSimilarity.cosineSimilarity(hashMap, hashMapTwo)).isEqualTo(0.0, within(0.01));
+        assertThat(CosineSimilarity.INSTANCE.cosineSimilarity(hashMap, hashMapTwo)).isEqualTo(0.0, within(0.01));
     }
 
     @Test
     public void testCosineSimilarityWithNull() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
-            final CosineSimilarity cosineSimilarity = new CosineSimilarity();
-            cosineSimilarity.cosineSimilarity(null, null);
+            CosineSimilarity.INSTANCE.cosineSimilarity(null, null);
         });
     }
 

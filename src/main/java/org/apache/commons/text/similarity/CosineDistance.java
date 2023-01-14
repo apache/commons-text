@@ -35,11 +35,6 @@ import java.util.Map;
  */
 public class CosineDistance implements EditDistance<Double> {
 
-    /**
-     * Cosine similarity.
-     */
-    private final CosineSimilarity cosineSimilarity = new CosineSimilarity();
-
     @Override
     public Double apply(final CharSequence left, final CharSequence right) {
         final CharSequence[] leftTokens = RegexTokenizer.INSTANCE.tokenize(left);
@@ -47,7 +42,7 @@ public class CosineDistance implements EditDistance<Double> {
 
         final Map<CharSequence, Integer> leftVector = Counter.of(leftTokens);
         final Map<CharSequence, Integer> rightVector = Counter.of(rightTokens);
-        final double similarity = cosineSimilarity.cosineSimilarity(leftVector, rightVector);
+        final double similarity = CosineSimilarity.INSTANCE.cosineSimilarity(leftVector, rightVector);
         return 1.0 - similarity;
     }
 
