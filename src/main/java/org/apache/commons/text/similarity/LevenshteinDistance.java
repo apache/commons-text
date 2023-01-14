@@ -38,7 +38,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     /**
      * Default instance.
      */
-    private static final LevenshteinDistance DEFAULT_INSTANCE = new LevenshteinDistance();
+    private static final LevenshteinDistance INSTANCE = new LevenshteinDistance();
 
     /**
      * Gets the default instance.
@@ -46,7 +46,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * @return The default instance
      */
     public static LevenshteinDistance getDefaultInstance() {
-        return DEFAULT_INSTANCE;
+        return INSTANCE;
     }
 
     /**
