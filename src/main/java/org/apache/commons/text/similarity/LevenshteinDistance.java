@@ -36,7 +36,7 @@ import java.util.Arrays;
 public class LevenshteinDistance implements EditDistance<Integer> {
 
     /**
-     * Default instance.
+     * Singleton instance.
      */
     private static final LevenshteinDistance INSTANCE = new LevenshteinDistance();
 
