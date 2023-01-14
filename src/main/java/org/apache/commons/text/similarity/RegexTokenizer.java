@@ -26,9 +26,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 /**
- * A simple word tokenizer that utilizes regex to find words. It applies a regex
- * {@code (\w)+} over the input text to extract words from a given character
- * sequence.
+ * A simple word {@link Tokenizer} that utilizes a regex to find words. It applies a regex {@code (\w)+} over the input text to extract words from a given
+ * character sequence.
+ * <p>
+ * Instances of this class are immutable and are safe for use by multiple concurrent threads.
+ * </p>
  *
  * @since 1.0
  */
@@ -36,6 +38,11 @@ final class RegexTokenizer implements Tokenizer<CharSequence> {
 
     /** The whitespace pattern. */
     private static final Pattern PATTERN = Pattern.compile("(\\w)+");
+
+    /**
+     * Singleton instance.
+     */
+    static final RegexTokenizer INSTANCE = new RegexTokenizer();
 
     /**
      * {@inheritDoc}
