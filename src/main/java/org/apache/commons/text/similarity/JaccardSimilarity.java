@@ -34,6 +34,11 @@ import java.util.Set;
 public class JaccardSimilarity implements SimilarityScore<Double> {
 
     /**
+     * Singleton instance.
+     */
+    static final JaccardSimilarity INSTANCE = new JaccardSimilarity();
+
+    /**
      * Calculates Jaccard Similarity of two set character sequence passed as
      * input.
      *

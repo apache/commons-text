@@ -31,11 +31,6 @@ package org.apache.commons.text.similarity;
 public class JaccardDistance implements EditDistance<Double> {
 
     /**
-     * We normalize the jaccardSimilarity for the purpose of computing the distance.
-     */
-    private final JaccardSimilarity jaccardSimilarity = new JaccardSimilarity();
-
-    /**
      * Calculates Jaccard distance of two set character sequence passed as
      * input. Calculates Jaccard similarity and returns the complement of it.
      *
@@ -50,6 +45,6 @@ public class JaccardDistance implements EditDistance<Double> {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Input cannot be null");
         }
-        return 1.0 - jaccardSimilarity.apply(left, right).doubleValue();
+        return 1.0 - JaccardSimilarity.INSTANCE.apply(left, right).doubleValue();
     }
 }
