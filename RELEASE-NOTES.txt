@@ -79,7 +79,7 @@ o            Bump exec-maven-plugin from 3.0.0 to 3.1.0 #340. Thanks to Dependab
 Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
 
 For complete information on Apache Commons Text, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons Text website:
+patches, or suggestions for improvement, see the Apache Commons Text website:
 
 https://commons.apache.org/proper/commons-text
 
@@ -160,7 +160,7 @@ o [build] org.mockito 3.3.3 -> 3.4.4. Thanks to Gary Gregory.
 Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
 
 For complete information on Apache Commons Text, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons Text website:
+patches, or suggestions for improvement, see the Apache Commons Text website:
 
 https://commons.apache.org/proper/commons-text
 
@@ -206,7 +206,7 @@ Changes in this version include:
 Historical list of changes: https://commons.apache.org/proper/commons-textchanges-report.html
 
 For complete information on Apache Commons Text, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons Text website:
+patches, or suggestions for improvement, see the Apache Commons Text website:
 
 https://commons.apache.org/proper/commons-text
 
@@ -255,7 +255,7 @@ o Update site from com.puppycrawl.tools:checkstyle 8.18 to 8.21.
 Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
 
 For complete information on Apache Commons Text, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons Text website:
+patches, or suggestions for improvement, see the Apache Commons Text website:
 
 https://commons.apache.org/proper/commons-text
 
@@ -288,7 +288,7 @@ o TEXT-147:  Add a Base64 encoder string lookup.
 Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
 
 For complete information on Apache Commons Text, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons Text website:
+patches, or suggestions for improvement, see the Apache Commons Text website:
 
 https://commons.apache.org/proper/commons-text
 
