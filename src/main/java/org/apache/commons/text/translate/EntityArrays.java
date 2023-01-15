@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class EntityArrays {
 
    /**
-     * A Map&lt;CharSequence, CharSequence&gt; to to escape
+     * A Map&lt;CharSequence, CharSequence&gt; to escape
      * <a href="https://secure.wikimedia.org/wikipedia/en/wiki/ISO/IEC_8859-1">ISO-8859-1</a>
      * characters to their named HTML 3.x equivalents.
      */
