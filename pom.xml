@@ -56,7 +56,7 @@
     <commons.site-plugin.version>3.10.0</commons.site-plugin.version>
 
     <!-- 22.1.0 requires Java 11 -->
-    <graalvm.version>22.0.0.2</graalvm.version>
+    <graalvm.version>22.3.1</graalvm.version>
     <commons.rng.version>1.5</commons.rng.version>
 
     <japicmp.skip>false</japicmp.skip>
