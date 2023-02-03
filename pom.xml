@@ -48,7 +48,7 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
-    <commons.mockito.version>4.11.0</commons.mockito.version>
+    <commons.mockito.version>5.1.1</commons.mockito.version>
 
     <!-- apache-rat-plugin 0.13 and jdepend-maven-plugin 2.0 both fail with LinkageError when generating reports 
     with maven site plugin 3.11+. However, javadoc 3.4.0+ fails with site plugin versions lower than 3.11. So, we'll 
