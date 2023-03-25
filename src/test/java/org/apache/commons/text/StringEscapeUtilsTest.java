@@ -42,7 +42,6 @@ import org.junit.jupiter.api.Test;
  * <p>
  * This code has been adapted from Apache Commons Lang 3.5.
  * </p>
- *
  */
 public class StringEscapeUtilsTest {
     private static final String FOO = "foo";

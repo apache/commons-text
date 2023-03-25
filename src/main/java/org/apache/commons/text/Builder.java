@@ -73,7 +73,6 @@ package org.apache.commons.text;
  *
  * @param <T> the type of object that the builder will construct or compute.
  * @since 1.0
- *
  */
 public interface Builder<T> {
 
