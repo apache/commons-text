@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -227,5 +229,14 @@ public class StringLookupFactoryTest {
         Assertions.assertSame(UrlEncoderStringLookup.INSTANCE, stringLookupFactory.urlEncoderStringLookup());
         Assertions.assertSame(UrlStringLookup.INSTANCE, stringLookupFactory.urlStringLookup());
         Assertions.assertSame(XmlStringLookup.INSTANCE, stringLookupFactory.xmlStringLookup());
+    }
+
+    @Test
+    public void testXmlStringLookup() {
+        final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
+        final HashMap<String, Boolean> features = new HashMap<>(1);
+        features.put(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+        XmlStringLookupTest.assertLookup(stringLookupFactory.xmlStringLookup(features));
+        XmlStringLookupTest.assertLookup(stringLookupFactory.xmlStringLookup(new HashMap<>()));
     }
 }

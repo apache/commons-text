@@ -29,7 +29,6 @@ import java.util.function.Function;
 
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.StringSubstitutor;
 
 /**
@@ -1351,7 +1350,7 @@ public final class StringLookupFactory {
      * @see XPathFactory#setFeature(String, boolean)
      * @since 1.11.0
      */
-    public StringLookup xmlStringLookup(@SuppressWarnings("unchecked") Pair<String, Boolean>... xPathFactoryFeatures) {
+    public StringLookup xmlStringLookup(final Map<String, Boolean> xPathFactoryFeatures) {
         return new XmlStringLookup(xPathFactoryFeatures);
     }
 }

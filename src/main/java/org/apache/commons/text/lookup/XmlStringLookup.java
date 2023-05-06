@@ -20,13 +20,15 @@ package org.apache.commons.text.lookup;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 
 import javax.xml.XMLConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.xml.sax.InputSource;
 
 /**
@@ -45,9 +47,12 @@ final class XmlStringLookup extends AbstractStringLookup {
     /**
      * Defines default XPath factory features.
      */
-    @SuppressWarnings("unchecked")
-    private static final Pair<String, Boolean>[] DEFAULT_FEATURES = new Pair[] {
-            Pair.of(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE) };
+    private static final Map<String, Boolean> DEFAULT_FEATURES;
+
+    static {
+        DEFAULT_FEATURES = new HashMap<>(1);
+        DEFAULT_FEATURES.put(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+    }
 
     /**
      * Defines the singleton for this class.
@@ -57,7 +62,7 @@ final class XmlStringLookup extends AbstractStringLookup {
     /**
      * Defines XPath factory features.
      */
-    private final Pair<String, Boolean>[] xPathFactoryFeatures;
+    private final Map<String, Boolean> xPathFactoryFeatures;
 
     /**
      * No need to build instances for now.
@@ -65,8 +70,7 @@ final class XmlStringLookup extends AbstractStringLookup {
      * @param xPathFactoryFeatures XPathFactory features to set.
      * @see XPathFactory#setFeature(String, boolean)
      */
-    @SafeVarargs
-    XmlStringLookup(final Pair<String, Boolean>... xPathFactoryFeatures) {
+    XmlStringLookup(final Map<String, Boolean> xPathFactoryFeatures) {
         this.xPathFactoryFeatures = Objects.requireNonNull(xPathFactoryFeatures, "xPathFfactoryFeatures");
     }
 
@@ -94,7 +98,7 @@ final class XmlStringLookup extends AbstractStringLookup {
         final String xpath = StringUtils.substringAfter(key, SPLIT_CH);
         try (InputStream inputStream = Files.newInputStream(Paths.get(documentPath))) {
             final XPathFactory factory = XPathFactory.newInstance();
-            for (final Pair<String, Boolean> p : xPathFactoryFeatures) {
+            for (final Entry<String, Boolean> p : xPathFactoryFeatures.entrySet()) {
                 factory.setFeature(p.getKey(), p.getValue());
             }
             return factory.newXPath().evaluate(xpath, new InputSource(inputStream));
