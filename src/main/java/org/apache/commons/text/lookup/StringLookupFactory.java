@@ -27,6 +27,9 @@ import java.util.Properties;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import javax.xml.xpath.XPathFactory;
+
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.StringSubstitutor;
 
 /**
@@ -1314,5 +1317,41 @@ public final class StringLookupFactory {
      */
     public StringLookup xmlStringLookup() {
         return XmlStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the XmlStringLookup singleton instance.
+     * <p>
+     * Looks up the value for the key in the format "DocumentPath:XPath".
+     * </p>
+     * <p>
+     * For example: "com/domain/document.xml:/path/to/node".
+     * </p>
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.xmlStringLookup().lookup("com/domain/document.xml:/path/to/node");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${xml:com/domain/document.xml:/path/to/node} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML
+     * document.
+     * </p>
+     *
+     * @param xPathFactoryFeatures XPathFactory features to set.
+     * @return The XmlStringLookup singleton instance.
+     * @see XPathFactory#setFeature(String, boolean)
+     * @since 1.11.0
+     */
+    public StringLookup xmlStringLookup(@SuppressWarnings("unchecked") Pair<String, Boolean>... xPathFactoryFeatures) {
+        return new XmlStringLookup(xPathFactoryFeatures);
     }
 }
