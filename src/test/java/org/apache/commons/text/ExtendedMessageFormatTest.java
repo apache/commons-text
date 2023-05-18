@@ -47,6 +47,8 @@ public class ExtendedMessageFormatTest {
      * {@link Format} implementation which converts to lower case.
      */
     private static class LowerCaseFormat extends Format {
+        static final Format INSTANCE = new LowerCaseFormat();
+        static final FormatFactory FACTORY = (n, a, l) -> LowerCaseFormat.INSTANCE;
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -57,17 +59,6 @@ public class ExtendedMessageFormatTest {
         @Override
         public Object parseObject(final String source, final ParsePosition pos) {
             throw new UnsupportedOperationException();
-        }
-    }
-
-    /**
-     * {@link FormatFactory} implementation for lower case format.
-     */
-    private static class LowerCaseFormatFactory implements FormatFactory {
-        private static final Format LOWER_INSTANCE = new LowerCaseFormat();
-        @Override
-        public Format getFormat(final String name, final String arguments, final Locale locale) {
-            return LOWER_INSTANCE;
         }
     }
 
@@ -86,20 +77,19 @@ public class ExtendedMessageFormatTest {
     /**
      * {@link FormatFactory} implementation to override date format "short" to "default".
      */
-    private static class OverrideShortDateFormatFactory implements FormatFactory {
-        @Override
-        public Format getFormat(final String name, final String arguments, final Locale locale) {
-            return !"short".equals(arguments) ? null
-                    : locale == null ? DateFormat
-                            .getDateInstance(DateFormat.DEFAULT) : DateFormat
-                            .getDateInstance(DateFormat.DEFAULT, locale);
-        }
+    private static class OverrideShortDateFormatFactory {
+        static final FormatFactory FACTORY = (n, a, l) -> !"short".equals(a) ? null
+                : l == null ? DateFormat
+                        .getDateInstance(DateFormat.DEFAULT) : DateFormat
+                        .getDateInstance(DateFormat.DEFAULT, l);
     }
 
     /**
      * {@link Format} implementation which converts to upper case.
      */
     private static class UpperCaseFormat extends Format {
+        static final Format INSTANCE = new UpperCaseFormat();
+        static final FormatFactory FACTORY = (n, a, l) -> UpperCaseFormat.INSTANCE;
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -110,17 +100,6 @@ public class ExtendedMessageFormatTest {
         @Override
         public Object parseObject(final String source, final ParsePosition pos) {
             throw new UnsupportedOperationException();
-        }
-    }
-
-    /**
-     * {@link FormatFactory} implementation for upper case format.
-     */
-    private static class UpperCaseFormatFactory implements FormatFactory {
-        private static final Format UPPER_INSTANCE = new UpperCaseFormat();
-        @Override
-        public Format getFormat(final String name, final String arguments, final Locale locale) {
-            return UPPER_INSTANCE;
         }
     }
 
@@ -251,8 +230,8 @@ public class ExtendedMessageFormatTest {
 
     @BeforeEach
     public void setUp() {
-        registry.put("lower", new LowerCaseFormatFactory());
-        registry.put("upper", new UpperCaseFormatFactory());
+        registry.put("lower", LowerCaseFormat.FACTORY);
+        registry.put("upper", UpperCaseFormat.FACTORY);
     }
 
     /**
@@ -353,9 +332,9 @@ public class ExtendedMessageFormatTest {
     @Test
     public void testEqualsHashcode() {
         final Map<String, ? extends FormatFactory> fmtRegistry =
-                Collections.singletonMap("testfmt", new LowerCaseFormatFactory());
+                Collections.singletonMap("testfmt", LowerCaseFormat.FACTORY);
         final Map<String, ? extends FormatFactory> otherRegistry =
-                Collections.singletonMap("testfmt", new UpperCaseFormatFactory());
+                Collections.singletonMap("testfmt", UpperCaseFormat.FACTORY);
 
         final String pattern = "Pattern: {0,testfmt}";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, Locale.US, fmtRegistry);
@@ -507,19 +486,18 @@ public class ExtendedMessageFormatTest {
     public void testOverriddenBuiltinFormat() {
         final Calendar cal = Calendar.getInstance();
         cal.set(2007, Calendar.JANUARY, 23);
-        final Object[] args = {cal.getTime()};
+        final Object[] args = { cal.getTime() };
         final Locale[] availableLocales = DateFormat.getAvailableLocales();
-        final Map<String, ? extends FormatFactory> dateRegistry =
-                Collections.singletonMap("date", new OverrideShortDateFormatFactory());
+        final Map<String, ? extends FormatFactory> dateRegistry = Collections.singletonMap("date", OverrideShortDateFormatFactory.FACTORY);
 
-        //check the non-overridden builtins:
-        checkBuiltInFormat("1: {0,date}", dateRegistry,          args, availableLocales);
-        checkBuiltInFormat("2: {0,date,medium}", dateRegistry,   args, availableLocales);
-        checkBuiltInFormat("3: {0,date,long}", dateRegistry,     args, availableLocales);
-        checkBuiltInFormat("4: {0,date,full}", dateRegistry,     args, availableLocales);
+        // check the non-overridden builtins:
+        checkBuiltInFormat("1: {0,date}", dateRegistry, args, availableLocales);
+        checkBuiltInFormat("2: {0,date,medium}", dateRegistry, args, availableLocales);
+        checkBuiltInFormat("3: {0,date,long}", dateRegistry, args, availableLocales);
+        checkBuiltInFormat("4: {0,date,full}", dateRegistry, args, availableLocales);
         checkBuiltInFormat("5: {0,date,d MMM yy}", dateRegistry, args, availableLocales);
 
-        //check the overridden format:
+        // check the overridden format:
         for (int i = -1; i < availableLocales.length; i++) {
             final Locale locale = i < 0 ? null : availableLocales[i];
             final MessageFormat dateDefault = createMessageFormat("{0,date}", locale);
