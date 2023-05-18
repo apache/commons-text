@@ -37,8 +37,8 @@ public class CosineDistance implements EditDistance<Double> {
 
     @Override
     public Double apply(final CharSequence left, final CharSequence right) {
-        final CharSequence[] leftTokens = RegexTokenizer.INSTANCE.tokenize(left);
-        final CharSequence[] rightTokens = RegexTokenizer.INSTANCE.tokenize(right);
+        final CharSequence[] leftTokens = RegexTokenizer.INSTANCE.apply(left);
+        final CharSequence[] rightTokens = RegexTokenizer.INSTANCE.apply(right);
 
         final Map<CharSequence, Integer> leftVector = Counter.of(leftTokens);
         final Map<CharSequence, Integer> rightVector = Counter.of(rightTokens);

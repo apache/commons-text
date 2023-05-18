@@ -14,18 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.text.similarity;
 
-import java.util.function.Function;
-
-/**
- * A tokenizer. Can produce arrays of tokens from a given type.
- *
- * @param <T> The type to tokenize.
- * @param <R> The return array element type.
- * @since 1.0
- */
-interface Tokenizer<T, R> extends Function<T, R[]> {
+interface CharSequenceTokenizer<T> extends Tokenizer<T, CharSequence> {
     // empty
 }

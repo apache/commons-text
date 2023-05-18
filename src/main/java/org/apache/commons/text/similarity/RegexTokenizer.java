@@ -34,7 +34,7 @@ import org.apache.commons.lang3.Validate;
  *
  * @since 1.0
  */
-final class RegexTokenizer implements Tokenizer<CharSequence> {
+final class RegexTokenizer implements CharSequenceTokenizer<CharSequence> {
 
     /** The whitespace pattern. */
     private static final Pattern PATTERN = Pattern.compile("(\\w)+");
@@ -50,7 +50,7 @@ final class RegexTokenizer implements Tokenizer<CharSequence> {
      * @throws IllegalArgumentException if the input text is blank
      */
     @Override
-    public CharSequence[] tokenize(final CharSequence text) {
+    public CharSequence[] apply(final CharSequence text) {
         Validate.isTrue(StringUtils.isNotBlank(text), "Invalid text");
         final Matcher matcher = PATTERN.matcher(text);
         final List<String> tokens = new ArrayList<>();
