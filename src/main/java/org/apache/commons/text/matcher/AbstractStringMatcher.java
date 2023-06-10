@@ -18,6 +18,7 @@
 package org.apache.commons.text.matcher;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * A matcher that determines if a character array portion matches.
@@ -87,12 +88,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
 
         @Override
         public int size() {
-            int total = 0;
-            for (final StringMatcher stringMatcher : stringMatchers) {
-                if (stringMatcher != null) {
-                    total += stringMatcher.size();
-                }
-            }
+            int total = Arrays.stream(stringMatchers).filter(Objects::nonNull).mapToInt(StringMatcher::size).sum();
             return total;
         }
     }

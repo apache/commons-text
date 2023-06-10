@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -615,12 +616,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
                             final int len,
                             final int quoteStart,
                             final int quoteLen) {
-        for (int i = 0; i < quoteLen; i++) {
-            if (pos + i >= len || srcChars[pos + i] != srcChars[quoteStart + i]) {
-                return false;
-            }
-        }
-        return true;
+        return IntStream.range(0, quoteLen).noneMatch(i -> pos + i >= len || srcChars[pos + i] != srcChars[quoteStart + i]);
     }
 
     /**

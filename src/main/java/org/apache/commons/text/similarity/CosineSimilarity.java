@@ -54,14 +54,8 @@ public class CosineSimilarity {
         final Set<CharSequence> intersection = getIntersection(leftVector, rightVector);
 
         final double dotProduct = dot(leftVector, rightVector, intersection);
-        double d1 = 0.0d;
-        for (final Integer value : leftVector.values()) {
-            d1 += Math.pow(value, 2);
-        }
-        double d2 = 0.0d;
-        for (final Integer value : rightVector.values()) {
-            d2 += Math.pow(value, 2);
-        }
+        double d1 = leftVector.values().stream().mapToDouble(value -> Math.pow(value, 2)).sum();
+        double d2 = rightVector.values().stream().mapToDouble(value -> Math.pow(value, 2)).sum();
         final double cosineSimilarity;
         if (d1 <= 0.0 || d2 <= 0.0) {
             cosineSimilarity = 0.0;
@@ -83,10 +77,7 @@ public class CosineSimilarity {
      */
     private double dot(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector,
             final Set<CharSequence> intersection) {
-        long dotProduct = 0;
-        for (final CharSequence key : intersection) {
-            dotProduct += leftVector.get(key) * (long) rightVector.get(key);
-        }
+        long dotProduct = intersection.stream().mapToLong(key -> leftVector.get(key) * (long) rightVector.get(key)).sum();
         return dotProduct;
     }
 

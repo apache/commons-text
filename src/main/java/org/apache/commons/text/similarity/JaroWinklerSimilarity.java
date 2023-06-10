@@ -17,6 +17,7 @@
 package org.apache.commons.text.similarity;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -95,12 +96,7 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
                 si++;
             }
         }
-        int halfTranspositions = 0;
-        for (int mi = 0; mi < ms1.length; mi++) {
-            if (ms1[mi] != ms2[mi]) {
-                halfTranspositions++;
-            }
-        }
+        int halfTranspositions = (int) IntStream.range(0, ms1.length).filter(mi -> ms1[mi] != ms2[mi]).count();
         int prefix = 0;
         for (int mi = 0; mi < Math.min(4, min.length()); mi++) {
             if (first.charAt(mi) != second.charAt(mi)) {

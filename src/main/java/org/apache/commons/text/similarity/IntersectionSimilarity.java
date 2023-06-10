@@ -125,13 +125,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
      * @return The intersection
      */
     private static <T> int getIntersection(final Set<T> setA, final Set<T> setB) {
-        int intersection = 0;
-        for (final T element : setA) {
-            if (setB.contains(element)) {
-                intersection++;
-            }
-        }
-        return intersection;
+        return (int) setA.stream().filter(setB::contains).count();
     }
 
     /** The converter used to create the elements from the characters. */

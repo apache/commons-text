@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -422,13 +423,8 @@ public class WordUtils {
         if (delimiters == null) {
             return Character.isWhitespace(codePoint);
         }
-        for (int index = 0; index < delimiters.length; index++) {
-            final int delimiterCodePoint = Character.codePointAt(delimiters, index);
-            if (delimiterCodePoint == codePoint) {
-                return true;
-            }
-        }
-        return false;
+        return IntStream.range(0, delimiters.length).map(index -> Character.codePointAt(delimiters, index))
+                .anyMatch(delimiterCodePoint -> delimiterCodePoint == codePoint);
     }
 
     /**

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text.similarity;
 
+import java.util.stream.IntStream;
+
 /**
  * The hamming distance between two strings of equal length is the number of
  * positions at which the corresponding symbols are different.
@@ -64,13 +66,7 @@ public class HammingDistance implements EditDistance<Integer> {
             throw new IllegalArgumentException("CharSequences must have the same length");
         }
 
-        int distance = 0;
-
-        for (int i = 0; i < left.length(); i++) {
-            if (left.charAt(i) != right.charAt(i)) {
-                distance++;
-            }
-        }
+        int distance = (int) IntStream.range(0, left.length()).filter(i -> left.charAt(i) != right.charAt(i)).count();
 
         return distance;
     }

@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -1572,12 +1573,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      */
     public boolean contains(final char ch) {
         final char[] thisBuf = buffer;
-        for (int i = 0; i < this.size; i++) {
-            if (thisBuf[i] == ch) {
-                return true;
-            }
-        }
-        return false;
+        return IntStream.range(0, this.size).anyMatch(i -> thisBuf[i] == ch);
     }
 
     /**
@@ -1704,12 +1700,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * @return this, to enable chaining
      */
     public StrBuilder deleteFirst(final char ch) {
-        for (int i = 0; i < size; i++) {
-            if (buffer[i] == ch) {
-                deleteImpl(i, i + 1, 1);
-                break;
-            }
-        }
+        IntStream.range(0, size).filter(i -> buffer[i] == ch).findFirst().ifPresent(i -> deleteImpl(i, i + 1, 1));
         return this;
     }
 
@@ -1965,12 +1956,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
             return -1;
         }
         final char[] thisBuf = buffer;
-        for (int i = startIndex; i < size; i++) {
-            if (thisBuf[i] == ch) {
-                return i;
-            }
-        }
-        return -1;
+        return IntStream.range(startIndex, size).filter(i -> thisBuf[i] == ch).findFirst().orElse(-1);
     }
 
     /**
@@ -2638,12 +2624,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      */
     public StrBuilder replaceFirst(final char search, final char replace) {
         if (search != replace) {
-            for (int i = 0; i < size; i++) {
-                if (buffer[i] == search) {
-                    buffer[i] = replace;
-                    break;
-                }
-            }
+            IntStream.range(0, size).filter(i -> buffer[i] == search).findFirst().ifPresent(i -> buffer[i] = replace);
         }
         return this;
     }
@@ -2891,12 +2872,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
         if (len > size) {
             return false;
         }
-        for (int i = 0; i < len; i++) {
-            if (buffer[i] != str.charAt(i)) {
-                return false;
-            }
-        }
-        return true;
+        return IntStream.range(0, len).noneMatch(i -> buffer[i] != str.charAt(i));
     }
 
     /**
