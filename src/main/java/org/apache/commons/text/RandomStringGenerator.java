@@ -241,19 +241,22 @@ public final class RandomStringGenerator {
          * @return {@code this}, to allow method chaining.
          */
         public Builder withinRange(final char[]... pairs) {
-            characterList = new ArrayList<>();
-            for (final char[] pair :  pairs) {
-                Validate.isTrue(pair.length == 2,
-                      "Each pair must contain minimum and maximum code point");
-                final int minimumCodePoint = pair[0];
-                final int maximumCodePoint = pair[1];
-                Validate.isTrue(minimumCodePoint <= maximumCodePoint,
-                    "Minimum code point %d is larger than maximum code point %d", minimumCodePoint, maximumCodePoint);
+            if(pairs != null) {
+                characterList = new ArrayList<>();
+                for (final char[] pair :  pairs) {
+                    Validate.isTrue(pair.length == 2,
+                                    "Each pair must contain minimum and maximum code point");
+                    final int minimumCodePoint = pair[0];
+                    final int maximumCodePoint = pair[1];
+                    Validate.isTrue(minimumCodePoint <= maximumCodePoint,
+                                    "Minimum code point %d is larger than maximum code point %d", minimumCodePoint, maximumCodePoint);
 
-                for (int index = minimumCodePoint; index <= maximumCodePoint; index++) {
-                    characterList.add((char) index);
+                    for (int index = minimumCodePoint; index <= maximumCodePoint; index++) {
+                        characterList.add((char) index);
+                    }
                 }
             }
+
             return this;
 
         }
