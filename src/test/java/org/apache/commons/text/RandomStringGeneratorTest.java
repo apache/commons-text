@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -209,6 +210,15 @@ public class RandomStringGeneratorTest {
         final String randomText = generator.generate(5);
         for (final char c : randomText.toCharArray()) {
             assertThat(str.indexOf(c) != -1).isTrue();
+        }
+    }
+
+    @Test
+    public void testSelectFromEmptyCharVarargs() {
+        final RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFrom().build();
+        final String randomText = generator.generate(5);
+        for (final char c : randomText.toCharArray()) {
+            assertTrue(c >= Character.MIN_CODE_POINT && c <= Character.MAX_CODE_POINT);
         }
     }
 
