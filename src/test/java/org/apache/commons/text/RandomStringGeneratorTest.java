@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -210,6 +211,33 @@ public class RandomStringGeneratorTest {
         final String randomText = generator.generate(5);
         for (final char c : randomText.toCharArray()) {
             assertThat(str.indexOf(c) != -1).isTrue();
+        }
+    }
+
+    @Test
+    public void testSelectFromCharVarargs2() {
+        final String str = "abcde";
+        // @formatter:off
+        final RandomStringGenerator generator = new RandomStringGenerator.Builder()
+                .selectFrom()
+                .selectFrom('a', 'b')
+                .selectFrom('a', 'b', 'c')
+                .selectFrom('a', 'b', 'c', 'd')
+                .selectFrom('a', 'b', 'c', 'd', 'e') // only this last call matters
+                .build();
+        // @formatter:on
+        final String randomText = generator.generate(10);
+        for (final char c : randomText.toCharArray()) {
+            assertThat(str.indexOf(c) != -1).isTrue();
+        }
+    }
+
+    @Test
+    public void testSelectFromCharVarargSize1() {
+        final RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFrom('a').build();
+        final String randomText = generator.generate(5);
+        for (final char c : randomText.toCharArray()) {
+            assertEquals('a', c);
         }
     }
 
