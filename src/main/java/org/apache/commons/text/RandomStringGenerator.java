@@ -183,7 +183,7 @@ public final class RandomStringGenerator {
          * @since 1.2
          */
         public Builder selectFrom(final char... chars) {
-            if(chars != null) {
+            if (chars != null) {
                 characterList = new ArrayList<>();
                 for (final char c : chars) {
                     characterList.add(c);
