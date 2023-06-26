@@ -16,9 +16,7 @@
  */
 package org.apache.commons.text.similarity;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Measures the Cosine similarity of two vectors of an inner product space and compares the angle between them.
