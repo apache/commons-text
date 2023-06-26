@@ -49,6 +49,18 @@ public enum CharacterPredicates implements CharacterPredicate {
     },
 
     /**
+     * Tests code points against {@link Character#isLetterOrDigit(int)}.
+     *
+     * @since 1.0
+     */
+    LETTERS_OR_DIGITS {
+        @Override
+        public boolean test(final int codePoint) {
+            return Character.isLetterOrDigit(codePoint);
+        }
+    },
+
+    /**
      * Tests if the code points represents a number between 0 and 9.
      *
      * @since 1.2

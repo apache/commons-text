@@ -110,4 +110,21 @@ public class CharacterPredicatesTest {
         assertThat(CharacterPredicates.LETTERS.test('?')).isFalse();
         assertThat(CharacterPredicates.LETTERS.test('@')).isFalse();
     }
+
+    @Test
+    public void testLettersOrDigits() {
+        assertThat(CharacterPredicates.LETTERS_OR_DIGITS.test('a')).isTrue();
+        assertThat(CharacterPredicates.LETTERS_OR_DIGITS.test('Z')).isTrue();
+
+        assertThat(CharacterPredicates.LETTERS_OR_DIGITS.test('1')).isTrue();
+        assertThat(CharacterPredicates.LETTERS_OR_DIGITS.test('?')).isFalse();
+        assertThat(CharacterPredicates.LETTERS_OR_DIGITS.test('@')).isFalse();
+
+        assertThat(CharacterPredicates.LETTERS_OR_DIGITS.test('0')).isTrue();
+        assertThat(CharacterPredicates.LETTERS_OR_DIGITS.test('9')).isTrue();
+
+        assertThat(CharacterPredicates.LETTERS_OR_DIGITS.test('-')).isFalse();
+        assertThat(CharacterPredicates.LETTERS_OR_DIGITS.test('.')).isFalse();
+        assertThat(CharacterPredicates.LETTERS_OR_DIGITS.test('L')).isTrue();
+    }
 }
