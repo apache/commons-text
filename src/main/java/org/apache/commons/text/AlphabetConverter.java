@@ -87,9 +87,6 @@ public final class AlphabetConverter {
      * @see "http://www.oracle.com/us/technologies/java/supplementary-142654.html"
      */
     private static String codePointToString(final int i) {
-        if (Character.charCount(i) == 1) {
-            return String.valueOf((char) i);
-        }
         return new String(Character.toChars(i));
     }
 
