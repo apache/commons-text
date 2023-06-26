@@ -241,7 +241,7 @@ public final class RandomStringGenerator {
          * @return {@code this}, to allow method chaining.
          */
         public Builder withinRange(final char[]... pairs) {
-            if(pairs != null) {
+            if (pairs != null) {
                 characterList = new ArrayList<>();
                 for (final char[] pair :  pairs) {
                     Validate.isTrue(pair.length == 2,
