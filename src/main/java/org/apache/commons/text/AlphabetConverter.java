@@ -264,9 +264,14 @@ public final class AlphabetConverter {
     public static AlphabetConverter createConverterFromMap(final Map<Integer, String> originalToEncoded) {
         final Map<Integer, String> unmodifiableOriginalToEncoded = Collections.unmodifiableMap(originalToEncoded);
         final Map<String, String> encodedToOriginal = new LinkedHashMap<>();
+        int encodedLetterLength = calculateEncodedLetterLength(unmodifiableOriginalToEncoded, encodedToOriginal);
+        return new AlphabetConverter(unmodifiableOriginalToEncoded, encodedToOriginal, encodedLetterLength);
+    }
 
+
+    private static int calculateEncodedLetterLength(final Map<Integer, String> unmodifiableOriginalToEncoded,
+                    final Map<String, String> encodedToOriginal) {
         int encodedLetterLength = 1;
-
         for (final Entry<Integer, String> e : unmodifiableOriginalToEncoded.entrySet()) {
             final String originalAsString = codePointToString(e.getKey());
             encodedToOriginal.put(e.getValue(), originalAsString);
@@ -275,9 +280,9 @@ public final class AlphabetConverter {
                 encodedLetterLength = e.getValue().length();
             }
         }
-
-        return new AlphabetConverter(unmodifiableOriginalToEncoded, encodedToOriginal, encodedLetterLength);
+        return encodedLetterLength;
     }
+
 
     /**
      * Original string to be encoded.
