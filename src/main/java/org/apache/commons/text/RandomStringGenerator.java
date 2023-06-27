@@ -35,7 +35,7 @@ import org.apache.commons.lang3.Validate;
  *
  * <pre>
  * // Generates a 20 code point string, using only the letters a-z
- * RandomStringGenerator generator = new RandomStringGenerator.Builder()
+ * RandomStringGenerator generator = RandomStringGenerator.builder()
  *     .withinRange('a', 'z').build();
  * String randomLetters = generator.generate(20);
  * </pre>
@@ -43,7 +43,7 @@ import org.apache.commons.lang3.Validate;
  * // Using Apache Commons RNG for randomness
  * UniformRandomProvider rng = RandomSource.create(...);
  * // Generates a 20 code point string, using only the letters a-z
- * RandomStringGenerator generator = new RandomStringGenerator.Builder()
+ * RandomStringGenerator generator = RandomStringGenerator.builder()
  *     .withinRange('a', 'z')
  *     .usingRandom(rng::nextInt) // uses Java 8 syntax
  *     .build();
@@ -205,7 +205,7 @@ public final class RandomStringGenerator {
          * <pre>
          * {@code
          *     UniformRandomProvider rng = RandomSource.create(...);
-         *     RandomStringGenerator gen = new RandomStringGenerator.Builder()
+         *     RandomStringGenerator gen = RandomStringGenerator.builder()
          *         .usingRandom(rng::nextInt)
          *         // additional builder calls as needed
          *         .build();
@@ -288,6 +288,16 @@ public final class RandomStringGenerator {
             this.maximumCodePoint = maximumCodePoint;
             return this;
         }
+    }
+
+    /**
+     * Constructs a new builder.
+     * @return a new builder.
+     *
+     * @since 1.11.0
+     */
+    public static Builder builder() {
+        return new Builder();
     }
 
     /**
