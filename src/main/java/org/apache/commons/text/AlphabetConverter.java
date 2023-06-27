@@ -39,7 +39,7 @@ import org.apache.commons.lang3.StringUtils;
  * </p>
  *
  * <p>
- * The target and do not encode languages must be in the Unicode BMP, but the
+ * The target and 'do not encode' languages must be in the Unicode BMP, but the
  * source language does not.
  * </p>
  *

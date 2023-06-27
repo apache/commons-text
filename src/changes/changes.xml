@@ -58,6 +58,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Add and use a package-private singleton for JaroWinklerSimilarity.</action>
     <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Add and use a package-private singleton for JaccardSimilarity.</action>
     <action                  type="fix" dev="ggregory" due-to="step-security-bot, Gary Gregory">[StepSecurity] ci: Harden GitHub Actions #428.</action>
+    <action                  type="fix" dev="ggregory" due-to="Dimitrios Efthymiou">Improve AlphabetConverter Javadoc #429.</action>
     <!-- ADD -->
     <action issue="TEXT-224" type="add" dev="ggregory" due-to="PJ Fanning, Gary Gregory">Set SecureProcessing feature in XmlStringLookup by default.</action>
     <action issue="TEXT-224" type="add" dev="ggregory" due-to="Gary Gregory">Add StringLookupFactory.xmlStringLookup(Map&lt;String, Boolean&gt;...).</action>
