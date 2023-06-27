@@ -63,7 +63,7 @@ public class IntersectionResult {
             throw new IllegalArgumentException("Set size |B| is not positive: " + sizeB);
         }
         if (intersection < 0 || intersection > Math.min(sizeA, sizeB)) {
-            throw new IllegalArgumentException("Invalid intersection of |A| and |B|: " + intersection);
+            throw new IllegalArgumentException("Invalid intersection of A and B: " + intersection);
         }
         this.sizeA = sizeA;
         this.sizeB = sizeB;
