@@ -300,8 +300,13 @@ public class RandomStringGeneratorTest {
     public void testWithinMultipleRanges() {
         final int length = 5000;
         final char[][] pairs = {{'a', 'z'}, {'0', '9'}};
+        // @formatter:off
         final RandomStringGenerator generator = RandomStringGenerator.builder()
-                .withinRange(pairs).build();
+                .withinRange()
+                .withinRange(null)
+                .withinRange(pairs)
+                .build();
+        // @formatter:on
         final String str = generator.generate(length);
 
         int minimumCodePoint = 0, maximumCodePoint = 0;
