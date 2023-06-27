@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.apache.commons.text.RandomStringGenerator.Builder;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -220,6 +221,7 @@ public class RandomStringGeneratorTest {
         // @formatter:off
         final RandomStringGenerator generator = new RandomStringGenerator.Builder()
                 .selectFrom()
+                .selectFrom(null)
                 .selectFrom('a', 'b')
                 .selectFrom('a', 'b', 'c')
                 .selectFrom('a', 'b', 'c', 'd')
@@ -253,9 +255,26 @@ public class RandomStringGeneratorTest {
     @Test
     public void testSelectFromNullCharVarargs() {
         final int length = 5;
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFrom(null).build();
-        final String randomText = generator.generate(length);
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFrom(null).build();
+        String randomText = generator.generate(length);
         assertThat(codePointLength(randomText)).isEqualTo(length);
+        for (final char c : randomText.toCharArray()) {
+            assertTrue(c >= Character.MIN_CODE_POINT && c <= Character.MAX_CODE_POINT);
+        }
+        //
+        final Builder builder = new RandomStringGenerator.Builder().selectFrom('a');
+        generator = builder.build();
+        randomText = generator.generate(length);
+        for (final char c : randomText.toCharArray()) {
+            assertEquals('a', c);
+        }
+        // null input resets
+        generator = builder.selectFrom(null).build();
+        randomText = generator.generate(length);
+        assertThat(codePointLength(randomText)).isEqualTo(length);
+        for (final char c : randomText.toCharArray()) {
+            assertTrue(c >= Character.MIN_CODE_POINT && c <= Character.MAX_CODE_POINT);
+        }
     }
 
     @Test
