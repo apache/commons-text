@@ -214,10 +214,10 @@ public class RandomStringGeneratorTest {
 
     @Test
     public void testSelectFromNullCharVarargs() {
-        final String str = "abc";
+        final int length = 5;
         final RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFrom(null).build();
-        final String randomText = generator.generate(5);
-        assertThat(randomText.isEmpty()).isFalse();
+        final String randomText = generator.generate(length);
+        assertThat(codePointLength(randomText)).isEqualTo(length);
     }
 
     @Test
