@@ -251,6 +251,14 @@ public class RandomStringGeneratorTest {
     }
 
     @Test
+    public void testSelectFromNullCharVarargs() {
+        final int length = 5;
+        final RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFrom(null).build();
+        final String randomText = generator.generate(length);
+        assertThat(codePointLength(randomText)).isEqualTo(length);
+    }
+
+    @Test
     public void testSetLength() {
         final int length = 99;
         final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
