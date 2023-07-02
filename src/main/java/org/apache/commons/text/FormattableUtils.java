@@ -90,26 +90,9 @@ public class FormattableUtils {
      */
     public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
             final int precision, final char padChar, final CharSequence truncateEllipsis) {
-        if (!(truncateEllipsis == null || precision < 0 || truncateEllipsis.length() <= precision)) {
-            throw new IllegalArgumentException(
-                    String.format("Specified ellipsis '%s' exceeds precision of %s",
-                            truncateEllipsis,
-                            precision));
-        }
-        final StringBuilder buf = new StringBuilder(seq);
-        if (precision >= 0 && precision < seq.length()) {
-            final CharSequence ellipsis;
-            if (truncateEllipsis == null) {
-                ellipsis = StringUtils.EMPTY;
-            } else {
-                ellipsis = truncateEllipsis;
-            }
-            buf.replace(precision - ellipsis.length(), seq.length(), ellipsis.toString());
-        }
-        final boolean leftJustify = (flags & LEFT_JUSTIFY) == LEFT_JUSTIFY;
-        for (int i = buf.length(); i < width; i++) {
-            buf.insert(leftJustify ? i : 0, padChar);
-        }
+        validateEllipsis(truncateEllipsis, precision);
+        StringBuilder buf = truncate(seq, precision, truncateEllipsis);
+        buf = createPadding(buf, width, flags, padChar);
         formatter.format(buf.toString());
         return formatter;
     }
@@ -143,6 +126,32 @@ public class FormattableUtils {
      */
     public static String toString(final Formattable formattable) {
         return String.format(SIMPLEST_FORMAT, formattable);
+    }
+
+    private static void validateEllipsis(CharSequence truncateEllipsis, int precision) {
+        if (!(truncateEllipsis == null || precision < 0 || truncateEllipsis.length() <= precision)) {
+            throw new IllegalArgumentException(
+                            String.format("Specified ellipsis '%s' exceeds precision of %s",
+                                            truncateEllipsis,
+                                            precision));
+        }
+    }
+
+    private static StringBuilder truncate(CharSequence seq, int precision, CharSequence truncateEllipsis) {
+        final StringBuilder buf = new StringBuilder(seq);
+        if (precision >= 0 && precision < seq.length()) {
+            CharSequence ellipsis = truncateEllipsis == null ? StringUtils.EMPTY : truncateEllipsis;
+            buf.replace(precision - ellipsis.length(), seq.length(), ellipsis.toString());
+        }
+        return buf;
+    }
+
+    private static StringBuilder createPadding(StringBuilder buf, int width, int flags, char padChar) {
+        boolean leftJustify = (flags & LEFT_JUSTIFY) == LEFT_JUSTIFY;
+        for (int i = buf.length(); i < width; i++) {
+            buf.insert(leftJustify ? i : 0, padChar);
+        }
+        return buf;
     }
 
     /**
