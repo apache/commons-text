@@ -262,8 +262,7 @@ public final class AlphabetConverter {
         int encodedLetterLength = 1;
 
         for (final Entry<Integer, String> e : unmodifiableOriginalToEncoded.entrySet()) {
-            final String originalAsString = codePointToString(e.getKey());
-            encodedToOriginal.put(e.getValue(), originalAsString);
+            encodedToOriginal.put(e.getValue(), codePointToString(e.getKey()));
 
             if (e.getValue().length() > encodedLetterLength) {
                 encodedLetterLength = e.getValue().length();
