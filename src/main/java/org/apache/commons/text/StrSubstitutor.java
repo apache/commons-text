@@ -17,11 +17,11 @@
 package org.apache.commons.text;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.Validate;
 
@@ -191,14 +191,8 @@ public class StrSubstitutor {
         if (valueProperties == null) {
             return source.toString();
         }
-        final Map<String, String> valueMap = new HashMap<>();
-        final Enumeration<?> propNames = valueProperties.propertyNames();
-        while (propNames.hasMoreElements()) {
-            final String propName = String.valueOf(propNames.nextElement());
-            final String propValue = valueProperties.getProperty(propName);
-            valueMap.put(propName, propValue);
-        }
-        return StrSubstitutor.replace(source, valueMap);
+        return StrSubstitutor.replace(source,
+                valueProperties.stringPropertyNames().stream().collect(Collectors.toMap(Function.identity(), valueProperties::getProperty)));
     }
 
     /**
