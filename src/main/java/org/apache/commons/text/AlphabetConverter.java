@@ -163,14 +163,11 @@ public final class AlphabetConverter {
             final Iterator<Integer> it = encodingCopy.iterator();
 
             for (final int originalLetter : originalCopy) {
-                final String originalLetterAsString =
-                        codePointToString(originalLetter);
+                final String originalLetterAsString = codePointToString(originalLetter);
 
                 if (doNotEncodeMap.containsKey(originalLetter)) {
-                    originalToEncoded.put(originalLetter,
-                            originalLetterAsString);
-                    encodedToOriginal.put(originalLetterAsString,
-                            originalLetterAsString);
+                    originalToEncoded.put(originalLetter, originalLetterAsString);
+                    encodedToOriginal.put(originalLetterAsString, originalLetterAsString);
                 } else {
                     Integer next = it.next();
 
@@ -181,14 +178,11 @@ public final class AlphabetConverter {
                     final String encodedLetter = codePointToString(next);
 
                     originalToEncoded.put(originalLetter, encodedLetter);
-                    encodedToOriginal.put(encodedLetter,
-                            originalLetterAsString);
+                    encodedToOriginal.put(encodedLetter, originalLetterAsString);
                 }
             }
 
-            return new AlphabetConverter(originalToEncoded,
-                    encodedToOriginal,
-                    encodedLetterLength);
+            return new AlphabetConverter(originalToEncoded, encodedToOriginal, encodedLetterLength);
 
         }
         if (encodingCopy.size() - doNotEncodeCopy.size() < 2) {
