@@ -499,7 +499,7 @@ public enum DoubleFormat {
          * @param symbols symbols object
          * @return string containing the localized digits 0-9
          */
-        private String getDigitString(final DecimalFormatSymbols symbols) {
+        private static String getDigitString(final DecimalFormatSymbols symbols) {
             final int zeroDelta = symbols.getZeroDigit() - DEFAULT_DECIMAL_DIGITS.charAt(0);
 
             final char[] digitChars = new char[DEFAULT_DECIMAL_DIGITS.length()];
