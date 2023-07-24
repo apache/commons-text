@@ -298,7 +298,8 @@ public class StringSubstitutor {
      * </pre>
      *
      * <p>The table below lists the lookups available by default in the returned instance. These
-     * may be modified through the use of the {@value StringLookupFactory#DEFAULT_STRING_LOOKUPS_PROPERTY}
+     * may be modified through the use of the
+     * {@value org.apache.commons.text.lookup.StringLookupFactory#DEFAULT_STRING_LOOKUPS_PROPERTY}
      * system property, as described in the {@link StringLookupFactory} documentation.</p>
      *
      * <p><strong>NOTE:</strong> The list of lookups available by default changed in version {@code 1.10.0}.
@@ -312,59 +313,59 @@ public class StringSubstitutor {
      * <th>Lookup</th>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_BASE64_DECODER}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_BASE64_DECODER}</td>
      * <td>{@link StringLookupFactory#base64DecoderStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_BASE64_ENCODER}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_BASE64_ENCODER}</td>
      * <td>{@link StringLookupFactory#base64EncoderStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_CONST}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_CONST}</td>
      * <td>{@link StringLookupFactory#constantStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_DATE}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_DATE}</td>
      * <td>{@link StringLookupFactory#dateStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_ENV}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_ENV}</td>
      * <td>{@link StringLookupFactory#environmentVariableStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_FILE}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_FILE}</td>
      * <td>{@link StringLookupFactory#fileStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_JAVA}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_JAVA}</td>
      * <td>{@link StringLookupFactory#javaPlatformStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_LOCALHOST}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_LOCALHOST}</td>
      * <td>{@link StringLookupFactory#localHostStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_PROPERTIES}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_PROPERTIES}</td>
      * <td>{@link StringLookupFactory#propertiesStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_RESOURCE_BUNDLE}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_RESOURCE_BUNDLE}</td>
      * <td>{@link StringLookupFactory#resourceBundleStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_SYS}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_SYS}</td>
      * <td>{@link StringLookupFactory#systemPropertyStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_URL_DECODER}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_URL_DECODER}</td>
      * <td>{@link StringLookupFactory#urlDecoderStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_URL_ENCODER}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_URL_ENCODER}</td>
      * <td>{@link StringLookupFactory#urlEncoderStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_XML}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML}</td>
      * <td>{@link StringLookupFactory#xmlStringLookup()}</td>
      * </tr>
      * </table>
