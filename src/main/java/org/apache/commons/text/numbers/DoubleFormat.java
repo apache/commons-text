@@ -130,9 +130,9 @@ public enum DoubleFormat {
      * Number format that uses {@link #PLAIN plain format} for small numbers and
      * {@link #SCIENTIFIC scientific format} for large numbers. The number thresholds
      * can be configured through the
-     * {@link Builder#plainFormatMinDecimalExponent plainFormatMinDecimalExponent}
+     * {@link Builder#plainFormatMinDecimalExponent(int) plainFormatMinDecimalExponent}
      * and
-     * {@link Builder#plainFormatMaxDecimalExponent plainFormatMaxDecimalExponent}
+     * {@link Builder#plainFormatMaxDecimalExponent(int) plainFormatMaxDecimalExponent}
      * properties.
      * Ex:
      * <pre>
@@ -619,7 +619,7 @@ public enum DoubleFormat {
          * if this value is set to {@code 2}, the number {@code 999} will be formatted as {@code "999.0"}
          * while {@code 1000} will be formatted as {@code "1.0E3"}.
          *
-         * <p>The default value is {@value #DEFAULT_PLAIN_FORMAT_MAX_DECIMAL_EXPONENT}.
+         * <p>The default value is {@code 6}.
          *
          * <p>This value is ignored for formats other than {@link DoubleFormat#MIXED}.
          * @param plainFormatMaxDecimalExponent maximum decimal exponent for values formatted as plain
@@ -642,7 +642,7 @@ public enum DoubleFormat {
          * if this value is set to {@code -2}, the number {@code 0.01} will be formatted as {@code "0.01"}
          * while {@code 0.0099} will be formatted as {@code "9.9E-3"}.
          *
-         * <p>The default value is {@value #DEFAULT_PLAIN_FORMAT_MIN_DECIMAL_EXPONENT}.
+         * <p>The default value is {@code -3}.
          *
          * <p>This value is ignored for formats other than {@link DoubleFormat#MIXED}.
          * @param plainFormatMinDecimalExponent maximum decimal exponent for values formatted as plain
