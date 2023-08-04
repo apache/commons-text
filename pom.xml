@@ -61,7 +61,7 @@
 
     <japicmp.skip>false</japicmp.skip>
 
-    <jmh.version>1.36</jmh.version>
+    <jmh.version>1.37</jmh.version>
 
     <!-- Commons Release Plugin -->
     <commons.bc.version>1.10.0</commons.bc.version>
