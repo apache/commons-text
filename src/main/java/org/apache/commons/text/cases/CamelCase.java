@@ -25,8 +25,9 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Case implementation that parses and formats strings of the form 'myCamelCase'
  * <p>
- * This case separates tokens on uppercase ASCII alpha characters, with the exception
- * that the first token begin with a lowercase ASCII alpha character.
+ * This case separates tokens on uppercase ASCII alpha characters. Each token begins with an
+ * uppercase ASCII alpha character, except the first token, which begins with a lowercase ASCII
+ * alpha character.
  * </p>
  */
 public class CamelCase implements Case {
