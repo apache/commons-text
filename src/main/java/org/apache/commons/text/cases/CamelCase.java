@@ -25,13 +25,13 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Case implementation that parses and formats strings of the form 'myCamelCase'
  * <p>
- * This case separates tokens on uppercase ascii alpha characters, with the exception
- * that the first token begin with a lowercase ascii alpha character.
+ * This case separates tokens on uppercase ASCII alpha characters, with the exception
+ * that the first token begin with a lowercase ASCII alpha character.
  * </p>
  */
 public class CamelCase implements Case {
 
-    /** constant reuseable instance of this case. */
+    /** constant reusable instance of this case. */
     public static final CamelCase INSTANCE = new CamelCase();
 
     /**
@@ -44,9 +44,9 @@ public class CamelCase implements Case {
     /**
      * Parses string tokens from a Camel Case formatted string.
      * <p>
-     * Parses each character of the string parameter and creates new tokens when uppercase ascii
-     * letters are encountered. The upppercase letter is considered part of the new token. The very
-     * first character of the string is an exception to this rule and must be a lowercase ascii
+     * Parses each character of the string parameter and creates new tokens when uppercase ASCII
+     * letters are encountered. The uppercase letter is considered part of the new token. The very
+     * first character of the string is an exception to this rule and must be a lowercase ASCII
      * character. This method places no other restrictions on the content of the string. <br>
      * Note: This method should never produce empty tokens.
      * </p>
@@ -62,16 +62,6 @@ public class CamelCase implements Case {
         if (!CharUtils.isAsciiAlphaLower(string.charAt(0))) {
             throw new IllegalArgumentException("Character '" + string.charAt(0) + "' at index 0 must be an ascii lowercase letter");
         }
-        /*StringBuilder tokenBuilder = new StringBuilder();
-        for (int i = 0; i < string.length(); i++) {
-            char c = string.charAt(i);
-            if (CharUtils.isAsciiAlphaUpper(c)) {
-                tokens.add(tokenBuilder.toString());
-                tokenBuilder.setLength(0);
-            }
-            tokenBuilder.append(c);
-        }
-        tokens.add(tokenBuilder.toString());*/
         int strLen = string.length();
         int[] tokenCodePoints = new int[strLen];
         int tokenCodePointsOffset = 0;
@@ -98,13 +88,13 @@ public class CamelCase implements Case {
      * Formats tokens into a Camel Case string.
      * <p>
      * Iterates each token and creates a camel case formatted string. Each token must begin with an
-     * ascii letter, which will be forced uppercase in the output, except for the very first token,
+     * ASCII letter, which will be forced uppercase in the output, except for the very first token,
      * which will have a lowercase first character. The remaining characters in all tokens will be
      * forced lowercase. This Case does not support empty tokens.<br>
      * No other restrictions are placed on token contents.
      * </p>
-     * @param tokens String tokens to format into CamelCase
-     * @return Camel Case formatted string
+     * @param tokens String tokens to format into camel case
+     * @return camel case formatted string
      */
     @Override
     public String format(Iterable<String> tokens) {
