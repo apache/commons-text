@@ -89,9 +89,9 @@ public class CamelCase implements Case {
      * Formats tokens into a Camel Case string.
      * <p>
      * Iterates over tokens and creates a camel case formatted string. Each token must begin with an
-     * ASCII letter, which will be forced uppercase in the output, except for the very first token,
+     * ASCII letter, which will be converted to uppercase in the output, except for the very first token,
      * which will have a lowercase first character. The remaining characters in all tokens will be
-     * forced lowercase. This Case does not support empty tokens.<br>
+     * converted to lowercase. This Case does not support empty tokens.<br>
      * No other restrictions are placed on token contents.
      * </p>
      * @param tokens string tokens to format into camel case
