@@ -68,7 +68,7 @@ public class CasesTest {
         assertFormatAndParse(PascalCase.INSTANCE, "MyTokensA1D", Arrays.asList("My", "Tokens", "A1", "D"));
         assertFormatAndParse(PascalCase.INSTANCE, "", Arrays.asList());
 
-        // first character must be ascii alpha upper
+        // first character must be ASCII alpha upper
         Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.parse("lowerFirst"));
         Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("1")));
         Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("")));
@@ -83,9 +83,9 @@ public class CasesTest {
 
         // empty token not supported
         Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("a", "b", "")));
-        // must begin with ascii alpha
+        // must begin with ASCII alpha
         Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("a", "1b")));
-        // must begin with ascii alpha lower
+        // must begin with ASCII alpha lower
         Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.parse("MyTokens"));
     }
 
@@ -134,7 +134,7 @@ public class CasesTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(tokens));
     }
 
-    public void assertFormatAndParse(Case caseInstance, String string, List<String> tokens) {
+    private void assertFormatAndParse(Case caseInstance, String string, List<String> tokens) {
         assertFormatAndParse(caseInstance, string, tokens, false);
     }
 
@@ -147,7 +147,7 @@ public class CasesTest {
      * @param tokens the expected tokens
      * @param caseInsensitive whether to not to validate tokens case insensitively
      */
-    public void assertFormatAndParse(Case caseInstance, String string, List<String> tokens, Boolean caseInsensitive) {
+    private void assertFormatAndParse(Case caseInstance, String string, List<String> tokens, Boolean caseInsensitive) {
         List<String> parsedTokens = caseInstance.parse(string);
         if (caseInsensitive) {
             assertEqualsIgnoreCase(tokens, parsedTokens);
@@ -158,7 +158,7 @@ public class CasesTest {
         Assertions.assertEquals(string, formatted);
     }
 
-    public void assertEqualsIgnoreCase(List<String> expected, List<String> actual) {
+    private void assertEqualsIgnoreCase(List<String> expected, List<String> actual) {
         Assertions.assertEquals(expected.size(), actual.size());
         Iterator<String> itEx = expected.iterator();
         Iterator<String> itAc = actual.iterator();
