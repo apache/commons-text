@@ -160,9 +160,8 @@ public class CasesTest {
 
     private void assertEqualsIgnoreCase(List<String> expected, List<String> actual) {
         Assertions.assertEquals(expected.size(), actual.size());
-        Iterator<String> itEx = expected.iterator();
         Iterator<String> itAc = actual.iterator();
-        for (; itEx.hasNext();) {
+        for (Iterator<String> itEx = expected.iterator(); itEx.hasNext();) {
             Assertions.assertEquals(itEx.next().toLowerCase(), itAc.next().toLowerCase());
         }
     }
