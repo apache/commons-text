@@ -25,15 +25,15 @@ package org.apache.commons.text.cases;
 public class SnakeCase extends DelimitedCase {
 
     /** constant for delimiter. */
-    public static final char DELIMITER = '_';
+    private static final char DELIMITER = '_';
 
-    /** constant reuseable instance of this case. */
+    /** constant reusable instance of this case. */
     public static final SnakeCase INSTANCE = new SnakeCase();
 
     /**
      * Constructs a new SnakeCase instance.
      */
-    public SnakeCase() {
+    private SnakeCase() {
         super(DELIMITER);
     }
 

@@ -38,7 +38,7 @@ public class PascalCase implements Case {
     /**
      * Constructs a new PascalCase instance.
      */
-    public PascalCase() {
+    private PascalCase() {
     }
 
     /**

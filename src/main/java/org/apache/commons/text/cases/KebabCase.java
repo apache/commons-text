@@ -25,15 +25,15 @@ package org.apache.commons.text.cases;
 public class KebabCase extends DelimitedCase {
 
     /** constant for delimiter. */
-    public static final char DELIMITER = '-';
+    private static final char DELIMITER = '-';
 
-    /** constant reuseable instance of this case. */
+    /** constant reusable instance of this case. */
     public static final KebabCase INSTANCE = new KebabCase();
 
     /**
      * Constructs a new KebabCase instance.
      */
-    public KebabCase() {
+    private KebabCase() {
         super(DELIMITER);
     }
 

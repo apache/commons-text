@@ -38,7 +38,7 @@ public class CamelCase implements Case {
     /**
      * Constructs new CamelCase instance.
      */
-    public CamelCase() {
+    private CamelCase() {
         super();
     }
 
@@ -88,7 +88,7 @@ public class CamelCase implements Case {
     /**
      * Formats tokens into a Camel Case string.
      * <p>
-     * Iterates each token and creates a camel case formatted string. Each token must begin with an
+     * Iterates over tokens and creates a camel case formatted string. Each token must begin with an
      * ASCII letter, which will be forced uppercase in the output, except for the very first token,
      * which will have a lowercase first character. The remaining characters in all tokens will be
      * forced lowercase. This Case does not support empty tokens.<br>

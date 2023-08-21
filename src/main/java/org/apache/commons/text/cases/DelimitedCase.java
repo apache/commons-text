@@ -39,7 +39,7 @@ public class DelimitedCase implements Case {
      * Constructs a new Delimited Case.
      * @param delimiter the character to use as both the parse and format delimiter
      */
-    public DelimitedCase(char delimiter) {
+    protected DelimitedCase(char delimiter) {
         this(new char[] { delimiter }, CharUtils.toString(delimiter));
     }
 
@@ -48,7 +48,7 @@ public class DelimitedCase implements Case {
      * @param parseDelimiters The array of delimiters to use when parsing
      * @param formatDelimiter The delimiter to use when formatting
      */
-    public DelimitedCase(char[] parseDelimiters, String formatDelimiter) {
+    protected DelimitedCase(char[] parseDelimiters, String formatDelimiter) {
         super();
         if (parseDelimiters == null || parseDelimiters.length == 0) {
             throw new IllegalArgumentException("Parse Delimiters cannot be null or empty");
