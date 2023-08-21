@@ -45,8 +45,8 @@ public class DelimitedCase implements Case {
 
     /**
      * Constructs a new delimited case.
-     * @param parseDelimiters The array of delimiters to use when parsing
-     * @param formatDelimiter The delimiter to use when formatting
+     * @param parseDelimiters the array of delimiters to use when parsing
+     * @param formatDelimiter the delimiter to use when formatting
      */
     protected DelimitedCase(char[] parseDelimiters, String formatDelimiter) {
         super();
@@ -70,7 +70,7 @@ public class DelimitedCase implements Case {
      * Note: This Case does support empty tokens.<br>
      * </p>
      * @param tokens the tokens to be formatted into a delimited string
-     * @return The delimited string
+     * @return the delimited string
      */
     @Override
     public String format(Iterable<String> tokens) {
@@ -98,8 +98,8 @@ public class DelimitedCase implements Case {
      * considered reserved, and is omitted from the returned parsed tokens.<br>
      * No other restrictions are placed on the contents of the input string. <br>
      * </p>
-     * @param string The delimited string to be parsed
-     * @return The list of tokens found in the string
+     * @param string the delimited string to be parsed
+     * @return the list of tokens found in the string
      */
     @Override
     public List<String> parse(String string) {
@@ -130,7 +130,7 @@ public class DelimitedCase implements Case {
      * Converts an array of delimiters to a hash set of code points. The generated hash set provides O(1) lookup time.
      *
      * @param delimiters set of characters to determine capitalization, null means whitespace
-     * @return Set<Integer>
+     * @return the Set of delimiter characters in the input array
      */
     private static Set<Integer> generateDelimiterSet(final char[] delimiters) {
         final Set<Integer> delimiterHashSet = new HashSet<>();
