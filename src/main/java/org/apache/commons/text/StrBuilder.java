@@ -1302,11 +1302,11 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * </p>
      * <pre>
      * StrBuilder whereClause = new StrBuilder();
-     * if(searchCommand.getPriority() != null) {
+     * if (searchCommand.getPriority() != null) {
      *   whereClause.appendSeparator(" and", " where");
      *   whereClause.append(" priority = ?")
      * }
-     * if(searchCommand.getComponent() != null) {
+     * if (searchCommand.getComponent() != null) {
      *   whereClause.appendSeparator(" and", " where");
      *   whereClause.append(" component = ?")
      * }
