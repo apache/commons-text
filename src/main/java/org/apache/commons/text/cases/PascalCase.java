@@ -52,6 +52,7 @@ public class PascalCase implements Case {
      * </p>
      * @param string The Pascal Cased string to parse
      * @return the list of tokens found in the string
+     * @throws IllegalArgumentException if the string does not begin with an uppercase ASCII alpha character
      */
     @Override
     public List<String> parse(String string) {
@@ -60,7 +61,7 @@ public class PascalCase implements Case {
             return tokens;
         }
         if (!CharUtils.isAsciiAlphaUpper(string.charAt(0))) {
-            throw new IllegalArgumentException("Character '" + string.charAt(0) + "' at index 0 must be ascii uppercase");
+            throw new IllegalArgumentException("Character '" + string.charAt(0) + "' at index 0 must be ASCII uppercase");
         }
         int strLen = string.length();
         int[] tokenCodePoints = new int[strLen];
@@ -94,6 +95,7 @@ public class PascalCase implements Case {
      * </p>
      * @param tokens The string tokens to be formatted into Pascal Case
      * @return The Pascal Case formatted string
+     * @throws IllegalArgumentException if any token is empty String or does not begin with an ASCII alpha character
      */
     @Override
     public String format(Iterable<String> tokens) {
@@ -104,7 +106,7 @@ public class PascalCase implements Case {
                 throw new IllegalArgumentException("Unsupported empty token at index " + i);
             }
             if (!CharUtils.isAsciiAlpha(token.charAt(0))) {
-                throw new IllegalArgumentException("First character '" + token.charAt(0) + "' in token " + i + " must be an ascii letter");
+                throw new IllegalArgumentException("First character '" + token.charAt(0) + "' in token " + i + " must be an ASCII letter");
             }
             String formattedToken = token.substring(0, 1).toUpperCase() + (token.length() > 1 ? token.substring(1).toLowerCase() : StringUtils.EMPTY);
             i++;

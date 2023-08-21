@@ -53,6 +53,7 @@ public class CamelCase implements Case {
      * </p>
      * @param string camel case formatted string to parse
      * @return list of tokens parsed from the string
+     * @throws IllegalArgumentException if the string does not begin with a lowercase ASCII alpha character
      */
     @Override
     public List<String> parse(String string) {
@@ -61,7 +62,7 @@ public class CamelCase implements Case {
             return tokens;
         }
         if (!CharUtils.isAsciiAlphaLower(string.charAt(0))) {
-            throw new IllegalArgumentException("Character '" + string.charAt(0) + "' at index 0 must be an ascii lowercase letter");
+            throw new IllegalArgumentException("Character '" + string.charAt(0) + "' at index 0 must be an ASCII lowercase letter");
         }
         int strLen = string.length();
         int[] tokenCodePoints = new int[strLen];
@@ -96,6 +97,7 @@ public class CamelCase implements Case {
      * </p>
      * @param tokens string tokens to format into camel case
      * @return camel case formatted string
+     * @throws IllegalArgumentException if any tokens are empty String or do not begin with ASCII alpha characters
      */
     @Override
     public String format(Iterable<String> tokens) {
@@ -106,7 +108,7 @@ public class CamelCase implements Case {
                 throw new IllegalArgumentException("Unsupported empty token at index " + i);
             }
             if (!CharUtils.isAsciiAlpha(token.charAt(0))) {
-                throw new IllegalArgumentException("First character '" + token.charAt(0) + "' in token " + i + " must be an ascii letter");
+                throw new IllegalArgumentException("First character '" + token.charAt(0) + "' in token " + i + " must be an ASCII letter");
             }
             String formattedToken = (i == 0 ? token.substring(0, 1).toLowerCase() : token.substring(0, 1).toUpperCase())
                     + (token.length() > 1 ? token.substring(1).toLowerCase() : StringUtils.EMPTY);

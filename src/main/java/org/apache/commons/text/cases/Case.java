@@ -35,6 +35,7 @@ public interface Case {
      *
      * @param tokens string tokens to be formatted by this Case
      * @return the formatted string
+     * @throws IllegalArgumentException if tokens cannot be formatted
      */
     String format(Iterable<String> tokens);
 
@@ -42,8 +43,9 @@ public interface Case {
      * Parses a string into a series of tokens. The string must abide by certain restrictions,
      * dependent on each Case implementation.
      *
-     * @param string The string to be parsed by the Case into a list of tokens
-     * @return The list of parsed tokens
+     * @param string the string to be parsed by the Case into a list of tokens
+     * @return the list of parsed tokens
+     * @throws IllegalArgumentException if the string cannot be parsed
      */
     List<String> parse(String string);
 

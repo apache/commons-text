@@ -71,6 +71,7 @@ public class DelimitedCase implements Case {
      * </p>
      * @param tokens the tokens to be formatted into a delimited string
      * @return the delimited string
+     * @throws IllegalArgumentException if any tokens contain the delimiter character
      */
     @Override
     public String format(Iterable<String> tokens) {
