@@ -16,7 +16,7 @@
  */
 package org.apache.commons.text.cases;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.CharUtils;
@@ -55,7 +55,7 @@ public class PascalCase implements Case {
      */
     @Override
     public List<String> parse(String string) {
-        List<String> tokens = new LinkedList<>();
+        List<String> tokens = new ArrayList<>();
         if (string.length() == 0) {
             return tokens;
         }

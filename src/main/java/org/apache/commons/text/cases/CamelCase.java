@@ -16,7 +16,7 @@
  */
 package org.apache.commons.text.cases;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.CharUtils;
@@ -51,12 +51,12 @@ public class CamelCase implements Case {
      * character. This method places no other restrictions on the content of the string. <br>
      * Note: This method should never produce empty tokens.
      * </p>
-     * @param string Camel Case formatted string to parse
+     * @param string camel case formatted string to parse
      * @return list of tokens parsed from the string
      */
     @Override
     public List<String> parse(String string) {
-        List<String> tokens = new LinkedList<>();
+        List<String> tokens = new ArrayList<>();
         if (string.length() == 0) {
             return tokens;
         }
@@ -94,7 +94,7 @@ public class CamelCase implements Case {
      * forced lowercase. This Case does not support empty tokens.<br>
      * No other restrictions are placed on token contents.
      * </p>
-     * @param tokens String tokens to format into camel case
+     * @param tokens string tokens to format into camel case
      * @return camel case formatted string
      */
     @Override

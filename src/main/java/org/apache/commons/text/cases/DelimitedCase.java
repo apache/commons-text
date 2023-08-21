@@ -16,8 +16,8 @@
  */
 package org.apache.commons.text.cases;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -103,7 +103,7 @@ public class DelimitedCase implements Case {
      */
     @Override
     public List<String> parse(String string) {
-        List<String> tokens = new LinkedList<>();
+        List<String> tokens = new ArrayList<>();
         if (string.length() == 0) {
             return tokens;
         }
