@@ -1312,10 +1312,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Appends one of both separators to the StrBuilder. If the builder is currently empty it will append the
-     * defaultIfEmpty-separator Otherwise it will append the standard-separator
-     *
+     * Appends one of both separators to the StrBuilder. If the builder is currently empty, it will append the
+     * defaultIfEmpty-separator, otherwise it will append the standard-separator.
+     * <p>
      * Appending a null separator will have no effect. The separator is appended using {@link #append(String)}.
+     * </p>
      * <p>
      * This method is for example useful for constructing queries
      * </p>
@@ -1832,9 +1833,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Tests the capacity and ensures that it is at least the size specified.
      *
-     * <p>Note: This method can be used to minimise memory reallocations during
+     * <p>
+     * Note: This method can be used to minimise memory reallocations during
      * repeated addition of values by pre-allocating the character buffer.
      * The method ignores a negative {@code capacity} argument.
+     * </p>
      *
      * @param capacity the capacity to ensure
      * @return this, to enable chaining
@@ -1848,11 +1851,13 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Ensure that the buffer is at least the size specified. The {@code capacity} argument
+     * Ensures that the buffer is at least the size specified. The {@code capacity} argument
      * is treated as an unsigned integer.
      *
-     * <p>This method will raise an {@link OutOfMemoryError} if the capacity is too large
+     * <p>
+     * This method will raise an {@link OutOfMemoryError} if the capacity is too large
      * for an array, or cannot be allocated.
+     * </p>
      *
      * @param capacity the capacity to ensure
      * @throws OutOfMemoryError if the capacity cannot be allocated
@@ -1886,7 +1891,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Create a positive capacity at least as large the minimum required capacity.
+     * Creates a positive capacity at least as large the minimum required capacity.
      * If the minimum capacity is negative then this throws an OutOfMemoryError as no array
      * can be allocated.
      *
