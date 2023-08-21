@@ -30,7 +30,7 @@ import org.apache.commons.lang3.StringUtils;
  * alpha character.
  * </p>
  */
-public class CamelCase implements Case {
+public final class CamelCase implements Case {
 
     /** constant reusable instance of this case. */
     public static final CamelCase INSTANCE = new CamelCase();

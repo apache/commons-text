@@ -22,7 +22,7 @@ package org.apache.commons.text.cases;
  * SnakeCase is a delimited case where the delimiter is the underscore character '_'.
  * </p>
  */
-public class SnakeCase extends DelimitedCase {
+public final class SnakeCase extends DelimitedCase {
 
     /** constant for delimiter. */
     private static final char DELIMITER = '_';

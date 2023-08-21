@@ -30,7 +30,7 @@ import org.apache.commons.lang3.StringUtils;
  * ignored and returned as-is.
  * </p>
  */
-public class PascalCase implements Case {
+public final class PascalCase implements Case {
 
     /** constant reusable instance of this case. */
     public static final PascalCase INSTANCE = new PascalCase();
