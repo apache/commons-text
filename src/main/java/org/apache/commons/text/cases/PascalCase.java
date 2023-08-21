@@ -25,14 +25,14 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Case implementation which parses and formats strings of the form 'MyPascalString'
  * <p>
- * PascalCase is a case where tokens are delimited by uppercase characters. Each parsed token
+ * PascalCase is a case where tokens are delimited by uppercase ASCII characters. Each parsed token
  * <b>must</b> begin with an uppercase character, but the case of the remaining token characters is
  * ignored and returned as-is.
  * </p>
  */
 public class PascalCase implements Case {
 
-    /** constant reuseable instance of this case. */
+    /** constant reusable instance of this case. */
     public static final PascalCase INSTANCE = new PascalCase();
 
     /**
@@ -44,10 +44,10 @@ public class PascalCase implements Case {
     /**
      * Parses a PascalCase string into tokens.
      * <p>
-     * String characters are iterated over and any time an upper case ascii character is
+     * String characters are iterated over and any time an upper case ASCII character is
      * encountered, that character is considered to be the start of a new token, with the character
      * itself included in the token. This method should never return empty tokens. The first
-     * character of the string must be an uppercase ascii character. No further restrictions are
+     * character of the string must be an uppercase ASCII character. No further restrictions are
      * placed on string contents.
      * </p>
      * @param string The Pascal Cased string to parse
@@ -87,8 +87,8 @@ public class PascalCase implements Case {
     /**
      * Formats string tokens into a Pascal Case string.
      * <p>
-     * Iterates the tokens and formates each one into a Pascal Case token. The first character of
-     * the token must be an ascii alpha character. This character is forced upper case in the
+     * Iterates the tokens and formats each one into a Pascal Case token. The first character of
+     * the token must be an ASCII alpha character. This character is forced upper case in the
      * output. The remaining alpha characters of the token are forced lowercase. Any other
      * characters in the token are returned as-is. Empty tokens are not supported.
      * </p>
