@@ -904,9 +904,8 @@ public class TextStringBuilderTest {
         // ~4GiB char[] new buffer during reallocation
 
         // Attempts to guess the amount of free memory available using
-        // java.lang.Runtime and skipping the test often did not work.
-        // The JVM can allocating large arrays using far more memory than
-        // the raw byte size.
+        // the java.lang.Runtime/java.lang.management objects to
+        // skip the test often did not work.
         // So here we just run the test and return a skip result if the
         // OutOfMemoryError occurs too early.
 
