@@ -49,7 +49,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
      *
      * This ctor is not private to allow Mockito spying.
      */
-    ResourceBundleStringLookup() {
+    private ResourceBundleStringLookup() {
         this(null);
     }
 
