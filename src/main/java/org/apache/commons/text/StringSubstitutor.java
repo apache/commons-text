@@ -368,6 +368,14 @@ public class StringSubstitutor {
      * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML}</td>
      * <td>{@link StringLookupFactory#xmlStringLookup()}</td>
      * </tr>
+     * <tr>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML_DECODER}</td>
+     * <td>{@link StringLookupFactory#xmlDecoderStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML_ENCODER}</td>
+     * <td>{@link StringLookupFactory#xmlEncoderStringLookup()}</td>
+     * </tr>
      * </table>
      *
      * @return a new instance using the interpolator string lookup.
