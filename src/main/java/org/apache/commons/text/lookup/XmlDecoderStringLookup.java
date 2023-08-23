@@ -23,7 +23,6 @@ import org.apache.commons.text.StringEscapeUtils;
  * Decodes strings according to the XML 1.0 specification.
  *
  * @see StringEscapeUtils#unescapeXml(String)
- * @since 1.11.0
  */
 final class XmlDecoderStringLookup extends AbstractStringLookup {
 
@@ -32,7 +31,7 @@ final class XmlDecoderStringLookup extends AbstractStringLookup {
      */
     static final XmlDecoderStringLookup INSTANCE = new XmlDecoderStringLookup();
 
-    XmlDecoderStringLookup() {
+    private XmlDecoderStringLookup() {
         // empty
     }
 
