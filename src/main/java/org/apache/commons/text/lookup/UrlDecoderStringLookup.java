@@ -38,7 +38,7 @@ final class UrlDecoderStringLookup extends AbstractStringLookup {
     /**
      * This ctor is not private to allow Mockito spying.
      */
-    UrlDecoderStringLookup() {
+    private UrlDecoderStringLookup() {
         // empty
     }
 

@@ -64,6 +64,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="fix" dev="ggregory" due-to="Dimitrios Efthymiou, Gary Gregory">Add null-check in RandomStringGenerator#Builder#withinRange() to avoid NullPointerException.</action>
     <action issue="TEXT-228" type="fix" dev="ggregory" due-to="Alex Herbert, Gary Gregory">Fix TextStringBuilder to over-allocate when ensuring capacity #452.</action>
     <action                  type="fix" dev="ggregory" due-to="Elliotte Rusty Harold, Gary Gregory">Constructor for ResourceBundleStringLookup should be private instead of package-private.</action>
+    <action                  type="fix" dev="ggregory" due-to="Elliotte Rusty Harold, Gary Gregory">Constructor for UrlDecoderStringLookup should be private instead of package-private.</action>
     <!-- ADD -->
     <action issue="TEXT-224" type="add" dev="ggregory" due-to="PJ Fanning, Gary Gregory">Set SecureProcessing feature in XmlStringLookup by default.</action>
     <action issue="TEXT-224" type="add" dev="ggregory" due-to="Gary Gregory">Add StringLookupFactory.xmlStringLookup(Map&lt;String, Boolean&gt;...).</action>
