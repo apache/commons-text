@@ -157,6 +157,7 @@ public enum DefaultStringLookup {
      * The lookup for XML decoding using the key {@code "xmlDecoder"}.
      * @see StringLookupFactory#KEY_XML_DECODER
      * @see StringLookupFactory#xmlDecoderStringLookup()
+     * @since 1.11.0
      */
     XML_DECODER(StringLookupFactory.KEY_XML_DECODER, StringLookupFactory.INSTANCE.xmlDecoderStringLookup()),
 
@@ -164,6 +165,7 @@ public enum DefaultStringLookup {
      * The lookup for XML encoding using the key {@code "xmlEncoder"}.
      * @see StringLookupFactory#KEY_XML_ENCODER
      * @see StringLookupFactory#xmlEncoderStringLookup()
+     * @since 1.11.0
      */
     XML_ENCODER(StringLookupFactory.KEY_XML_ENCODER, StringLookupFactory.INSTANCE.xmlEncoderStringLookup());
 
