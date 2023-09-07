@@ -50,11 +50,6 @@
 
     <commons.mockito.version>4.11.0</commons.mockito.version>
 
-    <!-- apache-rat-plugin 0.13 and jdepend-maven-plugin 2.0 both fail with LinkageError when generating reports 
-    with maven site plugin 3.11+. However, javadoc 3.4.0+ fails with site plugin versions lower than 3.11. So, we'll 
-    use slightly older site and javadoc versions here in order to be able to generate all reports. -->
-    <commons.site-plugin.version>3.10.0</commons.site-plugin.version>
-
     <!-- 22.1.0 requires Java 11 -->
     <graalvm.version>22.0.0.2</graalvm.version>
     <commons.rng.version>1.5</commons.rng.version>
