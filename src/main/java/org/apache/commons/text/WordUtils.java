@@ -845,9 +845,10 @@ public class WordUtils {
             if(wrapLongWords && nextForcedWrap < nextNewlineStr && nextForcedWrap < nextWrapOn) {
                 // We need to wrap the line due to a long word
                 lineEnd = nextLineStart = nextForcedWrap;
-            } else if(nextNewlineStr <= nextForcedWrap) {
+            } else if(nextNewlineStr <= nextForcedWrap || (nextNewlineStr > nextForcedWrap && nextNewlineStr <= nextWrapOn)) {
                 // There is a newLineStr before the length limit of the line, 
-                // so we wrap just after that.
+                // or after the length limit and before the next wrapOn, 
+                // so we wrap just after that newline string.
                 // This preserves trailing instances of wrapOn.
                 nextLineStart = !newlineStrMatcher.hitEnd() ? newlineStrMatcher.end() : inputLineLength;
                 lineEnd = nextLineStart;

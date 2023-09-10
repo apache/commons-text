@@ -446,7 +446,24 @@ public class WordUtilsTest {
             Arguments.of(
                 "Strip leading, keep trailing",
                 "word1             word2                        word3", 7,
-                "word1  " + systemNewLine + "word2  " + systemNewLine + "word3")
+                "word1  " + systemNewLine + "word2  " + systemNewLine + "word3"),
+
+            Arguments.of(
+                "Long word, followed by wrap",
+                "LongForALine Line 2 and Line 3", 12,
+                "LongForALine" + systemNewLine + "Line 2 and" + systemNewLine + "Line 3"),
+            Arguments.of(
+                "Long word, followed by newline",
+                "LongForALine" + systemNewLine + "Line 2 and Line 3", 12,
+                "LongForALine" + systemNewLine + "Line 2 and" + systemNewLine + "Line 3"),
+            Arguments.of(
+                "Too long word, followed by wrap",
+                "TooLongForALine Line 2 and Line 3", 10,
+                "TooLongForALine" + systemNewLine + "Line 2 and" + systemNewLine + "Line 3"),
+            Arguments.of(
+                "Too long word, followed by newline",
+                "TooLongForALine" + systemNewLine + "Line 2 and Line 3", 10,
+                "TooLongForALine" + systemNewLine + "Line 2 and" + systemNewLine + "Line 3")
         );
     }
 
