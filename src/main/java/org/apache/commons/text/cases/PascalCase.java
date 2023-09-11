@@ -94,7 +94,7 @@ public final class PascalCase implements Case {
      * characters in the token are returned as-is. Empty tokens are not supported.
      * </p>
      * @param tokens The string tokens to be formatted into Pascal Case
-     * @return The Pascal Case formatted string
+     * @return the Pascal Case formatted string
      * @throws IllegalArgumentException if any token is empty String or does not begin with an ASCII alpha character
      */
     @Override
