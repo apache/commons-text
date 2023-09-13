@@ -37,7 +37,7 @@ final class XmlEncoderStringLookup extends AbstractStringLookup {
     }
 
     @Override
-    public String lookup(String key) {
+    public String lookup(final String key) {
         return StringEscapeUtils.escapeXml10(key);
     }
 

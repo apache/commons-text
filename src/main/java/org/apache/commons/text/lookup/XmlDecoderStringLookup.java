@@ -36,7 +36,7 @@ final class XmlDecoderStringLookup extends AbstractStringLookup {
     }
 
     @Override
-    public String lookup(String key) {
+    public String lookup(final String key) {
         return StringEscapeUtils.unescapeXml(key);
     }
 

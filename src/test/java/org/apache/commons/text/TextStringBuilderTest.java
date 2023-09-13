@@ -983,7 +983,7 @@ public class TextStringBuilderTest {
      * @param sb the string builder
      * @param length the length
      */
-    private static void fill(TextStringBuilder sb, int length) {
+    private static void fill(final TextStringBuilder sb, final int length) {
         sb.clear();
         // Some initial data.
         final int limit = Math.min(64, length);
