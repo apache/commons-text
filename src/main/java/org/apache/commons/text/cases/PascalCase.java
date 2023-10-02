@@ -19,9 +19,6 @@ package org.apache.commons.text.cases;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.CharUtils;
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Case implementation which parses and formats strings of the form 'MyPascalString'
  * <p>
@@ -60,15 +57,15 @@ public final class PascalCase implements Case {
         if (string.length() == 0) {
             return tokens;
         }
-        if (!CharUtils.isAsciiAlphaUpper(string.charAt(0))) {
-            throw new IllegalArgumentException("Character '" + string.charAt(0) + "' at index 0 must be ASCII uppercase");
+        if (!Character.isUpperCase(string.codePointAt(0))) {
+            throw new IllegalArgumentException(createExceptionString(string.codePointAt(0), 0, "must be a Unicode uppercase letter"));
         }
         int strLen = string.length();
         int[] tokenCodePoints = new int[strLen];
         int tokenCodePointsOffset = 0;
         for (int i = 0; i < string.length();) {
             final int codePoint = string.codePointAt(i);
-            if (CharUtils.isAsciiAlphaUpper((char) codePoint)) {
+            if (Character.isUpperCase(codePoint)) {
                 if (tokenCodePointsOffset > 0) {
                     tokens.add(new String(tokenCodePoints, 0, tokenCodePointsOffset));
                     tokenCodePoints = new int[strLen];
@@ -100,20 +97,40 @@ public final class PascalCase implements Case {
     @Override
     public String format(Iterable<String> tokens) {
         StringBuilder formattedString = new StringBuilder();
-        int i = 0;
+        int tokenIndex = 0;
         for (String token : tokens) {
             if (token.length() == 0) {
-                throw new IllegalArgumentException("Unsupported empty token at index " + i);
+                throw new IllegalArgumentException("Unsupported empty token at index " + tokenIndex);
             }
-            if (!CharUtils.isAsciiAlpha(token.charAt(0))) {
-                throw new IllegalArgumentException("First character '" + token.charAt(0) + "' in token " + i + " must be an ASCII letter");
+            for (int i = 0; i < token.length();) {
+                final int codePoint = token.codePointAt(i);
+                int codePointFormatted = codePoint;
+                if (i == 0) {
+                    //must uppercase
+                    if (!Character.isUpperCase(codePoint)) {
+                        codePointFormatted = Character.toUpperCase(codePoint);
+                        if (codePoint == codePointFormatted || !Character.isUpperCase(codePointFormatted)) {
+                            throw new IllegalArgumentException(createExceptionString(codePoint, i, "cannot be mapped to uppercase"));
+                        }
+                    }
+                } else {
+                    //only need to force lowercase if the letter is uppercase, otherwise just add it
+                    if (Character.isUpperCase(codePoint)) {
+                        codePointFormatted = Character.toLowerCase(codePoint);
+                        if (codePoint == codePointFormatted || !Character.isLowerCase(codePointFormatted)) {
+                            throw new IllegalArgumentException(createExceptionString(codePoint, i, "cannot be mapped to lowercase"));
+                        }
+                    }
+                }
+                formattedString.appendCodePoint(codePointFormatted);
+                i += Character.charCount(codePoint);
             }
-            String formattedToken = token.substring(0, 1).toUpperCase() + (token.length() > 1 ? token.substring(1).toLowerCase() : StringUtils.EMPTY);
-            i++;
-            formattedString.append(formattedToken);
+            tokenIndex++;
         }
         return formattedString.toString();
-
     }
 
+    private static String createExceptionString(int codePoint, int index, String suffix) {
+        return "Character '" + new String(new int[] {codePoint}, 0, 1) + "' with code point " + codePoint + " at index " + index + " " + suffix;
+    }
 }

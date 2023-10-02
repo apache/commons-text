@@ -134,6 +134,98 @@ public class CasesTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(tokens));
     }
 
+    @Test
+    public void testUnicodeUncaseableLetter() {
+
+        // LATIN SMALL LETTER SHARP S
+        Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("uncaseable", "\u00DFabc", "token")));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("uncaseable", "\u00DFabc", "token")));
+
+        // LATIN SMALL LETTER KRA
+        Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("uncaseable", "\u0138abc", "token")));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("uncaseable", "\u0138abc", "token")));
+
+    }
+
+    /**
+     * This method iterates through all unicode characters and confirms: 1. If the character is
+     * uppercase or lowercase, that it can be parsed successfully 2. If the character can be
+     * converted to the opposite case, that this conversion can be parsed successfully 3. If the
+     * opposite case character can be converted BACK to the initial character, that this conversion
+     * can be parsed successfully
+     */
+    @Test
+    public void testUnicodeCasing() {
+
+        for (int i = 0; i < Character.MAX_CODE_POINT; i++) {
+
+            // this if block weeds out titlecase characters
+            if (Character.isLowerCase(i) || Character.isUpperCase(i)) {
+
+                // if char is lowercase
+                boolean lower = Character.isLowerCase(i);
+
+                // find the lowercase code point, if it exists
+                int lowerCode = lower ? i : Character.toLowerCase(i);
+                if (!Character.isLowerCase(lowerCode)) {
+                    lowerCode = i;
+                }
+
+                // find the uppercase code point, if it exists
+                int upperCode = !lower ? i : Character.toUpperCase(i);
+                if (!Character.isUpperCase(upperCode)) {
+                    upperCode = i;
+                }
+
+                // if char has a valid conversion
+                boolean canConvert = lowerCode != upperCode;
+
+                // if opposite case converts back to original char
+                // this is sometimes false when an uppercase character has a many-to-one
+                // relationship with lower cases, and thus there is no single upper-to-lower
+                // conversion that be selected
+                boolean canReverse = false;
+                if (canConvert) {
+                    if (lower) {
+                        canReverse = Character.toLowerCase(upperCode) == lowerCode;
+                    } else {
+                        canReverse = Character.toUpperCase(lowerCode) == upperCode;
+                    }
+                }
+
+                String lowerCodeString = new String(new int[] { lowerCode }, 0, 1);
+                String upperCodeString = new String(new int[] { upperCode }, 0, 1);
+
+                // confirm the token can be handled by format and parse methods
+                String camelCaseString = lower ? lowerCodeString : "a" + upperCodeString;
+                List<String> camelTokens = lower ? Arrays.asList(lowerCodeString) : Arrays.asList("a", upperCodeString);
+                assertFormatAndParse(CamelCase.INSTANCE, camelCaseString, camelTokens);
+
+                String pascalCaseString = lower ? "A" + lowerCodeString : upperCodeString;
+                List<String> pascalTokens = lower ? Arrays.asList("A" + lowerCodeString) : Arrays.asList(upperCodeString);
+                assertFormatAndParse(PascalCase.INSTANCE, pascalCaseString, pascalTokens);
+
+                if (canConvert) {
+
+                    if (lower || canReverse) {
+                        // confirm we can convert lower to upper or reverse
+                        Assertions.assertEquals(upperCodeString, PascalCase.INSTANCE.format(Arrays.asList(lowerCodeString)));
+                        Assertions.assertEquals("a" + upperCodeString, CamelCase.INSTANCE.format(Arrays.asList("a", lowerCodeString)));
+                    }
+                    if (!lower || canReverse) {
+                        // confirm we can convert upper to lower or reverse
+                        Assertions.assertEquals("A" + lowerCodeString, PascalCase.INSTANCE.format(Arrays.asList("A" + upperCodeString)));
+                        Assertions.assertEquals(lowerCodeString, CamelCase.INSTANCE.format(Arrays.asList(upperCodeString)));
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
     private void assertFormatAndParse(Case caseInstance, String string, List<String> tokens) {
         assertFormatAndParse(caseInstance, string, tokens, false);
     }
@@ -167,4 +259,3 @@ public class CasesTest {
     }
 
 }
-
