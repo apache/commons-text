@@ -59,12 +59,17 @@
     <jmh.version>1.37</jmh.version>
 
     <!-- Commons Release Plugin -->
+    <!-- Previous version of the component (used for reporting binary compatibility check)-->
     <commons.bc.version>1.10.0</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
-    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>
-    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>
+    <!--
+      Define the following in ~/.m2/settings.xml in an active profile:
+      (or provide them on the command line)
+      commons.releaseManagerName
+      commons.releaseManagerKey
+    -->
   </properties>
 
   <dependencies>
