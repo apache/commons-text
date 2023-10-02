@@ -105,20 +105,21 @@ public final class PascalCase implements Case {
             for (int i = 0; i < token.length();) {
                 final int codePoint = token.codePointAt(i);
                 int codePointFormatted = codePoint;
-                if (i == 0) {
-                    //must uppercase
-                    if (!Character.isUpperCase(codePoint)) {
-                        codePointFormatted = Character.toUpperCase(codePoint);
-                        if (codePoint == codePointFormatted || !Character.isUpperCase(codePointFormatted)) {
-                            throw new IllegalArgumentException(createExceptionString(codePoint, i, "cannot be mapped to uppercase"));
-                        }
-                    }
-                } else {
+                if (i != 0) {
                     //only need to force lowercase if the letter is uppercase, otherwise just add it
                     if (Character.isUpperCase(codePoint)) {
                         codePointFormatted = Character.toLowerCase(codePoint);
                         if (codePoint == codePointFormatted || !Character.isLowerCase(codePointFormatted)) {
                             throw new IllegalArgumentException(createExceptionString(codePoint, i, "cannot be mapped to lowercase"));
+                        }
+                    }
+               }
+               else {
+                    //must uppercase
+                    if (!Character.isUpperCase(codePoint)) {
+                        codePointFormatted = Character.toUpperCase(codePoint);
+                        if (codePoint == codePointFormatted || !Character.isUpperCase(codePointFormatted)) {
+                            throw new IllegalArgumentException(createExceptionString(codePoint, i, "cannot be mapped to uppercase"));
                         }
                     }
                 }
