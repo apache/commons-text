@@ -231,8 +231,8 @@ public class CasesTest {
     }
 
     /**
-     * Test Util method for ensuring that a case instance produces the expecting string and tokens
-     * upon formatting and parsing
+     * Test Util method for ensuring that a case instance parses and formats the expected string and tokens
+     * to one another
      *
      * @param case Instance the case instance to use
      * @param string the expected formatted string
