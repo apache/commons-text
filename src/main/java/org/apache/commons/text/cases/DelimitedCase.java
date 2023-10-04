@@ -32,7 +32,7 @@ public class DelimitedCase implements Case {
     /** delimiters to be used when parsing. */
     private Set<Integer> parseDelimiters;
 
-    /** delimited to be used when formatting. */
+    /** delimiter to be used when formatting. */
     private String formatDelimiter;
 
     /**
