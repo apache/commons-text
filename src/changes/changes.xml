@@ -73,6 +73,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add @FunctionalInterface to FormatFactory.</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add RandomStringGenerator.builder().</action>
     <action issue="TEXT-229" type="add" dev="ggregory" due-to="Michael Osipov, Elliotte Rusty Harold, Gary Gregory">Add XmlEncoderStringLookup/XmlDecoderStringLookup #449.</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StringSubstitutor.toString().</action>
     <!-- UPDATE -->
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump actions/cache.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump actions/setup-java.</action>
