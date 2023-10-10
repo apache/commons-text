@@ -35,7 +35,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class ReplacementsFinderTest {
 
     // Helper ReplacementsHandler implementation for testing
-    private static class SimpleHandler implements ReplacementsHandler<Character> {
+    private static final class SimpleHandler implements ReplacementsHandler<Character> {
         private int skipped;
         private final List<Character> from;
         private final List<Character> to;

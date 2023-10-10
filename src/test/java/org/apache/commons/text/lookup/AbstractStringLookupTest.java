@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  */
 public class AbstractStringLookupTest {
 
-    private static class TestStringLookup extends AbstractStringLookup {
+    private static final class TestStringLookup extends AbstractStringLookup {
 
         @Override
         public String lookup(final String key) {

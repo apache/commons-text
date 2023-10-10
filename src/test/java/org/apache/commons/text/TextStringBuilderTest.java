@@ -53,7 +53,7 @@ import org.junit.jupiter.api.Test;
  */
 public class TextStringBuilderTest {
 
-    private static class MockReadable implements Readable {
+    private static final class MockReadable implements Readable {
 
         private final CharBuffer src;
 

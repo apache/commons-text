@@ -659,7 +659,7 @@ public enum DoubleFormat {
     /**
      * Format class that uses engineering notation for all values.
      */
-    private static class EngineeringDoubleFormat extends AbstractDoubleFormat {
+    private static final class EngineeringDoubleFormat extends AbstractDoubleFormat {
 
         /**
          * Constructs a new instance.
@@ -715,7 +715,7 @@ public enum DoubleFormat {
      * Format class that produces plain decimal strings that do not use
      * scientific notation.
      */
-    private static class PlainDoubleFormat extends AbstractDoubleFormat {
+    private static final class PlainDoubleFormat extends AbstractDoubleFormat {
 
         /**
          * Constructs a new instance.
@@ -737,7 +737,7 @@ public enum DoubleFormat {
     /**
      * Format class that uses scientific notation for all values.
      */
-    private static class ScientificDoubleFormat extends AbstractDoubleFormat {
+    private static final class ScientificDoubleFormat extends AbstractDoubleFormat {
 
         /**
          * Constructs a new instance.

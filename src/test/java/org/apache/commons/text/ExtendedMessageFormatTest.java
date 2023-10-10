@@ -46,7 +46,7 @@ public class ExtendedMessageFormatTest {
     /**
      * {@link Format} implementation which converts to lower case.
      */
-    private static class LowerCaseFormat extends Format {
+    private static final class LowerCaseFormat extends Format {
         static final Format INSTANCE = new LowerCaseFormat();
         static final FormatFactory FACTORY = (n, a, l) -> LowerCaseFormat.INSTANCE;
         private static final long serialVersionUID = 1L;
@@ -65,7 +65,7 @@ public class ExtendedMessageFormatTest {
     /**
      * Alternative ExtendedMessageFormat impl.
      */
-    private static class OtherExtendedMessageFormat extends ExtendedMessageFormat {
+    private static final class OtherExtendedMessageFormat extends ExtendedMessageFormat {
         private static final long serialVersionUID = 1L;
 
         OtherExtendedMessageFormat(final String pattern, final Locale locale,
@@ -77,7 +77,7 @@ public class ExtendedMessageFormatTest {
     /**
      * {@link FormatFactory} implementation to override date format "short" to "default".
      */
-    private static class OverrideShortDateFormatFactory {
+    private static final class OverrideShortDateFormatFactory {
         static final FormatFactory FACTORY = (n, a, l) -> !"short".equals(a) ? null
                 : l == null ? DateFormat
                         .getDateInstance(DateFormat.DEFAULT) : DateFormat
@@ -87,7 +87,7 @@ public class ExtendedMessageFormatTest {
     /**
      * {@link Format} implementation which converts to upper case.
      */
-    private static class UpperCaseFormat extends Format {
+    private static final class UpperCaseFormat extends Format {
         static final Format INSTANCE = new UpperCaseFormat();
         static final FormatFactory FACTORY = (n, a, l) -> UpperCaseFormat.INSTANCE;
         private static final long serialVersionUID = 1L;

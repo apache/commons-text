@@ -55,7 +55,7 @@ public class LongestCommonSubsequencePerformance {
      * Older implementation of LongestCommonSubsequence.
      * Code is copied from Apache Commons Text version 1.10.0-SNAPSHOT
      */
-    private static class BaselineLongestCommonSubsequence implements SimilarityScore<Integer> {
+    private static final class BaselineLongestCommonSubsequence implements SimilarityScore<Integer> {
         @Override
         public Integer apply(final CharSequence left, final CharSequence right) {
             if (left == null || right == null) {
