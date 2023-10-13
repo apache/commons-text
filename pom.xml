@@ -48,7 +48,7 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
-    <commons.mockito.version>4.11.0</commons.mockito.version>
+    <commons.mockito.version>5.2.0</commons.mockito.version>
 
     <!-- 22.1.0 requires Java 11 -->
     <graalvm.version>22.0.0.2</graalvm.version>
