@@ -30,7 +30,7 @@ jobs:
         java: [ 8, 11, 17 ]
         experimental: [false]
         include:
-          - java: 21-ea
+          - java: 21
             experimental: true
 #        include:
 #          - java: 22-ea
