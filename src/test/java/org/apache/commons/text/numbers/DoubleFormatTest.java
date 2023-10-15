@@ -26,7 +26,7 @@ import java.util.function.Function;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class DoubleFormatTest {
+public class DoubleFormatTest {
 
     private static void assertLocalizedFormatsAreEqual(final double d, final DecimalFormat df,
             final DoubleFunction<String> fmt, final Locale loc) {
