@@ -53,7 +53,8 @@ public class DoubleFormatTest {
         Assertions.assertEquals(str, fmt.apply(d));
     }
 
-    /** Check that the given double value can be exactly recovered from formatted string representation
+    /**
+     * Check that the given double value can be exactly recovered from formatted string representation
      * produced by the format instance.
      * @param fmt format instance
      * @param d input double value
@@ -64,7 +65,8 @@ public class DoubleFormatTest {
         Assertions.assertEquals(d, parsed, () -> "Formatted double string [" + str + "] did not match input value");
     }
 
-    /** Check that the given format type correctly formats doubles when using the
+    /**
+     * Check that the given format type correctly formats doubles when using the
      * default configuration options. The format itself is not checked; only the
      * fact that the input double can be successfully recovered using {@link Double#parseDouble(String)}
      * is asserted.
@@ -120,14 +122,14 @@ public class DoubleFormatTest {
         }
     }
 
-    private static void checkLocalizedFormats(final String pattern,
-            final Function<Locale, DoubleFunction<String>> factory) {
+    private static void checkLocalizedFormats(final String pattern, final Function<Locale, DoubleFunction<String>> factory) {
         for (final Locale loc : Locale.getAvailableLocales()) {
             checkLocalizedFormat(loc, pattern, factory);
         }
     }
 
-    /** Create a random double value with exponent in the range {@code [minExp, maxExp]}.
+    /**
+     * Create a random double value with exponent in the range {@code [minExp, maxExp]}.
      * @param minExp minimum exponent; must be less than {@code maxExp}
      * @param maxExp maximum exponent; must be greater than {@code minExp}
      * @param rnd random number generator
@@ -142,7 +144,8 @@ public class DoubleFormatTest {
         return Double.longBitsToDouble(bits | exp << 52);
     }
 
-    /** Create a random double value using the full range of exponent values.
+    /**
+     * Create a random double value using the full range of exponent values.
      * @param rnd random number generator
      * @return random double
      */
@@ -150,7 +153,8 @@ public class DoubleFormatTest {
         return randomDouble(Double.MIN_EXPONENT, Double.MAX_EXPONENT, rnd);
     }
 
-    /** Remove Unicode {@link Character#FORMAT format} characters from the given string.
+    /**
+     * Remove Unicode {@link Character#FORMAT format} characters from the given string.
      * @param str input string
      * @return input string with format characters removed
      */
