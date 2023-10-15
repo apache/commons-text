@@ -453,7 +453,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Gets sthe exponent that would be used when representing this number in scientific
+     * Gets the exponent that would be used when representing this number in scientific
      * notation (i.e., with a single non-zero digit in front of the decimal point).
      * @return the exponent that would be used when representing this number in scientific
      *      notation
