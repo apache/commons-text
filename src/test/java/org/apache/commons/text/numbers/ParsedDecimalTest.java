@@ -286,7 +286,7 @@ public class ParsedDecimalTest {
     }
 
     @Test
-    void testFrom_notFinite() {
+    void testFromNotFinite() {
         // arrange
         final String msg = "Double is not finite";
 
