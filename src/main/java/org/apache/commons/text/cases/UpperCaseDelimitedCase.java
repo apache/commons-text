@@ -25,13 +25,13 @@ import java.util.List;
 public class UpperCaseDelimitedCase implements Case {
 
     /** flag to indicate whether the first character of the first token should be upper cased. */
-    boolean upperCaseFirstCharacter = false;
+    boolean lowerCaseFirstCharacter = false;
 
     /**
      * Constructs a new UpperCaseDelimitedCase instance.
      */
-    protected UpperCaseDelimitedCase(boolean upperCaseFirstCharacter) {
-        this.upperCaseFirstCharacter = upperCaseFirstCharacter;
+    protected UpperCaseDelimitedCase(boolean lowerCaseFirstCharacter) {
+        this.lowerCaseFirstCharacter = lowerCaseFirstCharacter;
     }
 
     /**
@@ -49,6 +49,11 @@ public class UpperCaseDelimitedCase implements Case {
         List<String> tokens = new ArrayList<>();
         if (string.length() == 0) {
             return tokens;
+        }
+        if (lowerCaseFirstCharacter) {
+            CasesUtils.toLowerCase(string.codePointAt(0));
+        } else {
+            CasesUtils.toUpperCase(string.codePointAt(0));
         }
         int strLen = string.length();
         int[] tokenCodePoints = new int[strLen];
@@ -99,7 +104,9 @@ public class UpperCaseDelimitedCase implements Case {
             for (int i = 0; i < token.length();) {
                 final int codePoint = token.codePointAt(i);
                 int codePointFormatted = codePoint;
-                if (i == 0 && (!upperCaseFirstCharacter || tokenIndex > 0)) {
+                if (i == 0 && tokenIndex == 0 && lowerCaseFirstCharacter) {
+                    codePointFormatted = CasesUtils.toLowerCase(codePoint);
+                } else if (i == 0) {
                     codePointFormatted = CasesUtils.toUpperCase(codePoint);
                 } else if (Character.isUpperCase(codePointFormatted) || Character.isTitleCase(codePointFormatted)) {
                     //if character is title or upper case, it must be converted to lower
