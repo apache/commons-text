@@ -48,10 +48,12 @@ public class CasesTest {
                 Arrays.asList("\uD800\uDF00", "\uD800\uDF01\uD800\uDF14", "\uD800\uDF02\uD800\uDF03"));
         assertFormatAndParse(SnakeCase.INSTANCE, "\uD800\uDF00_\uD800\uDF01\uD800\uDF14_\uD800\uDF02\uD800\uDF03",
                 Arrays.asList("\uD800\uDF00", "\uD800\uDF01\uD800\uDF14", "\uD800\uDF02\uD800\uDF03"));
+
         assertFormatAndParse(PascalCase.INSTANCE, "A\uD800\uDF00B\uD800\uDF01\uD800\uDF14C\uD800\uDF02\uD800\uDF03",
                 Arrays.asList("A\uD800\uDF00", "B\uD800\uDF01\uD800\uDF14", "C\uD800\uDF02\uD800\uDF03"));
         assertFormatAndParse(CamelCase.INSTANCE, "a\uD800\uDF00B\uD800\uDF01\uD800\uDF14C\uD800\uDF02\uD800\uDF03",
                 Arrays.asList("a\uD800\uDF00", "B\uD800\uDF01\uD800\uDF14", "C\uD800\uDF02\uD800\uDF03"));
+
     }
 
     @Test
@@ -67,11 +69,29 @@ public class CasesTest {
         assertFormatAndParse(PascalCase.INSTANCE, "MyVarName", Arrays.asList("My", "Var", "Name"));
         assertFormatAndParse(PascalCase.INSTANCE, "MyTokensA1D", Arrays.asList("My", "Tokens", "A1", "D"));
         assertFormatAndParse(PascalCase.INSTANCE, "", Arrays.asList());
+        assertParse(PascalCase.INSTANCE, "lowerFirst", Arrays.asList("lower", "First"));
+        assertFormat(PascalCase.INSTANCE, "LowerFirst", Arrays.asList("lower", "First"));
 
-        // first character must be ASCII alpha upper
-        Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.parse("lowerFirst"));
         Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("1")));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("a1", "2c")));
         Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("")));
+    }
+
+    @Test
+    public void testNumberLetters() {
+
+        // roman numerals - have an upper/lower case but are numbers
+
+        assertFormatAndParse(PascalCase.INSTANCE, "A\u2170\u2160c", Arrays.asList("A\u2170", "\u2160c"));
+
+        assertFormat(PascalCase.INSTANCE, "A\u2170Bc", Arrays.asList("a\u2160", "bc"));
+        assertParse(PascalCase.INSTANCE, "A\u2170Bc", Arrays.asList("A\u2170", "Bc"));
+        assertFormat(PascalCase.INSTANCE, "A\u2170", Arrays.asList("a\u2170"));
+        assertParse(PascalCase.INSTANCE, "A\u2170Bc", Arrays.asList("A\u2170", "Bc"));
+
+        assertFormat(CamelCase.INSTANCE, "a\u2170Bc", Arrays.asList("a\u2160", "bc"));
+        assertParse(CamelCase.INSTANCE, "\u2160Bc", Arrays.asList("\u2160", "Bc"));
+
     }
 
     @Test
@@ -81,12 +101,13 @@ public class CasesTest {
         assertFormatAndParse(CamelCase.INSTANCE, "myTokensAbc123", Arrays.asList("my", "Tokens", "Abc123"));
         assertFormatAndParse(CamelCase.INSTANCE, "specChar-Token+", Arrays.asList("spec", "Char-", "Token+"));
 
+        assertParse(CamelCase.INSTANCE, "MyTokens", Arrays.asList("My", "Tokens"));
+        assertFormat(CamelCase.INSTANCE, "myTokens", Arrays.asList("My", "Tokens"));
+
         // empty token not supported
         Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("a", "b", "")));
-        // must begin with ASCII alpha
+        // must begin with character that can be uppercased
         Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("a", "1b")));
-        // must begin with ASCII alpha lower
-        Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.parse("MyTokens"));
     }
 
     @Test
@@ -134,96 +155,50 @@ public class CasesTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(tokens));
     }
 
+
+
     @Test
-    public void testUnicodeUncaseableLetter() {
+    public void testUnicodeCases() {
 
-        // LATIN SMALL LETTER SHARP S
-        Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("uncaseable", "\u00DFabc", "token")));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("uncaseable", "\u00DFabc", "token")));
+        // LATIN SMALL LETTER SHARP S - lower case, no upper case
+        Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("a", "\u00DFabc")));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("\u00DFabc")));
 
-        // LATIN SMALL LETTER KRA
-        Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("uncaseable", "\u0138abc", "token")));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("uncaseable", "\u0138abc", "token")));
+        // LATIN CAPITAL LETTER L WITH SMALL LETTER J - title case, has upper and lower
+        assertFormatAndParse(CamelCase.INSTANCE, "\u01CCbc", Arrays.asList("\u01CBbc"), true);
+        assertFormatAndParse(CamelCase.INSTANCE, "a\u01CAbc", Arrays.asList("a", "\u01CBbc"), true);
 
-    }
+        // GREEK CAPITAL LETTER ALPHA WITH PSILI AND PROSGEGRAMMENI - title case , no upper case
+        assertFormatAndParse(PascalCase.INSTANCE, "A\u1f80", Arrays.asList("a\u1f88"), true);
+        assertFormatAndParse(CamelCase.INSTANCE, "\u1f80", Arrays.asList("\u1f88"), true);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("\u1f88")));
 
-    /**
-     * This method iterates through all unicode characters and confirms: 1. If the character is
-     * uppercase or lowercase, that it can be parsed successfully 2. If the character can be
-     * converted to the opposite case, that this conversion can be parsed successfully 3. If the
-     * opposite case character can be converted BACK to the initial character, that this conversion
-     * can be parsed successfully
-     */
-    @Test
-    public void testUnicodeCasing() {
-
+        //scan all titlecase characters
         for (int i = 0; i < Character.MAX_CODE_POINT; i++) {
+            if (Character.isTitleCase(i)) {
+                String codeString = new String(new int[] { i }, 0, 1);
 
-            // this if block weeds out titlecase characters
-            if (Character.isLowerCase(i) || Character.isUpperCase(i)) {
+                int upperCode = Character.toUpperCase(i);
+                int lowerCode = Character.toLowerCase(i);
 
-                // if char is lowercase
-                boolean lower = Character.isLowerCase(i);
-
-                // find the lowercase code point, if it exists
-                int lowerCode = lower ? i : Character.toLowerCase(i);
-                if (!Character.isLowerCase(lowerCode)) {
-                    lowerCode = i;
+                //if upper exists, ensure it gets upper cased to it
+                if (upperCode != i) {
+                    String upperCodeString = new String(new int[] { upperCode }, 0, 1);
+                    Assertions.assertEquals(PascalCase.INSTANCE.format(Arrays.asList(codeString + "bc")), upperCodeString + "bc");
+                } else {
+                    // if there is no uppercase value
+                    Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList(codeString)));
                 }
 
-                // find the uppercase code point, if it exists
-                int upperCode = !lower ? i : Character.toUpperCase(i);
-                if (!Character.isUpperCase(upperCode)) {
-                    upperCode = i;
+                //if lower exists, ensure it gets lower cased to it
+                if (lowerCode != i) {
+                    String lowerCodeString = new String(new int[] { lowerCode }, 0, 1);
+                    Assertions.assertEquals(CamelCase.INSTANCE.format(Arrays.asList(codeString + "bc")), lowerCodeString + "bc");
+                } else {
+                    Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("a" + codeString)));
                 }
-
-                // if char has a valid conversion
-                boolean canConvert = lowerCode != upperCode;
-
-                // if opposite case converts back to original char
-                // this is sometimes false when an uppercase character has a many-to-one
-                // relationship with lower cases, and thus there is no single upper-to-lower
-                // conversion that be selected
-                boolean canReverse = false;
-                if (canConvert) {
-                    if (lower) {
-                        canReverse = Character.toLowerCase(upperCode) == lowerCode;
-                    } else {
-                        canReverse = Character.toUpperCase(lowerCode) == upperCode;
-                    }
-                }
-
-                String lowerCodeString = new String(new int[] { lowerCode }, 0, 1);
-                String upperCodeString = new String(new int[] { upperCode }, 0, 1);
-
-                // confirm the token can be handled by format and parse methods
-                String camelCaseString = lower ? lowerCodeString : "a" + upperCodeString;
-                List<String> camelTokens = lower ? Arrays.asList(lowerCodeString) : Arrays.asList("a", upperCodeString);
-                assertFormatAndParse(CamelCase.INSTANCE, camelCaseString, camelTokens);
-
-                String pascalCaseString = lower ? "A" + lowerCodeString : upperCodeString;
-                List<String> pascalTokens = lower ? Arrays.asList("A" + lowerCodeString) : Arrays.asList(upperCodeString);
-                assertFormatAndParse(PascalCase.INSTANCE, pascalCaseString, pascalTokens);
-
-                if (canConvert) {
-
-                    if (lower || canReverse) {
-                        // confirm we can convert lower to upper or reverse
-                        Assertions.assertEquals(upperCodeString, PascalCase.INSTANCE.format(Arrays.asList(lowerCodeString)));
-                        Assertions.assertEquals("a" + upperCodeString, CamelCase.INSTANCE.format(Arrays.asList("a", lowerCodeString)));
-                    }
-                    if (!lower || canReverse) {
-                        // confirm we can convert upper to lower or reverse
-                        Assertions.assertEquals("A" + lowerCodeString, PascalCase.INSTANCE.format(Arrays.asList("A" + upperCodeString)));
-                        Assertions.assertEquals(lowerCodeString, CamelCase.INSTANCE.format(Arrays.asList(upperCodeString)));
-                    }
-
-                }
-
             }
-
         }
-
     }
 
     private void assertFormatAndParse(Case caseInstance, String string, List<String> tokens) {
@@ -240,14 +215,41 @@ public class CasesTest {
      * @param caseInsensitive whether to not to validate tokens case insensitively
      */
     private void assertFormatAndParse(Case caseInstance, String string, List<String> tokens, Boolean caseInsensitive) {
+        assertFormat(caseInstance, string, tokens, caseInsensitive);
+        assertParse(caseInstance, string, tokens, caseInsensitive);
+    }
+
+    private void assertFormat(Case caseInstance, String string, List<String> tokens) {
+        assertFormat(caseInstance, string, tokens, false);
+    }
+
+    private void assertFormat(Case caseInstance, String string, List<String> tokens, boolean caseInsensitive) {
+        String formatted = caseInstance.format(tokens);
+        if (caseInsensitive) {
+            Assertions.assertEquals(string.toLowerCase(), formatted.toLowerCase());
+        } else {
+            Assertions.assertEquals(string, formatted);
+        }
+    }
+
+    private void assertParse(Case caseInstance, String string, List<String> tokens) {
+        assertParse(caseInstance, string, tokens, false);
+    }
+
+    /**
+     * Asserts that string parses into the expected tokens, ignoring case if the caseInsensitive parameter is true
+     * @param caseInstance
+     * @param string
+     * @param tokens
+     * @param caseInsensitive
+     */
+    private void assertParse(Case caseInstance, String string, List<String> tokens, Boolean caseInsensitive) {
         List<String> parsedTokens = caseInstance.parse(string);
         if (caseInsensitive) {
             assertEqualsIgnoreCase(tokens, parsedTokens);
         } else {
             Assertions.assertEquals(tokens, parsedTokens);
         }
-        String formatted = caseInstance.format(tokens);
-        Assertions.assertEquals(string, formatted);
     }
 
     private void assertEqualsIgnoreCase(List<String> expected, List<String> actual) {
