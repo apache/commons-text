@@ -24,10 +24,10 @@ package org.apache.commons.text.cases;
  */
 public final class KebabCase extends CharacterDelimitedCase {
 
-    /** constant for delimiter. */
+    /** Constant for delimiter. */
     private static final char DELIMITER = '-';
 
-    /** constant reusable instance of this case. */
+    /** Constant reusable instance of this case. */
     public static final KebabCase INSTANCE = new KebabCase();
 
     /**

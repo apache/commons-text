@@ -24,10 +24,10 @@ package org.apache.commons.text.cases;
  */
 public final class SnakeCase extends CharacterDelimitedCase {
 
-    /** constant for delimiter. */
+    /** Constant for delimiter. */
     private static final char DELIMITER = '_';
 
-    /** constant reusable instance of this case. */
+    /** Constant reusable instance of this case. */
     public static final SnakeCase INSTANCE = new SnakeCase();
 
     /**

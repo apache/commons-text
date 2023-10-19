@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class UpperCaseDelimitedCase implements Case {
 
-    /** flag to indicate whether the first character of the first token should be upper cased. */
+    /** Flag to indicate whether the first character of the first token should be upper cased. */
     private boolean lowerCaseFirstCharacter = false;
 
     /**
@@ -87,7 +87,7 @@ public class UpperCaseDelimitedCase implements Case {
      * throws an exception. Any other characters in the token are returned as-is. Empty tokens are
      * not supported and will cause an exception to be thrown.
      * </p>
-     * @param tokens The string tokens to be formatted
+     * @param tokens the string tokens to be formatted
      * @return the formatted string
      * @throws IllegalArgumentException if 1) any token is empty 2) any token begins with a
      * character that cannot be upper cased, or 3) any token contains an upper or title case
@@ -123,7 +123,7 @@ public class UpperCaseDelimitedCase implements Case {
     /**
      * Transforms a unicode code point into upper case using {@link java.lang.Character#toUpperCase} and confirms the
      * result is upper case.
-     * @param codePoint
+     * @param codePoint the code point to upper case
      * @return the transformed code point
      * @throws IllegalArgumentException if the converted code point cannot be mapped into an upper case character
      */
@@ -138,7 +138,7 @@ public class UpperCaseDelimitedCase implements Case {
     /**
      * Transforms a unicode code point into lower case using {@link java.lang.Character#toLowerCase} and confirms the
      * result is lower case.
-     * @param codePoint the code point to transform
+     * @param codePoint the code point to lower case
      * @return the lower case code point that corresponds to the input parameter
      * @throws IllegalArgumentException if the converted code point cannot be mapped into a lower case character
      */
@@ -152,7 +152,7 @@ public class UpperCaseDelimitedCase implements Case {
 
     /**
      * Creates an exception message that displays the unicode character as well as the hex value for clarity.
-     * @param codePoint the unicode code point
+     * @param codePoint the unicode code point to transform
      * @param suffix a string suffix for the message
      * @return the message
      */

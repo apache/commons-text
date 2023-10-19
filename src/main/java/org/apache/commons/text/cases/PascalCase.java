@@ -19,13 +19,13 @@ package org.apache.commons.text.cases;
 /**
  * Case implementation which parses and formats strings of the form 'MyPascalString'
  * <p>
- * PascalCase is a case where tokens are delimited by upper case unicode characters. Each parsed token
+ * PascalCase tokens are delimited by upper case unicode characters. Each parsed token
  * begins with an upper case character, and remaining token characters are either lower case or non cased.
  * </p>
  */
 public final class PascalCase extends UpperCaseDelimitedCase {
 
-    /** constant reusable instance of this case. */
+    /** Constant reusable instance of this case. */
     public static final PascalCase INSTANCE = new PascalCase();
 
     /**

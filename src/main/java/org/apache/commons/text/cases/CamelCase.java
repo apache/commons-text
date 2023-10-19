@@ -20,13 +20,13 @@ package org.apache.commons.text.cases;
  * Case implementation that parses and formats strings of the form 'myCamelCase'
  * <p>
  * CamelCase is a case where tokens are delimited by upper case unicode characters. The very first
- * token should begin with lower or non cased character, and any subsequent tokens begin with an
+ * token should begin with a lower case character, and any subsequent tokens begin with an
  * upper case character. All remaining characters will be lower cased or non cased.
  * </p>
  */
 public final class CamelCase extends UpperCaseDelimitedCase {
 
-    /** constant reusable instance of this case. */
+    /** Constant reusable instance of this case. */
     public static final CamelCase INSTANCE = new CamelCase();
 
     /**

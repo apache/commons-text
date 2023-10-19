@@ -29,10 +29,10 @@ import org.apache.commons.lang3.CharUtils;
  */
 public class CharacterDelimitedCase implements Case {
 
-    /** delimiters to be used when parsing. */
+    /** Delimiters to be used when parsing. */
     private Set<Integer> parseDelimiters;
 
-    /** delimiter to be used when formatting. */
+    /** Delimiter to be used when formatting. */
     private String formatDelimiter;
 
     /**
