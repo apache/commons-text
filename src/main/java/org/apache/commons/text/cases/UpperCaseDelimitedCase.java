@@ -25,7 +25,7 @@ import java.util.List;
 public class UpperCaseDelimitedCase implements Case {
 
     /** flag to indicate whether the first character of the first token should be upper cased. */
-    boolean lowerCaseFirstCharacter = false;
+    private boolean lowerCaseFirstCharacter = false;
 
     /**
      * Constructs a new UpperCaseDelimitedCase instance.
@@ -51,9 +51,9 @@ public class UpperCaseDelimitedCase implements Case {
             return tokens;
         }
         if (lowerCaseFirstCharacter) {
-            CasesUtils.toLowerCase(string.codePointAt(0));
+            toLowerCase(string.codePointAt(0));
         } else {
-            CasesUtils.toUpperCase(string.codePointAt(0));
+            toUpperCase(string.codePointAt(0));
         }
         int strLen = string.length();
         int[] tokenCodePoints = new int[strLen];
@@ -105,12 +105,12 @@ public class UpperCaseDelimitedCase implements Case {
                 final int codePoint = token.codePointAt(i);
                 int codePointFormatted = codePoint;
                 if (i == 0 && tokenIndex == 0 && lowerCaseFirstCharacter) {
-                    codePointFormatted = CasesUtils.toLowerCase(codePoint);
+                    codePointFormatted = toLowerCase(codePoint);
                 } else if (i == 0) {
-                    codePointFormatted = CasesUtils.toUpperCase(codePoint);
+                    codePointFormatted = toUpperCase(codePoint);
                 } else if (Character.isUpperCase(codePointFormatted) || Character.isTitleCase(codePointFormatted)) {
                     //if character is title or upper case, it must be converted to lower
-                    codePointFormatted = CasesUtils.toLowerCase(codePoint);
+                    codePointFormatted = toLowerCase(codePoint);
                 }
                 formattedString.appendCodePoint(codePointFormatted);
                 i += Character.charCount(codePoint);
@@ -118,6 +118,46 @@ public class UpperCaseDelimitedCase implements Case {
             tokenIndex++;
         }
         return formattedString.toString();
+    }
+
+    /**
+     * Transforms a unicode code point into upper case using {@link java.lang.Character#toUpperCase} and confirms the
+     * result is upper case.
+     * @param codePoint
+     * @return the transformed code point
+     * @throws IllegalArgumentException if the converted code point cannot be mapped into an upper case character
+     */
+    private static int toUpperCase(int codePoint) {
+        int codePointFormatted = Character.toUpperCase(codePoint);
+        if (!Character.isUpperCase(codePointFormatted)) {
+            throw new IllegalArgumentException(createExceptionMessage(codePoint, " cannot be mapped to upper case"));
+        }
+        return codePointFormatted;
+    }
+
+    /**
+     * Transforms a unicode code point into lower case using {@link java.lang.Character#toLowerCase} and confirms the
+     * result is lower case.
+     * @param codePoint the code point to transform
+     * @return the lower case code point that corresponds to the input parameter
+     * @throws IllegalArgumentException if the converted code point cannot be mapped into a lower case character
+     */
+    private static int toLowerCase(int codePoint) {
+        int codePointFormatted = Character.toLowerCase(codePoint);
+        if (!Character.isLowerCase(codePointFormatted)) {
+            throw new IllegalArgumentException(createExceptionMessage(codePoint, " cannot be mapped to lower case"));
+        }
+        return codePointFormatted;
+    }
+
+    /**
+     * Creates an exception message that displays the unicode character as well as the hex value for clarity.
+     * @param codePoint the unicode code point
+     * @param suffix a string suffix for the message
+     * @return the message
+     */
+    private static String createExceptionMessage(int codePoint, String suffix) {
+        return "Character '" + new String(new int[] { codePoint }, 0, 1) + "' with value 0x" + Integer.toHexString(codePoint) + suffix;
     }
 
 }
