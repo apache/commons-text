@@ -16,6 +16,10 @@
  */
 package org.apache.commons.text.cases;
 
+/**
+ * Util class for {@link org.apache.commons.text.cases.Case} implementations to force case
+ * conversion and throw consistent and clear exceptions.
+ */
 public class CasesUtils {
 
     /**
