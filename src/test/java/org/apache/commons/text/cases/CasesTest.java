@@ -29,10 +29,10 @@ public class CasesTest {
     public void testDelimiterCharacterException() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> KebabCase.INSTANCE.format(Arrays.asList("a", "-")));
         Assertions.assertThrows(IllegalArgumentException.class, () -> SnakeCase.INSTANCE.format(Arrays.asList("a", "_")));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new DelimitedCase(null, ","));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new DelimitedCase(new char[1], null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new DelimitedCase(new char[0], ","));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new DelimitedCase(new char[0], ""));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new CharacterDelimitedCase(null, ","));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new CharacterDelimitedCase(new char[1], null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new CharacterDelimitedCase(new char[0], ","));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new CharacterDelimitedCase(new char[0], ""));
     }
 
     @Test
@@ -74,6 +74,7 @@ public class CasesTest {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("1")));
         Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("a1", "2c")));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("1a")));
         Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("")));
     }
 
@@ -108,6 +109,7 @@ public class CasesTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("a", "b", "")));
         // must begin with character that can be uppercased
         Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("a", "1b")));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("1a")));
     }
 
     @Test

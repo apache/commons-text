@@ -27,7 +27,7 @@ import org.apache.commons.lang3.CharUtils;
  * DelimitedCase is a case in which the true alphabetic case of the characters is ignored by default
  * and tokens themselves are determined by the presence of a delimiter between each token.
  */
-public class DelimitedCase implements Case {
+public class CharacterDelimitedCase implements Case {
 
     /** delimiters to be used when parsing. */
     private Set<Integer> parseDelimiters;
@@ -39,7 +39,7 @@ public class DelimitedCase implements Case {
      * Constructs a new Delimited Case.
      * @param delimiter the character to use as both the parse and format delimiter
      */
-    protected DelimitedCase(char delimiter) {
+    protected CharacterDelimitedCase(char delimiter) {
         this(new char[] { delimiter }, CharUtils.toString(delimiter));
     }
 
@@ -48,7 +48,7 @@ public class DelimitedCase implements Case {
      * @param parseDelimiters the array of delimiters to use when parsing
      * @param formatDelimiter the delimiter to use when formatting
      */
-    protected DelimitedCase(char[] parseDelimiters, String formatDelimiter) {
+    protected CharacterDelimitedCase(char[] parseDelimiters, String formatDelimiter) {
         super();
         if (parseDelimiters == null || parseDelimiters.length == 0) {
             throw new IllegalArgumentException("Parse Delimiters cannot be null or empty");

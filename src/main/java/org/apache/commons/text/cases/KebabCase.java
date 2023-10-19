@@ -22,7 +22,7 @@ package org.apache.commons.text.cases;
  * KebabCase is a delimited case where the delimiter is a hyphen character '-'.
  * </p>
  */
-public final class KebabCase extends DelimitedCase {
+public final class KebabCase extends CharacterDelimitedCase {
 
     /** constant for delimiter. */
     private static final char DELIMITER = '-';
