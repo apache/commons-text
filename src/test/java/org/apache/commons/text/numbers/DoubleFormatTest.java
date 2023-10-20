@@ -22,9 +22,13 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.function.DoubleFunction;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class DoubleFormatTest {
 
@@ -37,8 +41,28 @@ public class DoubleFormatTest {
         final String dfStr = trimFormatChars(df.format(d));
         final String fmtStr = trimFormatChars(fmt.apply(d));
 
-        Assertions.assertEquals(dfStr, fmtStr,
+        try {
+            Assertions.assertEquals(dfStr, fmtStr,
                 () -> "Unexpected output for locale [" + loc.toLanguageTag() + "] and double value " + d);
+        } catch (AssertionError e) {
+            // Note:
+            // The DecimalFormat may omit the fraction component if it is zero
+            // when using the ENGINEERING format "##0.0##E0".
+            // e.g. new DecimalFormat("##0.0##E0").format(1.1299999e-4) => 113E-6.
+            // The DoubleFormat class either always includes the zero or removes it
+            // with the setting includeFractionPlaceholder(false).
+            // Since we expect this mismatch we can remove the decimal point followed
+            // by a zero from the DoubleFormat output.
+            // This effectively checks: abcExyz == abc.0Exyz
+            final DecimalFormatSymbols dfs = new DecimalFormatSymbols(loc);
+            final char decimalSeparator = dfs.getDecimalSeparator();
+            final char zeroDigit = dfs.getZeroDigit();
+            final String updated = fmtStr.replace(new String(new char[] {decimalSeparator, zeroDigit}), "");
+            if (dfStr.equals(updated)) {
+                return;
+            }
+            throw e;
+        }
     }
 
     private static void checkDefaultFormatSpecial(final DoubleFunction<String> fmt) {
@@ -113,9 +137,18 @@ public class DoubleFormatTest {
         assertLocalizedFormatsAreEqual(Math.PI, df, fmt, loc);
         assertLocalizedFormatsAreEqual(Math.E, df, fmt, loc);
 
+        // Locales are tested using:
+        // DecimalFormat   DoubleFormat
+        // ##0.0##E0     : ENGINEERING  maPrecision=6
+        // 0.0##         : PLAIN        minDecimalExponent(-3)
+        // #,##0.0##     : PLAIN        minDecimalExponent(-3)
+        // 0.0##E0       : SCIENTIFIC   maPrecision=4
+        // The data should not test full precision (17 digits) of the PLAIN format.
+        // Set the exponent range to create decimals with exponents of approximately
+        // 10^7 to 10^-7: log2(1e7) = 23.25.
         final Random rnd = new Random(12L);
-        final int minExp = -100;
-        final int maxExp = 100;
+        final int minExp = -24;
+        final int maxExp = 24;
         final int cnt = 1000;
         for (int i = 0; i < cnt; ++i) {
             assertLocalizedFormatsAreEqual(randomDouble(minExp, maxExp, rnd), df, fmt, loc);
@@ -595,5 +628,30 @@ public class DoubleFormatTest {
                 .alwaysIncludeExponent(true)
                 .formatSymbols(DecimalFormatSymbols.getInstance(loc))
                 .build());
+    }
+
+    /**
+     * Test formatting at the maximum precision. The formatting is based on the output
+     * of {@link Double#toString()}. If cannot create an extended precision text
+     * representation and is limited to 17 significant digits. This test verifies that
+     * formatting does not lose information that would be required to recreate the
+     * same double value.
+     */
+    @ParameterizedTest
+    @MethodSource
+    void testMaximumPrecision(DoubleFunction<String> fmt, double value) {
+        final String s = fmt.apply(value);
+        final double d = Double.parseDouble(s);
+        Assertions.assertEquals(value, d, () -> value + " formatted as " + s);
+    }
+
+    static Stream<Arguments> testMaximumPrecision() {
+        return Stream.of(
+            // Example of different Double.toString representations across JDKs
+            // JDK 17: -9.3540047119774374E17
+            // JDK 21: -9.354004711977437E17
+            Arguments.of(DoubleFormat.PLAIN.builder().build(), -9.3540047119774374E17),
+            Arguments.of(DoubleFormat.SCIENTIFIC.builder().build(), -9.3540047119774374E17)
+        );
     }
 }

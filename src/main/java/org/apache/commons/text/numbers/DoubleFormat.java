@@ -39,6 +39,16 @@ import java.util.function.Function;
  * much easier to work with in multi-threaded environments. They also provide performance
  * comparable to, and in many cases faster than, {@code DecimalFormat}.
  * </p>
+ * <p>
+ * It should be noted that the output {@code String} is created by formatting the output of
+ * {@link Double#toString()}. This limits the output precision to the precision required
+ * to exactly represent the input {@code double} and is dependent on the JDK implementation
+ * of {@link Double#toString()}. A number formatted with the maximum
+ * precision should be parsed to the same input {@code double}. This implementation
+ * cannot extend the {@code String} to the required length to represent the exact decimal
+ * value of the {@code double} as per
+ * {@link java.math.BigDecimal#toString() BigDecimal#toString()}.
+ * </p>
  * <p><strong>Examples</strong></p>
  * <pre>
  * // construct a formatter equivalent to Double.toString()
