@@ -19,8 +19,8 @@ package org.apache.commons.text.cases;
 import java.util.List;
 
 /**
- * Handles formatting and parsing tokens to/from a String. For most implementations tokens returned
- * by the parse method should abide by any restrictions present in the format method. i.e. calling
+ * Formats and parses tokens to/from a String. In most implementations tokens returned
+ * by the parse method abide by any restrictions present in the format method. That is, calling
  * format() with the results of a call to parse() on the same Case instance should return a
  * matching String.
  *

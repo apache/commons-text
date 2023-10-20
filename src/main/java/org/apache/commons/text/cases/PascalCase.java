@@ -19,7 +19,7 @@ package org.apache.commons.text.cases;
 /**
  * Case implementation which parses and formats strings of the form 'MyPascalString'
  * <p>
- * PascalCase tokens are delimited by upper case unicode characters. Each parsed token
+ * PascalCase tokens are delimited by upper case Unicode characters. Each parsed token
  * begins with an upper case character, and remaining token characters are either lower case or non cased.
  * </p>
  */

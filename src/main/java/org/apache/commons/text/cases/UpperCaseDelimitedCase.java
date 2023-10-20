@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class UpperCaseDelimitedCase implements Case {
 
-    /** Flag to indicate whether the first character of the first token should be upper cased. */
+    /** Flag to indicate whether the first character of the first token should be upper case. */
     private boolean lowerCaseFirstCharacter = false;
 
     /**
@@ -37,9 +37,9 @@ public class UpperCaseDelimitedCase implements Case {
     /**
      * Parses a string into tokens.
      * <p>
-     * String characters are iterated over and when an upper case unicode character is
-     * encountered, that character is considered to be the start of a new token, with the character
-     * itself included in the token. This method will never return empty tokens.
+     * String characters are iterated over and when an upper case Unicode character is
+     * encountered, that character starts a new token, with the character
+     * itself included in the token. This method never returns empty tokens.
      * </p>
      * @param string the string to parse
      * @return the list of tokens found in the string
@@ -90,8 +90,8 @@ public class UpperCaseDelimitedCase implements Case {
      * @param tokens the string tokens to be formatted
      * @return the formatted string
      * @throws IllegalArgumentException if 1) any token is empty 2) any token begins with a
-     * character that cannot be upper cased, or 3) any token contains an upper or title case
-     * character that cannot be converted to lower case.
+     * character that cannot be mapped to upper case, or 3) any token contains an upper or title case
+     * character that cannot be mapped to lower case.
      */
     @Override
     public String format(Iterable<String> tokens) {
@@ -121,7 +121,7 @@ public class UpperCaseDelimitedCase implements Case {
     }
 
     /**
-     * Transforms a unicode code point into upper case using {@link java.lang.Character#toUpperCase} and confirms the
+     * Transforms a Unicode code point into upper case using {@link java.lang.Character#toUpperCase} and confirms the
      * result is upper case.
      * @param codePoint the code point to upper case
      * @return the transformed code point
@@ -136,7 +136,7 @@ public class UpperCaseDelimitedCase implements Case {
     }
 
     /**
-     * Transforms a unicode code point into lower case using {@link java.lang.Character#toLowerCase} and confirms the
+     * Transforms a Unicode code point into lower case using {@link java.lang.Character#toLowerCase} and confirms the
      * result is lower case.
      * @param codePoint the code point to lower case
      * @return the lower case code point that corresponds to the input parameter
@@ -151,8 +151,8 @@ public class UpperCaseDelimitedCase implements Case {
     }
 
     /**
-     * Creates an exception message that displays the unicode character as well as the hex value for clarity.
-     * @param codePoint the unicode code point to transform
+     * Creates an exception message that displays the Unicode character as well as the hex value for clarity.
+     * @param codePoint the Unicode code point to transform
      * @param suffix a string suffix for the message
      * @return the message
      */
