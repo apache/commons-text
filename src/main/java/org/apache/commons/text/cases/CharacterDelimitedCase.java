@@ -50,11 +50,17 @@ public class CharacterDelimitedCase implements Case {
      */
     protected CharacterDelimitedCase(char[] parseDelimiters, String formatDelimiter) {
         super();
-        if (parseDelimiters == null || parseDelimiters.length == 0) {
-            throw new IllegalArgumentException("Parse Delimiters cannot be null or empty");
+        if (parseDelimiters == null) {
+            throw new IllegalArgumentException("Parse Delimiters cannot be null");
         }
-        if (formatDelimiter == null || formatDelimiter.length() == 0) {
-            throw new IllegalArgumentException("Format Delimiters cannot be null or empty");
+        if (parseDelimiters.length == 0) {
+            throw new IllegalArgumentException("Parse Delimiters cannot be empty");
+        }
+        if (formatDelimiter == null) {
+            throw new IllegalArgumentException("Format Delimiters cannot be null");
+        }
+        if (formatDelimiter.length() == 0) {
+            throw new IllegalArgumentException("Format Delimiters cannot be empty");
         }
         this.parseDelimiters = generateDelimiterSet(parseDelimiters);
         this.formatDelimiter = formatDelimiter;
