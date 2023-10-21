@@ -43,11 +43,11 @@
 Apache Commons Text
 ===================
 
-[![GitHub Actions Status](https://github.com/apache/commons-text/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-text/actions)
+[![Java CI](https://github.com/apache/commons-text/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-text/actions/workflows/maven.yml)
 [![Coverage Status](https://codecov.io/gh/apache/commons-text/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-text)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/?gav=true)
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-text/1.10.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-text/1.10.0)
-[![CodeQL](https://github.com/apache/commons-text/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-text/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
+[![CodeQL](https://github.com/apache/commons-text/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/apache/commons-text/actions/workflows/codeql-analysis.yml)
 
 Apache Commons Text is a library focused on algorithms working on strings.
 
