@@ -16,14 +16,16 @@
  */
 /**
  * <p>Provides algorithms for parsing and formatting various programming "Cases".</p>
- * <p>The provided implementations are for the four most common cases:<br>
- * CamelCase - delimited by ascii uppercase alpha characters and always beginning with a lowercase ascii alpha<br>
- * PascalCase - Similar to CamelCase but always begins with an uppercase ascii alpha<br>
- * DelimitedCase - delimited by a constant character, which is omitted from parsed tokens<br>
- * SnakeCase - implementation of DelimitedCase in which the delimiter is an underscore '_'<br>
- * KebabCase - implementation of DelimitedCase in which the delimiter is a hyphen '-'<br>
+ * <p>Two base classes are provided to hold functionality common to multiple cases:<br>
+ * UpperCaseDelimitedCase - delimited by upper case characters.<br>
+ * DelimitedCase - delimited by a constant character, which is omitted from parsed tokens.<br>
+ * Four full implementations are provided for the most widely used cases:<br>
+ * CamelCase - extension of UpperCaseDelimitedCase where first character must be lower case.<br>
+ * PascalCase - extension of UpperCaseDelimitedCase where first character must be upper case.<br>
+ * SnakeCase - extension of DelimitedCase in which the delimiter is an underscore '_'.<br>
+ * KebabCase - extension of DelimitedCase in which the delimiter is a hyphen '-'.<br>
  * </p>
  *
- * @since 1.0
+ * @since 1.11
  */
 package org.apache.commons.text.cases;
