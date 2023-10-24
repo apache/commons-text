@@ -30,7 +30,7 @@ public class UpperCaseDelimitedCase implements Case {
     /**
      * Constructs a new UpperCaseDelimitedCase instance.
      */
-    protected UpperCaseDelimitedCase(boolean lowerCaseFirstCharacter) {
+    UpperCaseDelimitedCase(boolean lowerCaseFirstCharacter) {
         this.lowerCaseFirstCharacter = lowerCaseFirstCharacter;
     }
 

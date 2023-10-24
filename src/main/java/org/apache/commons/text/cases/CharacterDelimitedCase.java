@@ -36,7 +36,7 @@ public class CharacterDelimitedCase implements Case {
     /**
      * Constructs a new Delimited Case with null delimiters.
      */
-    protected CharacterDelimitedCase() {
+    CharacterDelimitedCase() {
         this(null, null);
     }
 
@@ -45,7 +45,7 @@ public class CharacterDelimitedCase implements Case {
      *
      * @param delimiter the character to use as both the parse and format delimiter
      */
-    protected CharacterDelimitedCase(char delimiter) {
+    CharacterDelimitedCase(char delimiter) {
         this(new char[] { delimiter }, CharUtils.toString(delimiter));
     }
 
@@ -55,7 +55,7 @@ public class CharacterDelimitedCase implements Case {
      * @param parseDelimiters the array of delimiters to use when parsing
      * @param formatDelimiter the delimiter to use when formatting
      */
-    protected CharacterDelimitedCase(char[] parseDelimiters, String formatDelimiter) {
+    CharacterDelimitedCase(char[] parseDelimiters, String formatDelimiter) {
         super();
         this.parseDelimiters = generateDelimiterList(parseDelimiters);
         this.formatDelimiter = formatDelimiter;
