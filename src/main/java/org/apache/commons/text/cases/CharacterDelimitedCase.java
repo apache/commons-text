@@ -42,6 +42,7 @@ public class CharacterDelimitedCase implements Case {
 
     /**
      * Constructs a new Delimited Case.
+     *
      * @param delimiter the character to use as both the parse and format delimiter
      */
     protected CharacterDelimitedCase(char delimiter) {
@@ -50,6 +51,7 @@ public class CharacterDelimitedCase implements Case {
 
     /**
      * Constructs a new delimited case.
+     *
      * @param parseDelimiters the array of delimiters to use when parsing
      * @param formatDelimiter the delimiter to use when formatting
      */
@@ -68,6 +70,7 @@ public class CharacterDelimitedCase implements Case {
      * No other restrictions are placed on the contents of the tokens.
      * Note: This Case does support empty tokens.<br>
      * </p>
+     *
      * @param tokens the tokens to be formatted into a delimited string
      * @return the delimited string
      * @throws IllegalArgumentException if any tokens contain the delimiter character
@@ -100,6 +103,7 @@ public class CharacterDelimitedCase implements Case {
      * considered reserved, and is omitted from the returned parsed tokens.<br>
      * No other restrictions are placed on the contents of the input string. <br>
      * </p>
+     *
      * @param string the delimited string to be parsed
      * @return the list of tokens found in the string
      */

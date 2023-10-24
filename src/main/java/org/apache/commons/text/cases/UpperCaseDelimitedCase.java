@@ -41,6 +41,7 @@ public class UpperCaseDelimitedCase implements Case {
      * encountered, that character starts a new token, with the character
      * itself included in the token. This method never returns empty tokens.
      * </p>
+     *
      * @param string the string to parse
      * @return the list of tokens found in the string
      */
@@ -87,6 +88,7 @@ public class UpperCaseDelimitedCase implements Case {
      * throws an exception. Any other characters in the token are returned as-is. Empty tokens are
      * not supported and will cause an exception to be thrown.
      * </p>
+     *
      * @param tokens the string tokens to be formatted
      * @return the formatted string
      * @throws IllegalArgumentException if 1) any token is empty 2) any token begins with a
@@ -123,6 +125,7 @@ public class UpperCaseDelimitedCase implements Case {
     /**
      * Transforms a Unicode code point into upper case using {@link java.lang.Character#toUpperCase} and confirms the
      * result is upper case.
+     *
      * @param codePoint the code point to upper case
      * @return the transformed code point
      * @throws IllegalArgumentException if the converted code point cannot be mapped into an upper case character
@@ -138,6 +141,7 @@ public class UpperCaseDelimitedCase implements Case {
     /**
      * Transforms a Unicode code point into lower case using {@link java.lang.Character#toLowerCase} and confirms the
      * result is lower case.
+     *
      * @param codePoint the code point to lower case
      * @return the lower case code point that corresponds to the input parameter
      * @throws IllegalArgumentException if the converted code point cannot be mapped into a lower case character
@@ -152,6 +156,7 @@ public class UpperCaseDelimitedCase implements Case {
 
     /**
      * Creates an exception message that displays the Unicode character as well as the hex value for clarity.
+     *
      * @param codePoint the Unicode code point to transform
      * @param suffix a string suffix for the message
      * @return the message
