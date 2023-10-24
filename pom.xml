@@ -39,6 +39,7 @@
     <commons.module.name>org.apache.commons.text</commons.module.name>
 
     <commons.release.version>1.11.0</commons.release.version>
+    <commons.release.next>1.11.1</commons.release.next>
     <commons.release.desc>(Java 8+)</commons.release.desc>
 
     <commons.jira.id>TEXT</commons.jira.id>
