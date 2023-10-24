@@ -241,10 +241,6 @@ public class CasesTest {
 
     /**
      * Asserts that string parses into the expected tokens, ignoring case if the caseInsensitive parameter is true
-     * @param caseInstance
-     * @param string
-     * @param tokens
-     * @param caseInsensitive
      */
     private void assertParse(Case caseInstance, String string, List<String> tokens, Boolean caseInsensitive) {
         List<String> parsedTokens = caseInstance.parse(string);
