@@ -1557,7 +1557,7 @@ public class StringSubstitutor {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("StringSubstitutor [disableSubstitutionInValues=").append(disableSubstitutionInValues).append(", enableSubstitutionInVariables=")
                 .append(enableSubstitutionInVariables).append(", enableUndefinedVariableException=").append(enableUndefinedVariableException)
                 .append(", escapeChar=").append(escapeChar).append(", prefixMatcher=").append(prefixMatcher).append(", preserveEscapes=")

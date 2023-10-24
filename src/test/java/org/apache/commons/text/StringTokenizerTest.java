@@ -778,7 +778,7 @@ public class StringTokenizerTest {
         list.set(1, "y");
         list.add("x");
 
-        assertEquals(Arrays.asList(new String[] {"z", "y", "x"}), list);
+        assertEquals(Arrays.asList("z", "y", "x"), list);
 
         // The tokenizer is unchanged
         assertEquals(Arrays.asList(array), tok.getTokenList());

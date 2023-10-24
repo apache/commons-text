@@ -360,7 +360,7 @@ public class DoubleFormatTest {
      */
     @ParameterizedTest
     @MethodSource
-    void testMaximumPrecision(DoubleFunction<String> fmt, double value) {
+    void testMaximumPrecision(final DoubleFunction<String> fmt, final double value) {
         final String s = fmt.apply(value);
         final double d = Double.parseDouble(s);
         Assertions.assertEquals(value, d, () -> value + " formatted as " + s);
