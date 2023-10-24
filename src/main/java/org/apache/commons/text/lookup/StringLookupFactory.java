@@ -1313,6 +1313,72 @@ public final class StringLookupFactory {
     }
 
     /**
+     * Returns the XmlDecoderStringLookup singleton instance.
+     * <p>
+     * Decodes strings according to the XML 1.0 specification.
+     * </p>
+     * <p>
+     * For example: "&amp;lt;element&amp;gt;" becomes "&lt;element&gt;".
+     * </p>
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.xmlDecoderStringLookup().lookup("&amp;lt;element&amp;gt;");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${xmlDecoder:&amp;lt;element&amp;gt;} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "&lt;element&gt;"} to {@code "<element>"}.
+     * </p>
+     *
+     * @return The XmlDecoderStringLookup singleton instance.
+     * @since 1.11.0
+     */
+    public StringLookup xmlDecoderStringLookup() {
+        return XmlDecoderStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the XmlEncoderStringLookup singleton instance.
+     * <p>
+     * Encodes strings according to the XML 1.0 specification.
+     * </p>
+     * <p>
+     * For example: "&lt;element&gt;" becomes "&amp;lt;element&amp;gt;".
+     * </p>
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.xmlEncoderStringLookup().lookup("&lt;element&gt;");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${xmlEncoder:&lt;element&gt;} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "<element>"} to {@code "&lt;element&gt;"}.
+     * </p>
+     *
+     * @return The XmlEncoderStringLookup singleton instance.
+     * @since 1.11.0
+     */
+    public StringLookup xmlEncoderStringLookup() {
+        return XmlEncoderStringLookup.INSTANCE;
+    }
+
+    /**
      * Returns the XmlStringLookup singleton instance.
      * <p>
      * Looks up the value for the key in the format "DocumentPath:XPath".
@@ -1380,71 +1446,5 @@ public final class StringLookupFactory {
      */
     public StringLookup xmlStringLookup(final Map<String, Boolean> xPathFactoryFeatures) {
         return new XmlStringLookup(xPathFactoryFeatures);
-    }
-
-    /**
-     * Returns the XmlDecoderStringLookup singleton instance.
-     * <p>
-     * Decodes strings according to the XML 1.0 specification.
-     * </p>
-     * <p>
-     * For example: "&amp;lt;element&amp;gt;" becomes "&lt;element&gt;".
-     * </p>
-     * <p>
-     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
-     * </p>
-     *
-     * <pre>
-     * StringLookupFactory.INSTANCE.xmlDecoderStringLookup().lookup("&amp;lt;element&amp;gt;");
-     * </pre>
-     * <p>
-     * Using a {@link StringSubstitutor}:
-     * </p>
-     *
-     * <pre>
-     * StringSubstitutor.createInterpolator().replace("... ${xmlDecoder:&amp;lt;element&amp;gt;} ..."));
-     * </pre>
-     * <p>
-     * The above examples convert {@code "&lt;element&gt;"} to {@code "<element>"}.
-     * </p>
-     *
-     * @return The XmlDecoderStringLookup singleton instance.
-     * @since 1.11.0
-     */
-    public StringLookup xmlDecoderStringLookup() {
-        return XmlDecoderStringLookup.INSTANCE;
-    }
-
-    /**
-     * Returns the XmlEncoderStringLookup singleton instance.
-     * <p>
-     * Encodes strings according to the XML 1.0 specification.
-     * </p>
-     * <p>
-     * For example: "&lt;element&gt;" becomes "&amp;lt;element&amp;gt;".
-     * </p>
-     * <p>
-     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
-     * </p>
-     *
-     * <pre>
-     * StringLookupFactory.INSTANCE.xmlEncoderStringLookup().lookup("&lt;element&gt;");
-     * </pre>
-     * <p>
-     * Using a {@link StringSubstitutor}:
-     * </p>
-     *
-     * <pre>
-     * StringSubstitutor.createInterpolator().replace("... ${xmlEncoder:&lt;element&gt;} ..."));
-     * </pre>
-     * <p>
-     * The above examples convert {@code "<element>"} to {@code "&lt;element&gt;"}.
-     * </p>
-     *
-     * @return The XmlEncoderStringLookup singleton instance.
-     * @since 1.11.0
-     */
-    public StringLookup xmlEncoderStringLookup() {
-        return XmlEncoderStringLookup.INSTANCE;
     }
 }

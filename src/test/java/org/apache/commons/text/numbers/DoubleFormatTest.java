@@ -186,6 +186,16 @@ public class DoubleFormatTest {
         return randomDouble(Double.MIN_EXPONENT, Double.MAX_EXPONENT, rnd);
     }
 
+    static Stream<Arguments> testMaximumPrecision() {
+        return Stream.of(
+            // Example of different Double.toString representations across JDKs
+            // JDK 17: -9.3540047119774374E17
+            // JDK 21: -9.354004711977437E17
+            Arguments.of(DoubleFormat.PLAIN.builder().build(), -9.3540047119774374E17),
+            Arguments.of(DoubleFormat.SCIENTIFIC.builder().build(), -9.3540047119774374E17)
+        );
+    }
+
     /**
      * Remove Unicode {@link Character#FORMAT format} characters from the given string.
      * @param str input string
@@ -339,6 +349,21 @@ public class DoubleFormatTest {
         checkFormatAccuracyWithDefaults(DoubleFormat.MIXED);
         checkFormatAccuracyWithDefaults(DoubleFormat.SCIENTIFIC);
         checkFormatAccuracyWithDefaults(DoubleFormat.ENGINEERING);
+    }
+
+    /**
+     * Test formatting at the maximum precision. The formatting is based on the output
+     * of {@link Double#toString()}. If cannot create an extended precision text
+     * representation and is limited to 17 significant digits. This test verifies that
+     * formatting does not lose information that would be required to recreate the
+     * same double value.
+     */
+    @ParameterizedTest
+    @MethodSource
+    void testMaximumPrecision(DoubleFunction<String> fmt, double value) {
+        final String s = fmt.apply(value);
+        final double d = Double.parseDouble(s);
+        Assertions.assertEquals(value, d, () -> value + " formatted as " + s);
     }
 
     @Test
@@ -628,30 +653,5 @@ public class DoubleFormatTest {
                 .alwaysIncludeExponent(true)
                 .formatSymbols(DecimalFormatSymbols.getInstance(loc))
                 .build());
-    }
-
-    /**
-     * Test formatting at the maximum precision. The formatting is based on the output
-     * of {@link Double#toString()}. If cannot create an extended precision text
-     * representation and is limited to 17 significant digits. This test verifies that
-     * formatting does not lose information that would be required to recreate the
-     * same double value.
-     */
-    @ParameterizedTest
-    @MethodSource
-    void testMaximumPrecision(DoubleFunction<String> fmt, double value) {
-        final String s = fmt.apply(value);
-        final double d = Double.parseDouble(s);
-        Assertions.assertEquals(value, d, () -> value + " formatted as " + s);
-    }
-
-    static Stream<Arguments> testMaximumPrecision() {
-        return Stream.of(
-            // Example of different Double.toString representations across JDKs
-            // JDK 17: -9.3540047119774374E17
-            // JDK 21: -9.354004711977437E17
-            Arguments.of(DoubleFormat.PLAIN.builder().build(), -9.3540047119774374E17),
-            Arguments.of(DoubleFormat.SCIENTIFIC.builder().build(), -9.3540047119774374E17)
-        );
     }
 }

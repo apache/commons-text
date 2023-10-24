@@ -77,6 +77,28 @@ public class TextStringBuilderTest {
         return 0;
     };
 
+    /**
+     * Clear the string builder and fill up to the specified length.
+     *
+     * @param sb the string builder
+     * @param length the length
+     */
+    private static void fill(final TextStringBuilder sb, final int length) {
+        sb.clear();
+        // Some initial data.
+        final int limit = Math.min(64, length);
+        for (int i = 0; i < limit; i++) {
+            sb.append(' ');
+        }
+        // Fill by doubling
+        while (sb.length() * 2L <= length) {
+            sb.append(sb);
+        }
+        // Remaining fill
+        sb.append(sb, 0, length - sb.length());
+        assertEquals(length, sb.length(), "Expected the buffer to be full to the given length");
+    }
+
     @Test
     public void test_LANG_1131_EqualsWithNullTextStringBuilder() throws Exception {
         final TextStringBuilder sb = new TextStringBuilder();
@@ -895,111 +917,6 @@ public class TextStringBuilderTest {
     }
 
     @Test
-    public void testOutOfMemoryError() {
-        // This test is memory hungry requiring at least 7GiB of memory.
-        // By default expansion will double the buffer size. If we repeat
-        // add 1GiB of char data then we require at maximum:
-        // 1GiB char[] data
-        // 2GiB char[] buffer
-        // ~4GiB char[] new buffer during reallocation
-
-        // Attempts to guess the amount of free memory available using
-        // the java.lang.Runtime/java.lang.management objects to
-        // skip the test often did not work.
-        // So here we just run the test and return a skip result if the
-        // OutOfMemoryError occurs too early.
-
-        final TextStringBuilder sb = new TextStringBuilder();
-        sb.minimizeCapacity();
-        assertEquals(0, sb.capacity());
-
-        // 1GiB char[] buffer: length is roughly 1/4 the maximum array size
-        final char[] chars = new char[1 << 29];
-
-        // With infinite memory it should be possible to add this 3 times.
-        try {
-            for (int i = 0; i < 3; i++) {
-                sb.append(chars);
-            }
-        } catch (OutOfMemoryError ignored) {
-            Assumptions.abort("Not enough memory for the test");
-        }
-
-        // Now at 3/4 of the maximum array length.
-        // Adding is not possible so we expect an OOM error.
-        assertThrows(OutOfMemoryError.class, () -> sb.append(chars));
-    }
-
-    @Test
-    public void testOutOfMemoryError2() {
-        // This test is memory hungry requiring at least 4GiB of memory
-        // in a single allocation. If not possible then skip the test.
-
-        final TextStringBuilder sb = new TextStringBuilder();
-        sb.minimizeCapacity();
-        assertEquals(0, sb.capacity());
-
-        // Allocate a lot
-        final int small = 10;
-        final int big = Integer.MAX_VALUE - small;
-        final char[] extra = new char[small + 1];
-        try {
-            sb.ensureCapacity(big);
-        } catch (OutOfMemoryError ignored) {
-            Assumptions.abort("Not enough memory for the test");
-        }
-
-        fill(sb, big);
-
-        // Adding more than the maximum array size is not possible so we expect an OOM error.
-        assertThrows(OutOfMemoryError.class, () -> sb.append(extra));
-    }
-
-    @Test
-    public void testOutOfMemoryError3() {
-        // This test is memory hungry requiring at least 2GiB of memory
-        // in a single allocation. If not possible then skip the test.
-
-        final TextStringBuilder sb = new TextStringBuilder();
-        sb.minimizeCapacity();
-        assertEquals(0, sb.capacity());
-
-        final int length = 1 << 30;
-        try {
-            sb.ensureCapacity(length);
-        } catch (OutOfMemoryError ignored) {
-            Assumptions.abort("Not enough memory for the test");
-        }
-
-        fill(sb, length);
-
-        // Adding to itself requires a new buffer above the limits of an array
-        assertThrows(OutOfMemoryError.class, () -> sb.append(sb));
-    }
-
-    /**
-     * Clear the string builder and fill up to the specified length.
-     *
-     * @param sb the string builder
-     * @param length the length
-     */
-    private static void fill(final TextStringBuilder sb, final int length) {
-        sb.clear();
-        // Some initial data.
-        final int limit = Math.min(64, length);
-        for (int i = 0; i < limit; i++) {
-            sb.append(' ');
-        }
-        // Fill by doubling
-        while (sb.length() * 2L <= length) {
-            sb.append(sb);
-        }
-        // Remaining fill
-        sb.append(sb, 0, length - sb.length());
-        assertEquals(length, sb.length(), "Expected the buffer to be full to the given length");
-    }
-
-    @Test
     public void testEquals() {
         final TextStringBuilder sb1 = new TextStringBuilder(50);
         final TextStringBuilder sb2 = new TextStringBuilder(100);
@@ -1591,6 +1508,89 @@ public class TextStringBuilderTest {
         sb.append("HelloWorld");
         sb.minimizeCapacity();
         assertEquals(10, sb.capacity());
+    }
+
+    @Test
+    public void testOutOfMemoryError() {
+        // This test is memory hungry requiring at least 7GiB of memory.
+        // By default expansion will double the buffer size. If we repeat
+        // add 1GiB of char data then we require at maximum:
+        // 1GiB char[] data
+        // 2GiB char[] buffer
+        // ~4GiB char[] new buffer during reallocation
+
+        // Attempts to guess the amount of free memory available using
+        // the java.lang.Runtime/java.lang.management objects to
+        // skip the test often did not work.
+        // So here we just run the test and return a skip result if the
+        // OutOfMemoryError occurs too early.
+
+        final TextStringBuilder sb = new TextStringBuilder();
+        sb.minimizeCapacity();
+        assertEquals(0, sb.capacity());
+
+        // 1GiB char[] buffer: length is roughly 1/4 the maximum array size
+        final char[] chars = new char[1 << 29];
+
+        // With infinite memory it should be possible to add this 3 times.
+        try {
+            for (int i = 0; i < 3; i++) {
+                sb.append(chars);
+            }
+        } catch (OutOfMemoryError ignored) {
+            Assumptions.abort("Not enough memory for the test");
+        }
+
+        // Now at 3/4 of the maximum array length.
+        // Adding is not possible so we expect an OOM error.
+        assertThrows(OutOfMemoryError.class, () -> sb.append(chars));
+    }
+
+    @Test
+    public void testOutOfMemoryError2() {
+        // This test is memory hungry requiring at least 4GiB of memory
+        // in a single allocation. If not possible then skip the test.
+
+        final TextStringBuilder sb = new TextStringBuilder();
+        sb.minimizeCapacity();
+        assertEquals(0, sb.capacity());
+
+        // Allocate a lot
+        final int small = 10;
+        final int big = Integer.MAX_VALUE - small;
+        final char[] extra = new char[small + 1];
+        try {
+            sb.ensureCapacity(big);
+        } catch (OutOfMemoryError ignored) {
+            Assumptions.abort("Not enough memory for the test");
+        }
+
+        fill(sb, big);
+
+        // Adding more than the maximum array size is not possible so we expect an OOM error.
+        assertThrows(OutOfMemoryError.class, () -> sb.append(extra));
+    }
+
+    @Test
+    public void testOutOfMemoryError3() {
+        // This test is memory hungry requiring at least 2GiB of memory
+        // in a single allocation. If not possible then skip the test.
+
+        final TextStringBuilder sb = new TextStringBuilder();
+        sb.minimizeCapacity();
+        assertEquals(0, sb.capacity());
+
+        final int length = 1 << 30;
+        try {
+            sb.ensureCapacity(length);
+        } catch (OutOfMemoryError ignored) {
+            Assumptions.abort("Not enough memory for the test");
+        }
+
+        fill(sb, length);
+
+        // Adding to itself requires a new buffer above the limits of an array
+        assertThrows(OutOfMemoryError.class, () -> sb.append(sb));
     }
 
     @Test

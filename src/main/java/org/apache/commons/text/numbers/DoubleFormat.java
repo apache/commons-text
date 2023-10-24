@@ -341,6 +341,24 @@ public enum DoubleFormat {
         /** Default decimal digit characters. */
         private static final String DEFAULT_DECIMAL_DIGITS = "0123456789";
 
+        /**
+         * Gets a string containing the localized digits 0-9 for the given symbols object. The string is constructed by starting at the
+         * {@link DecimalFormatSymbols#getZeroDigit() zero digit} and adding the next 9 consecutive characters.
+         *
+         * @param symbols symbols object
+         * @return string containing the localized digits 0-9
+         */
+        private static String getDigitString(final DecimalFormatSymbols symbols) {
+            final int zeroDelta = symbols.getZeroDigit() - DEFAULT_DECIMAL_DIGITS.charAt(0);
+
+            final char[] digitChars = new char[DEFAULT_DECIMAL_DIGITS.length()];
+            for (int i = 0; i < DEFAULT_DECIMAL_DIGITS.length(); ++i) {
+                digitChars[i] = (char) (DEFAULT_DECIMAL_DIGITS.charAt(i) + zeroDelta);
+            }
+
+            return String.valueOf(digitChars);
+        }
+
         /** Function used to construct format instances. */
         private final Function<Builder, DoubleFunction<String>> factory;
 
@@ -500,24 +518,6 @@ public enum DoubleFormat {
 
             return digits(getDigitString(symbols)).decimalSeparator(symbols.getDecimalSeparator()).groupingSeparator(symbols.getGroupingSeparator())
                     .minusSign(symbols.getMinusSign()).exponentSeparator(symbols.getExponentSeparator()).infinity(symbols.getInfinity()).nan(symbols.getNaN());
-        }
-
-        /**
-         * Gets a string containing the localized digits 0-9 for the given symbols object. The string is constructed by starting at the
-         * {@link DecimalFormatSymbols#getZeroDigit() zero digit} and adding the next 9 consecutive characters.
-         *
-         * @param symbols symbols object
-         * @return string containing the localized digits 0-9
-         */
-        private static String getDigitString(final DecimalFormatSymbols symbols) {
-            final int zeroDelta = symbols.getZeroDigit() - DEFAULT_DECIMAL_DIGITS.charAt(0);
-
-            final char[] digitChars = new char[DEFAULT_DECIMAL_DIGITS.length()];
-            for (int i = 0; i < DEFAULT_DECIMAL_DIGITS.length(); ++i) {
-                digitChars[i] = (char) (DEFAULT_DECIMAL_DIGITS.charAt(i) + zeroDelta);
-            }
-
-            return String.valueOf(digitChars);
         }
 
         /**

@@ -294,6 +294,31 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     private static final int MAX_BUFFER_SIZE = Integer.MAX_VALUE - 8;
 
     /**
+     * Creates a positive capacity at least as large the minimum required capacity.
+     * If the minimum capacity is negative then this throws an OutOfMemoryError as no array
+     * can be allocated.
+     *
+     * @param minCapacity the minimum capacity
+     * @return the capacity
+     * @throws OutOfMemoryError if the {@code minCapacity} is negative
+     */
+    private static int createPositiveCapacity(final int minCapacity) {
+        if (minCapacity < 0) {
+            // overflow
+            throw new OutOfMemoryError("Unable to allocate array size: " + Integer.toUnsignedString(minCapacity));
+        }
+        // This is called when we require buffer expansion to a very big array.
+        // Use the conservative maximum buffer size if possible, otherwise the biggest required.
+        //
+        // Note: In this situation JDK 1.8 java.util.ArrayList returns Integer.MAX_VALUE.
+        // This excludes some VMs that can exceed MAX_BUFFER_SIZE but not allocate a full
+        // Integer.MAX_VALUE length array.
+        // The result is that we may have to allocate an array of this size more than once if
+        // the capacity must be expanded again.
+        return Math.max(minCapacity, MAX_BUFFER_SIZE);
+    }
+
+    /**
      * Constructs an instance from a reference to a character array. Changes to the input chars are reflected in this
      * instance until the internal buffer needs to be reallocated. Using a reference to an array allows the instance to
      * be initialized without copying the input array.
@@ -1872,50 +1897,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Resizes the buffer to at least the size specified.
-     *
-     * @param minCapacity the minimum required capacity
-     * @throws OutOfMemoryError if the {@code minCapacity} is negative
-     */
-    private void resizeBuffer(final int minCapacity) {
-        // Overflow-conscious code treats the min and new capacity as unsigned.
-        final int oldCapacity = buffer.length;
-        int newCapacity = oldCapacity * 2;
-        if (Integer.compareUnsigned(newCapacity, minCapacity) < 0) {
-            newCapacity = minCapacity;
-        }
-        if (Integer.compareUnsigned(newCapacity, MAX_BUFFER_SIZE) > 0) {
-            newCapacity = createPositiveCapacity(minCapacity);
-        }
-        reallocate(newCapacity);
-    }
-
-    /**
-     * Creates a positive capacity at least as large the minimum required capacity.
-     * If the minimum capacity is negative then this throws an OutOfMemoryError as no array
-     * can be allocated.
-     *
-     * @param minCapacity the minimum capacity
-     * @return the capacity
-     * @throws OutOfMemoryError if the {@code minCapacity} is negative
-     */
-    private static int createPositiveCapacity(final int minCapacity) {
-        if (minCapacity < 0) {
-            // overflow
-            throw new OutOfMemoryError("Unable to allocate array size: " + Integer.toUnsignedString(minCapacity));
-        }
-        // This is called when we require buffer expansion to a very big array.
-        // Use the conservative maximum buffer size if possible, otherwise the biggest required.
-        //
-        // Note: In this situation JDK 1.8 java.util.ArrayList returns Integer.MAX_VALUE.
-        // This excludes some VMs that can exceed MAX_BUFFER_SIZE but not allocate a full
-        // Integer.MAX_VALUE length array.
-        // The result is that we may have to allocate an array of this size more than once if
-        // the capacity must be expanded again.
-        return Math.max(minCapacity, MAX_BUFFER_SIZE);
-    }
-
-    /**
      * Tests the contents of this builder against another to see if they contain the same character content.
      *
      * @param obj the object to check, null returns false
@@ -2902,6 +2883,25 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             }
         }
         return this;
+    }
+
+    /**
+     * Resizes the buffer to at least the size specified.
+     *
+     * @param minCapacity the minimum required capacity
+     * @throws OutOfMemoryError if the {@code minCapacity} is negative
+     */
+    private void resizeBuffer(final int minCapacity) {
+        // Overflow-conscious code treats the min and new capacity as unsigned.
+        final int oldCapacity = buffer.length;
+        int newCapacity = oldCapacity * 2;
+        if (Integer.compareUnsigned(newCapacity, minCapacity) < 0) {
+            newCapacity = minCapacity;
+        }
+        if (Integer.compareUnsigned(newCapacity, MAX_BUFFER_SIZE) > 0) {
+            newCapacity = createPositiveCapacity(minCapacity);
+        }
+        reallocate(newCapacity);
     }
 
     /**
