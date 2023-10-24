@@ -17,9 +17,7 @@
 package org.apache.commons.text.cases;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang3.CharUtils;
 
@@ -30,7 +28,7 @@ import org.apache.commons.lang3.CharUtils;
 public class CharacterDelimitedCase implements Case {
 
     /** Delimiters to be used when parsing. */
-    private Set<Integer> parseDelimiters;
+    private List<Integer> parseDelimiters;
 
     /** Delimiter to be used when formatting. */
     private String formatDelimiter;
@@ -62,7 +60,7 @@ public class CharacterDelimitedCase implements Case {
         if (formatDelimiter.length() == 0) {
             throw new IllegalArgumentException("Format Delimiters cannot be empty");
         }
-        this.parseDelimiters = generateDelimiterSet(parseDelimiters);
+        this.parseDelimiters = generateDelimiterList(parseDelimiters);
         this.formatDelimiter = formatDelimiter;
     }
 
@@ -139,8 +137,8 @@ public class CharacterDelimitedCase implements Case {
      * @param delimiters set of characters to determine capitalization, null means whitespace
      * @return the Set of delimiter characters in the input array
      */
-    private static Set<Integer> generateDelimiterSet(final char[] delimiters) {
-        final Set<Integer> delimiterHashSet = new HashSet<>();
+    private static List<Integer> generateDelimiterList(final char[] delimiters) {
+        final List<Integer> delimiterHashSet = new ArrayList<>();
         for (int index = 0; index < delimiters.length; index++) {
             delimiterHashSet.add(Character.codePointAt(delimiters, index));
         }
