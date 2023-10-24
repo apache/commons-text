@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -47,7 +49,9 @@ public class StringLookupFactoryTest {
                 StringLookupFactory.KEY_SYS,
                 StringLookupFactory.KEY_URL_DECODER,
                 StringLookupFactory.KEY_URL_ENCODER,
-                StringLookupFactory.KEY_XML);
+                StringLookupFactory.KEY_XML,
+                StringLookupFactory.KEY_XML_DECODER,
+                StringLookupFactory.KEY_XML_ENCODER);
     }
 
     private static void assertMappedLookups(final Map<String, StringLookup> lookupMap, final String... keys) {
@@ -186,7 +190,9 @@ public class StringLookupFactoryTest {
                 StringLookupFactory.KEY_SYS,
                 StringLookupFactory.KEY_URL_DECODER,
                 StringLookupFactory.KEY_URL_ENCODER,
-                StringLookupFactory.KEY_XML);
+                StringLookupFactory.KEY_XML,
+                StringLookupFactory.KEY_XML_DECODER,
+                StringLookupFactory.KEY_XML_ENCODER);
     }
 
     @Test
@@ -227,5 +233,16 @@ public class StringLookupFactoryTest {
         Assertions.assertSame(UrlEncoderStringLookup.INSTANCE, stringLookupFactory.urlEncoderStringLookup());
         Assertions.assertSame(UrlStringLookup.INSTANCE, stringLookupFactory.urlStringLookup());
         Assertions.assertSame(XmlStringLookup.INSTANCE, stringLookupFactory.xmlStringLookup());
+        Assertions.assertSame(XmlDecoderStringLookup.INSTANCE, stringLookupFactory.xmlDecoderStringLookup());
+        Assertions.assertSame(XmlEncoderStringLookup.INSTANCE, stringLookupFactory.xmlEncoderStringLookup());
+    }
+
+    @Test
+    public void testXmlStringLookup() {
+        final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
+        final HashMap<String, Boolean> features = new HashMap<>(1);
+        features.put(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+        XmlStringLookupTest.assertLookup(stringLookupFactory.xmlStringLookup(features));
+        XmlStringLookupTest.assertLookup(stringLookupFactory.xmlStringLookup(new HashMap<>()));
     }
 }

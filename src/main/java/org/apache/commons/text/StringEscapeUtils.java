@@ -567,7 +567,7 @@ public class StringEscapeUtils {
      * <p>{@code "bread" &amp; "butter"}</p>
      * becomes:
      * <p>
-     * {@code &amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;}.
+     * {@code &quot;bread&quot; &amp;amp; &quot;butter&quot;}.
      * </p>
      *
      * <p>Supports all known HTML 4.0 entities, including funky accents.

@@ -49,7 +49,7 @@ import org.junit.jupiter.api.Test;
 @Deprecated
 public class StrBuilderTest {
 
-    private static class MockReadable implements Readable {
+    private static final class MockReadable implements Readable {
 
         private final CharBuffer src;
 

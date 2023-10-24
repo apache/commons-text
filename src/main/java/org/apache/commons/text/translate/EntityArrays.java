@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class EntityArrays {
 
    /**
-     * A Map&lt;CharSequence, CharSequence&gt; to to escape
+     * A Map&lt;CharSequence, CharSequence&gt; to escape
      * <a href="https://secure.wikimedia.org/wikipedia/en/wiki/ISO/IEC_8859-1">ISO-8859-1</a>
      * characters to their named HTML 3.x equivalents.
      */
@@ -47,7 +47,7 @@ public class EntityArrays {
         initialMap.put("\u00A5", "&yen;"); // yen sign = yuan sign
         initialMap.put("\u00A6", "&brvbar;"); // broken bar = broken vertical bar
         initialMap.put("\u00A7", "&sect;"); // section sign
-        initialMap.put("\u00A8", "&uml;"); // diaeresis = spacing diaeresis
+        initialMap.put("\u00A8", "&uml;"); // dieresis = spacing dieresis
         initialMap.put("\u00A9", "&copy;"); // © - copyright sign
         initialMap.put("\u00AA", "&ordf;"); // feminine ordinal indicator
         initialMap.put("\u00AB", "&laquo;"); // left-pointing double angle quotation mark = left pointing guillemet
@@ -323,7 +323,7 @@ public class EntityArrays {
         // <!-- ligature is a misnomer, this is a separate character in some languages -->
         initialMap.put("\u0160", "&Scaron;"); // -- latin capital letter S with caron,U+0160 ISOlat2 -->
         initialMap.put("\u0161", "&scaron;"); // -- latin small letter s with caron,U+0161 ISOlat2 -->
-        initialMap.put("\u0178", "&Yuml;"); // -- latin capital letter Y with diaeresis,U+0178 ISOlat2 -->
+        initialMap.put("\u0178", "&Yuml;"); // -- latin capital letter Y with dieresis,U+0178 ISOlat2 -->
         // <!-- Spacing Modifier Letters -->
         initialMap.put("\u02C6", "&circ;"); // -- modifier letter circumflex accent,U+02C6 ISOpub -->
         initialMap.put("\u02DC", "&tilde;"); // small tilde, U+02DC ISOdia -->

@@ -44,6 +44,11 @@ import org.apache.commons.lang3.StringUtils;
 public class JaroWinklerSimilarity implements SimilarityScore<Double> {
 
     /**
+     * Singleton instance.
+     */
+    static final JaroWinklerSimilarity INSTANCE = new JaroWinklerSimilarity();
+
+    /**
      * This method returns the Jaro-Winkler string matches, half transpositions, prefix array.
      *
      * @param first the first string to be matched

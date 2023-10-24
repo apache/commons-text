@@ -17,9 +17,17 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Assertions;
+import java.util.HashMap;
+
+import javax.xml.XMLConstants;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,6 +36,13 @@ import org.junit.jupiter.api.Test;
 public class XmlStringLookupTest {
 
     private static final String DOC_PATH = "src/test/resources/org/apache/commons/text/document.xml";
+
+    static void assertLookup(final StringLookup xmlStringLookup) {
+        assertNotNull(xmlStringLookup);
+        assertTrue(xmlStringLookup instanceof XmlStringLookup);
+        assertEquals("Hello World!", xmlStringLookup.lookup(DOC_PATH + ":/root/path/to/node"));
+        assertNull(xmlStringLookup.lookup(null));
+    }
 
     @Test
     public void testBadXPath() {
@@ -40,20 +55,32 @@ public class XmlStringLookupTest {
     }
 
     @Test
+    public void testNoFeatures() {
+        final String xpath = "/root/path/to/node";
+        assertEquals("Hello World!", new XmlStringLookup(new HashMap<>()).lookup(DOC_PATH + ":" + xpath));
+    }
+
+    @Test
+    public void testNoFeaturesDefault() {
+        final HashMap<String, Boolean> features = new HashMap<>(1);
+        features.put(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+        assertLookup(new XmlStringLookup(features));
+    }
+
+    @Test
     public void testNull() {
-        Assertions.assertNull(XmlStringLookup.INSTANCE.lookup(null));
+        assertNull(XmlStringLookup.INSTANCE.lookup(null));
     }
 
     @Test
     public void testOne() {
-        final String xpath = "/root/path/to/node";
-        Assertions.assertEquals("Hello World!", XmlStringLookup.INSTANCE.lookup(DOC_PATH + ":" + xpath));
+        assertLookup(XmlStringLookup.INSTANCE);
     }
 
     @Test
     public void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(XmlStringLookup.INSTANCE.toString().isEmpty());
+        assertFalse(XmlStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

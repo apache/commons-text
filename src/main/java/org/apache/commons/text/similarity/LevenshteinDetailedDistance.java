@@ -32,9 +32,9 @@ import java.util.Arrays;
 public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResults> {
 
     /**
-     * Default instance.
+     * Singleton instance.
      */
-    private static final LevenshteinDetailedDistance DEFAULT_INSTANCE = new LevenshteinDetailedDistance();
+    private static final LevenshteinDetailedDistance INSTANCE = new LevenshteinDetailedDistance();
 
     /**
      * Finds count for each of the three [insert, delete, substitute] operations
@@ -138,7 +138,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * @return The default instace
      */
     public static LevenshteinDetailedDistance getDefaultInstance() {
-        return DEFAULT_INSTANCE;
+        return INSTANCE;
     }
 
     /**

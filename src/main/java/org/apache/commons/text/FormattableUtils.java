@@ -31,7 +31,6 @@ import org.apache.commons.lang3.StringUtils;
  * and padding, and is not designed to allow generalised alternate formats.</p>
  *
  * @since 1.0
- *
  */
 public class FormattableUtils {
 

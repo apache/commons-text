@@ -42,7 +42,6 @@ import org.junit.jupiter.api.Test;
  * <p>
  * This code has been adapted from Apache Commons Lang 3.5.
  * </p>
- *
  */
 public class StringEscapeUtilsTest {
     private static final String FOO = "foo";
@@ -95,24 +94,16 @@ public class StringEscapeUtilsTest {
         assertEquals(unescaped, writer.toString());
     }
 
-    private void checkCsvEscapeWriter(final String expected, final String value) {
-        try {
-            final StringWriter writer = new StringWriter();
-            StringEscapeUtils.ESCAPE_CSV.translate(value, writer);
-            assertEquals(expected, writer.toString());
-        } catch (final IOException e) {
-            fail("Threw: " + e);
-        }
+    private void checkCsvEscapeWriter(final String expected, final String value) throws IOException {
+        final StringWriter writer = new StringWriter();
+        StringEscapeUtils.ESCAPE_CSV.translate(value, writer);
+        assertEquals(expected, writer.toString());
     }
 
-    private void checkCsvUnescapeWriter(final String expected, final String value) {
-        try {
-            final StringWriter writer = new StringWriter();
-            StringEscapeUtils.UNESCAPE_CSV.translate(value, writer);
-            assertEquals(expected, writer.toString());
-        } catch (final IOException e) {
-            fail("Threw: " + e);
-        }
+    private void checkCsvUnescapeWriter(final String expected, final String value) throws IOException {
+        final StringWriter writer = new StringWriter();
+        StringEscapeUtils.UNESCAPE_CSV.translate(value, writer);
+        assertEquals(expected, writer.toString());
     }
 
     @Test
@@ -153,7 +144,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testEscapeCsvWriter() {
+    public void testEscapeCsvWriter() throws IOException {
         checkCsvEscapeWriter("foo.bar", "foo.bar");
         checkCsvEscapeWriter("\"foo,bar\"", "foo,bar");
         checkCsvEscapeWriter("\"foo\nbar\"", "foo\nbar");
@@ -468,7 +459,7 @@ public void testEscapeEcmaScript() {
     }
 
     @Test
-    public void testUnescapeCsvWriter() {
+    public void testUnescapeCsvWriter() throws IOException {
         checkCsvUnescapeWriter("foo.bar", "foo.bar");
         checkCsvUnescapeWriter("foo,bar", "\"foo,bar\"");
         checkCsvUnescapeWriter("foo\nbar", "\"foo\nbar\"");

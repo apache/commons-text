@@ -20,7 +20,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.apache.commons.text.RandomStringGenerator.Builder;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -38,22 +41,22 @@ public class RandomStringGeneratorTest {
 
     @Test
     public void testBadMaximumCodePoint() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new RandomStringGenerator.Builder().withinRange(0, Character.MAX_CODE_POINT + 1));
+        assertThatIllegalArgumentException().isThrownBy(() -> RandomStringGenerator.builder().withinRange(0, Character.MAX_CODE_POINT + 1));
     }
 
     @Test
     public void testBadMinAndMax() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new RandomStringGenerator.Builder().withinRange(2, 1));
+        assertThatIllegalArgumentException().isThrownBy(() -> RandomStringGenerator.builder().withinRange(2, 1));
     }
 
     @Test
     public void testBadMinimumCodePoint() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new RandomStringGenerator.Builder().withinRange(-1, 1));
+        assertThatIllegalArgumentException().isThrownBy(() -> RandomStringGenerator.builder().withinRange(-1, 1));
     }
 
     @Test
     public void testChangeOfFilter() {
-        final RandomStringGenerator.Builder builder = new RandomStringGenerator.Builder().withinRange('a', 'z')
+        final RandomStringGenerator.Builder builder = RandomStringGenerator.builder().withinRange('a', 'z')
                 .filteredBy(A_FILTER);
         final String str = builder.filteredBy(B_FILTER).build().generate(100);
 
@@ -66,7 +69,7 @@ public class RandomStringGeneratorTest {
     public void testGenerateMinMaxLength() {
         final int minLength = 0;
         final int maxLength = 3;
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+        final RandomStringGenerator generator = RandomStringGenerator.builder().build();
         final String str = generator.generate(minLength, maxLength);
         assertThat(codePointLength(str)).isBetween(0, 3);
     }
@@ -74,7 +77,7 @@ public class RandomStringGeneratorTest {
     @Test
     public void testGenerateMinMaxLengthInvalidLength() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
-            final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+            final RandomStringGenerator generator = RandomStringGenerator.builder().build();
             generator.generate(-1, 0);
         });
     }
@@ -82,7 +85,7 @@ public class RandomStringGeneratorTest {
     @Test
     public void testGenerateMinMaxLengthMinGreaterThanMax() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
-            final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+            final RandomStringGenerator generator = RandomStringGenerator.builder().build();
             generator.generate(1, 0);
         });
     }
@@ -90,7 +93,7 @@ public class RandomStringGeneratorTest {
     @Test
     public void testGenerateTakingIntThrowsNullPointerException() {
         assertThatNullPointerException().isThrownBy(() -> {
-            final RandomStringGenerator.Builder randomStringGeneratorBuilder = new RandomStringGenerator.Builder();
+            final RandomStringGenerator.Builder randomStringGeneratorBuilder = RandomStringGenerator.builder();
             final CharacterPredicate[] characterPredicateArray = new CharacterPredicate[2];
             randomStringGeneratorBuilder.filteredBy(characterPredicateArray);
             final RandomStringGenerator randomStringGenerator = randomStringGeneratorBuilder.build();
@@ -102,14 +105,14 @@ public class RandomStringGeneratorTest {
     @Test
     public void testInvalidLength() {
         assertThatIllegalArgumentException().isThrownBy(() -> {
-            final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+            final RandomStringGenerator generator = RandomStringGenerator.builder().build();
             generator.generate(-1);
         });
     }
 
     @Test
     public void testMultipleFilters() {
-        final String str = new RandomStringGenerator.Builder().withinRange('a', 'd')
+        final String str = RandomStringGenerator.builder().withinRange('a', 'd')
                 .filteredBy(A_FILTER, B_FILTER).build().generate(5000);
 
         boolean aFound = false;
@@ -131,7 +134,7 @@ public class RandomStringGeneratorTest {
     @Test
     public void testNoLoneSurrogates() {
         final int length = 5000;
-        final String str = new RandomStringGenerator.Builder().build().generate(length);
+        final String str = RandomStringGenerator.builder().build().generate(length);
 
         char lastChar = str.charAt(0);
         for (int i = 1; i < str.length(); i++) {
@@ -160,7 +163,7 @@ public class RandomStringGeneratorTest {
 
         // Request a string in an area of the Basic Multilingual Plane that is
         // largely occupied by private characters
-        final String str = new RandomStringGenerator.Builder().withinRange(startOfPrivateBMPChars,
+        final String str = RandomStringGenerator.builder().withinRange(startOfPrivateBMPChars,
                 Character.MIN_SUPPLEMENTARY_CODE_POINT - 1).build().generate(5000);
 
         int i = 0;
@@ -173,7 +176,7 @@ public class RandomStringGeneratorTest {
 
     @Test
     public void testRemoveFilters() {
-        final RandomStringGenerator.Builder builder = new RandomStringGenerator.Builder().withinRange('a', 'z')
+        final RandomStringGenerator.Builder builder = RandomStringGenerator.builder().withinRange('a', 'z')
                 .filteredBy(A_FILTER);
 
         builder.filteredBy();
@@ -193,7 +196,7 @@ public class RandomStringGeneratorTest {
     public void testSelectFromCharArray() {
         final String str = "abc";
         final char[] charArray = str.toCharArray();
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFrom(charArray).build();
+        final RandomStringGenerator generator = RandomStringGenerator.builder().selectFrom(charArray).build();
 
         final String randomText = generator.generate(5);
 
@@ -205,7 +208,7 @@ public class RandomStringGeneratorTest {
     @Test
     public void testSelectFromCharVarargs() {
         final String str = "abc";
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder().selectFrom('a', 'b', 'c').build();
+        final RandomStringGenerator generator = RandomStringGenerator.builder().selectFrom('a', 'b', 'c').build();
         final String randomText = generator.generate(5);
         for (final char c : randomText.toCharArray()) {
             assertThat(str.indexOf(c) != -1).isTrue();
@@ -213,9 +216,71 @@ public class RandomStringGeneratorTest {
     }
 
     @Test
+    public void testSelectFromCharVarargs2() {
+        final String str = "abcde";
+        // @formatter:off
+        final RandomStringGenerator generator = RandomStringGenerator.builder()
+                .selectFrom()
+                .selectFrom(null)
+                .selectFrom('a', 'b')
+                .selectFrom('a', 'b', 'c')
+                .selectFrom('a', 'b', 'c', 'd')
+                .selectFrom('a', 'b', 'c', 'd', 'e') // only this last call matters
+                .build();
+        // @formatter:on
+        final String randomText = generator.generate(10);
+        for (final char c : randomText.toCharArray()) {
+            assertThat(str.indexOf(c) != -1).isTrue();
+        }
+    }
+
+    @Test
+    public void testSelectFromCharVarargSize1() {
+        final RandomStringGenerator generator = RandomStringGenerator.builder().selectFrom('a').build();
+        final String randomText = generator.generate(5);
+        for (final char c : randomText.toCharArray()) {
+            assertEquals('a', c);
+        }
+    }
+
+    @Test
+    public void testSelectFromEmptyCharVarargs() {
+        final RandomStringGenerator generator = RandomStringGenerator.builder().selectFrom().build();
+        final String randomText = generator.generate(5);
+        for (final char c : randomText.toCharArray()) {
+            assertTrue(c >= Character.MIN_CODE_POINT && c <= Character.MAX_CODE_POINT);
+        }
+    }
+
+    @Test
+    public void testSelectFromNullCharVarargs() {
+        final int length = 5;
+        RandomStringGenerator generator = RandomStringGenerator.builder().selectFrom(null).build();
+        String randomText = generator.generate(length);
+        assertThat(codePointLength(randomText)).isEqualTo(length);
+        for (final char c : randomText.toCharArray()) {
+            assertTrue(c >= Character.MIN_CODE_POINT && c <= Character.MAX_CODE_POINT);
+        }
+        //
+        final Builder builder = RandomStringGenerator.builder().selectFrom('a');
+        generator = builder.build();
+        randomText = generator.generate(length);
+        for (final char c : randomText.toCharArray()) {
+            assertEquals('a', c);
+        }
+        // null input resets
+        generator = builder.selectFrom(null).build();
+        randomText = generator.generate(length);
+        assertThat(codePointLength(randomText)).isEqualTo(length);
+        for (final char c : randomText.toCharArray()) {
+            assertTrue(c >= Character.MIN_CODE_POINT && c <= Character.MAX_CODE_POINT);
+        }
+    }
+
+    @Test
     public void testSetLength() {
         final int length = 99;
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+        final RandomStringGenerator generator = RandomStringGenerator.builder().build();
         final String str = generator.generate(length);
         assertThat(codePointLength(str)).isEqualTo(length);
     }
@@ -225,7 +290,7 @@ public class RandomStringGeneratorTest {
         final char testChar = 'a';
         final TextRandomProvider testRandom = n -> testChar;
 
-        final String str = new RandomStringGenerator.Builder().usingRandom(testRandom).build().generate(10);
+        final String str = RandomStringGenerator.builder().usingRandom(testRandom).build().generate(10);
         for (final char c : str.toCharArray()) {
             assertThat(c).isEqualTo(testChar);
         }
@@ -235,8 +300,13 @@ public class RandomStringGeneratorTest {
     public void testWithinMultipleRanges() {
         final int length = 5000;
         final char[][] pairs = {{'a', 'z'}, {'0', '9'}};
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder()
-                .withinRange(pairs).build();
+        // @formatter:off
+        final RandomStringGenerator generator = RandomStringGenerator.builder()
+                .withinRange()
+                .withinRange(null)
+                .withinRange(pairs)
+                .build();
+        // @formatter:on
         final String str = generator.generate(length);
 
         int minimumCodePoint = 0, maximumCodePoint = 0;
@@ -259,7 +329,7 @@ public class RandomStringGeneratorTest {
         final int length = 5000;
         final int minimumCodePoint = 'a';
         final int maximumCodePoint = 'z';
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder()
+        final RandomStringGenerator generator = RandomStringGenerator.builder()
                 .withinRange(minimumCodePoint, maximumCodePoint).build();
         final String str = generator.generate(length);
 
@@ -273,7 +343,7 @@ public class RandomStringGeneratorTest {
 
     @Test
     public void testZeroLength() {
-        final RandomStringGenerator generator = new RandomStringGenerator.Builder().build();
+        final RandomStringGenerator generator = RandomStringGenerator.builder().build();
         assertThat(generator.generate(0)).isEqualTo("");
     }
 }

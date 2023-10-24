@@ -39,7 +39,7 @@ import org.apache.commons.lang3.StringUtils;
  * </p>
  *
  * <p>
- * The target and do not encode languages must be in the Unicode BMP, but the
+ * The target and 'do not encode' languages must be in the Unicode BMP, but the
  * source language does not.
  * </p>
  *
@@ -71,7 +71,6 @@ import org.apache.commons.lang3.StringUtils;
  * </p>
  *
  * @since 1.0
- *
  */
 public final class AlphabetConverter {
 
@@ -105,9 +104,7 @@ public final class AlphabetConverter {
             return ArrayUtils.EMPTY_INTEGER_OBJECT_ARRAY;
         }
         final Integer[] integers = new Integer[chars.length];
-        for (int i = 0; i < chars.length; i++) {
-            integers[i] = (int) chars[i];
-        }
+        Arrays.setAll(integers, i -> (int) chars[i]);
         return integers;
     }
 
@@ -166,14 +163,11 @@ public final class AlphabetConverter {
             final Iterator<Integer> it = encodingCopy.iterator();
 
             for (final int originalLetter : originalCopy) {
-                final String originalLetterAsString =
-                        codePointToString(originalLetter);
+                final String originalLetterAsString = codePointToString(originalLetter);
 
                 if (doNotEncodeMap.containsKey(originalLetter)) {
-                    originalToEncoded.put(originalLetter,
-                            originalLetterAsString);
-                    encodedToOriginal.put(originalLetterAsString,
-                            originalLetterAsString);
+                    originalToEncoded.put(originalLetter, originalLetterAsString);
+                    encodedToOriginal.put(originalLetterAsString, originalLetterAsString);
                 } else {
                     Integer next = it.next();
 
@@ -184,14 +178,11 @@ public final class AlphabetConverter {
                     final String encodedLetter = codePointToString(next);
 
                     originalToEncoded.put(originalLetter, encodedLetter);
-                    encodedToOriginal.put(encodedLetter,
-                            originalLetterAsString);
+                    encodedToOriginal.put(encodedLetter, originalLetterAsString);
                 }
             }
 
-            return new AlphabetConverter(originalToEncoded,
-                    encodedToOriginal,
-                    encodedLetterLength);
+            return new AlphabetConverter(originalToEncoded, encodedToOriginal, encodedLetterLength);
 
         }
         if (encodingCopy.size() - doNotEncodeCopy.size() < 2) {
@@ -271,8 +262,7 @@ public final class AlphabetConverter {
         int encodedLetterLength = 1;
 
         for (final Entry<Integer, String> e : unmodifiableOriginalToEncoded.entrySet()) {
-            final String originalAsString = codePointToString(e.getKey());
-            encodedToOriginal.put(e.getValue(), originalAsString);
+            encodedToOriginal.put(e.getValue(), codePointToString(e.getKey()));
 
             if (e.getValue().length() > encodedLetterLength) {
                 encodedLetterLength = e.getValue().length();
@@ -504,12 +494,11 @@ public final class AlphabetConverter {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         // @formatter:off
-        originalToEncoded.forEach((k, v) -> {
+        originalToEncoded.forEach((k, v) ->
             sb.append(codePointToString(k))
               .append(ARROW)
               .append(k)
-              .append(System.lineSeparator());
-        });
+              .append(System.lineSeparator()));
         // @formatter:on
         return sb.toString();
     }

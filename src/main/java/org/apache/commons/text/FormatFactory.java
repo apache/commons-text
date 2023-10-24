@@ -24,6 +24,7 @@ import java.util.Locale;
  *
  * @since 1.0
  */
+@FunctionalInterface
 public interface FormatFactory {
 
     /**

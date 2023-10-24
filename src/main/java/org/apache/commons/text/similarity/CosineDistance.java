@@ -35,24 +35,14 @@ import java.util.Map;
  */
 public class CosineDistance implements EditDistance<Double> {
 
-    /**
-     * Tokenizer used to convert the character sequence into a vector.
-     */
-    private final Tokenizer<CharSequence> tokenizer = new RegexTokenizer();
-
-    /**
-     * Cosine similarity.
-     */
-    private final CosineSimilarity cosineSimilarity = new CosineSimilarity();
-
     @Override
     public Double apply(final CharSequence left, final CharSequence right) {
-        final CharSequence[] leftTokens = tokenizer.tokenize(left);
-        final CharSequence[] rightTokens = tokenizer.tokenize(right);
+        final CharSequence[] leftTokens = RegexTokenizer.INSTANCE.apply(left);
+        final CharSequence[] rightTokens = RegexTokenizer.INSTANCE.apply(right);
 
         final Map<CharSequence, Integer> leftVector = Counter.of(leftTokens);
         final Map<CharSequence, Integer> rightVector = Counter.of(rightTokens);
-        final double similarity = cosineSimilarity.cosineSimilarity(leftVector, rightVector);
+        final double similarity = CosineSimilarity.INSTANCE.cosineSimilarity(leftVector, rightVector);
         return 1.0 - similarity;
     }
 

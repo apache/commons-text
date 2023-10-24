@@ -17,12 +17,12 @@
 package org.apache.commons.text;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.text.lookup.StringLookup;
@@ -298,7 +298,8 @@ public class StringSubstitutor {
      * </pre>
      *
      * <p>The table below lists the lookups available by default in the returned instance. These
-     * may be modified through the use of the {@value StringLookupFactory#DEFAULT_STRING_LOOKUPS_PROPERTY}
+     * may be modified through the use of the
+     * {@value org.apache.commons.text.lookup.StringLookupFactory#DEFAULT_STRING_LOOKUPS_PROPERTY}
      * system property, as described in the {@link StringLookupFactory} documentation.</p>
      *
      * <p><strong>NOTE:</strong> The list of lookups available by default changed in version {@code 1.10.0}.
@@ -312,60 +313,68 @@ public class StringSubstitutor {
      * <th>Lookup</th>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_BASE64_DECODER}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_BASE64_DECODER}</td>
      * <td>{@link StringLookupFactory#base64DecoderStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_BASE64_ENCODER}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_BASE64_ENCODER}</td>
      * <td>{@link StringLookupFactory#base64EncoderStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_CONST}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_CONST}</td>
      * <td>{@link StringLookupFactory#constantStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_DATE}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_DATE}</td>
      * <td>{@link StringLookupFactory#dateStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_ENV}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_ENV}</td>
      * <td>{@link StringLookupFactory#environmentVariableStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_FILE}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_FILE}</td>
      * <td>{@link StringLookupFactory#fileStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_JAVA}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_JAVA}</td>
      * <td>{@link StringLookupFactory#javaPlatformStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_LOCALHOST}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_LOCALHOST}</td>
      * <td>{@link StringLookupFactory#localHostStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_PROPERTIES}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_PROPERTIES}</td>
      * <td>{@link StringLookupFactory#propertiesStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_RESOURCE_BUNDLE}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_RESOURCE_BUNDLE}</td>
      * <td>{@link StringLookupFactory#resourceBundleStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_SYS}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_SYS}</td>
      * <td>{@link StringLookupFactory#systemPropertyStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_URL_DECODER}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_URL_DECODER}</td>
      * <td>{@link StringLookupFactory#urlDecoderStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_URL_ENCODER}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_URL_ENCODER}</td>
      * <td>{@link StringLookupFactory#urlEncoderStringLookup()}</td>
      * </tr>
      * <tr>
-     * <td>{@value StringLookupFactory#KEY_XML}</td>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML}</td>
      * <td>{@link StringLookupFactory#xmlStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML_DECODER}</td>
+     * <td>{@link StringLookupFactory#xmlDecoderStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML_ENCODER}</td>
+     * <td>{@link StringLookupFactory#xmlEncoderStringLookup()}</td>
      * </tr>
      * </table>
      *
@@ -421,14 +430,8 @@ public class StringSubstitutor {
         if (valueProperties == null) {
             return source.toString();
         }
-        final Map<String, String> valueMap = new HashMap<>();
-        final Enumeration<?> propNames = valueProperties.propertyNames();
-        while (propNames.hasMoreElements()) {
-            final String propName = String.valueOf(propNames.nextElement());
-            final String propValue = valueProperties.getProperty(propName);
-            valueMap.put(propName, propValue);
-        }
-        return StringSubstitutor.replace(source, valueMap);
+        return StringSubstitutor.replace(source,
+                valueProperties.stringPropertyNames().stream().collect(Collectors.toMap(Function.identity(), valueProperties::getProperty)));
     }
 
     /**
@@ -1544,5 +1547,22 @@ public class StringSubstitutor {
             }
         }
         return new Result(altered, lengthChange);
+    }
+
+    /**
+     * Returns a string representation of the object.
+     *
+     * @return a string representation of the object.
+     * @since 1.11.0
+     */
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("StringSubstitutor [disableSubstitutionInValues=").append(disableSubstitutionInValues).append(", enableSubstitutionInVariables=")
+                .append(enableSubstitutionInVariables).append(", enableUndefinedVariableException=").append(enableUndefinedVariableException)
+                .append(", escapeChar=").append(escapeChar).append(", prefixMatcher=").append(prefixMatcher).append(", preserveEscapes=")
+                .append(preserveEscapes).append(", suffixMatcher=").append(suffixMatcher).append(", valueDelimiterMatcher=").append(valueDelimiterMatcher)
+                .append(", variableResolver=").append(variableResolver).append("]");
+        return builder.toString();
     }
 }

@@ -37,11 +37,6 @@ package org.apache.commons.text.similarity;
 public class LongestCommonSubsequenceDistance implements EditDistance<Integer> {
 
     /**
-     * Object for calculating the longest common subsequence that we can then normalize in apply.
-     */
-    private final LongestCommonSubsequence longestCommonSubsequence = new LongestCommonSubsequence();
-
-    /**
      * Calculates an edit distance between two {@code CharSequence}'s {@code left} and
      * {@code right} as: {@code left.length() + right.length() - 2 * LCS(left, right)}, where
      * {@code LCS} is given in {@link LongestCommonSubsequence#apply(CharSequence, CharSequence)}.
@@ -58,7 +53,7 @@ public class LongestCommonSubsequenceDistance implements EditDistance<Integer> {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Inputs must not be null");
         }
-        return left.length() + right.length() - 2 * longestCommonSubsequence.apply(left, right);
+        return left.length() + right.length() - 2 * LongestCommonSubsequence.INSTANCE.apply(left, right);
     }
 
 }

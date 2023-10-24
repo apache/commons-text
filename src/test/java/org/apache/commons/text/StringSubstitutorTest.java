@@ -520,7 +520,7 @@ public class StringSubstitutorTest {
 
     @Test
     public void testReplaceInTakingStringBufferWithNonNull() {
-        final StringSubstitutor strSubstitutor = new StringSubstitutor(new HashMap<String, String>(), "WV@i#y?N*[",
+        final StringSubstitutor strSubstitutor = new StringSubstitutor(new HashMap<>(), "WV@i#y?N*[",
             "WV@i#y?N*[", '*');
 
         assertFalse(strSubstitutor.isPreserveEscapes());

@@ -39,11 +39,58 @@ The <action> type attribute can be add,update,fix,remove.
 -->
 
 
-<document>
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
   <properties>
     <title>Apache Commons Text Changes</title>
   </properties>
   <body>
+  <release version="1.11.0" date="20YY-MM-DD" description="Release 1.11.0. Requires Java 8.">
+    <!-- FIX -->
+    <action issue="TEXT-219" type="fix" dev="aherbert" due-to="Jaap Sperling">Fix StringTokenizer.getTokenList to return an independent modifiable list</action>
+    <action                  type="fix" dev="aherbert" due-to="James Nord">Fix Javadoc for StringEscapeUtils.escapeHtml4 #382</action>
+    <action                  type="fix" dev="ggregory" due-to="Pavel Belousov, Gary Gregory">TextStringBuidler#hashCode() allocates a String on each call #387.</action>
+    <action issue="TEXT-221" type="fix" dev="aherbert" due-to="Remco Riswick">Fix Bundle-SymbolicName to use the package name org.apache.commons.text</action>
+    <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Add and use a package-private singleton for RegexTokenizer.</action>
+    <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Add and use a package-private singleton for CosineSimilarity.</action>
+    <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Add and use a package-private singleton for LongestCommonSubsequence.</action>
+    <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Add and use a package-private singleton for JaroWinklerSimilarity.</action>
+    <action                  type="fix" dev="ggregory" due-to="Gary Gregory">Add and use a package-private singleton for JaccardSimilarity.</action>
+    <action                  type="fix" dev="ggregory" due-to="step-security-bot, Gary Gregory">[StepSecurity] ci: Harden GitHub Actions #428.</action>
+    <action                  type="fix" dev="ggregory" due-to="Dimitrios Efthymiou">Improve AlphabetConverter Javadoc #429.</action>
+    <action                  type="fix" dev="ggregory" due-to="Dimitrios Efthymiou">Fix exception message in IntersectionResult to make set-theoretic sense #438.</action>
+    <action                  type="fix" dev="ggregory" due-to="Dimitrios Efthymiou, Gary Gregory">Add null-check in RandomStringGenerator#Builder#selectFrom() to avoid NullPointerException #434.</action>
+    <action                  type="fix" dev="ggregory" due-to="Dimitrios Efthymiou, Gary Gregory">Add null-check in RandomStringGenerator#Builder#withinRange() to avoid NullPointerException.</action>
+    <action issue="TEXT-228" type="fix" dev="ggregory" due-to="Alex Herbert, Gary Gregory">Fix TextStringBuilder to over-allocate when ensuring capacity #452.</action>
+    <action                  type="fix" dev="ggregory" due-to="Elliotte Rusty Harold, Gary Gregory">Constructor for ResourceBundleStringLookup should be private instead of package-private.</action>
+    <action                  type="fix" dev="ggregory" due-to="Elliotte Rusty Harold, Gary Gregory">Constructor for UrlDecoderStringLookup should be private instead of package-private.</action>
+    <action                  type="fix" dev="ggregory" due-to="Elliotte Rusty Harold, Gary Gregory">Constructor for UrlEncoderStringLookup should be private instead of package-private.</action>
+    <action issue="TEXT-230" type="fix" dev="ggregory" due-to="Michael Osipov, Gary Gregory">Javadoc of org.apache.commons.text.lookup.DefaultStringLookup.XML is incorrect.</action>
+    <action                  type="fix" dev="ggregory" due-to="Alex Herbert">Update DoubleFormat to state it is based on Double.toString. #467.</action>
+    <!-- ADD -->
+    <action issue="TEXT-224" type="add" dev="ggregory" due-to="PJ Fanning, Gary Gregory">Set SecureProcessing feature in XmlStringLookup by default.</action>
+    <action issue="TEXT-224" type="add" dev="ggregory" due-to="Gary Gregory">Add StringLookupFactory.xmlStringLookup(Map&lt;String, Boolean&gt;...).</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add @FunctionalInterface to FormatFactory.</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add RandomStringGenerator.builder().</action>
+    <action issue="TEXT-229" type="add" dev="ggregory" due-to="Michael Osipov, Elliotte Rusty Harold, Gary Gregory">Add XmlEncoderStringLookup/XmlDecoderStringLookup #449.</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StringSubstitutor.toString().</action>
+    <!-- UPDATE -->
+    <action                  type="update" dev="ggregory" due-to="Dependabot">Bump actions/cache.</action>
+    <action                  type="update" dev="ggregory" due-to="Dependabot">Bump actions/setup-java.</action>
+    <action                  type="update" dev="ggregory" due-to="Dependabot">Bump actions/checkout.</action>
+    <action                  type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump pmd from 6.49.0 to 6.52.0 #364.</action>
+    <action                  type="update" dev="ggregory" due-to="Dependabot">Bump commons-rng-simple from 1.4 to 1.5 #370.</action>
+    <action                  type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump spotbugs-maven-plugin from 4.7.2.0 to 4.7.3.6 #371, #385.</action>
+    <action                  type="update" dev="ggregory" due-to="Dependabot">Bump spotbugs from 4.7.2 to 4.7.3 #373.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump mockito-inline from 4.8.0 to 4.11.0 #380, #389, #396, #400.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump jmh.version from 1.35 to 1.37 #388.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-parent from 54 to 64 #392, #401.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump assertj-core from 3.23.1 to 3.24.2 #405, #410.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump maven-checkstyle-plugin from 3.2.0 to 3.2.1 #407.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io from 2.11.0 to 2.14.0.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-lang3 from 3.12.0 to 3.13.0.</action>
+  </release>
   <release version="1.10.0" date="2022-09-24" description="Release 1.10.0. Requires Java 8.">
     <!-- FIX -->
     <action issue="TEXT-189" type="fix" dev="kinow" due-to="Gongpu Zhu">Fix CaseUtils when the input string contains only delimiters</action>

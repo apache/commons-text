@@ -17,46 +17,27 @@
 
 package org.apache.commons.text.lookup;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
- * Encodes URL Strings using the UTF-8 encoding.
+ * Decodes strings according to the XML 1.0 specification.
  *
- * @see URLEncoder
- * @since 1.5
+ * @see StringEscapeUtils#unescapeXml(String)
  */
-final class UrlEncoderStringLookup extends AbstractStringLookup {
+final class XmlDecoderStringLookup extends AbstractStringLookup {
 
     /**
      * Defines the singleton for this class.
      */
-    static final UrlEncoderStringLookup INSTANCE = new UrlEncoderStringLookup();
+    static final XmlDecoderStringLookup INSTANCE = new XmlDecoderStringLookup();
 
-    /**
-     * Constructs a new instance.
-     */
-    private UrlEncoderStringLookup() {
+    private XmlDecoderStringLookup() {
         // empty
-    }
-
-    String encode(final String key, final String enc) throws UnsupportedEncodingException {
-        return URLEncoder.encode(key, enc);
     }
 
     @Override
     public String lookup(final String key) {
-        if (key == null) {
-            return null;
-        }
-        final String enc = StandardCharsets.UTF_8.name();
-        try {
-            return encode(key, enc);
-        } catch (final UnsupportedEncodingException e) {
-            // Can't happen since UTF-8 is required by the Java specification.
-            throw IllegalArgumentExceptions.format(e, "%s: source=%s, encoding=%s", e, key, enc);
-        }
+        return StringEscapeUtils.unescapeXml(key);
     }
 
 }

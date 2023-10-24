@@ -46,7 +46,9 @@ public class ExtendedMessageFormatTest {
     /**
      * {@link Format} implementation which converts to lower case.
      */
-    private static class LowerCaseFormat extends Format {
+    private static final class LowerCaseFormat extends Format {
+        static final Format INSTANCE = new LowerCaseFormat();
+        static final FormatFactory FACTORY = (n, a, l) -> LowerCaseFormat.INSTANCE;
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -61,20 +63,9 @@ public class ExtendedMessageFormatTest {
     }
 
     /**
-     * {@link FormatFactory} implementation for lower case format.
-     */
-    private static class LowerCaseFormatFactory implements FormatFactory {
-        private static final Format LOWER_INSTANCE = new LowerCaseFormat();
-        @Override
-        public Format getFormat(final String name, final String arguments, final Locale locale) {
-            return LOWER_INSTANCE;
-        }
-    }
-
-    /**
      * Alternative ExtendedMessageFormat impl.
      */
-    private static class OtherExtendedMessageFormat extends ExtendedMessageFormat {
+    private static final class OtherExtendedMessageFormat extends ExtendedMessageFormat {
         private static final long serialVersionUID = 1L;
 
         OtherExtendedMessageFormat(final String pattern, final Locale locale,
@@ -86,20 +77,19 @@ public class ExtendedMessageFormatTest {
     /**
      * {@link FormatFactory} implementation to override date format "short" to "default".
      */
-    private static class OverrideShortDateFormatFactory implements FormatFactory {
-        @Override
-        public Format getFormat(final String name, final String arguments, final Locale locale) {
-            return !"short".equals(arguments) ? null
-                    : locale == null ? DateFormat
-                            .getDateInstance(DateFormat.DEFAULT) : DateFormat
-                            .getDateInstance(DateFormat.DEFAULT, locale);
-        }
+    private static final class OverrideShortDateFormatFactory {
+        static final FormatFactory FACTORY = (n, a, l) -> !"short".equals(a) ? null
+                : l == null ? DateFormat
+                        .getDateInstance(DateFormat.DEFAULT) : DateFormat
+                        .getDateInstance(DateFormat.DEFAULT, l);
     }
 
     /**
      * {@link Format} implementation which converts to upper case.
      */
-    private static class UpperCaseFormat extends Format {
+    private static final class UpperCaseFormat extends Format {
+        static final Format INSTANCE = new UpperCaseFormat();
+        static final FormatFactory FACTORY = (n, a, l) -> UpperCaseFormat.INSTANCE;
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -110,17 +100,6 @@ public class ExtendedMessageFormatTest {
         @Override
         public Object parseObject(final String source, final ParsePosition pos) {
             throw new UnsupportedOperationException();
-        }
-    }
-
-    /**
-     * {@link FormatFactory} implementation for upper case format.
-     */
-    private static class UpperCaseFormatFactory implements FormatFactory {
-        private static final Format UPPER_INSTANCE = new UpperCaseFormat();
-        @Override
-        public Format getFormat(final String name, final String arguments, final Locale locale) {
-            return UPPER_INSTANCE;
         }
     }
 
@@ -251,8 +230,8 @@ public class ExtendedMessageFormatTest {
 
     @BeforeEach
     public void setUp() {
-        registry.put("lower", new LowerCaseFormatFactory());
-        registry.put("upper", new UpperCaseFormatFactory());
+        registry.put("lower", LowerCaseFormat.FACTORY);
+        registry.put("upper", UpperCaseFormat.FACTORY);
     }
 
     /**
@@ -348,14 +327,14 @@ public class ExtendedMessageFormatTest {
     }
 
     /**
-     * Test equals() and hashcode.
+     * Test equals() and hashCode().
      */
     @Test
     public void testEqualsHashcode() {
         final Map<String, ? extends FormatFactory> fmtRegistry =
-                Collections.singletonMap("testfmt", new LowerCaseFormatFactory());
+                Collections.singletonMap("testfmt", LowerCaseFormat.FACTORY);
         final Map<String, ? extends FormatFactory> otherRegistry =
-                Collections.singletonMap("testfmt", new UpperCaseFormatFactory());
+                Collections.singletonMap("testfmt", UpperCaseFormat.FACTORY);
 
         final String pattern = "Pattern: {0,testfmt}";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, Locale.US, fmtRegistry);
@@ -364,34 +343,34 @@ public class ExtendedMessageFormatTest {
 
         // Same object
         assertEquals(emf, emf, "same, equals()");
-        assertEquals(emf.hashCode(), emf.hashCode(), "same, hashcode()");
+        assertEquals(emf.hashCode(), emf.hashCode(), "same, hashCode()");
 
         assertNotEquals(null, emf, "null, equals");
 
         // Equal Object
         other = new ExtendedMessageFormat(pattern, Locale.US, fmtRegistry);
         assertEquals(emf, other, "equal, equals()");
-        assertEquals(emf.hashCode(), other.hashCode(), "equal, hashcode()");
+        assertEquals(emf.hashCode(), other.hashCode(), "equal, hashCode()");
 
         // Different Class
         other = new OtherExtendedMessageFormat(pattern, Locale.US, fmtRegistry);
         assertNotEquals(emf, other, "class, equals()");
-        assertEquals(emf.hashCode(), other.hashCode(), "class, hashcode()"); // same hashcode
+        assertEquals(emf.hashCode(), other.hashCode(), "class, hashCode()"); // same hash code
 
         // Different pattern
         other = new ExtendedMessageFormat("X" + pattern, Locale.US, fmtRegistry);
         assertNotEquals(emf, other, "pattern, equals()");
-        assertNotEquals(emf.hashCode(), other.hashCode(), "pattern, hashcode()");
+        assertNotEquals(emf.hashCode(), other.hashCode(), "pattern, hashCode()");
 
         // Different registry
         other = new ExtendedMessageFormat(pattern, Locale.US, otherRegistry);
         assertNotEquals(emf, other, "registry, equals()");
-        assertNotEquals(emf.hashCode(), other.hashCode(), "registry, hashcode()");
+        assertNotEquals(emf.hashCode(), other.hashCode(), "registry, hashCode()");
 
         // Different Locale
         other = new ExtendedMessageFormat(pattern, Locale.FRANCE, fmtRegistry);
         assertNotEquals(emf, other, "locale, equals()");
-        assertEquals(emf.hashCode(), other.hashCode(), "locale, hashcode()"); // same hashcode
+        assertEquals(emf.hashCode(), other.hashCode(), "locale, hashCode()"); // same hash code
     }
 
     /**
@@ -480,46 +459,45 @@ public class ExtendedMessageFormatTest {
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFive() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("j/[_D9{0,\"&'+0o", new HashMap<String, FormatFactory>()));
+        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("j/[_D9{0,\"&'+0o", new HashMap<>()));
     }
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFour() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("RD,nXhM{}{", new HashMap<String, FormatFactory>()));
+        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("RD,nXhM{}{", new HashMap<>()));
     }
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionOne() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("agdXdkR;T1{9 ^,LzXf?", new HashMap<String, FormatFactory>()));
+        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("agdXdkR;T1{9 ^,LzXf?", new HashMap<>()));
     }
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionThree() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("9jLh_D9{ ", new HashMap<String, FormatFactory>()));
+        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("9jLh_D9{ ", new HashMap<>()));
     }
 
     @Test
     public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionTwo() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("a5XdkR;T1{9 ,LzXf?", new HashMap<String, FormatFactory>()));
+        assertThatIllegalArgumentException().isThrownBy(() -> new ExtendedMessageFormat("a5XdkR;T1{9 ,LzXf?", new HashMap<>()));
     }
 
     @Test
     public void testOverriddenBuiltinFormat() {
         final Calendar cal = Calendar.getInstance();
         cal.set(2007, Calendar.JANUARY, 23);
-        final Object[] args = {cal.getTime()};
+        final Object[] args = { cal.getTime() };
         final Locale[] availableLocales = DateFormat.getAvailableLocales();
-        final Map<String, ? extends FormatFactory> dateRegistry =
-                Collections.singletonMap("date", new OverrideShortDateFormatFactory());
+        final Map<String, ? extends FormatFactory> dateRegistry = Collections.singletonMap("date", OverrideShortDateFormatFactory.FACTORY);
 
-        //check the non-overridden builtins:
-        checkBuiltInFormat("1: {0,date}", dateRegistry,          args, availableLocales);
-        checkBuiltInFormat("2: {0,date,medium}", dateRegistry,   args, availableLocales);
-        checkBuiltInFormat("3: {0,date,long}", dateRegistry,     args, availableLocales);
-        checkBuiltInFormat("4: {0,date,full}", dateRegistry,     args, availableLocales);
+        // check the non-overridden builtins:
+        checkBuiltInFormat("1: {0,date}", dateRegistry, args, availableLocales);
+        checkBuiltInFormat("2: {0,date,medium}", dateRegistry, args, availableLocales);
+        checkBuiltInFormat("3: {0,date,long}", dateRegistry, args, availableLocales);
+        checkBuiltInFormat("4: {0,date,full}", dateRegistry, args, availableLocales);
         checkBuiltInFormat("5: {0,date,d MMM yy}", dateRegistry, args, availableLocales);
 
-        //check the overridden format:
+        // check the overridden format:
         for (int i = -1; i < availableLocales.length; i++) {
             final Locale locale = i < 0 ? null : availableLocales[i];
             final MessageFormat dateDefault = createMessageFormat("{0,date}", locale);

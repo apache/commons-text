@@ -20,10 +20,10 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>54</version>
+    <version>64</version>
   </parent>
   <artifactId>commons-text</artifactId>
-  <version>1.10.1-SNAPSHOT</version>
+  <version>1.11.0-SNAPSHOT</version>
   <name>Apache Commons Text</name>
   <description>Apache Commons Text is a library focused on algorithms working on strings.</description>
   <url>https://commons.apache.org/proper/commons-text</url>
@@ -35,9 +35,11 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <commons.componentid>text</commons.componentid>
+    <commons.packageId>text</commons.packageId>
     <commons.module.name>org.apache.commons.text</commons.module.name>
 
-    <commons.release.version>1.10.0</commons.release.version>
+    <commons.release.version>1.11.0</commons.release.version>
+    <commons.release.next>1.11.1</commons.release.next>
     <commons.release.desc>(Java 8+)</commons.release.desc>
 
     <commons.jira.id>TEXT</commons.jira.id>
@@ -47,48 +49,36 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
-    <commons.junit.version>5.9.1</commons.junit.version>
-    <checkstyle.plugin.version>3.2.0</checkstyle.plugin.version>
-    <checkstyle.version>9.3</checkstyle.version>
-
-    <commons.spotbugs.plugin.version>4.7.2.0</commons.spotbugs.plugin.version>
-    <commons.spotbugs.impl.version>4.7.2</commons.spotbugs.impl.version>
-    <commons.pmd.version>3.19.0</commons.pmd.version>
-    <commons.pmd-impl.version>6.49.0</commons.pmd-impl.version>
-
-    <commons.mockito.version>4.8.0</commons.mockito.version>
-    <commons.jacoco.version>0.8.8</commons.jacoco.version>
-
-    <!-- apache-rat-plugin 0.13 and jdepend-maven-plugin 2.0 both fail with LinkageError when generating reports 
-    with maven site plugin 3.11+. However, javadoc 3.4.0+ fails with site plugin versions lower than 3.11. So, we'll 
-    use slightly older site and javadoc versions here in order to be able to generate all reports. -->
-    <commons.site-plugin.version>3.10.0</commons.site-plugin.version>
-    <commons.javadoc.version>3.4.1</commons.javadoc.version> 
+    <commons.bytebuddy.version>1.14.9</commons.bytebuddy.version>
+    <commons.mockito.version>4.11.0</commons.mockito.version>
 
     <!-- 22.1.0 requires Java 11 -->
     <graalvm.version>22.0.0.2</graalvm.version>
-    <commons.rng.version>1.4</commons.rng.version>
+    <commons.rng.version>1.5</commons.rng.version>
 
-    <commons.japicmp.version>0.16.0</commons.japicmp.version>
     <japicmp.skip>false</japicmp.skip>
 
-    <jmh.version>1.35</jmh.version>
-    <commons.project-info.version>3.1.2</commons.project-info.version>
+    <jmh.version>1.37</jmh.version>
 
     <!-- Commons Release Plugin -->
-    <commons.bc.version>1.9</commons.bc.version>
+    <!-- Previous version of the component (used for reporting binary compatibility check)-->
+    <commons.bc.version>1.10.0</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
-    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>
-    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>
+    <!--
+      Define the following in ~/.m2/settings.xml in an active profile:
+      (or provide them on the command line)
+      commons.releaseManagerName
+      commons.releaseManagerKey
+    -->
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.12.0</version>
+      <version>3.13.0</version>
     </dependency>
     <!-- testing -->
     <dependency>
@@ -97,15 +87,29 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <!-- Java 21 support, revisit for Mockito 5 -->
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>${commons.bytebuddy.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <!-- Java 21 support, revisit for Mockito 5 -->
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy-agent</artifactId>
+      <version>${commons.bytebuddy.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.23.1</version>
+      <version>3.24.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.11.0</version>
+      <version>2.14.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -170,35 +174,12 @@
           <configuration>
             <targetJdk>${maven.compiler.target}</targetJdk>
           </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-core</artifactId>
-              <version>${commons.pmd-impl.version}</version>
-            </dependency>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-java</artifactId>
-              <version>${commons.pmd-impl.version}</version>
-            </dependency>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-javascript</artifactId>
-              <version>${commons.pmd-impl.version}</version>
-            </dependency>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-jsp</artifactId>
-              <version>${commons.pmd-impl.version}</version>
-            </dependency>
-          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${checkstyle.plugin.version}</version>
         <configuration>
           <enableRulesSummary>false</enableRulesSummary>
           <configLocation>src/conf/checkstyle.xml</configLocation>
@@ -208,25 +189,10 @@
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
           <excludes>**/generated/**.java,**/jmh_generated/**.java</excludes>
         </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>${checkstyle.version}</version>
-          </dependency>
-        </dependencies>
       </plugin>
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${commons.spotbugs.plugin.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>com.github.spotbugs</groupId>
-            <artifactId>spotbugs</artifactId>
-            <version>${commons.spotbugs.impl.version}</version>
-         </dependency>
-        </dependencies>
         <configuration>
           <excludeFilterFile>src/conf/spotbugs-exclude-filter.xml</excludeFilterFile>
         </configuration>
@@ -282,7 +248,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${checkstyle.plugin.version}</version>
         <configuration>
           <enableRulesSummary>false</enableRulesSummary>
           <configLocation>src/conf/checkstyle.xml</configLocation>
@@ -304,7 +269,6 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${commons.spotbugs.plugin.version}</version>
         <configuration>
           <excludeFilterFile>src/conf/spotbugs-exclude-filter.xml</excludeFilterFile>
         </configuration>
@@ -315,7 +279,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.19.0</version>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
         </configuration>
@@ -521,16 +484,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
-    <profile>
-      <id>java9+</id>
-      <activation>
-        <jdk>[9,)</jdk>
-      </activation>
-      <properties>
-        <!-- coverall version 4.3.0 does not work with java 9+, see https://github.com/trautonen/coveralls-maven-plugin/issues/112 -->
-        <coveralls.skip>true</coveralls.skip>
-      </properties>
     </profile>
     <profile>
       <id>benchmark</id>

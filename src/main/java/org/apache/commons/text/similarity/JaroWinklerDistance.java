@@ -45,11 +45,6 @@ public class JaroWinklerDistance implements EditDistance<Double> {
     }
 
     /**
-     * Jaro Winkler similarity object used to calculate the distance (1 - similarity).
-     */
-    private final JaroWinklerSimilarity similarity = new JaroWinklerSimilarity();
-
-    /**
      * Computes the Jaro Winkler Distance between two character sequences.
      *
      * <pre>
@@ -88,6 +83,6 @@ public class JaroWinklerDistance implements EditDistance<Double> {
             throw new IllegalArgumentException("CharSequences must not be null");
         }
 
-        return 1 - similarity.apply(left, right);
+        return 1 - JaroWinklerSimilarity.INSTANCE.apply(left, right);
     }
 }

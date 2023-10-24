@@ -100,11 +100,11 @@ public class UnicodeEscaper extends CodePointTranslator {
     }
 
     /**
-     * Converts the given code point to a hex string of the form {@code "\\uXXXX"}.
+     * Converts the given code point to a hexadecimal string of the form {@code "\\uXXXX"}.
      *
      * @param codePoint
      *            a Unicode code point
-     * @return The hex string for the given code point
+     * @return The hexadecimal string for the given code point
      *
      */
     protected String toUtf16Escape(final int codePoint) {

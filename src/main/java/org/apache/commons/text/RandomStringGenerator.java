@@ -35,7 +35,7 @@ import org.apache.commons.lang3.Validate;
  *
  * <pre>
  * // Generates a 20 code point string, using only the letters a-z
- * RandomStringGenerator generator = new RandomStringGenerator.Builder()
+ * RandomStringGenerator generator = RandomStringGenerator.builder()
  *     .withinRange('a', 'z').build();
  * String randomLetters = generator.generate(20);
  * </pre>
@@ -43,7 +43,7 @@ import org.apache.commons.lang3.Validate;
  * // Using Apache Commons RNG for randomness
  * UniformRandomProvider rng = RandomSource.create(...);
  * // Generates a 20 code point string, using only the letters a-z
- * RandomStringGenerator generator = new RandomStringGenerator.Builder()
+ * RandomStringGenerator generator = RandomStringGenerator.builder()
  *     .withinRange('a', 'z')
  *     .usingRandom(rng::nextInt) // uses Java 8 syntax
  *     .build();
@@ -184,8 +184,10 @@ public final class RandomStringGenerator {
          */
         public Builder selectFrom(final char... chars) {
             characterList = new ArrayList<>();
-            for (final char c : chars) {
-                characterList.add(c);
+            if (chars != null) {
+                for (final char c : chars) {
+                    characterList.add(c);
+                }
             }
             return this;
         }
@@ -203,7 +205,7 @@ public final class RandomStringGenerator {
          * <pre>
          * {@code
          *     UniformRandomProvider rng = RandomSource.create(...);
-         *     RandomStringGenerator gen = new RandomStringGenerator.Builder()
+         *     RandomStringGenerator gen = RandomStringGenerator.builder()
          *         .usingRandom(rng::nextInt)
          *         // additional builder calls as needed
          *         .build();
@@ -242,16 +244,17 @@ public final class RandomStringGenerator {
          */
         public Builder withinRange(final char[]... pairs) {
             characterList = new ArrayList<>();
-            for (final char[] pair :  pairs) {
-                Validate.isTrue(pair.length == 2,
-                      "Each pair must contain minimum and maximum code point");
-                final int minimumCodePoint = pair[0];
-                final int maximumCodePoint = pair[1];
-                Validate.isTrue(minimumCodePoint <= maximumCodePoint,
-                    "Minimum code point %d is larger than maximum code point %d", minimumCodePoint, maximumCodePoint);
+            if (pairs != null) {
+                for (final char[] pair : pairs) {
+                    Validate.isTrue(pair.length == 2, "Each pair must contain minimum and maximum code point");
+                    final int minimumCodePoint = pair[0];
+                    final int maximumCodePoint = pair[1];
+                    Validate.isTrue(minimumCodePoint <= maximumCodePoint, "Minimum code point %d is larger than maximum code point %d", minimumCodePoint,
+                            maximumCodePoint);
 
-                for (int index = minimumCodePoint; index <= maximumCodePoint; index++) {
-                    characterList.add((char) index);
+                    for (int index = minimumCodePoint; index <= maximumCodePoint; index++) {
+                        characterList.add((char) index);
+                    }
                 }
             }
             return this;
@@ -286,6 +289,16 @@ public final class RandomStringGenerator {
             this.maximumCodePoint = maximumCodePoint;
             return this;
         }
+    }
+
+    /**
+     * Constructs a new builder.
+     * @return a new builder.
+     *
+     * @since 1.11.0
+     */
+    public static Builder builder() {
+        return new Builder();
     }
 
     /**
