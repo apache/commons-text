@@ -34,6 +34,13 @@ public class CharacterDelimitedCase implements Case {
     private String formatDelimiter;
 
     /**
+     * Constructs a new Delimited Case with null delimiters.
+     */
+    protected CharacterDelimitedCase() {
+        this(null, null);
+    }
+
+    /**
      * Constructs a new Delimited Case.
      * @param delimiter the character to use as both the parse and format delimiter
      */
@@ -48,18 +55,6 @@ public class CharacterDelimitedCase implements Case {
      */
     protected CharacterDelimitedCase(char[] parseDelimiters, String formatDelimiter) {
         super();
-        if (parseDelimiters == null) {
-            throw new IllegalArgumentException("Parse Delimiters cannot be null");
-        }
-        if (parseDelimiters.length == 0) {
-            throw new IllegalArgumentException("Parse Delimiters cannot be empty");
-        }
-        if (formatDelimiter == null) {
-            throw new IllegalArgumentException("Format Delimiters cannot be null");
-        }
-        if (formatDelimiter.length() == 0) {
-            throw new IllegalArgumentException("Format Delimiters cannot be empty");
-        }
         this.parseDelimiters = generateDelimiterList(parseDelimiters);
         this.formatDelimiter = formatDelimiter;
     }
@@ -82,12 +77,14 @@ public class CharacterDelimitedCase implements Case {
         StringBuilder formattedString = new StringBuilder();
         int i = 0;
         for (String token : tokens) {
-            int delimiterFoundIndex = token.indexOf(formatDelimiter);
-            if (delimiterFoundIndex > -1) {
-                throw new IllegalArgumentException("Token " + i + " contains delimiter character '" + formatDelimiter + "' at index " + delimiterFoundIndex);
-            }
-            if (i > 0) {
-                formattedString.append(formatDelimiter);
+            if (formatDelimiter != null) {
+              int delimiterFoundIndex = token.indexOf(formatDelimiter);
+              if (delimiterFoundIndex > -1) {
+                  throw new IllegalArgumentException("Token " + i + " contains delimiter character '" + formatDelimiter + "' at index " + delimiterFoundIndex);
+              }
+              if (i > 0) {
+                  formattedString.append(formatDelimiter);
+              }
             }
             i++;
             formattedString.append(token);
@@ -132,15 +129,17 @@ public class CharacterDelimitedCase implements Case {
     }
 
     /**
-     * Converts an array of delimiters to a hash set of code points. The generated hash set provides O(1) lookup time.
+     * Converts an array of delimiters to a hash set of code points.
      *
-     * @param delimiters set of characters to determine capitalization, null means whitespace
-     * @return the Set of delimiter characters in the input array
+     * @param delimiters array of characters to add to list
+     * @return the List of delimiter characters in the input array
      */
     private static List<Integer> generateDelimiterList(final char[] delimiters) {
         final List<Integer> delimiterHashSet = new ArrayList<>();
-        for (int index = 0; index < delimiters.length; index++) {
-            delimiterHashSet.add(Character.codePointAt(delimiters, index));
+        if (delimiters != null) {
+          for (int index = 0; index < delimiters.length; index++) {
+              delimiterHashSet.add(Character.codePointAt(delimiters, index));
+          }
         }
         return delimiterHashSet;
     }

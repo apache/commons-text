@@ -26,13 +26,12 @@ import org.junit.jupiter.api.Test;
 public class CasesTest {
 
     @Test
-    public void testDelimiterCharacterException() {
+    public void testCharacterDelimitedCase() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> KebabCase.INSTANCE.format(Arrays.asList("a", "-")));
         Assertions.assertThrows(IllegalArgumentException.class, () -> SnakeCase.INSTANCE.format(Arrays.asList("a", "_")));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new CharacterDelimitedCase(null, ","));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new CharacterDelimitedCase(new char[1], null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new CharacterDelimitedCase(new char[0], ","));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new CharacterDelimitedCase(new char[0], ""));
+        CharacterDelimitedCase nullDelimiters = new CharacterDelimitedCase();
+        assertFormat(nullDelimiters, "abc", Arrays.asList("a", "b", "c"));
+        assertParse(nullDelimiters, "abc", Arrays.asList("abc"));
     }
 
     @Test
