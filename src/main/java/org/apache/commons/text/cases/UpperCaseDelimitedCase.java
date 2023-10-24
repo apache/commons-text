@@ -47,7 +47,7 @@ public class UpperCaseDelimitedCase implements Case {
     @Override
     public List<String> parse(String string) {
         List<String> tokens = new ArrayList<>();
-        if (string.length() == 0) {
+        if (string == null || string.isEmpty()) {
             return tokens;
         }
         if (lowerCaseFirstCharacter) {

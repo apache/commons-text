@@ -106,7 +106,7 @@ public class CharacterDelimitedCase implements Case {
     @Override
     public List<String> parse(String string) {
         List<String> tokens = new ArrayList<>();
-        if (string.isEmpty()) {
+        if (string == null || string.isEmpty()) {
             return tokens;
         }
         int strLen = string.length();

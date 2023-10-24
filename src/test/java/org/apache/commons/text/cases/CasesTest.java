@@ -37,6 +37,7 @@ public class CasesTest {
     @Test
     public void testKebabCase() {
         assertFormatAndParse(KebabCase.INSTANCE, "", Arrays.asList());
+        assertParse(KebabCase.INSTANCE, null, Arrays.asList());
         assertFormatAndParse(KebabCase.INSTANCE, "my-Tokens-123-a1", Arrays.asList("my", "Tokens", "123", "a1"));
         assertFormatAndParse(KebabCase.INSTANCE, "blank--token", Arrays.asList("blank", "", "token"));
     }
@@ -58,6 +59,7 @@ public class CasesTest {
     @Test
     public void testSnakeCase() {
         assertFormatAndParse(SnakeCase.INSTANCE, "", Arrays.asList());
+        assertParse(SnakeCase.INSTANCE, null, Arrays.asList());
         assertFormatAndParse(SnakeCase.INSTANCE, "my_Tokens_123_a1", Arrays.asList("my", "Tokens", "123", "a1"));
         assertFormatAndParse(SnakeCase.INSTANCE, "blank__token", Arrays.asList("blank", "", "token"));
     }
