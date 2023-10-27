@@ -363,7 +363,7 @@ public enum DoubleFormat {
         private final Function<Builder, DoubleFunction<String>> factory;
 
         /** Maximum number of significant decimal digits in formatted strings. */
-        private int maxPrecision = 0;
+        private int maxPrecision;
 
         /** Minimum decimal exponent. */
         private int minDecimalExponent = Integer.MIN_VALUE;
@@ -396,7 +396,7 @@ public enum DoubleFormat {
         private char groupingSeparator = ',';
 
         /** If {@code true}, thousands groups will be separated by the grouping separator. */
-        private boolean groupThousands = false;
+        private boolean groupThousands;
 
         /** Minus sign character. */
         private char minusSign = '-';
@@ -405,7 +405,7 @@ public enum DoubleFormat {
         private String exponentSeparator = "E";
 
         /** Flag indicating if the exponent value should always be included, even if zero. */
-        private boolean alwaysIncludeExponent = false;
+        private boolean alwaysIncludeExponent;
 
         /**
          * Builds a new instance that delegates double function construction to the given factory object.
