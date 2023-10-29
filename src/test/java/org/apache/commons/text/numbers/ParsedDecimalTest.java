@@ -41,13 +41,13 @@ public class ParsedDecimalTest {
 
         private char thousandsGroupingSeparator = ',';
 
-        private boolean groupThousands = false;
+        private boolean groupThousands;
 
         private char minusSign = '-';
 
         private String exponentSeparator = "E";
 
-        private boolean alwaysIncludeExponent = false;
+        private boolean alwaysIncludeExponent;
 
         @Override
         public char getDecimalSeparator() {
