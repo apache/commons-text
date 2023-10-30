@@ -46,6 +46,8 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Apache Commons Text Changes</title>
   </properties>
   <body>
+  <release version="1.11.1" date="202Y-MM-DD" description="Release 1.11.1. Requires Java 8.">
+  </release>
   <release version="1.11.0" date="2023-10-24" description="Release 1.11.0. Requires Java 8.">
     <!-- FIX -->
     <action issue="TEXT-219" type="fix" dev="aherbert" due-to="Jaap Sperling">Fix StringTokenizer.getTokenList to return an independent modifiable list</action>
