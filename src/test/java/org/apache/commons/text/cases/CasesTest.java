@@ -26,6 +26,12 @@ import org.junit.jupiter.api.Test;
 public class CasesTest {
 
     @Test
+    public void testCasesUtils() {
+        Assertions.assertEquals("testUtils", CasesUtils.convert("test-utils", CasesUtils.KEBAB, CasesUtils.CAMEL));
+        Assertions.assertEquals("Test_Utils", CasesUtils.convert("TestUtils", CasesUtils.PASCAL, CasesUtils.SNAKE));
+    }
+
+    @Test
     public void testCharacterDelimitedCase() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> KebabCase.INSTANCE.format(Arrays.asList("a", "-")));
         Assertions.assertThrows(IllegalArgumentException.class, () -> SnakeCase.INSTANCE.format(Arrays.asList("a", "_")));
