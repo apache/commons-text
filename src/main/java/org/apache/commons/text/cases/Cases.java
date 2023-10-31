@@ -19,7 +19,7 @@ package org.apache.commons.text.cases;
 /**
  * Util methods for the Cases API.
  */
-public class CasesUtils {
+public class Cases {
 
     /** Constant reusable instance of KebabCase. */
     public static final KebabCase KEBAB = KebabCase.INSTANCE;

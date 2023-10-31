@@ -26,9 +26,9 @@ import org.junit.jupiter.api.Test;
 public class CasesTest {
 
     @Test
-    public void testCasesUtils() {
-        Assertions.assertEquals("testUtils", CasesUtils.convert("test-utils", CasesUtils.KEBAB, CasesUtils.CAMEL));
-        Assertions.assertEquals("Test_Utils", CasesUtils.convert("TestUtils", CasesUtils.PASCAL, CasesUtils.SNAKE));
+    public void testCases() {
+        Assertions.assertEquals("testUtils", Cases.convert("test-utils", Cases.KEBAB, Cases.CAMEL));
+        Assertions.assertEquals("Test_Utils", Cases.convert("TestUtils", Cases.PASCAL, Cases.SNAKE));
     }
 
     @Test
