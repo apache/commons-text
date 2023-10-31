@@ -22,8 +22,8 @@ import java.util.List;
 import org.apache.commons.lang3.CharUtils;
 
 /**
- * DelimitedCase is a case in which the true alphabetic case of the characters is ignored by default
- * and tokens themselves are determined by the presence of a delimiter between each token.
+ * DelimitedCase is a case in which the true alphabetic case of the characters is ignored by default,
+ * and tokens are determined by the presence of a delimiter between each token.
  */
 public class CharacterDelimitedCase implements Case {
 
@@ -64,11 +64,11 @@ public class CharacterDelimitedCase implements Case {
     /**
      * Formats tokens into Delimited Case.
      * <p>
-     * Tokens are iterated on and appended to an output stream, with an instance of a
-     * delimiter character between them. This method validates that the delimiter character is not
-     * part of the token. If it is found within the token an exception is thrown.<br>
-     * No other restrictions are placed on the contents of the tokens.
-     * Note: This Case does support empty tokens.<br>
+     * Tokens are appended to a string, with a delimiter between them. This method
+     * validates that the delimiter character is not part of the token. If it is found within the
+     * token an exception is thrown.<br>
+     * No other restrictions are placed on the contents of the tokens. Note: This Case does support
+     * empty tokens.<br>
      * </p>
      *
      * @param tokens the tokens to be formatted into a delimited string
@@ -98,7 +98,7 @@ public class CharacterDelimitedCase implements Case {
     /**
      * Parses delimited string into tokens.
      * <p>
-     * Input string is parsed one character at a time until a delimiter character is reached.
+     * Input string is parsed one character at a time until a delimiter is reached.
      * When a delimiter character is reached a new token begins. The delimiter character is
      * considered reserved, and is omitted from the returned parsed tokens.<br>
      * No other restrictions are placed on the contents of the input string. <br>
@@ -133,9 +133,9 @@ public class CharacterDelimitedCase implements Case {
     }
 
     /**
-     * Converts an array of delimiters to a hash set of code points.
+     * Converts an array of delimiters to a List of code points.
      *
-     * @param delimiters array of characters to add to list
+     * @param delimiters array of characters to add to List
      * @return the List of delimiter characters in the input array
      */
     private static List<Integer> generateDelimiterList(final char[] delimiters) {
