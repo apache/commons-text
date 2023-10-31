@@ -67,7 +67,7 @@ public class DoubleFormatPerformance {
         /** Double input array. */
         private double[] input;
 
-        /** Get the input doubles.
+        /** Gets the input doubles.
          * @return the input doubles
          */
         public double[] getInput() {

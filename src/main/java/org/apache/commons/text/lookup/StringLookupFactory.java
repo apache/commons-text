@@ -310,7 +310,7 @@ public final class StringLookupFactory {
         }
 
         /**
-         * Get the default string lookups map.
+         * Gets the default string lookups map.
          * @return default string lookups map
          */
         Map<String, StringLookup> getDefaultStringLookups() {
@@ -556,7 +556,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Get a string suitable for use as a key in the string lookup map.
+     * Gets a string suitable for use as a key in the string lookup map.
      * @param key string to convert to a string lookup map key
      * @return string lookup map key
      */

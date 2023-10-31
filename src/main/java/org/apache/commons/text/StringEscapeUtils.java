@@ -480,7 +480,7 @@ public class StringEscapeUtils {
     public static final CharSequenceTranslator UNESCAPE_XSI = new XsiUnescaper();
 
     /**
-     * Get a {@link Builder}.
+     * Gets a {@link Builder}.
      * @param translator the text translator
      * @return {@link Builder}
      */

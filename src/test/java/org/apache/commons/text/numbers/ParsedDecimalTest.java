@@ -208,7 +208,7 @@ public class ParsedDecimalTest {
         return Double.longBitsToDouble(bits | exp << 52);
     }
 
-    /** Get the raw digits in the given decimal as a string.
+    /** Gets the raw digits in the given decimal as a string.
      * @param dec decimal instancE
      * @return decimal digits as a string
      */
