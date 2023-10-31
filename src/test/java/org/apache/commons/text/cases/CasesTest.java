@@ -66,7 +66,7 @@ public class CasesTest {
     public void testSnakeCase() {
         assertFormatAndParse(SnakeCase.INSTANCE, "", Arrays.asList());
         assertParse(SnakeCase.INSTANCE, null, Arrays.asList());
-        assertFormatAndParse(SnakeCase.INSTANCE, "my_Tokens_123_a1", Arrays.asList("my", "Tokens", "123", "a1"));
+        assertFormatAndParse(SnakeCase.INSTANCE, "My_var_NAME__mIXED_a1_c|=+", Arrays.asList("My", "var", "NAME", "", "mIXED", "a1", "c|=+"));
         assertFormatAndParse(SnakeCase.INSTANCE, "blank__token", Arrays.asList("blank", "", "token"));
     }
 
@@ -74,7 +74,7 @@ public class CasesTest {
     public void testPascalCase() {
 
         assertFormatAndParse(PascalCase.INSTANCE, "MyVarName", Arrays.asList("My", "Var", "Name"));
-        assertFormatAndParse(PascalCase.INSTANCE, "MyTokensA1D", Arrays.asList("My", "Tokens", "A1", "D"));
+        assertFormatAndParse(PascalCase.INSTANCE, "MyVarNameMixedA1C|=+", Arrays.asList("My", "var", "NAME", "mIXED", "a1", "c|=+"), true);
         assertFormatAndParse(PascalCase.INSTANCE, "", Arrays.asList());
         assertParse(PascalCase.INSTANCE, "lowerFirst", Arrays.asList("lower", "First"));
         assertFormat(PascalCase.INSTANCE, "LowerFirst", Arrays.asList("lower", "First"));
@@ -106,7 +106,7 @@ public class CasesTest {
     public void testCamelCase() {
 
         assertFormatAndParse(CamelCase.INSTANCE, "", Arrays.asList());
-        assertFormatAndParse(CamelCase.INSTANCE, "myTokensAbc123", Arrays.asList("my", "Tokens", "Abc123"));
+        assertFormatAndParse(CamelCase.INSTANCE, "myVarNameMixedA1C|=+", Arrays.asList("My", "var", "NAME", "mIXED", "a1", "c|=+"), true);
         assertFormatAndParse(CamelCase.INSTANCE, "specChar-Token+", Arrays.asList("spec", "Char-", "Token+"));
 
         assertParse(CamelCase.INSTANCE, "MyTokens", Arrays.asList("My", "Tokens"));
@@ -129,25 +129,6 @@ public class CasesTest {
 
         String snakeString = "My_var_NAME_mIXED_a1_12_";
         assertFormatAndParse(SnakeCase.INSTANCE, snakeString, tokens);
-    }
-
-    @Test
-    public void testConversions() {
-
-        List<String> tokens = Arrays.asList("My", "var", "NAME", "mIXED", "a1", "c|=+");
-
-        String kebabString = "My-var-NAME-mIXED-a1-c|=+";
-        assertFormatAndParse(KebabCase.INSTANCE, kebabString, tokens);
-
-        String snakeString = "My_var_NAME_mIXED_a1_c|=+";
-        assertFormatAndParse(SnakeCase.INSTANCE, snakeString, tokens);
-
-        String camelString = "myVarNameMixedA1C|=+";
-        assertFormatAndParse(CamelCase.INSTANCE, camelString, tokens, true);
-
-        String pascalString = "MyVarNameMixedA1C|=+";
-        assertFormatAndParse(PascalCase.INSTANCE, pascalString, tokens, true);
-
     }
 
     @Test
