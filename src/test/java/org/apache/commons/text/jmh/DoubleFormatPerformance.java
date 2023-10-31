@@ -74,7 +74,7 @@ public class DoubleFormatPerformance {
             return input;
         }
 
-        /** Set up the instance for the benchmark. */
+        /** Sets up the instance for the benchmark. */
         @Setup(Level.Iteration)
         public void setup() {
             input = randomDoubleArray(size, minExp, maxExp,
