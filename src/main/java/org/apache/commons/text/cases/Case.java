@@ -45,7 +45,7 @@ public interface Case {
      *
      * @param string the string to be parsed by this Case into a list of tokens
      * @return the list of parsed tokens
-     * @throws IllegalArgumentException if the string cannot be parsed
+     * @throws IllegalArgumentException if the string cannot be parsed by this implementation
      */
     List<String> parse(String string);
 
