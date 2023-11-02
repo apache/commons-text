@@ -29,7 +29,7 @@ and manipulating text that should be of use in a Java environment.
 
 Apache Commons Text is a library focused on algorithms working on strings.
 
-Release 1.11.0. Requires Java 8.
+Release 1.11.0. Requires Java 8 or above.
 
 Changes in this version include:
 
@@ -106,7 +106,7 @@ and manipulating text that should be of use in a Java environment.
 
 Apache Commons Text is a library focused on algorithms working on strings.
 
-Release 1.10.0. Requires Java 8.
+Release 1.10.0. Requires Java 8 or above.
 
 Changes in this version include:
 
@@ -200,7 +200,7 @@ and manipulating text that should be of use in a Java environment.
 
 Apache Commons Text is a library focused on algorithms working on strings.
 
-Release 1.9. Requires Java 8.
+Release 1.9. Requires Java 8 or above.
 
 Changes in this version include:
 
