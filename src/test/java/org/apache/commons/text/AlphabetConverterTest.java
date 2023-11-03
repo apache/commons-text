@@ -61,7 +61,7 @@ public class AlphabetConverterTest {
     private static final Integer[] DO_NOT_ENCODE_CODEPOINTS = {32, 97, 98, 99}; // space, a, b, c
 
     @Test
-    public void binaryTest() throws UnsupportedEncodingException {
+    public void testBinaryTest() throws UnsupportedEncodingException {
         test(BINARY, NUMBERS, ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY, "0", "1", "10", "11");
         test(NUMBERS, BINARY, ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY, "12345", "0");
         test(LOWER_CASE_ENGLISH, BINARY, ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY, "abc", "a");
@@ -76,19 +76,19 @@ public class AlphabetConverterTest {
     }
 
     @Test
-    public void doNotEncodeTest() throws UnsupportedEncodingException {
+    public void testDoNotEncodeTest() throws UnsupportedEncodingException {
         test(ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH, "1", "456", "abc", "ABC", "this will not be converted but THIS WILL");
         test(ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH_AND_NUMBERS, NUMBERS, "1", "456", "abc", "ABC", "this will be converted but 12345 and this will be");
     }
 
     @Test
-    public void encodeFailureTest() {
+    public void testEncodeFailureTest() {
         assertThatThrownBy(() -> test(BINARY, NUMBERS, ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY, "3")).isInstanceOf(UnsupportedEncodingException.class)
             .hasMessage("Couldn't find encoding for '3' in 3");
     }
 
     @Test
-    public void hebrewTest() throws UnsupportedEncodingException {
+    public void testHebrewTest() throws UnsupportedEncodingException {
         test(HEBREW, BINARY, ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY, "\u05d0", "\u05e2",
             "\u05d0\u05dc\u05e3_\u05d0\u05d5\u05d4\u05d1\u05dc_\u05d1\u05d9\u05ea_\u05d6\u05d4_\u05d1\u05d9\u05ea_"
                 + "\u05d2\u05d9\u05de\u05dc_\u05d6\u05d4_\u05db\u05de\u05dc_\u05d2\u05d3\u05d5\u05dc");
@@ -103,7 +103,7 @@ public class AlphabetConverterTest {
      * Test example in javadocs for consistency
      */
     @Test
-    public void javadocExampleTest() throws UnsupportedEncodingException {
+    public void testJavadocExampleTest() throws UnsupportedEncodingException {
         final AlphabetConverter ac = createJavadocExample();
 
         assertThat(ac.encode("a")).isEqualTo("00");
@@ -114,25 +114,25 @@ public class AlphabetConverterTest {
     }
 
     @Test
-    public void missingDoNotEncodeLettersFromEncodingTest() {
+    public void testMissingDoNotEncodeLettersFromEncodingTest() {
         assertThatThrownBy(() -> AlphabetConverter.createConverterFromChars(ENGLISH_AND_NUMBERS, LOWER_CASE_ENGLISH, NUMBERS))
             .isInstanceOf(IllegalArgumentException.class).hasMessage("Can not use 'do not encode' list because encoding alphabet does not contain '0'");
     }
 
     @Test
-    public void missingDoNotEncodeLettersFromOriginalTest() {
+    public void testMissingDoNotEncodeLettersFromOriginalTest() {
         assertThatThrownBy(() -> AlphabetConverter.createConverterFromChars(LOWER_CASE_ENGLISH, ENGLISH_AND_NUMBERS, NUMBERS))
             .isInstanceOf(IllegalArgumentException.class).hasMessage("Can not use 'do not encode' list because original alphabet does not contain '0'");
     }
 
     @Test
-    public void noEncodingLettersTest() {
+    public void testNoEncodingLettersTest() {
         assertThatThrownBy(() -> AlphabetConverter.createConverterFromChars(ENGLISH_AND_NUMBERS, NUMBERS, NUMBERS)).isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Must have at least two encoding characters (excluding those in the 'do not encode' list), but has 0");
     }
 
     @Test
-    public void onlyOneEncodingLettersTest() {
+    public void testOnlyOneEncodingLettersTest() {
         assertThatThrownBy(() -> {
             final Character[] numbersPlusUnderscore = Arrays.copyOf(NUMBERS, NUMBERS.length + 1);
             numbersPlusUnderscore[numbersPlusUnderscore.length - 1] = '_';
@@ -264,7 +264,7 @@ public class AlphabetConverterTest {
     }
 
     @Test
-    public void unexpectedEndWhileDecodingTest() {
+    public void testUnexpectedEndWhileDecodingTest() {
         final String toDecode = "00d01d0";
         assertThatThrownBy(() -> {
             final AlphabetConverter ac = createJavadocExample();
@@ -273,7 +273,7 @@ public class AlphabetConverterTest {
     }
 
     @Test
-    public void unexpectedStringWhileDecodingTest() {
+    public void testUnexpectedStringWhileDecodingTest() {
         final String toDecode = "00XX";
         assertThatThrownBy(() -> {
             final AlphabetConverter ac = createJavadocExample();
@@ -285,7 +285,7 @@ public class AlphabetConverterTest {
      * Test constructor from code points
      */
     @Test
-    public void unicodeTest() throws UnsupportedEncodingException {
+    public void testUnicodeTest() throws UnsupportedEncodingException {
         final AlphabetConverter ac = AlphabetConverter.createConverter(UNICODE, LOWER_CASE_ENGLISH_CODEPOINTS, DO_NOT_ENCODE_CODEPOINTS);
 
         assertThat(ac.getEncodedCharLength()).isEqualTo(2);

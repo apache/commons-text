@@ -47,14 +47,14 @@ public class SinglePassTranslatorTest {
     }
 
     @Test
-    public void codePointsAreReturned() throws Exception {
+    public void testCodePointsAreReturned() throws Exception {
         assertThat(dummyTranslator.translate("", 0, out)).isEqualTo(0);
         assertThat(dummyTranslator.translate("abc", 0, out)).isEqualTo(3);
         assertThat(dummyTranslator.translate("abcdefg", 0, out)).isEqualTo(7);
     }
 
     @Test
-    public void indexIsValidated() {
+    public void testIndexIsValidated() {
         assertThatIllegalArgumentException().isThrownBy(() -> dummyTranslator.translate("abc", 1, out));
     }
 
