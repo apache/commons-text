@@ -79,7 +79,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inner class to allow StrBuilder to operate as a reader.
      */
-    class TextStringBuilderReader extends Reader {
+    final class TextStringBuilderReader extends Reader {
 
         /** The last mark position. */
         private int mark;
@@ -169,7 +169,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inner class to allow StrBuilder to operate as a tokenizer.
      */
-    class TextStringBuilderTokenizer extends StringTokenizer {
+    final class TextStringBuilderTokenizer extends StringTokenizer {
 
         /**
          * Default constructor.
@@ -200,7 +200,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inner class to allow StrBuilder to operate as a writer.
      */
-    class TextStringBuilderWriter extends Writer {
+    final class TextStringBuilderWriter extends Writer {
 
         /**
          * Default constructor.
