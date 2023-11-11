@@ -271,7 +271,7 @@ public final class StringLookupFactory {
         }
 
         /**
-         * Construct a lookup map by parsing the given string. The string is expected to contain
+         * Constructs a lookup map by parsing the given string. The string is expected to contain
          * comma or space-separated names of values from the {@link DefaultStringLookup} enum. If
          * the given string is null or empty, an empty map is returned.
          * @param str string to parse; may be null or empty
@@ -297,7 +297,7 @@ public final class StringLookupFactory {
         private final Map<String, StringLookup> defaultStringLookups;
 
         /**
-         * Construct a new instance initialized with the given properties.
+         * Constructs a new instance initialized with the given properties.
          * @param props initialization properties
          */
         DefaultStringLookupsHolder(final Properties props) {
