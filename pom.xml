@@ -276,9 +276,13 @@
       <plugin>
         <groupId>com.github.siom79.japicmp</groupId>
         <artifactId>japicmp-maven-plugin</artifactId>
+        <version>0.18.3</version>
       </plugin>
       <plugin>
+
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.21.2</version>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
         </configuration>
@@ -475,7 +479,7 @@
                       <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*"/>
                     </pathconvert>
                     <exec executable="svn">
-                      <arg line="update --set-depth infinity ${dirs}"/>
+                      <arg line="update --set-depth infinity ${commons.conf.dir}"/>
                     </exec>
                   </target>
                 </configuration>
@@ -495,7 +499,9 @@
         <plugins>
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
+            <!--suppress MavenModelInspection -->
             <artifactId>exec-maven-plugin</artifactId>
+            <!--suppress MavenModelInspection -->
             <version>3.1.0</version>
             <executions>
               <execution>
