@@ -21,15 +21,22 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests {@link WordUtils} class.
  */
 public class WordUtilsTest {
+
+    private final static String systemNewLine = System.lineSeparator();
 
     @Test
     public void testAbbreviateForLowerThanMinusOneValues() {
@@ -388,163 +395,262 @@ public class WordUtilsTest {
         assertThat(WordUtils.uncapitalize("I AM.FINE", null)).isEqualTo("i aM.FINE");
     }
 
-     @Test
-    public void testWrap_StringInt() {
+    @DisplayName("Wrap, null and empty strings")
+    @Test
+    public void testWrap_NullAndEmpty() {
         assertThat(WordUtils.wrap(null, 20)).isNull();
         assertThat(WordUtils.wrap(null, -1)).isNull();
-
         assertThat(WordUtils.wrap("", 20)).isEqualTo("");
         assertThat(WordUtils.wrap("", -1)).isEqualTo("");
 
-        // normal
-        final String systemNewLine = System.lineSeparator();
-        String input = "Here is one line of text that is going to be wrapped after 20 columns.";
-        String expected = "Here is one line of" + systemNewLine + "text that is going" + systemNewLine
-                + "to be wrapped after" + systemNewLine + "20 columns.";
-        assertThat(WordUtils.wrap(input, 20)).isEqualTo(expected);
-
-        // long word at end
-        input = "Click here to jump to the commons website - https://commons.apache.org";
-        expected = "Click here to jump" + systemNewLine + "to the commons" + systemNewLine + "website -" + systemNewLine
-                + "https://commons.apache.org";
-        assertThat(WordUtils.wrap(input, 20)).isEqualTo(expected);
-
-        // long word in middle
-        input = "Click here, https://commons.apache.org, to jump to the commons website";
-        expected = "Click here," + systemNewLine + "https://commons.apache.org," + systemNewLine + "to jump to the"
-                + systemNewLine + "commons website";
-        assertThat(WordUtils.wrap(input, 20)).isEqualTo(expected);
-
-        // leading spaces on a new line are stripped
-        // trailing spaces are not stripped
-        input = "word1             word2                        word3";
-        expected = "word1  " + systemNewLine + "word2  " + systemNewLine + "word3";
-        assertThat(WordUtils.wrap(input, 7)).isEqualTo(expected);
-    }
-
-    @Test
-    public void testWrap_StringIntStringBoolean() {
         assertThat(WordUtils.wrap(null, 20, "\n", false)).isNull();
         assertThat(WordUtils.wrap(null, 20, "\n", true)).isNull();
         assertThat(WordUtils.wrap(null, 20, null, true)).isNull();
         assertThat(WordUtils.wrap(null, 20, null, false)).isNull();
         assertThat(WordUtils.wrap(null, -1, null, true)).isNull();
         assertThat(WordUtils.wrap(null, -1, null, false)).isNull();
-
+ 
         assertThat(WordUtils.wrap("", 20, "\n", false)).isEqualTo("");
         assertThat(WordUtils.wrap("", 20, "\n", true)).isEqualTo("");
         assertThat(WordUtils.wrap("", 20, null, false)).isEqualTo("");
         assertThat(WordUtils.wrap("", 20, null, true)).isEqualTo("");
         assertThat(WordUtils.wrap("", -1, null, false)).isEqualTo("");
         assertThat(WordUtils.wrap("", -1, null, true)).isEqualTo("");
-
-        // normal
-        String input = "Here is one line of text that is going to be wrapped after 20 columns.";
-        String expected = "Here is one line of\ntext that is going\nto be wrapped after\n20 columns.";
-        assertThat(WordUtils.wrap(input, 20, "\n", false)).isEqualTo(expected);
-        assertThat(WordUtils.wrap(input, 20, "\n", true)).isEqualTo(expected);
-
-        // unusual newline char
-        input = "Here is one line of text that is going to be wrapped after 20 columns.";
-        expected = "Here is one line of<br />text that is going<br />to be wrapped after<br />20 columns.";
-        assertThat(WordUtils.wrap(input, 20, "<br />", false)).isEqualTo(expected);
-        assertThat(WordUtils.wrap(input, 20, "<br />", true)).isEqualTo(expected);
-
-        // short line length
-        input = "Here is one line";
-        expected = "Here\nis one\nline";
-        assertThat(WordUtils.wrap(input, 6, "\n", false)).isEqualTo(expected);
-        expected = "Here\nis\none\nline";
-        assertThat(WordUtils.wrap(input, 2, "\n", false)).isEqualTo(expected);
-        assertThat(WordUtils.wrap(input, -1, "\n", false)).isEqualTo(expected);
-
-        // system newline char
-        final String systemNewLine = System.lineSeparator();
-        input = "Here is one line of text that is going to be wrapped after 20 columns.";
-        expected = "Here is one line of" + systemNewLine + "text that is going" + systemNewLine + "to be wrapped after"
-                + systemNewLine + "20 columns.";
-        assertThat(WordUtils.wrap(input, 20, null, false)).isEqualTo(expected);
-        assertThat(WordUtils.wrap(input, 20, null, true)).isEqualTo(expected);
-
-        // with extra spaces
-        input = " Here:  is  one  line  of  text  that  is  going  to  be  wrapped  after  20  columns.";
-        expected = "Here:  is  one  line\nof  text  that  is \ngoing  to  be \nwrapped  after  20 \ncolumns.";
-        assertThat(WordUtils.wrap(input, 20, "\n", false)).isEqualTo(expected);
-        assertThat(WordUtils.wrap(input, 20, "\n", true)).isEqualTo(expected);
-
-        // with tab
-        input = "Here is\tone line of text that is going to be wrapped after 20 columns.";
-        expected = "Here is\tone line of\ntext that is going\nto be wrapped after\n20 columns.";
-        assertThat(WordUtils.wrap(input, 20, "\n", false)).isEqualTo(expected);
-        assertThat(WordUtils.wrap(input, 20, "\n", true)).isEqualTo(expected);
-
-        // with tab at wrapColumn
-        input = "Here is one line of\ttext that is going to be wrapped after 20 columns.";
-        expected = "Here is one line\nof\ttext that is\ngoing to be wrapped\nafter 20 columns.";
-        assertThat(WordUtils.wrap(input, 20, "\n", false)).isEqualTo(expected);
-        assertThat(WordUtils.wrap(input, 20, "\n", true)).isEqualTo(expected);
-
-        // difference because of long word
-        input = "Click here to jump to the commons website - https://commons.apache.org";
-        expected = "Click here to jump\nto the commons\nwebsite -\nhttps://commons.apache.org";
-        assertThat(WordUtils.wrap(input, 20, "\n", false)).isEqualTo(expected);
-        expected = "Click here to jump\nto the commons\nwebsite -\nhttps://commons.apac\nhe.org";
-        assertThat(WordUtils.wrap(input, 20, "\n", true)).isEqualTo(expected);
-
-        // difference because of long word in middle
-        input = "Click here, https://commons.apache.org, to jump to the commons website";
-        expected = "Click here,\nhttps://commons.apache.org,\nto jump to the\ncommons website";
-        assertThat(WordUtils.wrap(input, 20, "\n", false)).isEqualTo(expected);
-        expected = "Click here,\nhttps://commons.apac\nhe.org, to jump to\nthe commons website";
-        assertThat(WordUtils.wrap(input, 20, "\n", true)).isEqualTo(expected);
     }
 
-    @Test
-    public void testWrap_StringIntStringBooleanString() {
-
-        // no changes test
-        String input = "flammable/inflammable";
-        String expected = "flammable/inflammable";
-        assertThat(WordUtils.wrap(input, 30, "\n", false, "/")).isEqualTo(expected);
-
-        // wrap on / and small width
-        expected = "flammable\ninflammable";
-        assertThat(WordUtils.wrap(input, 2, "\n", false, "/")).isEqualTo(expected);
-
-        // wrap long words on / 1
-        expected = "flammable\ninflammab\nle";
-        assertThat(WordUtils.wrap(input, 9, "\n", true, "/")).isEqualTo(expected);
-
-        // wrap long words on / 2
-        expected = "flammable\ninflammable";
-        assertThat(WordUtils.wrap(input, 15, "\n", true, "/")).isEqualTo(expected);
-
-        // wrap long words on / 3
-        input = "flammableinflammable";
-        expected = "flammableinflam\nmable";
-        assertThat(WordUtils.wrap(input, 15, "\n", true, "/")).isEqualTo(expected);
+    @DisplayName("Wrap, typical use cases, length argument")
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("provideDataForTypicalUseCasesLengthArgument")
+    public void testWrap_TypicalUseCasesLengthArgument(String name, String input, int lineLength, String expected) {
+        String actual = WordUtils.wrap(input, lineLength);
+        assertThat(actual).isEqualTo(expected);
     }
 
-    @Test
-    public void testWrapAtMiddleTwice() {
-        assertThat(WordUtils.wrap("abcdefggabcdef", 2, "\n", false, "(?=g)")).isEqualTo("abcdef\n\nabcdef");
+    private static Stream<Arguments> provideDataForTypicalUseCasesLengthArgument() {
+        return Stream.of(
+            Arguments.of(
+                "Normal",
+                "Here is one line of text that is going to be wrapped after 20 columns.", 20,
+                "Here is one line of" + systemNewLine + "text that is going" + systemNewLine +
+                "to be wrapped after" + systemNewLine + "20 columns."),
+            Arguments.of(
+                "Long word at end",
+                "Click here to jump to the commons website - https://commons.apache.org", 20,
+                "Click here to jump" + systemNewLine + "to the commons" + systemNewLine + "website -" + systemNewLine
+                + "https://commons.apache.org"),
+            Arguments.of(
+                "Long word in the middle",
+                "Click here, https://commons.apache.org, to jump to the commons website", 20,
+                "Click here," + systemNewLine + "https://commons.apache.org," + systemNewLine + "to jump to the"
+                        + systemNewLine + "commons website"),
+            Arguments.of(
+                "Strip leading, keep trailing",
+                "word1             word2                        word3", 7,
+                "word1  " + systemNewLine + "word2  " + systemNewLine + "word3"),
+
+            Arguments.of(
+                "Long word, followed by wrap",
+                "LongForALine Line 2 and Line 3", 12,
+                "LongForALine" + systemNewLine + "Line 2 and" + systemNewLine + "Line 3"),
+            Arguments.of(
+                "Long word, followed by newline",
+                "LongForALine" + systemNewLine + "Line 2 and Line 3", 12,
+                "LongForALine" + systemNewLine + "Line 2 and" + systemNewLine + "Line 3"),
+            Arguments.of(
+                "Too long word, followed by wrap",
+                "TooLongForALine Line 2 and Line 3", 10,
+                "TooLongForALine" + systemNewLine + "Line 2 and" + systemNewLine + "Line 3"),
+            Arguments.of(
+                "Too long word, followed by newline",
+                "TooLongForALine" + systemNewLine + "Line 2 and Line 3", 10,
+                "TooLongForALine" + systemNewLine + "Line 2 and" + systemNewLine + "Line 3")
+        );
     }
 
-
-
-    @Test
-    public void testWrapAtStartAndEnd() {
-        assertThat(WordUtils.wrap("nabcdefabcdefn", 2, "\n", false, "(?=n)")).isEqualTo("\nabcdefabcdef\n");
+    @DisplayName("Wrap, typical use cases, default word wrap")
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("provideDataForTypicalUseCasesDefaultWordWrap")
+    public void testWrap_TypicalUseCasesDefaultWordWrap(String name, String input, int lineLength, String newLineString, boolean breakLongWords, String expected) {
+        String actual = WordUtils.wrap(input, lineLength, newLineString, breakLongWords);
+        assertThat(actual).isEqualTo(expected);
     }
 
-    @Test
-    public void testWrapWithMultipleRegexMatchOfLength0() {
-        assertThat(WordUtils.wrap("abcdefabcdef", 2, "\n", false, "(?=d)")).isEqualTo("abc\ndefabc\ndef");
+   private static Stream<Arguments> provideDataForTypicalUseCasesDefaultWordWrap() {
+       return Stream.of(
+            Arguments.of(
+                "Normal",
+                "Here is one line of text that is going to be wrapped after 20 columns.",
+                20, null, false,
+                "Here is one line of" + systemNewLine + "text that is going" + systemNewLine +
+                "to be wrapped after" + systemNewLine + "20 columns."),
+
+            Arguments.of("Custom newline string, preserve long words",
+                "Here is one line of text that is going to be wrapped after 20 columns.",
+                20, "<br />", false,
+                "Here is one line of<br />text that is going<br />to be wrapped after<br />20 columns."),
+
+            Arguments.of("Short line, length 6", "Here is one line", 6, "\n", false, "Here\nis one\nline"),
+            Arguments.of("Short line, length 2", "Here is one line", 2, "\n", false, "Here\nis\none\nline"),
+            Arguments.of("Short line, length -1", "Here is one line", -1, "\n", false, "Here\nis\none\nline"),
+
+            Arguments.of("With extra spaces, preserve long words",
+                " Here:  is  one  line  of  text  that  is  going  to  be  wrapped  after  20  columns.",
+                20, "\n", false,
+                "Here:  is  one  line\nof  text  that  is \ngoing  to  be \nwrapped  after  20 \ncolumns."),
+            Arguments.of("With extra spaces, break long words",
+                " Here:  is  one  line  of  text  that  is  going  to  be  wrapped  after  20  columns.",
+                20, "\n", true,
+                "Here:  is  one  line\nof  text  that  is \ngoing  to  be \nwrapped  after  20 \ncolumns."),
+
+            Arguments.of("With tabs, preserve long words",
+                "Here is\tone line of text that is going to be wrapped after 20 columns.",
+                20, "\n", false,
+                "Here is\tone line of\ntext that is going\nto be wrapped after\n20 columns."),
+            Arguments.of("With tabs, break long words",
+                "Here is\tone line of text that is going to be wrapped after 20 columns.",
+                20, "\n", true,
+                "Here is\tone line of\ntext that is going\nto be wrapped after\n20 columns."),
+
+            Arguments.of("With tab at wrapColumn, preserve long words",
+                "Here is one line of\ttext that is going to be wrapped after 20 columns.",
+                20, "\n", false,
+                "Here is one line\nof\ttext that is\ngoing to be wrapped\nafter 20 columns."),
+            Arguments.of("With tab at wrapColumn, break long words",
+                "Here is one line of\ttext that is going to be wrapped after 20 columns.",
+                20, "\n", true,
+                "Here is one line\nof\ttext that is\ngoing to be wrapped\nafter 20 columns."),
+
+            Arguments.of("Difference because of long word, preserve long words",
+                "Click here to jump to the commons website - https://commons.apache.org",
+                20, "\n", false,
+                "Click here to jump\nto the commons\nwebsite -\nhttps://commons.apache.org"),
+            Arguments.of("Difference because of long word, break long words",
+                "Click here to jump to the commons website - https://commons.apache.org",
+                20, "\n", true,
+                "Click here to jump\nto the commons\nwebsite -\nhttps://commons.apac\nhe.org"),
+
+            Arguments.of("Difference because of long word in middle, preserve long words",
+                "Click here, https://commons.apache.org, to jump to the commons website",
+                20, "\n", false,
+                "Click here,\nhttps://commons.apache.org,\nto jump to the\ncommons website"),
+            Arguments.of("Difference because of long word in middle, break long words",
+                "Click here, https://commons.apache.org, to jump to the commons website",
+                20, "\n", true,
+                "Click here,\nhttps://commons.apac\nhe.org, to jump to\nthe commons website")
+
+        );
     }
 
-    @Test
-    public void testWrapWithRegexMatchOfLength0() {
-        assertThat(WordUtils.wrap("abcdef", 2, "\n", false, "(?=d)")).isEqualTo("abc\ndef");
+    @DisplayName("Wrap, typical use cases, custom word wrap")
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("provideDataForTypicalUseCasesCustomWordWrap")
+    public void testWrap_TypicalUseCasesCustomWordWrap(String name, String input, int lineLength, String newLineString, boolean breakLongWords, String wordWrap, String expected) {
+        String actual = WordUtils.wrap(input, lineLength, newLineString, breakLongWords, wordWrap);
+        assertThat(actual).isEqualTo(expected);
     }
+
+    private static Stream<Arguments> provideDataForTypicalUseCasesCustomWordWrap() {
+        // The word wrap pattern is either a whitespace character that is stripped, or a hyphen that is kept
+        // Also note that \n is both the newline string — which must force a newline — and one of the acceptable wrap characters   
+        return Stream.of(
+            Arguments.of("Difference because of long word in middle, preserve long words",
+                "This\nhere is a\ntest of word-wrap where hyphens and whitespace-characters act as potential line-breaks along\nthe new-line character",
+                9, "\n", false, "(?<=-)|\\s",
+                "This\nhere is a\ntest of\nword-wrap\nwhere\nhyphens\nand\nwhitespace-\ncharacters\nact as\npotential\nline-\nbreaks\nalong\nthe new-\nline\ncharacter"),
+            Arguments.of("Difference because of long word in middle, break long words",
+                "This\nhere is a\ntest of word-wrap where hyphens and whitespace-characters act as potential line-breaks along\nthe new-line character",
+                9, "\n", true, "(?<=-)|\\s",
+                "This\nhere is a\ntest of\nword-wrap\nwhere\nhyphens\nand\nwhitespac\ne-\ncharacter\ns act as\npotential\nline-\nbreaks\nalong\nthe new-\nline\ncharacter")
+        );
+    }
+
+    @DisplayName("Wrap, with break in the middle")
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("provideDataForBreakInTheMiddle")
+    public void testWrap_BreakInTheMiddle(String name, String input, int lineLength, String newLineString, boolean breakLongWords, String wrapOn, String expected) {
+        String actual = WordUtils.wrap(input, lineLength, newLineString, breakLongWords, wrapOn);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    private static Stream<Arguments> provideDataForBreakInTheMiddle() {
+        return Stream.of(
+            Arguments.of(
+                "No changes", "flammable/inflammable", 30, "\n", false, null, "flammable/inflammable"),
+            Arguments.of(
+                "Wrap on / and small width", "flammable/inflammable", 2, "\n", false, "/", "flammable\ninflammable"),
+            Arguments.of(
+                "Wrap long words on / 1", "flammable/inflammable", 9, "\n", true, "/", "flammable\ninflammab\nle"),
+            Arguments.of(
+                "Wrap long words on / 2", "flammable/inflammable", 15, "\n", true, "/", "flammable\ninflammable"),
+            Arguments.of(
+                "Wrap long words on / 3", "flammableinflammable", 15, "\n", true, "/", "flammableinflam\nmable")
+            );
+    }
+
+    @DisplayName("Wrap, with wrap at start, middle, end")
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("provideDataForWrapAtStartMiddleEnd")
+    public void testWrap_WrapAtStartMiddleEnd(String name, String input, int lineLength, String newLineString, boolean breakLongWords, String wrapOn, String expected) {
+        String actual = WordUtils.wrap(input, lineLength, newLineString, breakLongWords, wrapOn);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    private static Stream<Arguments> provideDataForWrapAtStartMiddleEnd() {
+        return Stream.of(
+            Arguments.of(
+                "Wrap at middle twice, zero length match, preserve long words",
+                "abcdef--abcdef", 3, "\n", false, "(?=-)", "abcdef\n-\n-abcdef"
+            ),
+            Arguments.of(
+                "Wrap at middle twice, zero length match, break long words",
+                "abcdef--abcdef", 3, "\n", true, "(?=-)", "abc\ndef\n-\n-ab\ncde\nf"
+            ),
+            Arguments.of(
+                "Wrap at middle twice, one length match, preserve long words",
+                "abcdef--abcdef", 3, "\n", false, "-", "abcdef\nabcdef"
+            ),
+            Arguments.of(
+                "Wrap at middle twice, one length match, break long words",
+                "abcdef--abcdef", 3, "\n", true, "-", "abc\ndef\nabc\ndef"
+            ),
+            Arguments.of(
+                "Wrap at start and end, zero length match, preserve long words",
+                "-abcdefabcdef-", 2, "\n", false, "(?=-)", "-abcdefabcdef\n-"
+            ),
+            Arguments.of(
+                "Wrap at start and end, zero length match, break long words",
+                "-abcdefabcdef-", 2, "\n", false, "(?<=-)", "-\nabcdefabcdef-"
+            ),
+            Arguments.of(
+                "Wrap at start and end, one length match, preserve long words",
+                "-abcdefabcdef-", 2, "\n", false, "-", "abcdefabcdef"
+            ),
+            Arguments.of(
+                "Wrap at start and end, one length match, break long words",
+                "-abcdefabcdef-", 2, "\n", true, "-", "ab\ncd\nef\nab\ncd\nef"
+            )
+        );
+    }
+
+    @DisplayName("Wrap, zero length regular expression")
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("provideDataForZeroLengthRegEx")
+    public void testWrap_ZeroLengthRegEx(String name, String input, int lineLength, String newLineString, boolean breakLongWords, String wrapOn, String expected) {
+        String actual = WordUtils.wrap(input, lineLength, newLineString, breakLongWords, wrapOn);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    private static Stream<Arguments> provideDataForZeroLengthRegEx() {
+        return Stream.of(
+            Arguments.of("Single, 1", "abc-def", 2, "\n", false, "(?=-)", "abc\n-def"),
+            Arguments.of("Single, 2", "abc-def", 2, "\n", false, "(?<=-)", "abc-\ndef"),
+            Arguments.of("Single, 3", "abc-def", 2, "\n", true, "(?=-)", "ab\nc\n-d\nef"),
+            Arguments.of("Single, 4", "abc-def", 2, "\n", true, "(?<=-)", "ab\nc-\nde\nf"),
+            Arguments.of("Multiple, 1", "abc-deabc-de", 2, "\n", false, "(?=-)", "abc\n-deabc\n-de"),
+            Arguments.of("Multiple, 2", "abc-deabc-de", 2, "\n", false, "(?<=-)", "abc-\ndeabc-\nde"),
+            Arguments.of("Multiple, 3", "abc-deab-cde", 3, "\n", true , "(?=-)", "abc\n-de\nab\n-cd\ne"),
+            Arguments.of("Multiple, 4", "abc-deab-cde", 3, "\n", true , "(?<=-)", "abc\n-\ndea\nb-\ncde")
+        );
+   }
 
 }

@@ -561,13 +561,13 @@ public class WordUtils {
     }
 
     /**
-     * Wraps a single line of text, identifying words by {@code ' '}.
+     * Wraps a single line of text, identifying word boundaries by {@code ' '}.
      *
      * <p>New lines will be separated by the system property line separator.
      * Very long words, such as URLs will <i>not</i> be wrapped.</p>
      *
-     * <p>Leading spaces on a new line are stripped.
-     * Trailing spaces are not stripped.</p>
+     * <p>Leading spaces on a new line are trimmed.
+     * Trailing spaces on a line are not trimmed.</p>
      *
      * <table border="1">
      *  <caption>Examples</caption>
@@ -614,10 +614,10 @@ public class WordUtils {
     }
 
     /**
-     * Wraps a single line of text, identifying words by {@code ' '}.
+     * Wraps a single line of text, identifying word boundaries by {@code ' '}.
      *
-     * <p>Leading spaces on a new line are stripped.
-     * Trailing spaces are not stripped.</p>
+     * <p>Leading spaces on a new line are trimmed.
+     * Trailing spaces on a line are not trimmed.</p>
      *
      * <table border="1">
      *  <caption>Examples</caption>
@@ -696,10 +696,11 @@ public class WordUtils {
     }
 
     /**
-     * Wraps a single line of text, identifying words by {@code wrapOn}.
+     * Wraps a single line of text, identifying words boundaries by {@code wrapOn},
+     * parsed as a regular expression.
      *
-     * <p>Leading spaces on a new line are stripped.
-     * Trailing spaces are not stripped.</p>
+     * <p>Leading matches of {@code wrapOn} on a new line are trimmed.
+     * Trailing matches of {@code wrapOn} on a line are not trimmed.</p>
      *
      * <table border="1">
      *  <caption>Examples</caption>
@@ -783,7 +784,7 @@ public class WordUtils {
      * @param newLineStr  the string to insert for a new line,
      *  {@code null} uses the system property line separator
      * @param wrapLongWords  true if long words (such as URLs) should be wrapped
-     * @param wrapOn regex expression to be used as a breakable characters,
+     * @param wrapOn regex expression to be used as word boundary,
      *               if blank string is provided a space character will be used
      * @return a line with newlines inserted, {@code null} if null input
      */
@@ -804,85 +805,73 @@ public class WordUtils {
         if (StringUtils.isBlank(wrapOn)) {
             wrapOn = " ";
         }
-        final Pattern patternToWrapOn = Pattern.compile(wrapOn);
+
         final int inputLineLength = str.length();
-        int offset = 0;
+
         final StringBuilder wrappedLine = new StringBuilder(inputLineLength + 32);
-        int matcherSize = -1;
 
-        while (offset < inputLineLength) {
-            int spaceToWrapAt = -1;
-            Matcher matcher = patternToWrapOn.matcher(str.substring(offset,
-                    Math.min((int) Math.min(Integer.MAX_VALUE, offset + wrapLength + 1L), inputLineLength)));
-            if (matcher.find()) {
-                if (matcher.start() == 0) {
-                    matcherSize = matcher.end();
-                    if (matcherSize != 0) {
-                        offset += matcher.end();
-                        continue;
-                    }
-                    offset += 1;
-                }
-                spaceToWrapAt = matcher.start() + offset;
-            }
+        final Pattern wrapOnPattern = Pattern.compile(wrapOn);
+        final Pattern newLineStrPattern = Pattern.compile(newLineStr);
 
-            // only last line without leading spaces is left
-            if (inputLineLength - offset <= wrapLength) {
-                break;
-            }
+        int lineStart = 0;
+        int lineEnd = 0;
+        int nextLineStart = 0;
 
-            while (matcher.find()) {
-                spaceToWrapAt = matcher.start() + offset;
-            }
+        Matcher newlineStrMatcher = newLineStrPattern.matcher(str);
+        Matcher wrapOnMatcher = wrapOnPattern.matcher(str);
 
-            if (spaceToWrapAt >= offset) {
-                // normal case
-                wrappedLine.append(str, offset, spaceToWrapAt);
+        int nextForcedWrap = wrapLength;
+        int nextNewlineStr = newlineStrMatcher.find() ? newlineStrMatcher.start() : inputLineLength;
+        int nextWrapOn = wrapOnMatcher.find() ? wrapOnMatcher.start() : inputLineLength;
+
+        boolean suppressNewline = true;
+
+        while(lineStart < inputLineLength) {
+            // Here is always(!) the beginning of a line
+
+            if(!suppressNewline) {
                 wrappedLine.append(newLineStr);
-                offset = spaceToWrapAt + 1;
-
-            } else // really long word or URL
-            if (wrapLongWords) {
-                if (matcherSize == 0) {
-                    offset--;
-                }
-                // wrap really long word one line at a time
-                wrappedLine.append(str, offset, wrapLength + offset);
-                wrappedLine.append(newLineStr);
-                offset += wrapLength;
-                matcherSize = -1;
             } else {
-                // do not wrap really long word, just extend beyond limit
-                matcher = patternToWrapOn.matcher(str.substring(offset + wrapLength));
-                if (matcher.find()) {
-                    matcherSize = matcher.end() - matcher.start();
-                    spaceToWrapAt = matcher.start() + offset + wrapLength;
-                }
-
-                if (spaceToWrapAt >= 0) {
-                    if (matcherSize == 0 && offset != 0) {
-                        offset--;
-                    }
-                    wrappedLine.append(str, offset, spaceToWrapAt);
-                    wrappedLine.append(newLineStr);
-                    offset = spaceToWrapAt + 1;
-                } else {
-                    if (matcherSize == 0 && offset != 0) {
-                        offset--;
-                    }
-                    wrappedLine.append(str, offset, str.length());
-                    offset = inputLineLength;
-                    matcherSize = -1;
-                }
+                suppressNewline = false;
             }
-        }
 
-        if (matcherSize == 0 && offset < inputLineLength) {
-            offset--;
-        }
+            // Trim all leading instances of wrapOn
+            while(nextWrapOn == lineStart && lineStart < inputLineLength) {
+                lineStart = nextLineStart = !wrapOnMatcher.hitEnd() ? wrapOnMatcher.end() : inputLineLength;
+                nextForcedWrap = lineStart + wrapLength;
+                nextWrapOn = !wrapOnMatcher.hitEnd() && wrapOnMatcher.find() ? wrapOnMatcher.start() : inputLineLength;
+            }
 
-        // Whatever is left in line is short enough to just pass through
-        wrappedLine.append(str, offset, str.length());
+            if(wrapLongWords && nextForcedWrap < nextNewlineStr && nextForcedWrap < nextWrapOn) {
+                // We need to wrap the line due to a long word
+                lineEnd = nextLineStart = nextForcedWrap;
+            } else if(nextNewlineStr <= nextForcedWrap || (nextNewlineStr > nextForcedWrap && nextNewlineStr <= nextWrapOn)) {
+                // There is a newLineStr before the length limit of the line, 
+                // or after the length limit and before the next wrapOn, 
+                // so we wrap just after that newline string.
+                // This preserves trailing instances of wrapOn.
+                nextLineStart = !newlineStrMatcher.hitEnd() ? newlineStrMatcher.end() : inputLineLength;
+                lineEnd = nextLineStart;
+                nextNewlineStr = !newlineStrMatcher.hitEnd() && newlineStrMatcher.find() ? newlineStrMatcher.start() : inputLineLength;
+                suppressNewline = true; // This saves a call to append()
+            } else {
+                // Here we are not forced to wrap due to long word, nor due to 
+                // the existence of a newline string.
+                // So we can just keep look for wrapOn, 
+                // until we run out of room on the line
+                do {
+                    lineEnd = nextWrapOn;
+                    nextLineStart = !wrapOnMatcher.hitEnd() ? wrapOnMatcher.end() : inputLineLength;
+                    nextWrapOn = !wrapOnMatcher.hitEnd() && wrapOnMatcher.find() ? wrapOnMatcher.start() : inputLineLength;
+                } while(nextWrapOn < inputLineLength && nextWrapOn <= nextForcedWrap);
+            }
+
+            // We have found the end of this line, and can append it to the result
+            wrappedLine.append(str.substring(lineStart, lineEnd));
+
+            lineStart = nextLineStart;
+            nextForcedWrap = nextLineStart + wrapLength;
+        }
 
         return wrappedLine.toString();
     }
