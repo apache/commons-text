@@ -21,8 +21,9 @@ import java.lang.reflect.Modifier;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -348,7 +349,7 @@ public class WordUtilsTest {
     @Test
     public void testText123() throws Exception {
         // Prior to fix, this was throwing StringIndexOutOfBoundsException
-        Assertions.assertDoesNotThrow(()-> WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
+        Assertions.assertDoesNotThrow(() -> WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
                 + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", Integer.MAX_VALUE));
     }
 
