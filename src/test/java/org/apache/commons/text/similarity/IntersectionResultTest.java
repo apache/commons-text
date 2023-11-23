@@ -103,7 +103,7 @@ public class IntersectionResultTest {
         final int sizeA = 0;
         final int sizeB = 0;
         final int intersection = 0;
-        new IntersectionResult(sizeA, sizeB, intersection);
+        Assertions.assertDoesNotThrow(() -> new IntersectionResult(sizeA, sizeB, intersection));
     }
 
     @Test

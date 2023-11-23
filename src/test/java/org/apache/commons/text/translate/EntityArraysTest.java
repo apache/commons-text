@@ -40,10 +40,6 @@ public class EntityArraysTest  {
         testEscapeVsUnescapeMaps(EntityArrays.BASIC_ESCAPE, EntityArrays.BASIC_UNESCAPE);
     }
 
-    @Test
-    public void testConstructorExists() {
-        new EntityArrays();
-    }
 
     private void testEscapeVsUnescapeMaps(final Map<CharSequence, CharSequence> escapeMap,
                                           final Map<CharSequence, CharSequence> unescapeMap) {

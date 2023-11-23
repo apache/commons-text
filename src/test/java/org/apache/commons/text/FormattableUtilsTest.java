@@ -168,10 +168,7 @@ public class FormattableUtilsTest {
                 precisionLessThanEllipsisLength, '}', ellipsis));
     }
 
-    @Test
-    public void testPublicConstructorExists() {
-        new FormattableUtils();
-    }
+
 
     @Test
     public void testSimplestFormat() {

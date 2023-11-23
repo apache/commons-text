@@ -36,7 +36,7 @@ public class JavaPlatformStringLookupTest {
 
     @Test
     void testMain() {
-        JavaPlatformStringLookup.main(ArrayUtils.EMPTY_STRING_ARRAY);
+        Assertions.assertDoesNotThrow(() -> JavaPlatformStringLookup.main(ArrayUtils.EMPTY_STRING_ARRAY));
     }
 
     @Test

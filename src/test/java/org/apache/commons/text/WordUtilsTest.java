@@ -16,15 +16,15 @@
  */
 package org.apache.commons.text;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests {@link WordUtils} class.
@@ -314,9 +314,10 @@ public class WordUtilsTest {
     @Test
     public void testLANG1292() {
         // Prior to fix, this was throwing StringIndexOutOfBoundsException
-        WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
+        Assertions.assertDoesNotThrow(() -> WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
                 + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
-                + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 70);
+                + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 70));
+
     }
 
     @Test
@@ -347,8 +348,8 @@ public class WordUtilsTest {
     @Test
     public void testText123() throws Exception {
         // Prior to fix, this was throwing StringIndexOutOfBoundsException
-        WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
-                + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", Integer.MAX_VALUE);
+        Assertions.assertDoesNotThrow(()-> WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
+                + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", Integer.MAX_VALUE));
     }
 
     @Test

@@ -99,7 +99,7 @@ public class StringLookupFactoryTest {
 
     @Test
     public void testAddDefaultStringLookupsNull() {
-        StringLookupFactory.INSTANCE.addDefaultStringLookups(null);
+        Assertions.assertDoesNotThrow(() -> StringLookupFactory.INSTANCE.addDefaultStringLookups(null));
     }
 
     @Test

@@ -43,7 +43,8 @@ public class DateStringLookupTest {
     @Test
     public void testDefault() throws ParseException {
         final String formatted = DateStringLookup.INSTANCE.lookup(null);
-        DateFormat.getInstance().parse(formatted); // throws ParseException
+        // throws ParseException
+        Assertions.assertDoesNotThrow(() -> DateFormat.getInstance().parse(formatted));
 
     }
 
