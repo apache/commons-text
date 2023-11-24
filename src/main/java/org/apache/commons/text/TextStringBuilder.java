@@ -76,8 +76,8 @@ import org.apache.commons.text.matcher.StringMatcher;
  */
 public class TextStringBuilder implements CharSequence, Appendable, Serializable, Builder<String> {
 
-    private final String startIndexExceptionMessage = "startIndex must be valid";
-    private final String lengthExceptionMessage = "length must be valid";
+    private static final String startIndexExceptionMessage = "startIndex must be valid";
+    private static final String lengthExceptionMessage = "length must be valid";
 
     /**
      * Inner class to allow StrBuilder to operate as a reader.
