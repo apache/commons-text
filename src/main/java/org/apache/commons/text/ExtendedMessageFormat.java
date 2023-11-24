@@ -113,7 +113,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Our registry of FormatFactory.
      */
-    private final Map<String, ? extends FormatFactory> registry;
+    private transient final Map<String, ? extends FormatFactory> registry;
 
     /**
      * Constructs a new ExtendedMessageFormat for the default locale.
