@@ -76,6 +76,9 @@ import org.apache.commons.text.matcher.StringMatcher;
  */
 public class TextStringBuilder implements CharSequence, Appendable, Serializable, Builder<String> {
 
+    private final String startIndexExceptionMessage = "startIndex must be valid";
+    private final String lengthExceptionMessage = "length must be valid";
+
     /**
      * Inner class to allow StrBuilder to operate as a reader.
      */
@@ -86,6 +89,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
 
         /** The current stream position. */
         private int pos;
+
+
 
         /**
          * Default constructor.
@@ -527,10 +532,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         if (buf.hasArray()) {
             final int totalLength = buf.remaining();
             if (startIndex < 0 || startIndex > totalLength) {
-                throw new StringIndexOutOfBoundsException("startIndex must be valid");
+                throw new StringIndexOutOfBoundsException(startIndexExceptionMessage);
             }
             if (length < 0 || startIndex + length > totalLength) {
-                throw new StringIndexOutOfBoundsException("length must be valid");
+                throw new StringIndexOutOfBoundsException(lengthExceptionMessage);
             }
             final int len = length();
             ensureCapacityInternal(len + length);
@@ -673,10 +678,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             return appendNull();
         }
         if (startIndex < 0 || startIndex > str.length()) {
-            throw new StringIndexOutOfBoundsException("startIndex must be valid");
+            throw new StringIndexOutOfBoundsException(startIndexExceptionMessage);
         }
         if (length < 0 || startIndex + length > str.length()) {
-            throw new StringIndexOutOfBoundsException("length must be valid");
+            throw new StringIndexOutOfBoundsException(lengthExceptionMessage);
         }
         if (length > 0) {
             final int len = length();
@@ -722,10 +727,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             return appendNull();
         }
         if (startIndex < 0 || startIndex > str.length()) {
-            throw new StringIndexOutOfBoundsException("startIndex must be valid");
+            throw new StringIndexOutOfBoundsException(startIndexExceptionMessage);
         }
         if (length < 0 || startIndex + length > str.length()) {
-            throw new StringIndexOutOfBoundsException("length must be valid");
+            throw new StringIndexOutOfBoundsException(lengthExceptionMessage);
         }
         if (length > 0) {
             final int len = length();
@@ -759,10 +764,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             return appendNull();
         }
         if (startIndex < 0 || startIndex > str.length()) {
-            throw new StringIndexOutOfBoundsException("startIndex must be valid");
+            throw new StringIndexOutOfBoundsException(startIndexExceptionMessage);
         }
         if (length < 0 || startIndex + length > str.length()) {
-            throw new StringIndexOutOfBoundsException("length must be valid");
+            throw new StringIndexOutOfBoundsException(lengthExceptionMessage);
         }
         if (length > 0) {
             final int len = length();
@@ -796,10 +801,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             return appendNull();
         }
         if (startIndex < 0 || startIndex > str.length()) {
-            throw new StringIndexOutOfBoundsException("startIndex must be valid");
+            throw new StringIndexOutOfBoundsException(startIndexExceptionMessage);
         }
         if (length < 0 || startIndex + length > str.length()) {
-            throw new StringIndexOutOfBoundsException("length must be valid");
+            throw new StringIndexOutOfBoundsException(lengthExceptionMessage);
         }
         if (length > 0) {
             final int len = length();
