@@ -40,22 +40,22 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
         /**
          * Requires a semicolon.
          */
-        SEMI_COLON_REQUIRED,
+        semiColonRequired,
 
         /**
          * Does not require a semicolon.
          */
-        SEMI_COLON_OPTIONAL,
+        semiColonOptional,
 
         /**
          * Throws an exception if a semicolon is missing.
          */
-        ERROR_IF_NO_SEMI_COLON
+        errorIfNoSemiColon
     }
 
     /** Default options. */
     private static final EnumSet<OPTION> DEFAULT_OPTIONS = EnumSet
-        .copyOf(Collections.singletonList(OPTION.SEMI_COLON_REQUIRED));
+        .copyOf(Collections.singletonList(OPTION.semiColonRequired));
 
     /** EnumSet of OPTIONS, given from the constructor, read-only. */
     private final EnumSet<OPTION> options;
@@ -123,10 +123,10 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
             final boolean semiNext = end != seqEnd && input.charAt(end) == ';';
 
             if (!semiNext) {
-                if (isSet(OPTION.SEMI_COLON_REQUIRED)) {
+                if (isSet(OPTION.semiColonRequired)) {
                     return 0;
                 }
-                if (isSet(OPTION.ERROR_IF_NO_SEMI_COLON)) {
+                if (isSet(OPTION.errorIfNoSemiColon)) {
                     throw new IllegalArgumentException("Semi-colon required at end of numeric entity");
                 }
             }
