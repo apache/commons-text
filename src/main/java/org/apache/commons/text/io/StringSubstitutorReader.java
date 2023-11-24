@@ -48,7 +48,7 @@ public class StringSubstitutorReader extends FilterReader {
     private final TextStringBuilder buffer = new TextStringBuilder();
 
     /** End-of-Stream flag. */
-    private boolean eos;
+    private boolean eosFlag;
 
     /** Matches escaped variable starts. */
     private final StringMatcher prefixEscapeMatcher;
@@ -82,7 +82,7 @@ public class StringSubstitutorReader extends FilterReader {
      */
     private int buffer(final int requestReadCount) throws IOException {
         final int actualReadCount = buffer.readFrom(super.in, requestReadCount);
-        eos = actualReadCount == EOS;
+        eosFlag = actualReadCount == EOS;
         return actualReadCount;
     }
 
@@ -179,7 +179,7 @@ public class StringSubstitutorReader extends FilterReader {
         // - if draining, drain until empty or target length hit
         // - copy to target until we find a variable start
         // - buffer until a balanced suffix is read, then substitute.
-        if (eos && buffer.isEmpty()) {
+        if (eosFlag && buffer.isEmpty()) {
             return EOS;
         }
         if (targetLengthIn <= 0) {
@@ -209,16 +209,16 @@ public class StringSubstitutorReader extends FilterReader {
             final int drainCount = drain(target, targetIndex, targetLength);
             targetIndex += drainCount;
             final int targetSize = targetIndex - targetIndexIn;
-            return eos && targetSize <= 0 ? EOS : targetSize;
+            return eosFlag && targetSize <= 0 ? EOS : targetSize;
         }
-        if (eos) {
+        if (eosFlag) {
             // EOS
             stringSubstitutor.replaceIn(buffer);
             toDrain = buffer.size();
             final int drainCount = drain(target, targetIndex, targetLength);
             targetIndex += drainCount;
             final int targetSize = targetIndex - targetIndexIn;
-            return eos && targetSize <= 0 ? EOS : targetSize;
+            return eosFlag && targetSize <= 0 ? EOS : targetSize;
         }
         // PREFIX
         // buffer and drain until we find a variable start, escaped or plain.
@@ -242,7 +242,7 @@ public class StringSubstitutorReader extends FilterReader {
             targetLength -= drainCount;
             if (buffer.size() < minReadLenPrefix) {
                 readCount = bufferOrDrainOnEos(minReadLenPrefix, target, targetIndex, targetLength);
-                if (eos || isDraining()) {
+                if (eosFlag || isDraining()) {
                     // if draining, readCount is a drain count
                     if (readCount != EOS) {
                         targetIndex += readCount;
@@ -263,7 +263,7 @@ public class StringSubstitutorReader extends FilterReader {
         final StringMatcher suffixMatcher = stringSubstitutor.getVariableSuffixMatcher();
         final int minReadLenSuffix = Math.max(minReadLenPrefix, suffixMatcher.size());
         readCount = buffer(readCount(minReadLenSuffix, pos));
-        if (eos) {
+        if (eosFlag) {
             // EOS
             stringSubstitutor.replaceIn(buffer);
             toDrain = buffer.size();
