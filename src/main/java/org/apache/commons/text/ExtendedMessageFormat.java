@@ -247,16 +247,7 @@ public class ExtendedMessageFormat extends MessageFormat {
                 }
                 foundFormats.add(format);
                 foundDescriptions.add(format == null ? null : formatDescription);
-                if (foundFormats.size() != fmtCount) {
-                    throw new IllegalArgumentException("The validated expression is false");
-                }
-                if (foundDescriptions.size() != fmtCount) {
-                    throw new IllegalArgumentException("The validated expression is false");
-                }
-                if (c[pos.getIndex()] != END_FE) {
-                    throw new IllegalArgumentException(
-                            "Unreadable format element at position " + start);
-                }
+                checkForErrors(foundFormats,fmtCount,foundDescriptions,c,pos,start);
                 //$FALL-THROUGH$
             default:
                 stripCustom.append(c[pos.getIndex()]);
@@ -269,14 +260,38 @@ public class ExtendedMessageFormat extends MessageFormat {
             final Format[] origFormats = getFormats();
             // only loop over what we know we have, as MessageFormat on Java 1.3
             // seems to provide an extra format element:
-            int i = 0;
+           /* int i = 0;
             for (final Format f : foundFormats) {
                 if (f != null) {
                     origFormats[i] = f;
                 }
                 i++;
-            }
+            }*/
+            loopOverFormats(foundFormats,origFormats);
             super.setFormats(origFormats);
+        }
+    }
+
+    private void checkForErrors(ArrayList<Format> foundFormats,int fmtCount,ArrayList<String> foundDescriptions,char [] c, ParsePosition pos, int start){
+        if (foundFormats.size() != fmtCount) {
+            throw new IllegalArgumentException("The validated expression is false");
+        }
+        if (foundDescriptions.size() != fmtCount) {
+            throw new IllegalArgumentException("The validated expression is false");
+        }
+        if (c[pos.getIndex()] != END_FE) {
+            throw new IllegalArgumentException(
+                    "Unreadable format element at position " + start);
+        }
+    }
+
+    private void loopOverFormats(ArrayList<Format> foundFormats,Format [] origFormats){
+        int i = 0;
+        for (final Format f : foundFormats) {
+            if (f != null) {
+                origFormats[i] = f;
+            }
+            i++;
         }
     }
 

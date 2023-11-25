@@ -70,17 +70,7 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
         Arrays.fill(matchIndexes, -1);
         final boolean[] matchFlags = new boolean[max.length()];
         int matches = 0;
-        for (int mi = 0; mi < min.length(); mi++) {
-            final char c1 = min.charAt(mi);
-            for (int xi = Math.max(mi - range, 0), xn = Math.min(mi + range + 1, max.length()); xi < xn; xi++) {
-                if (!matchFlags[xi] && c1 == max.charAt(xi)) {
-                    matchIndexes[mi] = xi;
-                    matchFlags[xi] = true;
-                    matches++;
-                    break;
-                }
-            }
-        }
+        matches = computeMatches(min,range,max,matchFlags,matchIndexes,matches);
         final char[] ms1 = new char[matches];
         final char[] ms2 = new char[matches];
         for (int i = 0, si = 0; i < min.length(); i++) {
@@ -109,6 +99,22 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
             prefix++;
         }
         return new int[] {matches, halfTranspositions, prefix};
+    }
+
+    private static int computeMatches(CharSequence min,int range,CharSequence max,boolean [] matchFlags, int [] matchIndexes,int matches){
+        for (int mi = 0; mi < min.length(); mi++) {
+            final char c1 = min.charAt(mi);
+            for (int xi = Math.max(mi - range, 0), xn = Math.min(mi + range + 1, max.length()); xi < xn; xi++) {
+                if (!matchFlags[xi] && c1 == max.charAt(xi)) {
+                    matchIndexes[mi] = xi;
+                    matchFlags[xi] = true;
+                    matches++;
+                    break;
+                }
+            }
+        }
+
+        return matches;
     }
 
     /**
