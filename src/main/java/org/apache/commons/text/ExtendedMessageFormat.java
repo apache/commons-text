@@ -260,13 +260,7 @@ public class ExtendedMessageFormat extends MessageFormat {
             final Format[] origFormats = getFormats();
             // only loop over what we know we have, as MessageFormat on Java 1.3
             // seems to provide an extra format element:
-           /* int i = 0;
-            for (final Format f : foundFormats) {
-                if (f != null) {
-                    origFormats[i] = f;
-                }
-                i++;
-            }*/
+
             loopOverFormats(foundFormats,origFormats);
             super.setFormats(origFormats);
         }
