@@ -237,10 +237,10 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
 
         // if one string is empty, the edit distance is necessarily the length of the other
         if (n == 0) {
-            return m <= threshold ? new LevenshteinResults(m, m, 0, 0) : new LevenshteinResults(-1, 0, 0, 0);
+            return getResultsWithZeroN(m,threshold);
         }
         if (m == 0) {
-            return n <= threshold ? new LevenshteinResults(n, 0, n, 0) : new LevenshteinResults(-1, 0, 0, 0);
+            return getResultsWithZeroM(n,threshold);
         }
 
         boolean swapped = false;
@@ -284,8 +284,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
 
             // compute stripe indices, constrain to array size
             final int min = Math.max(1, j - threshold);
-            final int max = j > Integer.MAX_VALUE - threshold ? n : Math.min(
-                    n, j + threshold);
+            final int max = setMax(j,threshold,n);
 
             // the stripe may lead off of the table if s and t are of different sizes
             if (min > max) {
@@ -297,17 +296,10 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
                 d[min - 1] = Integer.MAX_VALUE;
             }
 
-            // iterates through [min, max] in s
-            for (int i = min; i <= max; i++) {
-                if (left.charAt(i - 1) == rightJ) {
-                    // diagonally left and up
-                    d[i] = p[i - 1];
-                } else {
-                    // 1 + minimum of cell to the left, to the top, diagonally left and up
-                    d[i] = 1 + Math.min(Math.min(d[i - 1], p[i]), p[i - 1]);
-                }
-                matrix[j][i] = d[i];
-            }
+
+
+            iterate(min,max,left,rightJ,d,p,matrix,j);
+
 
             // copy current distance counts to 'previous row' distance counts
             tempD = p;
@@ -320,6 +312,32 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
             return findDetailedResults(left, right, matrix, swapped);
         }
         return new LevenshteinResults(-1, 0, 0, 0);
+    }
+
+    private static void iterate(int min,int max,CharSequence left,char rightJ,int [] d,int [] p,int [][] matrix,int j){
+        for (int i = min; i <= max; i++) {
+            if (left.charAt(i - 1) == rightJ) {
+                // diagonally left and up
+                d[i] = p[i - 1];
+            } else {
+                // 1 + minimum of cell to the left, to the top, diagonally left and up
+                d[i] = 1 + Math.min(Math.min(d[i - 1], p[i]), p[i - 1]);
+            }
+            matrix[j][i] = d[i];
+        }
+    }
+
+    private static LevenshteinResults getResultsWithZeroN(int m,int threshold){
+        return m <= threshold ? new LevenshteinResults(m, m, 0, 0) : new LevenshteinResults(-1, 0, 0, 0);
+    }
+
+    private static LevenshteinResults getResultsWithZeroM(int n, int threshold){
+        return n <= threshold ? new LevenshteinResults(n, 0, n, 0) : new LevenshteinResults(-1, 0, 0, 0);
+    }
+
+    private static int setMax(int j, int threshold,int n){
+        return j > Integer.MAX_VALUE - threshold ? n : Math.min(
+                n, j + threshold);
     }
 
     /**
