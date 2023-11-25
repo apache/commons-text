@@ -171,9 +171,9 @@ public final class AlphabetConverter {
                 } else {
                     Integer next = it.next();
 
-                    while (doNotEncodeCopy.contains(next)) {
-                        next = it.next();
-                    }
+
+
+                    scrollIntegerSet(doNotEncodeCopy,it,next);
 
                     final String encodedLetter = codePointToString(next);
 
@@ -219,6 +219,12 @@ public final class AlphabetConverter {
                 doNotEncodeMap);
 
         return ac;
+    }
+
+    private static void scrollIntegerSet(Set<Integer> doNotEncodeCopy, Iterator<Integer> it, int next){
+        while (doNotEncodeCopy.contains(next)) {
+            next = it.next();
+        }
     }
 
     /**
@@ -318,25 +324,8 @@ public final class AlphabetConverter {
                                    final Iterator<Integer> originals,
                                    final Map<Integer, String> doNotEncodeMap) {
 
-        if (level > 0) {
-            for (final int encodingLetter : encoding) {
-                if (!originals.hasNext()) {
-                    return; // done encoding all the original alphabet
-                }
-                // this skips the doNotEncode chars if they are in the
-                // leftmost place
-                if (level != encodedLetterLength
-                        || !doNotEncodeMap.containsKey(encodingLetter)) {
-                    addSingleEncoding(level - 1,
-                            currentEncoding
-                                    + codePointToString(encodingLetter),
-                            encoding,
-                            originals,
-                            doNotEncodeMap
-                    );
-                }
-            }
-        } else {
+        if (level > 0) encode(level,currentEncoding,encoding,originals,doNotEncodeMap);
+        else {
             Integer next = originals.next();
 
             while (doNotEncodeMap.containsKey(next)) {
@@ -359,6 +348,32 @@ public final class AlphabetConverter {
             encodedToOriginal.put(currentEncoding, originalLetterAsString);
         }
     }
+
+    private void encode(final int level,
+                        final String currentEncoding,
+                        final Collection<Integer> encoding,
+                        final Iterator<Integer> originals,
+                        final Map<Integer, String> doNotEncodeMap){
+
+        for (final int encodingLetter : encoding) {
+            if (!originals.hasNext()) {
+                return; // done encoding all the original alphabet
+            }
+            // this skips the doNotEncode chars if they are in the
+            // leftmost place
+            if (level != encodedLetterLength
+                    || !doNotEncodeMap.containsKey(encodingLetter)) {
+                addSingleEncoding(level - 1,
+                        currentEncoding
+                                + codePointToString(encodingLetter),
+                        encoding,
+                        originals,
+                        doNotEncodeMap
+                );
+            }
+        }
+    }
+
 
     /**
      * Decodes a given string.
