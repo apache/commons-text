@@ -144,10 +144,10 @@ public class LevenshteinDistance implements EditDistance<Integer> {
         // if one string is empty, the edit distance is necessarily the length
         // of the other
         if (n == 0) {
-            return getEditDistanceWithZeroN(m,threshold);//m <= threshold ? m : -1;
+            return getEditDistanceWithZeroN(m,threshold);
         }
         if (m == 0) {
-            return getEditDistanceWithZeroM(n,threshold);//n <= threshold ? n : -1;
+            return getEditDistanceWithZeroM(n,threshold);
         }
 
         if (n > m) {
