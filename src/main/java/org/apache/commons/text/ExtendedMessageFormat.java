@@ -477,7 +477,7 @@ public class ExtendedMessageFormat extends MessageFormat {
                     continue;
                 }
             }
-            if ((c == START_FMT || c == END_FE) && result.length() > 0) {
+            if (isResultParsable(c,result)) {
                 try {
                     return Integer.parseInt(result.toString());
                 } catch (final NumberFormatException e) { // NOPMD
@@ -495,6 +495,13 @@ public class ExtendedMessageFormat extends MessageFormat {
         }
         throw new IllegalArgumentException(
                 "Unterminated format element at position " + start);
+    }
+
+    private boolean isResultParsable(char c, StringBuilder result){
+        if((c == START_FMT || c == END_FE) && result.length() > 0)
+            return true;
+        else
+            return false;
     }
 
     /**

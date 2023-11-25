@@ -398,12 +398,7 @@ public final class RandomStringGenerator {
 
             if (inclusivePredicates != null) {
                 boolean matchedFilter = false;
-                for (final CharacterPredicate predicate : inclusivePredicates) {
-                    if (predicate.test(codePoint)) {
-                        matchedFilter = true;
-                        break;
-                    }
-                }
+                matchedFilter = testPredicates(codePoint,matchedFilter);
                 if (!matchedFilter) {
                     continue;
                 }
@@ -415,6 +410,17 @@ public final class RandomStringGenerator {
         } while (remaining != 0);
 
         return builder.toString();
+    }
+
+    private boolean testPredicates(int codePoint, boolean matchedFilter ){
+        for (final CharacterPredicate predicate : inclusivePredicates) {
+            if (predicate.test(codePoint)) {
+                matchedFilter = true;
+                break;
+            }
+        }
+
+        return matchedFilter;
     }
 
     /**
