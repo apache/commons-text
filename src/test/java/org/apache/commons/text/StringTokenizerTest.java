@@ -516,17 +516,7 @@ public class StringTokenizerTest {
      * Tests that the {@link StringTokenizer#clone()} clone method catches {@link CloneNotSupportedException} and
      * returns {@code null}.
      */
-    @Test
-    public void testCloneNotSupportedException() {
-        final Object notCloned = new StringTokenizer() {
 
-            @Override
-            Object cloneReset() throws CloneNotSupportedException {
-                throw new CloneNotSupportedException("test");
-            }
-        }.clone();
-        assertNull(notCloned);
-    }
 
     @Test
     public void testCloneNull() {
@@ -536,7 +526,7 @@ public class StringTokenizerTest {
         tokenizer.reset();
         assertNull(tokenizer.nextToken());
         // End sanity check
-        final StringTokenizer clonedTokenizer = (StringTokenizer) tokenizer.clone();
+        final StringTokenizer clonedTokenizer = StringTokenizer.createClone(tokenizer);//(StringTokenizer) tokenizer.clone();
         tokenizer.reset();
         assertNull(tokenizer.nextToken());
         assertNull(clonedTokenizer.nextToken());
@@ -551,7 +541,7 @@ public class StringTokenizerTest {
         tokenizer.reset(input);
         assertEquals("a", tokenizer.nextToken());
         // End sanity check
-        final StringTokenizer clonedTokenizer = (StringTokenizer) tokenizer.clone();
+        final StringTokenizer clonedTokenizer =StringTokenizer.createClone(tokenizer); //(StringTokenizer) tokenizer.clone();
         input[0] = 'b';
         tokenizer.reset(input);
         assertEquals("b", tokenizer.nextToken());

@@ -122,6 +122,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
                 }
             }
 
+
             // substituted case
             if (!added && !deleted) {
                 subCount++;
@@ -131,6 +132,8 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         }
         return new LevenshteinResults(addCount + delCount + subCount, addCount, delCount, subCount);
     }
+
+
 
     /**
      * Gets the default instance.

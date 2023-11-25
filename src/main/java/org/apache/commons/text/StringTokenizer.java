@@ -123,7 +123,7 @@ public class StringTokenizer implements ListIterator<String>, Cloneable {
      * @return a clone of {@code CSV_TOKENIZER_PROTOTYPE}.
      */
     private static StringTokenizer getCSVClone() {
-        return (StringTokenizer) CSV_TOKENIZER_PROTOTYPE.clone();
+        return createClone(CSV_TOKENIZER_PROTOTYPE);//(StringTokenizer) CSV_TOKENIZER_PROTOTYPE.clone();
     }
 
     /**
@@ -172,7 +172,7 @@ public class StringTokenizer implements ListIterator<String>, Cloneable {
      * @return a clone of {@code TSV_TOKENIZER_PROTOTYPE}.
      */
     private static StringTokenizer getTSVClone() {
-        return (StringTokenizer) TSV_TOKENIZER_PROTOTYPE.clone();
+        return createClone(TSV_TOKENIZER_PROTOTYPE);//(StringTokenizer) TSV_TOKENIZER_PROTOTYPE.clone();
     }
 
     /**
@@ -467,14 +467,27 @@ public class StringTokenizer implements ListIterator<String>, Cloneable {
      *
      * @return a new instance of this Tokenizer which has been reset.
      */
-    @Override
-    public Object clone() {
-        try {
-            return cloneReset();
-        } catch (final CloneNotSupportedException ex) {
-            return null;
+
+
+    public static StringTokenizer createClone(StringTokenizer template){
+        StringTokenizer clone = new StringTokenizer();
+        clone.chars = template.chars;
+        if(clone.chars!=null){
+            clone.chars = template.chars.clone();
         }
+        clone.tokens = template.tokens;
+        clone.tokenPos = template.tokenPos;
+        clone.delimMatcher = template.delimMatcher;
+        clone.quoteMatcher = template.quoteMatcher;
+        clone.ignoredMatcher = template.ignoredMatcher;
+        clone.trimmerMatcher = template.trimmerMatcher;
+        clone.emptyAsNull = template.emptyAsNull;
+        clone.ignoreEmptyTokens = template.ignoreEmptyTokens;
+        clone.reset();
+        return clone;
     }
+
+
 
     /**
      * Creates a new instance of this Tokenizer. The new instance is reset so that it will be at the start of the token
