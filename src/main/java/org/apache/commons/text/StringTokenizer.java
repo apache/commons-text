@@ -91,7 +91,7 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  *
  * @since 1.3
  */
-public class StringTokenizer implements ListIterator<String>{
+public class StringTokenizer implements ListIterator<String>, Cloneable{
 
     /** Comma separated values tokenizer internal variable. */
     private static final StringTokenizer CSV_TOKENIZER_PROTOTYPE;
