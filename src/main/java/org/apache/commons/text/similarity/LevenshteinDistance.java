@@ -144,10 +144,10 @@ public class LevenshteinDistance implements EditDistance<Integer> {
         // if one string is empty, the edit distance is necessarily the length
         // of the other
         if (n == 0) {
-            return m <= threshold ? m : -1;
+            return getEditDistanceWithZeroN(m,threshold);//m <= threshold ? m : -1;
         }
         if (m == 0) {
-            return n <= threshold ? n : -1;
+            return getEditDistanceWithZeroM(n,threshold);//n <= threshold ? n : -1;
         }
 
         if (n > m) {
@@ -185,8 +185,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
 
             // compute stripe indices, constrain to array size
             final int min = Math.max(1, j - threshold);
-            final int max = j > Integer.MAX_VALUE - threshold ? n : Math.min(
-                    n, j + threshold);
+            final int max = setMax(j,threshold,n);
 
             // ignore entry left of leftmost
             if (min > 1) {
@@ -195,17 +194,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
 
             int lowerBound = Integer.MAX_VALUE;
             // iterates through [min, max] in s
-            for (int i = min; i <= max; i++) {
-                if (left.charAt(i - 1) == rightJ) {
-                    // diagonally left and up
-                    d[i] = p[i - 1];
-                } else {
-                    // 1 + minimum of cell to the left, to the top, diagonally
-                    // left and up
-                    d[i] = 1 + Math.min(Math.min(d[i - 1], p[i]), p[i - 1]);
-                }
-                lowerBound = Math.min(lowerBound, d[i]);
-            }
+
+            lowerBound = iterate(min,max,left,rightJ,d,p,lowerBound);
             // if the lower bound is greater than the threshold, then exit early
             if (lowerBound > threshold) {
                 return -1;
@@ -224,6 +214,35 @@ public class LevenshteinDistance implements EditDistance<Integer> {
             return p[n];
         }
         return -1;
+    }
+
+    private static int iterate(int min,int max,CharSequence left,char rightJ,int [] d, int [] p,int lowerBound){
+        for (int i = min; i <= max; i++) {
+            if (left.charAt(i - 1) == rightJ) {
+                // diagonally left and up
+                d[i] = p[i - 1];
+            } else {
+                // 1 + minimum of cell to the left, to the top, diagonally
+                // left and up
+                d[i] = 1 + Math.min(Math.min(d[i - 1], p[i]), p[i - 1]);
+            }
+            lowerBound = Math.min(lowerBound, d[i]);
+        }
+
+        return lowerBound;
+    }
+
+    private static int setMax(int j, int threshold,int n){
+        return j > Integer.MAX_VALUE - threshold ? n : Math.min(
+                n, j + threshold);
+    }
+
+    private static int getEditDistanceWithZeroN(int m,int threshold){
+        return m <= threshold ? m : -1;
+    }
+
+    private static int getEditDistanceWithZeroM(int n,int threshold){
+        return n <= threshold ? n : -1;
     }
 
     /**
