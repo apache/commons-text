@@ -160,9 +160,7 @@ public class StringsComparator {
             final EditScript<Character> script) {
         final Snake middle = getMiddleSnake(start1, end1, start2, end2);
 
-        if (middle == null
-                || middle.getStart() == end1 && middle.getDiag() == end1 - end2
-                || middle.getEnd() == start1 && middle.getDiag() == start1 - start2) {
+        if (isMiddleProper(middle,end1,end2,start1,start2)) {
 
             int i = start1;
             int j = start2;
@@ -192,6 +190,12 @@ public class StringsComparator {
                         middle.getEnd() - middle.getDiag(), end2,
                         script);
         }
+    }
+
+    private boolean isMiddleProper(Snake middle, int end1, int end2, int start1,int start2){
+        return (middle == null
+                || middle.getStart() == end1 && middle.getDiag() == end1 - end2
+                || middle.getEnd() == start1 && middle.getDiag() == start1 - start2);
     }
 
     /**

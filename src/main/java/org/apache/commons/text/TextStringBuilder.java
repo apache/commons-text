@@ -2438,12 +2438,12 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return The last index of the string, or -1 if not found
      */
     public int lastIndexOf(final String str, int startIndex) {
-        startIndex = startIndex >= size ? size - 1 : startIndex;
-        if (str == null || startIndex < 0) {
+        startIndex = setStartIndex(startIndex);
+        if (isIndexWrong(str,startIndex)) {
             return StringUtils.INDEX_NOT_FOUND;
         }
         final int strLen = str.length();
-        if (strLen > 0 && strLen <= size) {
+        if (hasStringProperSize(strLen)) {
             if (strLen == 1) {
                 return lastIndexOf(str.charAt(0), startIndex);
             }
@@ -2461,6 +2461,18 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             return startIndex;
         }
         return StringUtils.INDEX_NOT_FOUND;
+    }
+
+    private int setStartIndex(int startIndex){
+        return startIndex >= size ? size - 1 : startIndex;
+    }
+
+    private boolean isIndexWrong(String str, int startIndex){
+        return (str == null || startIndex < 0);
+    }
+
+    private boolean hasStringProperSize(int strLen){
+        return (strLen > 0 && strLen <= size);
     }
 
     /**
