@@ -32,7 +32,6 @@ public class StrMatcherTest  {
 
     private static final char[] BUFFER2 = "abcdef".toCharArray();
 
-
     @Test
     public void testCharMatcher_char() {
         final StrMatcher matcher = StrMatcher.charMatcher('c');

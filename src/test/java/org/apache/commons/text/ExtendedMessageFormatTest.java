@@ -508,7 +508,6 @@ public class ExtendedMessageFormatTest {
         }
     }
 
-
     @Test
     public void testSetFormatByArgumentIndexIsUnsupported() {
         assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> {

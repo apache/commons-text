@@ -40,7 +40,6 @@ public class FuzzyScore {
      */
     private final Locale locale;
 
-
     /**
      * This returns a {@link Locale}-specific {@link FuzzyScore}.
      *

@@ -123,7 +123,6 @@ public class StringEscapeUtilsTest {
         assertFalse(Modifier.isFinal(StringEscapeUtils.class.getModifiers()));
     }
 
-
     // HTML and XML
     @Test
     public void testDeleteCharacter() {
@@ -256,8 +255,6 @@ public void testEscapeEcmaScript() {
         //        String unescapedFromEntity = StringEscapeUtils.unescapeHtml4("&#119650;");
         //        assertEquals("High Unicode should have been unescaped", original, unescapedFromEntity);
     }
-
-
 
     @Test
     public void testEscapeHtmlThree() {
