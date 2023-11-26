@@ -79,7 +79,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
     /**
      * The main method for running the JavaPlatformStringLookup.
      *
-     * @param args the standard java main method parameter which is unused for our running of this class.
+     * @param args the standard Java main method parameter which is unused for our running of this class.
      */
     public static void main(final String[] args) {
         System.out.println(JavaPlatformStringLookup.class);
