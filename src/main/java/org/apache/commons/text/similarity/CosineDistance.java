@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text.similarity;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -40,10 +41,26 @@ public class CosineDistance implements EditDistance<Double> {
         final CharSequence[] leftTokens = RegexTokenizer.INSTANCE.apply(left);
         final CharSequence[] rightTokens = RegexTokenizer.INSTANCE.apply(right);
 
-        final Map<CharSequence, Integer> leftVector = Counter.of(leftTokens);
-        final Map<CharSequence, Integer> rightVector = Counter.of(rightTokens);
+        final Map<CharSequence, Integer> leftVector = of(leftTokens);
+        final Map<CharSequence, Integer> rightVector = of(rightTokens);
         final double similarity = CosineSimilarity.INSTANCE.cosineSimilarity(leftVector, rightVector);
         return 1.0 - similarity;
+    }
+
+    /**
+     * Counts how many times each element provided occurred in an array and
+     * returns a dict with the element as key and the count as value.
+     *
+     * @param tokens array of tokens
+     * @return dict, where the elements are key, and the count the value
+     */
+    public static Map<CharSequence, Integer> of(final CharSequence[] tokens) {
+        final Map<CharSequence, Integer> innerCounter = new HashMap<>();
+        for (final CharSequence token : tokens) {
+            final Integer integer = innerCounter.get(token);
+            innerCounter.put(token, integer != null ? integer + 1 : 1);
+        }
+        return innerCounter;
     }
 
 }
