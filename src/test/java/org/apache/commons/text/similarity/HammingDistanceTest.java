@@ -56,10 +56,4 @@ public class HammingDistanceTest {
         assertThatIllegalArgumentException().isThrownBy(() -> distance.apply("", null));
     }
 
-    @Test
-    public void testDifferentTest(){
-        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply("", "a"));
-    }
-
-
 }

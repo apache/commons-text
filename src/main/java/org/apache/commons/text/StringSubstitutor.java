@@ -656,7 +656,7 @@ public class StringSubstitutor {
      * @param varName the variable name to check
      * @param priorVariables the list of prior variables
      */
-    public void checkCyclicSubstitution(final String varName, final List<String> priorVariables) {
+    private void checkCyclicSubstitution(final String varName, final List<String> priorVariables) {
         if (!priorVariables.contains(varName)) {
             return;
         }

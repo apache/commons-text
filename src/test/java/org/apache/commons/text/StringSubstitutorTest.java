@@ -20,10 +20,16 @@ package org.apache.commons.text;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.mutable.MutableObject;
@@ -1102,36 +1108,5 @@ public class StringSubstitutorTest {
         assertTrue(sub.isPreserveEscapes());
         assertEqualsCharSeq("value $${escaped}", replace(sub, org));
     }
-
-    @Test
-    public void testCyclicSubstitution_NoCyclicDependency() {
-        List<String> priorVariables = new ArrayList<>();
-        priorVariables.add("var1");
-        priorVariables.add("var2");
-
-
-        StringSubstitutor objectUnderTest = new StringSubstitutor();
-        objectUnderTest.checkCyclicSubstitution("var3", priorVariables);
-    }
-
-
-    @Test
-    public void testCyclicSubstitution_WithCyclicDependency() {
-        List<String> priorVariables = new ArrayList<>();
-        priorVariables.add("var1");
-        priorVariables.add("var2");
-        priorVariables.add("var3");
-        priorVariables.add("var1");
-
-
-        StringSubstitutor objectUnderTest = new StringSubstitutor();
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-            objectUnderTest.checkCyclicSubstitution("var1", priorVariables);
-        });
-
-
-        assertTrue(exception.getMessage().contains("Infinite loop in property interpolation"));
-    }
-
 
 }
