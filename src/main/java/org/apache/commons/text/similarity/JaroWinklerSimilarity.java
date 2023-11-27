@@ -160,8 +160,15 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
         if (m == 0) {
             return 0d;
         }
-        final double j = (m / left.length() + m / right.length() + (m - (double) mtp[1] / 2) / m) / 3;
-        return j < 0.7d ? j : j + defaultScalingFactor * mtp[2] * (1d - j);
+
+        final double matchingRatioLeft = m / left.length();
+        final double matchingRatioRight = m / right.length();
+        final double matchingRatioMiddle = (m - (double) mtp[1] / 2) / m;
+
+        final double j = (matchingRatioLeft + matchingRatioRight + matchingRatioMiddle) / 3;
+        final double threshold = 0.7d;
+
+        return j < threshold ? j : j + defaultScalingFactor * mtp[2] * (1d - j);
     }
 
 }
