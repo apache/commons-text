@@ -54,14 +54,10 @@ public class CosineSimilarity {
         final Set<CharSequence> intersection = getIntersection(leftVector, rightVector);
 
         final double dotProduct = dot(leftVector, rightVector, intersection);
-        double d1 = 0.0d;
-        for (final Integer value : leftVector.values()) {
-            d1 += Math.pow(value, 2);
-        }
-        double d2 = 0.0d;
-        for (final Integer value : rightVector.values()) {
-            d2 += Math.pow(value, 2);
-        }
+
+        double d1 = calculateMagnitude(leftVector);
+        double d2 = calculateMagnitude(rightVector);
+
         final double cosineSimilarity;
         if (d1 <= 0.0 || d2 <= 0.0) {
             cosineSimilarity = 0.0;
@@ -69,6 +65,22 @@ public class CosineSimilarity {
             cosineSimilarity = dotProduct / (Math.sqrt(d1) * Math.sqrt(d2));
         }
         return cosineSimilarity;
+    }
+
+    /**
+     * Calculates the magnitude of a vector represented by the given map of character sequences and their corresponding integer values.
+     *
+     * The magnitude of a vector is computed as the square root of the sum of the squares of its components.
+     *
+     * @param vector A map representing a vector, where keys are character sequences and values are corresponding integer components.
+     * @return The magnitude of the vector.
+     */
+    private double calculateMagnitude(Map<CharSequence, Integer> vector) {
+        double magnitude = 0.0d;
+        for (Integer value : vector.values()) {
+            magnitude += Math.pow(value, 2);
+        }
+        return magnitude;
     }
 
     /**
