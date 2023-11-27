@@ -58,18 +58,65 @@ final class LocalHostStringLookup extends AbstractStringLookup {
             return null;
         }
         try {
-            switch (key) {
-            case InetAddressKeys.KEY_NAME:
-                return InetAddress.getLocalHost().getHostName();
-            case InetAddressKeys.KEY_CANONICAL_NAME:
-                return InetAddress.getLocalHost().getCanonicalHostName();
-            case InetAddressKeys.KEY_ADDRESS:
-                return InetAddress.getLocalHost().getHostAddress();
-            default:
-                throw new IllegalArgumentException(key);
-            }
+            InetAddressLookupStrategy strategy = InetAddressLookupStrategyFactory.createStrategy(key);
+            return strategy.lookup();
         } catch (final UnknownHostException e) {
             return null;
+        }
+    }
+
+    /**
+     * Interface for InetAddress lookup strategies.
+     */
+    private interface InetAddressLookupStrategy {
+        String lookup() throws UnknownHostException;
+    }
+
+    /**
+     * Strategy for InetAddress lookup by host name.
+     */
+    private static class HostNameLookupStrategy implements InetAddressLookupStrategy {
+        @Override
+        public String lookup() throws UnknownHostException {
+            return InetAddress.getLocalHost().getHostName();
+        }
+    }
+
+    /**
+     * Strategy for InetAddress lookup by canonical host name.
+     */
+    private static class CanonicalNameLookupStrategy implements InetAddressLookupStrategy {
+        @Override
+        public String lookup() throws UnknownHostException {
+            return InetAddress.getLocalHost().getCanonicalHostName();
+        }
+    }
+
+    /**
+     * Strategy for InetAddress lookup by host address.
+     */
+    private static class AddressLookupStrategy implements InetAddressLookupStrategy {
+        @Override
+        public String lookup() throws UnknownHostException {
+            return InetAddress.getLocalHost().getHostAddress();
+        }
+    }
+
+    /**
+     * Factory for creating the appropriate InetAddress lookup strategy.
+     */
+    private static class InetAddressLookupStrategyFactory {
+        static InetAddressLookupStrategy createStrategy(String key) {
+            switch (key) {
+                case InetAddressKeys.KEY_NAME:
+                    return new HostNameLookupStrategy();
+                case InetAddressKeys.KEY_CANONICAL_NAME:
+                    return new CanonicalNameLookupStrategy();
+                case InetAddressKeys.KEY_ADDRESS:
+                    return new AddressLookupStrategy();
+                default:
+                    throw new IllegalArgumentException(key);
+            }
         }
     }
 }
