@@ -232,74 +232,72 @@ public class StringsComparator {
      */
     private Snake getMiddleSnake(final int start1, final int end1, final int start2, final int end2) {
         // Myers Algorithm
-        // Initialisations
-        final int m = end1 - start1;
-        final int n = end2 - start2;
-        if (m == 0 || n == 0) {
+        // Initializations
+        final int length1 = end1 - start1;
+        final int length2 = end2 - start2;
+        if (length1 == 0 || length2 == 0) {
             return null;
         }
 
-        final int delta  = m - n;
-        final int sum    = n + m;
+        final int delta = length1 - length2;
+        final int sum = length2 + length1;
         final int offset = (sum % 2 == 0 ? sum : sum + 1) / 2;
         vDown[1 + offset] = start1;
-        vUp[1 + offset]   = end1 + 1;
+        vUp[1 + offset] = end1 + 1;
 
-        for (int d = 0; d <= offset; ++d) {
+        for (int distance = 0; distance <= offset; ++distance) {
             // Down
-            for (int k = -d; k <= d; k += 2) {
+            for (int diagonal = -distance; diagonal <= distance; diagonal += 2) {
                 // First step
-
-                final int i = k + offset;
-                if (k == -d || k != d && vDown[i - 1] < vDown[i + 1]) {
-                    vDown[i] = vDown[i + 1];
+                final int currentDiagonal = diagonal + offset;
+                if (diagonal == -distance || (diagonal != distance && vDown[currentDiagonal - 1] < vDown[currentDiagonal + 1])) {
+                    vDown[currentDiagonal] = vDown[currentDiagonal + 1];
                 } else {
-                    vDown[i] = vDown[i - 1] + 1;
+                    vDown[currentDiagonal] = vDown[currentDiagonal - 1] + 1;
                 }
 
-                int x = vDown[i];
-                int y = x - start1 + start2 - k;
+                int index1 = vDown[currentDiagonal];
+                int index2 = index1 - start1 + start2 - diagonal;
 
-                while (x < end1 && y < end2 && left.charAt(x) == right.charAt(y)) {
-                    vDown[i] = ++x;
-                    ++y;
+                while (index1 < end1 && index2 < end2 && left.charAt(index1) == right.charAt(index2)) {
+                    vDown[currentDiagonal] = ++index1;
+                    ++index2;
                 }
                 // Second step
-                if (delta % 2 != 0 && delta - d <= k && k <= delta + d) {
-                    if (vUp[i - delta] <= vDown[i]) { // NOPMD
-                        return buildSnake(vUp[i - delta], k + start1 - start2, end1, end2);
+                if (delta % 2 != 0 && delta - distance <= diagonal && diagonal <= delta + distance) {
+                    if (vUp[currentDiagonal - delta] <= vDown[currentDiagonal]) {
+                        return buildSnake(vUp[currentDiagonal - delta], diagonal + start1 - start2, end1, end2);
                     }
                 }
             }
 
             // Up
-            for (int k = delta - d; k <= delta + d; k += 2) {
+            for (int diagonal = delta - distance; diagonal <= delta + distance; diagonal += 2) {
                 // First step
-                final int i = k + offset - delta;
-                if (k == delta - d
-                        || k != delta + d && vUp[i + 1] <= vUp[i - 1]) {
-                    vUp[i] = vUp[i + 1] - 1;
+                final int currentDiagonal = diagonal + offset - delta;
+                if (diagonal == delta - distance || (diagonal != delta + distance && vUp[currentDiagonal + 1] <= vUp[currentDiagonal - 1])) {
+                    vUp[currentDiagonal] = vUp[currentDiagonal + 1] - 1;
                 } else {
-                    vUp[i] = vUp[i - 1];
+                    vUp[currentDiagonal] = vUp[currentDiagonal - 1];
                 }
 
-                int x = vUp[i] - 1;
-                int y = x - start1 + start2 - k;
-                while (x >= start1 && y >= start2
-                        && left.charAt(x) == right.charAt(y)) {
-                    vUp[i] = x--;
-                    y--;
+                int index1 = vUp[currentDiagonal] - 1;
+                int index2 = index1 - start1 + start2 - diagonal;
+
+                while (index1 >= start1 && index2 >= start2 && left.charAt(index1) == right.charAt(index2)) {
+                    vUp[currentDiagonal] = index1--;
+                    index2--;
                 }
                 // Second step
-                if (delta % 2 == 0 && -d <= k && k <= d) {
-                    if (vUp[i] <= vDown[i + delta]) { // NOPMD
-                        return buildSnake(vUp[i], k + start1 - start2, end1, end2);
+                if (delta % 2 == 0 && -distance <= diagonal && diagonal <= distance) {
+                    if (vUp[currentDiagonal] <= vDown[currentDiagonal + delta]) {
+                        return buildSnake(vUp[currentDiagonal], diagonal + start1 - start2, end1, end2);
                     }
                 }
             }
         }
 
-        // this should not happen
+        // This should not happen
         throw new IllegalStateException("Internal Error");
     }
 
