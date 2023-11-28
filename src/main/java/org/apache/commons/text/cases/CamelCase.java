@@ -32,8 +32,9 @@ public final class CamelCase extends UpperCaseDelimitedCase {
     /**
      * Constructs new CamelCase instance.
      */
-    private CamelCase() {
-        super(true);
-    }
+
+      private CamelCase() {
+          super(true);
+      }
 
 }

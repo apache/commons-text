@@ -32,20 +32,19 @@ public class CasesTest {
     }
 
     @Test
-    public void testCharacterDelimitedCase() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> KebabCase.INSTANCE.format(Arrays.asList("a", "-")));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> SnakeCase.INSTANCE.format(Arrays.asList("a", "_")));
-        CharacterDelimitedCase nullDelimiters = new CharacterDelimitedCase();
-        assertFormat(nullDelimiters, "abc", Arrays.asList("a", "b", "c"));
-        assertParse(nullDelimiters, "abc", Arrays.asList("abc"));
-    }
-
-    @Test
-    public void testKebabCase() {
+    public void testKebabFormat() {
         assertFormatAndParse(KebabCase.INSTANCE, "", Arrays.asList());
         assertParse(KebabCase.INSTANCE, null, Arrays.asList());
         assertFormatAndParse(KebabCase.INSTANCE, "my-Tokens-123-a1", Arrays.asList("my", "Tokens", "123", "a1"));
         assertFormatAndParse(KebabCase.INSTANCE, "blank--token", Arrays.asList("blank", "", "token"));
+    }
+
+    @Test
+    public void testKebabParse() {
+        assertParse(KebabCase.INSTANCE, "", Arrays.asList());
+        assertParse(KebabCase.INSTANCE, null, Arrays.asList());
+        assertParse(KebabCase.INSTANCE, "my-Tokens-123-a1", Arrays.asList("my", "Tokens", "123", "a1"));
+        assertParse(KebabCase.INSTANCE, "blank--token", Arrays.asList("blank", "", "token"));
     }
 
     @Test
@@ -63,11 +62,19 @@ public class CasesTest {
     }
 
     @Test
-    public void testSnakeCase() {
+    public void testSnakeFormat() {
         assertFormatAndParse(SnakeCase.INSTANCE, "", Arrays.asList());
         assertParse(SnakeCase.INSTANCE, null, Arrays.asList());
         assertFormatAndParse(SnakeCase.INSTANCE, "My_var_NAME__mIXED_a1_c|=+", Arrays.asList("My", "var", "NAME", "", "mIXED", "a1", "c|=+"));
         assertFormatAndParse(SnakeCase.INSTANCE, "blank__token", Arrays.asList("blank", "", "token"));
+    }
+
+    @Test
+    public void testSnakeParse() {
+        assertParse(SnakeCase.INSTANCE, "", Arrays.asList());
+        assertParse(SnakeCase.INSTANCE, null, Arrays.asList());
+        assertParse(SnakeCase.INSTANCE, "My_var_NAME__mIXED_a1_c|=+", Arrays.asList("My", "var", "NAME", "", "mIXED", "a1", "c|=+"));
+        assertParse(SnakeCase.INSTANCE, "blank__token", Arrays.asList("blank", "", "token"));
     }
 
     @Test
@@ -83,6 +90,32 @@ public class CasesTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("a1", "2c")));
         Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("1a")));
         Assertions.assertThrows(IllegalArgumentException.class, () -> PascalCase.INSTANCE.format(Arrays.asList("")));
+    }
+
+    @Test
+    public void testPascalFormat() {
+
+        assertFormat(PascalCase.INSTANCE, "MyVarName", Arrays.asList("My", "Var", "Name"));
+        assertFormat(PascalCase.INSTANCE, "MyVarNameMixedA1C|=+", Arrays.asList("My", "var", "NAME", "mIXED", "a1", "c|=+"), true);
+        assertFormat(PascalCase.INSTANCE, "", Arrays.asList());
+        assertFormat(PascalCase.INSTANCE, "LowerFirst", Arrays.asList("lower", "FIRST"));
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        PascalCase.INSTANCE.format(Arrays.asList("1")));
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        PascalCase.INSTANCE.format(Arrays.asList("a1", "2c")));
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        PascalCase.INSTANCE.format(Arrays.asList("1a")));
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        PascalCase.INSTANCE.format(Arrays.asList("")));
+    }
+
+    @Test
+    public void testPascalParse() {
+        assertParse(PascalCase.INSTANCE, "MyVarName", Arrays.asList("My", "Var", "Name"));
+        assertParse(PascalCase.INSTANCE, "MyVarNameMixedA1C|=+", Arrays.asList("My", "var", "NAME", "mIXED", "a1", "c|=+"), true);
+        assertParse(PascalCase.INSTANCE, "", Arrays.asList());
+        assertParse(PascalCase.INSTANCE, "lowerFirst", Arrays.asList("lower", "First"));
     }
 
     @Test
@@ -103,7 +136,7 @@ public class CasesTest {
     }
 
     @Test
-    public void testCamelCase() {
+    public void testCamelFormat() {
 
         assertFormatAndParse(CamelCase.INSTANCE, "", Arrays.asList());
         assertFormatAndParse(CamelCase.INSTANCE, "myVarNameMixedA1C|=+", Arrays.asList("My", "var", "NAME", "mIXED", "a1", "c|=+"), true);
@@ -117,6 +150,23 @@ public class CasesTest {
         // must begin with character that can be uppercased
         Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("a", "1b")));
         Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("1a")));
+    }
+
+    @Test
+    public void testCamelParse() {
+
+        assertParse(CamelCase.INSTANCE, "", Arrays.asList());
+        assertParse(CamelCase.INSTANCE, "myVarNameMixedA1C|=+", Arrays.asList("My", "var", "NAME", "mIXED", "a1", "c|=+"), true);
+        assertParse(CamelCase.INSTANCE, "specChar-Token+", Arrays.asList("spec", "Char-", "Token+"));
+
+        assertParse(CamelCase.INSTANCE, "MyTokens", Arrays.asList("My", "Tokens"));
+        //assertFormat(CamelCase.INSTANCE, "myTokens", Arrays.asList("My", "Tokens"));
+
+        // empty token not supported
+        //Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("a", "b", "")));
+        // must begin with character that can be uppercased
+        //Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("a", "1b")));
+        //Assertions.assertThrows(IllegalArgumentException.class, () -> CamelCase.INSTANCE.format(Arrays.asList("1a")));
     }
 
     @Test

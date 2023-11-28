@@ -16,22 +16,36 @@
  */
 package org.apache.commons.text.cases;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.text.StringTokenizer;
+import org.apache.commons.text.TokenFormatterFactory;
+import org.apache.commons.text.TokenStringifier;
+import org.apache.commons.text.matcher.StringMatcherFactory;
+
 
 /**
  * Case implementation which parses and formats strings where tokens are delimited by upper case characters.
  */
 public class UpperCaseDelimitedCase implements Case {
 
-    /** Flag to indicate whether the first character of the first token should be upper case. */
-    private boolean lowerCaseFirstCharacter = false;
+    /**
+     * The tokenizer.
+     */
+    private StringTokenizer tokenizer;
+
+    /**
+     * The stringifier.
+     */
+    private TokenStringifier stringifier;
 
     /**
      * Constructs a new UpperCaseDelimitedCase instance.
      */
     UpperCaseDelimitedCase(boolean lowerCaseFirstCharacter) {
-        this.lowerCaseFirstCharacter = lowerCaseFirstCharacter;
+        tokenizer = new StringTokenizer((String) null, StringMatcherFactory.INSTANCE.uppercaseMatcher());
+        tokenizer.setOmitDelimiterMatches(false);
+        stringifier = new TokenStringifier(TokenFormatterFactory.emptyFormatter(), new PascalTokenFormatter(lowerCaseFirstCharacter));
     }
 
     /**
@@ -47,35 +61,8 @@ public class UpperCaseDelimitedCase implements Case {
      */
     @Override
     public List<String> parse(String string) {
-        List<String> tokens = new ArrayList<>();
-        if (string == null || string.isEmpty()) {
-            return tokens;
-        }
-        if (lowerCaseFirstCharacter) {
-            toLowerCase(string.codePointAt(0));
-        } else {
-            toUpperCase(string.codePointAt(0));
-        }
-        int strLen = string.length();
-        int[] tokenCodePoints = new int[strLen];
-        int tokenCodePointsOffset = 0;
-        for (int i = 0; i < string.length();) {
-            final int codePoint = string.codePointAt(i);
-            if (Character.isUpperCase(codePoint)) {
-                if (tokenCodePointsOffset > 0) {
-                    tokens.add(new String(tokenCodePoints, 0, tokenCodePointsOffset));
-                    tokenCodePoints = new int[strLen];
-                    tokenCodePointsOffset = 0;
-                }
-                tokenCodePoints[tokenCodePointsOffset++] = codePoint;
-                i += Character.charCount(codePoint);
-            } else {
-                tokenCodePoints[tokenCodePointsOffset++] = codePoint;
-                i += Character.charCount(codePoint);
-            }
-        }
-        tokens.add(new String(tokenCodePoints, 0, tokenCodePointsOffset));
-        return tokens;
+        tokenizer.reset(string);
+        return tokenizer.getTokenList();
     }
 
     /**
@@ -97,72 +84,9 @@ public class UpperCaseDelimitedCase implements Case {
      */
     @Override
     public String format(Iterable<String> tokens) {
-        StringBuilder formattedString = new StringBuilder();
-        int tokenIndex = 0;
-        for (String token : tokens) {
-            if (token.length() == 0) {
-                throw new IllegalArgumentException("Unsupported empty token at index " + tokenIndex);
-            }
-            for (int i = 0; i < token.length();) {
-                final int codePoint = token.codePointAt(i);
-                int codePointFormatted = codePoint;
-                if (i == 0 && tokenIndex == 0 && lowerCaseFirstCharacter) {
-                    codePointFormatted = toLowerCase(codePoint);
-                } else if (i == 0) {
-                    codePointFormatted = toUpperCase(codePoint);
-                } else if (Character.isUpperCase(codePointFormatted) || Character.isTitleCase(codePointFormatted)) {
-                    //if character is title or upper case, it must be converted to lower
-                    codePointFormatted = toLowerCase(codePoint);
-                }
-                formattedString.appendCodePoint(codePointFormatted);
-                i += Character.charCount(codePoint);
-            }
-            tokenIndex++;
-        }
-        return formattedString.toString();
+        stringifier.reset(tokens);
+        return stringifier.getString();
     }
 
-    /**
-     * Transforms a Unicode code point into upper case using {@link java.lang.Character#toUpperCase} and confirms the
-     * result is upper case.
-     *
-     * @param codePoint the code point to upper case
-     * @return the transformed code point
-     * @throws IllegalArgumentException if the converted code point cannot be mapped into an upper case character
-     */
-    private static int toUpperCase(int codePoint) {
-        int codePointFormatted = Character.toUpperCase(codePoint);
-        if (!Character.isUpperCase(codePointFormatted)) {
-            throw new IllegalArgumentException(createExceptionMessage(codePoint, " cannot be mapped to upper case"));
-        }
-        return codePointFormatted;
-    }
-
-    /**
-     * Transforms a Unicode code point into lower case using {@link java.lang.Character#toLowerCase} and confirms the
-     * result is lower case.
-     *
-     * @param codePoint the code point to lower case
-     * @return the lower case code point that corresponds to the input parameter
-     * @throws IllegalArgumentException if the converted code point cannot be mapped into a lower case character
-     */
-    private static int toLowerCase(int codePoint) {
-        int codePointFormatted = Character.toLowerCase(codePoint);
-        if (!Character.isLowerCase(codePointFormatted)) {
-            throw new IllegalArgumentException(createExceptionMessage(codePoint, " cannot be mapped to lower case"));
-        }
-        return codePointFormatted;
-    }
-
-    /**
-     * Creates an exception message that displays the Unicode character as well as the hex value for clarity.
-     *
-     * @param codePoint the Unicode code point to transform
-     * @param suffix a string suffix for the message
-     * @return the message
-     */
-    private static String createExceptionMessage(int codePoint, String suffix) {
-        return "Character '" + new String(new int[] { codePoint }, 0, 1) + "' with value 0x" + Integer.toHexString(codePoint) + suffix;
-    }
 
 }

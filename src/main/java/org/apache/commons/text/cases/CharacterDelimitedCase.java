@@ -16,136 +16,43 @@
  */
 package org.apache.commons.text.cases;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.CharUtils;
+import org.apache.commons.text.StringTokenizer;
+import org.apache.commons.text.TokenFormatterFactory;
+import org.apache.commons.text.TokenStringifier;
 
-/**
- * DelimitedCase is a case in which the true alphabetic case of the characters is ignored by default,
- * and tokens are determined by the presence of a delimiter between each token.
- */
 public class CharacterDelimitedCase implements Case {
 
-    /** Delimiters to be used when parsing. */
-    private List<Integer> parseDelimiters;
-
-    /** Delimiter to be used when formatting. */
-    private String formatDelimiter;
+    /**
+     * The tokenizer.
+     */
+    private StringTokenizer tokenizer;
 
     /**
-     * Constructs a new Delimited Case with null delimiters.
+     * The stringifier.
      */
-    CharacterDelimitedCase() {
-        this(null, null);
+    private TokenStringifier stringifier;
+
+    /**
+     * Constructs a new CharacterDelimitedCase instance.
+     */
+    protected CharacterDelimitedCase(char delimiter) {
+        tokenizer = new StringTokenizer((String) null, delimiter);
+        tokenizer.setIgnoreEmptyTokens(false);
+        stringifier = new TokenStringifier(TokenFormatterFactory.constantFormatter(delimiter, true), TokenFormatterFactory.noOpFormatter());
     }
 
-    /**
-     * Constructs a new Delimited Case.
-     *
-     * @param delimiter the character to use as both the parse and format delimiter
-     */
-    CharacterDelimitedCase(char delimiter) {
-        this(new char[] { delimiter }, CharUtils.toString(delimiter));
-    }
-
-    /**
-     * Constructs a new delimited case.
-     *
-     * @param parseDelimiters the array of delimiters to use when parsing
-     * @param formatDelimiter the delimiter to use when formatting
-     */
-    CharacterDelimitedCase(char[] parseDelimiters, String formatDelimiter) {
-        super();
-        this.parseDelimiters = generateDelimiterList(parseDelimiters);
-        this.formatDelimiter = formatDelimiter;
-    }
-
-    /**
-     * Formats tokens into Delimited Case.
-     * <p>
-     * Tokens are appended to a string, with a delimiter between them. This method
-     * validates that the delimiter character is not part of the token. If it is found within the
-     * token an exception is thrown.<br>
-     * No other restrictions are placed on the contents of the tokens. Note: This Case does support
-     * empty tokens.<br>
-     * </p>
-     *
-     * @param tokens the tokens to be formatted into a delimited string
-     * @return the delimited string
-     * @throws IllegalArgumentException if any tokens contain the delimiter character
-     */
     @Override
     public String format(Iterable<String> tokens) {
-        StringBuilder formattedString = new StringBuilder();
-        int i = 0;
-        for (String token : tokens) {
-            if (formatDelimiter != null) {
-              int delimiterFoundIndex = token.indexOf(formatDelimiter);
-              if (delimiterFoundIndex > -1) {
-                  throw new IllegalArgumentException("Token " + i + " contains delimiter character '" + formatDelimiter + "' at index " + delimiterFoundIndex);
-              }
-              if (i > 0) {
-                  formattedString.append(formatDelimiter);
-              }
-            }
-            i++;
-            formattedString.append(token);
-        }
-        return formattedString.toString();
+        stringifier.reset(tokens);
+        return stringifier.getString();
     }
 
-    /**
-     * Parses delimited string into tokens.
-     * <p>
-     * Input string is parsed one character at a time until a delimiter is reached.
-     * When a delimiter character is reached a new token begins. The delimiter character is
-     * considered reserved, and is omitted from the returned parsed tokens.<br>
-     * No other restrictions are placed on the contents of the input string. <br>
-     * </p>
-     *
-     * @param string the delimited string to be parsed
-     * @return the list of tokens found in the string
-     */
     @Override
     public List<String> parse(String string) {
-        List<String> tokens = new ArrayList<>();
-        if (string == null || string.isEmpty()) {
-            return tokens;
-        }
-        int strLen = string.length();
-        int[] tokenCodePoints = new int[strLen];
-        int tokenCodePointsOffset = 0;
-        for (int i = 0; i < string.length();) {
-            final int codePoint = string.codePointAt(i);
-            if (parseDelimiters.contains(codePoint)) {
-                tokens.add(new String(tokenCodePoints, 0, tokenCodePointsOffset));
-                tokenCodePoints = new int[strLen];
-                tokenCodePointsOffset = 0;
-                i++;
-            } else {
-                tokenCodePoints[tokenCodePointsOffset++] = codePoint;
-                i += Character.charCount(codePoint);
-            }
-        }
-        tokens.add(new String(tokenCodePoints, 0, tokenCodePointsOffset));
-        return tokens;
-    }
-
-    /**
-     * Converts an array of delimiters to a List of code points.
-     *
-     * @param delimiters array of characters to add to List
-     * @return the List of delimiter characters in the input array
-     */
-    private static List<Integer> generateDelimiterList(final char[] delimiters) {
-        final List<Integer> delimiterHashSet = new ArrayList<>();
-        if (delimiters != null) {
-          for (int index = 0; index < delimiters.length; index++) {
-              delimiterHashSet.add(Character.codePointAt(delimiters, index));
-          }
-        }
-        return delimiterHashSet;
+        tokenizer.reset(string);
+        return tokenizer.getTokenList();
     }
 
 }
