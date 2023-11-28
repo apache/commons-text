@@ -477,7 +477,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          */
         @Override
         public int size() {
-            return 1;
+            throw new UnsupportedOperationException("Uppercase Matcher doesn't support size() method");
         }
     }
 
