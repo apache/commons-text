@@ -449,7 +449,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
          * @param start the starting position for the match, valid for buffer
          * @param bufferStart unused
          * @param bufferEnd unused
-         * @return The number of matching characters, zero for no match
+         * @return the number of matching characters, zero for no match
          */
         @Override
         public int isMatch(char[] buffer, int start, int bufferStart, int bufferEnd) {

@@ -32,6 +32,7 @@ public class Cases {
 
     /**
      * Utility method for converting between cases.
+     *
      * @param string the cased string to parse
      * @param from the case of the existing string
      * @param to the case to convert to
