@@ -152,6 +152,18 @@ import org.apache.commons.text.StringSubstitutor;
  * <td>{@link #xmlStringLookup()}</td>
  * <td>1.5</td>
  * </tr>
+ * <tr>
+ * <td>{@value #KEY_XML_DECODER}</td>
+ * <td>{@link StringLookup}</td>
+ * <td>{@link #xmlDecoderStringLookup()}</td>
+ * <td>1.11.0</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_XML_ENCODER}</td>
+ * <td>{@link StringLookup}</td>
+ * <td>{@link #xmlEncoderStringLookup()}</td>
+ * <td>1.11.0</td>
+ * </tr>
  * </table>
  *
  * <table>
@@ -252,12 +264,14 @@ public final class StringLookupFactory {
             addLookup(DefaultStringLookup.URL_DECODER, lookupMap);
             addLookup(DefaultStringLookup.URL_ENCODER, lookupMap);
             addLookup(DefaultStringLookup.XML, lookupMap);
+            addLookup(DefaultStringLookup.XML_DECODER, lookupMap);
+            addLookup(DefaultStringLookup.XML_ENCODER, lookupMap);
 
             return lookupMap;
         }
 
         /**
-         * Construct a lookup map by parsing the given string. The string is expected to contain
+         * Constructs a lookup map by parsing the given string. The string is expected to contain
          * comma or space-separated names of values from the {@link DefaultStringLookup} enum. If
          * the given string is null or empty, an empty map is returned.
          * @param str string to parse; may be null or empty
@@ -283,7 +297,7 @@ public final class StringLookupFactory {
         private final Map<String, StringLookup> defaultStringLookups;
 
         /**
-         * Construct a new instance initialized with the given properties.
+         * Constructs a new instance initialized with the given properties.
          * @param props initialization properties
          */
         DefaultStringLookupsHolder(final Properties props) {
@@ -296,7 +310,7 @@ public final class StringLookupFactory {
         }
 
         /**
-         * Get the default string lookups map.
+         * Gets the default string lookups map.
          * @return default string lookups map
          */
         Map<String, StringLookup> getDefaultStringLookups() {
@@ -509,6 +523,20 @@ public final class StringLookupFactory {
     public static final String KEY_XML = "xml";
 
     /**
+     * Default lookup key for interpolation {@value #KEY_XML_DECODER}.
+     *
+     * @since 1.11.0
+     */
+    public static final String KEY_XML_DECODER = "xmlDecoder";
+
+    /**
+     * Default lookup key for interpolation {@value #KEY_XML_ENCODER}.
+     *
+     * @since 1.11.0
+     */
+    public static final String KEY_XML_ENCODER = "xmlEncoder";
+
+    /**
      * Name of the system property used to determine the string lookups added by the
      * {@link #addDefaultStringLookups(Map)} method. Use of this property is only required
      * in cases where the set of default lookups must be modified. (See the class documentation
@@ -528,7 +556,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Get a string suitable for use as a key in the string lookup map.
+     * Gets a string suitable for use as a key in the string lookup map.
      * @param key string to convert to a string lookup map key
      * @return string lookup map key
      */
@@ -1282,6 +1310,72 @@ public final class StringLookupFactory {
      */
     public StringLookup urlStringLookup() {
         return UrlStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the XmlDecoderStringLookup singleton instance.
+     * <p>
+     * Decodes strings according to the XML 1.0 specification.
+     * </p>
+     * <p>
+     * For example: "&amp;lt;element&amp;gt;" becomes "&lt;element&gt;".
+     * </p>
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.xmlDecoderStringLookup().lookup("&amp;lt;element&amp;gt;");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${xmlDecoder:&amp;lt;element&amp;gt;} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "&lt;element&gt;"} to {@code "<element>"}.
+     * </p>
+     *
+     * @return The XmlDecoderStringLookup singleton instance.
+     * @since 1.11.0
+     */
+    public StringLookup xmlDecoderStringLookup() {
+        return XmlDecoderStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns the XmlEncoderStringLookup singleton instance.
+     * <p>
+     * Encodes strings according to the XML 1.0 specification.
+     * </p>
+     * <p>
+     * For example: "&lt;element&gt;" becomes "&amp;lt;element&amp;gt;".
+     * </p>
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.xmlEncoderStringLookup().lookup("&lt;element&gt;");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${xmlEncoder:&lt;element&gt;} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "<element>"} to {@code "&lt;element&gt;"}.
+     * </p>
+     *
+     * @return The XmlEncoderStringLookup singleton instance.
+     * @since 1.11.0
+     */
+    public StringLookup xmlEncoderStringLookup() {
+        return XmlEncoderStringLookup.INSTANCE;
     }
 
     /**

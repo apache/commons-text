@@ -67,14 +67,14 @@ public class DoubleFormatPerformance {
         /** Double input array. */
         private double[] input;
 
-        /** Get the input doubles.
+        /** Gets the input doubles.
          * @return the input doubles
          */
         public double[] getInput() {
             return input;
         }
 
-        /** Set up the instance for the benchmark. */
+        /** Sets up the instance for the benchmark. */
         @Setup(Level.Iteration)
         public void setup() {
             input = randomDoubleArray(size, minExp, maxExp,

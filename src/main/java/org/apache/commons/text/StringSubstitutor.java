@@ -368,6 +368,14 @@ public class StringSubstitutor {
      * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML}</td>
      * <td>{@link StringLookupFactory#xmlStringLookup()}</td>
      * </tr>
+     * <tr>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML_DECODER}</td>
+     * <td>{@link StringLookupFactory#xmlDecoderStringLookup()}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML_ENCODER}</td>
+     * <td>{@link StringLookupFactory#xmlEncoderStringLookup()}</td>
+     * </tr>
      * </table>
      *
      * @return a new instance using the interpolator string lookup.
@@ -1539,5 +1547,22 @@ public class StringSubstitutor {
             }
         }
         return new Result(altered, lengthChange);
+    }
+
+    /**
+     * Returns a string representation of the object.
+     *
+     * @return a string representation of the object.
+     * @since 1.11.0
+     */
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("StringSubstitutor [disableSubstitutionInValues=").append(disableSubstitutionInValues).append(", enableSubstitutionInVariables=")
+                .append(enableSubstitutionInVariables).append(", enableUndefinedVariableException=").append(enableUndefinedVariableException)
+                .append(", escapeChar=").append(escapeChar).append(", prefixMatcher=").append(prefixMatcher).append(", preserveEscapes=")
+                .append(preserveEscapes).append(", suffixMatcher=").append(suffixMatcher).append(", valueDelimiterMatcher=").append(valueDelimiterMatcher)
+                .append(", variableResolver=").append(variableResolver).append("]");
+        return builder.toString();
     }
 }

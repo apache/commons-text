@@ -1060,7 +1060,7 @@ public class StringTokenizer implements ListIterator<String>, Cloneable {
     }
 
     /**
-     * Set the quote matcher to use.
+     * Sets the quote matcher to use.
      * <p>
      * The quote character is used to wrap data between the tokens. This enables delimiters to be entered as data.
      * </p>

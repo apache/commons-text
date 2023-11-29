@@ -41,7 +41,7 @@ public enum DefaultStringLookup {
     BASE64_DECODER(StringLookupFactory.KEY_BASE64_DECODER, StringLookupFactory.INSTANCE.base64DecoderStringLookup()),
 
     /**
-     * The lookup for Base64 decoding using the key {@code "base64Encoder"}.
+     * The lookup for Base64 encoding using the key {@code "base64Encoder"}.
      * @see StringLookupFactory#KEY_BASE64_ENCODER
      * @see StringLookupFactory#base64EncoderStringLookup()
      */
@@ -91,7 +91,7 @@ public enum DefaultStringLookup {
     JAVA(StringLookupFactory.KEY_JAVA, StringLookupFactory.INSTANCE.javaPlatformStringLookup()),
 
     /**
-     * The lookup for localhost information using the key {@code "localhost"}.
+     * The lookup for local host information using the key {@code "localhost"}.
      * @see StringLookupFactory#KEY_LOCALHOST
      * @see StringLookupFactory#localHostStringLookup()
      */
@@ -140,18 +140,34 @@ public enum DefaultStringLookup {
     URL_DECODER(StringLookupFactory.KEY_URL_DECODER, StringLookupFactory.INSTANCE.urlDecoderStringLookup()),
 
     /**
-     * The lookup for URL decoding using the key {@code "urlEncoder"}.
+     * The lookup for URL encoding using the key {@code "urlEncoder"}.
      * @see StringLookupFactory#KEY_URL_ENCODER
      * @see StringLookupFactory#urlEncoderStringLookup()
      */
     URL_ENCODER(StringLookupFactory.KEY_URL_ENCODER, StringLookupFactory.INSTANCE.urlEncoderStringLookup()),
 
     /**
-     * The lookup for URL decoding using the key {@code "xml"}.
+     * The lookup for XML decoding using the key {@code "xml"}.
      * @see StringLookupFactory#KEY_XML
      * @see StringLookupFactory#xmlStringLookup()
      */
-    XML(StringLookupFactory.KEY_XML, StringLookupFactory.INSTANCE.xmlStringLookup());
+    XML(StringLookupFactory.KEY_XML, StringLookupFactory.INSTANCE.xmlStringLookup()),
+
+    /**
+     * The lookup for XML decoding using the key {@code "xmlDecoder"}.
+     * @see StringLookupFactory#KEY_XML_DECODER
+     * @see StringLookupFactory#xmlDecoderStringLookup()
+     * @since 1.11.0
+     */
+    XML_DECODER(StringLookupFactory.KEY_XML_DECODER, StringLookupFactory.INSTANCE.xmlDecoderStringLookup()),
+
+    /**
+     * The lookup for XML encoding using the key {@code "xmlEncoder"}.
+     * @see StringLookupFactory#KEY_XML_ENCODER
+     * @see StringLookupFactory#xmlEncoderStringLookup()
+     * @since 1.11.0
+     */
+    XML_ENCODER(StringLookupFactory.KEY_XML_ENCODER, StringLookupFactory.INSTANCE.xmlEncoderStringLookup());
 
     /** The prefix under which the associated lookup object is registered. */
     private final String key;

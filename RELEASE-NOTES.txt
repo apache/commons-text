@@ -1,3 +1,99 @@
+
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+
+Apache Commons Text
+Version 1.11.0
+Release Notes
+
+
+INTRODUCTION:
+
+This document contains the release notes for the 1.11.0 version of Apache Commons Text.
+Commons Text is a set of utility functions and reusable components for the purpose of processing
+and manipulating text that should be of use in a Java environment.
+
+
+Apache Commons Text is a library focused on algorithms working on strings.
+
+Release 1.11.0. Requires Java 8 or above.
+
+Changes in this version include:
+
+New features:
+o TEXT-224:  Set SecureProcessing feature in XmlStringLookup by default. Thanks to PJ Fanning, Gary Gregory.
+o TEXT-224:  Add StringLookupFactory.xmlStringLookup(Map<String, Boolean>...). Thanks to Gary Gregory.
+o            Add @FunctionalInterface to FormatFactory. Thanks to Gary Gregory.
+o            Add RandomStringGenerator.builder(). Thanks to Gary Gregory.
+o TEXT-229:  Add XmlEncoderStringLookup/XmlDecoderStringLookup #449. Thanks to Michael Osipov, Elliotte Rusty Harold, Gary Gregory.
+o            Add StringSubstitutor.toString(). Thanks to Gary Gregory.
+
+Fixed Bugs:
+o TEXT-219:  Fix StringTokenizer.getTokenList to return an independent modifiable list Thanks to Jaap Sperling.
+o            Fix Javadoc for StringEscapeUtils.escapeHtml4 #382 Thanks to James Nord.
+o            TextStringBuidler#hashCode() allocates a String on each call #387. Thanks to Pavel Belousov, Gary Gregory.
+o TEXT-221:  Fix Bundle-SymbolicName to use the package name org.apache.commons.text Thanks to Remco Riswick.
+o            Add and use a package-private singleton for RegexTokenizer. Thanks to Gary Gregory.
+o            Add and use a package-private singleton for CosineSimilarity. Thanks to Gary Gregory.
+o            Add and use a package-private singleton for LongestCommonSubsequence. Thanks to Gary Gregory.
+o            Add and use a package-private singleton for JaroWinklerSimilarity. Thanks to Gary Gregory.
+o            Add and use a package-private singleton for JaccardSimilarity. Thanks to Gary Gregory.
+o            [StepSecurity] ci: Harden GitHub Actions #428. Thanks to step-security-bot, Gary Gregory.
+o            Improve AlphabetConverter Javadoc #429. Thanks to Dimitrios Efthymiou.
+o            Fix exception message in IntersectionResult to make set-theoretic sense #438. Thanks to Dimitrios Efthymiou.
+o            Add null-check in RandomStringGenerator#Builder#selectFrom() to avoid NullPointerException #434. Thanks to Dimitrios Efthymiou, Gary Gregory.
+o            Add null-check in RandomStringGenerator#Builder#withinRange() to avoid NullPointerException. Thanks to Dimitrios Efthymiou, Gary Gregory.
+o TEXT-228:  Fix TextStringBuilder to over-allocate when ensuring capacity #452. Thanks to Alex Herbert, Gary Gregory.
+o            Constructor for ResourceBundleStringLookup should be private instead of package-private. Thanks to Elliotte Rusty Harold, Gary Gregory.
+o            Constructor for UrlDecoderStringLookup should be private instead of package-private. Thanks to Elliotte Rusty Harold, Gary Gregory.
+o            Constructor for UrlEncoderStringLookup should be private instead of package-private. Thanks to Elliotte Rusty Harold, Gary Gregory.
+o TEXT-230:  Javadoc of org.apache.commons.text.lookup.DefaultStringLookup.XML is incorrect. Thanks to Michael Osipov, Gary Gregory.
+o            Update DoubleFormat to state it is based on Double.toString. #467. Thanks to Alex Herbert.
+
+Changes:
+o            Bump actions/cache. Thanks to Dependabot.
+o            Bump actions/setup-java. Thanks to Dependabot.
+o            Bump actions/checkout. Thanks to Dependabot.
+o            Bump pmd from 6.49.0 to 6.52.0 #364. Thanks to Dependabot, Gary Gregory.
+o            Bump commons-rng-simple from 1.4 to 1.5 #370. Thanks to Dependabot.
+o            Bump spotbugs-maven-plugin from 4.7.2.0 to 4.7.3.6 #371, #385. Thanks to Dependabot, Gary Gregory.
+o            Bump spotbugs from 4.7.2 to 4.7.3 #373. Thanks to Dependabot.
+o            Bump mockito-inline from 4.8.0 to 4.11.0 #380, #389, #396, #400. Thanks to Dependabot.
+o            Bump jmh.version from 1.35 to 1.37 #388. Thanks to Dependabot.
+o            Bump commons-parent from 54 to 64 #392, #401. Thanks to Gary Gregory.
+o            Bump assertj-core from 3.23.1 to 3.24.2 #405, #410. Thanks to Dependabot.
+o            Bump maven-checkstyle-plugin from 3.2.0 to 3.2.1 #407. Thanks to Dependabot.
+o            Bump commons-io from 2.11.0 to 2.14.0. Thanks to Gary Gregory.
+o            Bump commons-lang3 from 3.12.0 to 3.13.0. Thanks to Gary Gregory.
+
+
+Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
+
+For complete information on Apache Commons Text, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons Text website:
+
+https://commons.apache.org/proper/commons-text
+
+Download page: https://commons.apache.org/proper/commons-text/download_text.cgi
+
+Have fun!
+-Apache Commons Team
+
+=============================================================================
+
 Apache Commons Text
 Version 1.10.0
 Release Notes
@@ -10,7 +106,7 @@ and manipulating text that should be of use in a Java environment.
 
 Apache Commons Text is a library focused on algorithms working on strings.
 
-Release 1.10.0. Requires Java 8.
+Release 1.10.0. Requires Java 8 or above.
 
 Changes in this version include:
 
@@ -104,7 +200,7 @@ and manipulating text that should be of use in a Java environment.
 
 Apache Commons Text is a library focused on algorithms working on strings.
 
-Release 1.9. Requires Java 8.
+Release 1.9. Requires Java 8 or above.
 
 Changes in this version include:
 

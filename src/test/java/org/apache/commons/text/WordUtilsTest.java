@@ -530,8 +530,6 @@ public class WordUtilsTest {
         assertThat(WordUtils.wrap("abcdefggabcdef", 2, "\n", false, "(?=g)")).isEqualTo("abcdef\n\nabcdef");
     }
 
-
-
     @Test
     public void testWrapAtStartAndEnd() {
         assertThat(WordUtils.wrap("nabcdefabcdefn", 2, "\n", false, "(?=n)")).isEqualTo("\nabcdefabcdef\n");

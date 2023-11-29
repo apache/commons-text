@@ -76,7 +76,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     /**
      * Inner class to allow StrBuilder to operate as a reader.
      */
-    class StrBuilderReader extends Reader {
+    final class StrBuilderReader extends Reader {
 
         /** The current stream position. */
         private int pos;
@@ -167,7 +167,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     /**
      * Inner class to allow StrBuilder to operate as a tokenizer.
      */
-    class StrBuilderTokenizer extends StrTokenizer {
+    final class StrBuilderTokenizer extends StrTokenizer {
 
         /**
          * Default constructor.
@@ -199,7 +199,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     /**
      * Inner class to allow StrBuilder to operate as a writer.
      */
-    class StrBuilderWriter extends Writer {
+    final class StrBuilderWriter extends Writer {
 
         /**
          * Default constructor.
@@ -1302,11 +1302,11 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * </p>
      * <pre>
      * StrBuilder whereClause = new StrBuilder();
-     * if(searchCommand.getPriority() != null) {
+     * if (searchCommand.getPriority() != null) {
      *   whereClause.appendSeparator(" and", " where");
      *   whereClause.append(" priority = ?")
      * }
-     * if(searchCommand.getComponent() != null) {
+     * if (searchCommand.getComponent() != null) {
      *   whereClause.appendSeparator(" and", " where");
      *   whereClause.append(" component = ?")
      * }

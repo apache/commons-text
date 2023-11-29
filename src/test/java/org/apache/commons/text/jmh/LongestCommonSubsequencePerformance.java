@@ -55,7 +55,7 @@ public class LongestCommonSubsequencePerformance {
      * Older implementation of LongestCommonSubsequence.
      * Code is copied from Apache Commons Text version 1.10.0-SNAPSHOT
      */
-    private static class BaselineLongestCommonSubsequence implements SimilarityScore<Integer> {
+    private static final class BaselineLongestCommonSubsequence implements SimilarityScore<Integer> {
         @Override
         public Integer apply(final CharSequence left, final CharSequence right) {
             if (left == null || right == null) {
@@ -115,8 +115,8 @@ public class LongestCommonSubsequencePerformance {
 
         @Setup(Level.Trial)
         public void setup() {
-            final ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            try (InputStream is = classloader.getResourceAsStream("org/apache/commons/text/lcs-perf-analysis-inputs.csv");
+            final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            try (InputStream is = classLoader.getResourceAsStream("org/apache/commons/text/lcs-perf-analysis-inputs.csv");
                  InputStreamReader isr = new InputStreamReader(Objects.requireNonNull(is));
                  BufferedReader br = new BufferedReader(isr)) {
                 String line;

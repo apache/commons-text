@@ -443,7 +443,7 @@ public class StrSubstitutorTest {
     @Test
     public void testReplaceInTakingStringBufferWithNonNull() {
         final StrSubstitutor strSubstitutor =
-                new StrSubstitutor(new HashMap<String, String>(), "WV@i#y?N*[", "WV@i#y?N*[", '*');
+                new StrSubstitutor(new HashMap<>(), "WV@i#y?N*[", "WV@i#y?N*[", '*');
 
         assertFalse(strSubstitutor.isPreserveEscapes());
         assertFalse(strSubstitutor.replaceIn(new StringBuffer("WV@i#y?N*[")));

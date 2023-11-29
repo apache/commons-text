@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-class ParsedDecimalTest {
+public class ParsedDecimalTest {
 
     private static final class FormatOptionsImpl implements ParsedDecimal.FormatOptions {
 
@@ -41,13 +41,13 @@ class ParsedDecimalTest {
 
         private char thousandsGroupingSeparator = ',';
 
-        private boolean groupThousands = false;
+        private boolean groupThousands;
 
         private char minusSign = '-';
 
         private String exponentSeparator = "E";
 
-        private boolean alwaysIncludeExponent = false;
+        private boolean alwaysIncludeExponent;
 
         @Override
         public char getDecimalSeparator() {
@@ -208,7 +208,7 @@ class ParsedDecimalTest {
         return Double.longBitsToDouble(bits | exp << 52);
     }
 
-    /** Get the raw digits in the given decimal as a string.
+    /** Gets the raw digits in the given decimal as a string.
      * @param dec decimal instancE
      * @return decimal digits as a string
      */
@@ -286,7 +286,7 @@ class ParsedDecimalTest {
     }
 
     @Test
-    void testFrom_notFinite() {
+    void testFromNotFinite() {
         // arrange
         final String msg = "Double is not finite";
 

@@ -38,7 +38,6 @@ and commit
 The <action> type attribute can be add,update,fix,remove.
 -->
 
-
 <document xmlns="http://maven.apache.org/changes/1.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
@@ -46,7 +45,12 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Apache Commons Text Changes</title>
   </properties>
   <body>
-  <release version="1.11.0" date="20YY-MM-DD" description="Release 1.10.1. Requires Java 8.">
+  <release version="1.11.1" date="202Y-MM-DD" description="Release 1.11.1. Requires Java 8 or above.">
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-lang3 from 3.13.0 to 3.14.0.</action>
+    <action                  type="update" dev="ggregory" due-to="Dependabot">Bump commons.bytebuddy.version from 1.14.9 to 1.14.10 #476.</action>
+    <action                  type="update" dev="ggregory" due-to="Dependabot">Bump org.codehaus.mojo:exec-maven-plugin from 3.1.0 to 3.1.1 #474.</action>
+  </release>
+  <release version="1.11.0" date="2023-10-24" description="Release 1.11.0. Requires Java 8 or above.">
     <!-- FIX -->
     <action issue="TEXT-219" type="fix" dev="aherbert" due-to="Jaap Sperling">Fix StringTokenizer.getTokenList to return an independent modifiable list</action>
     <action                  type="fix" dev="aherbert" due-to="James Nord">Fix Javadoc for StringEscapeUtils.escapeHtml4 #382</action>
@@ -62,28 +66,36 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="fix" dev="ggregory" due-to="Dimitrios Efthymiou">Fix exception message in IntersectionResult to make set-theoretic sense #438.</action>
     <action                  type="fix" dev="ggregory" due-to="Dimitrios Efthymiou, Gary Gregory">Add null-check in RandomStringGenerator#Builder#selectFrom() to avoid NullPointerException #434.</action>
     <action                  type="fix" dev="ggregory" due-to="Dimitrios Efthymiou, Gary Gregory">Add null-check in RandomStringGenerator#Builder#withinRange() to avoid NullPointerException.</action>
+    <action issue="TEXT-228" type="fix" dev="ggregory" due-to="Alex Herbert, Gary Gregory">Fix TextStringBuilder to over-allocate when ensuring capacity #452.</action>
+    <action                  type="fix" dev="ggregory" due-to="Elliotte Rusty Harold, Gary Gregory">Constructor for ResourceBundleStringLookup should be private instead of package-private.</action>
+    <action                  type="fix" dev="ggregory" due-to="Elliotte Rusty Harold, Gary Gregory">Constructor for UrlDecoderStringLookup should be private instead of package-private.</action>
+    <action                  type="fix" dev="ggregory" due-to="Elliotte Rusty Harold, Gary Gregory">Constructor for UrlEncoderStringLookup should be private instead of package-private.</action>
+    <action issue="TEXT-230" type="fix" dev="ggregory" due-to="Michael Osipov, Gary Gregory">Javadoc of org.apache.commons.text.lookup.DefaultStringLookup.XML is incorrect.</action>
+    <action                  type="fix" dev="ggregory" due-to="Alex Herbert">Update DoubleFormat to state it is based on Double.toString. #467.</action>
     <!-- ADD -->
     <action issue="TEXT-224" type="add" dev="ggregory" due-to="PJ Fanning, Gary Gregory">Set SecureProcessing feature in XmlStringLookup by default.</action>
     <action issue="TEXT-224" type="add" dev="ggregory" due-to="Gary Gregory">Add StringLookupFactory.xmlStringLookup(Map&lt;String, Boolean&gt;...).</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add @FunctionalInterface to FormatFactory.</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add RandomStringGenerator.builder().</action>
+    <action issue="TEXT-229" type="add" dev="ggregory" due-to="Michael Osipov, Elliotte Rusty Harold, Gary Gregory">Add XmlEncoderStringLookup/XmlDecoderStringLookup #449.</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StringSubstitutor.toString().</action>
     <!-- UPDATE -->
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump actions/cache.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump actions/setup-java.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump actions/checkout.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump pmd from 6.49.0 to 6.52.0 #364.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump commons-rng-simple from 1.4 to 1.5 #370.</action>
-    <action                  type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump spotbugs-maven-plugin from 4.7.2.0 to 4.7.3.0 #371, #385.</action>
+    <action                  type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump spotbugs-maven-plugin from 4.7.2.0 to 4.7.3.6 #371, #385.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump spotbugs from 4.7.2 to 4.7.3 #373.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump mockito-inline from 4.8.0 to 4.11.0 #380, #389, #396, #400.</action>
-    <action                  type="update" dev="kinow" due-to="Dependabot">Bump jmh.version from 1.35 to 1.36 #388.</action>
-    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-parent from 54 to 59 #392, #401.</action>
+    <action                  type="update" dev="kinow" due-to="Dependabot">Bump jmh.version from 1.35 to 1.37 #388.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-parent from 54 to 64 #392, #401.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump assertj-core from 3.23.1 to 3.24.2 #405, #410.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump maven-checkstyle-plugin from 3.2.0 to 3.2.1 #407.</action>
-    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io from 2.11.0 to 2.13.0.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io from 2.11.0 to 2.15.0.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-lang3 from 3.12.0 to 3.13.0.</action>
   </release>
-  <release version="1.10.0" date="2022-09-24" description="Release 1.10.0. Requires Java 8.">
+  <release version="1.10.0" date="2022-09-24" description="Release 1.10.0. Requires Java 8 or above.">
     <!-- FIX -->
     <action issue="TEXT-189" type="fix" dev="kinow" due-to="Gongpu Zhu">Fix CaseUtils when the input string contains only delimiters</action>
     <action issue="TEXT-187" type="fix" dev="kinow">Add GraalVM test dependencies to fix test failures with Java 15.</action>
@@ -143,7 +155,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump commons.pmd-impl.version from 6.44.0 to 6.49.0 #323, #336, #345, #350.</action>
     <action                  type="update" dev="kinow" due-to="Dependabot">Bump exec-maven-plugin from 3.0.0 to 3.1.0 #340.</action>
   </release>
-  <release version="1.9" date="2020-07-21" description="Release 1.9. Requires Java 8.">
+  <release version="1.9" date="2020-07-21" description="Release 1.9. Requires Java 8 or above.">
     <action issue="TEXT-166" type="fix" dev="kinow" due-to="Mikko Maunu">Removed non-existing parameter from Javadocs and spelled out parameters in throws.</action>
     <action issue="TEXT-149" type="fix" dev="kinow" due-to="Yuji Konishi">StringEscapeUtils.unescapeCsv doesn't remove quotes at begin and end of string.</action>
     <action issue="TEXT-174" type="fix" dev="ggregory" due-to="furkilic">ScriptStringLookup does not accept ":" #126.</action>
@@ -188,7 +200,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] org.mockito 3.3.3 -> 3.4.4.</action>
   </release>
 
-  <release version="1.8" date="2019-08-30" description="Release 1.8. Requires Java 8.">
+  <release version="1.8" date="2019-08-30" description="Release 1.8. Requires Java 8 or above.">
     <action issue="TEXT-167" type="fix" dev="ggregory" due-to="Larry West">commons-text web page missing "RELEASE-NOTES-1.7.txt"</action>
     <action issue="TEXT-168" type="fix" dev="ggregory" due-to="luksan47">(doc) Fixed wrong value for Jaro-Winkler example #117</action>
     <action issue="TEXT-169" type="add" dev="ggregory" due-to="Gary Gregory">Add helper factory method org.apache.commons.text.StringSubstitutor.createInterpolator().</action>
@@ -198,7 +210,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[site] checkstyle.version 8.21 -> 8.23.</action>
   </release>
 
-  <release version="1.7" date="2019-06-30" description="Release 1.7. Requires Java 8.">
+  <release version="1.7" date="2019-06-30" description="Release 1.7. Requires Java 8 or above.">
     <action issue="TEXT-111" type="fix" dev="kinow" due-to="@CAPS50">WordUtils.wrap must calculate offset increment from wrapOn pattern length</action>
     <action issue="TEXT-104" type="update" dev="kinow" due-to="Sascha Szott">Jaro Winkler Distance refers to similarity</action>
     <action issue="TEXT-148" type="add" dev="ggregory">Add an enum to the lookup package that lists all StringLookups</action>
@@ -216,14 +228,14 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory">Update site from com.puppycrawl.tools:checkstyle 8.18 to 8.21.</action>
   </release>
 
-  <release version="1.6" date="2018-10-12" description="Release 1.6. Requires Java 8.">
+  <release version="1.6" date="2018-10-12" description="Release 1.6. Requires Java 8 or above.">
     <action issue="TEXT-144" type="update" dev="ggregory">Add the resource string bundle string lookup to the default set of lookups</action>
     <action issue="TEXT-145" type="update" dev="ggregory">Add StringLookupFactory methods for the URL encoder and decoder string lookups</action>
     <action issue="TEXT-146" type="update" dev="ggregory">org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup() should reuse a singleton instance</action>
     <action issue="TEXT-147" type="update" dev="ggregory">Add a Base64 encoder string lookup.</action>
   </release>
 
-  <release version="1.5" date="2018-09-29" description="Release 1.5. Requires Java 8.">
+  <release version="1.5" date="2018-09-29" description="Release 1.5. Requires Java 8 or above.">
     <action issue="TEXT-139" type="fix" dev="chtompki" due-to="Nick Wong">Improve JaccardSimilarity computational cost</action>
     <action issue="TEXT-118" type="fix" dev="chtompki" due-to="Nandor Kollar">JSON escaping incorrect for the delete control character</action>
     <action issue="TEXT-130" type="fix" dev="chtompki" due-to="Jan Martin Keil">Fixes JaroWinklerDistance: Wrong results due to precision of transpositions</action>
@@ -240,7 +252,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-143" type="add" dev="ggregory">Add constant string lookup like the one in Apache Commons Configuration.</action>
   </release>
 
-  <release version="1.4" date="2018-06-12" description="Release 1.4. Requires Java 8.">
+  <release version="1.4" date="2018-06-12" description="Release 1.4. Requires Java 8 or above.">
     <action issue="TEXT-120" type="fix" dev="pschumacher">StringEscapeUtils#unescapeJson does not unescape double quotes and forward slash</action>
     <action issue="TEXT-119" type="fix" dev="pschumacher">Remove mention of SQL escaping from user guide</action>
     <action issue="TEXT-121" type="update" dev="ggregory" due-to="pschumacher">Update Java requirement from version 7 to 8.</action>

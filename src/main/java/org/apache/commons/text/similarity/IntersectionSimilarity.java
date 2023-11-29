@@ -106,7 +106,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
         }
 
         /**
-         * Get the number of unique elements in the bag.
+         * Gets the number of unique elements in the bag.
          *
          * @return The unique element size
          */

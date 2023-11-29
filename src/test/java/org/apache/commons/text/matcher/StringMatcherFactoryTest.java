@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  */
 public class StringMatcherFactoryTest {
 
-    private static class StringMatcherDefaults implements StringMatcher {
+    private static final class StringMatcherDefaults implements StringMatcher {
 
         @Override
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {

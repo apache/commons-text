@@ -20,10 +20,10 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>59</version>
+    <version>64</version>
   </parent>
   <artifactId>commons-text</artifactId>
-  <version>1.11.0-SNAPSHOT</version>
+  <version>1.11.1-SNAPSHOT</version>
   <name>Apache Commons Text</name>
   <description>Apache Commons Text is a library focused on algorithms working on strings.</description>
   <url>https://commons.apache.org/proper/commons-text</url>
@@ -39,6 +39,7 @@
     <commons.module.name>org.apache.commons.text</commons.module.name>
 
     <commons.release.version>1.11.0</commons.release.version>
+    <commons.release.next>1.11.1</commons.release.next>
     <commons.release.desc>(Java 8+)</commons.release.desc>
 
     <commons.jira.id>TEXT</commons.jira.id>
@@ -48,12 +49,8 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
+    <commons.bytebuddy.version>1.14.10</commons.bytebuddy.version>
     <commons.mockito.version>4.11.0</commons.mockito.version>
-
-    <!-- apache-rat-plugin 0.13 and jdepend-maven-plugin 2.0 both fail with LinkageError when generating reports 
-    with maven site plugin 3.11+. However, javadoc 3.4.0+ fails with site plugin versions lower than 3.11. So, we'll 
-    use slightly older site and javadoc versions here in order to be able to generate all reports. -->
-    <commons.site-plugin.version>3.10.0</commons.site-plugin.version>
 
     <!-- 22.1.0 requires Java 11 -->
     <graalvm.version>22.0.0.2</graalvm.version>
@@ -64,24 +61,43 @@
     <jmh.version>1.37</jmh.version>
 
     <!-- Commons Release Plugin -->
+    <!-- Previous version of the component (used for reporting binary compatibility check)-->
     <commons.bc.version>1.10.0</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
-    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>
-    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>
+    <!--
+      Define the following in ~/.m2/settings.xml in an active profile:
+      (or provide them on the command line)
+      commons.releaseManagerName
+      commons.releaseManagerKey
+    -->
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.13.0</version>
+      <version>3.14.0</version>
     </dependency>
     <!-- testing -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <!-- Java 21 support, revisit for Mockito 5 -->
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>${commons.bytebuddy.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <!-- Java 21 support, revisit for Mockito 5 -->
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy-agent</artifactId>
+      <version>${commons.bytebuddy.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -93,7 +109,7 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.13.0</version>
+      <version>2.15.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -470,16 +486,6 @@
       </build>
     </profile>
     <profile>
-      <id>java9+</id>
-      <activation>
-        <jdk>[9,)</jdk>
-      </activation>
-      <properties>
-        <!-- coverall version 4.3.0 does not work with java 9+, see https://github.com/trautonen/coveralls-maven-plugin/issues/112 -->
-        <coveralls.skip>true</coveralls.skip>
-      </properties>
-    </profile>
-    <profile>
       <id>benchmark</id>
       <properties>
         <skipTests>true</skipTests>
@@ -490,7 +496,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>3.1.0</version>
+            <version>3.1.1</version>
             <executions>
               <execution>
                 <id>benchmark</id>

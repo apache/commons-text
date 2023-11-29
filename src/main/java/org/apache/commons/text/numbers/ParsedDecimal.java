@@ -43,32 +43,32 @@ final class ParsedDecimal {
     interface FormatOptions {
 
         /**
-         * Get the decimal separator character.
+         * Gets the decimal separator character.
          * @return decimal separator character
          */
         char getDecimalSeparator();
 
         /**
-         * Get an array containing the localized digit characters 0-9 in that order.
+         * Gets an array containing the localized digit characters 0-9 in that order.
          * This string <em>must</em> be non-null and have a length of 10.
          * @return array containing the digit characters 0-9
          */
         char[] getDigits();
 
         /**
-         * Get the exponent separator as an array of characters.
+         * Gets the exponent separator as an array of characters.
          * @return exponent separator as an array of characters
          */
         char[] getExponentSeparatorChars();
 
         /**
-         * Get the character used to separate thousands groupings.
+         * Gets the character used to separate thousands groupings.
          * @return character used to separate thousands groupings
          */
         char getGroupingSeparator();
 
         /**
-         * Get the minus sign character.
+         * Gets the minus sign character.
          * @return minus sign character
          */
         char getMinusSign();
@@ -453,7 +453,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Get sthe exponent that would be used when representing this number in scientific
+     * Gets the exponent that would be used when representing this number in scientific
      * notation (i.e., with a single non-zero digit in front of the decimal point).
      * @return the exponent that would be used when representing this number in scientific
      *      notation
@@ -463,7 +463,7 @@ final class ParsedDecimal {
     }
 
     /**
-     * Returns {@code true} if this value is equal to zero. The sign field is ignored,
+     * Tests {@code true} if this value is equal to zero. The sign field is ignored,
      * meaning that this method will return {@code true} for both {@code +0} and {@code -0}.
      * @return {@code true} if the value is equal to zero
      */
@@ -626,15 +626,19 @@ final class ParsedDecimal {
     }
 
     /**
-     * Returns a string representation of this value in engineering notation. This
-     * is similar to {@link #toScientificString(FormatOptions) scientific notation}
+     * Returns a string representation of this value in engineering notation. This is similar to {@link #toScientificString(FormatOptions) scientific notation}
      * but with the exponent forced to be a multiple of 3, allowing easier alignment with SI prefixes.
+     * <p>
+     * For example:
+     * </p>
+     *
      * <pre>
      * 0 = "0.0"
      * 10 = "10.0"
      * 1e-6 = "1.0E-6"
      * 1e11 = "100.0E9"
      * </pre>
+     *
      * @param opts format options
      * @return value in engineering format
      */
@@ -644,12 +648,17 @@ final class ParsedDecimal {
     }
 
     /**
-     * Returns a string representation of this value with no exponent field. Ex:
+     * Returns a string representation of this value with no exponent field.
+     * <p>
+     * For example:
+     * </p>
+     *
      * <pre>
      * 10 = "10.0"
      * 1e-6 = "0.000001"
      * 1e11 = "100000000000.0"
      * </pre>
+     *
      * @param opts format options
      * @return value in plain format
      */
@@ -671,13 +680,18 @@ final class ParsedDecimal {
     }
 
     /**
-     * Returns a string representation of this value in scientific notation. Ex:
+     * Returns a string representation of this value in scientific notation.
+     * <p>
+     * For example:
+     * </p>
+     *
      * <pre>
      * 0 = "0.0"
      * 10 = "1.0E1"
      * 1e-6 = "1.0E-6"
      * 1e11 = "1.0E11"
      * </pre>
+     *
      * @param opts format options
      * @return value in scientific format
      */

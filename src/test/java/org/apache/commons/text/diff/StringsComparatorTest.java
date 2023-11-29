@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
  * Tests for the StringsComparator.
  */
 public class StringsComparatorTest {
-    private static class ExecutionVisitor<T> implements CommandVisitor<T> {
+    private static final class ExecutionVisitor<T> implements CommandVisitor<T> {
 
         private final StringBuilder v;
 
