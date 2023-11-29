@@ -71,7 +71,8 @@ public class TokenFormatterFactory {
         @Override
         public String format(char[] prior, int tokenIndex, char[] token) {
             if (failOnConstantFound) {
-                for (int i = 0; i < token.length; i++) {
+                int end = token.length - (constant.length - 1);
+                for (int i = 0; i < end; i++) {
                     boolean match = false;
                     int t = i;
                     for (int j = 0; j < constant.length; j++) {
