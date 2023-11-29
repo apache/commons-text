@@ -104,12 +104,12 @@ public class TokenFormatterFactory {
     }
 
     /**
-     * Reuseable NoOpFormatter instance.
+     * Reusable NoOpFormatter instance.
      */
     private static final NoOpFormatter NOOP_FORMATTER = new NoOpFormatter();
 
     /**
-     * Reuseable Empty String formatter instance.
+     * Reusable Empty String formatter instance.
      */
     private static final ConstantTokenFormatter EMPTY_STRING_FORMATTER = new ConstantTokenFormatter(StringUtils.EMPTY, false);
 
