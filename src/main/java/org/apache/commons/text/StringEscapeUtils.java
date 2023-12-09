@@ -55,7 +55,7 @@ public class StringEscapeUtils {
     /* ESCAPE TRANSLATORS */
 
     /**
-     * Convenience wrapper for {@link java.lang.StringBuilder} providing escape methods.
+     * Convenience wrapper for {@link StringBuilder} providing escape methods.
      *
      * <p>Example:</p>
      * <pre>
@@ -703,7 +703,7 @@ public class StringEscapeUtils {
      * Escapes the characters in a {@code String} using XSI rules.
      *
      * <p><b>Beware!</b> In most cases you don't want to escape shell commands but use multi-argument
-     * methods provided by {@link java.lang.ProcessBuilder} or {@link java.lang.Runtime#exec(String[])}
+     * methods provided by {@link ProcessBuilder} or {@link java.lang.Runtime#exec(String[])}
      * instead.</p>
      *
      * <p>Example:</p>
