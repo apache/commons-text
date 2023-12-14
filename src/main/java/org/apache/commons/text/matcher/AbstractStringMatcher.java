@@ -429,7 +429,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
     }
 
     /**
-     * Constructor.
+     * Constructs a new instance.
      */
     protected AbstractStringMatcher() {
     }
