@@ -267,6 +267,9 @@
         </configuration>
       </plugin>
 
+      <!--PiTest v1-->
+
+      
       <!--JaCoCo v1-->
       <plugin>
         <groupId>org.jacoco</groupId>
