@@ -73,7 +73,7 @@
       commons.releaseManagerKey
     -->
 
-    <!--Sonarcloud v1-->
+    <!--Sonarcloud v2-->
     <sonar.organization>7admiral23</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   </properties>
