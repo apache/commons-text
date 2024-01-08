@@ -158,13 +158,6 @@
       <version>${jmh.version}</version>
       <scope>test</scope>
     </dependency>
-
-    <!--PiTest v2
-    <dependency>
-      <groupId>org.pitest</groupId>
-      <artifactId>pitest-junit5-plugin</artifactId>
-      <version>1.1.2</version>
-    </dependency>-->
   </dependencies>
 
   <build>
@@ -274,29 +267,7 @@
         </configuration>
       </plugin>
 
-      <!--PiTest v1
-      <plugin>
-        <groupId>org.pitest</groupId>
-        <artifactId>pitest-maven</artifactId>
-        <version>1.7.0</version>
-        <configuration>
-          <targetClasses>
-            <param>org.apache.commons.text.*</param>
-          </targetClasses>
-          <targetTests>
-            <param>org.apache.commons.text.*Test</param>
-          </targetTests>
-        </configuration>
-      </plugin>-->
-
-      <!--Pitest v2
-      <plugin>
-        <groupId>org.pitest</groupId>
-        <artifactId>pitest-maven</artifactId>
-        <version>1.13.1</version>
-      </plugin> -->
-
-      <!--Pitest v3-->
+      <!--Pitest-->
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
@@ -314,7 +285,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.7</version> <!-- Use the latest version available -->
+        <version>0.8.7</version>
         <executions>
           <execution>
             <goals>
