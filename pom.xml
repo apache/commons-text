@@ -158,6 +158,15 @@
       <version>${jmh.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <!--Evosuite-->
+    <dependency>
+      <groupId>org.evosuite</groupId>
+      <artifactId>evosuite</artifactId>
+      <version>1.2.0</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
