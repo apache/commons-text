@@ -159,13 +159,13 @@
       <scope>test</scope>
     </dependency>
 
-    <!--Evosuite-->
+    <!--Evosuite
     <dependency>
       <groupId>org.evosuite</groupId>
       <artifactId>evosuite</artifactId>
       <version>1.2.0</version>
       <scope>test</scope>
-    </dependency>
+    </dependency> -->
 
   </dependencies>
 
@@ -306,6 +306,20 @@
             <phase>prepare-package</phase>
               <goals>
                 <goal>report</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!--OWASP DC-->
+        <plugin>
+          <groupId>org.owasp</groupId>
+          <artifactId>dependency-check-maven</artifactId>
+          <version>9.0.8</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
               </goals>
             </execution>
           </executions>
