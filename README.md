@@ -113,7 +113,9 @@ Additional Resources
 + [Apache Commons Twitter Account](https://twitter.com/ApacheCommons)
 + `#apache-commons` IRC channel on `irc.freenode.org`
 
-Apache Commons Components
+Notes
 -------------------------
-
-Please see the [list of components](https://commons.apache.org/components.html)
+Sonarcloud: https://sonarcloud.io/summary/overall?id=7admiral23_commons-text
+Jacoco: mvn jacoco:report
+Pitest: mvn org.pitest:pitest-maven:mutationCoverage
+Evosuite: java -jar tools/evosuite-1.2.0.jar -target /media/admiral/ADMIRAL/Documents/UNISA/SwD/January/commons-text/target/classes
