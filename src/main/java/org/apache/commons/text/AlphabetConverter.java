@@ -201,7 +201,7 @@ public final class AlphabetConverter {
                 / (encodingCopy.size() - doNotEncodeCopy.size());
 
         while (lettersLeft / encodingCopy.size() >= 1) {
-            lettersLeft = lettersLeft / encodingCopy.size();
+            lettersLeft /= encodingCopy.size();
             lettersSoFar++;
         }
 
