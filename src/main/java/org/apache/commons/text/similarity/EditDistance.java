@@ -17,7 +17,7 @@
 package org.apache.commons.text.similarity;
 
 /**
- * Interface for <a href="http://en.wikipedia.org/wiki/Edit_distance">Edit Distances</a>.
+ * Interface for <a href="https://en.wikipedia.org/wiki/Edit_distance">Edit Distances</a>.
  *
  * <p>
  * An edit distance is a formal metric on the Kleene closure ({@code X<sup>*</sup>}) over an
