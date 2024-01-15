@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HammingDistance.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.similarity</a> &gt; <span class="el_source">HammingDistance.java</span></div><h1>HammingDistance.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.similarity;
+
+/**
+ * The hamming distance between two strings of equal length is the number of
+ * positions at which the corresponding symbols are different.
+ *
+ * &lt;p&gt;
+ * For further explanation about the Hamming Distance, take a look at its
+ * Wikipedia page at http://en.wikipedia.org/wiki/Hamming_distance.
+ * &lt;/p&gt;
+ *
+ * @since 1.0
+ */
+<span class="fc" id="L30">public class HammingDistance implements EditDistance&lt;Integer&gt; {</span>
+
+    /**
+     * Find the Hamming Distance between two strings with the same
+     * length.
+     *
+     * &lt;p&gt;The distance starts with zero, and for each occurrence of a
+     * different character in either String, it increments the distance
+     * by 1, and finally return its value.&lt;/p&gt;
+     *
+     * &lt;p&gt;Since the Hamming Distance can only be calculated between strings of equal length, input of different lengths
+     * will throw IllegalArgumentException&lt;/p&gt;
+     *
+     * &lt;pre&gt;
+     * distance.apply(&quot;&quot;, &quot;&quot;)               = 0
+     * distance.apply(&quot;pappa&quot;, &quot;pappa&quot;)     = 0
+     * distance.apply(&quot;1011101&quot;, &quot;1011111&quot;) = 1
+     * distance.apply(&quot;ATCG&quot;, &quot;ACCC&quot;)       = 2
+     * distance.apply(&quot;karolin&quot;, &quot;kerstin&quot;  = 3
+     * &lt;/pre&gt;
+     *
+     * @param left the first CharSequence, must not be null
+     * @param right the second CharSequence, must not be null
+     * @return distance
+     * @throws IllegalArgumentException if either input is {@code null} or
+     *             if they do not have the same length
+     */
+    @Override
+    public Integer apply(final CharSequence left, final CharSequence right) {
+<span class="fc bfc" id="L59" title="All 4 branches covered.">        if (left == null || right == null) {</span>
+<span class="fc" id="L60">            throw new IllegalArgumentException(&quot;CharSequences must not be null&quot;);</span>
+        }
+
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (left.length() != right.length()) {</span>
+<span class="nc" id="L64">            throw new IllegalArgumentException(&quot;CharSequences must have the same length&quot;);</span>
+        }
+
+<span class="fc" id="L67">        int distance = 0;</span>
+
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        for (int i = 0; i &lt; left.length(); i++) {</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            if (left.charAt(i) != right.charAt(i)) {</span>
+<span class="fc" id="L71">                distance++;</span>
+            }
+        }
+
+<span class="fc" id="L75">        return distance;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

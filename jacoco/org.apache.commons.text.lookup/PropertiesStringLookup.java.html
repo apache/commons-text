@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PropertiesStringLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.lookup</a> &gt; <span class="el_source">PropertiesStringLookup.java</span></div><h1>PropertiesStringLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache license, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the license for the specific language governing permissions and
+ * limitations under the license.
+ */
+
+package org.apache.commons.text.lookup;
+
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Properties;
+
+import org.apache.commons.lang3.StringUtils;
+
+/**
+ * Looks up keys from a properties file.
+ * &lt;p&gt;
+ * Looks up the value for a given key in the format &quot;Document::Key&quot;.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Note the use of &quot;::&quot; instead of &quot;:&quot; to allow for &quot;C:&quot; drive letters in paths.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * For example: &quot;com/domain/document.properties:key&quot;.
+ * &lt;/p&gt;
+ *
+ * @see Properties
+ * @since 1.5
+ */
+final class PropertiesStringLookup extends AbstractStringLookup {
+
+    /**
+     * Defines the singleton for this class.
+     */
+<span class="fc" id="L47">    static final PropertiesStringLookup INSTANCE = new PropertiesStringLookup();</span>
+
+    /** Separates file and key. */
+    static final String SEPARATOR = &quot;::&quot;;
+
+    /**
+     * Creates a lookup key for a given file and key.
+     */
+    static String toPropertyKey(final String file, final String key) {
+<span class="fc" id="L56">        return AbstractStringLookup.toLookupKey(file, SEPARATOR, key);</span>
+    }
+
+    /**
+     * No need to build instances for now.
+     */
+    private PropertiesStringLookup() {
+        // empty
+    }
+
+    /**
+     * Looks up the value for the key in the format &quot;DocumentPath:XPath&quot;.
+     * &lt;p&gt;
+     * For example: &quot;com/domain/document.xml::/path/to/node&quot;.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * Note the use of &quot;::&quot; instead of &quot;:&quot; to allow for &quot;C:&quot; drive letters in paths.
+     * &lt;/p&gt;
+     *
+     * @param key the key to be looked up, may be null
+     * @return The value associated with the key.
+     */
+    @Override
+    public String lookup(final String key) {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (key == null) {</span>
+<span class="fc" id="L81">            return null;</span>
+        }
+<span class="fc" id="L83">        final String[] keys = key.split(SEPARATOR);</span>
+<span class="fc" id="L84">        final int keyLen = keys.length;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (keyLen &lt; 2) {</span>
+<span class="fc" id="L86">            throw IllegalArgumentExceptions.format(&quot;Bad properties key format [%s]; expected format is %s.&quot;, key,</span>
+<span class="fc" id="L87">                toPropertyKey(&quot;DocumentPath&quot;, &quot;Key&quot;));</span>
+        }
+<span class="fc" id="L89">        final String documentPath = keys[0];</span>
+<span class="fc" id="L90">        final String propertyKey = StringUtils.substringAfter(key, SEPARATOR);</span>
+        try {
+<span class="fc" id="L92">            final Properties properties = new Properties();</span>
+<span class="fc" id="L93">            try (InputStream inputStream = Files.newInputStream(Paths.get(documentPath))) {</span>
+<span class="fc" id="L94">                properties.load(inputStream);</span>
+            }
+<span class="fc" id="L96">            return properties.getProperty(propertyKey);</span>
+<span class="fc" id="L97">        } catch (final Exception e) {</span>
+<span class="fc" id="L98">            throw IllegalArgumentExceptions.format(e, &quot;Error looking up properties [%s] and key [%s].&quot;, documentPath,</span>
+                propertyKey);
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

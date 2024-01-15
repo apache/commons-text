@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FuzzyScore.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.similarity</a> &gt; <span class="el_source">FuzzyScore.java</span></div><h1>FuzzyScore.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.similarity;
+
+import java.util.Locale;
+
+/**
+ * A matching algorithm that is similar to the searching algorithms implemented in editors such
+ * as Sublime Text, TextMate, Atom and others.
+ *
+ * &lt;p&gt;
+ * One point is given for every matched character. Subsequent matches yield two bonus points. A higher score
+ * indicates a higher similarity.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * This code has been adapted from Apache Commons Lang 3.3.
+ * &lt;/p&gt;
+ *
+ * @since 1.0
+ */
+public class FuzzyScore {
+
+    /**
+     * Locale used to change the case of text.
+     */
+    private final Locale locale;
+
+    /**
+     * This returns a {@link Locale}-specific {@link FuzzyScore}.
+     *
+     * @param locale The string matching logic is case insensitive.
+                     A {@link Locale} is necessary to normalize both Strings to lower case.
+     * @throws IllegalArgumentException
+     *         This is thrown if the {@link Locale} parameter is {@code null}.
+     */
+<span class="fc" id="L51">    public FuzzyScore(final Locale locale) {</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (locale == null) {</span>
+<span class="fc" id="L53">            throw new IllegalArgumentException(&quot;Locale must not be null&quot;);</span>
+        }
+<span class="fc" id="L55">        this.locale = locale;</span>
+<span class="fc" id="L56">    }</span>
+
+    /**
+     * Find the Fuzzy Score which indicates the similarity score between two
+     * Strings.
+     *
+     * &lt;pre&gt;
+     * score.fuzzyScore(null, null)                          = IllegalArgumentException
+     * score.fuzzyScore(&quot;not null&quot;, null)                    = IllegalArgumentException
+     * score.fuzzyScore(null, &quot;not null&quot;)                    = IllegalArgumentException
+     * score.fuzzyScore(&quot;&quot;, &quot;&quot;)                              = 0
+     * score.fuzzyScore(&quot;Workshop&quot;, &quot;b&quot;)                     = 0
+     * score.fuzzyScore(&quot;Room&quot;, &quot;o&quot;)                         = 1
+     * score.fuzzyScore(&quot;Workshop&quot;, &quot;w&quot;)                     = 1
+     * score.fuzzyScore(&quot;Workshop&quot;, &quot;ws&quot;)                    = 2
+     * score.fuzzyScore(&quot;Workshop&quot;, &quot;wo&quot;)                    = 4
+     * score.fuzzyScore(&quot;Apache Software Foundation&quot;, &quot;asf&quot;) = 3
+     * &lt;/pre&gt;
+     *
+     * @param term a full term that should be matched against, must not be null
+     * @param query the query that will be matched against a term, must not be
+     *            null
+     * @return result score
+     * @throws IllegalArgumentException if the term or query is {@code null}
+     */
+    public Integer fuzzyScore(final CharSequence term, final CharSequence query) {
+<span class="fc bfc" id="L82" title="All 4 branches covered.">        if (term == null || query == null) {</span>
+<span class="fc" id="L83">            throw new IllegalArgumentException(&quot;CharSequences must not be null&quot;);</span>
+        }
+
+        // fuzzy logic is case insensitive. We normalize the Strings to lower
+        // case right from the start. Turning characters to lower case
+        // via Character.toLowerCase(char) is unfortunately insufficient
+        // as it does not accept a locale.
+<span class="fc" id="L90">        final String termLowerCase = term.toString().toLowerCase(locale);</span>
+<span class="fc" id="L91">        final String queryLowerCase = query.toString().toLowerCase(locale);</span>
+
+        // the resulting score
+<span class="fc" id="L94">        int score = 0;</span>
+
+        // the position in the term which will be scanned next for potential
+        // query character matches
+<span class="fc" id="L98">        int termIndex = 0;</span>
+
+        // index of the previously matched character in the term
+<span class="fc" id="L101">        int previousMatchingCharacterIndex = Integer.MIN_VALUE;</span>
+
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        for (int queryIndex = 0; queryIndex &lt; queryLowerCase.length(); queryIndex++) {</span>
+<span class="fc" id="L104">            final char queryChar = queryLowerCase.charAt(queryIndex);</span>
+
+<span class="fc" id="L106">            boolean termCharacterMatchFound = false;</span>
+<span class="fc bfc" id="L107" title="All 4 branches covered.">            for (; termIndex &lt; termLowerCase.length()</span>
+<span class="fc" id="L108">                    &amp;&amp; !termCharacterMatchFound; termIndex++) {</span>
+<span class="fc" id="L109">                final char termChar = termLowerCase.charAt(termIndex);</span>
+
+<span class="fc bfc" id="L111" title="All 2 branches covered.">                if (queryChar == termChar) {</span>
+                    // simple character matches result in one point
+<span class="fc" id="L113">                    score++;</span>
+
+                    // subsequent character matches further improve
+                    // the score.
+<span class="fc bfc" id="L117" title="All 2 branches covered.">                    if (previousMatchingCharacterIndex + 1 == termIndex) {</span>
+<span class="fc" id="L118">                        score += 2;</span>
+                    }
+
+<span class="fc" id="L121">                    previousMatchingCharacterIndex = termIndex;</span>
+
+                    // we can leave the nested loop. Every character in the
+                    // query can match at most one character in the term.
+<span class="fc" id="L125">                    termCharacterMatchFound = true;</span>
+                }
+            }
+        }
+
+<span class="fc" id="L130">        return score;</span>
+    }
+
+    /**
+     * Gets the locale.
+     *
+     * @return The locale
+     */
+    public Locale getLocale() {
+<span class="fc" id="L139">        return locale;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

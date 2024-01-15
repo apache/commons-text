@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LevenshteinResults.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.similarity</a> &gt; <span class="el_source">LevenshteinResults.java</span></div><h1>LevenshteinResults.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.similarity;
+
+import java.util.Objects;
+
+/**
+ * Container class to store Levenshtein distance between two character sequences.
+ *
+ * &lt;p&gt;Stores the count of insert, deletion and substitute operations needed to
+ * change one character sequence into another.&lt;/p&gt;
+ *
+ * &lt;p&gt;This class is immutable.&lt;/p&gt;
+ *
+ * @since 1.0
+ */
+public class LevenshteinResults {
+
+    /**
+     * Edit distance.
+     */
+    private final Integer distance;
+
+    /**
+     * Insert character count.
+     */
+    private final Integer insertCount;
+
+    /**
+     * Delete character count.
+     */
+    private final Integer deleteCount;
+
+    /**
+     * Substitute character count.
+     */
+    private final Integer substituteCount;
+
+    /**
+     * Constructs the results for a detailed Levenshtein distance.
+     *
+     * @param distance distance between two character sequences.
+     * @param insertCount insert character count
+     * @param deleteCount delete character count
+     * @param substituteCount substitute character count
+     */
+    public LevenshteinResults(final Integer distance, final Integer insertCount, final Integer deleteCount,
+<span class="fc" id="L62">            final Integer substituteCount) {</span>
+<span class="fc" id="L63">        this.distance = distance;</span>
+<span class="fc" id="L64">        this.insertCount = insertCount;</span>
+<span class="fc" id="L65">        this.deleteCount = deleteCount;</span>
+<span class="fc" id="L66">        this.substituteCount = substituteCount;</span>
+<span class="fc" id="L67">    }</span>
+
+    @Override
+    public boolean equals(final Object o) {
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (this == o) {</span>
+<span class="fc" id="L72">            return true;</span>
+        }
+<span class="pc bpc" id="L74" title="1 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="fc" id="L75">            return false;</span>
+        }
+<span class="fc" id="L77">        final LevenshteinResults result = (LevenshteinResults) o;</span>
+<span class="pc bpc" id="L78" title="1 of 4 branches missed.">        return Objects.equals(distance, result.distance) &amp;&amp; Objects.equals(insertCount, result.insertCount)</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">                &amp;&amp; Objects.equals(deleteCount, result.deleteCount)</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">                &amp;&amp; Objects.equals(substituteCount, result.substituteCount);</span>
+    }
+
+    /**
+     * Gets the number of character deletion needed to change one character sequence to other.
+     *
+     * @return delete character count
+     */
+    public Integer getDeleteCount() {
+<span class="fc" id="L89">        return deleteCount;</span>
+    }
+
+    /**
+     * Gets the distance between two character sequences.
+     *
+     * @return distance between two character sequence
+     */
+    public Integer getDistance() {
+<span class="fc" id="L98">        return distance;</span>
+    }
+
+    /**
+     * Gets the number of insertion needed to change one character sequence into another.
+     *
+     * @return insert character count
+     */
+    public Integer getInsertCount() {
+<span class="fc" id="L107">        return insertCount;</span>
+    }
+
+    /**
+     * Gets the number of character substitution needed to change one character sequence into another.
+     *
+     * @return substitute character count
+     */
+    public Integer getSubstituteCount() {
+<span class="fc" id="L116">        return substituteCount;</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L121">        return Objects.hash(distance, insertCount, deleteCount, substituteCount);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L126">        return &quot;Distance: &quot; + distance + &quot;, Insert: &quot; + insertCount + &quot;, Delete: &quot; + deleteCount + &quot;, Substitute: &quot;</span>
+                + substituteCount;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

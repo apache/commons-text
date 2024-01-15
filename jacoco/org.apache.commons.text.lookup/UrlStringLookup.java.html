@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UrlStringLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.lookup</a> &gt; <span class="el_source">UrlStringLookup.java</span></div><h1>UrlStringLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache license, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the license for the specific language governing permissions and
+ * limitations under the license.
+ */
+
+package org.apache.commons.text.lookup;
+
+import java.io.BufferedInputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.net.URL;
+
+import org.apache.commons.lang3.StringUtils;
+
+/**
+ * Looks up keys from an XML document.
+ * &lt;p&gt;
+ * Looks up the value for a given key in the format &quot;Charset:URL&quot;.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * For example: &quot;UTF-8:com/domain/document.properties&quot;.
+ * &lt;/p&gt;
+ *
+ * @since 1.5
+ */
+final class UrlStringLookup extends AbstractStringLookup {
+
+    /**
+     * Defines the singleton for this class.
+     */
+<span class="fc" id="L43">    static final UrlStringLookup INSTANCE = new UrlStringLookup();</span>
+
+    /**
+     * No need to build instances for now.
+     */
+    private UrlStringLookup() {
+        // empty
+    }
+
+    /**
+     * Looks up the value for the key in the format &quot;DocumentPath:XPath&quot;.
+     * &lt;p&gt;
+     * For example: &quot;com/domain/document.xml:/path/to/node&quot;.
+     * &lt;/p&gt;
+     *
+     * @param key the key to be looked up, may be null
+     * @return The value associated with the key.
+     */
+    @Override
+    public String lookup(final String key) {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (key == null) {</span>
+<span class="fc" id="L64">            return null;</span>
+        }
+<span class="fc" id="L66">        final String[] keys = key.split(SPLIT_STR);</span>
+<span class="fc" id="L67">        final int keyLen = keys.length;</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (keyLen &lt; 2) {</span>
+<span class="fc" id="L69">            throw IllegalArgumentExceptions.format(&quot;Bad URL key format [%s]; expected format is DocumentPath:Key.&quot;,</span>
+                key);
+        }
+<span class="fc" id="L72">        final String charsetName = keys[0];</span>
+<span class="fc" id="L73">        final String urlStr = StringUtils.substringAfter(key, SPLIT_CH);</span>
+        try {
+<span class="fc" id="L75">            final URL url = new URL(urlStr);</span>
+<span class="fc" id="L76">            final int size = 8192;</span>
+<span class="fc" id="L77">            final StringWriter writer = new StringWriter(size);</span>
+<span class="fc" id="L78">            final char[] buffer = new char[size];</span>
+<span class="fc" id="L79">            try (BufferedInputStream bis = new BufferedInputStream(url.openStream());</span>
+<span class="fc" id="L80">                InputStreamReader reader = new InputStreamReader(bis, charsetName)) {</span>
+                int n;
+<span class="fc bfc" id="L82" title="All 2 branches covered.">                while (-1 != (n = reader.read(buffer))) {</span>
+<span class="fc" id="L83">                    writer.write(buffer, 0, n);</span>
+                }
+            }
+<span class="fc" id="L86">            return writer.toString();</span>
+<span class="fc" id="L87">        } catch (final Exception e) {</span>
+<span class="fc" id="L88">            throw IllegalArgumentExceptions.format(e, &quot;Error looking up URL [%s] with Charset [%s].&quot;, urlStr,</span>
+                charsetName);
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

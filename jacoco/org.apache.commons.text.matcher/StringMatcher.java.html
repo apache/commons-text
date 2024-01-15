@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StringMatcher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.matcher</a> &gt; <span class="el_source">StringMatcher.java</span></div><h1>StringMatcher.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.commons.text.matcher;
+
+import org.apache.commons.lang3.CharSequenceUtils;
+
+/**
+ * Determines if a character array portion matches.
+ *
+ * @since 1.3
+ */
+public interface StringMatcher {
+
+    /**
+     * Returns a matcher that matches this matcher followed by the given matcher.
+     *
+     * @param stringMatcher the next matcher.
+     * @return a matcher that matches this matcher followed by the given matcher.
+     * @since 1.9
+     */
+    default StringMatcher andThen(final StringMatcher stringMatcher) {
+<span class="fc" id="L37">        return StringMatcherFactory.INSTANCE.andMatcher(this, stringMatcher);</span>
+    }
+
+    /**
+     * Returns the number of matching characters, zero for no match.
+     * &lt;p&gt;
+     * This method is called to check for a match. The parameter {@code pos} represents the current position to be
+     * checked in the string {@code buffer} (a character array which must not be changed). The API guarantees that
+     * {@code pos} is a valid index for {@code buffer}.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The matching code may check one character or many. It may check characters preceding {@code pos} as well as those
+     * after.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * It must return zero for no match, or a positive number if a match was found. The number indicates the number of
+     * characters that matched.
+     * &lt;/p&gt;
+     *
+     * @param buffer the text content to match against, do not change
+     * @param pos the starting position for the match, valid for buffer
+     * @return The number of matching characters, zero for no match
+     * @since 1.9
+     */
+    default int isMatch(final char[] buffer, final int pos) {
+<span class="fc" id="L62">        return isMatch(buffer, pos, 0, buffer.length);</span>
+    }
+
+    /**
+     * Returns the number of matching characters, {@code 0} if there is no match.
+     * &lt;p&gt;
+     * This method is called to check for a match against a source {@code buffer}. The parameter {@code start}
+     * represents the start position to be checked in the {@code buffer} (a character array which MUST not be changed).
+     * The implementation SHOULD guarantees that {@code start} is a valid index in {@code buffer}.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The character array may be larger than the active area to be matched. Only values in the buffer between the
+     * specified indices may be accessed, in other words: {@code bufferStart &lt;= start &lt; bufferEnd}.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The matching code may check one character or many. It may check characters preceding {@code start} as well as
+     * those after, so long as no checks exceed the bounds specified.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * It must return zero for no match, or a positive number if a match was found. The number indicates the number of
+     * characters that matched.
+     * &lt;/p&gt;
+     *
+     * @param buffer the source text to search, do not change.
+     * @param start the starting position for the match, valid in {@code buffer}.
+     * @param bufferStart the first active index in the buffer, valid in {@code buffer}.
+     * @param bufferEnd the end index (exclusive) of the active buffer, valid in {@code buffer}.
+     * @return The number of matching characters, zero if there is no match.
+     */
+    int isMatch(char[] buffer, int start, int bufferStart, int bufferEnd);
+
+    /**
+     * Returns the number of matching characters, zero for no match.
+     * &lt;p&gt;
+     * This method is called to check for a match. The parameter {@code pos} represents the current position to be
+     * checked in the string {@code buffer} (a character array which must not be changed). The API guarantees that
+     * {@code pos} is a valid index for {@code buffer}.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The matching code may check one character or many. It may check characters preceding {@code pos} as well as those
+     * after.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * It must return zero for no match, or a positive number if a match was found. The number indicates the number of
+     * characters that matched.
+     * &lt;/p&gt;
+     *
+     * @param buffer the text content to match against, do not change
+     * @param pos the starting position for the match, valid for buffer
+     * @return The number of matching characters, zero for no match
+     * @since 1.9
+     */
+    default int isMatch(final CharSequence buffer, final int pos) {
+<span class="fc" id="L115">        return isMatch(buffer, pos, 0, buffer.length());</span>
+    }
+
+    /**
+     * Returns the number of matching characters, {@code 0} if there is no match.
+     * &lt;p&gt;
+     * This method is called to check for a match against a source {@code buffer}. The parameter {@code start}
+     * represents the start position to be checked in the {@code buffer} (a character array which MUST not be changed).
+     * The implementation SHOULD guarantees that {@code start} is a valid index in {@code buffer}.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The character array may be larger than the active area to be matched. Only values in the buffer between the
+     * specified indices may be accessed, in other words: {@code bufferStart &lt;= start &lt; bufferEnd}.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The matching code may check one character or many. It may check characters preceding {@code start} as well as
+     * those after, so long as no checks exceed the bounds specified.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * It must return zero for no match, or a positive number if a match was found. The number indicates the number of
+     * characters that matched.
+     * &lt;/p&gt;
+     *
+     * @param buffer the source text to search, do not change.
+     * @param start the starting position for the match, valid in {@code buffer}.
+     * @param bufferStart the first active index in the buffer, valid in {@code buffer}.
+     * @param bufferEnd the end index (exclusive) of the active buffer, valid in {@code buffer}.
+     * @return The number of matching characters, zero if there is no match.
+     * @since 1.9
+     */
+    default int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
+<span class="fc" id="L146">        return isMatch(CharSequenceUtils.toCharArray(buffer), start, bufferEnd, bufferEnd);</span>
+    }
+
+    /**
+     * Returns the size of the matching string. Defaults to 0.
+     *
+     * @return the size of the matching string.
+     * @since 1.9
+     */
+    default int size() {
+<span class="fc" id="L156">        return 0;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

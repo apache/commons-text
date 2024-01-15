@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimilarityScoreFrom.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.similarity</a> &gt; <span class="el_source">SimilarityScoreFrom.java</span></div><h1>SimilarityScoreFrom.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.similarity;
+
+import org.apache.commons.lang3.Validate;
+
+/**
+ * This stores a {@link SimilarityScore} implementation and a {@link CharSequence} &quot;left&quot; string.
+ * The {@link #apply(CharSequence right)} method accepts the &quot;right&quot; string and invokes the
+ * comparison function for the pair of strings.
+ *
+ * &lt;p&gt;
+ * The following is an example which finds the most similar string:
+ * &lt;/p&gt;
+ * &lt;pre&gt;
+ * SimilarityScore&amp;lt;Integer&amp;gt; similarityScore = new LevenshteinDistance();
+ * String target = &quot;Apache&quot;;
+ * SimilarityScoreFrom&amp;lt;Integer&amp;gt; similarityScoreFrom =
+ *     new SimilarityScoreFrom&amp;lt;Integer&amp;gt;(similarityScore, target);
+ * String mostSimilar = null;
+ * Integer shortestDistance = null;
+ *
+ * for (String test : new String[] { &quot;Appaloosa&quot;, &quot;a patchy&quot;, &quot;apple&quot; }) {
+ *     Integer distance = similarityScoreFrom.apply(test);
+ *     if (shortestDistance == null || distance &amp;lt; shortestDistance) {
+ *         shortestDistance = distance;
+ *         mostSimilar = test;
+ *     }
+ * }
+ *
+ * System.out.println(&quot;The string most similar to \&quot;&quot; + target + &quot;\&quot; &quot;
+ *     + &quot;is \&quot;&quot; + mostSimilar + &quot;\&quot; because &quot;
+ *     + &quot;its distance is only &quot; + shortestDistance + &quot;.&quot;);
+ * &lt;/pre&gt;
+ *
+ * @param &lt;R&gt; This is the type of similarity score used by the SimilarityScore function.
+ * @since 1.0
+ */
+public class SimilarityScoreFrom&lt;R&gt; {
+
+    /**
+     * Similarity score.
+     */
+    private final SimilarityScore&lt;R&gt; similarityScore;
+
+    /**
+     * Left parameter used in distance function.
+     */
+    private final CharSequence left;
+
+    /**
+     * This accepts the similarity score implementation and the &quot;left&quot; string.
+     *
+     * @param similarityScore This may not be null.
+     * @param left This may be null here,
+     *             but the SimilarityScore#compare(CharSequence left, CharSequence right)
+     *             implementation may not accept nulls.
+     */
+<span class="fc" id="L73">    public SimilarityScoreFrom(final SimilarityScore&lt;R&gt; similarityScore, final CharSequence left) {</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        Validate.isTrue(similarityScore != null, &quot;The edit distance may not be null.&quot;);</span>
+
+<span class="fc" id="L76">        this.similarityScore = similarityScore;</span>
+<span class="fc" id="L77">        this.left = left;</span>
+<span class="fc" id="L78">    }</span>
+
+    /**
+     * This compares &quot;left&quot; field against the &quot;right&quot; parameter
+     * using the &quot;similarity score&quot; implementation.
+     *
+     * @param right the second CharSequence
+     * @return The similarity score between two CharSequences
+     */
+    public R apply(final CharSequence right) {
+<span class="fc" id="L88">        return similarityScore.apply(left, right);</span>
+    }
+
+    /**
+     * Gets the left parameter.
+     *
+     * @return The left parameter
+     */
+    public CharSequence getLeft() {
+<span class="nc" id="L97">        return left;</span>
+    }
+
+    /**
+     * Gets the edit distance.
+     *
+     * @return The edit distance
+     */
+    public SimilarityScore&lt;R&gt; getSimilarityScore() {
+<span class="nc" id="L106">        return similarityScore;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

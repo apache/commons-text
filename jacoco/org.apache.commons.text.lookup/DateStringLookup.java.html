@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DateStringLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.lookup</a> &gt; <span class="el_source">DateStringLookup.java</span></div><h1>DateStringLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache license, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the license for the specific language governing permissions and
+ * limitations under the license.
+ */
+package org.apache.commons.text.lookup;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.commons.lang3.time.FastDateFormat;
+import org.apache.commons.text.StringSubstitutor;
+
+/**
+ * Formats the current date with the format given in the key in a format compatible with
+ * {@link java.text.SimpleDateFormat}.
+ * &lt;p&gt;
+ * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * StringLookupFactory.INSTANCE.dateStringLookup().lookup(&quot;yyyy-MM-dd&quot;);
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * Using a {@link StringSubstitutor}:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * StringSubstitutor.createInterpolator().replace(&quot;... ${date:yyyy-MM-dd} ...&quot;));
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * The above examples convert {@code &quot;yyyy-MM-dd&quot;} to today's date, for example, {@code &quot;2019-08-04&quot;}.
+ * &lt;/p&gt;
+ */
+final class DateStringLookup extends AbstractStringLookup {
+
+    /**
+     * Defines the singleton for this class.
+     */
+<span class="fc" id="L52">    static final DateStringLookup INSTANCE = new DateStringLookup();</span>
+
+    /**
+     * No need to build instances for now.
+     */
+    private DateStringLookup() {
+        // empty
+    }
+
+    /**
+     * Formats the given {@code date} long with the given {@code format}.
+     *
+     * @param dateMillis the date to format
+     * @param format the format string for {@link SimpleDateFormat}.
+     * @return The formatted date
+     */
+    private String formatDate(final long dateMillis, final String format) {
+<span class="fc" id="L69">        FastDateFormat dateFormat = null;</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (format != null) {</span>
+            try {
+<span class="fc" id="L72">                dateFormat = FastDateFormat.getInstance(format);</span>
+<span class="fc" id="L73">            } catch (final Exception ex) {</span>
+<span class="fc" id="L74">                throw IllegalArgumentExceptions.format(ex, &quot;Invalid date format: [%s]&quot;, format);</span>
+<span class="fc" id="L75">            }</span>
+        }
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (dateFormat == null) {</span>
+<span class="fc" id="L78">            dateFormat = FastDateFormat.getInstance();</span>
+        }
+<span class="fc" id="L80">        return dateFormat.format(new Date(dateMillis));</span>
+    }
+
+    /**
+     * Formats the current date with the format given in the key in a format compatible with
+     * {@link java.text.SimpleDateFormat}.
+     *
+     * @param key the format to use. If null, the default {@link DateFormat} will be used.
+     * @return The value of the environment variable.
+     */
+    @Override
+    public String lookup(final String key) {
+<span class="fc" id="L92">        return formatDate(System.currentTimeMillis(), key);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

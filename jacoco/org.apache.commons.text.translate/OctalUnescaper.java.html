@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OctalUnescaper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.translate</a> &gt; <span class="el_source">OctalUnescaper.java</span></div><h1>OctalUnescaper.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.translate;
+
+import java.io.IOException;
+import java.io.Writer;
+
+/**
+ * Translate escaped octal Strings back to their octal values.
+ *
+ * For example, &quot;\45&quot; should go back to being the specific value (a %).
+ *
+ * Note that this currently only supports the viable range of octal for Java; namely
+ * 1 to 377. This is because parsing Java is the main use case.
+ *
+ * @since 1.0
+ */
+<span class="fc" id="L32">public class OctalUnescaper extends CharSequenceTranslator {</span>
+
+    /**
+     * Tests if the given char is an octal digit. Octal digits are the character representations of the digits 0 to 7.
+     *
+     * @param ch the char to check
+     * @return true if the given char is the character representation of one of the digits from 0 to 7
+     */
+    private boolean isOctalDigit(final char ch) {
+<span class="fc bfc" id="L41" title="All 4 branches covered.">        return ch &gt;= '0' &amp;&amp; ch &lt;= '7';</span>
+    }
+
+    /**
+     * Tests if the given char is the character representation of one of the digit from 0 to 3.
+     *
+     * @param ch the char to check
+     * @return true if the given char is the character representation of one of the digits from 0 to 3
+     */
+    private boolean isZeroToThree(final char ch) {
+<span class="pc bpc" id="L51" title="2 of 4 branches missed.">        return ch &gt;= '0' &amp;&amp; ch &lt;= '3';</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
+<span class="fc" id="L59">        final int remaining = input.length() - index - 1; // how many characters left, ignoring the first \</span>
+<span class="fc" id="L60">        final StringBuilder builder = new StringBuilder();</span>
+<span class="fc bfc" id="L61" title="All 6 branches covered.">        if (input.charAt(index) == '\\' &amp;&amp; remaining &gt; 0 &amp;&amp; isOctalDigit(input.charAt(index + 1))) {</span>
+<span class="fc" id="L62">            final int next = index + 1;</span>
+<span class="fc" id="L63">            final int next2 = index + 2;</span>
+<span class="fc" id="L64">            final int next3 = index + 3;</span>
+
+            // we know this is good as we checked it in the if block above
+<span class="fc" id="L67">            builder.append(input.charAt(next));</span>
+
+<span class="pc bpc" id="L69" title="1 of 4 branches missed.">            if (remaining &gt; 1 &amp;&amp; isOctalDigit(input.charAt(next2))) {</span>
+<span class="fc" id="L70">                builder.append(input.charAt(next2));</span>
+<span class="pc bpc" id="L71" title="1 of 6 branches missed.">                if (remaining &gt; 2 &amp;&amp; isZeroToThree(input.charAt(next)) &amp;&amp; isOctalDigit(input.charAt(next3))) {</span>
+<span class="fc" id="L72">                    builder.append(input.charAt(next3));</span>
+                }
+            }
+
+<span class="fc" id="L76">            writer.write(Integer.parseInt(builder.toString(), 8));</span>
+<span class="fc" id="L77">            return 1 + builder.length();</span>
+        }
+<span class="fc" id="L79">        return 0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

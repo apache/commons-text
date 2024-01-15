@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InterpolatorStringLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.lookup</a> &gt; <span class="el_source">InterpolatorStringLookup.java</span></div><h1>InterpolatorStringLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache license, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the license for the specific language governing permissions and
+ * limitations under the license.
+ */
+package org.apache.commons.text.lookup;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
+/**
+ * Proxies other {@link StringLookup}s using a keys within ${} markers using the format &quot;${StringLookup:Key}&quot;.
+ * &lt;p&gt;
+ * Uses the {@link StringLookupFactory default lookups}.
+ * &lt;/p&gt;
+ */
+final class InterpolatorStringLookup extends AbstractStringLookup {
+
+    /**
+     * Defines the singleton for this class.
+     *
+     * @since 1.6
+     */
+<span class="fc" id="L37">    static final AbstractStringLookup INSTANCE = new InterpolatorStringLookup();</span>
+
+    /** Constant for the prefix separator. */
+    private static final char PREFIX_SEPARATOR = ':';
+
+    /** The default string lookup. */
+    private final StringLookup defaultStringLookup;
+
+    /** The map of String lookups keyed by prefix. */
+    private final Map&lt;String, StringLookup&gt; stringLookupMap;
+
+    /**
+     * Constructs an instance using only lookups that work without initial properties and are stateless.
+     * &lt;p&gt;
+     * Uses the {@link StringLookupFactory default lookups}.
+     * &lt;/p&gt;
+     */
+    InterpolatorStringLookup() {
+<span class="fc" id="L55">        this((Map&lt;String, String&gt;) null);</span>
+<span class="fc" id="L56">    }</span>
+
+    /**
+     * Constructs a fully customized instance.
+     *
+     * @param stringLookupMap the map of string lookups.
+     * @param defaultStringLookup the default string lookup.
+     * @param addDefaultLookups whether the default lookups should be used.
+     */
+    InterpolatorStringLookup(final Map&lt;String, StringLookup&gt; stringLookupMap, final StringLookup defaultStringLookup,
+<span class="fc" id="L66">            final boolean addDefaultLookups) {</span>
+<span class="fc" id="L67">        this.defaultStringLookup = defaultStringLookup;</span>
+<span class="fc" id="L68">        this.stringLookupMap = stringLookupMap.entrySet().stream().collect(Collectors.toMap(e -&gt; StringLookupFactory.toKey(e.getKey()), Entry::getValue));</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (addDefaultLookups) {</span>
+<span class="fc" id="L70">            StringLookupFactory.INSTANCE.addDefaultStringLookups(this.stringLookupMap);</span>
+        }
+<span class="fc" id="L72">    }</span>
+
+    /**
+     * Constructs an instance using only lookups that work without initial properties and are stateless.
+     * &lt;p&gt;
+     * Uses the {@link StringLookupFactory default lookups}.
+     * &lt;/p&gt;
+     *
+     * @param &lt;V&gt; the map's value type.
+     * @param defaultMap the default map for string lookups.
+     */
+    &lt;V&gt; InterpolatorStringLookup(final Map&lt;String, V&gt; defaultMap) {
+<span class="fc" id="L84">        this(StringLookupFactory.INSTANCE.mapStringLookup(defaultMap));</span>
+<span class="fc" id="L85">    }</span>
+
+    /**
+     * Constructs an instance with the given lookup.
+     *
+     * @param defaultStringLookup the default lookup.
+     */
+    InterpolatorStringLookup(final StringLookup defaultStringLookup) {
+<span class="fc" id="L93">        this(Collections.emptyMap(), defaultStringLookup, true);</span>
+<span class="fc" id="L94">    }</span>
+
+    /**
+     * Gets the lookup map.
+     *
+     * @return The lookup map.
+     */
+    public Map&lt;String, StringLookup&gt; getStringLookupMap() {
+<span class="fc" id="L102">        return stringLookupMap;</span>
+    }
+
+    /**
+     * Resolves the specified variable. This implementation will try to extract a variable prefix from the given
+     * variable name (the first colon (':') is used as prefix separator). It then passes the name of the variable with
+     * the prefix stripped to the lookup object registered for this prefix. If no prefix can be found or if the
+     * associated lookup object cannot resolve this variable, the default lookup object will be used.
+     *
+     * @param key the name of the variable whose value is to be looked up
+     * @return The value of this variable or &lt;b&gt;null&lt;/b&gt; if it cannot be resolved
+     */
+    @Override
+    public String lookup(String key) {
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        if (key == null) {</span>
+<span class="fc" id="L117">            return null;</span>
+        }
+
+<span class="fc" id="L120">        final int prefixPos = key.indexOf(PREFIX_SEPARATOR);</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (prefixPos &gt;= 0) {</span>
+<span class="fc" id="L122">            final String prefix = StringLookupFactory.toKey(key.substring(0, prefixPos));</span>
+<span class="fc" id="L123">            final String name = key.substring(prefixPos + 1);</span>
+<span class="fc" id="L124">            final StringLookup lookup = stringLookupMap.get(prefix);</span>
+<span class="fc" id="L125">            String value = null;</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">            if (lookup != null) {</span>
+<span class="fc" id="L127">                value = lookup.lookup(name);</span>
+            }
+
+<span class="fc bfc" id="L130" title="All 2 branches covered.">            if (value != null) {</span>
+<span class="fc" id="L131">                return value;</span>
+            }
+<span class="fc" id="L133">            key = key.substring(prefixPos + 1);</span>
+        }
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        if (defaultStringLookup != null) {</span>
+<span class="fc" id="L136">            return defaultStringLookup.lookup(key);</span>
+        }
+<span class="fc" id="L138">        return null;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L143">        return super.toString() + &quot; [stringLookupMap=&quot; + stringLookupMap + &quot;, defaultStringLookup=&quot;</span>
+            + defaultStringLookup + &quot;]&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

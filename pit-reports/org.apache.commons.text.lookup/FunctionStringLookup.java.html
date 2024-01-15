@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>FunctionStringLookup.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/*</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * Licensed to the Apache Software Foundation (ASF) under one or more</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * contributor license agreements. See the NOTICE file distributed with</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * this work for additional information regarding copyright ownership.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * The ASF licenses this file to You under the Apache license, Version 2.0</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * (the &#34;License&#34;); you may not use this file except in compliance with</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * the License. You may obtain a copy of the License at</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *      http://www.apache.org/licenses/LICENSE-2.0</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * Unless required by applicable law or agreed to in writing, software</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * distributed under the License is distributed on an &#34;AS IS&#34; BASIS,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * See the license for the specific language governing permissions and</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * limitations under the license.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.apache.commons.text.lookup;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.Map;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.Objects;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.function.Function;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * A function-based lookup where the request for a lookup is answered by applying that function with a key.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * @param &#60;V&#62; A function&#39;s input type</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * @since 1.9</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>final class FunctionStringLookup&#60;V&#62; extends AbstractStringLookup {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Creates a new instance backed by a Function.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param &#60;R&#62; the function&#39;s input type</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param function the function, may be null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a new instance backed by the given function.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    static &#60;R&#62; FunctionStringLookup&#60;R&#62; on(final Function&#60;String, R&#62; function) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_40'/>
+40
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_40'>1</a>
+<span>
+
+1. on : replaced return value with null for org/apache/commons/text/lookup/FunctionStringLookup::on &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return new FunctionStringLookup&#60;&#62;(function);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Creates a new instance backed by a Map. Used by the default lookup.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param &#60;V&#62; the map&#39;s value type.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param map the map of keys to values, may be null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a new instance backed by the given map.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    static &#60;V&#62; FunctionStringLookup&#60;V&#62; on(final Map&#60;String, V&#62; map) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_51'/>
+51
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_51'>1</a>
+<span>
+
+1. on : replaced return value with null for org/apache/commons/text/lookup/FunctionStringLookup::on &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return on(StringLookupFactory.toMap(map)::get);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_54'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_55'/>
+55
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_55'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Function.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_56'/>
+56
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_56'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private final Function&#60;String, V&#62; function;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Creates a new instance backed by a Function.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_62'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param function the function, may be null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_63'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_64'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private FunctionStringLookup(final Function&#60;String, V&#62; function) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.function = function;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_67'/>
+67
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_67'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_68'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_69'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Looks up a String key by applying the function.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_70'/>
+70
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_70'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * &#60;p&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_71'/>
+71
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_71'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * If the function is null, then null is returned. The function result object is converted to a string using</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_72'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * toString().</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_73'/>
+73
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_73'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * &#60;/p&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_74'/>
+74
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_74'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_75'/>
+75
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_75'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param key the key to be looked up, may be null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_76'/>
+76
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_76'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return The function result as a string, may be null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_77'/>
+77
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_77'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_78'/>
+78
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_78'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_79'/>
+79
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_79'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public String lookup(final String key) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_80'/>
+80
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_80'>1</a>
+<span>
+
+1. lookup : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (function == null) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_81'/>
+81
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_81'>1</a>
+<span>
+
+1. lookup : replaced return value with &#34;&#34; for org/apache/commons/text/lookup/FunctionStringLookup::lookup &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return null;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_82'/>
+82
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_82'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_83'/>
+83
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_83'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        final V obj;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_84'/>
+84
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_84'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        try {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_85'/>
+85
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_85'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            obj = function.apply(key);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_86'/>
+86
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_86'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        } catch (final SecurityException | NullPointerException | IllegalArgumentException e) {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_87'/>
+87
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_87'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            // Squelched. All lookup(String) will return null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_88'/>
+88
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_88'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            // Could be a ConcurrentHashMap and a null key request</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_89'/>
+89
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_89'>1</a>
+<span>
+
+1. lookup : replaced return value with &#34;&#34; for org/apache/commons/text/lookup/FunctionStringLookup::lookup &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return null;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_90'/>
+90
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_90'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_91'/>
+91
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_91'>1</a>
+<span>
+
+1. lookup : replaced return value with &#34;&#34; for org/apache/commons/text/lookup/FunctionStringLookup::lookup &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return Objects.toString(obj, null);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_92'/>
+92
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_92'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_93'/>
+93
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_93'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_94'/>
+94
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_94'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_95'/>
+95
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_95'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public String toString() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_96'/>
+96
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_96'>1</a>
+<span>
+
+1. toString : replaced return value with &#34;&#34; for org/apache/commons/text/lookup/FunctionStringLookup::toString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return super.toString() + &#34; [function=&#34; + function + &#34;]&#34;;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_97'/>
+97
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_97'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_98'/>
+98
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_98'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1bf45b85_99'/>
+99
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_99'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1bf45b85_40'>40</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_40'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>on<br/><b>Killed by : </b>org.apache.commons.text.lookup.FunctionStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.FunctionStringLookupTest]/[method:testNullFunction()]</span></span> replaced return value with null for org/apache/commons/text/lookup/FunctionStringLookup::on &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1bf45b85_51'>51</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_51'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>on<br/><b>Killed by : </b>org.apache.commons.text.lookup.FunctionStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.FunctionStringLookupTest]/[method:testToString()]</span></span> replaced return value with null for org/apache/commons/text/lookup/FunctionStringLookup::on &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1bf45b85_80'>80</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_80'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lookup<br/><b>Killed by : </b>org.apache.commons.text.lookup.FunctionStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.FunctionStringLookupTest]/[method:testOne()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1bf45b85_81'>81</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_81'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lookup<br/><b>Killed by : </b>org.apache.commons.text.lookup.FunctionStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.FunctionStringLookupTest]/[method:testNullFunction()]</span></span> replaced return value with &#34;&#34; for org/apache/commons/text/lookup/FunctionStringLookup::lookup &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1bf45b85_89'>89</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_89'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lookup<br/><b>Killed by : </b>org.apache.commons.text.lookup.FunctionStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.FunctionStringLookupTest]/[method:testConcurrentHashMapNull()]</span></span> replaced return value with &#34;&#34; for org/apache/commons/text/lookup/FunctionStringLookup::lookup &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1bf45b85_91'>91</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_91'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lookup<br/><b>Killed by : </b>org.apache.commons.text.lookup.FunctionStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.FunctionStringLookupTest]/[method:testOne()]</span></span> replaced return value with &#34;&#34; for org/apache/commons/text/lookup/FunctionStringLookup::lookup &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1bf45b85_96'>96</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1bf45b85_96'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>toString<br/><b>Killed by : </b>org.apache.commons.text.lookup.FunctionStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.FunctionStringLookupTest]/[method:testToString()]</span></span> replaced return value with &#34;&#34; for org/apache/commons/text/lookup/FunctionStringLookup::toString &rarr; KILLED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+
+<li class='mutator'>EMPTY_RETURNS</li>
+
+<li class='mutator'>FALSE_RETURNS</li>
+
+<li class='mutator'>INCREMENTS</li>
+
+<li class='mutator'>INVERT_NEGS</li>
+
+<li class='mutator'>MATH</li>
+
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+
+<li class='mutator'>NULL_RETURNS</li>
+
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+
+<li class='mutator'>TRUE_RETURNS</li>
+
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.apache.commons.text.lookup.FunctionStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.FunctionStringLookupTest]/[method:testNullFunction()] (0 ms)</li><li>org.apache.commons.text.lookup.FunctionStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.FunctionStringLookupTest]/[method:testOne()] (0 ms)</li><li>org.apache.commons.text.lookup.FunctionStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.FunctionStringLookupTest]/[method:testHashMapNull()] (0 ms)</li><li>org.apache.commons.text.lookup.FunctionStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.FunctionStringLookupTest]/[method:testConcurrentHashMapNull()] (0 ms)</li><li>org.apache.commons.text.lookup.EnvironmentVariableStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.EnvironmentVariableStringLookupTest]/[method:testNull()] (0 ms)</li><li>org.apache.commons.text.lookup.SystemPropertyStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.SystemPropertyStringLookupTest]/[method:testNull()] (0 ms)</li><li>org.apache.commons.text.lookup.Base64DecoderStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.Base64DecoderStringLookupTest]/[method:testNull()] (0 ms)</li><li>org.apache.commons.text.lookup.Base64DecoderStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.Base64DecoderStringLookupTest]/[method:test()] (0 ms)</li><li>org.apache.commons.text.lookup.NullStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.NullStringLookupTest]/[method:test()] (0 ms)</li><li>org.apache.commons.text.lookup.SystemPropertyStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.SystemPropertyStringLookupTest]/[method:testUserName()] (0 ms)</li><li>org.apache.commons.text.lookup.Base64EncoderStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.Base64EncoderStringLookupTest]/[method:test()] (0 ms)</li><li>org.apache.commons.text.lookup.Base64EncoderStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.Base64EncoderStringLookupTest]/[method:testNull()] (0 ms)</li><li>org.apache.commons.text.lookup.BiFunctionStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.BiFunctionStringLookupTest]/[method:testOne()] (0 ms)</li><li>org.apache.commons.text.lookup.JavaPlatformStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.JavaPlatformStringLookupTest]/[method:testVm()] (0 ms)</li><li>org.apache.commons.text.lookup.InterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.InterpolatorStringLookupTest]/[method:testLookup()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testConstructorNullMap()] (0 ms)</li><li>org.apache.commons.text.lookup.JavaPlatformStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.JavaPlatformStringLookupTest]/[method:testMain()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testConstructorNullMap()] (3 ms)</li><li>org.apache.commons.text.lookup.InterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.InterpolatorStringLookupTest]/[method:testLookupWithNullDefaultInterpolator()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceEmptyKeyExtraLast()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceEmptyKeyExtraFirst()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceEmptyKeyOnly()] (1 ms)</li><li>org.apache.commons.text.lookup.InterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.InterpolatorStringLookupTest]/[method:testLookupWithDefaultInterpolator()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest]/[method:testJavaScript_disabledByDefault()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceUnknownShortestKeyOnly()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceUnknownKeyOnlyExtraFirst()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceUnknownShortestKeyOnlyExtraLast()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceUnknownShortestKeyOnlyExtraFirst()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceUnknownKeyOnlyExtraLast()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceUnknownKeyOnly()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceEmptyKeyShortest()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest]/[method:testDnsLookup_disabledByDefault()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest]/[method:testSystemProperty()] (0 ms)</li><li>org.apache.commons.text.lookup.EnvironmentVariableStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.EnvironmentVariableStringLookupTest]/[method:testOne()] (22 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testStaticReplaceSystemPropertiesWithUpdate()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceChangedMap()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testStaticReplaceSystemPropertiesWithUpdate()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplace_JiraText178_WeirdPatterns1()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceAdjacentAtStart()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest]/[method:testSystemPropertyDefaultStringLookup()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testStaticReplace()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testStaticReplace()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceAdjacentAtEnd()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest]/[method:testCustomFunctionWithDefaults()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest]/[method:testCustomMapWithoutDefaults()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testSubstituteDefaultProperties()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceInVariable()] (0 ms)</li><li>org.apache.commons.text.lookup.PropertiesStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.PropertiesStringLookupTest]/[method:testInterpolatorNestedColon()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest]/[method:testCustomFunctionWithoutDefaults()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testStaticReplaceSystemProperties()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testStaticReplaceSystemProperties()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest]/[method:testMapAndSystemProperty()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceInVariableDisabled()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testSubstituteDefaultProperties()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testSamePrefixAndSuffix()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testStaticReplacePrefixSuffix()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest]/[method:testCustomMapWithDefaults()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceInVariableRecursive()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testStaticReplacePrefixSuffix()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testSamePrefixAndSuffix()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testLANG1055()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testLANG1055()] (2 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testSubstitutePreserveEscape()] (0 ms)</li><li>org.apache.commons.text.lookup.PropertiesStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.PropertiesStringLookupTest]/[method:testInterpolatorWithParameterizedKey()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyOnly()] (0 ms)</li><li>org.apache.commons.text.lookup.PropertiesStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.PropertiesStringLookupTest]/[method:testInterpolatorWithParameterizedKey2()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceFailOnUndefinedVariable()] (6 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceFailOnUndefinedVariableWithReplaceInVariable()] (5 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyExtraLast()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyExtraFirst()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownShortestKeyOnlyExtraFirst()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownShortestKeyOnly()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownKeyOnly()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownShortestKeyOnlyExtraLast()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownKeyOnlyExtraFirst()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownKeyOnlyExtraLast()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceSimpleKeySize2()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceSimpleKeySize3()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceSimpleKeySize1()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceAdjacentAtStart()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReadMixedBufferLengthsReplace()] (2 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplace_JiraText178_WeirdPatterns2()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceEmptyKeyWithDefaultOnlyShortest()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceVariablesCount1()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceChangedMap()] (2 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceEmptyKeyWithDefaultOnlyEmpty()] (2 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceEmptyKeyWithDefaultOnly()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceVariablesCount3()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testSubstitutePreserveEscape()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceVariablesCount3NonAdjacent()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceVariablesCount2()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceInVariableDisabled()] (2 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceVariablesCount2NonAdjacent()] (3 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceWeirdPattens()] (2 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceInVariableRecursive()] (3 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceNoPrefixSuffix()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceFailOnUndefinedVariable()] (6 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceUnknownKey()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceInVariable()] (4 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceSimple()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceNoPrefixNoSuffix()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceEmptyKey()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplacePrefixNoSuffix()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceEmptyKeyWithDefault()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceEscaping()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceToIdentical()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceIncompletePrefix()] (2 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceUnknownKeyDefaultValue()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceRecursive()] (4 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceFailOnUndefinedVariableWithReplaceInVariable()] (6 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyWithDefaultOnlyEmpty()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceSimpleKeySize1()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyWithDefaultOnly()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceSimpleKeySize3()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyWithDefaultOnlyShortest()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount1()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceSimpleKeySize2()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplace_JiraText178_WeirdPatterns2()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount2()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceComplexEscaping()] (11 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount3()] (3 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount3NonAdjacent()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount2NonAdjacent()] (2 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplacePrefixNoSuffix()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyWithDefault()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceSimple()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownKey()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceRecursive()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownKeyDefaultValue()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceToIdentical()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKey()] (4 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceIncompletePrefix()] (5 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceNoPrefixSuffix()] (5 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceNoPrefixNoSuffix()] (6 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEscaping()] (11 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceAdjacentAtEnd()] (57 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceComplexEscaping()] (33 ms)</li><li>org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest]/[method:testDefaultInterpolator()] (529 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyShortest()] (984 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplace_JiraText178_WeirdPatterns1()] (2787 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceWeirdPattens()] (10200 ms)</li><li>org.apache.commons.text.lookup.FunctionStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.FunctionStringLookupTest]/[method:testToString()] (0 ms)</li><li>org.apache.commons.text.lookup.InterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.InterpolatorStringLookupTest]/[method:testLookupKeys()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceInTakingTwoAndThreeIntsReturningFalse()] (0 ms)</li><li>org.apache.commons.text.lookup.InterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.InterpolatorStringLookupTest]/[method:testToString()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceInTakingTwoAndThreeIntsReturningFalse()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceInTakingStringBuilderWithNull()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceInTakingStringBuilderWithNull()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceNull()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceEmptyString()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceKeyStartChars1Only()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceKeyStartChars()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceKeyStartChars2Only()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceNoVariables()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceInTakingStringBufferWithNonNull()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceInTakingStringBufferWithNonNull()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testResolveVariable()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testResolveVariable()] (2 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceKeyStartChars2Only()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceKeyStartChars1Only()] (2 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReadMixedBufferLengths1ToVarLenPlusNoReplace()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReadMixedBufferLengthsVarLenPlusToNoReplace()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceKeyStartChars()] (2 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceVariablesCount1Escaping5To4()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceVariablesCount1Escaping6To4()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceVariablesCount1Escaping3To2()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceVariablesCount1Escaping4To3()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceVariablesCount1Escaping2To1()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount1Escaping2To1()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount1Escaping6To4()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount1Escaping5To4()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount1Escaping4To3()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount1Escaping3To2()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorWithInterpolatorStringLookupTest]/[method:testLocalHostLookup_Address()] (20 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceNull()] (168 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyString()] (1146 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceNoVariables()] (2176 ms)</li><li>org.apache.commons.text.lookup.Base64EncoderStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.Base64EncoderStringLookupTest]/[method:testToString()] (0 ms)</li><li>org.apache.commons.text.lookup.Base64DecoderStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.Base64DecoderStringLookupTest]/[method:testToString()] (0 ms)</li><li>org.apache.commons.text.lookup.SystemPropertyStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.SystemPropertyStringLookupTest]/[method:testToString()] (0 ms)</li><li>org.apache.commons.text.lookup.NullStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.NullStringLookupTest]/[method:testToString()] (0 ms)</li><li>org.apache.commons.text.lookup.EnvironmentVariableStringLookupTest.[engine:junit-jupiter]/[class:org.apache.commons.text.lookup.EnvironmentVariableStringLookupTest]/[method:testToString()] (0 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.15.3
+
+</body>
+</html>

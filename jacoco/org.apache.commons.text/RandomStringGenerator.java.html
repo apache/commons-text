@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RandomStringGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text</a> &gt; <span class="el_source">RandomStringGenerator.java</span></div><h1>RandomStringGenerator.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
+
+/**
+ * Generates random Unicode strings containing the specified number of code points.
+ * Instances are created using a builder class, which allows the
+ * callers to define the properties of the generator. See the documentation for the
+ * {@link Builder} class to see available properties.
+ *
+ * &lt;pre&gt;
+ * // Generates a 20 code point string, using only the letters a-z
+ * RandomStringGenerator generator = RandomStringGenerator.builder()
+ *     .withinRange('a', 'z').build();
+ * String randomLetters = generator.generate(20);
+ * &lt;/pre&gt;
+ * &lt;pre&gt;
+ * // Using Apache Commons RNG for randomness
+ * UniformRandomProvider rng = RandomSource.create(...);
+ * // Generates a 20 code point string, using only the letters a-z
+ * RandomStringGenerator generator = RandomStringGenerator.builder()
+ *     .withinRange('a', 'z')
+ *     .usingRandom(rng::nextInt) // uses Java 8 syntax
+ *     .build();
+ * String randomLetters = generator.generate(20);
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * {@code RandomStringGenerator} instances are thread-safe when using the
+ * default random number generator (RNG). If a custom RNG is set by calling the method
+ * {@link Builder#usingRandom(TextRandomProvider) Builder.usingRandom(TextRandomProvider)}, thread-safety
+ * must be ensured externally.
+ * &lt;/p&gt;
+ * @since 1.1
+ */
+public final class RandomStringGenerator {
+
+    /**
+     * A builder for generating {@code RandomStringGenerator} instances.
+     *
+     * &lt;p&gt;The behavior of a generator is controlled by properties set by this
+     * builder. Each property has a default value, which can be overridden by
+     * calling the methods defined in this class, prior to calling {@link #build()}.&lt;/p&gt;
+     *
+     * &lt;p&gt;All the property setting methods return the {@code Builder} instance to allow for method chaining.&lt;/p&gt;
+     *
+     * &lt;p&gt;The minimum and maximum code point values are defined using {@link #withinRange(int, int)}. The
+     * default values are {@code 0} and {@link Character#MAX_CODE_POINT} respectively.&lt;/p&gt;
+     *
+     * &lt;p&gt;The source of randomness can be set using {@link #usingRandom(TextRandomProvider)},
+     * otherwise {@link ThreadLocalRandom} is used.&lt;/p&gt;
+     *
+     * &lt;p&gt;The type of code points returned can be filtered using {@link #filteredBy(CharacterPredicate...)},
+     * which defines a collection of tests that are applied to the randomly generated code points.
+     * The code points will only be included in the result if they pass at least one of the tests.
+     * Some commonly used predicates are provided by the {@link CharacterPredicates} enum.&lt;/p&gt;
+     *
+     * &lt;p&gt;This class is not thread safe.&lt;/p&gt;
+     * @since 1.1
+     */
+<span class="fc" id="L85">    public static class Builder implements org.apache.commons.text.Builder&lt;RandomStringGenerator&gt; {</span>
+
+        /**
+         * The default maximum code point allowed: {@link Character#MAX_CODE_POINT}
+         * ({@value}).
+         */
+        public static final int DEFAULT_MAXIMUM_CODE_POINT = Character.MAX_CODE_POINT;
+
+        /**
+         * The default string length produced by this builder: {@value}.
+         */
+        public static final int DEFAULT_LENGTH = 0;
+
+        /**
+         * The default minimum code point allowed: {@value}.
+         */
+        public static final int DEFAULT_MINIMUM_CODE_POINT = 0;
+
+        /**
+         * The minimum code point allowed.
+         */
+<span class="fc" id="L106">        private int minimumCodePoint = DEFAULT_MINIMUM_CODE_POINT;</span>
+
+        /**
+         * The maximum code point allowed.
+         */
+<span class="fc" id="L111">        private int maximumCodePoint = DEFAULT_MAXIMUM_CODE_POINT;</span>
+
+        /**
+         * Filters for code points.
+         */
+        private Set&lt;CharacterPredicate&gt; inclusivePredicates;
+
+        /**
+         * The source of randomness.
+         */
+        private TextRandomProvider random;
+
+        /**
+         * The source of provided characters.
+         */
+        private List&lt;Character&gt; characterList;
+
+        /**
+         * Builds the {@code RandomStringGenerator} using the properties specified.
+         *
+         * @return The configured {@code RandomStringGenerator}
+         */
+        @Override
+        public RandomStringGenerator build() {
+<span class="fc" id="L135">            return new RandomStringGenerator(minimumCodePoint, maximumCodePoint, inclusivePredicates,</span>
+                    random, characterList);
+        }
+
+        /**
+         * Limits the characters in the generated string to those that match at
+         * least one of the predicates supplied.
+         *
+         * &lt;p&gt;
+         * Passing {@code null} or an empty array to this method will revert to the
+         * default behavior of allowing any character. Multiple calls to this
+         * method will replace the previously stored predicates.
+         * &lt;/p&gt;
+         *
+         * @param predicates
+         *            the predicates, may be {@code null} or empty
+         * @return {@code this}, to allow method chaining
+         */
+        public Builder filteredBy(final CharacterPredicate... predicates) {
+<span class="fc bfc" id="L154" title="All 2 branches covered.">            if (ArrayUtils.isEmpty(predicates)) {</span>
+<span class="fc" id="L155">                inclusivePredicates = null;</span>
+<span class="fc" id="L156">                return this;</span>
+            }
+
+<span class="fc bfc" id="L159" title="All 2 branches covered.">            if (inclusivePredicates == null) {</span>
+<span class="fc" id="L160">                inclusivePredicates = new HashSet&lt;&gt;();</span>
+            } else {
+<span class="fc" id="L162">                inclusivePredicates.clear();</span>
+            }
+
+<span class="fc" id="L165">            Collections.addAll(inclusivePredicates, predicates);</span>
+
+<span class="fc" id="L167">            return this;</span>
+        }
+
+        /**
+         * Limits the characters in the generated string to those who match at
+         * supplied list of Character.
+         *
+         * &lt;p&gt;
+         * Passing {@code null} or an empty array to this method will revert to the
+         * default behavior of allowing any character. Multiple calls to this
+         * method will replace the previously stored Character.
+         * &lt;/p&gt;
+         *
+         * @param chars set of predefined Characters for random string generation
+         *            the Character can be, may be {@code null} or empty
+         * @return {@code this}, to allow method chaining
+         * @since 1.2
+         */
+        public Builder selectFrom(final char... chars) {
+<span class="fc" id="L186">            characterList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">            if (chars != null) {</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">                for (final char c : chars) {</span>
+<span class="fc" id="L189">                    characterList.add(c);</span>
+                }
+            }
+<span class="fc" id="L192">            return this;</span>
+        }
+
+        /**
+         * Overrides the default source of randomness.  It is highly
+         * recommended that a random number generator library like
+         * &lt;a href=&quot;https://commons.apache.org/proper/commons-rng/&quot;&gt;Apache Commons RNG&lt;/a&gt;
+         * be used to provide the random number generation.
+         *
+         * &lt;p&gt;
+         * When using Java 8 or later, {@link TextRandomProvider} is a
+         * functional interface and need not be explicitly implemented:
+         * &lt;/p&gt;
+         * &lt;pre&gt;
+         * {@code
+         *     UniformRandomProvider rng = RandomSource.create(...);
+         *     RandomStringGenerator gen = RandomStringGenerator.builder()
+         *         .usingRandom(rng::nextInt)
+         *         // additional builder calls as needed
+         *         .build();
+         * }
+         * &lt;/pre&gt;
+         *
+         * &lt;p&gt;
+         * Passing {@code null} to this method will revert to the default source of
+         * randomness.
+         * &lt;/p&gt;
+         *
+         * @param random
+         *            the source of randomness, may be {@code null}
+         * @return {@code this}, to allow method chaining
+         */
+        public Builder usingRandom(final TextRandomProvider random) {
+<span class="fc" id="L225">            this.random = random;</span>
+<span class="fc" id="L226">            return this;</span>
+        }
+
+        /**
+         * Sets the array of minimum and maximum char allowed in the
+         * generated string.
+         *
+         * For example:
+         * &lt;pre&gt;
+         * {@code
+         *     char [][] pairs = {{'0','9'}};
+         *     char [][] pairs = {{'a','z'}};
+         *     char [][] pairs = {{'a','z'},{'0','9'}};
+         * }
+         * &lt;/pre&gt;
+         *
+         * @param pairs array of characters array, expected is to pass min, max pairs through this arg.
+         * @return {@code this}, to allow method chaining.
+         */
+        public Builder withinRange(final char[]... pairs) {
+<span class="fc" id="L246">            characterList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">            if (pairs != null) {</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">                for (final char[] pair : pairs) {</span>
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">                    Validate.isTrue(pair.length == 2, &quot;Each pair must contain minimum and maximum code point&quot;);</span>
+<span class="fc" id="L250">                    final int minimumCodePoint = pair[0];</span>
+<span class="fc" id="L251">                    final int maximumCodePoint = pair[1];</span>
+<span class="pc bpc" id="L252" title="1 of 2 branches missed.">                    Validate.isTrue(minimumCodePoint &lt;= maximumCodePoint, &quot;Minimum code point %d is larger than maximum code point %d&quot;, minimumCodePoint,</span>
+<span class="fc" id="L253">                            maximumCodePoint);</span>
+
+<span class="fc bfc" id="L255" title="All 2 branches covered.">                    for (int index = minimumCodePoint; index &lt;= maximumCodePoint; index++) {</span>
+<span class="fc" id="L256">                        characterList.add((char) index);</span>
+                    }
+                }
+            }
+<span class="fc" id="L260">            return this;</span>
+
+        }
+
+        /**
+         * Sets the minimum and maximum code points allowed in the
+         * generated string.
+         *
+         * @param minimumCodePoint
+         *            the smallest code point allowed (inclusive)
+         * @param maximumCodePoint
+         *            the largest code point allowed (inclusive)
+         * @return {@code this}, to allow method chaining
+         * @throws IllegalArgumentException
+         *             if {@code maximumCodePoint &gt;}
+         *             {@link Character#MAX_CODE_POINT}
+         * @throws IllegalArgumentException
+         *             if {@code minimumCodePoint &lt; 0}
+         * @throws IllegalArgumentException
+         *             if {@code minimumCodePoint &gt; maximumCodePoint}
+         */
+        public Builder withinRange(final int minimumCodePoint, final int maximumCodePoint) {
+<span class="fc bfc" id="L282" title="All 2 branches covered.">            Validate.isTrue(minimumCodePoint &lt;= maximumCodePoint,</span>
+<span class="fc" id="L283">                    &quot;Minimum code point %d is larger than maximum code point %d&quot;, minimumCodePoint, maximumCodePoint);</span>
+<span class="fc bfc" id="L284" title="All 2 branches covered.">            Validate.isTrue(minimumCodePoint &gt;= 0, &quot;Minimum code point %d is negative&quot;, minimumCodePoint);</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">            Validate.isTrue(maximumCodePoint &lt;= Character.MAX_CODE_POINT,</span>
+                    &quot;Value %d is larger than Character.MAX_CODE_POINT.&quot;, maximumCodePoint);
+
+<span class="fc" id="L288">            this.minimumCodePoint = minimumCodePoint;</span>
+<span class="fc" id="L289">            this.maximumCodePoint = maximumCodePoint;</span>
+<span class="fc" id="L290">            return this;</span>
+        }
+    }
+
+    /**
+     * Constructs a new builder.
+     * @return a new builder.
+     *
+     * @since 1.11.0
+     */
+    public static Builder builder() {
+<span class="fc" id="L301">        return new Builder();</span>
+    }
+
+    /**
+     * The smallest allowed code point (inclusive).
+     */
+    private final int minimumCodePoint;
+
+    /**
+     * The largest allowed code point (inclusive).
+     */
+    private final int maximumCodePoint;
+
+    /**
+     * Filters for code points.
+     */
+    private final Set&lt;CharacterPredicate&gt; inclusivePredicates;
+
+    /**
+     * The source of randomness for this generator.
+     */
+    private final TextRandomProvider random;
+
+    /**
+     * The source of provided characters.
+     */
+    private final List&lt;Character&gt; characterList;
+
+    /**
+     * Constructs the generator.
+     *
+     * @param minimumCodePoint
+     *            smallest allowed code point (inclusive)
+     * @param maximumCodePoint
+     *            largest allowed code point (inclusive)
+     * @param inclusivePredicates
+     *            filters for code points
+     * @param random
+     *            source of randomness
+     * @param characterList list of predefined set of characters.
+     */
+    private RandomStringGenerator(final int minimumCodePoint, final int maximumCodePoint,
+                                  final Set&lt;CharacterPredicate&gt; inclusivePredicates, final TextRandomProvider random,
+<span class="fc" id="L344">                                  final List&lt;Character&gt; characterList) {</span>
+<span class="fc" id="L345">        this.minimumCodePoint = minimumCodePoint;</span>
+<span class="fc" id="L346">        this.maximumCodePoint = maximumCodePoint;</span>
+<span class="fc" id="L347">        this.inclusivePredicates = inclusivePredicates;</span>
+<span class="fc" id="L348">        this.random = random;</span>
+<span class="fc" id="L349">        this.characterList = characterList;</span>
+<span class="fc" id="L350">    }</span>
+
+    /**
+     * Generates a random string, containing the specified number of code points.
+     *
+     * &lt;p&gt;
+     * Code points are randomly selected between the minimum and maximum values defined
+     * in the generator.
+     * Surrogate and private use characters are not returned, although the
+     * resulting string may contain pairs of surrogates that together encode a
+     * supplementary character.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * Note: the number of {@code char} code units generated will exceed
+     * {@code length} if the string contains supplementary characters. See the
+     * {@link Character} documentation to understand how Java stores Unicode
+     * values.
+     * &lt;/p&gt;
+     *
+     * @param length
+     *            the number of code points to generate
+     * @return The generated string
+     * @throws IllegalArgumentException
+     *             if {@code length &lt; 0}
+     */
+    public String generate(final int length) {
+<span class="fc bfc" id="L376" title="All 2 branches covered.">        if (length == 0) {</span>
+<span class="fc" id="L377">            return StringUtils.EMPTY;</span>
+        }
+<span class="fc bfc" id="L379" title="All 2 branches covered.">        Validate.isTrue(length &gt; 0, &quot;Length %d is smaller than zero.&quot;, length);</span>
+
+<span class="fc" id="L381">        final StringBuilder builder = new StringBuilder(length);</span>
+<span class="fc" id="L382">        long remaining = length;</span>
+
+        do {
+            final int codePoint;
+<span class="fc bfc" id="L386" title="All 4 branches covered.">            if (characterList != null &amp;&amp; !characterList.isEmpty()) {</span>
+<span class="fc" id="L387">                codePoint = generateRandomNumber(characterList);</span>
+            } else {
+<span class="fc" id="L389">                codePoint = generateRandomNumber(minimumCodePoint, maximumCodePoint);</span>
+            }
+<span class="fc bfc" id="L391" title="All 2 branches covered.">            switch (Character.getType(codePoint)) {</span>
+            case Character.UNASSIGNED:
+            case Character.PRIVATE_USE:
+            case Character.SURROGATE:
+<span class="fc" id="L395">                continue;</span>
+            default:
+            }
+
+<span class="fc bfc" id="L399" title="All 2 branches covered.">            if (inclusivePredicates != null) {</span>
+<span class="fc" id="L400">                boolean matchedFilter = false;</span>
+<span class="fc bfc" id="L401" title="All 2 branches covered.">                for (final CharacterPredicate predicate : inclusivePredicates) {</span>
+<span class="fc bfc" id="L402" title="All 2 branches covered.">                    if (predicate.test(codePoint)) {</span>
+<span class="fc" id="L403">                        matchedFilter = true;</span>
+<span class="fc" id="L404">                        break;</span>
+                    }
+<span class="fc" id="L406">                }</span>
+<span class="fc bfc" id="L407" title="All 2 branches covered.">                if (!matchedFilter) {</span>
+<span class="fc" id="L408">                    continue;</span>
+                }
+            }
+
+<span class="fc" id="L412">            builder.appendCodePoint(codePoint);</span>
+<span class="fc" id="L413">            remaining--;</span>
+
+<span class="fc bfc" id="L415" title="All 2 branches covered.">        } while (remaining != 0);</span>
+
+<span class="fc" id="L417">        return builder.toString();</span>
+    }
+
+    /**
+     * Generates a random string, containing between the minimum (inclusive) and the maximum (inclusive)
+     * number of code points.
+     *
+     * @param minLengthInclusive
+     *            the minimum (inclusive) number of code points to generate
+     * @param maxLengthInclusive
+     *            the maximum (inclusive) number of code points to generate
+     * @return The generated string
+     * @throws IllegalArgumentException
+     *             if {@code minLengthInclusive &lt; 0}, or {@code maxLengthInclusive &lt; minLengthInclusive}
+     * @see RandomStringGenerator#generate(int)
+     * @since 1.2
+     */
+    public String generate(final int minLengthInclusive, final int maxLengthInclusive) {
+<span class="fc bfc" id="L435" title="All 2 branches covered.">        Validate.isTrue(minLengthInclusive &gt;= 0, &quot;Minimum length %d is smaller than zero.&quot;, minLengthInclusive);</span>
+<span class="fc bfc" id="L436" title="All 2 branches covered.">        Validate.isTrue(minLengthInclusive &lt;= maxLengthInclusive,</span>
+<span class="fc" id="L437">                &quot;Maximum length %d is smaller than minimum length %d.&quot;, maxLengthInclusive, minLengthInclusive);</span>
+<span class="fc" id="L438">        return generate(generateRandomNumber(minLengthInclusive, maxLengthInclusive));</span>
+    }
+
+    /**
+     * Generates a random number within a range, using a {@link ThreadLocalRandom} instance
+     * or the user-supplied source of randomness.
+     *
+     * @param minInclusive
+     *            the minimum value allowed
+     * @param maxInclusive
+     *            the maximum value allowed
+     * @return The random number.
+     */
+    private int generateRandomNumber(final int minInclusive, final int maxInclusive) {
+<span class="fc bfc" id="L452" title="All 2 branches covered.">        if (random != null) {</span>
+<span class="fc" id="L453">            return random.nextInt(maxInclusive - minInclusive + 1) + minInclusive;</span>
+        }
+<span class="fc" id="L455">        return ThreadLocalRandom.current().nextInt(minInclusive, maxInclusive + 1);</span>
+    }
+
+    /**
+     * Generates a random number within a range, using a {@link ThreadLocalRandom} instance
+     * or the user-supplied source of randomness.
+     *
+     * @param characterList predefined char list.
+     * @return The random number.
+     */
+    private int generateRandomNumber(final List&lt;Character&gt; characterList) {
+<span class="fc" id="L466">        final int listSize = characterList.size();</span>
+<span class="pc bpc" id="L467" title="1 of 2 branches missed.">        if (random != null) {</span>
+<span class="nc" id="L468">            return String.valueOf(characterList.get(random.nextInt(listSize))).codePointAt(0);</span>
+        }
+<span class="fc" id="L470">        return String.valueOf(characterList.get(ThreadLocalRandom.current().nextInt(0, listSize))).codePointAt(0);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

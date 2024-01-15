@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StringSubstitutorReader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.io</a> &gt; <span class="el_source">StringSubstitutorReader.java</span></div><h1>StringSubstitutorReader.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.commons.text.io;
+
+import java.io.FilterReader;
+import java.io.IOException;
+import java.io.Reader;
+
+import org.apache.commons.text.StringSubstitutor;
+import org.apache.commons.text.TextStringBuilder;
+import org.apache.commons.text.matcher.StringMatcher;
+import org.apache.commons.text.matcher.StringMatcherFactory;
+
+/**
+ * A {@link Reader} that performs string substitution on a source {@code Reader} using a {@link StringSubstitutor}.
+ *
+ * &lt;p&gt;
+ * Using this Reader avoids reading a whole file into memory as a {@code String} to perform string substitution, for
+ * example, when a Servlet filters a file to a client.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * This class is not thread-safe.
+ * &lt;/p&gt;
+ *
+ * @since 1.9
+ */
+public class StringSubstitutorReader extends FilterReader {
+
+    /** The end-of-stream character marker. */
+    private static final int EOS = -1;
+
+    /** Our internal buffer. */
+<span class="fc" id="L48">    private final TextStringBuilder buffer = new TextStringBuilder();</span>
+
+    /** End-of-Stream flag. */
+    private boolean eos;
+
+    /** Matches escaped variable starts. */
+    private final StringMatcher prefixEscapeMatcher;
+
+    /** Internal buffer for {@link #read()} method. */
+<span class="fc" id="L57">    private final char[] read1CharBuffer = {0};</span>
+
+    /** The underlying StringSubstitutor. */
+    private final StringSubstitutor stringSubstitutor;
+
+    /** We don't always want to drain the whole buffer. */
+    private int toDrain;
+
+    /**
+     * Constructs a new instance.
+     *
+     * @param reader the underlying reader containing the template text known to the given {@code StringSubstitutor}.
+     * @param stringSubstitutor How to replace as we read.
+     * @throws NullPointerException if {@code reader} is {@code null}.
+     * @throws NullPointerException if {@code stringSubstitutor} is {@code null}.
+     */
+    public StringSubstitutorReader(final Reader reader, final StringSubstitutor stringSubstitutor) {
+<span class="fc" id="L74">        super(reader);</span>
+<span class="fc" id="L75">        this.stringSubstitutor = new StringSubstitutor(stringSubstitutor);</span>
+<span class="fc" id="L76">        this.prefixEscapeMatcher = StringMatcherFactory.INSTANCE.charMatcher(stringSubstitutor.getEscapeChar())</span>
+<span class="fc" id="L77">            .andThen(stringSubstitutor.getVariablePrefixMatcher());</span>
+<span class="fc" id="L78">    }</span>
+
+    /**
+     * Buffers the requested number of characters if available.
+     */
+    private int buffer(final int requestReadCount) throws IOException {
+<span class="fc" id="L84">        final int actualReadCount = buffer.readFrom(super.in, requestReadCount);</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        eos = actualReadCount == EOS;</span>
+<span class="fc" id="L86">        return actualReadCount;</span>
+    }
+
+    /**
+     * Reads a requested number of chars from the underlying reader into the buffer. On EOS, set the state is DRAINING,
+     * drain, and return a drain count, otherwise, returns the actual read count.
+     */
+    private int bufferOrDrainOnEos(final int requestReadCount, final char[] target, final int targetIndex,
+        final int targetLength) throws IOException {
+<span class="fc" id="L95">        final int actualReadCount = buffer(requestReadCount);</span>
+<span class="fc" id="L96">        return drainOnEos(actualReadCount, target, targetIndex, targetLength);</span>
+    }
+
+    /**
+     * Drains characters from our buffer to the given {@code target}.
+     */
+    private int drain(final char[] target, final int targetIndex, final int targetLength) {
+<span class="fc" id="L103">        final int actualLen = Math.min(buffer.length(), targetLength);</span>
+<span class="fc" id="L104">        final int drainCount = buffer.drainChars(0, actualLen, target, targetIndex);</span>
+<span class="fc" id="L105">        toDrain -= drainCount;</span>
+<span class="fc bfc" id="L106" title="All 4 branches covered.">        if (buffer.isEmpty() || toDrain == 0) {</span>
+            // nothing or everything drained.
+<span class="fc" id="L108">            toDrain = 0;</span>
+        }
+<span class="fc" id="L110">        return drainCount;</span>
+    }
+
+    /**
+     * Drains from the buffer to the target only if we are at EOS per the input count. If input count is EOS, drain and
+     * returns the drain count, otherwise return the input count. If draining, the state is set to DRAINING.
+     */
+    private int drainOnEos(final int readCountOrEos, final char[] target, final int targetIndex,
+        final int targetLength) {
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        if (readCountOrEos == EOS) {</span>
+            // At EOS, drain.
+<span class="fc bfc" id="L121" title="All 2 branches covered.">            if (buffer.isNotEmpty()) {</span>
+<span class="fc" id="L122">                toDrain = buffer.size();</span>
+<span class="fc" id="L123">                return drain(target, targetIndex, targetLength);</span>
+            }
+<span class="fc" id="L125">            return EOS;</span>
+        }
+<span class="fc" id="L127">        return readCountOrEos;</span>
+    }
+
+    /**
+     * Tests if our buffer matches the given string matcher at the given position in the buffer.
+     */
+    private boolean isBufferMatchAt(final StringMatcher stringMatcher, final int pos) {
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        return stringMatcher.isMatch(buffer, pos) == stringMatcher.size();</span>
+    }
+
+    /**
+     * Tests if we are draining.
+     */
+    private boolean isDraining() {
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        return toDrain &gt; 0;</span>
+    }
+
+    /**
+     * Reads a single character.
+     *
+     * @return a character as an {@code int} or {@code -1} for end-of-stream.
+     * @throws IOException If an I/O error occurs
+     */
+    @Override
+    public int read() throws IOException {
+<span class="fc" id="L152">        int count = 0;</span>
+        // ask until we get a char or EOS
+        do {
+<span class="fc" id="L155">            count = read(read1CharBuffer, 0, 1);</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">            if (count == EOS) {</span>
+<span class="fc" id="L157">                return EOS;</span>
+            }
+            // keep on buffering
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        } while (count &lt; 1);</span>
+<span class="fc" id="L161">        return read1CharBuffer[0];</span>
+    }
+
+    /**
+     * Reads characters into a portion of an array.
+     *
+     * @param target Target buffer.
+     * @param targetIndexIn Index in the target at which to start storing characters.
+     * @param targetLengthIn Maximum number of characters to read.
+     *
+     * @return The number of characters read, or -1 on end of stream.
+     * @throws IOException If an I/O error occurs
+     */
+    @Override
+    public int read(final char[] target, final int targetIndexIn, final int targetLengthIn) throws IOException {
+        // The whole thing is inefficient because we must look for a balanced suffix to match the starting prefix
+        // Trying to substitute an incomplete expression can perform replacements when it should not.
+        // At a high level:
+        // - if draining, drain until empty or target length hit
+        // - copy to target until we find a variable start
+        // - buffer until a balanced suffix is read, then substitute.
+<span class="fc bfc" id="L182" title="All 4 branches covered.">        if (eos &amp;&amp; buffer.isEmpty()) {</span>
+<span class="fc" id="L183">            return EOS;</span>
+        }
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        if (targetLengthIn &lt;= 0) {</span>
+            // short-circuit: ask nothing, give nothing
+<span class="fc" id="L187">            return 0;</span>
+        }
+        // drain check
+<span class="fc" id="L190">        int targetIndex = targetIndexIn;</span>
+<span class="fc" id="L191">        int targetLength = targetLengthIn;</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">        if (isDraining()) {</span>
+            // drain as much as possible
+<span class="fc" id="L194">            final int drainCount = drain(target, targetIndex, Math.min(toDrain, targetLength));</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">            if (drainCount == targetLength) {</span>
+                // drained length requested, target is full, can only do more in the next invocation
+<span class="fc" id="L197">                return targetLength;</span>
+            }
+            // drained less than requested, target not full.
+<span class="fc" id="L200">            targetIndex += drainCount;</span>
+<span class="fc" id="L201">            targetLength -= drainCount;</span>
+        }
+        // BUFFER from the underlying reader
+<span class="fc" id="L204">        final int minReadLenPrefix = prefixEscapeMatcher.size();</span>
+        // READ enough to test for an [optionally escaped] variable start
+<span class="fc" id="L206">        int readCount = buffer(readCount(minReadLenPrefix, 0));</span>
+<span class="fc bfc" id="L207" title="All 4 branches covered.">        if (buffer.length() &lt; minReadLenPrefix &amp;&amp; targetLength &lt; minReadLenPrefix) {</span>
+            // read less than minReadLenPrefix, no variable possible
+<span class="fc" id="L209">            final int drainCount = drain(target, targetIndex, targetLength);</span>
+<span class="fc" id="L210">            targetIndex += drainCount;</span>
+<span class="fc" id="L211">            final int targetSize = targetIndex - targetIndexIn;</span>
+<span class="fc bfc" id="L212" title="All 4 branches covered.">            return eos &amp;&amp; targetSize &lt;= 0 ? EOS : targetSize;</span>
+        }
+<span class="fc bfc" id="L214" title="All 2 branches covered.">        if (eos) {</span>
+            // EOS
+<span class="fc" id="L216">            stringSubstitutor.replaceIn(buffer);</span>
+<span class="fc" id="L217">            toDrain = buffer.size();</span>
+<span class="fc" id="L218">            final int drainCount = drain(target, targetIndex, targetLength);</span>
+<span class="fc" id="L219">            targetIndex += drainCount;</span>
+<span class="fc" id="L220">            final int targetSize = targetIndex - targetIndexIn;</span>
+<span class="pc bpc" id="L221" title="1 of 4 branches missed.">            return eos &amp;&amp; targetSize &lt;= 0 ? EOS : targetSize;</span>
+        }
+        // PREFIX
+        // buffer and drain until we find a variable start, escaped or plain.
+<span class="fc" id="L225">        int balance = 0;</span>
+<span class="fc" id="L226">        final StringMatcher prefixMatcher = stringSubstitutor.getVariablePrefixMatcher();</span>
+<span class="fc" id="L227">        int pos = 0;</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">        while (targetLength &gt; 0) {</span>
+<span class="fc bfc" id="L229" title="All 2 branches covered.">            if (isBufferMatchAt(prefixMatcher, 0)) {</span>
+<span class="fc" id="L230">                balance = 1;</span>
+<span class="fc" id="L231">                pos = prefixMatcher.size();</span>
+<span class="fc" id="L232">                break;</span>
+            }
+<span class="fc bfc" id="L234" title="All 2 branches covered.">            if (isBufferMatchAt(prefixEscapeMatcher, 0)) {</span>
+<span class="fc" id="L235">                balance = 1;</span>
+<span class="fc" id="L236">                pos = prefixEscapeMatcher.size();</span>
+<span class="fc" id="L237">                break;</span>
+            }
+            // drain first char
+<span class="fc" id="L240">            final int drainCount = drain(target, targetIndex, 1);</span>
+<span class="fc" id="L241">            targetIndex += drainCount;</span>
+<span class="fc" id="L242">            targetLength -= drainCount;</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">            if (buffer.size() &lt; minReadLenPrefix) {</span>
+<span class="fc" id="L244">                readCount = bufferOrDrainOnEos(minReadLenPrefix, target, targetIndex, targetLength);</span>
+<span class="pc bpc" id="L245" title="1 of 4 branches missed.">                if (eos || isDraining()) {</span>
+                    // if draining, readCount is a drain count
+<span class="fc bfc" id="L247" title="All 2 branches covered.">                    if (readCount != EOS) {</span>
+<span class="fc" id="L248">                        targetIndex += readCount;</span>
+<span class="fc" id="L249">                        targetLength -= readCount;</span>
+                    }
+<span class="fc" id="L251">                    final int actual = targetIndex - targetIndexIn;</span>
+<span class="pc bpc" id="L252" title="1 of 2 branches missed.">                    return actual &gt; 0 ? actual : EOS;</span>
+                }
+            }
+<span class="fc" id="L255">        }</span>
+        // we found a variable start
+<span class="fc bfc" id="L257" title="All 2 branches covered.">        if (targetLength &lt;= 0) {</span>
+            // no more room in target
+<span class="fc" id="L259">            return targetLengthIn;</span>
+        }
+        // SUFFIX
+        // buffer more to find a balanced suffix
+<span class="fc" id="L263">        final StringMatcher suffixMatcher = stringSubstitutor.getVariableSuffixMatcher();</span>
+<span class="fc" id="L264">        final int minReadLenSuffix = Math.max(minReadLenPrefix, suffixMatcher.size());</span>
+<span class="fc" id="L265">        readCount = buffer(readCount(minReadLenSuffix, pos));</span>
+<span class="fc bfc" id="L266" title="All 2 branches covered.">        if (eos) {</span>
+            // EOS
+<span class="fc" id="L268">            stringSubstitutor.replaceIn(buffer);</span>
+<span class="fc" id="L269">            toDrain = buffer.size();</span>
+<span class="fc" id="L270">            final int drainCount = drain(target, targetIndex, targetLength);</span>
+<span class="fc" id="L271">            return targetIndex + drainCount - targetIndexIn;</span>
+        }
+        // buffer and break out when we find the end or a balanced suffix
+        while (true) {
+<span class="fc bfc" id="L275" title="All 2 branches covered.">            if (isBufferMatchAt(suffixMatcher, pos)) {</span>
+<span class="fc" id="L276">                balance--;</span>
+<span class="fc" id="L277">                pos++;</span>
+<span class="fc bfc" id="L278" title="All 2 branches covered.">                if (balance == 0) {</span>
+<span class="fc" id="L279">                    break;</span>
+                }
+<span class="fc bfc" id="L281" title="All 2 branches covered.">            } else if (isBufferMatchAt(prefixMatcher, pos)) {</span>
+<span class="fc" id="L282">                balance++;</span>
+<span class="fc" id="L283">                pos += prefixMatcher.size();</span>
+<span class="fc bfc" id="L284" title="All 2 branches covered.">            } else if (isBufferMatchAt(prefixEscapeMatcher, pos)) {</span>
+<span class="fc" id="L285">                balance++;</span>
+<span class="fc" id="L286">                pos += prefixEscapeMatcher.size();</span>
+            } else {
+<span class="fc" id="L288">                pos++;</span>
+            }
+<span class="fc" id="L290">            readCount = buffer(readCount(minReadLenSuffix, pos));</span>
+<span class="fc bfc" id="L291" title="All 4 branches covered.">            if (readCount == EOS &amp;&amp; pos &gt;= buffer.size()) {</span>
+<span class="fc" id="L292">                break;</span>
+            }
+        }
+        // substitute
+<span class="fc" id="L296">        final int endPos = pos + 1;</span>
+<span class="fc" id="L297">        final int leftover = Math.max(0, buffer.size() - pos);</span>
+<span class="fc" id="L298">        stringSubstitutor.replaceIn(buffer, 0, Math.min(buffer.size(), endPos));</span>
+<span class="fc" id="L299">        pos = buffer.size() - leftover;</span>
+<span class="fc" id="L300">        final int drainLen = Math.min(targetLength, pos);</span>
+        // only drain up to what we've substituted
+<span class="fc" id="L302">        toDrain = pos;</span>
+<span class="fc" id="L303">        drain(target, targetIndex, drainLen);</span>
+<span class="fc" id="L304">        return targetIndex - targetIndexIn + drainLen;</span>
+    }
+
+    /**
+     * Returns how many chars to attempt reading to have room in the buffer for {@code count} chars starting at position
+     * {@code pos}.
+     */
+    private int readCount(final int count, final int pos) {
+<span class="fc" id="L312">        final int avail = buffer.size() - pos;</span>
+<span class="fc bfc" id="L313" title="All 2 branches covered.">        return avail &gt;= count ? 0 : count - avail;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

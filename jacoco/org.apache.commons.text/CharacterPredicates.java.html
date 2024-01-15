@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CharacterPredicates.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text</a> &gt; <span class="el_source">CharacterPredicates.java</span></div><h1>CharacterPredicates.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text;
+
+/**
+ * Commonly used implementations of {@link CharacterPredicate}. Per the interface
+ * requirements, all implementations are thread safe.
+ *
+ * @since 1.0
+ */
+<span class="fc" id="L25">public enum CharacterPredicates implements CharacterPredicate {</span>
+
+    /**
+     * Tests code points against {@link Character#isLetter(int)}.
+     *
+     * @since 1.0
+     */
+<span class="fc" id="L32">    LETTERS {</span>
+        @Override
+        public boolean test(final int codePoint) {
+<span class="fc" id="L35">            return Character.isLetter(codePoint);</span>
+        }
+    },
+
+    /**
+     * Tests code points against {@link Character#isDigit(int)}.
+     *
+     * @since 1.0
+     */
+<span class="fc" id="L44">    DIGITS {</span>
+        @Override
+        public boolean test(final int codePoint) {
+<span class="fc" id="L47">            return Character.isDigit(codePoint);</span>
+        }
+    },
+
+    /**
+     * Tests if the code points represents a number between 0 and 9.
+     *
+     * @since 1.2
+     */
+<span class="fc" id="L56">    ARABIC_NUMERALS {</span>
+        @Override
+        public boolean test(final int codePoint) {
+<span class="fc bfc" id="L59" title="All 4 branches covered.">            return codePoint &gt;= '0' &amp;&amp; codePoint &lt;= '9';</span>
+        }
+    },
+
+    /**
+     * Tests if the code points represents a letter between a and z.
+     *
+     * @since 1.2
+     */
+<span class="fc" id="L68">    ASCII_LOWERCASE_LETTERS {</span>
+        @Override
+        public boolean test(final int codePoint) {
+<span class="fc bfc" id="L71" title="All 4 branches covered.">            return codePoint &gt;= 'a' &amp;&amp; codePoint &lt;= 'z';</span>
+        }
+    },
+
+    /**
+     * Tests if the code points represents a letter between A and Z.
+     *
+     * @since 1.2
+     */
+<span class="fc" id="L80">    ASCII_UPPERCASE_LETTERS {</span>
+        @Override
+        public boolean test(final int codePoint) {
+<span class="fc bfc" id="L83" title="All 4 branches covered.">            return codePoint &gt;= 'A' &amp;&amp; codePoint &lt;= 'Z';</span>
+        }
+    },
+
+    /**
+     * Tests if the code points represents a letter between a and Z.
+     *
+     * @since 1.2
+     */
+<span class="fc" id="L92">    ASCII_LETTERS {</span>
+        @Override
+        public boolean test(final int codePoint) {
+<span class="fc bfc" id="L95" title="All 4 branches covered.">            return ASCII_LOWERCASE_LETTERS.test(codePoint) || ASCII_UPPERCASE_LETTERS.test(codePoint);</span>
+        }
+    },
+
+    /**
+     * Tests if the code points represents a letter between a and Z or a number between 0 and 9.
+     *
+     * @since 1.2
+     */
+<span class="fc" id="L104">    ASCII_ALPHA_NUMERALS {</span>
+        @Override
+        public boolean test(final int codePoint) {
+<span class="fc bfc" id="L107" title="All 4 branches covered.">            return ASCII_LOWERCASE_LETTERS.test(codePoint) || ASCII_UPPERCASE_LETTERS.test(codePoint)</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">                    || ARABIC_NUMERALS.test(codePoint);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

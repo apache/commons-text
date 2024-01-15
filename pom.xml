@@ -177,6 +177,8 @@
               <exclude>evosuite-report/</exclude>
               <exclude>evosuite-tests/</exclude>
               <exclude>tools/</exclude>
+              <exclude>jacoco/</exclude>
+              <exclude>pit-reports/</exclude>
             </excludes>
           </configuration>
         </plugin><!-- override skip property of parent pom -->

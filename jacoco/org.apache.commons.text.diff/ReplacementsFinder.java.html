@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReplacementsFinder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.diff</a> &gt; <span class="el_source">ReplacementsFinder.java</span></div><h1>ReplacementsFinder.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.diff;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class handles sequences of replacements resulting from a comparison.
+ * &lt;p&gt;
+ * The comparison of two objects sequences leads to the identification of common
+ * parts and parts which only belong to the first or to the second sequence. The
+ * common parts appear in the edit script in the form of &lt;em&gt;keep&lt;/em&gt; commands,
+ * they can be considered as synchronization objects between the two sequences.
+ * These synchronization objects split the two sequences in synchronized
+ * sub-sequences. The first sequence can be transformed into the second one by
+ * replacing each synchronized sub-sequence of the first sequence by the
+ * corresponding sub-sequence of the second sequence. This is a synthetic way to
+ * see an {@link EditScript edit script}, replacing individual
+ * {@link DeleteCommand delete}, {@link KeepCommand keep} and
+ * {@link InsertCommand insert} commands by fewer replacements acting on
+ * complete sub-sequences.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * This class is devoted to perform this interpretation. It visits an
+ * {@link EditScript edit script} (because it implements the
+ * {@link CommandVisitor CommandVisitor} interface) and calls a user-supplied
+ * handler implementing the {@link ReplacementsHandler ReplacementsHandler}
+ * interface to process the sub-sequences.
+ * &lt;/p&gt;
+ *
+ * @see ReplacementsHandler
+ * @see EditScript
+ * @see StringsComparator
+ *
+ * @param &lt;T&gt; object type
+ * @since 1.0
+ */
+public class ReplacementsFinder&lt;T&gt; implements CommandVisitor&lt;T&gt; {
+
+    /**
+     * List of pending insertions.
+     */
+    private final List&lt;T&gt; pendingInsertions;
+
+    /**
+     * List of pending deletions.
+     */
+    private final List&lt;T&gt; pendingDeletions;
+
+    /**
+     * Count of elements skipped.
+     */
+    private int skipped;
+
+    /** Handler to call when synchronized sequences are found. */
+    private final ReplacementsHandler&lt;T&gt; handler;
+
+    /**
+     * Constructs a new instance of {@link ReplacementsFinder}.
+     *
+     * @param handler  handler to call when synchronized sequences are found
+     */
+<span class="fc" id="L78">    public ReplacementsFinder(final ReplacementsHandler&lt;T&gt; handler) {</span>
+<span class="fc" id="L79">        pendingInsertions = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L80">        pendingDeletions  = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L81">        skipped           = 0;</span>
+<span class="fc" id="L82">        this.handler      = handler;</span>
+<span class="fc" id="L83">    }</span>
+
+    /**
+     * Add an object to the pending deletions set.
+     *
+     * @param object  object to delete
+     */
+    @Override
+    public void visitDeleteCommand(final T object) {
+<span class="fc" id="L92">        pendingDeletions.add(object);</span>
+<span class="fc" id="L93">    }</span>
+
+    /**
+     * Add an object to the pending insertions set.
+     *
+     * @param object  object to insert
+     */
+    @Override
+    public void visitInsertCommand(final T object) {
+<span class="fc" id="L102">        pendingInsertions.add(object);</span>
+<span class="fc" id="L103">    }</span>
+
+    /**
+     * Handle a synchronization object.
+     * &lt;p&gt;
+     * When a synchronization object is identified, the pending insertions and
+     * pending deletions sets are provided to the user handler as subsequences.
+     * &lt;/p&gt;
+     *
+     * @param object  synchronization object detected
+     */
+    @Override
+    public void visitKeepCommand(final T object) {
+<span class="fc bfc" id="L116" title="All 4 branches covered.">        if (pendingDeletions.isEmpty() &amp;&amp; pendingInsertions.isEmpty()) {</span>
+<span class="fc" id="L117">            ++skipped;</span>
+        } else {
+<span class="fc" id="L119">            handler.handleReplacement(skipped, pendingDeletions, pendingInsertions);</span>
+<span class="fc" id="L120">            pendingDeletions.clear();</span>
+<span class="fc" id="L121">            pendingInsertions.clear();</span>
+<span class="fc" id="L122">            skipped = 1;</span>
+        }
+<span class="fc" id="L124">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CosineDistance.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.similarity</a> &gt; <span class="el_source">CosineDistance.java</span></div><h1>CosineDistance.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.similarity;
+
+import java.util.Map;
+
+/**
+ * Measures the cosine distance between two character sequences.
+ *
+ * &lt;p&gt;It utilizes the {@link CosineSimilarity} to compute the distance. Character sequences
+ * are converted into vectors through a simple tokenizer that works with a regular expression
+ * to split words in a sentence.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * For further explanation about Cosine Similarity and Cosine Distance, refer to
+ * http://en.wikipedia.org/wiki/Cosine_similarity.
+ * &lt;/p&gt;
+ *
+ * @since 1.0
+ * @see CosineSimilarity
+ */
+<span class="fc" id="L36">public class CosineDistance implements EditDistance&lt;Double&gt; {</span>
+
+    @Override
+    public Double apply(final CharSequence left, final CharSequence right) {
+<span class="fc" id="L40">        final CharSequence[] leftTokens = RegexTokenizer.INSTANCE.apply(left);</span>
+<span class="fc" id="L41">        final CharSequence[] rightTokens = RegexTokenizer.INSTANCE.apply(right);</span>
+
+<span class="fc" id="L43">        final Map&lt;CharSequence, Integer&gt; leftVector = Counter.of(leftTokens);</span>
+<span class="fc" id="L44">        final Map&lt;CharSequence, Integer&gt; rightVector = Counter.of(rightTokens);</span>
+<span class="fc" id="L45">        final double similarity = CosineSimilarity.INSTANCE.cosineSimilarity(leftVector, rightVector);</span>
+<span class="fc" id="L46">        return 1.0 - similarity;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

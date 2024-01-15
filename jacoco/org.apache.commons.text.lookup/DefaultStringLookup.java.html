@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultStringLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.lookup</a> &gt; <span class="el_source">DefaultStringLookup.java</span></div><h1>DefaultStringLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.lookup;
+
+/**
+ * An enumeration defining {@link StringLookup} objects available through {@link StringLookupFactory}.
+ * &lt;p&gt;
+ * This enum was adapted and expanded from Apache Commons Configuration 2.4.
+ * &lt;/p&gt;
+ * &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Starting in version 1.10.0, not all lookups defined in this class are
+ * included by default in the
+ * {@link StringLookupFactory#addDefaultStringLookups(java.util.Map) StringLookupFactory.addDefaultStringLookups}
+ * method. See the {@link StringLookupFactory} class documentation for details.
+ * &lt;/p&gt;
+ *
+ * @see StringLookupFactory
+ * @see StringLookup
+ * @since 1.7
+ */
+<span class="fc" id="L34">public enum DefaultStringLookup {</span>
+
+    /**
+     * The lookup for Base64 decoding using the key {@code &quot;base64Decoder&quot;}.
+     * @see StringLookupFactory#KEY_BASE64_DECODER
+     * @see StringLookupFactory#base64DecoderStringLookup()
+     */
+<span class="fc" id="L41">    BASE64_DECODER(StringLookupFactory.KEY_BASE64_DECODER, StringLookupFactory.INSTANCE.base64DecoderStringLookup()),</span>
+
+    /**
+     * The lookup for Base64 encoding using the key {@code &quot;base64Encoder&quot;}.
+     * @see StringLookupFactory#KEY_BASE64_ENCODER
+     * @see StringLookupFactory#base64EncoderStringLookup()
+     */
+<span class="fc" id="L48">    BASE64_ENCODER(StringLookupFactory.KEY_BASE64_ENCODER, StringLookupFactory.INSTANCE.base64EncoderStringLookup()),</span>
+
+    /**
+     * The lookup for Java static class member constants using the key {@code &quot;const&quot;}.
+     * @see StringLookupFactory#KEY_CONST
+     * @see StringLookupFactory#constantStringLookup()
+     */
+<span class="fc" id="L55">    CONST(StringLookupFactory.KEY_CONST, StringLookupFactory.INSTANCE.constantStringLookup()),</span>
+
+    /**
+     * The lookup for formatting the current date using the key {@code &quot;date&quot;}.
+     * @see StringLookupFactory#KEY_DATE
+     * @see StringLookupFactory#dateStringLookup()
+     */
+<span class="fc" id="L62">    DATE(StringLookupFactory.KEY_DATE, StringLookupFactory.INSTANCE.dateStringLookup()),</span>
+
+    /**
+     * The lookup for DNS using the key {@code &quot;dns&quot;}.
+     * @see StringLookupFactory#KEY_DNS
+     * @see StringLookupFactory#dnsStringLookup()
+     * @since 1.8
+     */
+<span class="fc" id="L70">    DNS(StringLookupFactory.KEY_DNS, StringLookupFactory.INSTANCE.dnsStringLookup()),</span>
+
+    /**
+     * The lookup for environment properties using the key {@code &quot;env&quot;}.
+     * @see StringLookupFactory#KEY_ENV
+     * @see StringLookupFactory#environmentVariableStringLookup()
+     */
+<span class="fc" id="L77">    ENVIRONMENT(StringLookupFactory.KEY_ENV, StringLookupFactory.INSTANCE.environmentVariableStringLookup()),</span>
+
+    /**
+     * The lookup for files using the key {@code &quot;file&quot;}.
+     * @see StringLookupFactory#KEY_FILE
+     * @see StringLookupFactory#fileStringLookup()
+     */
+<span class="fc" id="L84">    FILE(StringLookupFactory.KEY_FILE, StringLookupFactory.INSTANCE.fileStringLookup()),</span>
+
+    /**
+     * The lookup for Java platform information using the key {@code &quot;java&quot;}.
+     * @see StringLookupFactory#KEY_JAVA
+     * @see StringLookupFactory#javaPlatformStringLookup()
+     */
+<span class="fc" id="L91">    JAVA(StringLookupFactory.KEY_JAVA, StringLookupFactory.INSTANCE.javaPlatformStringLookup()),</span>
+
+    /**
+     * The lookup for local host information using the key {@code &quot;localhost&quot;}.
+     * @see StringLookupFactory#KEY_LOCALHOST
+     * @see StringLookupFactory#localHostStringLookup()
+     */
+<span class="fc" id="L98">    LOCAL_HOST(StringLookupFactory.KEY_LOCALHOST, StringLookupFactory.INSTANCE.localHostStringLookup()),</span>
+
+    /**
+     * The lookup for properties using the key {@code &quot;properties&quot;}.
+     * @see StringLookupFactory#KEY_PROPERTIES
+     * @see StringLookupFactory#propertiesStringLookup()
+     */
+<span class="fc" id="L105">    PROPERTIES(StringLookupFactory.KEY_PROPERTIES, StringLookupFactory.INSTANCE.propertiesStringLookup()),</span>
+
+    /**
+     * The lookup for resource bundles using the key {@code &quot;resourceBundle&quot;}.
+     * @see StringLookupFactory#KEY_RESOURCE_BUNDLE
+     * @see StringLookupFactory#resourceBundleStringLookup()
+     */
+<span class="fc" id="L112">    RESOURCE_BUNDLE(StringLookupFactory.KEY_RESOURCE_BUNDLE, StringLookupFactory.INSTANCE.resourceBundleStringLookup()),</span>
+
+    /**
+     * The lookup for scripts using the key {@code &quot;script&quot;}.
+     * @see StringLookupFactory#KEY_SCRIPT
+     * @see StringLookupFactory#scriptStringLookup()
+     */
+<span class="fc" id="L119">    SCRIPT(StringLookupFactory.KEY_SCRIPT, StringLookupFactory.INSTANCE.scriptStringLookup()),</span>
+
+    /**
+     * The lookup for system properties using the key {@code &quot;sys&quot;}.
+     * @see StringLookupFactory#KEY_SYS
+     * @see StringLookupFactory#systemPropertyStringLookup()
+     */
+<span class="fc" id="L126">    SYSTEM_PROPERTIES(StringLookupFactory.KEY_SYS, StringLookupFactory.INSTANCE.systemPropertyStringLookup()),</span>
+
+    /**
+     * The lookup for URLs using the key {@code &quot;url&quot;}.
+     * @see StringLookupFactory#KEY_URL
+     * @see StringLookupFactory#urlStringLookup()
+     */
+<span class="fc" id="L133">    URL(StringLookupFactory.KEY_URL, StringLookupFactory.INSTANCE.urlStringLookup()),</span>
+
+    /**
+     * The lookup for URL decoding using the key {@code &quot;urlDecoder&quot;}.
+     * @see StringLookupFactory#KEY_URL_DECODER
+     * @see StringLookupFactory#urlDecoderStringLookup()
+     */
+<span class="fc" id="L140">    URL_DECODER(StringLookupFactory.KEY_URL_DECODER, StringLookupFactory.INSTANCE.urlDecoderStringLookup()),</span>
+
+    /**
+     * The lookup for URL encoding using the key {@code &quot;urlEncoder&quot;}.
+     * @see StringLookupFactory#KEY_URL_ENCODER
+     * @see StringLookupFactory#urlEncoderStringLookup()
+     */
+<span class="fc" id="L147">    URL_ENCODER(StringLookupFactory.KEY_URL_ENCODER, StringLookupFactory.INSTANCE.urlEncoderStringLookup()),</span>
+
+    /**
+     * The lookup for XML decoding using the key {@code &quot;xml&quot;}.
+     * @see StringLookupFactory#KEY_XML
+     * @see StringLookupFactory#xmlStringLookup()
+     */
+<span class="fc" id="L154">    XML(StringLookupFactory.KEY_XML, StringLookupFactory.INSTANCE.xmlStringLookup()),</span>
+
+    /**
+     * The lookup for XML decoding using the key {@code &quot;xmlDecoder&quot;}.
+     * @see StringLookupFactory#KEY_XML_DECODER
+     * @see StringLookupFactory#xmlDecoderStringLookup()
+     * @since 1.11.0
+     */
+<span class="fc" id="L162">    XML_DECODER(StringLookupFactory.KEY_XML_DECODER, StringLookupFactory.INSTANCE.xmlDecoderStringLookup()),</span>
+
+    /**
+     * The lookup for XML encoding using the key {@code &quot;xmlEncoder&quot;}.
+     * @see StringLookupFactory#KEY_XML_ENCODER
+     * @see StringLookupFactory#xmlEncoderStringLookup()
+     * @since 1.11.0
+     */
+<span class="fc" id="L170">    XML_ENCODER(StringLookupFactory.KEY_XML_ENCODER, StringLookupFactory.INSTANCE.xmlEncoderStringLookup());</span>
+
+    /** The prefix under which the associated lookup object is registered. */
+    private final String key;
+
+    /** The associated lookup instance. */
+    private final StringLookup lookup;
+
+    /**
+     * Creates a new instance of {@link DefaultStringLookup} and sets the key and the associated lookup instance.
+     *
+     * @param prefix the prefix
+     * @param lookup the {@link StringLookup} instance
+     */
+<span class="fc" id="L184">    DefaultStringLookup(final String prefix, final StringLookup lookup) {</span>
+<span class="fc" id="L185">        this.key = prefix;</span>
+<span class="fc" id="L186">        this.lookup = lookup;</span>
+<span class="fc" id="L187">    }</span>
+
+    /**
+     * Returns the standard prefix for the lookup object of this kind.
+     *
+     * @return the prefix
+     */
+    public String getKey() {
+<span class="fc" id="L195">        return key;</span>
+    }
+
+    /**
+     * Returns the standard {@link StringLookup} instance of this kind.
+     *
+     * @return the associated {@link StringLookup} object
+     */
+    public StringLookup getStringLookup() {
+<span class="fc" id="L204">        return lookup;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

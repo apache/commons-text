@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EditCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.diff</a> &gt; <span class="el_source">EditCommand.java</span></div><h1>EditCommand.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.diff;
+
+/**
+ * Abstract base class for all commands used to transform an objects sequence
+ * into another one.
+ * &lt;p&gt;
+ * When two objects sequences are compared through the
+ * {@link StringsComparator#getScript StringsComparator.getScript} method,
+ * the result is provided has a {@link EditScript script} containing the commands
+ * that progressively transform the first sequence into the second one.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * There are only three types of commands, all of which are subclasses of this
+ * abstract class. Each command is associated with one object belonging to at
+ * least one of the sequences. These commands are {@link InsertCommand
+ * InsertCommand} which correspond to an object of the second sequence being
+ * inserted into the first sequence, {@link DeleteCommand DeleteCommand} which
+ * correspond to an object of the first sequence being removed and
+ * {@link KeepCommand KeepCommand} which correspond to an object of the first
+ * sequence which {@code equals} an object in the second sequence. It is
+ * guaranteed that comparison is always performed this way (i.e. the
+ * {@code equals} method of the object from the first sequence is used and
+ * the object passed as an argument comes from the second sequence) ; this can
+ * be important if subclassing is used for some elements in the first sequence
+ * and the {@code equals} method is specialized.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * This code has been adapted from Apache Commons Collections 4.0.
+ * &lt;/p&gt;
+ *
+ * @see StringsComparator
+ * @see EditScript
+ *
+ * @param &lt;T&gt; object type
+ * @since 1.0
+ */
+public abstract class EditCommand&lt;T&gt; {
+
+    /** Object on which the command should be applied. */
+    private final T object;
+
+    /**
+     * Constructs a new instance of EditCommand.
+     *
+     * @param object  reference to the object associated with this command, this
+     *   refers to an element of one of the sequences being compared
+     */
+<span class="fc" id="L65">    protected EditCommand(final T object) {</span>
+<span class="fc" id="L66">        this.object = object;</span>
+<span class="fc" id="L67">    }</span>
+
+    /**
+     * Accepts a visitor.
+     * &lt;p&gt;
+     * This method is invoked for each commands belonging to
+     * an {@link EditScript EditScript}, in order to implement the visitor design pattern
+     * &lt;/p&gt;
+     *
+     * @param visitor  the visitor to be accepted
+     */
+    public abstract void accept(CommandVisitor&lt;T&gt; visitor);
+
+    /**
+     * Gets the object associated with this command.
+     *
+     * @return The object on which the command is applied
+     */
+    protected T getObject() {
+<span class="fc" id="L86">        return object;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

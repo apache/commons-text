@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConstantStringLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.lookup</a> &gt; <span class="el_source">ConstantStringLookup.java</span></div><h1>ConstantStringLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache license, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the license for the specific language governing permissions and
+ * limitations under the license.
+ */
+
+package org.apache.commons.text.lookup;
+
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.text.StringSubstitutor;
+
+/**
+ * &lt;p&gt;
+ * Looks up the value of a fully-qualified static final value.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Sometimes it is necessary in a configuration file to refer to a constant defined in a class. This can be done with
+ * this lookup implementation. Variable names must be in the format {@code apackage.AClass.AFIELD}. The
+ * {@code lookup(String)} method will split the passed in string at the last dot, separating the fully qualified class
+ * name and the name of the constant (i.e. &lt;b&gt;static final&lt;/b&gt;) member field. Then the class is loaded and the field's
+ * value is obtained using reflection.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Once retrieved values are cached for fast access. This class is thread-safe. It can be used as a standard (i.e.
+ * global) lookup object and serve multiple clients concurrently.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * StringLookupFactory.INSTANCE.constantStringLookup().lookup(&quot;java.awt.event.KeyEvent.VK_ESCAPE&quot;);
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * Using a {@link StringSubstitutor}:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * StringSubstitutor.createInterpolator().replace(&quot;... ${const:java.awt.event.KeyEvent.VK_ESCAPE} ...&quot;));
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * The above examples convert {@code java.awt.event.KeyEvent.VK_ESCAPE} to {@code &quot;27&quot;}.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * This class was adapted from Apache Commons Configuration.
+ * &lt;/p&gt;
+ *
+ * @since 1.5
+ */
+<span class="fc" id="L64">class ConstantStringLookup extends AbstractStringLookup {</span>
+
+    /** An internally used cache for already retrieved values. */
+<span class="fc" id="L67">    private static final ConcurrentHashMap&lt;String, String&gt; CONSTANT_CACHE = new ConcurrentHashMap&lt;&gt;();</span>
+
+    /** Constant for the field separator. */
+    private static final char FIELD_SEPARATOR = '.';
+
+    /**
+     * Defines the singleton for this class.
+     */
+<span class="fc" id="L75">    static final ConstantStringLookup INSTANCE = new ConstantStringLookup();</span>
+
+    /**
+     * Clears the shared cache with the so far resolved constants.
+     */
+    static void clear() {
+<span class="fc" id="L81">        CONSTANT_CACHE.clear();</span>
+<span class="fc" id="L82">    }</span>
+
+    /**
+     * Loads the class with the specified name. If an application has special needs regarding the class loaders to be
+     * used, it can hook in here. This implementation delegates to the {@code getClass()} method of Commons Lang's
+     * &lt;code&gt;&lt;a href=&quot;https://commons.apache.org/lang/api-release/org/apache/commons/lang/ClassUtils.html&quot;&gt;
+     * ClassUtils&lt;/a&gt;&lt;/code&gt;.
+     *
+     * @param className the name of the class to be loaded
+     * @return The corresponding class object
+     * @throws ClassNotFoundException if the class cannot be loaded
+     */
+    protected Class&lt;?&gt; fetchClass(final String className) throws ClassNotFoundException {
+<span class="fc" id="L95">        return ClassUtils.getClass(className);</span>
+    }
+
+    /**
+     * Tries to resolve the specified variable. The passed in variable name is interpreted as the name of a &lt;b&gt;static
+     * final&lt;/b&gt; member field of a class. If the value has already been obtained, it can be retrieved from an internal
+     * cache. Otherwise this method will invoke the {@code resolveField()} method and pass in the name of the class and
+     * the field.
+     *
+     * @param key the name of the variable to be resolved
+     * @return The value of this variable or &lt;b&gt;null&lt;/b&gt; if it cannot be resolved
+     */
+    @Override
+    public synchronized String lookup(final String key) {
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (key == null) {</span>
+<span class="fc" id="L110">            return null;</span>
+        }
+        String result;
+<span class="fc" id="L113">        result = CONSTANT_CACHE.get(key);</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        if (result != null) {</span>
+<span class="fc" id="L115">            return result;</span>
+        }
+<span class="fc" id="L117">        final int fieldPos = key.lastIndexOf(FIELD_SEPARATOR);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (fieldPos &lt; 0) {</span>
+<span class="fc" id="L119">            return null;</span>
+        }
+        try {
+<span class="fc" id="L122">            final Object value = resolveField(key.substring(0, fieldPos), key.substring(fieldPos + 1));</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">            if (value != null) {</span>
+<span class="fc" id="L124">                final String string = Objects.toString(value, null);</span>
+<span class="fc" id="L125">                CONSTANT_CACHE.put(key, string);</span>
+<span class="fc" id="L126">                result = string;</span>
+            }
+<span class="fc" id="L128">        } catch (final Exception ex) {</span>
+            // TODO it would be nice to log
+<span class="fc" id="L130">            return null;</span>
+<span class="fc" id="L131">        }</span>
+<span class="fc" id="L132">        return result;</span>
+    }
+
+    /**
+     * Determines the value of the specified constant member field of a class. This implementation will call
+     * {@code fetchClass()} to obtain the {@link Class} object for the target class. Then it will use
+     * reflection to obtain the field's value. For this to work the field must be accessible.
+     *
+     * @param className the name of the class
+     * @param fieldName the name of the member field of that class to read
+     * @return The field's value
+     * @throws ReflectiveOperationException if an error occurs
+     */
+    protected Object resolveField(final String className, final String fieldName) throws ReflectiveOperationException {
+<span class="fc" id="L146">        final Class&lt;?&gt; clazz = fetchClass(className);</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        if (clazz == null) {</span>
+<span class="fc" id="L148">            return null;</span>
+        }
+<span class="fc" id="L150">        return clazz.getField(fieldName).get(null);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

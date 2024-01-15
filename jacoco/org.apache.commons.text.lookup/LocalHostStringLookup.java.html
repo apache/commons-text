@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocalHostStringLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.lookup</a> &gt; <span class="el_source">LocalHostStringLookup.java</span></div><h1>LocalHostStringLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache license, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the license for the specific language governing permissions and
+ * limitations under the license.
+ */
+package org.apache.commons.text.lookup;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+/**
+ * Looks up keys related to the local host: host name, canonical host name, host address.
+ * &lt;p&gt;
+ * The lookup keys are:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;&lt;b&gt;name&lt;/b&gt;: for the local host name, for example {@code EXAMPLE}.&lt;/li&gt;
+ * &lt;li&gt;&lt;b&gt;canonical-name&lt;/b&gt;: for the local canonical host name, for example {@code EXAMPLE.apache.org}.&lt;/li&gt;
+ * &lt;li&gt;&lt;b&gt;address&lt;/b&gt;: for the local host address, for example {@code 192.168.56.1}.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @since 1.3
+ */
+final class LocalHostStringLookup extends AbstractStringLookup {
+
+    /**
+     * Defines the singleton for this class.
+     */
+<span class="fc" id="L40">    static final LocalHostStringLookup INSTANCE = new LocalHostStringLookup();</span>
+
+    /**
+     * No need to build instances for now.
+     */
+    private LocalHostStringLookup() {
+        // empty
+    }
+
+    /**
+     * Looks up the value of a local host key.
+     *
+     * @param key the key to be looked up, may be null.
+     * @return The value of the environment variable.
+     */
+    @Override
+    public String lookup(final String key) {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (key == null) {</span>
+<span class="fc" id="L58">            return null;</span>
+        }
+        try {
+<span class="fc bfc" id="L61" title="All 4 branches covered.">            switch (key) {</span>
+            case InetAddressKeys.KEY_NAME:
+<span class="fc" id="L63">                return InetAddress.getLocalHost().getHostName();</span>
+            case InetAddressKeys.KEY_CANONICAL_NAME:
+<span class="fc" id="L65">                return InetAddress.getLocalHost().getCanonicalHostName();</span>
+            case InetAddressKeys.KEY_ADDRESS:
+<span class="fc" id="L67">                return InetAddress.getLocalHost().getHostAddress();</span>
+            default:
+<span class="fc" id="L69">                throw new IllegalArgumentException(key);</span>
+            }
+<span class="nc" id="L71">        } catch (final UnknownHostException e) {</span>
+<span class="nc" id="L72">            return null;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

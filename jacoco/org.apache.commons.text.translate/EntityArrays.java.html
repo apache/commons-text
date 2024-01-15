@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntityArrays.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.translate</a> &gt; <span class="el_source">EntityArrays.java</span></div><h1>EntityArrays.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.translate;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
+/**
+ * Class holding various entity data for HTML and XML - generally for use with
+ * the LookupTranslator.
+ * All Maps are generated using {@code java.util.Collections.unmodifiableMap()}.
+ *
+ * @since 1.0
+ */
+<span class="fc" id="L32">public class EntityArrays {</span>
+
+   /**
+     * A Map&amp;lt;CharSequence, CharSequence&amp;gt; to escape
+     * &lt;a href=&quot;https://secure.wikimedia.org/wikipedia/en/wiki/ISO/IEC_8859-1&quot;&gt;ISO-8859-1&lt;/a&gt;
+     * characters to their named HTML 3.x equivalents.
+     */
+    public static final Map&lt;CharSequence, CharSequence&gt; ISO8859_1_ESCAPE;
+    static {
+<span class="fc" id="L41">        final Map&lt;CharSequence, CharSequence&gt; initialMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L42">        initialMap.put(&quot;\u00A0&quot;, &quot;&amp;nbsp;&quot;); // non-breaking space</span>
+<span class="fc" id="L43">        initialMap.put(&quot;\u00A1&quot;, &quot;&amp;iexcl;&quot;); // inverted exclamation mark</span>
+<span class="fc" id="L44">        initialMap.put(&quot;\u00A2&quot;, &quot;&amp;cent;&quot;); // cent sign</span>
+<span class="fc" id="L45">        initialMap.put(&quot;\u00A3&quot;, &quot;&amp;pound;&quot;); // pound sign</span>
+<span class="fc" id="L46">        initialMap.put(&quot;\u00A4&quot;, &quot;&amp;curren;&quot;); // currency sign</span>
+<span class="fc" id="L47">        initialMap.put(&quot;\u00A5&quot;, &quot;&amp;yen;&quot;); // yen sign = yuan sign</span>
+<span class="fc" id="L48">        initialMap.put(&quot;\u00A6&quot;, &quot;&amp;brvbar;&quot;); // broken bar = broken vertical bar</span>
+<span class="fc" id="L49">        initialMap.put(&quot;\u00A7&quot;, &quot;&amp;sect;&quot;); // section sign</span>
+<span class="fc" id="L50">        initialMap.put(&quot;\u00A8&quot;, &quot;&amp;uml;&quot;); // dieresis = spacing dieresis</span>
+<span class="fc" id="L51">        initialMap.put(&quot;\u00A9&quot;, &quot;&amp;copy;&quot;); // Â© - copyright sign</span>
+<span class="fc" id="L52">        initialMap.put(&quot;\u00AA&quot;, &quot;&amp;ordf;&quot;); // feminine ordinal indicator</span>
+<span class="fc" id="L53">        initialMap.put(&quot;\u00AB&quot;, &quot;&amp;laquo;&quot;); // left-pointing double angle quotation mark = left pointing guillemet</span>
+<span class="fc" id="L54">        initialMap.put(&quot;\u00AC&quot;, &quot;&amp;not;&quot;); // not sign</span>
+<span class="fc" id="L55">        initialMap.put(&quot;\u00AD&quot;, &quot;&amp;shy;&quot;); // soft hyphen = discretionary hyphen</span>
+<span class="fc" id="L56">        initialMap.put(&quot;\u00AE&quot;, &quot;&amp;reg;&quot;); // Â® - registered trademark sign</span>
+<span class="fc" id="L57">        initialMap.put(&quot;\u00AF&quot;, &quot;&amp;macr;&quot;); // macron = spacing macron = overline = APL overbar</span>
+<span class="fc" id="L58">        initialMap.put(&quot;\u00B0&quot;, &quot;&amp;deg;&quot;); // degree sign</span>
+<span class="fc" id="L59">        initialMap.put(&quot;\u00B1&quot;, &quot;&amp;plusmn;&quot;); // plus-minus sign = plus-or-minus sign</span>
+<span class="fc" id="L60">        initialMap.put(&quot;\u00B2&quot;, &quot;&amp;sup2;&quot;); // superscript two = superscript digit two = squared</span>
+<span class="fc" id="L61">        initialMap.put(&quot;\u00B3&quot;, &quot;&amp;sup3;&quot;); // superscript three = superscript digit three = cubed</span>
+<span class="fc" id="L62">        initialMap.put(&quot;\u00B4&quot;, &quot;&amp;acute;&quot;); // acute accent = spacing acute</span>
+<span class="fc" id="L63">        initialMap.put(&quot;\u00B5&quot;, &quot;&amp;micro;&quot;); // micro sign</span>
+<span class="fc" id="L64">        initialMap.put(&quot;\u00B6&quot;, &quot;&amp;para;&quot;); // pilcrow sign = paragraph sign</span>
+<span class="fc" id="L65">        initialMap.put(&quot;\u00B7&quot;, &quot;&amp;middot;&quot;); // middle dot = Georgian comma = Greek middle dot</span>
+<span class="fc" id="L66">        initialMap.put(&quot;\u00B8&quot;, &quot;&amp;cedil;&quot;); // cedilla = spacing cedilla</span>
+<span class="fc" id="L67">        initialMap.put(&quot;\u00B9&quot;, &quot;&amp;sup1;&quot;); // superscript one = superscript digit one</span>
+<span class="fc" id="L68">        initialMap.put(&quot;\u00BA&quot;, &quot;&amp;ordm;&quot;); // masculine ordinal indicator</span>
+<span class="fc" id="L69">        initialMap.put(&quot;\u00BB&quot;, &quot;&amp;raquo;&quot;); // right-pointing double angle quotation mark = right pointing guillemet</span>
+<span class="fc" id="L70">        initialMap.put(&quot;\u00BC&quot;, &quot;&amp;frac14;&quot;); // vulgar fraction one quarter = fraction one quarter</span>
+<span class="fc" id="L71">        initialMap.put(&quot;\u00BD&quot;, &quot;&amp;frac12;&quot;); // vulgar fraction one half = fraction one half</span>
+<span class="fc" id="L72">        initialMap.put(&quot;\u00BE&quot;, &quot;&amp;frac34;&quot;); // vulgar fraction three quarters = fraction three quarters</span>
+<span class="fc" id="L73">        initialMap.put(&quot;\u00BF&quot;, &quot;&amp;iquest;&quot;); // inverted question mark = turned question mark</span>
+<span class="fc" id="L74">        initialMap.put(&quot;\u00C0&quot;, &quot;&amp;Agrave;&quot;); // Ã - uppercase A, grave accent</span>
+<span class="fc" id="L75">        initialMap.put(&quot;\u00C1&quot;, &quot;&amp;Aacute;&quot;); // Ã - uppercase A, acute accent</span>
+<span class="fc" id="L76">        initialMap.put(&quot;\u00C2&quot;, &quot;&amp;Acirc;&quot;); // Ã - uppercase A, circumflex accent</span>
+<span class="fc" id="L77">        initialMap.put(&quot;\u00C3&quot;, &quot;&amp;Atilde;&quot;); // Ã - uppercase A, tilde</span>
+<span class="fc" id="L78">        initialMap.put(&quot;\u00C4&quot;, &quot;&amp;Auml;&quot;); // Ã - uppercase A, umlaut</span>
+<span class="fc" id="L79">        initialMap.put(&quot;\u00C5&quot;, &quot;&amp;Aring;&quot;); // Ã - uppercase A, ring</span>
+<span class="fc" id="L80">        initialMap.put(&quot;\u00C6&quot;, &quot;&amp;AElig;&quot;); // Ã - uppercase AE</span>
+<span class="fc" id="L81">        initialMap.put(&quot;\u00C7&quot;, &quot;&amp;Ccedil;&quot;); // Ã - uppercase C, cedilla</span>
+<span class="fc" id="L82">        initialMap.put(&quot;\u00C8&quot;, &quot;&amp;Egrave;&quot;); // Ã - uppercase E, grave accent</span>
+<span class="fc" id="L83">        initialMap.put(&quot;\u00C9&quot;, &quot;&amp;Eacute;&quot;); // Ã - uppercase E, acute accent</span>
+<span class="fc" id="L84">        initialMap.put(&quot;\u00CA&quot;, &quot;&amp;Ecirc;&quot;); // Ã - uppercase E, circumflex accent</span>
+<span class="fc" id="L85">        initialMap.put(&quot;\u00CB&quot;, &quot;&amp;Euml;&quot;); // Ã - uppercase E, umlaut</span>
+<span class="fc" id="L86">        initialMap.put(&quot;\u00CC&quot;, &quot;&amp;Igrave;&quot;); // Ã - uppercase I, grave accent</span>
+<span class="fc" id="L87">        initialMap.put(&quot;\u00CD&quot;, &quot;&amp;Iacute;&quot;); // Ã - uppercase I, acute accent</span>
+<span class="fc" id="L88">        initialMap.put(&quot;\u00CE&quot;, &quot;&amp;Icirc;&quot;); // Ã - uppercase I, circumflex accent</span>
+<span class="fc" id="L89">        initialMap.put(&quot;\u00CF&quot;, &quot;&amp;Iuml;&quot;); // Ã - uppercase I, umlaut</span>
+<span class="fc" id="L90">        initialMap.put(&quot;\u00D0&quot;, &quot;&amp;ETH;&quot;); // Ã - uppercase Eth, Icelandic</span>
+<span class="fc" id="L91">        initialMap.put(&quot;\u00D1&quot;, &quot;&amp;Ntilde;&quot;); // Ã - uppercase N, tilde</span>
+<span class="fc" id="L92">        initialMap.put(&quot;\u00D2&quot;, &quot;&amp;Ograve;&quot;); // Ã - uppercase O, grave accent</span>
+<span class="fc" id="L93">        initialMap.put(&quot;\u00D3&quot;, &quot;&amp;Oacute;&quot;); // Ã - uppercase O, acute accent</span>
+<span class="fc" id="L94">        initialMap.put(&quot;\u00D4&quot;, &quot;&amp;Ocirc;&quot;); // Ã - uppercase O, circumflex accent</span>
+<span class="fc" id="L95">        initialMap.put(&quot;\u00D5&quot;, &quot;&amp;Otilde;&quot;); // Ã - uppercase O, tilde</span>
+<span class="fc" id="L96">        initialMap.put(&quot;\u00D6&quot;, &quot;&amp;Ouml;&quot;); // Ã - uppercase O, umlaut</span>
+<span class="fc" id="L97">        initialMap.put(&quot;\u00D7&quot;, &quot;&amp;times;&quot;); // multiplication sign</span>
+<span class="fc" id="L98">        initialMap.put(&quot;\u00D8&quot;, &quot;&amp;Oslash;&quot;); // Ã - uppercase O, slash</span>
+<span class="fc" id="L99">        initialMap.put(&quot;\u00D9&quot;, &quot;&amp;Ugrave;&quot;); // Ã - uppercase U, grave accent</span>
+<span class="fc" id="L100">        initialMap.put(&quot;\u00DA&quot;, &quot;&amp;Uacute;&quot;); // Ã - uppercase U, acute accent</span>
+<span class="fc" id="L101">        initialMap.put(&quot;\u00DB&quot;, &quot;&amp;Ucirc;&quot;); // Ã - uppercase U, circumflex accent</span>
+<span class="fc" id="L102">        initialMap.put(&quot;\u00DC&quot;, &quot;&amp;Uuml;&quot;); // Ã - uppercase U, umlaut</span>
+<span class="fc" id="L103">        initialMap.put(&quot;\u00DD&quot;, &quot;&amp;Yacute;&quot;); // Ã - uppercase Y, acute accent</span>
+<span class="fc" id="L104">        initialMap.put(&quot;\u00DE&quot;, &quot;&amp;THORN;&quot;); // Ã - uppercase THORN, Icelandic</span>
+<span class="fc" id="L105">        initialMap.put(&quot;\u00DF&quot;, &quot;&amp;szlig;&quot;); // Ã - lowercase sharps, German</span>
+<span class="fc" id="L106">        initialMap.put(&quot;\u00E0&quot;, &quot;&amp;agrave;&quot;); // Ã  - lowercase a, grave accent</span>
+<span class="fc" id="L107">        initialMap.put(&quot;\u00E1&quot;, &quot;&amp;aacute;&quot;); // Ã¡ - lowercase a, acute accent</span>
+<span class="fc" id="L108">        initialMap.put(&quot;\u00E2&quot;, &quot;&amp;acirc;&quot;); // Ã¢ - lowercase a, circumflex accent</span>
+<span class="fc" id="L109">        initialMap.put(&quot;\u00E3&quot;, &quot;&amp;atilde;&quot;); // Ã£ - lowercase a, tilde</span>
+<span class="fc" id="L110">        initialMap.put(&quot;\u00E4&quot;, &quot;&amp;auml;&quot;); // Ã¤ - lowercase a, umlaut</span>
+<span class="fc" id="L111">        initialMap.put(&quot;\u00E5&quot;, &quot;&amp;aring;&quot;); // Ã¥ - lowercase a, ring</span>
+<span class="fc" id="L112">        initialMap.put(&quot;\u00E6&quot;, &quot;&amp;aelig;&quot;); // Ã¦ - lowercase ae</span>
+<span class="fc" id="L113">        initialMap.put(&quot;\u00E7&quot;, &quot;&amp;ccedil;&quot;); // Ã§ - lowercase c, cedilla</span>
+<span class="fc" id="L114">        initialMap.put(&quot;\u00E8&quot;, &quot;&amp;egrave;&quot;); // Ã¨ - lowercase e, grave accent</span>
+<span class="fc" id="L115">        initialMap.put(&quot;\u00E9&quot;, &quot;&amp;eacute;&quot;); // Ã© - lowercase e, acute accent</span>
+<span class="fc" id="L116">        initialMap.put(&quot;\u00EA&quot;, &quot;&amp;ecirc;&quot;); // Ãª - lowercase e, circumflex accent</span>
+<span class="fc" id="L117">        initialMap.put(&quot;\u00EB&quot;, &quot;&amp;euml;&quot;); // Ã« - lowercase e, umlaut</span>
+<span class="fc" id="L118">        initialMap.put(&quot;\u00EC&quot;, &quot;&amp;igrave;&quot;); // Ã¬ - lowercase i, grave accent</span>
+<span class="fc" id="L119">        initialMap.put(&quot;\u00ED&quot;, &quot;&amp;iacute;&quot;); // Ã­ - lowercase i, acute accent</span>
+<span class="fc" id="L120">        initialMap.put(&quot;\u00EE&quot;, &quot;&amp;icirc;&quot;); // Ã® - lowercase i, circumflex accent</span>
+<span class="fc" id="L121">        initialMap.put(&quot;\u00EF&quot;, &quot;&amp;iuml;&quot;); // Ã¯ - lowercase i, umlaut</span>
+<span class="fc" id="L122">        initialMap.put(&quot;\u00F0&quot;, &quot;&amp;eth;&quot;); // Ã° - lowercase eth, Icelandic</span>
+<span class="fc" id="L123">        initialMap.put(&quot;\u00F1&quot;, &quot;&amp;ntilde;&quot;); // Ã± - lowercase n, tilde</span>
+<span class="fc" id="L124">        initialMap.put(&quot;\u00F2&quot;, &quot;&amp;ograve;&quot;); // Ã² - lowercase o, grave accent</span>
+<span class="fc" id="L125">        initialMap.put(&quot;\u00F3&quot;, &quot;&amp;oacute;&quot;); // Ã³ - lowercase o, acute accent</span>
+<span class="fc" id="L126">        initialMap.put(&quot;\u00F4&quot;, &quot;&amp;ocirc;&quot;); // Ã´ - lowercase o, circumflex accent</span>
+<span class="fc" id="L127">        initialMap.put(&quot;\u00F5&quot;, &quot;&amp;otilde;&quot;); // Ãµ - lowercase o, tilde</span>
+<span class="fc" id="L128">        initialMap.put(&quot;\u00F6&quot;, &quot;&amp;ouml;&quot;); // Ã¶ - lowercase o, umlaut</span>
+<span class="fc" id="L129">        initialMap.put(&quot;\u00F7&quot;, &quot;&amp;divide;&quot;); // division sign</span>
+<span class="fc" id="L130">        initialMap.put(&quot;\u00F8&quot;, &quot;&amp;oslash;&quot;); // Ã¸ - lowercase o, slash</span>
+<span class="fc" id="L131">        initialMap.put(&quot;\u00F9&quot;, &quot;&amp;ugrave;&quot;); // Ã¹ - lowercase u, grave accent</span>
+<span class="fc" id="L132">        initialMap.put(&quot;\u00FA&quot;, &quot;&amp;uacute;&quot;); // Ãº - lowercase u, acute accent</span>
+<span class="fc" id="L133">        initialMap.put(&quot;\u00FB&quot;, &quot;&amp;ucirc;&quot;); // Ã» - lowercase u, circumflex accent</span>
+<span class="fc" id="L134">        initialMap.put(&quot;\u00FC&quot;, &quot;&amp;uuml;&quot;); // Ã¼ - lowercase u, umlaut</span>
+<span class="fc" id="L135">        initialMap.put(&quot;\u00FD&quot;, &quot;&amp;yacute;&quot;); // Ã½ - lowercase y, acute accent</span>
+<span class="fc" id="L136">        initialMap.put(&quot;\u00FE&quot;, &quot;&amp;thorn;&quot;); // Ã¾ - lowercase thorn, Icelandic</span>
+<span class="fc" id="L137">        initialMap.put(&quot;\u00FF&quot;, &quot;&amp;yuml;&quot;); // Ã¿ - lowercase y, umlaut</span>
+<span class="fc" id="L138">        ISO8859_1_ESCAPE = Collections.unmodifiableMap(initialMap);</span>
+    }
+
+    /**
+     * Reverse of {@link #ISO8859_1_ESCAPE} for unescaping purposes.
+     */
+    public static final Map&lt;CharSequence, CharSequence&gt; ISO8859_1_UNESCAPE;
+
+    static {
+<span class="fc" id="L147">        ISO8859_1_UNESCAPE = Collections.unmodifiableMap(invert(ISO8859_1_ESCAPE));</span>
+    }
+
+    /**
+     * A Map&amp;lt;CharSequence, CharSequence&amp;gt; to escape additional
+     * &lt;a href=&quot;http://www.w3.org/TR/REC-html40/sgml/entities.html&quot;&gt;character entity
+     * references&lt;/a&gt;. Note that this must be used with {@link #ISO8859_1_ESCAPE} to get the full list of
+     * HTML 4.0 character entities.
+     */
+    public static final Map&lt;CharSequence, CharSequence&gt; HTML40_EXTENDED_ESCAPE;
+
+    static {
+<span class="fc" id="L159">        final Map&lt;CharSequence, CharSequence&gt; initialMap = new HashMap&lt;&gt;();</span>
+        // &lt;!-- Latin Extended-B --&gt;
+<span class="fc" id="L161">        initialMap.put(&quot;\u0192&quot;, &quot;&amp;fnof;&quot;); // latin small f with hook = function= florin, U+0192 ISOtech --&gt;</span>
+        // &lt;!-- Greek --&gt;
+<span class="fc" id="L163">        initialMap.put(&quot;\u0391&quot;, &quot;&amp;Alpha;&quot;); // greek capital letter alpha, U+0391 --&gt;</span>
+<span class="fc" id="L164">        initialMap.put(&quot;\u0392&quot;, &quot;&amp;Beta;&quot;); // greek capital letter beta, U+0392 --&gt;</span>
+<span class="fc" id="L165">        initialMap.put(&quot;\u0393&quot;, &quot;&amp;Gamma;&quot;); // greek capital letter gamma,U+0393 ISOgrk3 --&gt;</span>
+<span class="fc" id="L166">        initialMap.put(&quot;\u0394&quot;, &quot;&amp;Delta;&quot;); // greek capital letter delta,U+0394 ISOgrk3 --&gt;</span>
+<span class="fc" id="L167">        initialMap.put(&quot;\u0395&quot;, &quot;&amp;Epsilon;&quot;); // greek capital letter epsilon, U+0395 --&gt;</span>
+<span class="fc" id="L168">        initialMap.put(&quot;\u0396&quot;, &quot;&amp;Zeta;&quot;); // greek capital letter zeta, U+0396 --&gt;</span>
+<span class="fc" id="L169">        initialMap.put(&quot;\u0397&quot;, &quot;&amp;Eta;&quot;); // greek capital letter eta, U+0397 --&gt;</span>
+<span class="fc" id="L170">        initialMap.put(&quot;\u0398&quot;, &quot;&amp;Theta;&quot;); // greek capital letter theta,U+0398 ISOgrk3 --&gt;</span>
+<span class="fc" id="L171">        initialMap.put(&quot;\u0399&quot;, &quot;&amp;Iota;&quot;); // greek capital letter iota, U+0399 --&gt;</span>
+<span class="fc" id="L172">        initialMap.put(&quot;\u039A&quot;, &quot;&amp;Kappa;&quot;); // greek capital letter kappa, U+039A --&gt;</span>
+<span class="fc" id="L173">        initialMap.put(&quot;\u039B&quot;, &quot;&amp;Lambda;&quot;); // greek capital letter lambda,U+039B ISOgrk3 --&gt;</span>
+<span class="fc" id="L174">        initialMap.put(&quot;\u039C&quot;, &quot;&amp;Mu;&quot;); // greek capital letter mu, U+039C --&gt;</span>
+<span class="fc" id="L175">        initialMap.put(&quot;\u039D&quot;, &quot;&amp;Nu;&quot;); // greek capital letter nu, U+039D --&gt;</span>
+<span class="fc" id="L176">        initialMap.put(&quot;\u039E&quot;, &quot;&amp;Xi;&quot;); // greek capital letter xi, U+039E ISOgrk3 --&gt;</span>
+<span class="fc" id="L177">        initialMap.put(&quot;\u039F&quot;, &quot;&amp;Omicron;&quot;); // greek capital letter omicron, U+039F --&gt;</span>
+<span class="fc" id="L178">        initialMap.put(&quot;\u03A0&quot;, &quot;&amp;Pi;&quot;); // greek capital letter pi, U+03A0 ISOgrk3 --&gt;</span>
+<span class="fc" id="L179">        initialMap.put(&quot;\u03A1&quot;, &quot;&amp;Rho;&quot;); // greek capital letter rho, U+03A1 --&gt;</span>
+        // &lt;!-- there is no Sigmaf, and no U+03A2 character either --&gt;
+<span class="fc" id="L181">        initialMap.put(&quot;\u03A3&quot;, &quot;&amp;Sigma;&quot;); // greek capital letter sigma,U+03A3 ISOgrk3 --&gt;</span>
+<span class="fc" id="L182">        initialMap.put(&quot;\u03A4&quot;, &quot;&amp;Tau;&quot;); // greek capital letter tau, U+03A4 --&gt;</span>
+<span class="fc" id="L183">        initialMap.put(&quot;\u03A5&quot;, &quot;&amp;Upsilon;&quot;); // greek capital letter upsilon,U+03A5 ISOgrk3 --&gt;</span>
+<span class="fc" id="L184">        initialMap.put(&quot;\u03A6&quot;, &quot;&amp;Phi;&quot;); // greek capital letter phi,U+03A6 ISOgrk3 --&gt;</span>
+<span class="fc" id="L185">        initialMap.put(&quot;\u03A7&quot;, &quot;&amp;Chi;&quot;); // greek capital letter chi, U+03A7 --&gt;</span>
+<span class="fc" id="L186">        initialMap.put(&quot;\u03A8&quot;, &quot;&amp;Psi;&quot;); // greek capital letter psi,U+03A8 ISOgrk3 --&gt;</span>
+<span class="fc" id="L187">        initialMap.put(&quot;\u03A9&quot;, &quot;&amp;Omega;&quot;); // greek capital letter omega,U+03A9 ISOgrk3 --&gt;</span>
+<span class="fc" id="L188">        initialMap.put(&quot;\u03B1&quot;, &quot;&amp;alpha;&quot;); // greek small letter alpha,U+03B1 ISOgrk3 --&gt;</span>
+<span class="fc" id="L189">        initialMap.put(&quot;\u03B2&quot;, &quot;&amp;beta;&quot;); // greek small letter beta, U+03B2 ISOgrk3 --&gt;</span>
+<span class="fc" id="L190">        initialMap.put(&quot;\u03B3&quot;, &quot;&amp;gamma;&quot;); // greek small letter gamma,U+03B3 ISOgrk3 --&gt;</span>
+<span class="fc" id="L191">        initialMap.put(&quot;\u03B4&quot;, &quot;&amp;delta;&quot;); // greek small letter delta,U+03B4 ISOgrk3 --&gt;</span>
+<span class="fc" id="L192">        initialMap.put(&quot;\u03B5&quot;, &quot;&amp;epsilon;&quot;); // greek small letter epsilon,U+03B5 ISOgrk3 --&gt;</span>
+<span class="fc" id="L193">        initialMap.put(&quot;\u03B6&quot;, &quot;&amp;zeta;&quot;); // greek small letter zeta, U+03B6 ISOgrk3 --&gt;</span>
+<span class="fc" id="L194">        initialMap.put(&quot;\u03B7&quot;, &quot;&amp;eta;&quot;); // greek small letter eta, U+03B7 ISOgrk3 --&gt;</span>
+<span class="fc" id="L195">        initialMap.put(&quot;\u03B8&quot;, &quot;&amp;theta;&quot;); // greek small letter theta,U+03B8 ISOgrk3 --&gt;</span>
+<span class="fc" id="L196">        initialMap.put(&quot;\u03B9&quot;, &quot;&amp;iota;&quot;); // greek small letter iota, U+03B9 ISOgrk3 --&gt;</span>
+<span class="fc" id="L197">        initialMap.put(&quot;\u03BA&quot;, &quot;&amp;kappa;&quot;); // greek small letter kappa,U+03BA ISOgrk3 --&gt;</span>
+<span class="fc" id="L198">        initialMap.put(&quot;\u03BB&quot;, &quot;&amp;lambda;&quot;); // greek small letter lambda,U+03BB ISOgrk3 --&gt;</span>
+<span class="fc" id="L199">        initialMap.put(&quot;\u03BC&quot;, &quot;&amp;mu;&quot;); // greek small letter mu, U+03BC ISOgrk3 --&gt;</span>
+<span class="fc" id="L200">        initialMap.put(&quot;\u03BD&quot;, &quot;&amp;nu;&quot;); // greek small letter nu, U+03BD ISOgrk3 --&gt;</span>
+<span class="fc" id="L201">        initialMap.put(&quot;\u03BE&quot;, &quot;&amp;xi;&quot;); // greek small letter xi, U+03BE ISOgrk3 --&gt;</span>
+<span class="fc" id="L202">        initialMap.put(&quot;\u03BF&quot;, &quot;&amp;omicron;&quot;); // greek small letter omicron, U+03BF NEW --&gt;</span>
+<span class="fc" id="L203">        initialMap.put(&quot;\u03C0&quot;, &quot;&amp;pi;&quot;); // greek small letter pi, U+03C0 ISOgrk3 --&gt;</span>
+<span class="fc" id="L204">        initialMap.put(&quot;\u03C1&quot;, &quot;&amp;rho;&quot;); // greek small letter rho, U+03C1 ISOgrk3 --&gt;</span>
+<span class="fc" id="L205">        initialMap.put(&quot;\u03C2&quot;, &quot;&amp;sigmaf;&quot;); // greek small letter final sigma,U+03C2 ISOgrk3 --&gt;</span>
+<span class="fc" id="L206">        initialMap.put(&quot;\u03C3&quot;, &quot;&amp;sigma;&quot;); // greek small letter sigma,U+03C3 ISOgrk3 --&gt;</span>
+<span class="fc" id="L207">        initialMap.put(&quot;\u03C4&quot;, &quot;&amp;tau;&quot;); // greek small letter tau, U+03C4 ISOgrk3 --&gt;</span>
+<span class="fc" id="L208">        initialMap.put(&quot;\u03C5&quot;, &quot;&amp;upsilon;&quot;); // greek small letter upsilon,U+03C5 ISOgrk3 --&gt;</span>
+<span class="fc" id="L209">        initialMap.put(&quot;\u03C6&quot;, &quot;&amp;phi;&quot;); // greek small letter phi, U+03C6 ISOgrk3 --&gt;</span>
+<span class="fc" id="L210">        initialMap.put(&quot;\u03C7&quot;, &quot;&amp;chi;&quot;); // greek small letter chi, U+03C7 ISOgrk3 --&gt;</span>
+<span class="fc" id="L211">        initialMap.put(&quot;\u03C8&quot;, &quot;&amp;psi;&quot;); // greek small letter psi, U+03C8 ISOgrk3 --&gt;</span>
+<span class="fc" id="L212">        initialMap.put(&quot;\u03C9&quot;, &quot;&amp;omega;&quot;); // greek small letter omega,U+03C9 ISOgrk3 --&gt;</span>
+<span class="fc" id="L213">        initialMap.put(&quot;\u03D1&quot;, &quot;&amp;thetasym;&quot;); // greek small letter theta symbol,U+03D1 NEW --&gt;</span>
+<span class="fc" id="L214">        initialMap.put(&quot;\u03D2&quot;, &quot;&amp;upsih;&quot;); // greek upsilon with hook symbol,U+03D2 NEW --&gt;</span>
+<span class="fc" id="L215">        initialMap.put(&quot;\u03D6&quot;, &quot;&amp;piv;&quot;); // greek pi symbol, U+03D6 ISOgrk3 --&gt;</span>
+        // &lt;!-- General Punctuation --&gt;
+<span class="fc" id="L217">        initialMap.put(&quot;\u2022&quot;, &quot;&amp;bull;&quot;); // bullet = black small circle,U+2022 ISOpub --&gt;</span>
+        // &lt;!-- bullet is NOT the same as bullet operator, U+2219 --&gt;
+<span class="fc" id="L219">        initialMap.put(&quot;\u2026&quot;, &quot;&amp;hellip;&quot;); // horizontal ellipsis = three dot leader,U+2026 ISOpub --&gt;</span>
+<span class="fc" id="L220">        initialMap.put(&quot;\u2032&quot;, &quot;&amp;prime;&quot;); // prime = minutes = feet, U+2032 ISOtech --&gt;</span>
+<span class="fc" id="L221">        initialMap.put(&quot;\u2033&quot;, &quot;&amp;Prime;&quot;); // double prime = seconds = inches,U+2033 ISOtech --&gt;</span>
+<span class="fc" id="L222">        initialMap.put(&quot;\u203E&quot;, &quot;&amp;oline;&quot;); // overline = spacing overscore,U+203E NEW --&gt;</span>
+<span class="fc" id="L223">        initialMap.put(&quot;\u2044&quot;, &quot;&amp;frasl;&quot;); // fraction slash, U+2044 NEW --&gt;</span>
+        // &lt;!-- Letterlike Symbols --&gt;
+<span class="fc" id="L225">        initialMap.put(&quot;\u2118&quot;, &quot;&amp;weierp;&quot;); // script capital P = power set= Weierstrass p, U+2118 ISOamso --&gt;</span>
+<span class="fc" id="L226">        initialMap.put(&quot;\u2111&quot;, &quot;&amp;image;&quot;); // blackletter capital I = imaginary part,U+2111 ISOamso --&gt;</span>
+<span class="fc" id="L227">        initialMap.put(&quot;\u211C&quot;, &quot;&amp;real;&quot;); // blackletter capital R = real part symbol,U+211C ISOamso --&gt;</span>
+<span class="fc" id="L228">        initialMap.put(&quot;\u2122&quot;, &quot;&amp;trade;&quot;); // trade mark sign, U+2122 ISOnum --&gt;</span>
+<span class="fc" id="L229">        initialMap.put(&quot;\u2135&quot;, &quot;&amp;alefsym;&quot;); // alef symbol = first transfinite cardinal,U+2135 NEW --&gt;</span>
+        // &lt;!-- alef symbol is NOT the same as hebrew letter alef,U+05D0 although the
+        // same glyph could be used to depict both characters --&gt;
+        // &lt;!-- Arrows --&gt;
+<span class="fc" id="L233">        initialMap.put(&quot;\u2190&quot;, &quot;&amp;larr;&quot;); // leftwards arrow, U+2190 ISOnum --&gt;</span>
+<span class="fc" id="L234">        initialMap.put(&quot;\u2191&quot;, &quot;&amp;uarr;&quot;); // upwards arrow, U+2191 ISOnum--&gt;</span>
+<span class="fc" id="L235">        initialMap.put(&quot;\u2192&quot;, &quot;&amp;rarr;&quot;); // rightwards arrow, U+2192 ISOnum --&gt;</span>
+<span class="fc" id="L236">        initialMap.put(&quot;\u2193&quot;, &quot;&amp;darr;&quot;); // downwards arrow, U+2193 ISOnum --&gt;</span>
+<span class="fc" id="L237">        initialMap.put(&quot;\u2194&quot;, &quot;&amp;harr;&quot;); // left right arrow, U+2194 ISOamsa --&gt;</span>
+<span class="fc" id="L238">        initialMap.put(&quot;\u21B5&quot;, &quot;&amp;crarr;&quot;); // downwards arrow with corner leftwards= carriage return, U+21B5 NEW --&gt;</span>
+<span class="fc" id="L239">        initialMap.put(&quot;\u21D0&quot;, &quot;&amp;lArr;&quot;); // leftwards double arrow, U+21D0 ISOtech --&gt;</span>
+        // &lt;!-- ISO 10646 does not say that lArr is the same as the 'is implied by'
+        // arrow but also does not have any other character for that function.
+        // So ? lArr canbe used for 'is implied by' as ISOtech suggests --&gt;
+<span class="fc" id="L243">        initialMap.put(&quot;\u21D1&quot;, &quot;&amp;uArr;&quot;); // upwards double arrow, U+21D1 ISOamsa --&gt;</span>
+<span class="fc" id="L244">        initialMap.put(&quot;\u21D2&quot;, &quot;&amp;rArr;&quot;); // rightwards double arrow,U+21D2 ISOtech --&gt;</span>
+        // &lt;!-- ISO 10646 does not say this is the 'implies' character but does not
+        // have another character with this function so ?rArr can be used for
+        // 'implies' as ISOtech suggests --&gt;
+<span class="fc" id="L248">        initialMap.put(&quot;\u21D3&quot;, &quot;&amp;dArr;&quot;); // downwards double arrow, U+21D3 ISOamsa --&gt;</span>
+<span class="fc" id="L249">        initialMap.put(&quot;\u21D4&quot;, &quot;&amp;hArr;&quot;); // left right double arrow,U+21D4 ISOamsa --&gt;</span>
+        // &lt;!-- Mathematical Operators --&gt;
+<span class="fc" id="L251">        initialMap.put(&quot;\u2200&quot;, &quot;&amp;forall;&quot;); // for all, U+2200 ISOtech --&gt;</span>
+<span class="fc" id="L252">        initialMap.put(&quot;\u2202&quot;, &quot;&amp;part;&quot;); // partial differential, U+2202 ISOtech --&gt;</span>
+<span class="fc" id="L253">        initialMap.put(&quot;\u2203&quot;, &quot;&amp;exist;&quot;); // there exists, U+2203 ISOtech --&gt;</span>
+<span class="fc" id="L254">        initialMap.put(&quot;\u2205&quot;, &quot;&amp;empty;&quot;); // empty set = null set = diameter,U+2205 ISOamso --&gt;</span>
+<span class="fc" id="L255">        initialMap.put(&quot;\u2207&quot;, &quot;&amp;nabla;&quot;); // nabla = backward difference,U+2207 ISOtech --&gt;</span>
+<span class="fc" id="L256">        initialMap.put(&quot;\u2208&quot;, &quot;&amp;isin;&quot;); // element of, U+2208 ISOtech --&gt;</span>
+<span class="fc" id="L257">        initialMap.put(&quot;\u2209&quot;, &quot;&amp;notin;&quot;); // not an element of, U+2209 ISOtech --&gt;</span>
+<span class="fc" id="L258">        initialMap.put(&quot;\u220B&quot;, &quot;&amp;ni;&quot;); // contains as member, U+220B ISOtech --&gt;</span>
+        // &lt;!-- should there be a more memorable name than 'ni'? --&gt;
+<span class="fc" id="L260">        initialMap.put(&quot;\u220F&quot;, &quot;&amp;prod;&quot;); // n-ary product = product sign,U+220F ISOamsb --&gt;</span>
+        // &lt;!-- prod is NOT the same character as U+03A0 'greek capital letter pi'
+        // though the same glyph might be used for both --&gt;
+<span class="fc" id="L263">        initialMap.put(&quot;\u2211&quot;, &quot;&amp;sum;&quot;); // n-ary summation, U+2211 ISOamsb --&gt;</span>
+        // &lt;!-- sum is NOT the same character as U+03A3 'greek capital letter sigma'
+        // though the same glyph might be used for both --&gt;
+<span class="fc" id="L266">        initialMap.put(&quot;\u2212&quot;, &quot;&amp;minus;&quot;); // minus sign, U+2212 ISOtech --&gt;</span>
+<span class="fc" id="L267">        initialMap.put(&quot;\u2217&quot;, &quot;&amp;lowast;&quot;); // asterisk operator, U+2217 ISOtech --&gt;</span>
+<span class="fc" id="L268">        initialMap.put(&quot;\u221A&quot;, &quot;&amp;radic;&quot;); // square root = radical sign,U+221A ISOtech --&gt;</span>
+<span class="fc" id="L269">        initialMap.put(&quot;\u221D&quot;, &quot;&amp;prop;&quot;); // proportional to, U+221D ISOtech --&gt;</span>
+<span class="fc" id="L270">        initialMap.put(&quot;\u221E&quot;, &quot;&amp;infin;&quot;); // infinity, U+221E ISOtech --&gt;</span>
+<span class="fc" id="L271">        initialMap.put(&quot;\u2220&quot;, &quot;&amp;ang;&quot;); // angle, U+2220 ISOamso --&gt;</span>
+<span class="fc" id="L272">        initialMap.put(&quot;\u2227&quot;, &quot;&amp;and;&quot;); // logical and = wedge, U+2227 ISOtech --&gt;</span>
+<span class="fc" id="L273">        initialMap.put(&quot;\u2228&quot;, &quot;&amp;or;&quot;); // logical or = vee, U+2228 ISOtech --&gt;</span>
+<span class="fc" id="L274">        initialMap.put(&quot;\u2229&quot;, &quot;&amp;cap;&quot;); // intersection = cap, U+2229 ISOtech --&gt;</span>
+<span class="fc" id="L275">        initialMap.put(&quot;\u222A&quot;, &quot;&amp;cup;&quot;); // union = cup, U+222A ISOtech --&gt;</span>
+<span class="fc" id="L276">        initialMap.put(&quot;\u222B&quot;, &quot;&amp;int;&quot;); // integral, U+222B ISOtech --&gt;</span>
+<span class="fc" id="L277">        initialMap.put(&quot;\u2234&quot;, &quot;&amp;there4;&quot;); // therefore, U+2234 ISOtech --&gt;</span>
+<span class="fc" id="L278">        initialMap.put(&quot;\u223C&quot;, &quot;&amp;sim;&quot;); // tilde operator = varies with = similar to,U+223C ISOtech --&gt;</span>
+        // &lt;!-- tilde operator is NOT the same character as the tilde, U+007E,although
+        // the same glyph might be used to represent both --&gt;
+<span class="fc" id="L281">        initialMap.put(&quot;\u2245&quot;, &quot;&amp;cong;&quot;); // approximately equal to, U+2245 ISOtech --&gt;</span>
+<span class="fc" id="L282">        initialMap.put(&quot;\u2248&quot;, &quot;&amp;asymp;&quot;); // almost equal to = asymptotic to,U+2248 ISOamsr --&gt;</span>
+<span class="fc" id="L283">        initialMap.put(&quot;\u2260&quot;, &quot;&amp;ne;&quot;); // not equal to, U+2260 ISOtech --&gt;</span>
+<span class="fc" id="L284">        initialMap.put(&quot;\u2261&quot;, &quot;&amp;equiv;&quot;); // identical to, U+2261 ISOtech --&gt;</span>
+<span class="fc" id="L285">        initialMap.put(&quot;\u2264&quot;, &quot;&amp;le;&quot;); // less-than or equal to, U+2264 ISOtech --&gt;</span>
+<span class="fc" id="L286">        initialMap.put(&quot;\u2265&quot;, &quot;&amp;ge;&quot;); // greater-than or equal to,U+2265 ISOtech --&gt;</span>
+<span class="fc" id="L287">        initialMap.put(&quot;\u2282&quot;, &quot;&amp;sub;&quot;); // subset of, U+2282 ISOtech --&gt;</span>
+<span class="fc" id="L288">        initialMap.put(&quot;\u2283&quot;, &quot;&amp;sup;&quot;); // superset of, U+2283 ISOtech --&gt;</span>
+        // &lt;!-- note that nsup, 'not a superset of, U+2283' is not covered by the
+        // Symbol font encoding and is not included. Should it be, for symmetry?
+        // It is in ISOamsn --&gt;,
+<span class="fc" id="L292">        initialMap.put(&quot;\u2284&quot;, &quot;&amp;nsub;&quot;); // not a subset of, U+2284 ISOamsn --&gt;</span>
+<span class="fc" id="L293">        initialMap.put(&quot;\u2286&quot;, &quot;&amp;sube;&quot;); // subset of or equal to, U+2286 ISOtech --&gt;</span>
+<span class="fc" id="L294">        initialMap.put(&quot;\u2287&quot;, &quot;&amp;supe;&quot;); // superset of or equal to,U+2287 ISOtech --&gt;</span>
+<span class="fc" id="L295">        initialMap.put(&quot;\u2295&quot;, &quot;&amp;oplus;&quot;); // circled plus = direct sum,U+2295 ISOamsb --&gt;</span>
+<span class="fc" id="L296">        initialMap.put(&quot;\u2297&quot;, &quot;&amp;otimes;&quot;); // circled times = vector product,U+2297 ISOamsb --&gt;</span>
+<span class="fc" id="L297">        initialMap.put(&quot;\u22A5&quot;, &quot;&amp;perp;&quot;); // up tack = orthogonal to = perpendicular,U+22A5 ISOtech --&gt;</span>
+<span class="fc" id="L298">        initialMap.put(&quot;\u22C5&quot;, &quot;&amp;sdot;&quot;); // dot operator, U+22C5 ISOamsb --&gt;</span>
+        // &lt;!-- dot operator is NOT the same character as U+00B7 middle dot --&gt;
+        // &lt;!-- Miscellaneous Technical --&gt;
+<span class="fc" id="L301">        initialMap.put(&quot;\u2308&quot;, &quot;&amp;lceil;&quot;); // left ceiling = apl upstile,U+2308 ISOamsc --&gt;</span>
+<span class="fc" id="L302">        initialMap.put(&quot;\u2309&quot;, &quot;&amp;rceil;&quot;); // right ceiling, U+2309 ISOamsc --&gt;</span>
+<span class="fc" id="L303">        initialMap.put(&quot;\u230A&quot;, &quot;&amp;lfloor;&quot;); // left floor = apl downstile,U+230A ISOamsc --&gt;</span>
+<span class="fc" id="L304">        initialMap.put(&quot;\u230B&quot;, &quot;&amp;rfloor;&quot;); // right floor, U+230B ISOamsc --&gt;</span>
+<span class="fc" id="L305">        initialMap.put(&quot;\u2329&quot;, &quot;&amp;lang;&quot;); // left-pointing angle bracket = bra,U+2329 ISOtech --&gt;</span>
+        // &lt;!-- lang is NOT the same character as U+003C 'less than' or U+2039 'single left-pointing angle quotation
+        // mark' --&gt;
+<span class="fc" id="L308">        initialMap.put(&quot;\u232A&quot;, &quot;&amp;rang;&quot;); // right-pointing angle bracket = ket,U+232A ISOtech --&gt;</span>
+        // &lt;!-- rang is NOT the same character as U+003E 'greater than' or U+203A
+        // 'single right-pointing angle quotation mark' --&gt;
+        // &lt;!-- Geometric Shapes --&gt;
+<span class="fc" id="L312">        initialMap.put(&quot;\u25CA&quot;, &quot;&amp;loz;&quot;); // lozenge, U+25CA ISOpub --&gt;</span>
+        // &lt;!-- Miscellaneous Symbols --&gt;
+<span class="fc" id="L314">        initialMap.put(&quot;\u2660&quot;, &quot;&amp;spades;&quot;); // black spade suit, U+2660 ISOpub --&gt;</span>
+        // &lt;!-- black here seems to mean filled as opposed to hollow --&gt;
+<span class="fc" id="L316">        initialMap.put(&quot;\u2663&quot;, &quot;&amp;clubs;&quot;); // black club suit = shamrock,U+2663 ISOpub --&gt;</span>
+<span class="fc" id="L317">        initialMap.put(&quot;\u2665&quot;, &quot;&amp;hearts;&quot;); // black heart suit = valentine,U+2665 ISOpub --&gt;</span>
+<span class="fc" id="L318">        initialMap.put(&quot;\u2666&quot;, &quot;&amp;diams;&quot;); // black diamond suit, U+2666 ISOpub --&gt;</span>
+
+        // &lt;!-- Latin Extended-A --&gt;
+<span class="fc" id="L321">        initialMap.put(&quot;\u0152&quot;, &quot;&amp;OElig;&quot;); // -- latin capital ligature OE,U+0152 ISOlat2 --&gt;</span>
+<span class="fc" id="L322">        initialMap.put(&quot;\u0153&quot;, &quot;&amp;oelig;&quot;); // -- latin small ligature oe, U+0153 ISOlat2 --&gt;</span>
+        // &lt;!-- ligature is a misnomer, this is a separate character in some languages --&gt;
+<span class="fc" id="L324">        initialMap.put(&quot;\u0160&quot;, &quot;&amp;Scaron;&quot;); // -- latin capital letter S with caron,U+0160 ISOlat2 --&gt;</span>
+<span class="fc" id="L325">        initialMap.put(&quot;\u0161&quot;, &quot;&amp;scaron;&quot;); // -- latin small letter s with caron,U+0161 ISOlat2 --&gt;</span>
+<span class="fc" id="L326">        initialMap.put(&quot;\u0178&quot;, &quot;&amp;Yuml;&quot;); // -- latin capital letter Y with dieresis,U+0178 ISOlat2 --&gt;</span>
+        // &lt;!-- Spacing Modifier Letters --&gt;
+<span class="fc" id="L328">        initialMap.put(&quot;\u02C6&quot;, &quot;&amp;circ;&quot;); // -- modifier letter circumflex accent,U+02C6 ISOpub --&gt;</span>
+<span class="fc" id="L329">        initialMap.put(&quot;\u02DC&quot;, &quot;&amp;tilde;&quot;); // small tilde, U+02DC ISOdia --&gt;</span>
+        // &lt;!-- General Punctuation --&gt;
+<span class="fc" id="L331">        initialMap.put(&quot;\u2002&quot;, &quot;&amp;ensp;&quot;); // en space, U+2002 ISOpub --&gt;</span>
+<span class="fc" id="L332">        initialMap.put(&quot;\u2003&quot;, &quot;&amp;emsp;&quot;); // em space, U+2003 ISOpub --&gt;</span>
+<span class="fc" id="L333">        initialMap.put(&quot;\u2009&quot;, &quot;&amp;thinsp;&quot;); // thin space, U+2009 ISOpub --&gt;</span>
+<span class="fc" id="L334">        initialMap.put(&quot;\u200C&quot;, &quot;&amp;zwnj;&quot;); // zero width non-joiner,U+200C NEW RFC 2070 --&gt;</span>
+<span class="fc" id="L335">        initialMap.put(&quot;\u200D&quot;, &quot;&amp;zwj;&quot;); // zero width joiner, U+200D NEW RFC 2070 --&gt;</span>
+<span class="fc" id="L336">        initialMap.put(&quot;\u200E&quot;, &quot;&amp;lrm;&quot;); // left-to-right mark, U+200E NEW RFC 2070 --&gt;</span>
+<span class="fc" id="L337">        initialMap.put(&quot;\u200F&quot;, &quot;&amp;rlm;&quot;); // right-to-left mark, U+200F NEW RFC 2070 --&gt;</span>
+<span class="fc" id="L338">        initialMap.put(&quot;\u2013&quot;, &quot;&amp;ndash;&quot;); // en dash, U+2013 ISOpub --&gt;</span>
+<span class="fc" id="L339">        initialMap.put(&quot;\u2014&quot;, &quot;&amp;mdash;&quot;); // em dash, U+2014 ISOpub --&gt;</span>
+<span class="fc" id="L340">        initialMap.put(&quot;\u2018&quot;, &quot;&amp;lsquo;&quot;); // left single quotation mark,U+2018 ISOnum --&gt;</span>
+<span class="fc" id="L341">        initialMap.put(&quot;\u2019&quot;, &quot;&amp;rsquo;&quot;); // right single quotation mark,U+2019 ISOnum --&gt;</span>
+<span class="fc" id="L342">        initialMap.put(&quot;\u201A&quot;, &quot;&amp;sbquo;&quot;); // single low-9 quotation mark, U+201A NEW --&gt;</span>
+<span class="fc" id="L343">        initialMap.put(&quot;\u201C&quot;, &quot;&amp;ldquo;&quot;); // left double quotation mark,U+201C ISOnum --&gt;</span>
+<span class="fc" id="L344">        initialMap.put(&quot;\u201D&quot;, &quot;&amp;rdquo;&quot;); // right double quotation mark,U+201D ISOnum --&gt;</span>
+<span class="fc" id="L345">        initialMap.put(&quot;\u201E&quot;, &quot;&amp;bdquo;&quot;); // double low-9 quotation mark, U+201E NEW --&gt;</span>
+<span class="fc" id="L346">        initialMap.put(&quot;\u2020&quot;, &quot;&amp;dagger;&quot;); // dagger, U+2020 ISOpub --&gt;</span>
+<span class="fc" id="L347">        initialMap.put(&quot;\u2021&quot;, &quot;&amp;Dagger;&quot;); // double dagger, U+2021 ISOpub --&gt;</span>
+<span class="fc" id="L348">        initialMap.put(&quot;\u2030&quot;, &quot;&amp;permil;&quot;); // per mille sign, U+2030 ISOtech --&gt;</span>
+<span class="fc" id="L349">        initialMap.put(&quot;\u2039&quot;, &quot;&amp;lsaquo;&quot;); // single left-pointing angle quotation mark,U+2039 ISO proposed --&gt;</span>
+        // &lt;!-- lsaquo is proposed but not yet ISO standardized --&gt;
+<span class="fc" id="L351">        initialMap.put(&quot;\u203A&quot;, &quot;&amp;rsaquo;&quot;); // single right-pointing angle quotation mark,U+203A ISO proposed --&gt;</span>
+        // &lt;!-- rsaquo is proposed but not yet ISO standardized --&gt;
+<span class="fc" id="L353">        initialMap.put(&quot;\u20AC&quot;, &quot;&amp;euro;&quot;); // -- euro sign, U+20AC NEW --&gt;</span>
+<span class="fc" id="L354">        HTML40_EXTENDED_ESCAPE = Collections.unmodifiableMap(initialMap);</span>
+    }
+
+    /**
+     * Reverse of {@link #HTML40_EXTENDED_ESCAPE} for unescaping purposes.
+     */
+    public static final Map&lt;CharSequence, CharSequence&gt; HTML40_EXTENDED_UNESCAPE;
+
+    static {
+<span class="fc" id="L363">        HTML40_EXTENDED_UNESCAPE = Collections.unmodifiableMap(invert(HTML40_EXTENDED_ESCAPE));</span>
+    }
+
+    /**
+     * A Map&amp;lt;CharSequence, CharSequence&amp;gt; to escape the basic XML and HTML
+     * character entities.
+     *
+     * Namely: {@code &quot; &amp; &lt; &gt;}
+     */
+    public static final Map&lt;CharSequence, CharSequence&gt; BASIC_ESCAPE;
+
+    static {
+<span class="fc" id="L375">        final Map&lt;CharSequence, CharSequence&gt; initialMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L376">        initialMap.put(&quot;\&quot;&quot;, &quot;&amp;quot;&quot;); // &quot; - double-quote</span>
+<span class="fc" id="L377">        initialMap.put(&quot;&amp;&quot;, &quot;&amp;amp;&quot;);   // &amp; - ampersand</span>
+<span class="fc" id="L378">        initialMap.put(&quot;&lt;&quot;, &quot;&amp;lt;&quot;);    // &lt; - less-than</span>
+<span class="fc" id="L379">        initialMap.put(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);    // &gt; - greater-than</span>
+<span class="fc" id="L380">        BASIC_ESCAPE = Collections.unmodifiableMap(initialMap);</span>
+    }
+
+    /**
+     * Reverse of {@link #BASIC_ESCAPE} for unescaping purposes.
+     */
+    public static final Map&lt;CharSequence, CharSequence&gt; BASIC_UNESCAPE;
+
+    static {
+<span class="fc" id="L389">        BASIC_UNESCAPE = Collections.unmodifiableMap(invert(BASIC_ESCAPE));</span>
+    }
+
+    /**
+     * A Map&amp;lt;CharSequence, CharSequence&amp;gt; to escape the apostrophe character to
+     * its XML character entity.
+     */
+    public static final Map&lt;CharSequence, CharSequence&gt; APOS_ESCAPE;
+
+    static {
+<span class="fc" id="L399">        final Map&lt;CharSequence, CharSequence&gt; initialMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L400">        initialMap.put(&quot;'&quot;, &quot;&amp;apos;&quot;); // XML apostrophe</span>
+<span class="fc" id="L401">        APOS_ESCAPE = Collections.unmodifiableMap(initialMap);</span>
+    }
+
+    /**
+     * Reverse of {@link #APOS_ESCAPE} for unescaping purposes.
+     */
+    public static final Map&lt;CharSequence, CharSequence&gt; APOS_UNESCAPE;
+
+    static {
+<span class="fc" id="L410">        APOS_UNESCAPE = Collections.unmodifiableMap(invert(APOS_ESCAPE));</span>
+    }
+
+    /**
+     * A Map&amp;lt;CharSequence, CharSequence&amp;gt; to escape the Java
+     * control characters.
+     *
+     * Namely: {@code \b \n \t \f \r}
+     */
+    public static final Map&lt;CharSequence, CharSequence&gt; JAVA_CTRL_CHARS_ESCAPE;
+
+    static {
+<span class="fc" id="L422">        final Map&lt;CharSequence, CharSequence&gt; initialMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L423">        initialMap.put(&quot;\b&quot;, &quot;\\b&quot;);</span>
+<span class="fc" id="L424">        initialMap.put(&quot;\n&quot;, &quot;\\n&quot;);</span>
+<span class="fc" id="L425">        initialMap.put(&quot;\t&quot;, &quot;\\t&quot;);</span>
+<span class="fc" id="L426">        initialMap.put(&quot;\f&quot;, &quot;\\f&quot;);</span>
+<span class="fc" id="L427">        initialMap.put(&quot;\r&quot;, &quot;\\r&quot;);</span>
+<span class="fc" id="L428">        JAVA_CTRL_CHARS_ESCAPE = Collections.unmodifiableMap(initialMap);</span>
+    }
+
+    /**
+     * Reverse of {@link #JAVA_CTRL_CHARS_ESCAPE} for unescaping purposes.
+     */
+    public static final Map&lt;CharSequence, CharSequence&gt; JAVA_CTRL_CHARS_UNESCAPE;
+
+    static {
+<span class="fc" id="L437">        JAVA_CTRL_CHARS_UNESCAPE = Collections.unmodifiableMap(invert(JAVA_CTRL_CHARS_ESCAPE));</span>
+<span class="fc" id="L438">    }</span>
+
+    /**
+     * Inverts an escape Map into an unescape Map.
+     *
+     * @param map Map&amp;lt;String, String&amp;gt; to be inverted
+     * @return Map&amp;lt;String, String&amp;gt; inverted array
+     */
+    public static Map&lt;CharSequence, CharSequence&gt; invert(final Map&lt;CharSequence, CharSequence&gt; map) {
+<span class="fc" id="L447">        return map.entrySet().stream().collect(Collectors.toMap(Entry::getValue, Entry::getKey));</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

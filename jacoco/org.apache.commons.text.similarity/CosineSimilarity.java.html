@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CosineSimilarity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.similarity</a> &gt; <span class="el_source">CosineSimilarity.java</span></div><h1>CosineSimilarity.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.similarity;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * Measures the Cosine similarity of two vectors of an inner product space and compares the angle between them.
+ * &lt;p&gt;
+ * For further explanation about the Cosine Similarity, refer to http://en.wikipedia.org/wiki/Cosine_similarity.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Instances of this class are immutable and are safe for use by multiple concurrent threads.
+ * &lt;/p&gt;
+ *
+ * @since 1.0
+ */
+<span class="fc" id="L34">public class CosineSimilarity {</span>
+
+    /**
+     * Singleton instance.
+     */
+<span class="fc" id="L39">    static final CosineSimilarity INSTANCE = new CosineSimilarity();</span>
+
+    /**
+     * Calculates the cosine similarity for two given vectors.
+     *
+     * @param leftVector left vector
+     * @param rightVector right vector
+     * @return cosine similarity between the two vectors
+     */
+    public Double cosineSimilarity(final Map&lt;CharSequence, Integer&gt; leftVector,
+                                   final Map&lt;CharSequence, Integer&gt; rightVector) {
+<span class="fc bfc" id="L50" title="All 4 branches covered.">        if (leftVector == null || rightVector == null) {</span>
+<span class="fc" id="L51">            throw new IllegalArgumentException(&quot;Vectors must not be null&quot;);</span>
+        }
+
+<span class="fc" id="L54">        final Set&lt;CharSequence&gt; intersection = getIntersection(leftVector, rightVector);</span>
+
+<span class="fc" id="L56">        final double dotProduct = dot(leftVector, rightVector, intersection);</span>
+<span class="fc" id="L57">        double d1 = 0.0d;</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        for (final Integer value : leftVector.values()) {</span>
+<span class="fc" id="L59">            d1 += Math.pow(value, 2);</span>
+<span class="fc" id="L60">        }</span>
+<span class="fc" id="L61">        double d2 = 0.0d;</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        for (final Integer value : rightVector.values()) {</span>
+<span class="fc" id="L63">            d2 += Math.pow(value, 2);</span>
+<span class="fc" id="L64">        }</span>
+        final double cosineSimilarity;
+<span class="fc bfc" id="L66" title="All 4 branches covered.">        if (d1 &lt;= 0.0 || d2 &lt;= 0.0) {</span>
+<span class="fc" id="L67">            cosineSimilarity = 0.0;</span>
+        } else {
+<span class="fc" id="L69">            cosineSimilarity = dotProduct / (Math.sqrt(d1) * Math.sqrt(d2));</span>
+        }
+<span class="fc" id="L71">        return cosineSimilarity;</span>
+    }
+
+    /**
+     * Computes the dot product of two vectors. It ignores remaining elements. It means
+     * that if a vector is longer than other, then a smaller part of it will be used to compute
+     * the dot product.
+     *
+     * @param leftVector left vector
+     * @param rightVector right vector
+     * @param intersection common elements
+     * @return The dot product
+     */
+    private double dot(final Map&lt;CharSequence, Integer&gt; leftVector, final Map&lt;CharSequence, Integer&gt; rightVector,
+            final Set&lt;CharSequence&gt; intersection) {
+<span class="fc" id="L86">        long dotProduct = 0;</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        for (final CharSequence key : intersection) {</span>
+<span class="fc" id="L88">            dotProduct += leftVector.get(key) * (long) rightVector.get(key);</span>
+<span class="fc" id="L89">        }</span>
+<span class="fc" id="L90">        return dotProduct;</span>
+    }
+
+    /**
+     * Returns a set with strings common to the two given maps.
+     *
+     * @param leftVector left vector map
+     * @param rightVector right vector map
+     * @return common strings
+     */
+    private Set&lt;CharSequence&gt; getIntersection(final Map&lt;CharSequence, Integer&gt; leftVector,
+            final Map&lt;CharSequence, Integer&gt; rightVector) {
+<span class="fc" id="L102">        final Set&lt;CharSequence&gt; intersection = new HashSet&lt;&gt;(leftVector.keySet());</span>
+<span class="fc" id="L103">        intersection.retainAll(rightVector.keySet());</span>
+<span class="fc" id="L104">        return intersection;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

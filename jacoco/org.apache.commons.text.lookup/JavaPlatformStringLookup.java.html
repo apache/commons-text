@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JavaPlatformStringLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.lookup</a> &gt; <span class="el_source">JavaPlatformStringLookup.java</span></div><h1>JavaPlatformStringLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache license, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the license for the specific language governing permissions and
+ * limitations under the license.
+ */
+package org.apache.commons.text.lookup;
+
+import java.util.Locale;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringSubstitutor;
+
+/**
+ * Looks up keys related to Java: Java version, JRE version, VM version, and so on.
+ * &lt;p&gt;
+ * The lookup keys with examples are:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;&lt;b&gt;version&lt;/b&gt;: &quot;Java version 1.8.0_181&quot;&lt;/li&gt;
+ * &lt;li&gt;&lt;b&gt;runtime&lt;/b&gt;: &quot;Java(TM) SE Runtime Environment (build 1.8.0_181-b13) from Oracle Corporation&quot;&lt;/li&gt;
+ * &lt;li&gt;&lt;b&gt;vm&lt;/b&gt;: &quot;Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)&quot;&lt;/li&gt;
+ * &lt;li&gt;&lt;b&gt;os&lt;/b&gt;: &quot;Windows 10 10.0, architecture: amd64-64&quot;&lt;/li&gt;
+ * &lt;li&gt;&lt;b&gt;hardware&lt;/b&gt;: &quot;processors: 4, architecture: amd64-64, instruction sets: amd64&quot;&lt;/li&gt;
+ * &lt;li&gt;&lt;b&gt;locale&lt;/b&gt;: &quot;default locale: en_US, platform encoding: iso-8859-1&quot;&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * &lt;p&gt;
+ * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * StringLookupFactory.INSTANCE.javaPlatformStringLookup().lookup(&quot;version&quot;);
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * Using a {@link StringSubstitutor}:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * StringSubstitutor.createInterpolator().replace(&quot;... ${java:version} ...&quot;));
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * The above examples convert {@code &quot;version&quot;} to the current VM version, for example,
+ * {@code &quot;Java version 1.8.0_181&quot;}.
+ * &lt;/p&gt;
+ *
+ * @since 1.3
+ */
+final class JavaPlatformStringLookup extends AbstractStringLookup {
+
+    /**
+     * Defines the singleton for this class.
+     */
+<span class="fc" id="L64">    static final JavaPlatformStringLookup INSTANCE = new JavaPlatformStringLookup();</span>
+    /** {@code hardware} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    private static final String KEY_HARDWARE = &quot;hardware&quot;;
+    /** {@code locale} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    private static final String KEY_LOCALE = &quot;locale&quot;;
+    /** {@code os} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    private static final String KEY_OS = &quot;os&quot;;
+    /** {@code runtime} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    private static final String KEY_RUNTIME = &quot;runtime&quot;;
+    /** {@code version} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    private static final String KEY_VERSION = &quot;version&quot;;
+
+    /** {@code vm} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
+    private static final String KEY_VM = &quot;vm&quot;;
+
+    /**
+     * The main method for running the JavaPlatformStringLookup.
+     *
+     * @param args the standard Java main method parameter which is unused for our running of this class.
+     */
+    public static void main(final String[] args) {
+<span class="fc" id="L85">        System.out.println(JavaPlatformStringLookup.class);</span>
+<span class="fc" id="L86">        System.out.printf(&quot;%s = %s%n&quot;, KEY_VERSION, JavaPlatformStringLookup.INSTANCE.lookup(KEY_VERSION));</span>
+<span class="fc" id="L87">        System.out.printf(&quot;%s = %s%n&quot;, KEY_RUNTIME, JavaPlatformStringLookup.INSTANCE.lookup(KEY_RUNTIME));</span>
+<span class="fc" id="L88">        System.out.printf(&quot;%s = %s%n&quot;, KEY_VM, JavaPlatformStringLookup.INSTANCE.lookup(KEY_VM));</span>
+<span class="fc" id="L89">        System.out.printf(&quot;%s = %s%n&quot;, KEY_OS, JavaPlatformStringLookup.INSTANCE.lookup(KEY_OS));</span>
+<span class="fc" id="L90">        System.out.printf(&quot;%s = %s%n&quot;, KEY_HARDWARE, JavaPlatformStringLookup.INSTANCE.lookup(KEY_HARDWARE));</span>
+<span class="fc" id="L91">        System.out.printf(&quot;%s = %s%n&quot;, KEY_LOCALE, JavaPlatformStringLookup.INSTANCE.lookup(KEY_LOCALE));</span>
+<span class="fc" id="L92">    }</span>
+
+    /**
+     * No need to build instances for now.
+     */
+    private JavaPlatformStringLookup() {
+        // empty
+    }
+
+    /**
+     * Accessible through the Lookup key {@code hardware}.
+     *
+     * @return hardware processor information.
+     */
+    String getHardware() {
+<span class="fc" id="L107">        return &quot;processors: &quot; + Runtime.getRuntime().availableProcessors() + &quot;, architecture: &quot;</span>
+<span class="fc" id="L108">            + getSystemProperty(&quot;os.arch&quot;) + this.getSystemProperty(&quot;-&quot;, &quot;sun.arch.data.model&quot;)</span>
+<span class="fc" id="L109">            + this.getSystemProperty(&quot;, instruction sets: &quot;, &quot;sun.cpu.isalist&quot;);</span>
+    }
+
+    /**
+     * Accessible through the Lookup key {@code locale}.
+     *
+     * @return system locale and file encoding information.
+     */
+    String getLocale() {
+<span class="fc" id="L118">        return &quot;default locale: &quot; + Locale.getDefault() + &quot;, platform encoding: &quot; + getSystemProperty(&quot;file.encoding&quot;);</span>
+    }
+
+    /**
+     * Accessible through the Lookup key {@code os}.
+     *
+     * @return operating system information.
+     */
+    String getOperatingSystem() {
+<span class="fc" id="L127">        return getSystemProperty(&quot;os.name&quot;) + &quot; &quot; + getSystemProperty(&quot;os.version&quot;)</span>
+<span class="fc" id="L128">            + getSystemProperty(&quot; &quot;, &quot;sun.os.patch.level&quot;) + &quot;, architecture: &quot; + getSystemProperty(&quot;os.arch&quot;)</span>
+<span class="fc" id="L129">            + getSystemProperty(&quot;-&quot;, &quot;sun.arch.data.model&quot;);</span>
+    }
+
+    /**
+     * Accessible through the Lookup key {@code runtime}.
+     *
+     * @return Java Runtime Environment information.
+     */
+    String getRuntime() {
+<span class="fc" id="L138">        return getSystemProperty(&quot;java.runtime.name&quot;) + &quot; (build &quot; + getSystemProperty(&quot;java.runtime.version&quot;)</span>
+<span class="fc" id="L139">            + &quot;) from &quot; + getSystemProperty(&quot;java.vendor&quot;);</span>
+    }
+
+    /**
+     * Gets the given system property.
+     *
+     * @param name a system property name.
+     * @return a system property value.
+     */
+    private String getSystemProperty(final String name) {
+<span class="fc" id="L149">        return StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.lookup(name);</span>
+    }
+
+    /**
+     * Gets the given system property.
+     *
+     * @param prefix the prefix to use for the result string
+     * @param name a system property name.
+     * @return The prefix + a system property value.
+     */
+    private String getSystemProperty(final String prefix, final String name) {
+<span class="fc" id="L160">        final String value = getSystemProperty(name);</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">        if (StringUtils.isEmpty(value)) {</span>
+<span class="fc" id="L162">            return StringUtils.EMPTY;</span>
+        }
+<span class="fc" id="L164">        return prefix + value;</span>
+    }
+
+    /**
+     * Accessible through the Lookup key {@code vm}.
+     *
+     * @return Java Virtual Machine information.
+     */
+    String getVirtualMachine() {
+<span class="fc" id="L173">        return getSystemProperty(&quot;java.vm.name&quot;) + &quot; (build &quot; + getSystemProperty(&quot;java.vm.version&quot;) + &quot;, &quot;</span>
+<span class="fc" id="L174">            + getSystemProperty(&quot;java.vm.info&quot;) + &quot;)&quot;;</span>
+    }
+
+    /**
+     * Looks up the value of the Java platform key.
+     * &lt;p&gt;
+     * The lookup keys with examples are:
+     * &lt;/p&gt;
+     * &lt;ul&gt;
+     * &lt;li&gt;&lt;b&gt;version&lt;/b&gt;: &quot;Java version 1.8.0_181&quot;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;runtime&lt;/b&gt;: &quot;Java(TM) SE Runtime Environment (build 1.8.0_181-b13) from Oracle Corporation&quot;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;vm&lt;/b&gt;: &quot;Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)&quot;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;os&lt;/b&gt;: &quot;Windows 10 10.0, architecture: amd64-64&quot;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;hardware&lt;/b&gt;: &quot;processors: 4, architecture: amd64-64, instruction sets: amd64&quot;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;locale&lt;/b&gt;: &quot;default locale: en_US, platform encoding: iso-8859-1&quot;&lt;/li&gt;
+     * &lt;/ul&gt;
+     *
+     * @param key the key to be looked up, may be null
+     * @return The value of the environment variable.
+     */
+    @Override
+    public String lookup(final String key) {
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        if (key == null) {</span>
+<span class="fc" id="L197">            return null;</span>
+        }
+<span class="fc bfc" id="L199" title="All 7 branches covered.">        switch (key) {</span>
+        case KEY_VERSION:
+<span class="fc" id="L201">            return &quot;Java version &quot; + getSystemProperty(&quot;java.version&quot;);</span>
+        case KEY_RUNTIME:
+<span class="fc" id="L203">            return getRuntime();</span>
+        case KEY_VM:
+<span class="fc" id="L205">            return getVirtualMachine();</span>
+        case KEY_OS:
+<span class="fc" id="L207">            return getOperatingSystem();</span>
+        case KEY_HARDWARE:
+<span class="fc" id="L209">            return getHardware();</span>
+        case KEY_LOCALE:
+<span class="fc" id="L211">            return getLocale();</span>
+        default:
+<span class="fc" id="L213">            throw new IllegalArgumentException(key);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

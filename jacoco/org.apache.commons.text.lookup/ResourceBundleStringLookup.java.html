@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResourceBundleStringLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.lookup</a> &gt; <span class="el_source">ResourceBundleStringLookup.java</span></div><h1>ResourceBundleStringLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache license, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the license for the specific language governing permissions and
+ * limitations under the license.
+ */
+
+package org.apache.commons.text.lookup;
+
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
+/**
+ * Looks up keys from resource bundles.
+ * &lt;p&gt;
+ * Looks up the value for a given key in the format &quot;BundleName:BundleKey&quot;.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * For example: &quot;com.domain.messages:MyKey&quot;.
+ * &lt;/p&gt;
+ *
+ * @see ResourceBundle
+ * @since 1.3
+ */
+final class ResourceBundleStringLookup extends AbstractStringLookup {
+
+    /**
+     * Defines the singleton for this class.
+     */
+<span class="fc" id="L40">    static final ResourceBundleStringLookup INSTANCE = new ResourceBundleStringLookup();</span>
+
+    /**
+     * The name of the resource bundle from which to look something up.
+     */
+    private final String bundleName;
+
+    /**
+     * Constructs a blank instance.
+     */
+    private ResourceBundleStringLookup() {
+<span class="fc" id="L51">        this(null);</span>
+<span class="fc" id="L52">    }</span>
+
+    /**
+     * Constructs an instance that only works for the given bundle.
+     *
+     * @param bundleName the name of the resource bundle from which we will look keys up.
+     * @since 1.5
+     */
+<span class="fc" id="L60">    ResourceBundleStringLookup(final String bundleName) {</span>
+<span class="fc" id="L61">        this.bundleName = bundleName;</span>
+<span class="fc" id="L62">    }</span>
+
+    ResourceBundle getBundle(final String keyBundleName) {
+        // The ResourceBundle class caches bundles, no need to cache here.
+<span class="fc" id="L66">        return ResourceBundle.getBundle(keyBundleName);</span>
+    }
+
+    String getString(final String keyBundleName, final String bundleKey) {
+<span class="fc" id="L70">        return getBundle(keyBundleName).getString(bundleKey);</span>
+    }
+
+    /**
+     * Looks up the value for the key in the format &quot;BundleName:BundleKey&quot;.
+     *
+     * For example: &quot;com.domain.messages:MyKey&quot;.
+     *
+     * @param key the key to be looked up, may be null
+     * @return The value associated with the key.
+     * @see ResourceBundle
+     * @see ResourceBundle#getBundle(String)
+     * @see ResourceBundle#getString(String)
+     */
+    @Override
+    public String lookup(final String key) {
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (key == null) {</span>
+<span class="fc" id="L87">            return null;</span>
+        }
+<span class="fc" id="L89">        final String[] keys = key.split(SPLIT_STR);</span>
+<span class="fc" id="L90">        final int keyLen = keys.length;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        final boolean anyBundle = bundleName == null;</span>
+<span class="fc bfc" id="L92" title="All 4 branches covered.">        if (anyBundle &amp;&amp; keyLen != 2) {</span>
+<span class="fc" id="L93">            throw IllegalArgumentExceptions</span>
+<span class="fc" id="L94">                .format(&quot;Bad resource bundle key format [%s]; expected format is BundleName:KeyName.&quot;, key);</span>
+        }
+<span class="fc bfc" id="L96" title="All 4 branches covered.">        if (bundleName != null &amp;&amp; keyLen != 1) {</span>
+<span class="fc" id="L97">            throw IllegalArgumentExceptions.format(&quot;Bad resource bundle key format [%s]; expected format is KeyName.&quot;,</span>
+                key);
+        }
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        final String keyBundleName = anyBundle ? keys[0] : bundleName;</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        final String bundleKey = anyBundle ? keys[1] : keys[0];</span>
+        try {
+<span class="fc" id="L103">            return getString(keyBundleName, bundleKey);</span>
+<span class="fc" id="L104">        } catch (final MissingResourceException e) {</span>
+            // The key is missing, return null such that an interpolator can supply a default value.
+<span class="fc" id="L106">            return null;</span>
+<span class="fc" id="L107">        } catch (final Exception e) {</span>
+            // Should only be a ClassCastException
+<span class="fc" id="L109">            throw IllegalArgumentExceptions.format(e, &quot;Error looking up resource bundle [%s] and key [%s].&quot;,</span>
+                keyBundleName, bundleKey);
+        }
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L116">        return super.toString() + &quot; [bundleName=&quot; + bundleName + &quot;]&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

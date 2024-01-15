@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractStringMatcher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.matcher</a> &gt; <span class="el_source">AbstractStringMatcher.java</span></div><h1>AbstractStringMatcher.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.commons.text.matcher;
+
+import java.util.Arrays;
+
+/**
+ * A matcher that determines if a character array portion matches.
+ * &lt;p&gt;
+ * Thread=safe.
+ * &lt;/p&gt;
+ *
+ * @since 1.3
+ */
+abstract class AbstractStringMatcher implements StringMatcher {
+
+    /**
+     * Matches all of the given matchers in order.
+     *
+     * @since 1.9
+     */
+    static final class AndStringMatcher extends AbstractStringMatcher {
+
+        /**
+         * Matchers in order.
+         */
+        private final StringMatcher[] stringMatchers;
+
+        /**
+         * Constructs a new initialized instance.
+         *
+         * @param stringMatchers Matchers in order. Never null since the {@link StringMatcherFactory} uses the
+         *        {@link NoneMatcher} instead.
+         */
+<span class="fc" id="L50">        AndStringMatcher(final StringMatcher... stringMatchers) {</span>
+<span class="fc" id="L51">            this.stringMatchers = stringMatchers.clone();</span>
+<span class="fc" id="L52">        }</span>
+
+        @Override
+        public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
+<span class="fc" id="L56">            int total = 0;</span>
+<span class="fc" id="L57">            int curStart = start;</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            for (final StringMatcher stringMatcher : stringMatchers) {</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">                if (stringMatcher != null) {</span>
+<span class="fc" id="L60">                    final int len = stringMatcher.isMatch(buffer, curStart, bufferStart, bufferEnd);</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">                    if (len == 0) {</span>
+<span class="fc" id="L62">                        return 0;</span>
+                    }
+<span class="fc" id="L64">                    total += len;</span>
+<span class="fc" id="L65">                    curStart += len;</span>
+                }
+            }
+<span class="fc" id="L68">            return total;</span>
+        }
+
+        @Override
+        public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
+<span class="fc" id="L73">            int total = 0;</span>
+<span class="fc" id="L74">            int curStart = start;</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            for (final StringMatcher stringMatcher : stringMatchers) {</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">                if (stringMatcher != null) {</span>
+<span class="fc" id="L77">                    final int len = stringMatcher.isMatch(buffer, curStart, bufferStart, bufferEnd);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">                    if (len == 0) {</span>
+<span class="fc" id="L79">                        return 0;</span>
+                    }
+<span class="fc" id="L81">                    total += len;</span>
+<span class="fc" id="L82">                    curStart += len;</span>
+                }
+            }
+<span class="fc" id="L85">            return total;</span>
+        }
+
+        @Override
+        public int size() {
+<span class="fc" id="L90">            int total = 0;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">            for (final StringMatcher stringMatcher : stringMatchers) {</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">                if (stringMatcher != null) {</span>
+<span class="fc" id="L93">                    total += stringMatcher.size();</span>
+                }
+            }
+<span class="fc" id="L96">            return total;</span>
+        }
+    }
+
+    /**
+     * Matches out of a set of characters.
+     * &lt;p&gt;
+     * Thread=safe.
+     * &lt;/p&gt;
+     */
+    static final class CharArrayMatcher extends AbstractStringMatcher {
+
+        /** The string to match, as a character array, implementation treats as immutable. */
+        private final char[] chars;
+
+        /** The string to match. */
+        private final String string;
+
+        /**
+         * Constructs a matcher from a String.
+         *
+         * @param chars the string to match, must not be null
+         */
+<span class="fc" id="L119">        CharArrayMatcher(final char... chars) {</span>
+<span class="fc" id="L120">            this.string = String.valueOf(chars);</span>
+<span class="fc" id="L121">            this.chars = chars.clone();</span>
+<span class="fc" id="L122">        }</span>
+
+        /**
+         * Returns the number of matching characters, {@code 0} if there is no match.
+         *
+         * @param buffer the text content to match against, do not change
+         * @param start the starting position for the match, valid for buffer
+         * @param bufferStart unused
+         * @param bufferEnd the end index of the active buffer, valid for buffer
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
+<span class="fc" id="L135">            final int len = size();</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">            if (start + len &gt; bufferEnd) {</span>
+<span class="fc" id="L137">                return 0;</span>
+            }
+<span class="fc" id="L139">            int j = start;</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">            for (int i = 0; i &lt; len; i++, j++) {</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">                if (chars[i] != buffer[j]) {</span>
+<span class="fc" id="L142">                    return 0;</span>
+                }
+            }
+<span class="fc" id="L145">            return len;</span>
+        }
+
+        /**
+         * Returns the number of matching characters, {@code 0} if there is no match.
+         *
+         * @param buffer the text content to match against, do not change
+         * @param start the starting position for the match, valid for buffer
+         * @param bufferStart unused
+         * @param bufferEnd the end index of the active buffer, valid for buffer
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
+<span class="fc" id="L159">            final int len = size();</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">            if (start + len &gt; bufferEnd) {</span>
+<span class="fc" id="L161">                return 0;</span>
+            }
+<span class="fc" id="L163">            int j = start;</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">            for (int i = 0; i &lt; len; i++, j++) {</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">                if (chars[i] != buffer.charAt(j)) {</span>
+<span class="fc" id="L166">                    return 0;</span>
+                }
+            }
+<span class="fc" id="L169">            return len;</span>
+        }
+
+        /**
+         * Returns the size of the string to match given in the constructor.
+         *
+         * @since 1.9
+         */
+        @Override
+        public int size() {
+<span class="fc" id="L179">            return chars.length;</span>
+        }
+
+        @Override
+        public String toString() {
+<span class="fc" id="L184">            return super.toString() + &quot;[\&quot;&quot; + string + &quot;\&quot;]&quot;;</span>
+        }
+
+    }
+
+    /**
+     * Matches a character.
+     * &lt;p&gt;
+     * Thread=safe.
+     * &lt;/p&gt;
+     */
+    static final class CharMatcher extends AbstractStringMatcher {
+
+        /** The character to match. */
+        private final char ch;
+
+        /**
+         * Constructs a matcher for a single character.
+         *
+         * @param ch the character to match
+         */
+<span class="fc" id="L205">        CharMatcher(final char ch) {</span>
+<span class="fc" id="L206">            this.ch = ch;</span>
+<span class="fc" id="L207">        }</span>
+
+        /**
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
+         *
+         * @param buffer the text content to match against, do not change
+         * @param start the starting position for the match, valid for buffer
+         * @param bufferStart unused
+         * @param bufferEnd unused
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
+<span class="fc bfc" id="L220" title="All 2 branches covered.">            return ch == buffer[start] ? 1 : 0;</span>
+        }
+
+        /**
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
+         *
+         * @param buffer the text content to match against, do not change
+         * @param start the starting position for the match, valid for buffer
+         * @param bufferStart unused
+         * @param bufferEnd unused
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
+<span class="fc bfc" id="L234" title="All 2 branches covered.">            return ch == buffer.charAt(start) ? 1 : 0;</span>
+        }
+
+        /**
+         * Returns 1.
+         *
+         * @since 1.9
+         */
+        @Override
+        public int size() {
+<span class="fc" id="L244">            return 1;</span>
+        }
+
+        @Override
+        public String toString() {
+<span class="fc" id="L249">            return super.toString() + &quot;['&quot; + ch + &quot;']&quot;;</span>
+        }
+    }
+
+    /**
+     * Matches a set of characters.
+     * &lt;p&gt;
+     * Thread=safe.
+     * &lt;/p&gt;
+     */
+    static final class CharSetMatcher extends AbstractStringMatcher {
+
+        /** The set of characters to match. */
+        private final char[] chars;
+
+        /**
+         * Constructs a matcher from a character array.
+         *
+         * @param chars the characters to match, must not be null
+         */
+<span class="fc" id="L269">        CharSetMatcher(final char[] chars) {</span>
+<span class="fc" id="L270">            this.chars = chars.clone();</span>
+<span class="fc" id="L271">            Arrays.sort(this.chars);</span>
+<span class="fc" id="L272">        }</span>
+
+        /**
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
+         *
+         * @param buffer the text content to match against, do not change
+         * @param start the starting position for the match, valid for buffer
+         * @param bufferStart unused
+         * @param bufferEnd unused
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
+<span class="fc bfc" id="L285" title="All 2 branches covered.">            return Arrays.binarySearch(chars, buffer[start]) &gt;= 0 ? 1 : 0;</span>
+        }
+
+        /**
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
+         *
+         * @param buffer the text content to match against, do not change
+         * @param start the starting position for the match, valid for buffer
+         * @param bufferStart unused
+         * @param bufferEnd unused
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
+<span class="fc bfc" id="L299" title="All 2 branches covered.">            return Arrays.binarySearch(chars, buffer.charAt(start)) &gt;= 0 ? 1 : 0;</span>
+        }
+
+        /**
+         * Returns 1.
+         *
+         * @since 1.9
+         */
+        @Override
+        public int size() {
+<span class="fc" id="L309">            return 1;</span>
+        }
+
+        @Override
+        public String toString() {
+<span class="fc" id="L314">            return super.toString() + Arrays.toString(chars);</span>
+        }
+
+    }
+
+    /**
+     * Matches nothing.
+     * &lt;p&gt;
+     * Thread=safe.
+     * &lt;/p&gt;
+     */
+    static final class NoneMatcher extends AbstractStringMatcher {
+
+        /**
+         * Constructs a new instance of {@code NoMatcher}.
+         */
+<span class="fc" id="L330">        NoneMatcher() {</span>
+<span class="fc" id="L331">        }</span>
+
+        /**
+         * Always returns {@code 0}.
+         *
+         * @param buffer unused
+         * @param start unused
+         * @param bufferStart unused
+         * @param bufferEnd unused
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
+<span class="fc" id="L344">            return 0;</span>
+        }
+
+        /**
+         * Always returns {@code 0}.
+         *
+         * @param buffer unused
+         * @param start unused
+         * @param bufferStart unused
+         * @param bufferEnd unused
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
+<span class="fc" id="L358">            return 0;</span>
+        }
+
+        /**
+         * Returns 0.
+         *
+         * @since 1.9
+         */
+        @Override
+        public int size() {
+<span class="fc" id="L368">            return 0;</span>
+        }
+
+    }
+
+    /**
+     * Matches whitespace as per trim().
+     * &lt;p&gt;
+     * Thread=safe.
+     * &lt;/p&gt;
+     */
+    static final class TrimMatcher extends AbstractStringMatcher {
+
+        /**
+         * The space character.
+         */
+        private static final int SPACE_INT = 32;
+
+        /**
+         * Constructs a new instance of {@code TrimMatcher}.
+         */
+<span class="fc" id="L389">        TrimMatcher() {</span>
+<span class="fc" id="L390">        }</span>
+
+        /**
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
+         *
+         * @param buffer the text content to match against, do not change
+         * @param start the starting position for the match, valid for buffer
+         * @param bufferStart unused
+         * @param bufferEnd unused
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
+<span class="fc bfc" id="L403" title="All 2 branches covered.">            return buffer[start] &lt;= SPACE_INT ? 1 : 0;</span>
+        }
+
+        /**
+         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
+         *
+         * @param buffer the text content to match against, do not change
+         * @param start the starting position for the match, valid for buffer
+         * @param bufferStart unused
+         * @param bufferEnd unused
+         * @return The number of matching characters, zero for no match
+         */
+        @Override
+        public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
+<span class="fc bfc" id="L417" title="All 2 branches covered.">            return buffer.charAt(start) &lt;= SPACE_INT ? 1 : 0;</span>
+        }
+
+        /**
+         * Returns 1.
+         *
+         * @since 1.9
+         */
+        @Override
+        public int size() {
+<span class="fc" id="L427">            return 1;</span>
+        }
+    }
+
+    /**
+     * Constructs a new instance.
+     */
+<span class="fc" id="L434">    protected AbstractStringMatcher() {</span>
+<span class="fc" id="L435">    }</span>
+
+//    /**
+//     * Validates indices for {@code bufferStart &lt;= start &lt; bufferEnd}.
+//     *
+//     * @param start the starting position for the match, valid in {@code buffer}.
+//     * @param bufferStart the first active index in the buffer, valid in {@code buffer}.
+//     * @param bufferEnd the end index (exclusive) of the active buffer, valid in {@code buffer}.
+//     */
+//    void validate(final int start, final int bufferStart, final int bufferEnd) {
+//        if (((bufferStart &gt; start) || (start &gt;= bufferEnd))) {
+//            throw new IndexOutOfBoundsException(
+//                String.format(&quot;bufferStart(%,d) &lt;= start(%,d) &lt; bufferEnd(%,d)&quot;, bufferStart, start, bufferEnd));
+//        }
+//    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NumericEntityUnescaper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.translate</a> &gt; <span class="el_source">NumericEntityUnescaper.java</span></div><h1>NumericEntityUnescaper.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.translate;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
+
+import org.apache.commons.lang3.ArrayUtils;
+
+/**
+ * Translates XML numeric entities of the form &amp;amp;#[xX]?\d+;? to
+ * the specific code point.
+ *
+ * Note that the semicolon is optional.
+ *
+ * @since 1.0
+ */
+public class NumericEntityUnescaper extends CharSequenceTranslator {
+
+    /** Enumerates NumericEntityUnescaper options for unescaping. */
+<span class="fc" id="L38">    public enum OPTION {</span>
+
+        /**
+         * Requires a semicolon.
+         */
+<span class="fc" id="L43">        semiColonRequired,</span>
+
+        /**
+         * Does not require a semicolon.
+         */
+<span class="fc" id="L48">        semiColonOptional,</span>
+
+        /**
+         * Throws an exception if a semicolon is missing.
+         */
+<span class="fc" id="L53">        errorIfNoSemiColon</span>
+    }
+
+    /** Default options. */
+<span class="fc" id="L57">    private static final EnumSet&lt;OPTION&gt; DEFAULT_OPTIONS = EnumSet</span>
+<span class="fc" id="L58">        .copyOf(Collections.singletonList(OPTION.semiColonRequired));</span>
+
+    /** EnumSet of OPTIONS, given from the constructor, read-only. */
+    private final EnumSet&lt;OPTION&gt; options;
+
+    /**
+     * Creates a UnicodeUnescaper.
+     *
+     * The constructor takes a list of options, only one type of which is currently
+     * available (whether to allow, error or ignore the semicolon on the end of a
+     * numeric entity to being missing).
+     *
+     * For example, to support numeric entities without a ';':
+     *    new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.semiColonOptional)
+     * and to throw an IllegalArgumentException when they're missing:
+     *    new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.errorIfNoSemiColon)
+     *
+     * Note that the default behavior is to ignore them.
+     *
+     * @param options to apply to this unescaper
+     */
+<span class="fc" id="L79">    public NumericEntityUnescaper(final OPTION... options) {</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        this.options = ArrayUtils.isEmpty(options) ? DEFAULT_OPTIONS : EnumSet.copyOf(Arrays.asList(options));</span>
+<span class="fc" id="L81">    }</span>
+
+    /**
+     * Tests whether the passed in option is currently set.
+     *
+     * @param option to check state of
+     * @return whether the option is set
+     */
+    public boolean isSet(final OPTION option) {
+<span class="fc" id="L90">        return options.contains(option);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
+<span class="fc" id="L98">        final int seqEnd = input.length();</span>
+        // Uses -2 to ensure there is something after the &amp;#
+<span class="fc bfc" id="L100" title="All 6 branches covered.">        if (input.charAt(index) == '&amp;' &amp;&amp; index &lt; seqEnd - 2 &amp;&amp; input.charAt(index + 1) == '#') {</span>
+<span class="fc" id="L101">            int start = index + 2;</span>
+<span class="fc" id="L102">            boolean isHex = false;</span>
+
+<span class="fc" id="L104">            final char firstChar = input.charAt(start);</span>
+<span class="fc bfc" id="L105" title="All 4 branches covered.">            if (firstChar == 'x' || firstChar == 'X') {</span>
+<span class="fc" id="L106">                start++;</span>
+<span class="fc" id="L107">                isHex = true;</span>
+
+                // Check there's more than just an x after the &amp;#
+<span class="fc bfc" id="L110" title="All 2 branches covered.">                if (start == seqEnd) {</span>
+<span class="fc" id="L111">                    return 0;</span>
+                }
+            }
+
+<span class="fc" id="L115">            int end = start;</span>
+            // Note that this supports character codes without a ; on the end
+<span class="fc bfc" id="L117" title="All 6 branches covered.">            while (end &lt; seqEnd &amp;&amp; (input.charAt(end) &gt;= '0' &amp;&amp; input.charAt(end) &lt;= '9'</span>
+<span class="fc bfc" id="L118" title="All 4 branches covered.">                                    || input.charAt(end) &gt;= 'a' &amp;&amp; input.charAt(end) &lt;= 'f'</span>
+<span class="fc bfc" id="L119" title="All 4 branches covered.">                                    || input.charAt(end) &gt;= 'A' &amp;&amp; input.charAt(end) &lt;= 'F')) {</span>
+<span class="fc" id="L120">                end++;</span>
+            }
+
+<span class="fc bfc" id="L123" title="All 4 branches covered.">            final boolean semiNext = end != seqEnd &amp;&amp; input.charAt(end) == ';';</span>
+
+<span class="fc bfc" id="L125" title="All 2 branches covered.">            if (!semiNext) {</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">                if (isSet(OPTION.semiColonRequired)) {</span>
+<span class="fc" id="L127">                    return 0;</span>
+                }
+<span class="fc bfc" id="L129" title="All 2 branches covered.">                if (isSet(OPTION.errorIfNoSemiColon)) {</span>
+<span class="fc" id="L130">                    throw new IllegalArgumentException(&quot;Semi-colon required at end of numeric entity&quot;);</span>
+                }
+            }
+
+            final int entityValue;
+            try {
+<span class="fc bfc" id="L136" title="All 2 branches covered.">                if (isHex) {</span>
+<span class="fc" id="L137">                    entityValue = Integer.parseInt(input.subSequence(start, end).toString(), 16);</span>
+                } else {
+<span class="fc" id="L139">                    entityValue = Integer.parseInt(input.subSequence(start, end).toString(), 10);</span>
+                }
+<span class="fc" id="L141">            } catch (final NumberFormatException nfe) {</span>
+<span class="fc" id="L142">                return 0;</span>
+<span class="fc" id="L143">            }</span>
+
+<span class="fc bfc" id="L145" title="All 2 branches covered.">            if (entityValue &gt; 0xFFFF) {</span>
+<span class="fc" id="L146">                final char[] chrs = Character.toChars(entityValue);</span>
+<span class="fc" id="L147">                writer.write(chrs[0]);</span>
+<span class="fc" id="L148">                writer.write(chrs[1]);</span>
+<span class="fc" id="L149">            } else {</span>
+<span class="fc" id="L150">                writer.write(entityValue);</span>
+            }
+
+<span class="fc bfc" id="L153" title="All 4 branches covered.">            return 2 + end - start + (isHex ? 1 : 0) + (semiNext ? 1 : 0);</span>
+        }
+<span class="fc" id="L155">        return 0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

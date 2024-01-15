@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EditScript.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.diff</a> &gt; <span class="el_source">EditScript.java</span></div><h1>EditScript.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.diff;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class gathers all the {@link EditCommand commands} needed to transform
+ * one objects sequence into another objects sequence.
+ * &lt;p&gt;
+ * An edit script is the most general view of the differences between two
+ * sequences. It is built as the result of the comparison between two sequences
+ * by the {@link StringsComparator StringsComparator} class. The user can
+ * walk through it using the &lt;em&gt;visitor&lt;/em&gt; design pattern.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * It is guaranteed that the objects embedded in the {@link InsertCommand insert
+ * commands} come from the second sequence and that the objects embedded in
+ * either the {@link DeleteCommand delete commands} or {@link KeepCommand keep
+ * commands} come from the first sequence. This can be important if subclassing
+ * is used for some elements in the first sequence and the {@code equals}
+ * method is specialized.
+ * &lt;/p&gt;
+ *
+ * @see StringsComparator
+ * @see EditCommand
+ * @see CommandVisitor
+ * @see ReplacementsHandler
+ *
+ * @param &lt;T&gt; object type
+ * @since 1.0
+ */
+public class EditScript&lt;T&gt; {
+
+    /** Container for the commands. */
+    private final List&lt;EditCommand&lt;T&gt;&gt; commands;
+
+    /** Length of the longest common subsequence. */
+    private int lcsLength;
+
+    /** Number of modifications. */
+    private int modifications;
+
+    /**
+     * Constructs a new empty script.
+     */
+<span class="fc" id="L62">    public EditScript() {</span>
+<span class="fc" id="L63">        commands = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L64">        lcsLength = 0;</span>
+<span class="fc" id="L65">        modifications = 0;</span>
+<span class="fc" id="L66">    }</span>
+
+    /**
+     * Appends a delete command to the script.
+     *
+     * @param command  command to add
+     */
+    public void append(final DeleteCommand&lt;T&gt; command) {
+<span class="fc" id="L74">        commands.add(command);</span>
+<span class="fc" id="L75">        ++modifications;</span>
+<span class="fc" id="L76">    }</span>
+
+    /**
+     * Appends an insert command to the script.
+     *
+     * @param command  command to add
+     */
+    public void append(final InsertCommand&lt;T&gt; command) {
+<span class="fc" id="L84">        commands.add(command);</span>
+<span class="fc" id="L85">        ++modifications;</span>
+<span class="fc" id="L86">    }</span>
+
+    /**
+     * Appends a keep command to the script.
+     *
+     * @param command  command to add
+     */
+    public void append(final KeepCommand&lt;T&gt; command) {
+<span class="fc" id="L94">        commands.add(command);</span>
+<span class="fc" id="L95">        ++lcsLength;</span>
+<span class="fc" id="L96">    }</span>
+
+    /**
+     * Gets the length of the Longest Common Subsequence (LCS). The length of the
+     * longest common subsequence is the number of {@link KeepCommand keep
+     * commands} in the script.
+     *
+     * @return length of the Longest Common Subsequence
+     */
+    public int getLCSLength() {
+<span class="fc" id="L106">        return lcsLength;</span>
+    }
+
+    /**
+     * Gets the number of effective modifications. The number of effective
+     * modification is the number of {@link DeleteCommand delete} and
+     * {@link InsertCommand insert} commands in the script.
+     *
+     * @return number of effective modifications
+     */
+    public int getModifications() {
+<span class="fc" id="L117">        return modifications;</span>
+    }
+
+    /**
+     * Visits the script. The script implements the &lt;em&gt;visitor&lt;/em&gt; design
+     * pattern, this method is the entry point to which the user supplies its
+     * own visitor, the script will be responsible to drive it through the
+     * commands in order and call the appropriate method as each command is
+     * encountered.
+     *
+     * @param visitor  the visitor that will visit all commands in turn
+     */
+    public void visit(final CommandVisitor&lt;T&gt; visitor) {
+<span class="fc" id="L130">        commands.forEach(command -&gt; command.accept(visitor));</span>
+<span class="fc" id="L131">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

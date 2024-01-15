@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JaroWinklerSimilarity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.similarity</a> &gt; <span class="el_source">JaroWinklerSimilarity.java</span></div><h1>JaroWinklerSimilarity.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.similarity;
+
+import java.util.Arrays;
+
+import org.apache.commons.lang3.StringUtils;
+
+/**
+ * A similarity algorithm indicating the percentage of matched characters between two character sequences.
+ *
+ * &lt;p&gt;
+ * The Jaro measure is the weighted sum of percentage of matched characters
+ * from each file and transposed characters. Winkler increased this measure
+ * for matching initial characters.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * This implementation is based on the Jaro Winkler similarity algorithm
+ * from &lt;a href=&quot;http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance&quot;&gt;
+ * http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance&lt;/a&gt;.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * This code has been adapted from Apache Commons Lang 3.3.
+ * &lt;/p&gt;
+ *
+ * @since 1.7
+ */
+<span class="fc" id="L44">public class JaroWinklerSimilarity implements SimilarityScore&lt;Double&gt; {</span>
+
+    /**
+     * Singleton instance.
+     */
+<span class="fc" id="L49">    static final JaroWinklerSimilarity INSTANCE = new JaroWinklerSimilarity();</span>
+
+    /**
+     * This method returns the Jaro-Winkler string matches, half transpositions, prefix array.
+     *
+     * @param first the first string to be matched
+     * @param second the second string to be matched
+     * @return mtp array containing: matches, half transpositions, and prefix
+     */
+    protected static int[] matches(final CharSequence first, final CharSequence second) {
+        final CharSequence max;
+        final CharSequence min;
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (first.length() &gt; second.length()) {</span>
+<span class="fc" id="L62">            max = first;</span>
+<span class="fc" id="L63">            min = second;</span>
+        } else {
+<span class="fc" id="L65">            max = second;</span>
+<span class="fc" id="L66">            min = first;</span>
+        }
+<span class="fc" id="L68">        final int range = Math.max(max.length() / 2 - 1, 0);</span>
+<span class="fc" id="L69">        final int[] matchIndexes = new int[min.length()];</span>
+<span class="fc" id="L70">        Arrays.fill(matchIndexes, -1);</span>
+<span class="fc" id="L71">        final boolean[] matchFlags = new boolean[max.length()];</span>
+<span class="fc" id="L72">        int matches = 0;</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        for (int mi = 0; mi &lt; min.length(); mi++) {</span>
+<span class="fc" id="L74">            final char c1 = min.charAt(mi);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            for (int xi = Math.max(mi - range, 0), xn = Math.min(mi + range + 1, max.length()); xi &lt; xn; xi++) {</span>
+<span class="fc bfc" id="L76" title="All 4 branches covered.">                if (!matchFlags[xi] &amp;&amp; c1 == max.charAt(xi)) {</span>
+<span class="fc" id="L77">                    matchIndexes[mi] = xi;</span>
+<span class="fc" id="L78">                    matchFlags[xi] = true;</span>
+<span class="fc" id="L79">                    matches++;</span>
+<span class="fc" id="L80">                    break;</span>
+                }
+            }
+        }
+<span class="fc" id="L84">        final char[] ms1 = new char[matches];</span>
+<span class="fc" id="L85">        final char[] ms2 = new char[matches];</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        for (int i = 0, si = 0; i &lt; min.length(); i++) {</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">            if (matchIndexes[i] != -1) {</span>
+<span class="fc" id="L88">                ms1[si] = min.charAt(i);</span>
+<span class="fc" id="L89">                si++;</span>
+            }
+        }
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        for (int i = 0, si = 0; i &lt; max.length(); i++) {</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">            if (matchFlags[i]) {</span>
+<span class="fc" id="L94">                ms2[si] = max.charAt(i);</span>
+<span class="fc" id="L95">                si++;</span>
+            }
+        }
+<span class="fc" id="L98">        int halfTranspositions = 0;</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        for (int mi = 0; mi &lt; ms1.length; mi++) {</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">            if (ms1[mi] != ms2[mi]) {</span>
+<span class="fc" id="L101">                halfTranspositions++;</span>
+            }
+        }
+<span class="fc" id="L104">        int prefix = 0;</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        for (int mi = 0; mi &lt; Math.min(4, min.length()); mi++) {</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">            if (first.charAt(mi) != second.charAt(mi)) {</span>
+<span class="fc" id="L107">                break;</span>
+            }
+<span class="fc" id="L109">            prefix++;</span>
+        }
+<span class="fc" id="L111">        return new int[] {matches, halfTranspositions, prefix};</span>
+    }
+
+    /**
+     * Computes the Jaro Winkler Similarity between two character sequences.
+     *
+     * &lt;pre&gt;
+     * sim.apply(null, null)          = IllegalArgumentException
+     * sim.apply(&quot;foo&quot;, null)         = IllegalArgumentException
+     * sim.apply(null, &quot;foo&quot;)         = IllegalArgumentException
+     * sim.apply(&quot;&quot;, &quot;&quot;)              = 1.0
+     * sim.apply(&quot;foo&quot;, &quot;foo&quot;)        = 1.0
+     * sim.apply(&quot;foo&quot;, &quot;foo &quot;)       = 0.94
+     * sim.apply(&quot;foo&quot;, &quot;foo  &quot;)      = 0.91
+     * sim.apply(&quot;foo&quot;, &quot; foo &quot;)      = 0.87
+     * sim.apply(&quot;foo&quot;, &quot;  foo&quot;)      = 0.51
+     * sim.apply(&quot;&quot;, &quot;a&quot;)             = 0.0
+     * sim.apply(&quot;aaapppp&quot;, &quot;&quot;)       = 0.0
+     * sim.apply(&quot;frog&quot;, &quot;fog&quot;)       = 0.93
+     * sim.apply(&quot;fly&quot;, &quot;ant&quot;)        = 0.0
+     * sim.apply(&quot;elephant&quot;, &quot;hippo&quot;) = 0.44
+     * sim.apply(&quot;hippo&quot;, &quot;elephant&quot;) = 0.44
+     * sim.apply(&quot;hippo&quot;, &quot;zzzzzzzz&quot;) = 0.0
+     * sim.apply(&quot;hello&quot;, &quot;hallo&quot;)    = 0.88
+     * sim.apply(&quot;ABC Corporation&quot;, &quot;ABC Corp&quot;) = 0.91
+     * sim.apply(&quot;D N H Enterprises Inc&quot;, &quot;D &amp;amp; H Enterprises, Inc.&quot;) = 0.95
+     * sim.apply(&quot;My Gym Children's Fitness Center&quot;, &quot;My Gym. Childrens Fitness&quot;) = 0.92
+     * sim.apply(&quot;PENNSYLVANIA&quot;, &quot;PENNCISYLVNIA&quot;) = 0.88
+     * &lt;/pre&gt;
+     *
+     * @param left the first CharSequence, must not be null
+     * @param right the second CharSequence, must not be null
+     * @return result similarity
+     * @throws IllegalArgumentException if either CharSequence input is {@code null}
+     */
+    @Override
+    public Double apply(final CharSequence left, final CharSequence right) {
+<span class="fc" id="L148">        final double defaultScalingFactor = 0.1;</span>
+
+<span class="fc bfc" id="L150" title="All 4 branches covered.">        if (left == null || right == null) {</span>
+<span class="fc" id="L151">            throw new IllegalArgumentException(&quot;CharSequences must not be null&quot;);</span>
+        }
+
+<span class="fc bfc" id="L154" title="All 2 branches covered.">        if (StringUtils.equals(left, right)) {</span>
+<span class="fc" id="L155">            return 1d;</span>
+        }
+
+<span class="fc" id="L158">        final int[] mtp = matches(left, right);</span>
+<span class="fc" id="L159">        final double m = mtp[0];</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        if (m == 0) {</span>
+<span class="fc" id="L161">            return 0d;</span>
+        }
+<span class="fc" id="L163">        final double j = (m / left.length() + m / right.length() + (m - (double) mtp[1] / 2) / m) / 3;</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        return j &lt; 0.7d ? j : j + defaultScalingFactor * mtp[2] * (1d - j);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

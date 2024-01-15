@@ -1,0 +1,778 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ParsedDecimal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.numbers</a> &gt; <span class="el_source">ParsedDecimal.java</span></div><h1>ParsedDecimal.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.numbers;
+
+/**
+ * Internal class representing a decimal value parsed into separate components. Each number
+ * is represented with
+ * &lt;ul&gt;
+ *  &lt;li&gt;a boolean flag for the sign,&lt;/li&gt;
+ *  &lt;li&gt; a sequence of the digits {@code 0 - 10} representing an unsigned integer with leading and trailing zeros
+ *      removed, and&lt;/li&gt;
+ *  &lt;li&gt;an exponent value that when applied to the base 10 digits produces a floating point value with the
+ *      correct magnitude.&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;p&gt;&lt;strong&gt;Examples&lt;/strong&gt;&lt;/p&gt;
+ * &lt;table&gt;
+ *  &lt;tr&gt;&lt;th&gt;Double&lt;/th&gt;&lt;th&gt;Negative&lt;/th&gt;&lt;th&gt;Digits&lt;/th&gt;&lt;th&gt;Exponent&lt;/th&gt;&lt;/tr&gt;
+ *  &lt;tr&gt;&lt;td&gt;0.0&lt;/td&gt;&lt;td&gt;false&lt;/td&gt;&lt;td&gt;[0]&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+ *  &lt;tr&gt;&lt;td&gt;1.2&lt;/td&gt;&lt;td&gt;false&lt;/td&gt;&lt;td&gt;[1, 2]&lt;/td&gt;&lt;td&gt;-1&lt;/td&gt;&lt;/tr&gt;
+ *  &lt;tr&gt;&lt;td&gt;-0.00971&lt;/td&gt;&lt;td&gt;true&lt;/td&gt;&lt;td&gt;[9, 7, 1]&lt;/td&gt;&lt;td&gt;-5&lt;/td&gt;&lt;/tr&gt;
+ *  &lt;tr&gt;&lt;td&gt;56300&lt;/td&gt;&lt;td&gt;true&lt;/td&gt;&lt;td&gt;[5, 6, 3]&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;
+ * &lt;/table&gt;
+ */
+final class ParsedDecimal {
+
+    /**
+     * Interface containing values used during string formatting.
+     */
+    interface FormatOptions {
+
+        /**
+         * Gets the decimal separator character.
+         * @return decimal separator character
+         */
+        char getDecimalSeparator();
+
+        /**
+         * Gets an array containing the localized digit characters 0-9 in that order.
+         * This string &lt;em&gt;must&lt;/em&gt; be non-null and have a length of 10.
+         * @return array containing the digit characters 0-9
+         */
+        char[] getDigits();
+
+        /**
+         * Gets the exponent separator as an array of characters.
+         * @return exponent separator as an array of characters
+         */
+        char[] getExponentSeparatorChars();
+
+        /**
+         * Gets the character used to separate thousands groupings.
+         * @return character used to separate thousands groupings
+         */
+        char getGroupingSeparator();
+
+        /**
+         * Gets the minus sign character.
+         * @return minus sign character
+         */
+        char getMinusSign();
+
+        /**
+         * Return {@code true} if exponent values should always be included in
+         * formatted output, even if the value is zero.
+         * @return {@code true} if exponent values should always be included
+         */
+        boolean isAlwaysIncludeExponent();
+
+        /**
+         * Return {@code true} if thousands should be grouped.
+         * @return {@code true} if thousand should be grouped
+         */
+        boolean isGroupThousands();
+
+        /**
+         * Return {@code true} if fraction placeholders (e.g., {@code &quot;.0&quot;} in {@code &quot;1.0&quot;})
+         * should be included.
+         * @return {@code true} if fraction placeholders should be included
+         */
+        boolean isIncludeFractionPlaceholder();
+
+        /**
+         * Return {@code true} if the string zero should be prefixed with the minus sign
+         * for negative zero values.
+         * @return {@code true} if the minus zero string should be allowed
+         */
+        boolean isSignedZero();
+    }
+
+    /** Minus sign character. */
+    private static final char MINUS_CHAR = '-';
+
+    /** Decimal separator character. */
+    private static final char DECIMAL_SEP_CHAR = '.';
+
+    /** Exponent character. */
+    private static final char EXPONENT_CHAR = 'E';
+
+    /** Zero digit character. */
+    private static final char ZERO_CHAR = '0';
+
+    /** Number of characters in thousands groupings. */
+    private static final int THOUSANDS_GROUP_SIZE = 3;
+
+    /** Radix for decimal numbers. */
+    private static final int DECIMAL_RADIX = 10;
+
+    /** Center value used when rounding. */
+    private static final int ROUND_CENTER = DECIMAL_RADIX / 2;
+
+    /** Number that exponents in engineering format must be a multiple of. */
+    private static final int ENG_EXPONENT_MOD = 3;
+
+    /**
+     * Gets the numeric value of the given digit character. No validation of the
+     * character type is performed.
+     * @param ch digit character
+     * @return numeric value of the digit character, ex: '1' = 1
+     */
+    private static int digitValue(final char ch) {
+<span class="fc" id="L135">        return ch - ZERO_CHAR;</span>
+    }
+
+    /**
+     * Constructs a new instance from the given double value.
+     * @param d double value
+     * @return a new instance containing the parsed components of the given double value
+     * @throws IllegalArgumentException if {@code d} is {@code NaN} or infinite
+     */
+    public static ParsedDecimal from(final double d) {
+<span class="fc bfc" id="L145" title="All 2 branches covered.">        if (!Double.isFinite(d)) {</span>
+<span class="fc" id="L146">            throw new IllegalArgumentException(&quot;Double is not finite&quot;);</span>
+        }
+
+        // Get the canonical string representation of the double value and parse
+        // it to extract the components of the decimal value. From the documentation
+        // of Double.toString() and the fact that d is finite, we are guaranteed the
+        // following:
+        // - the string will not be empty
+        // - it will contain exactly one decimal point character
+        // - all digit characters are in the ASCII range
+<span class="fc" id="L156">        final char[] strChars = Double.toString(d).toCharArray();</span>
+
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        final boolean negative = strChars[0] == MINUS_CHAR;</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">        final int digitStartIdx = negative ? 1 : 0;</span>
+
+<span class="fc" id="L161">        final int[] digits = new int[strChars.length - digitStartIdx - 1];</span>
+
+<span class="fc" id="L163">        boolean foundDecimalPoint = false;</span>
+<span class="fc" id="L164">        int digitCount = 0;</span>
+<span class="fc" id="L165">        int significantDigitCount = 0;</span>
+<span class="fc" id="L166">        int decimalPos = 0;</span>
+
+        int i;
+<span class="fc bfc" id="L169" title="All 2 branches covered.">        for (i = digitStartIdx; i &lt; strChars.length; ++i) {</span>
+<span class="fc" id="L170">            final char ch = strChars[i];</span>
+
+<span class="fc bfc" id="L172" title="All 2 branches covered.">            if (ch == DECIMAL_SEP_CHAR) {</span>
+<span class="fc" id="L173">                foundDecimalPoint = true;</span>
+<span class="fc" id="L174">                decimalPos = digitCount;</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">            } else if (ch == EXPONENT_CHAR) {</span>
+                // no more mantissa digits
+<span class="fc" id="L177">                break;</span>
+<span class="fc bfc" id="L178" title="All 4 branches covered.">            } else if (ch != ZERO_CHAR || digitCount &gt; 0) {</span>
+                // this is either the first non-zero digit or one after it
+<span class="fc" id="L180">                final int val = digitValue(ch);</span>
+<span class="fc" id="L181">                digits[digitCount++] = val;</span>
+
+<span class="fc bfc" id="L183" title="All 2 branches covered.">                if (val &gt; 0) {</span>
+<span class="fc" id="L184">                    significantDigitCount = digitCount;</span>
+                }
+<span class="fc bfc" id="L186" title="All 2 branches covered.">            } else if (foundDecimalPoint) {</span>
+                // leading zero in a fraction; adjust the decimal position
+<span class="fc" id="L188">                --decimalPos;</span>
+            }
+        }
+
+<span class="fc bfc" id="L192" title="All 2 branches covered.">        if (digitCount &gt; 0) {</span>
+            // determine the exponent
+<span class="fc bfc" id="L194" title="All 2 branches covered.">            final int explicitExponent = i &lt; strChars.length</span>
+<span class="fc" id="L195">                    ? parseExponent(strChars, i + 1)</span>
+<span class="fc" id="L196">                    : 0;</span>
+<span class="fc" id="L197">            final int exponent = explicitExponent + decimalPos - significantDigitCount;</span>
+
+<span class="fc" id="L199">            return new ParsedDecimal(negative, digits, significantDigitCount, exponent);</span>
+        }
+
+        // no non-zero digits, so value is zero
+<span class="fc" id="L203">        return new ParsedDecimal(negative, new int[] {0}, 1, 0);</span>
+    }
+
+    /**
+     * Parses a double exponent value from {@code chars}, starting at the {@code start}
+     * index and continuing through the end of the array.
+     * @param chars character array to parse a double exponent value from
+     * @param start start index
+     * @return parsed exponent value
+     */
+    private static int parseExponent(final char[] chars, final int start) {
+<span class="fc" id="L214">        int i = start;</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">        final boolean neg = chars[i] == MINUS_CHAR;</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">        if (neg) {</span>
+<span class="fc" id="L217">            ++i;</span>
+        }
+
+<span class="fc" id="L220">        int exp = 0;</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">        for (; i &lt; chars.length; ++i) {</span>
+<span class="fc" id="L222">            exp = exp * DECIMAL_RADIX + digitValue(chars[i]);</span>
+        }
+
+<span class="fc bfc" id="L225" title="All 2 branches covered.">        return neg ? -exp : exp;</span>
+    }
+
+    /** True if the value is negative. */
+    final boolean negative;
+
+    /** Array containing the significant decimal digits for the value. */
+    final int[] digits;
+
+    /** Number of digits used in the digits array; not necessarily equal to the length. */
+    int digitCount;
+
+    /** Exponent for the value. */
+    int exponent;
+
+    /** Output buffer for use in creating string representations. */
+    private char[] outputChars;
+
+    /** Output buffer index. */
+    private int outputIdx;
+
+    /**
+     * Constructs a new instance from its parts.
+     * @param negative {@code true} if the value is negative
+     * @param digits array containing significant digits
+     * @param digitCount number of digits used from the {@code digits} array
+     * @param exponent exponent value
+     */
+    private ParsedDecimal(final boolean negative, final int[] digits, final int digitCount,
+<span class="fc" id="L254">            final int exponent) {</span>
+<span class="fc" id="L255">        this.negative = negative;</span>
+<span class="fc" id="L256">        this.digits = digits;</span>
+<span class="fc" id="L257">        this.digitCount = digitCount;</span>
+<span class="fc" id="L258">        this.exponent = exponent;</span>
+<span class="fc" id="L259">    }</span>
+
+    /**
+     * Appends the given character to the output buffer.
+     * @param ch character to append
+     */
+    private void append(final char ch) {
+<span class="fc" id="L266">        outputChars[outputIdx++] = ch;</span>
+<span class="fc" id="L267">    }</span>
+
+    /**
+     * Appends the given character array directly to the output buffer.
+     * @param chars characters to append
+     */
+    private void append(final char[] chars) {
+<span class="fc bfc" id="L274" title="All 2 branches covered.">        for (final char c : chars) {</span>
+<span class="fc" id="L275">            append(c);</span>
+        }
+<span class="fc" id="L277">    }</span>
+
+    /**
+     * Appends the fractional component of the number to the current output buffer.
+     * @param zeroCount number of zeros to add after the decimal point and before the
+     *      first significant digit
+     * @param startIdx significant digit start index
+     * @param opts format options
+     */
+    private void appendFraction(final int zeroCount, final int startIdx, final FormatOptions opts) {
+<span class="fc" id="L287">        final char[] localizedDigits = opts.getDigits();</span>
+<span class="fc" id="L288">        final char localizedZero = localizedDigits[0];</span>
+
+<span class="fc bfc" id="L290" title="All 2 branches covered.">        if (startIdx &lt; digitCount) {</span>
+<span class="fc" id="L291">            append(opts.getDecimalSeparator());</span>
+
+            // add the zero prefix
+<span class="fc bfc" id="L294" title="All 2 branches covered.">            for (int i = 0; i &lt; zeroCount; ++i) {</span>
+<span class="fc" id="L295">                append(localizedZero);</span>
+            }
+
+            // add the fraction digits
+<span class="fc bfc" id="L299" title="All 2 branches covered.">            for (int i = startIdx; i &lt; digitCount; ++i) {</span>
+<span class="fc" id="L300">                appendLocalizedDigit(digits[i], localizedDigits);</span>
+            }
+<span class="fc bfc" id="L302" title="All 2 branches covered.">        } else if (opts.isIncludeFractionPlaceholder()) {</span>
+<span class="fc" id="L303">            append(opts.getDecimalSeparator());</span>
+<span class="fc" id="L304">            append(localizedZero);</span>
+        }
+<span class="fc" id="L306">    }</span>
+
+    /**
+     * Appends the localized representation of the digit {@code n} to the output buffer.
+     * @param n digit to append
+     * @param digitChars character array containing localized versions of the digits {@code 0-9}
+     *      in that order
+     */
+    private void appendLocalizedDigit(final int n, final char[] digitChars) {
+<span class="fc" id="L315">        append(digitChars[n]);</span>
+<span class="fc" id="L316">    }</span>
+
+    /**
+     * Appends the whole number portion of this value to the output buffer. No thousands
+     * separators are added.
+     * @param wholeCount total number of digits required to the left of the decimal point
+     * @param opts format options
+     * @return number of digits from {@code digits} appended to the output buffer
+     * @see #appendWholeGrouped(int, FormatOptions)
+     */
+    private int appendWhole(final int wholeCount, final FormatOptions opts) {
+<span class="fc bfc" id="L327" title="All 2 branches covered.">        if (shouldIncludeMinus(opts)) {</span>
+<span class="fc" id="L328">            append(opts.getMinusSign());</span>
+        }
+
+<span class="fc" id="L331">        final char[] localizedDigits = opts.getDigits();</span>
+<span class="fc" id="L332">        final char localizedZero = localizedDigits[0];</span>
+
+<span class="fc" id="L334">        final int significantDigitCount = Math.max(0, Math.min(wholeCount, digitCount));</span>
+
+<span class="fc bfc" id="L336" title="All 2 branches covered.">        if (significantDigitCount &gt; 0) {</span>
+            int i;
+<span class="fc bfc" id="L338" title="All 2 branches covered.">            for (i = 0; i &lt; significantDigitCount; ++i) {</span>
+<span class="fc" id="L339">                appendLocalizedDigit(digits[i], localizedDigits);</span>
+            }
+
+<span class="fc bfc" id="L342" title="All 2 branches covered.">            for (; i &lt; wholeCount; ++i) {</span>
+<span class="fc" id="L343">                append(localizedZero);</span>
+            }
+<span class="fc" id="L345">        } else {</span>
+<span class="fc" id="L346">            append(localizedZero);</span>
+        }
+
+<span class="fc" id="L349">        return significantDigitCount;</span>
+    }
+
+    /**
+     * Appends the whole number portion of this value to the output buffer, adding thousands
+     * separators as needed.
+     * @param wholeCount total number of digits required to the right of the decimal point
+     * @param opts format options
+     * @return number of digits from {@code digits} appended to the output buffer
+     * @see #appendWhole(int, FormatOptions)
+     */
+    private int appendWholeGrouped(final int wholeCount, final FormatOptions opts) {
+<span class="fc bfc" id="L361" title="All 2 branches covered.">        if (shouldIncludeMinus(opts)) {</span>
+<span class="fc" id="L362">            append(opts.getMinusSign());</span>
+        }
+
+<span class="fc" id="L365">        final char[] localizedDigits = opts.getDigits();</span>
+<span class="fc" id="L366">        final char localizedZero = localizedDigits[0];</span>
+<span class="fc" id="L367">        final char groupingChar = opts.getGroupingSeparator();</span>
+
+<span class="fc" id="L369">        final int appendCount = Math.max(0, Math.min(wholeCount, digitCount));</span>
+
+<span class="fc bfc" id="L371" title="All 2 branches covered.">        if (appendCount &gt; 0) {</span>
+            int i;
+<span class="fc" id="L373">            int pos = wholeCount;</span>
+<span class="fc bfc" id="L374" title="All 2 branches covered.">            for (i = 0; i &lt; appendCount; ++i, --pos) {</span>
+<span class="fc" id="L375">                appendLocalizedDigit(digits[i], localizedDigits);</span>
+<span class="fc bfc" id="L376" title="All 2 branches covered.">                if (requiresGroupingSeparatorAfterPosition(pos)) {</span>
+<span class="fc" id="L377">                    append(groupingChar);</span>
+                }
+            }
+
+<span class="fc bfc" id="L381" title="All 2 branches covered.">            for (; i &lt; wholeCount; ++i, --pos) {</span>
+<span class="fc" id="L382">                append(localizedZero);</span>
+<span class="fc bfc" id="L383" title="All 2 branches covered.">                if (requiresGroupingSeparatorAfterPosition(pos)) {</span>
+<span class="fc" id="L384">                    append(groupingChar);</span>
+                }
+            }
+<span class="fc" id="L387">        } else {</span>
+<span class="fc" id="L388">            append(localizedZero);</span>
+        }
+
+<span class="fc" id="L391">        return appendCount;</span>
+    }
+
+    /**
+     * Gets the number of characters required for the digit portion of a string representation of
+     * this value. This excludes any exponent or thousands groupings characters.
+     * @param decimalPos decimal point position relative to the {@code digits} array
+     * @param opts format options
+     * @return number of characters required for the digit portion of a string representation of
+     *      this value
+     */
+    private int getDigitStringSize(final int decimalPos, final FormatOptions opts) {
+<span class="fc" id="L403">        int size = digitCount;</span>
+<span class="fc bfc" id="L404" title="All 2 branches covered.">        if (shouldIncludeMinus(opts)) {</span>
+<span class="fc" id="L405">            ++size;</span>
+        }
+<span class="fc bfc" id="L407" title="All 2 branches covered.">        if (decimalPos &lt; 1) {</span>
+            // no whole component;
+            // add decimal point and leading zeros
+<span class="fc" id="L410">            size += 2 + Math.abs(decimalPos);</span>
+<span class="fc bfc" id="L411" title="All 2 branches covered.">        } else if (decimalPos &gt;= digitCount) {</span>
+            // no fraction component;
+            // add trailing zeros
+<span class="fc" id="L414">            size += decimalPos - digitCount;</span>
+<span class="fc bfc" id="L415" title="All 2 branches covered.">            if (opts.isIncludeFractionPlaceholder()) {</span>
+<span class="fc" id="L416">                size += 2;</span>
+            }
+        } else {
+            // whole and fraction components;
+            // add decimal point
+<span class="fc" id="L421">            size += 1;</span>
+        }
+
+<span class="fc" id="L424">        return size;</span>
+    }
+
+    /**
+     * Gets the exponent value. This exponent produces a floating point value with the
+     * correct magnitude when applied to the internal unsigned integer.
+     * @return exponent value
+     */
+    public int getExponent() {
+<span class="fc" id="L433">        return exponent;</span>
+    }
+
+    /**
+     * Gets the number of characters required to create a plain format representation
+     * of this value.
+     * @param decimalPos decimal position relative to the {@code digits} array
+     * @param opts format options
+     * @return number of characters in the plain string representation of this value,
+     *      created using the given parameters
+     */
+    private int getPlainStringSize(final int decimalPos, final FormatOptions opts) {
+<span class="fc" id="L445">        int size = getDigitStringSize(decimalPos, opts);</span>
+
+        // adjust for groupings if needed
+<span class="fc bfc" id="L448" title="All 4 branches covered.">        if (opts.isGroupThousands() &amp;&amp; decimalPos &gt; 0) {</span>
+<span class="fc" id="L449">            size += (decimalPos - 1) / THOUSANDS_GROUP_SIZE;</span>
+        }
+
+<span class="fc" id="L452">        return size;</span>
+    }
+
+    /**
+     * Gets the exponent that would be used when representing this number in scientific
+     * notation (i.e., with a single non-zero digit in front of the decimal point).
+     * @return the exponent that would be used when representing this number in scientific
+     *      notation
+     */
+    public int getScientificExponent() {
+<span class="fc" id="L462">        return digitCount + exponent - 1;</span>
+    }
+
+    /**
+     * Tests {@code true} if this value is equal to zero. The sign field is ignored,
+     * meaning that this method will return {@code true} for both {@code +0} and {@code -0}.
+     * @return {@code true} if the value is equal to zero
+     */
+    boolean isZero() {
+<span class="fc bfc" id="L471" title="All 2 branches covered.">        return digits[0] == 0;</span>
+    }
+
+    /**
+     * Ensures that this instance has &lt;em&gt;at most&lt;/em&gt; the given number of significant digits
+     * (i.e. precision). If this instance already has a precision less than or equal
+     * to the argument, nothing is done. If the given precision requires a reduction in the number
+     * of digits, then the value is rounded using {@link java.math.RoundingMode#HALF_EVEN half-even rounding}.
+     * @param precision maximum number of significant digits to include
+     */
+    public void maxPrecision(final int precision) {
+<span class="fc bfc" id="L482" title="All 4 branches covered.">        if (precision &gt; 0 &amp;&amp; precision &lt; digitCount) {</span>
+<span class="fc bfc" id="L483" title="All 2 branches covered.">            if (shouldRoundUp(precision)) {</span>
+<span class="fc" id="L484">                roundUp(precision);</span>
+            } else {
+<span class="fc" id="L486">                truncate(precision);</span>
+            }
+        }
+<span class="fc" id="L489">    }</span>
+
+    /**
+     * Gets the output buffer as a string.
+     * @return output buffer as a string
+     */
+    private String outputString() {
+<span class="fc" id="L496">        final String str = String.valueOf(outputChars);</span>
+<span class="fc" id="L497">        outputChars = null;</span>
+<span class="fc" id="L498">        return str;</span>
+    }
+
+    /**
+     * Prepares the output buffer for a string of the given size.
+     * @param size buffer size
+     */
+    private void prepareOutput(final int size) {
+<span class="fc" id="L506">        outputChars = new char[size];</span>
+<span class="fc" id="L507">        outputIdx = 0;</span>
+<span class="fc" id="L508">    }</span>
+
+    /**
+     * Returns {@code true} if a grouping separator should be added after the whole digit
+     * character at the given position.
+     * @param pos whole digit character position, with values starting at 1 and increasing
+     *      from right to left.
+     * @return {@code true} if a grouping separator should be added
+     */
+    private boolean requiresGroupingSeparatorAfterPosition(final int pos) {
+<span class="fc bfc" id="L518" title="All 4 branches covered.">        return pos &gt; 1 &amp;&amp; pos % THOUSANDS_GROUP_SIZE == 1;</span>
+    }
+
+    /**
+     * Rounds the instance to the given decimal exponent position using
+     * {@link java.math.RoundingMode#HALF_EVEN half-even rounding}. For example, a value of {@code -2}
+     * will round the instance to the digit at the position 10&lt;sup&gt;-2&lt;/sup&gt; (i.e. to the closest multiple of 0.01).
+     * @param roundExponent exponent defining the decimal place to round to
+     */
+    public void round(final int roundExponent) {
+<span class="fc bfc" id="L528" title="All 2 branches covered.">        if (roundExponent &gt; exponent) {</span>
+<span class="fc" id="L529">            final int max = digitCount + exponent;</span>
+
+<span class="fc bfc" id="L531" title="All 2 branches covered.">            if (roundExponent &lt; max) {</span>
+                // rounding to a decimal place less than the max; set max precision
+<span class="fc" id="L533">                maxPrecision(max - roundExponent);</span>
+<span class="fc bfc" id="L534" title="All 4 branches covered.">            } else if (roundExponent == max &amp;&amp; shouldRoundUp(0)) {</span>
+                // rounding up directly on the max decimal place
+<span class="fc" id="L536">                setSingleDigitValue(1, roundExponent);</span>
+            } else {
+                // change to zero
+<span class="fc" id="L539">                setSingleDigitValue(0, 0);</span>
+            }
+        }
+<span class="fc" id="L542">    }</span>
+
+    /**
+     * Rounds the value up to the given number of digits.
+     * @param count target number of digits; must be greater than zero and
+     *      less than the current number of digits
+     */
+    private void roundUp(final int count) {
+<span class="fc" id="L550">        int removedDigits = digitCount - count;</span>
+        int i;
+<span class="fc bfc" id="L552" title="All 2 branches covered.">        for (i = count - 1; i &gt;= 0; --i) {</span>
+<span class="fc" id="L553">            final int d = digits[i] + 1;</span>
+
+<span class="fc bfc" id="L555" title="All 2 branches covered.">            if (d &lt; DECIMAL_RADIX) {</span>
+                // value did not carry over; done adding
+<span class="fc" id="L557">                digits[i] = d;</span>
+<span class="fc" id="L558">                break;</span>
+            }
+            // value carried over; the current position is 0
+            // which we will ignore by shortening the digit count
+<span class="fc" id="L562">            ++removedDigits;</span>
+        }
+
+<span class="fc bfc" id="L565" title="All 2 branches covered.">        if (i &lt; 0) {</span>
+            // all values carried over
+<span class="fc" id="L567">            setSingleDigitValue(1, exponent + removedDigits);</span>
+        } else {
+            // values were updated in-place; just need to update the length
+<span class="fc" id="L570">            truncate(digitCount - removedDigits);</span>
+        }
+<span class="fc" id="L572">    }</span>
+
+    /**
+     * Sets the value of this instance to a single digit with the given exponent.
+     * The sign of the value is retained.
+     * @param digit digit value
+     * @param newExponent new exponent value
+     */
+    private void setSingleDigitValue(final int digit, final int newExponent) {
+<span class="fc" id="L581">        digits[0] = digit;</span>
+<span class="fc" id="L582">        digitCount = 1;</span>
+<span class="fc" id="L583">        exponent = newExponent;</span>
+<span class="fc" id="L584">    }</span>
+
+    /**
+     * Returns {@code true} if a formatted string with the given target exponent should include
+     * the exponent field.
+     * @param targetExponent exponent of the formatted result
+     * @param opts format options
+     * @return {@code true} if the formatted string should include the exponent field
+     */
+    private boolean shouldIncludeExponent(final int targetExponent, final FormatOptions opts) {
+<span class="fc bfc" id="L594" title="All 4 branches covered.">        return targetExponent != 0 || opts.isAlwaysIncludeExponent();</span>
+    }
+
+    /**
+     * Returns {@code true} if formatted strings should include the minus sign, considering
+     * the value of this instance and the given format options.
+     * @param opts format options
+     * @return {@code true} if a minus sign should be included in the output
+     */
+    private boolean shouldIncludeMinus(final FormatOptions opts) {
+<span class="fc bfc" id="L604" title="All 6 branches covered.">        return negative &amp;&amp; (opts.isSignedZero() || !isZero());</span>
+    }
+
+    /**
+     * Returns {@code true} if a rounding operation for the given number of digits should
+     * round up.
+     * @param count number of digits to round to; must be greater than zero and less
+     *      than the current number of digits
+     * @return {@code true} if a rounding operation for the given number of digits should
+     *      round up
+     */
+    private boolean shouldRoundUp(final int count) {
+        // Round up in the following cases:
+        // 1. The digit after the last digit is greater than 5.
+        // 2. The digit after the last digit is 5 and there are additional (non-zero)
+        //      digits after it.
+        // 3. The digit after the last digit is 5, there are no additional digits afterward,
+        //      and the last digit is odd (half-even rounding).
+<span class="fc" id="L622">        final int digitAfterLast = digits[count];</span>
+
+<span class="fc bfc" id="L624" title="All 8 branches covered.">        return digitAfterLast &gt; ROUND_CENTER || digitAfterLast == ROUND_CENTER</span>
+                &amp;&amp; (count &lt; digitCount - 1 || digits[count - 1] % 2 != 0);
+    }
+
+    /**
+     * Returns a string representation of this value in engineering notation. This is similar to {@link #toScientificString(FormatOptions) scientific notation}
+     * but with the exponent forced to be a multiple of 3, allowing easier alignment with SI prefixes.
+     * &lt;p&gt;
+     * For example:
+     * &lt;/p&gt;
+     *
+     * &lt;pre&gt;
+     * 0 = &quot;0.0&quot;
+     * 10 = &quot;10.0&quot;
+     * 1e-6 = &quot;1.0E-6&quot;
+     * 1e11 = &quot;100.0E9&quot;
+     * &lt;/pre&gt;
+     *
+     * @param opts format options
+     * @return value in engineering format
+     */
+    public String toEngineeringString(final FormatOptions opts) {
+<span class="fc" id="L646">        final int decimalPos = 1 + Math.floorMod(getScientificExponent(), ENG_EXPONENT_MOD);</span>
+<span class="fc" id="L647">        return toScientificString(decimalPos, opts);</span>
+    }
+
+    /**
+     * Returns a string representation of this value with no exponent field.
+     * &lt;p&gt;
+     * For example:
+     * &lt;/p&gt;
+     *
+     * &lt;pre&gt;
+     * 10 = &quot;10.0&quot;
+     * 1e-6 = &quot;0.000001&quot;
+     * 1e11 = &quot;100000000000.0&quot;
+     * &lt;/pre&gt;
+     *
+     * @param opts format options
+     * @return value in plain format
+     */
+    public String toPlainString(final FormatOptions opts) {
+<span class="fc" id="L666">        final int decimalPos = digitCount + exponent;</span>
+<span class="fc bfc" id="L667" title="All 2 branches covered.">        final int fractionZeroCount = decimalPos &lt; 1</span>
+<span class="fc" id="L668">                ? Math.abs(decimalPos)</span>
+<span class="fc" id="L669">                : 0;</span>
+
+<span class="fc" id="L671">        prepareOutput(getPlainStringSize(decimalPos, opts));</span>
+
+<span class="fc bfc" id="L673" title="All 2 branches covered.">        final int fractionStartIdx = opts.isGroupThousands()</span>
+<span class="fc" id="L674">                ? appendWholeGrouped(decimalPos, opts)</span>
+<span class="fc" id="L675">                : appendWhole(decimalPos, opts);</span>
+
+<span class="fc" id="L677">        appendFraction(fractionZeroCount, fractionStartIdx, opts);</span>
+
+<span class="fc" id="L679">        return outputString();</span>
+    }
+
+    /**
+     * Returns a string representation of this value in scientific notation.
+     * &lt;p&gt;
+     * For example:
+     * &lt;/p&gt;
+     *
+     * &lt;pre&gt;
+     * 0 = &quot;0.0&quot;
+     * 10 = &quot;1.0E1&quot;
+     * 1e-6 = &quot;1.0E-6&quot;
+     * 1e11 = &quot;1.0E11&quot;
+     * &lt;/pre&gt;
+     *
+     * @param opts format options
+     * @return value in scientific format
+     */
+    public String toScientificString(final FormatOptions opts) {
+<span class="fc" id="L699">        return toScientificString(1, opts);</span>
+    }
+
+    /**
+     * Returns a string representation of the value in scientific notation using the
+     * given decimal point position.
+     * @param decimalPos decimal position relative to the {@code digits} array; this value
+     *      is expected to be greater than 0
+     * @param opts format options
+     * @return value in scientific format
+     */
+    private String toScientificString(final int decimalPos, final FormatOptions opts) {
+<span class="fc" id="L711">        final int targetExponent = digitCount + exponent - decimalPos;</span>
+<span class="fc" id="L712">        final int absTargetExponent = Math.abs(targetExponent);</span>
+<span class="fc" id="L713">        final boolean includeExponent = shouldIncludeExponent(targetExponent, opts);</span>
+<span class="fc bfc" id="L714" title="All 2 branches covered.">        final boolean negativeExponent = targetExponent &lt; 0;</span>
+
+        // determine the size of the full formatted string, including the number of
+        // characters needed for the exponent digits
+<span class="fc" id="L718">        int size = getDigitStringSize(decimalPos, opts);</span>
+<span class="fc" id="L719">        int exponentDigitCount = 0;</span>
+<span class="fc bfc" id="L720" title="All 2 branches covered.">        if (includeExponent) {</span>
+<span class="fc bfc" id="L721" title="All 2 branches covered.">            exponentDigitCount = absTargetExponent &gt; 0</span>
+<span class="fc" id="L722">                    ? (int) Math.floor(Math.log10(absTargetExponent)) + 1</span>
+<span class="fc" id="L723">                    : 1;</span>
+
+<span class="fc" id="L725">            size += opts.getExponentSeparatorChars().length + exponentDigitCount;</span>
+<span class="fc bfc" id="L726" title="All 2 branches covered.">            if (negativeExponent) {</span>
+<span class="fc" id="L727">                ++size;</span>
+            }
+        }
+
+<span class="fc" id="L731">        prepareOutput(size);</span>
+
+        // append the portion before the exponent field
+<span class="fc" id="L734">        final int fractionStartIdx = appendWhole(decimalPos, opts);</span>
+<span class="fc" id="L735">        appendFraction(0, fractionStartIdx, opts);</span>
+
+<span class="fc bfc" id="L737" title="All 2 branches covered.">        if (includeExponent) {</span>
+            // append the exponent field
+<span class="fc" id="L739">            append(opts.getExponentSeparatorChars());</span>
+
+<span class="fc bfc" id="L741" title="All 2 branches covered.">            if (negativeExponent) {</span>
+<span class="fc" id="L742">                append(opts.getMinusSign());</span>
+            }
+
+            // append the exponent digits themselves; compute the
+            // string representation directly and add it to the output
+            // buffer to avoid the overhead of Integer.toString()
+<span class="fc" id="L748">            final char[] localizedDigits = opts.getDigits();</span>
+<span class="fc" id="L749">            int rem = absTargetExponent;</span>
+<span class="fc bfc" id="L750" title="All 2 branches covered.">            for (int i = size - 1; i &gt;= outputIdx; --i) {</span>
+<span class="fc" id="L751">                outputChars[i] = localizedDigits[rem % DECIMAL_RADIX];</span>
+<span class="fc" id="L752">                rem /= DECIMAL_RADIX;</span>
+            }
+<span class="fc" id="L754">            outputIdx = size;</span>
+        }
+
+<span class="fc" id="L757">        return outputString();</span>
+    }
+
+    /**
+     * Truncates the value to the given number of digits.
+     * @param count number of digits; must be greater than zero and less than
+     *      the current number of digits
+     */
+    private void truncate(final int count) {
+        // trim all trailing zero digits, making sure to leave
+        // at least one digit left
+<span class="fc" id="L768">        int nonZeroCount = count;</span>
+<span class="fc" id="L769">        for (int i = count - 1;</span>
+<span class="fc bfc" id="L770" title="All 4 branches covered.">                i &gt; 0 &amp;&amp; digits[i] == 0;</span>
+<span class="fc" id="L771">                --i) {</span>
+<span class="fc" id="L772">            --nonZeroCount;</span>
+        }
+<span class="fc" id="L774">        exponent += digitCount - nonZeroCount;</span>
+<span class="fc" id="L775">        digitCount = nonZeroCount;</span>
+<span class="fc" id="L776">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

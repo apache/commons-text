@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StringEscapeUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text</a> &gt; <span class="el_source">StringEscapeUtils.java</span></div><h1>StringEscapeUtils.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.translate.AggregateTranslator;
+import org.apache.commons.text.translate.CharSequenceTranslator;
+import org.apache.commons.text.translate.CsvTranslators;
+import org.apache.commons.text.translate.EntityArrays;
+import org.apache.commons.text.translate.JavaUnicodeEscaper;
+import org.apache.commons.text.translate.LookupTranslator;
+import org.apache.commons.text.translate.NumericEntityEscaper;
+import org.apache.commons.text.translate.NumericEntityUnescaper;
+import org.apache.commons.text.translate.OctalUnescaper;
+import org.apache.commons.text.translate.UnicodeUnescaper;
+import org.apache.commons.text.translate.UnicodeUnpairedSurrogateRemover;
+
+/**
+ * &lt;p&gt;
+ * Escapes and unescapes {@code String}s for Java, Java Script, HTML and XML.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * #ThreadSafe#
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * This code has been adapted from Apache Commons Lang 3.5.
+ * &lt;/p&gt;
+ *
+ * @since 1.0
+ */
+public class StringEscapeUtils {
+
+    /* ESCAPE TRANSLATORS */
+
+    /**
+     * Convenience wrapper for {@link StringBuilder} providing escape methods.
+     *
+     * &lt;p&gt;Example:&lt;/p&gt;
+     * &lt;pre&gt;
+     * new Builder(ESCAPE_HTML4)
+     *      .append(&quot;&amp;lt;p&amp;gt;&quot;)
+     *      .escape(&quot;This is paragraph 1 and special chars like &amp;amp; get escaped.&quot;)
+     *      .append(&quot;&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;&quot;)
+     *      .escape(&quot;This is paragraph 2 &amp;amp; more...&quot;)
+     *      .append(&quot;&amp;lt;/p&amp;gt;&quot;)
+     *      .toString()
+     * &lt;/pre&gt;
+     *
+     */
+    public static final class Builder {
+
+        /**
+         * StringBuilder to be used in the Builder class.
+         */
+        private final StringBuilder sb;
+
+        /**
+         * CharSequenceTranslator to be used in the Builder class.
+         */
+        private final CharSequenceTranslator translator;
+
+        /**
+         * Builder constructor.
+         *
+         * @param translator a CharSequenceTranslator.
+         */
+<span class="fc" id="L89">        private Builder(final CharSequenceTranslator translator) {</span>
+<span class="fc" id="L90">            this.sb = new StringBuilder();</span>
+<span class="fc" id="L91">            this.translator = translator;</span>
+<span class="fc" id="L92">        }</span>
+
+        /**
+         * Literal append, no escaping being done.
+         *
+         * @param input the String to append
+         * @return {@code this}, to enable chaining
+         */
+        public Builder append(final String input) {
+<span class="fc" id="L101">            sb.append(input);</span>
+<span class="fc" id="L102">            return this;</span>
+        }
+
+        /**
+         * Escape {@code input} according to the given {@link CharSequenceTranslator}.
+         *
+         * @param input the String to escape
+         * @return {@code this}, to enable chaining
+         */
+        public Builder escape(final String input) {
+<span class="fc" id="L112">            sb.append(translator.translate(input));</span>
+<span class="fc" id="L113">            return this;</span>
+        }
+
+        /**
+         * Return the escaped string.
+         *
+         * @return The escaped string
+         */
+        @Override
+        public String toString() {
+<span class="fc" id="L123">            return sb.toString();</span>
+        }
+    }
+    /**
+     * Translator object for unescaping backslash escaped entries.
+     */
+<span class="fc" id="L129">    static class XsiUnescaper extends CharSequenceTranslator {</span>
+
+        /**
+         * Escaped backslash constant.
+         */
+        private static final char BACKSLASH = '\\';
+
+        @Override
+        public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
+
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">            if (index != 0) {</span>
+<span class="nc" id="L140">                throw new IllegalStateException(&quot;XsiUnescaper should never reach the [1] index&quot;);</span>
+            }
+
+<span class="fc" id="L143">            final String s = input.toString();</span>
+
+<span class="fc" id="L145">            int segmentStart = 0;</span>
+<span class="fc" id="L146">            int searchOffset = 0;</span>
+            while (true) {
+<span class="fc" id="L148">                final int pos = s.indexOf(BACKSLASH, searchOffset);</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">                if (pos == -1) {</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">                    if (segmentStart &lt; s.length()) {</span>
+<span class="fc" id="L151">                        writer.write(s.substring(segmentStart));</span>
+                    }
+                    break;
+                }
+<span class="fc bfc" id="L155" title="All 2 branches covered.">                if (pos &gt; segmentStart) {</span>
+<span class="fc" id="L156">                    writer.write(s.substring(segmentStart, pos));</span>
+                }
+<span class="fc" id="L158">                segmentStart = pos + 1;</span>
+<span class="fc" id="L159">                searchOffset = pos + 2;</span>
+<span class="fc" id="L160">            }</span>
+
+<span class="fc" id="L162">            return Character.codePointCount(input, 0, input.length());</span>
+        }
+    }
+
+    /**
+     * Translator object for escaping Java.
+     *
+     * While {@link #escapeJava(String)} is the expected method of use, this
+     * object allows the Java escaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+    public static final CharSequenceTranslator ESCAPE_JAVA;
+    static {
+<span class="fc" id="L175">        final Map&lt;CharSequence, CharSequence&gt; escapeJavaMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L176">        escapeJavaMap.put(&quot;\&quot;&quot;, &quot;\\\&quot;&quot;);</span>
+<span class="fc" id="L177">        escapeJavaMap.put(&quot;\\&quot;, &quot;\\\\&quot;);</span>
+<span class="fc" id="L178">        ESCAPE_JAVA = new AggregateTranslator(</span>
+<span class="fc" id="L179">                new LookupTranslator(Collections.unmodifiableMap(escapeJavaMap)),</span>
+                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE),
+<span class="fc" id="L181">                JavaUnicodeEscaper.outsideOf(32, 0x7f)</span>
+        );
+    }
+
+    /**
+     * Translator object for escaping EcmaScript/JavaScript.
+     *
+     * While {@link #escapeEcmaScript(String)} is the expected method of use, this
+     * object allows the EcmaScript escaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+    public static final CharSequenceTranslator ESCAPE_ECMASCRIPT;
+    static {
+<span class="fc" id="L194">        final Map&lt;CharSequence, CharSequence&gt; escapeEcmaScriptMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L195">        escapeEcmaScriptMap.put(&quot;'&quot;, &quot;\\'&quot;);</span>
+<span class="fc" id="L196">        escapeEcmaScriptMap.put(&quot;\&quot;&quot;, &quot;\\\&quot;&quot;);</span>
+<span class="fc" id="L197">        escapeEcmaScriptMap.put(&quot;\\&quot;, &quot;\\\\&quot;);</span>
+<span class="fc" id="L198">        escapeEcmaScriptMap.put(&quot;/&quot;, &quot;\\/&quot;);</span>
+<span class="fc" id="L199">        ESCAPE_ECMASCRIPT = new AggregateTranslator(</span>
+<span class="fc" id="L200">                new LookupTranslator(Collections.unmodifiableMap(escapeEcmaScriptMap)),</span>
+                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE),
+<span class="fc" id="L202">                JavaUnicodeEscaper.outsideOf(32, 0x7f)</span>
+        );
+    }
+
+    /**
+     * Translator object for escaping Json.
+     *
+     * While {@link #escapeJson(String)} is the expected method of use, this
+     * object allows the Json escaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+    public static final CharSequenceTranslator ESCAPE_JSON;
+    static {
+<span class="fc" id="L215">        final Map&lt;CharSequence, CharSequence&gt; escapeJsonMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L216">        escapeJsonMap.put(&quot;\&quot;&quot;, &quot;\\\&quot;&quot;);</span>
+<span class="fc" id="L217">        escapeJsonMap.put(&quot;\\&quot;, &quot;\\\\&quot;);</span>
+<span class="fc" id="L218">        escapeJsonMap.put(&quot;/&quot;, &quot;\\/&quot;);</span>
+<span class="fc" id="L219">        ESCAPE_JSON = new AggregateTranslator(</span>
+<span class="fc" id="L220">                new LookupTranslator(Collections.unmodifiableMap(escapeJsonMap)),</span>
+                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE),
+<span class="fc" id="L222">                JavaUnicodeEscaper.outsideOf(32, 0x7e)</span>
+        );
+    }
+
+    /**
+     * Translator object for escaping XML 1.0.
+     *
+     * While {@link #escapeXml10(String)} is the expected method of use, this
+     * object allows the XML escaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+    public static final CharSequenceTranslator ESCAPE_XML10;
+    static {
+<span class="fc" id="L235">        final Map&lt;CharSequence, CharSequence&gt; escapeXml10Map = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L236">        escapeXml10Map.put(&quot;\u0000&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L237">        escapeXml10Map.put(&quot;\u0001&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L238">        escapeXml10Map.put(&quot;\u0002&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L239">        escapeXml10Map.put(&quot;\u0003&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L240">        escapeXml10Map.put(&quot;\u0004&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L241">        escapeXml10Map.put(&quot;\u0005&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L242">        escapeXml10Map.put(&quot;\u0006&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L243">        escapeXml10Map.put(&quot;\u0007&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L244">        escapeXml10Map.put(&quot;\u0008&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L245">        escapeXml10Map.put(&quot;\u000b&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L246">        escapeXml10Map.put(&quot;\u000c&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L247">        escapeXml10Map.put(&quot;\u000e&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L248">        escapeXml10Map.put(&quot;\u000f&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L249">        escapeXml10Map.put(&quot;\u0010&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L250">        escapeXml10Map.put(&quot;\u0011&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L251">        escapeXml10Map.put(&quot;\u0012&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L252">        escapeXml10Map.put(&quot;\u0013&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L253">        escapeXml10Map.put(&quot;\u0014&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L254">        escapeXml10Map.put(&quot;\u0015&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L255">        escapeXml10Map.put(&quot;\u0016&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L256">        escapeXml10Map.put(&quot;\u0017&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L257">        escapeXml10Map.put(&quot;\u0018&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L258">        escapeXml10Map.put(&quot;\u0019&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L259">        escapeXml10Map.put(&quot;\u001a&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L260">        escapeXml10Map.put(&quot;\u001b&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L261">        escapeXml10Map.put(&quot;\u001c&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L262">        escapeXml10Map.put(&quot;\u001d&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L263">        escapeXml10Map.put(&quot;\u001e&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L264">        escapeXml10Map.put(&quot;\u001f&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L265">        escapeXml10Map.put(&quot;\ufffe&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L266">        escapeXml10Map.put(&quot;\uffff&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L267">        ESCAPE_XML10 = new AggregateTranslator(</span>
+                new LookupTranslator(EntityArrays.BASIC_ESCAPE),
+                new LookupTranslator(EntityArrays.APOS_ESCAPE),
+<span class="fc" id="L270">                new LookupTranslator(Collections.unmodifiableMap(escapeXml10Map)),</span>
+<span class="fc" id="L271">                NumericEntityEscaper.between(0x7f, 0x84),</span>
+<span class="fc" id="L272">                NumericEntityEscaper.between(0x86, 0x9f),</span>
+                new UnicodeUnpairedSurrogateRemover()
+        );
+    }
+
+    /**
+     * Translator object for escaping XML 1.1.
+     *
+     * While {@link #escapeXml11(String)} is the expected method of use, this
+     * object allows the XML escaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+    public static final CharSequenceTranslator ESCAPE_XML11;
+
+    static {
+<span class="fc" id="L287">        final Map&lt;CharSequence, CharSequence&gt; escapeXml11Map = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L288">        escapeXml11Map.put(&quot;\u0000&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L289">        escapeXml11Map.put(&quot;\u000b&quot;, &quot;&amp;#11;&quot;);</span>
+<span class="fc" id="L290">        escapeXml11Map.put(&quot;\u000c&quot;, &quot;&amp;#12;&quot;);</span>
+<span class="fc" id="L291">        escapeXml11Map.put(&quot;\ufffe&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L292">        escapeXml11Map.put(&quot;\uffff&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L293">        ESCAPE_XML11 = new AggregateTranslator(</span>
+                new LookupTranslator(EntityArrays.BASIC_ESCAPE),
+                new LookupTranslator(EntityArrays.APOS_ESCAPE),
+<span class="fc" id="L296">                new LookupTranslator(Collections.unmodifiableMap(escapeXml11Map)),</span>
+<span class="fc" id="L297">                NumericEntityEscaper.between(0x1, 0x8),</span>
+<span class="fc" id="L298">                NumericEntityEscaper.between(0xe, 0x1f),</span>
+<span class="fc" id="L299">                NumericEntityEscaper.between(0x7f, 0x84),</span>
+<span class="fc" id="L300">                NumericEntityEscaper.between(0x86, 0x9f),</span>
+                new UnicodeUnpairedSurrogateRemover()
+        );
+    }
+
+    /**
+     * Translator object for escaping HTML version 3.0.
+     *
+     * While {@link #escapeHtml3(String)} is the expected method of use, this
+     * object allows the HTML escaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+<span class="fc" id="L312">    public static final CharSequenceTranslator ESCAPE_HTML3 =</span>
+            new AggregateTranslator(
+                    new LookupTranslator(EntityArrays.BASIC_ESCAPE),
+                    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE)
+            );
+
+    /**
+     * Translator object for escaping HTML version 4.0.
+     *
+     * While {@link #escapeHtml4(String)} is the expected method of use, this
+     * object allows the HTML escaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+<span class="fc" id="L325">    public static final CharSequenceTranslator ESCAPE_HTML4 =</span>
+            new AggregateTranslator(
+                    new LookupTranslator(EntityArrays.BASIC_ESCAPE),
+                    new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE),
+                    new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE)
+            );
+    /**
+     * Translator object for escaping individual Comma Separated Values.
+     *
+     * While {@link #escapeCsv(String)} is the expected method of use, this
+     * object allows the CSV escaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+<span class="fc" id="L338">    public static final CharSequenceTranslator ESCAPE_CSV = new CsvTranslators.CsvEscaper();</span>
+
+    /* UNESCAPE TRANSLATORS */
+
+    /**
+     * Translator object for escaping Shell command language.
+     *
+     * @see &lt;a href=&quot;http://pubs.opengroup.org/onlinepubs/7908799/xcu/chap2.html&quot;&gt;Shell Command Language&lt;/a&gt;
+     */
+    public static final CharSequenceTranslator ESCAPE_XSI;
+    static {
+<span class="fc" id="L349">        final Map&lt;CharSequence, CharSequence&gt; escapeXsiMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L350">        escapeXsiMap.put(&quot;|&quot;, &quot;\\|&quot;);</span>
+<span class="fc" id="L351">        escapeXsiMap.put(&quot;&amp;&quot;, &quot;\\&amp;&quot;);</span>
+<span class="fc" id="L352">        escapeXsiMap.put(&quot;;&quot;, &quot;\\;&quot;);</span>
+<span class="fc" id="L353">        escapeXsiMap.put(&quot;&lt;&quot;, &quot;\\&lt;&quot;);</span>
+<span class="fc" id="L354">        escapeXsiMap.put(&quot;&gt;&quot;, &quot;\\&gt;&quot;);</span>
+<span class="fc" id="L355">        escapeXsiMap.put(&quot;(&quot;, &quot;\\(&quot;);</span>
+<span class="fc" id="L356">        escapeXsiMap.put(&quot;)&quot;, &quot;\\)&quot;);</span>
+<span class="fc" id="L357">        escapeXsiMap.put(&quot;$&quot;, &quot;\\$&quot;);</span>
+<span class="fc" id="L358">        escapeXsiMap.put(&quot;`&quot;, &quot;\\`&quot;);</span>
+<span class="fc" id="L359">        escapeXsiMap.put(&quot;\\&quot;, &quot;\\\\&quot;);</span>
+<span class="fc" id="L360">        escapeXsiMap.put(&quot;\&quot;&quot;, &quot;\\\&quot;&quot;);</span>
+<span class="fc" id="L361">        escapeXsiMap.put(&quot;'&quot;, &quot;\\'&quot;);</span>
+<span class="fc" id="L362">        escapeXsiMap.put(&quot; &quot;, &quot;\\ &quot;);</span>
+<span class="fc" id="L363">        escapeXsiMap.put(&quot;\t&quot;, &quot;\\\t&quot;);</span>
+<span class="fc" id="L364">        escapeXsiMap.put(&quot;\r\n&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L365">        escapeXsiMap.put(&quot;\n&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L366">        escapeXsiMap.put(&quot;*&quot;, &quot;\\*&quot;);</span>
+<span class="fc" id="L367">        escapeXsiMap.put(&quot;?&quot;, &quot;\\?&quot;);</span>
+<span class="fc" id="L368">        escapeXsiMap.put(&quot;[&quot;, &quot;\\[&quot;);</span>
+<span class="fc" id="L369">        escapeXsiMap.put(&quot;#&quot;, &quot;\\#&quot;);</span>
+<span class="fc" id="L370">        escapeXsiMap.put(&quot;~&quot;, &quot;\\~&quot;);</span>
+<span class="fc" id="L371">        escapeXsiMap.put(&quot;=&quot;, &quot;\\=&quot;);</span>
+<span class="fc" id="L372">        escapeXsiMap.put(&quot;%&quot;, &quot;\\%&quot;);</span>
+<span class="fc" id="L373">        ESCAPE_XSI = new LookupTranslator(</span>
+<span class="fc" id="L374">                Collections.unmodifiableMap(escapeXsiMap)</span>
+        );
+    }
+
+    /**
+     * Translator object for unescaping escaped Java.
+     *
+     * While {@link #unescapeJava(String)} is the expected method of use, this
+     * object allows the Java unescaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+    public static final CharSequenceTranslator UNESCAPE_JAVA;
+
+    static {
+<span class="fc" id="L388">        final Map&lt;CharSequence, CharSequence&gt; unescapeJavaMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L389">        unescapeJavaMap.put(&quot;\\\\&quot;, &quot;\\&quot;);</span>
+<span class="fc" id="L390">        unescapeJavaMap.put(&quot;\\\&quot;&quot;, &quot;\&quot;&quot;);</span>
+<span class="fc" id="L391">        unescapeJavaMap.put(&quot;\\'&quot;, &quot;'&quot;);</span>
+<span class="fc" id="L392">        unescapeJavaMap.put(&quot;\\&quot;, StringUtils.EMPTY);</span>
+<span class="fc" id="L393">        UNESCAPE_JAVA = new AggregateTranslator(</span>
+                new OctalUnescaper(),     // .between('\1', '\377'),
+                new UnicodeUnescaper(),
+                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_UNESCAPE),
+<span class="fc" id="L397">                new LookupTranslator(Collections.unmodifiableMap(unescapeJavaMap))</span>
+        );
+    }
+
+    /**
+     * Translator object for unescaping escaped EcmaScript.
+     *
+     * While {@link #unescapeEcmaScript(String)} is the expected method of use, this
+     * object allows the EcmaScript unescaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+<span class="fc" id="L408">    public static final CharSequenceTranslator UNESCAPE_ECMASCRIPT = UNESCAPE_JAVA;</span>
+
+    /**
+     * Translator object for unescaping escaped Json.
+     *
+     * While {@link #unescapeJson(String)} is the expected method of use, this
+     * object allows the Json unescaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+<span class="fc" id="L417">    public static final CharSequenceTranslator UNESCAPE_JSON = UNESCAPE_JAVA;</span>
+
+    /**
+     * Translator object for unescaping escaped HTML 3.0.
+     *
+     * While {@link #unescapeHtml3(String)} is the expected method of use, this
+     * object allows the HTML unescaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+<span class="fc" id="L426">    public static final CharSequenceTranslator UNESCAPE_HTML3 =</span>
+            new AggregateTranslator(
+                    new LookupTranslator(EntityArrays.BASIC_UNESCAPE),
+                    new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE),
+                    new NumericEntityUnescaper()
+            );
+
+    /**
+     * Translator object for unescaping escaped HTML 4.0.
+     *
+     * While {@link #unescapeHtml4(String)} is the expected method of use, this
+     * object allows the HTML unescaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+<span class="fc" id="L440">    public static final CharSequenceTranslator UNESCAPE_HTML4 =</span>
+            new AggregateTranslator(
+                    new LookupTranslator(EntityArrays.BASIC_UNESCAPE),
+                    new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE),
+                    new LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE),
+                    new NumericEntityUnescaper()
+            );
+
+    /**
+     * Translator object for unescaping escaped XML.
+     *
+     * While {@link #unescapeXml(String)} is the expected method of use, this
+     * object allows the XML unescaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+<span class="fc" id="L455">    public static final CharSequenceTranslator UNESCAPE_XML =</span>
+            new AggregateTranslator(
+                    new LookupTranslator(EntityArrays.BASIC_UNESCAPE),
+                    new LookupTranslator(EntityArrays.APOS_UNESCAPE),
+                    new NumericEntityUnescaper()
+            );
+
+    /**
+     * Translator object for unescaping escaped Comma Separated Value entries.
+     *
+     * While {@link #unescapeCsv(String)} is the expected method of use, this
+     * object allows the CSV unescaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+<span class="fc" id="L469">    public static final CharSequenceTranslator UNESCAPE_CSV = new CsvTranslators.CsvUnescaper();</span>
+
+    /* Helper functions */
+
+    /**
+     * Translator object for unescaping escaped XSI Value entries.
+     *
+     * While {@link #unescapeXSI(String)}  is the expected method of use, this
+     * object allows the XSI unescaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+<span class="fc" id="L480">    public static final CharSequenceTranslator UNESCAPE_XSI = new XsiUnescaper();</span>
+
+    /**
+     * Gets a {@link Builder}.
+     * @param translator the text translator
+     * @return {@link Builder}
+     */
+    public static StringEscapeUtils.Builder builder(final CharSequenceTranslator translator) {
+<span class="fc" id="L488">        return new Builder(translator);</span>
+    }
+
+    /**
+     * Returns a {@code String} value for a CSV column enclosed in double quotes,
+     * if required.
+     *
+     * &lt;p&gt;If the value contains a comma, newline or double quote, then the
+     *    String value is returned enclosed in double quotes.&lt;/p&gt;
+     *
+     * &lt;p&gt;Any double quote characters in the value are escaped with another double quote.&lt;/p&gt;
+     *
+     * &lt;p&gt;If the value does not contain a comma, newline or double quote, then the
+     *    String value is returned unchanged.&lt;/p&gt;
+     *
+     * see &lt;a href=&quot;http://en.wikipedia.org/wiki/Comma-separated_values&quot;&gt;Wikipedia&lt;/a&gt; and
+     * &lt;a href=&quot;http://tools.ietf.org/html/rfc4180&quot;&gt;RFC 4180&lt;/a&gt;.
+     *
+     * @param input the input CSV column String, may be null
+     * @return The input String, enclosed in double quotes if the value contains a comma,
+     * newline or double quote, {@code null} if null string input
+     */
+    public static final String escapeCsv(final String input) {
+<span class="fc" id="L511">        return ESCAPE_CSV.translate(input);</span>
+    }
+
+    /**
+     * Escapes the characters in a {@code String} using EcmaScript String rules.
+     *
+     * &lt;p&gt;Escapes any values it finds into their EcmaScript String form.
+     * Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) &lt;/p&gt;
+     *
+     * &lt;p&gt;So a tab becomes the characters {@code '\\'} and
+     * {@code 't'}.&lt;/p&gt;
+     *
+     * &lt;p&gt;The only difference between Java strings and EcmaScript strings
+     * is that in EcmaScript, a single quote and forward-slash (/) are escaped.&lt;/p&gt;
+     *
+     * &lt;p&gt;Note that EcmaScript is best known by the JavaScript and ActionScript dialects.&lt;/p&gt;
+     *
+     * &lt;p&gt;Example:&lt;/p&gt;
+     * &lt;pre&gt;
+     * input string: He didn't say, &quot;Stop!&quot;
+     * output string: He didn\'t say, \&quot;Stop!\&quot;
+     * &lt;/pre&gt;
+     *
+     * &lt;b&gt;Security Note.&lt;/b&gt; We only provide backslash escaping in this method. For example, {@code '\&quot;'} has the output
+     * {@code '\\\&quot;'} which could result in potential issues in the case where the string being escaped is being used
+     * in an HTML tag like {@code &lt;select onmouseover=&quot;...&quot; /&gt;}. If you wish to have more rigorous string escaping, you
+     * may consider the
+     * &lt;a href=&quot;https://www.owasp.org/index.php/Category:OWASP_Enterprise_Security_API_JAVA&quot;&gt;ESAPI Libraries&lt;/a&gt;.
+     * Further, you can view the &lt;a href=&quot;https://github.com/esapi&quot;&gt;ESAPI GitHub Org&lt;/a&gt;.
+     *
+     * @param input  String to escape values in, may be null
+     * @return String with escaped values, {@code null} if null string input
+     */
+    public static final String escapeEcmaScript(final String input) {
+<span class="fc" id="L545">        return ESCAPE_ECMASCRIPT.translate(input);</span>
+    }
+
+    /**
+     * Escapes the characters in a {@code String} using HTML entities.
+     *
+     * &lt;p&gt;Supports only the HTML 3.0 entities.&lt;/p&gt;
+     *
+     * @param input  the {@code String} to escape, may be null
+     * @return a new escaped {@code String}, {@code null} if null string input
+     */
+    public static final String escapeHtml3(final String input) {
+<span class="fc" id="L557">        return ESCAPE_HTML3.translate(input);</span>
+    }
+
+    // HTML and XML
+    /**
+     * Escapes the characters in a {@code String} using HTML entities.
+     *
+     * &lt;p&gt;
+     * For example:
+     * &lt;/p&gt;
+     * &lt;p&gt;{@code &quot;bread&quot; &amp;amp; &quot;butter&quot;}&lt;/p&gt;
+     * becomes:
+     * &lt;p&gt;
+     * {@code &amp;quot;bread&amp;quot; &amp;amp;amp; &amp;quot;butter&amp;quot;}.
+     * &lt;/p&gt;
+     *
+     * &lt;p&gt;Supports all known HTML 4.0 entities, including funky accents.
+     * Note that the commonly used apostrophe escape character (&amp;amp;apos;)
+     * is not a legal entity and so is not supported).&lt;/p&gt;
+     *
+     * @param input  the {@code String} to escape, may be null
+     * @return a new escaped {@code String}, {@code null} if null string input
+     *
+     * @see &lt;a href=&quot;http://hotwired.lycos.com/webmonkey/reference/special_characters/&quot;&gt;ISO Entities&lt;/a&gt;
+     * @see &lt;a href=&quot;http://www.w3.org/TR/REC-html32#latin1&quot;&gt;HTML 3.2 Character Entities for ISO Latin-1&lt;/a&gt;
+     * @see &lt;a href=&quot;http://www.w3.org/TR/REC-html40/sgml/entities.html&quot;&gt;HTML 4.0 Character entity references&lt;/a&gt;
+     * @see &lt;a href=&quot;http://www.w3.org/TR/html401/charset.html#h-5.3&quot;&gt;HTML 4.01 Character References&lt;/a&gt;
+     * @see &lt;a href=&quot;http://www.w3.org/TR/html401/charset.html#code-position&quot;&gt;HTML 4.01 Code positions&lt;/a&gt;
+     */
+    public static final String escapeHtml4(final String input) {
+<span class="fc" id="L587">        return ESCAPE_HTML4.translate(input);</span>
+    }
+
+    // Java and JavaScript
+    /**
+     * Escapes the characters in a {@code String} using Java String rules.
+     *
+     * &lt;p&gt;Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) &lt;/p&gt;
+     *
+     * &lt;p&gt;So a tab becomes the characters {@code '\\'} and
+     * {@code 't'}.&lt;/p&gt;
+     *
+     * &lt;p&gt;The only difference between Java strings and JavaScript strings
+     * is that in JavaScript, a single quote and forward-slash (/) are escaped.&lt;/p&gt;
+     *
+     * &lt;p&gt;Example:&lt;/p&gt;
+     * &lt;pre&gt;
+     * input string: He didn't say, &quot;Stop!&quot;
+     * output string: He didn't say, \&quot;Stop!\&quot;
+     * &lt;/pre&gt;
+     *
+     * @param input  String to escape values in, may be null
+     * @return String with escaped values, {@code null} if null string input
+     */
+    public static final String escapeJava(final String input) {
+<span class="fc" id="L612">        return ESCAPE_JAVA.translate(input);</span>
+    }
+
+    /**
+     * Escapes the characters in a {@code String} using Json String rules.
+     *
+     * &lt;p&gt;Escapes any values it finds into their Json String form.
+     * Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) &lt;/p&gt;
+     *
+     * &lt;p&gt;So a tab becomes the characters {@code '\\'} and
+     * {@code 't'}.&lt;/p&gt;
+     *
+     * &lt;p&gt;The only difference between Java strings and Json strings
+     * is that in Json, forward-slash (/) is escaped.&lt;/p&gt;
+     *
+     * &lt;p&gt;See http://www.ietf.org/rfc/rfc4627.txt for further details.&lt;/p&gt;
+     *
+     * &lt;p&gt;Example:&lt;/p&gt;
+     * &lt;pre&gt;
+     * input string: He didn't say, &quot;Stop!&quot;
+     * output string: He didn't say, \&quot;Stop!\&quot;
+     * &lt;/pre&gt;
+     *
+     * @param input  String to escape values in, may be null
+     * @return String with escaped values, {@code null} if null string input
+     */
+    public static final String escapeJson(final String input) {
+<span class="fc" id="L639">        return ESCAPE_JSON.translate(input);</span>
+    }
+
+    /**
+     * Escapes the characters in a {@code String} using XML entities.
+     *
+     * &lt;p&gt;For example: {@code &quot;bread&quot; &amp; &quot;butter&quot;} =&amp;gt;
+     * {@code &amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;}.
+     * &lt;/p&gt;
+     *
+     * &lt;p&gt;Note that XML 1.0 is a text-only format: it cannot represent control
+     * characters or unpaired Unicode surrogate code points, even after escaping.
+     * {@code escapeXml10} will remove characters that do not fit in the
+     * following ranges:&lt;/p&gt;
+     *
+     * &lt;p&gt;{@code #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]}&lt;/p&gt;
+     *
+     * &lt;p&gt;Though not strictly necessary, {@code escapeXml10} will escape
+     * characters in the following ranges:&lt;/p&gt;
+     *
+     * &lt;p&gt;{@code [#x7F-#x84] | [#x86-#x9F]}&lt;/p&gt;
+     *
+     * &lt;p&gt;The returned string can be inserted into a valid XML 1.0 or XML 1.1
+     * document. If you want to allow more non-text characters in an XML 1.1
+     * document, use {@link #escapeXml11(String)}.&lt;/p&gt;
+     *
+     * @param input  the {@code String} to escape, may be null
+     * @return a new escaped {@code String}, {@code null} if null string input
+     * @see #unescapeXml(String)
+     */
+    public static String escapeXml10(final String input) {
+<span class="fc" id="L670">        return ESCAPE_XML10.translate(input);</span>
+    }
+
+    /**
+     * Escapes the characters in a {@code String} using XML entities.
+     *
+     * &lt;p&gt;For example: {@code &quot;bread&quot; &amp; &quot;butter&quot;} =&amp;gt;
+     * {@code &amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;}.
+     * &lt;/p&gt;
+     *
+     * &lt;p&gt;XML 1.1 can represent certain control characters, but it cannot represent
+     * the null byte or unpaired Unicode surrogate code points, even after escaping.
+     * {@code escapeXml11} will remove characters that do not fit in the following
+     * ranges:&lt;/p&gt;
+     *
+     * &lt;p&gt;{@code [#x1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]}&lt;/p&gt;
+     *
+     * &lt;p&gt;{@code escapeXml11} will escape characters in the following ranges:&lt;/p&gt;
+     *
+     * &lt;p&gt;{@code [#x1-#x8] | [#xB-#xC] | [#xE-#x1F] | [#x7F-#x84] | [#x86-#x9F]}&lt;/p&gt;
+     *
+     * &lt;p&gt;The returned string can be inserted into a valid XML 1.1 document. Do not
+     * use it for XML 1.0 documents.&lt;/p&gt;
+     *
+     * @param input  the {@code String} to escape, may be null
+     * @return a new escaped {@code String}, {@code null} if null string input
+     * @see #unescapeXml(String)
+     */
+    public static String escapeXml11(final String input) {
+<span class="fc" id="L699">        return ESCAPE_XML11.translate(input);</span>
+    }
+
+    /**
+     * Escapes the characters in a {@code String} using XSI rules.
+     *
+     * &lt;p&gt;&lt;b&gt;Beware!&lt;/b&gt; In most cases you don't want to escape shell commands but use multi-argument
+     * methods provided by {@link ProcessBuilder} or {@link Runtime#exec(String[])}
+     * instead.&lt;/p&gt;
+     *
+     * &lt;p&gt;Example:&lt;/p&gt;
+     * &lt;pre&gt;
+     * input string: He didn't say, &quot;Stop!&quot;
+     * output string: He\ didn\'t\ say,\ \&quot;Stop!\&quot;
+     * &lt;/pre&gt;
+     *
+     * @see &lt;a href=&quot;http://pubs.opengroup.org/onlinepubs/7908799/xcu/chap2.html&quot;&gt;Shell Command Language&lt;/a&gt;
+     * @param input  String to escape values in, may be null
+     * @return String with escaped values, {@code null} if null string input
+     */
+    public static final String escapeXSI(final String input) {
+<span class="fc" id="L720">        return ESCAPE_XSI.translate(input);</span>
+    }
+
+    /**
+     * Returns a {@code String} value for an unescaped CSV column.
+     *
+     * &lt;p&gt;If the value is enclosed in double quotes, and contains a comma, newline
+     *    or double quote, then quotes are removed.
+     * &lt;/p&gt;
+     *
+     * &lt;p&gt;Any double quote escaped characters (a pair of double quotes) are unescaped
+     *    to just one double quote.&lt;/p&gt;
+     *
+     * &lt;p&gt;If the value is not enclosed in double quotes, or is and does not contain a
+     *    comma, newline or double quote, then the String value is returned unchanged.&lt;/p&gt;
+     *
+     * see &lt;a href=&quot;http://en.wikipedia.org/wiki/Comma-separated_values&quot;&gt;Wikipedia&lt;/a&gt; and
+     * &lt;a href=&quot;http://tools.ietf.org/html/rfc4180&quot;&gt;RFC 4180&lt;/a&gt;.
+     *
+     * @param input the input CSV column String, may be null
+     * @return The input String, with enclosing double quotes removed and embedded double
+     * quotes unescaped, {@code null} if null string input
+     */
+    public static final String unescapeCsv(final String input) {
+<span class="fc" id="L744">        return UNESCAPE_CSV.translate(input);</span>
+    }
+
+    /**
+     * Unescapes any EcmaScript literals found in the {@code String}.
+     *
+     * &lt;p&gt;For example, it will turn a sequence of {@code '\'} and {@code 'n'}
+     * into a newline character, unless the {@code '\'} is preceded by another
+     * {@code '\'}.&lt;/p&gt;
+     *
+     * @see #unescapeJava(String)
+     * @param input  the {@code String} to unescape, may be null
+     * @return A new unescaped {@code String}, {@code null} if null string input
+     */
+    public static final String unescapeEcmaScript(final String input) {
+<span class="fc" id="L759">        return UNESCAPE_ECMASCRIPT.translate(input);</span>
+    }
+
+    /**
+     * Unescapes a string containing entity escapes to a string
+     * containing the actual Unicode characters corresponding to the
+     * escapes. Supports only HTML 3.0 entities.
+     *
+     * @param input  the {@code String} to unescape, may be null
+     * @return a new unescaped {@code String}, {@code null} if null string input
+     */
+    public static final String unescapeHtml3(final String input) {
+<span class="fc" id="L771">        return UNESCAPE_HTML3.translate(input);</span>
+    }
+
+    /**
+     * Unescapes a string containing entity escapes to a string
+     * containing the actual Unicode characters corresponding to the
+     * escapes. Supports HTML 4.0 entities.
+     *
+     * &lt;p&gt;For example, the string {@code &quot;&amp;lt;Fran&amp;ccedil;ais&amp;gt;&quot;}
+     * will become {@code &quot;&lt;Franï¿½ais&gt;&quot;}&lt;/p&gt;
+     *
+     * &lt;p&gt;If an entity is unrecognized, it is left alone, and inserted
+     * verbatim into the result string. e.g. {@code &quot;&amp;gt;&amp;zzzz;x&quot;} will
+     * become {@code &quot;&gt;&amp;zzzz;x&quot;}.&lt;/p&gt;
+     *
+     * @param input  the {@code String} to unescape, may be null
+     * @return a new unescaped {@code String}, {@code null} if null string input
+     */
+    public static final String unescapeHtml4(final String input) {
+<span class="fc" id="L790">        return UNESCAPE_HTML4.translate(input);</span>
+    }
+
+    /**
+     * Unescapes any Java literals found in the {@code String}.
+     * For example, it will turn a sequence of {@code '\'} and
+     * {@code 'n'} into a newline character, unless the {@code '\'}
+     * is preceded by another {@code '\'}.
+     *
+     * @param input  the {@code String} to unescape, may be null
+     * @return a new unescaped {@code String}, {@code null} if null string input
+     */
+    public static final String unescapeJava(final String input) {
+<span class="fc" id="L803">        return UNESCAPE_JAVA.translate(input);</span>
+    }
+
+    /**
+     * Unescapes any Json literals found in the {@code String}.
+     *
+     * &lt;p&gt;For example, it will turn a sequence of {@code '\'} and {@code 'n'}
+     * into a newline character, unless the {@code '\'} is preceded by another
+     * {@code '\'}.&lt;/p&gt;
+     *
+     * @see #unescapeJava(String)
+     * @param input  the {@code String} to unescape, may be null
+     * @return A new unescaped {@code String}, {@code null} if null string input
+     */
+    public static final String unescapeJson(final String input) {
+<span class="fc" id="L818">        return UNESCAPE_JSON.translate(input);</span>
+    }
+
+    /**
+     * Unescapes a string containing XML entity escapes to a string
+     * containing the actual Unicode characters corresponding to the
+     * escapes.
+     *
+     * &lt;p&gt;Supports only the five basic XML entities (gt, lt, quot, amp, apos).
+     * Does not support DTDs or external entities.&lt;/p&gt;
+     *
+     * &lt;p&gt;Note that numerical \\u Unicode codes are unescaped to their respective
+     *    Unicode characters. This may change in future releases.&lt;/p&gt;
+     *
+     * @param input  the {@code String} to unescape, may be null
+     * @return a new unescaped {@code String}, {@code null} if null string input
+     * @see #escapeXml10(String)
+     * @see #escapeXml11(String)
+     */
+    public static final String unescapeXml(final String input) {
+<span class="fc" id="L838">        return UNESCAPE_XML.translate(input);</span>
+    }
+
+    /**
+     * Unescapes the characters in a {@code String} using XSI rules.
+     *
+     * @see StringEscapeUtils#escapeXSI(String)
+     * @param input  the {@code String} to unescape, may be null
+     * @return a new unescaped {@code String}, {@code null} if null string input
+     */
+    public static final String unescapeXSI(final String input) {
+<span class="fc" id="L849">        return UNESCAPE_XSI.translate(input);</span>
+    }
+
+    /**
+     * {@code StringEscapeUtils} instances should NOT be constructed in
+     * standard programming.
+     *
+     * &lt;p&gt;Instead, the class should be used as:&lt;/p&gt;
+     * &lt;pre&gt;StringEscapeUtils.escapeJava(&quot;foo&quot;);&lt;/pre&gt;
+     *
+     * &lt;p&gt;This constructor is public to permit tools that require a JavaBean
+     * instance to operate.&lt;/p&gt;
+     */
+<span class="fc" id="L862">    public StringEscapeUtils() {</span>
+<span class="fc" id="L863">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

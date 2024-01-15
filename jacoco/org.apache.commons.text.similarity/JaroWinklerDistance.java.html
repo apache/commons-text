@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JaroWinklerDistance.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.similarity</a> &gt; <span class="el_source">JaroWinklerDistance.java</span></div><h1>JaroWinklerDistance.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.similarity;
+
+/**
+ * Measures the Jaro-Winkler distance of two character sequences.
+ * It is the complementary of Jaro-Winkler similarity.
+ *
+ * @since 1.0
+ */
+<span class="fc" id="L25">public class JaroWinklerDistance implements EditDistance&lt;Double&gt; {</span>
+
+    /**
+     * @deprecated Deprecated as of 1.7. This constant will be removed in 2.0.
+     */
+    @Deprecated
+    public static final int INDEX_NOT_FOUND = -1;
+
+    /**
+     * This method returns the Jaro-Winkler string matches, half transpositions, prefix array.
+     *
+     * @param first the first string to be matched
+     * @param second the second string to be matched
+     * @return mtp array containing: matches, half transpositions, and prefix
+     * @deprecated Deprecated as of 1.7. This method will be removed in 2.0, and moved to a Jaro Winkler similarity
+     *             class. TODO see TEXT-104.
+     */
+    @Deprecated
+    protected static int[] matches(final CharSequence first, final CharSequence second) {
+<span class="nc" id="L44">        return JaroWinklerSimilarity.matches(first, second);</span>
+    }
+
+    /**
+     * Computes the Jaro Winkler Distance between two character sequences.
+     *
+     * &lt;pre&gt;
+     * distance.apply(null, null)          = IllegalArgumentException
+     * distance.apply(&quot;foo&quot;, null)         = IllegalArgumentException
+     * distance.apply(null, &quot;foo&quot;)         = IllegalArgumentException
+     * distance.apply(&quot;&quot;, &quot;&quot;)              = 0.0
+     * distance.apply(&quot;foo&quot;, &quot;foo&quot;)        = 0.0
+     * distance.apply(&quot;foo&quot;, &quot;foo &quot;)       = 0.06
+     * distance.apply(&quot;foo&quot;, &quot;foo  &quot;)      = 0.09
+     * distance.apply(&quot;foo&quot;, &quot; foo &quot;)      = 0.13
+     * distance.apply(&quot;foo&quot;, &quot;  foo&quot;)      = 0.49
+     * distance.apply(&quot;&quot;, &quot;a&quot;)             = 1.0
+     * distance.apply(&quot;aaapppp&quot;, &quot;&quot;)       = 1.0
+     * distance.apply(&quot;frog&quot;, &quot;fog&quot;)       = 0.07
+     * distance.apply(&quot;fly&quot;, &quot;ant&quot;)        = 1.0
+     * distance.apply(&quot;elephant&quot;, &quot;hippo&quot;) = 0.56
+     * distance.apply(&quot;hippo&quot;, &quot;elephant&quot;) = 0.56
+     * distance.apply(&quot;hippo&quot;, &quot;zzzzzzzz&quot;) = 1.0
+     * distance.apply(&quot;hello&quot;, &quot;hallo&quot;)    = 0.12
+     * distance.apply(&quot;ABC Corporation&quot;, &quot;ABC Corp&quot;) = 0.09
+     * distance.apply(&quot;D N H Enterprises Inc&quot;, &quot;D &amp;amp; H Enterprises, Inc.&quot;) = 0.05
+     * distance.apply(&quot;My Gym Children's Fitness Center&quot;, &quot;My Gym. Childrens Fitness&quot;) = 0.08
+     * distance.apply(&quot;PENNSYLVANIA&quot;, &quot;PENNCISYLVNIA&quot;) = 0.12
+     * &lt;/pre&gt;
+     *
+     * @param left the first CharSequence, must not be null
+     * @param right the second CharSequence, must not be null
+     * @return result distance
+     * @throws IllegalArgumentException if either CharSequence input is {@code null}
+     */
+    @Override
+    public Double apply(final CharSequence left, final CharSequence right) {
+
+<span class="fc bfc" id="L82" title="All 4 branches covered.">        if (left == null || right == null) {</span>
+<span class="fc" id="L83">            throw new IllegalArgumentException(&quot;CharSequences must not be null&quot;);</span>
+        }
+
+<span class="fc" id="L86">        return 1 - JaroWinklerSimilarity.INSTANCE.apply(left, right);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

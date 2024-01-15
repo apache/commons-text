@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CaseUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text</a> &gt; <span class="el_source">CaseUtils.java</span></div><h1>CaseUtils.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
+/**
+ * Case manipulation operations on Strings that contain words.
+ *
+ * &lt;p&gt;This class tries to handle {@code null} input gracefully.
+ * An exception will not be thrown for a {@code null} input.
+ * Each method documents its behavior in more detail.&lt;/p&gt;
+ *
+ * @since 1.2
+ */
+public class CaseUtils {
+
+    /**
+     * Converts all the delimiter separated words in a String into camelCase,
+     * that is each word is made up of a title case character and then a series of
+     * lowercase characters.
+     *
+     * &lt;p&gt;The delimiters represent a set of characters understood to separate words.
+     * The first non-delimiter character after a delimiter will be capitalized. The first String
+     * character may or may not be capitalized and it's determined by the user input for capitalizeFirstLetter
+     * variable.&lt;/p&gt;
+     *
+     * &lt;p&gt;A {@code null} input String returns {@code null}.&lt;/p&gt;
+     *
+     * &lt;p&gt;A input string with only delimiter characters returns {@code &quot;&quot;}.&lt;/p&gt;
+     *
+     * Capitalization uses the Unicode title case, normally equivalent to
+     * upper case and cannot perform locale-sensitive mappings.
+     *
+     * &lt;pre&gt;
+     * CaseUtils.toCamelCase(null, false)                                 = null
+     * CaseUtils.toCamelCase(&quot;&quot;, false, *)                                = &quot;&quot;
+     * CaseUtils.toCamelCase(*, false, null)                              = *
+     * CaseUtils.toCamelCase(*, true, new char[0])                        = *
+     * CaseUtils.toCamelCase(&quot;To.Camel.Case&quot;, false, new char[]{'.'})     = &quot;toCamelCase&quot;
+     * CaseUtils.toCamelCase(&quot; to @ Camel case&quot;, true, new char[]{'@'})   = &quot;ToCamelCase&quot;
+     * CaseUtils.toCamelCase(&quot; @to @ Camel case&quot;, false, new char[]{'@'}) = &quot;toCamelCase&quot;
+     * CaseUtils.toCamelCase(&quot; @&quot;, false, new char[]{'@'})                = &quot;&quot;
+     * &lt;/pre&gt;
+     *
+     * @param str  the String to be converted to camelCase, may be null
+     * @param capitalizeFirstLetter boolean that determines if the first character of first word should be title case.
+     * @param delimiters  set of characters to determine capitalization, null and/or empty array means whitespace
+     * @return camelCase of String, {@code null} if null String input
+     */
+    public static String toCamelCase(String str, final boolean capitalizeFirstLetter, final char... delimiters) {
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (StringUtils.isEmpty(str)) {</span>
+<span class="fc" id="L71">            return str;</span>
+        }
+<span class="fc" id="L73">        str = str.toLowerCase();</span>
+<span class="fc" id="L74">        final int strLen = str.length();</span>
+<span class="fc" id="L75">        final int[] newCodePoints = new int[strLen];</span>
+<span class="fc" id="L76">        int outOffset = 0;</span>
+<span class="fc" id="L77">        final Set&lt;Integer&gt; delimiterSet = toDelimiterSet(delimiters);</span>
+<span class="fc" id="L78">        boolean capitalizeNext = capitalizeFirstLetter;</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        for (int index = 0; index &lt; strLen;) {</span>
+<span class="fc" id="L80">            final int codePoint = str.codePointAt(index);</span>
+
+<span class="fc bfc" id="L82" title="All 2 branches covered.">            if (delimiterSet.contains(codePoint)) {</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">                capitalizeNext = outOffset != 0;</span>
+<span class="fc" id="L84">                index += Character.charCount(codePoint);</span>
+<span class="fc bfc" id="L85" title="All 6 branches covered.">            } else if (capitalizeNext || outOffset == 0 &amp;&amp; capitalizeFirstLetter) {</span>
+<span class="fc" id="L86">                final int titleCaseCodePoint = Character.toTitleCase(codePoint);</span>
+<span class="fc" id="L87">                newCodePoints[outOffset++] = titleCaseCodePoint;</span>
+<span class="fc" id="L88">                index += Character.charCount(titleCaseCodePoint);</span>
+<span class="fc" id="L89">                capitalizeNext = false;</span>
+<span class="fc" id="L90">            } else {</span>
+<span class="fc" id="L91">                newCodePoints[outOffset++] = codePoint;</span>
+<span class="fc" id="L92">                index += Character.charCount(codePoint);</span>
+            }
+<span class="fc" id="L94">        }</span>
+
+<span class="fc" id="L96">        return new String(newCodePoints, 0, outOffset);</span>
+    }
+
+    /**
+     * Converts an array of delimiters to a hash set of code points. Code point of space(32) is added
+     * as the default value. The generated hash set provides O(1) lookup time.
+     *
+     * @param delimiters  set of characters to determine capitalization, null means whitespace
+     * @return Set&lt;Integer&gt;
+     */
+    private static Set&lt;Integer&gt; toDelimiterSet(final char[] delimiters) {
+<span class="fc" id="L107">        final Set&lt;Integer&gt; delimiterHashSet = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L108">        delimiterHashSet.add(Character.codePointAt(new char[]{' '}, 0));</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (ArrayUtils.isEmpty(delimiters)) {</span>
+<span class="fc" id="L110">            return delimiterHashSet;</span>
+        }
+
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        for (int index = 0; index &lt; delimiters.length; index++) {</span>
+<span class="fc" id="L114">            delimiterHashSet.add(Character.codePointAt(delimiters, index));</span>
+        }
+<span class="fc" id="L116">        return delimiterHashSet;</span>
+    }
+
+    /**
+     * {@code CaseUtils} instances should NOT be constructed in
+     * standard programming. Instead, the class should be used as
+     * {@code CaseUtils.toCamelCase(&quot;foo bar&quot;, true, new char[]{'-'});}.
+     *
+     * &lt;p&gt;This constructor is public to permit tools that require a JavaBean
+     * instance to operate.&lt;/p&gt;
+     */
+<span class="fc" id="L127">    public CaseUtils() {</span>
+<span class="fc" id="L128">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

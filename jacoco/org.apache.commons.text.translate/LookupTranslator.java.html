@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LookupTranslator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.translate</a> &gt; <span class="el_source">LookupTranslator.java</span></div><h1>LookupTranslator.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.translate;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.security.InvalidParameterException;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Translates a value using a lookup table.
+ *
+ * @since 1.0
+ */
+public class LookupTranslator extends CharSequenceTranslator {
+
+    /** The mapping to be used in translation. */
+    private final Map&lt;String, String&gt; lookupMap;
+
+    /** The first character of each key in the lookupMap. */
+    private final BitSet prefixSet;
+
+    /** The length of the shortest key in the lookupMap. */
+    private final int shortest;
+
+    /** The length of the longest key in the lookupMap. */
+    private final int longest;
+
+    /**
+     * Constructs the lookup table to be used in translation
+     *
+     * Note that, as of Lang 3.1 (the origin of this code), the key to the lookup
+     * table is converted to a java.lang.String. This is because we need the key
+     * to support hashCode and equals(Object), allowing it to be the key for a
+     * HashMap. See LANG-882.
+     *
+     * @param lookupMap Map&amp;lt;CharSequence, CharSequence&amp;gt; table of translator
+     *                  mappings
+     */
+<span class="fc" id="L56">    public LookupTranslator(final Map&lt;CharSequence, CharSequence&gt; lookupMap) {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (lookupMap == null) {</span>
+<span class="fc" id="L58">            throw new InvalidParameterException(&quot;lookupMap cannot be null&quot;);</span>
+        }
+<span class="fc" id="L60">        this.lookupMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L61">        this.prefixSet = new BitSet();</span>
+<span class="fc" id="L62">        int currentShortest = Integer.MAX_VALUE;</span>
+<span class="fc" id="L63">        int currentLongest = 0;</span>
+
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        for (final Map.Entry&lt;CharSequence, CharSequence&gt; pair : lookupMap.entrySet()) {</span>
+<span class="fc" id="L66">            this.lookupMap.put(pair.getKey().toString(), pair.getValue().toString());</span>
+<span class="fc" id="L67">            this.prefixSet.set(pair.getKey().charAt(0));</span>
+<span class="fc" id="L68">            final int sz = pair.getKey().length();</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">            if (sz &lt; currentShortest) {</span>
+<span class="fc" id="L70">                currentShortest = sz;</span>
+            }
+<span class="fc bfc" id="L72" title="All 2 branches covered.">            if (sz &gt; currentLongest) {</span>
+<span class="fc" id="L73">                currentLongest = sz;</span>
+            }
+<span class="fc" id="L75">        }</span>
+<span class="fc" id="L76">        this.shortest = currentShortest;</span>
+<span class="fc" id="L77">        this.longest = currentLongest;</span>
+<span class="fc" id="L78">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
+        // check if translation exists for the input at position index
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (prefixSet.get(input.charAt(index))) {</span>
+<span class="fc" id="L87">            int max = longest;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">            if (index + longest &gt; input.length()) {</span>
+<span class="fc" id="L89">                max = input.length() - index;</span>
+            }
+            // implement greedy algorithm by trying maximum match first
+<span class="fc bfc" id="L92" title="All 2 branches covered.">            for (int i = max; i &gt;= shortest; i--) {</span>
+<span class="fc" id="L93">                final CharSequence subSeq = input.subSequence(index, index + i);</span>
+<span class="fc" id="L94">                final String result = lookupMap.get(subSeq.toString());</span>
+
+<span class="fc bfc" id="L96" title="All 2 branches covered.">                if (result != null) {</span>
+<span class="fc" id="L97">                    writer.write(result);</span>
+<span class="fc" id="L98">                    return Character.codePointCount(subSeq, 0, subSeq.length());</span>
+                }
+            }
+        }
+<span class="fc" id="L102">        return 0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CharSequenceTranslator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.translate</a> &gt; <span class="el_source">CharSequenceTranslator.java</span></div><h1>CharSequenceTranslator.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.translate;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.UncheckedIOException;
+import java.io.Writer;
+import java.util.Locale;
+
+import org.apache.commons.lang3.Validate;
+
+/**
+ * An API for translating text.
+ * Its core use is to escape and unescape text. Because escaping and unescaping
+ * is completely contextual, the API does not present two separate signatures.
+ *
+ * @since 1.0
+ */
+<span class="fc" id="L34">public abstract class CharSequenceTranslator {</span>
+
+    /**
+     * Array containing the hexadecimal alphabet.
+     */
+<span class="fc" id="L39">    static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };</span>
+
+    /**
+     * Returns an upper case hexadecimal {@code String} for the given
+     * character.
+     *
+     * @param codePoint The code point to convert.
+     * @return An upper case hexadecimal {@code String}
+     */
+    public static String hex(final int codePoint) {
+<span class="fc" id="L49">        return Integer.toHexString(codePoint).toUpperCase(Locale.ENGLISH);</span>
+    }
+
+    /**
+     * Helper for non-Writer usage.
+     * @param input CharSequence to be translated
+     * @return String output of translation
+     */
+    public final String translate(final CharSequence input) {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (input == null) {</span>
+<span class="fc" id="L59">            return null;</span>
+        }
+        try {
+<span class="fc" id="L62">            final StringWriter writer = new StringWriter(input.length() * 2);</span>
+<span class="fc" id="L63">            translate(input, writer);</span>
+<span class="fc" id="L64">            return writer.toString();</span>
+<span class="nc" id="L65">        } catch (final IOException ioe) {</span>
+            // this should never ever happen while writing to a StringWriter
+<span class="nc" id="L67">            throw new UncheckedIOException(ioe);</span>
+        }
+    }
+
+    /**
+     * Translate a set of code points, represented by an int index into a CharSequence,
+     * into another set of code points. The number of code points consumed must be returned,
+     * and the only IOExceptions thrown must be from interacting with the Writer so that
+     * the top level API may reliably ignore StringWriter IOExceptions.
+     *
+     * @param input CharSequence that is being translated
+     * @param index int representing the current point of translation
+     * @param writer Writer to translate the text to
+     * @return int count of code points consumed
+     * @throws IOException if and only if the Writer produces an IOException
+     */
+    public abstract int translate(CharSequence input, int index, Writer writer) throws IOException;
+
+    /**
+     * Translate an input onto a Writer. This is intentionally final as its algorithm is
+     * tightly coupled with the abstract method of this class.
+     *
+     * @param input CharSequence that is being translated
+     * @param writer Writer to translate the text to
+     * @throws IOException if and only if the Writer produces an IOException
+     */
+    public final void translate(final CharSequence input, final Writer writer) throws IOException {
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        Validate.isTrue(writer != null, &quot;The Writer must not be null&quot;);</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        if (input == null) {</span>
+<span class="fc" id="L96">            return;</span>
+        }
+<span class="fc" id="L98">        int pos = 0;</span>
+<span class="fc" id="L99">        final int len = input.length();</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        while (pos &lt; len) {</span>
+<span class="fc" id="L101">            final int consumed = translate(input, pos, writer);</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            if (consumed == 0) {</span>
+                // inlined implementation of Character.toChars(Character.codePointAt(input, pos))
+                // avoids allocating temp char arrays and duplicate checks
+<span class="fc" id="L105">                final char c1 = input.charAt(pos);</span>
+<span class="fc" id="L106">                writer.write(c1);</span>
+<span class="fc" id="L107">                pos++;</span>
+<span class="pc bpc" id="L108" title="1 of 4 branches missed.">                if (Character.isHighSurrogate(c1) &amp;&amp; pos &lt; len) {</span>
+<span class="fc" id="L109">                    final char c2 = input.charAt(pos);</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">                    if (Character.isLowSurrogate(c2)) {</span>
+<span class="fc" id="L111">                      writer.write(c2);</span>
+<span class="fc" id="L112">                      pos++;</span>
+                    }
+<span class="fc" id="L114">                }</span>
+                continue;
+            }
+            // contract with translators is that they have to understand code points
+            // and they just took care of a surrogate pair
+<span class="fc bfc" id="L119" title="All 2 branches covered.">            for (int pt = 0; pt &lt; consumed; pt++) {</span>
+<span class="fc" id="L120">                pos += Character.charCount(Character.codePointAt(input, pos));</span>
+            }
+<span class="fc" id="L122">        }</span>
+<span class="fc" id="L123">    }</span>
+
+    /**
+     * Helper method to create a merger of this translator with another set of
+     * translators. Useful in customizing the standard functionality.
+     *
+     * @param translators CharSequenceTranslator array of translators to merge with this one
+     * @return CharSequenceTranslator merging this translator with the others
+     */
+    public final CharSequenceTranslator with(final CharSequenceTranslator... translators) {
+<span class="nc" id="L133">        final CharSequenceTranslator[] newArray = new CharSequenceTranslator[translators.length + 1];</span>
+<span class="nc" id="L134">        newArray[0] = this;</span>
+<span class="nc" id="L135">        System.arraycopy(translators, 0, newArray, 1, translators.length);</span>
+<span class="nc" id="L136">        return new AggregateTranslator(newArray);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

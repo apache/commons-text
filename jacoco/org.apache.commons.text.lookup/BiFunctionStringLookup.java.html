@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BiFunctionStringLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.lookup</a> &gt; <span class="el_source">BiFunctionStringLookup.java</span></div><h1>BiFunctionStringLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache license, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the license for the specific language governing permissions and
+ * limitations under the license.
+ */
+package org.apache.commons.text.lookup;
+
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.BiFunction;
+
+/**
+ * A function-based lookup where the request for a lookup is answered by applying that function with a key.
+ *
+ * @param &lt;R&gt; A function's return type
+ * @param &lt;P&gt; A function's second input type
+ *
+ * @since 1.9
+ */
+final class BiFunctionStringLookup&lt;P, R&gt; implements BiStringLookup&lt;P&gt; {
+
+    /**
+     * Creates a new instance backed by a Function.
+     *
+     * @param &lt;T&gt; the function's input type
+     * @param biFunction the function, may be null.
+     * @return a new instance backed by the given function.
+     */
+    static &lt;U, T&gt; BiFunctionStringLookup&lt;U, T&gt; on(final BiFunction&lt;String, U, T&gt; biFunction) {
+<span class="fc" id="L41">        return new BiFunctionStringLookup&lt;&gt;(biFunction);</span>
+    }
+
+    /**
+     * Creates a new instance backed by a Map. Used by the default lookup.
+     *
+     * @param &lt;T&gt; the map's value type.
+     * @param map the map of keys to values, may be null.
+     * @return a new instance backed by the given map.
+     */
+    static &lt;U, T&gt; BiFunctionStringLookup&lt;U, T&gt; on(final Map&lt;String, T&gt; map) {
+<span class="fc" id="L52">        return on((key, u) -&gt; map.get(key));</span>
+    }
+
+    /**
+     * Function.
+     */
+    private final BiFunction&lt;String, P, R&gt; biFunction;
+
+    /**
+     * Creates a new instance backed by a Function.
+     *
+     * @param biFunction the function, may be null.
+     */
+<span class="fc" id="L65">    private BiFunctionStringLookup(final BiFunction&lt;String, P, R&gt; biFunction) {</span>
+<span class="fc" id="L66">        this.biFunction = biFunction;</span>
+<span class="fc" id="L67">    }</span>
+
+    @Override
+    public String lookup(final String key) {
+<span class="fc" id="L71">        return lookup(key, null);</span>
+    }
+
+    /**
+     * Looks up a String key by applying the function.
+     * &lt;p&gt;
+     * If the function is null, then null is returned. The function result object is converted to a string using
+     * toString().
+     * &lt;/p&gt;
+     *
+     * @param key the key to be looked up, may be null.
+     * @return The function result as a string, may be null.
+     */
+    @Override
+    public String lookup(final String key, final P object) {
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (biFunction == null) {</span>
+<span class="fc" id="L87">            return null;</span>
+        }
+        final R obj;
+        try {
+<span class="fc" id="L91">            obj = biFunction.apply(key, object);</span>
+<span class="fc" id="L92">        } catch (final SecurityException | NullPointerException | IllegalArgumentException e) {</span>
+            // Squelched. All lookup(String) will return null.
+            // Could be a ConcurrentHashMap and a null key request
+<span class="fc" id="L95">            return null;</span>
+<span class="fc" id="L96">        }</span>
+<span class="fc" id="L97">        return Objects.toString(obj, null);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L102">        return super.toString() + &quot; [function=&quot; + biFunction + &quot;]&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

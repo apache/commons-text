@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CsvTranslators.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.translate</a> &gt; <span class="el_source">CsvTranslators.java</span></div><h1>CsvTranslators.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.translate;
+
+import java.io.IOException;
+import java.io.Writer;
+
+import org.apache.commons.lang3.CharUtils;
+import org.apache.commons.lang3.StringUtils;
+
+/**
+ * This class holds inner classes for escaping/unescaping Comma Separated Values.
+ * &lt;p&gt;
+ * In general the use a high level API like &lt;a href=&quot;https://commons.apache.org/proper/commons-csv/&quot;&gt;Apache Commons
+ * CSV&lt;/a&gt; should be preferred over these low level classes.
+ * &lt;/p&gt;
+ *
+ * @see &lt;a href=&quot;https://commons.apache.org/proper/commons-csv/apidocs/index.html&quot;&gt;Apache Commons CSV&lt;/a&gt;
+ */
+public final class CsvTranslators {
+
+    /**
+     * Translator for escaping Comma Separated Values.
+     */
+<span class="fc" id="L39">    public static class CsvEscaper extends SinglePassTranslator {</span>
+
+        @Override
+        void translateWhole(final CharSequence input, final Writer writer) throws IOException {
+<span class="fc" id="L43">            final String inputSting = input.toString();</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            if (StringUtils.containsNone(inputSting, CSV_SEARCH_CHARS)) {</span>
+<span class="fc" id="L45">                writer.write(inputSting);</span>
+            } else {
+                // input needs quoting
+<span class="fc" id="L48">                writer.write(CSV_QUOTE);</span>
+<span class="fc" id="L49">                writer.write(StringUtils.replace(inputSting, CSV_QUOTE_STR, CSV_ESCAPED_QUOTE_STR));</span>
+<span class="fc" id="L50">                writer.write(CSV_QUOTE);</span>
+            }
+<span class="fc" id="L52">        }</span>
+    }
+    /**
+     * Translator for unescaping escaped Comma Separated Value entries.
+     */
+<span class="fc" id="L57">    public static class CsvUnescaper extends SinglePassTranslator {</span>
+
+        @Override
+        void translateWhole(final CharSequence input, final Writer writer) throws IOException {
+            // is input not quoted?
+<span class="fc bfc" id="L62" title="All 4 branches covered.">            if (input.charAt(0) != CSV_QUOTE || input.charAt(input.length() - 1) != CSV_QUOTE) {</span>
+<span class="fc" id="L63">                writer.write(input.toString());</span>
+<span class="fc" id="L64">                return;</span>
+            }
+
+            // strip quotes
+<span class="fc" id="L68">            final String quoteless = input.subSequence(1, input.length() - 1).toString();</span>
+
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            if (StringUtils.containsAny(quoteless, CSV_SEARCH_CHARS)) {</span>
+                // deal with escaped quotes; ie) &quot;&quot;
+<span class="fc" id="L72">                writer.write(StringUtils.replace(quoteless, CSV_ESCAPED_QUOTE_STR, CSV_QUOTE_STR));</span>
+            } else {
+<span class="fc" id="L74">                writer.write(quoteless);</span>
+            }
+<span class="fc" id="L76">        }</span>
+    }
+    /** Comma character. */
+    private static final char CSV_DELIMITER = ',';
+    /** Quote character. */
+    private static final char CSV_QUOTE = '&quot;';
+    /** Quote character converted to string. */
+<span class="fc" id="L83">    private static final String CSV_QUOTE_STR = String.valueOf(CSV_QUOTE);</span>
+
+    /** Escaped quote string. */
+<span class="fc" id="L86">    private static final String CSV_ESCAPED_QUOTE_STR = CSV_QUOTE_STR + CSV_QUOTE_STR;</span>
+
+    /** CSV key characters in an array. */
+<span class="fc" id="L89">    private static final char[] CSV_SEARCH_CHARS = { CSV_DELIMITER, CSV_QUOTE, CharUtils.CR, CharUtils.LF };</span>
+
+    /** Hidden constructor. */
+    private CsvTranslators() { }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

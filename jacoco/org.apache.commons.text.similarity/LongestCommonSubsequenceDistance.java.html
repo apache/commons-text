@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LongestCommonSubsequenceDistance.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.similarity</a> &gt; <span class="el_source">LongestCommonSubsequenceDistance.java</span></div><h1>LongestCommonSubsequenceDistance.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.similarity;
+
+/**
+ * An edit distance algorithm based on the length of the longest common subsequence between two strings.
+ *
+ * &lt;p&gt;
+ * This code is directly based upon the implementation in {@link LongestCommonSubsequence}.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * For reference see: &lt;a href=&quot;https://en.wikipedia.org/wiki/Longest_common_subsequence_problem&quot;&gt;
+ * https://en.wikipedia.org/wiki/Longest_common_subsequence_problem&lt;/a&gt;.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;For further reading see:&lt;/p&gt;
+ *
+ * &lt;p&gt;Lothaire, M. &lt;i&gt;Applied combinatorics on words&lt;/i&gt;. New York: Cambridge U Press, 2005. &lt;b&gt;12-13&lt;/b&gt;&lt;/p&gt;
+ *
+ * @since 1.0
+ */
+<span class="fc" id="L37">public class LongestCommonSubsequenceDistance implements EditDistance&lt;Integer&gt; {</span>
+
+    /**
+     * Calculates an edit distance between two {@code CharSequence}'s {@code left} and
+     * {@code right} as: {@code left.length() + right.length() - 2 * LCS(left, right)}, where
+     * {@code LCS} is given in {@link LongestCommonSubsequence#apply(CharSequence, CharSequence)}.
+     *
+     * @param left first character sequence
+     * @param right second character sequence
+     * @return distance
+     * @throws IllegalArgumentException
+     *             if either String input {@code null}
+     */
+    @Override
+    public Integer apply(final CharSequence left, final CharSequence right) {
+        // Quick return for invalid inputs
+<span class="fc bfc" id="L53" title="All 4 branches covered.">        if (left == null || right == null) {</span>
+<span class="fc" id="L54">            throw new IllegalArgumentException(&quot;Inputs must not be null&quot;);</span>
+        }
+<span class="fc" id="L56">        return left.length() + right.length() - 2 * LongestCommonSubsequence.INSTANCE.apply(left, right);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

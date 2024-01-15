@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExtendedMessageFormat.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text</a> &gt; <span class="el_source">ExtendedMessageFormat.java</span></div><h1>ExtendedMessageFormat.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text;
+
+import java.text.Format;
+import java.text.MessageFormat;
+import java.text.ParsePosition;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Locale.Category;
+import java.util.Map;
+import java.util.Objects;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.matcher.StringMatcherFactory;
+
+/**
+ * Extends {@link java.text.MessageFormat} to allow pluggable/additional formatting
+ * options for embedded format elements.  Client code should specify a registry
+ * of {@code FormatFactory} instances associated with {@code String}
+ * format names.  This registry will be consulted when the format elements are
+ * parsed from the message pattern.  In this way custom patterns can be specified,
+ * and the formats supported by {@link java.text.MessageFormat} can be overridden
+ * at the format and/or format style level (see MessageFormat).  A &quot;format element&quot;
+ * embedded in the message pattern is specified (&lt;b&gt;()?&lt;/b&gt; signifies optionality):&lt;br&gt;
+ * {@code {}&lt;i&gt;argument-number&lt;/i&gt;&lt;b&gt;(&lt;/b&gt;{@code ,}&lt;i&gt;format-name&lt;/i&gt;&lt;b&gt;
+ * (&lt;/b&gt;{@code ,}&lt;i&gt;format-style&lt;/i&gt;&lt;b&gt;)?)?&lt;/b&gt;{@code }}
+ *
+ * &lt;p&gt;
+ * &lt;i&gt;format-name&lt;/i&gt; and &lt;i&gt;format-style&lt;/i&gt; values are trimmed of surrounding whitespace
+ * in the manner of {@link java.text.MessageFormat}.  If &lt;i&gt;format-name&lt;/i&gt; denotes
+ * {@code FormatFactory formatFactoryInstance} in {@code registry}, a {@code Format}
+ * matching &lt;i&gt;format-name&lt;/i&gt; and &lt;i&gt;format-style&lt;/i&gt; is requested from
+ * {@code formatFactoryInstance}.  If this is successful, the {@code Format}
+ * found is used for this format element.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;&lt;b&gt;NOTICE:&lt;/b&gt; The various subformat mutator methods are considered unnecessary; they exist on the parent
+ * class to allow the type of customization which it is the job of this class to provide in
+ * a configurable fashion.  These methods have thus been disabled and will throw
+ * {@code UnsupportedOperationException} if called.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;Limitations inherited from {@link java.text.MessageFormat}:&lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;When using &quot;choice&quot; subformats, support for nested formatting instructions is limited
+ *     to that provided by the base class.&lt;/li&gt;
+ * &lt;li&gt;Thread-safety of {@code Format}s, including {@code MessageFormat} and thus
+ *     {@code ExtendedMessageFormat}, is not guaranteed.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @since 1.0
+ */
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">public class ExtendedMessageFormat extends MessageFormat {</span>
+
+    /**
+     * Serializable Object.
+     */
+    private static final long serialVersionUID = -2362048321261811743L;
+
+    /**
+     * Our initial seed value for calculating hashes.
+     */
+    private static final int HASH_SEED = 31;
+
+    /**
+     * The empty string.
+     */
+    private static final String DUMMY_PATTERN = StringUtils.EMPTY;
+
+    /**
+     * A comma.
+     */
+    private static final char START_FMT = ',';
+
+    /**
+     * A right side squiggly brace.
+     */
+    private static final char END_FE = '}';
+
+    /**
+     * A left side squiggly brace.
+     */
+    private static final char START_FE = '{';
+
+    /**
+     * A properly escaped character representing a single quote.
+     */
+    private static final char QUOTE = '\'';
+
+    /**
+     * To pattern string.
+     */
+    private String toPattern;
+
+    /**
+     * Our registry of FormatFactory.
+     */
+    private final Map&lt;String, ? extends FormatFactory&gt; registry;
+
+    /**
+     * Constructs a new ExtendedMessageFormat for the default locale.
+     *
+     * @param pattern  the pattern to use, not null
+     * @throws IllegalArgumentException in case of a bad pattern.
+     */
+    public ExtendedMessageFormat(final String pattern) {
+<span class="fc" id="L125">        this(pattern, Locale.getDefault(Category.FORMAT));</span>
+<span class="fc" id="L126">    }</span>
+
+    /**
+     * Constructs a new ExtendedMessageFormat.
+     *
+     * @param pattern  the pattern to use, not null
+     * @param locale  the locale to use, not null
+     * @throws IllegalArgumentException in case of a bad pattern.
+     */
+    public ExtendedMessageFormat(final String pattern, final Locale locale) {
+<span class="fc" id="L136">        this(pattern, locale, null);</span>
+<span class="fc" id="L137">    }</span>
+
+    /**
+     * Constructs a new ExtendedMessageFormat.
+     *
+     * @param pattern  the pattern to use, not null
+     * @param locale  the locale to use, not null
+     * @param registry  the registry of format factories, may be null
+     * @throws IllegalArgumentException in case of a bad pattern.
+     */
+    public ExtendedMessageFormat(final String pattern,
+                                 final Locale locale,
+                                 final Map&lt;String, ? extends FormatFactory&gt; registry) {
+<span class="fc" id="L150">        super(DUMMY_PATTERN);</span>
+<span class="fc" id="L151">        setLocale(locale);</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        this.registry = registry != null</span>
+<span class="fc" id="L153">                ? Collections.unmodifiableMap(new HashMap&lt;&gt;(registry))</span>
+<span class="fc" id="L154">                : null;</span>
+<span class="fc" id="L155">        applyPattern(pattern);</span>
+<span class="fc" id="L156">    }</span>
+
+    /**
+     * Constructs a new ExtendedMessageFormat for the default locale.
+     *
+     * @param pattern  the pattern to use, not null
+     * @param registry  the registry of format factories, may be null
+     * @throws IllegalArgumentException in case of a bad pattern.
+     */
+    public ExtendedMessageFormat(final String pattern,
+                                 final Map&lt;String, ? extends FormatFactory&gt; registry) {
+<span class="fc" id="L167">        this(pattern, Locale.getDefault(Category.FORMAT), registry);</span>
+<span class="fc" id="L168">    }</span>
+
+    /**
+     * Consumes a quoted string, adding it to {@code appendTo} if
+     * specified.
+     *
+     * @param pattern pattern to parse
+     * @param pos current parse position
+     * @param appendTo optional StringBuilder to append
+     */
+    private void appendQuotedString(final String pattern, final ParsePosition pos,
+            final StringBuilder appendTo) {
+<span class="pc bpc" id="L180" title="2 of 4 branches missed.">        assert pattern.toCharArray()[pos.getIndex()] == QUOTE</span>
+                : &quot;Quoted string must start with quote character&quot;;
+
+        // handle quote character at the beginning of the string
+<span class="fc bfc" id="L184" title="All 2 branches covered.">        if (appendTo != null) {</span>
+<span class="fc" id="L185">            appendTo.append(QUOTE);</span>
+        }
+<span class="fc" id="L187">        next(pos);</span>
+
+<span class="fc" id="L189">        final int start = pos.getIndex();</span>
+<span class="fc" id="L190">        final char[] c = pattern.toCharArray();</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">        for (int i = pos.getIndex(); i &lt; pattern.length(); i++) {</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">            switch (c[pos.getIndex()]) {</span>
+            case QUOTE:
+<span class="fc" id="L194">                next(pos);</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">                if (appendTo != null) {</span>
+<span class="fc" id="L196">                    appendTo.append(c, start, pos.getIndex() - start);</span>
+                }
+<span class="fc" id="L198">                return;</span>
+            default:
+<span class="fc" id="L200">                next(pos);</span>
+            }
+        }
+<span class="fc" id="L203">        throw new IllegalArgumentException(</span>
+                &quot;Unterminated quoted string at position &quot; + start);
+    }
+
+    /**
+     * Applies the specified pattern.
+     *
+     * @param pattern String
+     */
+    @Override
+    public final void applyPattern(final String pattern) {
+<span class="fc bfc" id="L214" title="All 2 branches covered.">        if (registry == null) {</span>
+<span class="fc" id="L215">            super.applyPattern(pattern);</span>
+<span class="fc" id="L216">            toPattern = super.toPattern();</span>
+<span class="fc" id="L217">            return;</span>
+        }
+<span class="fc" id="L219">        final ArrayList&lt;Format&gt; foundFormats = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L220">        final ArrayList&lt;String&gt; foundDescriptions = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L221">        final StringBuilder stripCustom = new StringBuilder(pattern.length());</span>
+
+<span class="fc" id="L223">        final ParsePosition pos = new ParsePosition(0);</span>
+<span class="fc" id="L224">        final char[] c = pattern.toCharArray();</span>
+<span class="fc" id="L225">        int fmtCount = 0;</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">        while (pos.getIndex() &lt; pattern.length()) {</span>
+<span class="fc bfc" id="L227" title="All 3 branches covered.">            switch (c[pos.getIndex()]) {</span>
+            case QUOTE:
+<span class="fc" id="L229">                appendQuotedString(pattern, pos, stripCustom);</span>
+<span class="fc" id="L230">                break;</span>
+            case START_FE:
+<span class="fc" id="L232">                fmtCount++;</span>
+<span class="fc" id="L233">                seekNonWs(pattern, pos);</span>
+<span class="fc" id="L234">                final int start = pos.getIndex();</span>
+<span class="fc" id="L235">                final int index = readArgumentIndex(pattern, next(pos));</span>
+<span class="fc" id="L236">                stripCustom.append(START_FE).append(index);</span>
+<span class="fc" id="L237">                seekNonWs(pattern, pos);</span>
+<span class="fc" id="L238">                Format format = null;</span>
+<span class="fc" id="L239">                String formatDescription = null;</span>
+<span class="fc bfc" id="L240" title="All 2 branches covered.">                if (c[pos.getIndex()] == START_FMT) {</span>
+<span class="fc" id="L241">                    formatDescription = parseFormatDescription(pattern,</span>
+<span class="fc" id="L242">                            next(pos));</span>
+<span class="fc" id="L243">                    format = getFormat(formatDescription);</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">                    if (format == null) {</span>
+<span class="fc" id="L245">                        stripCustom.append(START_FMT).append(formatDescription);</span>
+                    }
+                }
+<span class="fc" id="L248">                foundFormats.add(format);</span>
+<span class="fc bfc" id="L249" title="All 2 branches covered.">                foundDescriptions.add(format == null ? null : formatDescription);</span>
+<span class="pc bpc" id="L250" title="1 of 2 branches missed.">                if (foundFormats.size() != fmtCount) {</span>
+<span class="nc" id="L251">                    throw new IllegalArgumentException(&quot;The validated expression is false&quot;);</span>
+                }
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">                if (foundDescriptions.size() != fmtCount) {</span>
+<span class="nc" id="L254">                    throw new IllegalArgumentException(&quot;The validated expression is false&quot;);</span>
+                }
+<span class="pc bpc" id="L256" title="1 of 2 branches missed.">                if (c[pos.getIndex()] != END_FE) {</span>
+<span class="nc" id="L257">                    throw new IllegalArgumentException(</span>
+                            &quot;Unreadable format element at position &quot; + start);
+                }
+                //$FALL-THROUGH$
+            default:
+<span class="fc" id="L262">                stripCustom.append(c[pos.getIndex()]);</span>
+<span class="fc" id="L263">                next(pos);</span>
+            }
+        }
+<span class="fc" id="L266">        super.applyPattern(stripCustom.toString());</span>
+<span class="fc" id="L267">        toPattern = insertFormats(super.toPattern(), foundDescriptions);</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">        if (containsElements(foundFormats)) {</span>
+<span class="fc" id="L269">            final Format[] origFormats = getFormats();</span>
+            // only loop over what we know we have, as MessageFormat on Java 1.3
+            // seems to provide an extra format element:
+<span class="fc" id="L272">            int i = 0;</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">            for (final Format f : foundFormats) {</span>
+<span class="fc bfc" id="L274" title="All 2 branches covered.">                if (f != null) {</span>
+<span class="fc" id="L275">                    origFormats[i] = f;</span>
+                }
+<span class="fc" id="L277">                i++;</span>
+<span class="fc" id="L278">            }</span>
+<span class="fc" id="L279">            super.setFormats(origFormats);</span>
+        }
+<span class="fc" id="L281">    }</span>
+
+    /**
+     * Tests whether the specified Collection contains non-null elements.
+     * @param coll to check
+     * @return {@code true} if some Object was found, {@code false} otherwise.
+     */
+    private boolean containsElements(final Collection&lt;?&gt; coll) {
+<span class="pc bpc" id="L289" title="1 of 4 branches missed.">        if (coll == null || coll.isEmpty()) {</span>
+<span class="fc" id="L290">            return false;</span>
+        }
+<span class="fc" id="L292">        return coll.stream().anyMatch(Objects::nonNull);</span>
+    }
+
+    /**
+     * Tests if this extended message format is equal to another object.
+     *
+     * @param obj the object to compare to
+     * @return true if this object equals the other, otherwise false
+     */
+    @Override
+    public boolean equals(final Object obj) {
+<span class="fc bfc" id="L303" title="All 2 branches covered.">        if (obj == this) {</span>
+<span class="fc" id="L304">            return true;</span>
+        }
+<span class="pc bpc" id="L306" title="1 of 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L307">            return false;</span>
+        }
+<span class="fc bfc" id="L309" title="All 2 branches covered.">        if (!Objects.equals(getClass(), obj.getClass())) {</span>
+<span class="fc" id="L310">          return false;</span>
+        }
+<span class="fc" id="L312">        final ExtendedMessageFormat rhs = (ExtendedMessageFormat) obj;</span>
+<span class="fc bfc" id="L313" title="All 2 branches covered.">        if (!Objects.equals(toPattern, rhs.toPattern)) {</span>
+<span class="fc" id="L314">            return false;</span>
+        }
+<span class="fc bfc" id="L316" title="All 2 branches covered.">        if (!super.equals(obj)) {</span>
+<span class="fc" id="L317">            return false;</span>
+        }
+<span class="fc" id="L319">        return Objects.equals(registry, rhs.registry);</span>
+    }
+
+    /**
+     * Gets a custom format from a format description.
+     *
+     * @param desc String
+     * @return Format
+     */
+    private Format getFormat(final String desc) {
+<span class="pc bpc" id="L329" title="1 of 2 branches missed.">        if (registry != null) {</span>
+<span class="fc" id="L330">            String name = desc;</span>
+<span class="fc" id="L331">            String args = null;</span>
+<span class="fc" id="L332">            final int i = desc.indexOf(START_FMT);</span>
+<span class="fc bfc" id="L333" title="All 2 branches covered.">            if (i &gt; 0) {</span>
+<span class="fc" id="L334">                name = desc.substring(0, i).trim();</span>
+<span class="fc" id="L335">                args = desc.substring(i + 1).trim();</span>
+            }
+<span class="fc" id="L337">            final FormatFactory factory = registry.get(name);</span>
+<span class="fc bfc" id="L338" title="All 2 branches covered.">            if (factory != null) {</span>
+<span class="fc" id="L339">                return factory.getFormat(name, args, getLocale());</span>
+            }
+        }
+<span class="fc" id="L342">        return null;</span>
+    }
+
+    /**
+     * Consumes quoted string only.
+     *
+     * @param pattern pattern to parse
+     * @param pos current parse position
+     */
+    private void getQuotedString(final String pattern, final ParsePosition pos) {
+<span class="fc" id="L352">        appendQuotedString(pattern, pos, null);</span>
+<span class="fc" id="L353">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+<span class="fc" id="L360">        int result = super.hashCode();</span>
+<span class="fc" id="L361">        result = HASH_SEED * result + Objects.hashCode(registry);</span>
+<span class="fc" id="L362">        result = HASH_SEED * result + Objects.hashCode(toPattern);</span>
+<span class="fc" id="L363">        return result;</span>
+    }
+
+    /**
+     * Inserts formats back into the pattern for toPattern() support.
+     *
+     * @param pattern source
+     * @param customPatterns The custom patterns to re-insert, if any
+     * @return full pattern
+     */
+    private String insertFormats(final String pattern, final ArrayList&lt;String&gt; customPatterns) {
+<span class="fc bfc" id="L374" title="All 2 branches covered.">        if (!containsElements(customPatterns)) {</span>
+<span class="fc" id="L375">            return pattern;</span>
+        }
+<span class="fc" id="L377">        final StringBuilder sb = new StringBuilder(pattern.length() * 2);</span>
+<span class="fc" id="L378">        final ParsePosition pos = new ParsePosition(0);</span>
+<span class="fc" id="L379">        int fe = -1;</span>
+<span class="fc" id="L380">        int depth = 0;</span>
+<span class="fc bfc" id="L381" title="All 2 branches covered.">        while (pos.getIndex() &lt; pattern.length()) {</span>
+<span class="fc" id="L382">            final char c = pattern.charAt(pos.getIndex());</span>
+<span class="fc bfc" id="L383" title="All 4 branches covered.">            switch (c) {</span>
+            case QUOTE:
+<span class="fc" id="L385">                appendQuotedString(pattern, pos, sb);</span>
+<span class="fc" id="L386">                break;</span>
+            case START_FE:
+<span class="fc" id="L388">                depth++;</span>
+<span class="fc" id="L389">                sb.append(START_FE).append(readArgumentIndex(pattern, next(pos)));</span>
+                // do not look for custom patterns when they are embedded, e.g. in a choice
+<span class="fc bfc" id="L391" title="All 2 branches covered.">                if (depth == 1) {</span>
+<span class="fc" id="L392">                    fe++;</span>
+<span class="fc" id="L393">                    final String customPattern = customPatterns.get(fe);</span>
+<span class="fc bfc" id="L394" title="All 2 branches covered.">                    if (customPattern != null) {</span>
+<span class="fc" id="L395">                        sb.append(START_FMT).append(customPattern);</span>
+                    }
+<span class="fc" id="L397">                }</span>
+                break;
+            case END_FE:
+<span class="fc" id="L400">                depth--;</span>
+                //$FALL-THROUGH$
+            default:
+<span class="fc" id="L403">                sb.append(c);</span>
+<span class="fc" id="L404">                next(pos);</span>
+            }
+<span class="fc" id="L406">        }</span>
+<span class="fc" id="L407">        return sb.toString();</span>
+    }
+
+    /**
+     * Advances parse position by 1.
+     *
+     * @param pos ParsePosition
+     * @return {@code pos}
+     */
+    private ParsePosition next(final ParsePosition pos) {
+<span class="fc" id="L417">        pos.setIndex(pos.getIndex() + 1);</span>
+<span class="fc" id="L418">        return pos;</span>
+    }
+
+    /**
+     * Parses the format component of a format element.
+     *
+     * @param pattern string to parse
+     * @param pos current parse position
+     * @return Format description String
+     */
+    private String parseFormatDescription(final String pattern, final ParsePosition pos) {
+<span class="fc" id="L429">        final int start = pos.getIndex();</span>
+<span class="fc" id="L430">        seekNonWs(pattern, pos);</span>
+<span class="fc" id="L431">        final int text = pos.getIndex();</span>
+<span class="fc" id="L432">        int depth = 1;</span>
+<span class="fc bfc" id="L433" title="All 2 branches covered.">        while (pos.getIndex() &lt; pattern.length()) {</span>
+<span class="fc bfc" id="L434" title="All 4 branches covered.">            switch (pattern.charAt(pos.getIndex())) {</span>
+            case START_FE:
+<span class="fc" id="L436">                depth++;</span>
+<span class="fc" id="L437">                next(pos);</span>
+<span class="fc" id="L438">                break;</span>
+            case END_FE:
+<span class="fc" id="L440">                depth--;</span>
+<span class="fc bfc" id="L441" title="All 2 branches covered.">                if (depth == 0) {</span>
+<span class="fc" id="L442">                    return pattern.substring(text, pos.getIndex());</span>
+                }
+<span class="fc" id="L444">                next(pos);</span>
+<span class="fc" id="L445">                break;</span>
+            case QUOTE:
+<span class="fc" id="L447">                getQuotedString(pattern, pos);</span>
+<span class="fc" id="L448">                break;</span>
+            default:
+<span class="fc" id="L450">                next(pos);</span>
+<span class="fc" id="L451">                break;</span>
+            }
+        }
+<span class="fc" id="L454">        throw new IllegalArgumentException(</span>
+                &quot;Unterminated format element at position &quot; + start);
+    }
+
+    /**
+     * Reads the argument index from the current format element.
+     *
+     * @param pattern pattern to parse
+     * @param pos current parse position
+     * @return argument index
+     */
+    private int readArgumentIndex(final String pattern, final ParsePosition pos) {
+<span class="fc" id="L466">        final int start = pos.getIndex();</span>
+<span class="fc" id="L467">        seekNonWs(pattern, pos);</span>
+<span class="fc" id="L468">        final StringBuilder result = new StringBuilder();</span>
+<span class="fc" id="L469">        boolean error = false;</span>
+<span class="fc bfc" id="L470" title="All 4 branches covered.">        for (; !error &amp;&amp; pos.getIndex() &lt; pattern.length(); next(pos)) {</span>
+<span class="fc" id="L471">            char c = pattern.charAt(pos.getIndex());</span>
+<span class="fc bfc" id="L472" title="All 2 branches covered.">            if (Character.isWhitespace(c)) {</span>
+<span class="fc" id="L473">                seekNonWs(pattern, pos);</span>
+<span class="fc" id="L474">                c = pattern.charAt(pos.getIndex());</span>
+<span class="pc bpc" id="L475" title="1 of 4 branches missed.">                if (c != START_FMT &amp;&amp; c != END_FE) {</span>
+<span class="fc" id="L476">                    error = true;</span>
+<span class="fc" id="L477">                    continue;</span>
+                }
+            }
+<span class="fc bfc" id="L480" title="All 6 branches covered.">            if ((c == START_FMT || c == END_FE) &amp;&amp; result.length() &gt; 0) {</span>
+                try {
+<span class="fc" id="L482">                    return Integer.parseInt(result.toString());</span>
+<span class="nc" id="L483">                } catch (final NumberFormatException e) { // NOPMD</span>
+                    // we've already ensured only digits, so unless something
+                    // outlandishly large was specified we should be okay.
+                }
+            }
+<span class="fc bfc" id="L488" title="All 2 branches covered.">            error = !Character.isDigit(c);</span>
+<span class="fc" id="L489">            result.append(c);</span>
+        }
+<span class="fc bfc" id="L491" title="All 2 branches covered.">        if (error) {</span>
+<span class="fc" id="L492">            throw new IllegalArgumentException(</span>
+                    &quot;Invalid format argument index at position &quot; + start + &quot;: &quot;
+<span class="fc" id="L494">                            + pattern.substring(start, pos.getIndex()));</span>
+        }
+<span class="fc" id="L496">        throw new IllegalArgumentException(</span>
+                &quot;Unterminated format element at position &quot; + start);
+    }
+
+    /**
+     * Consumes whitespace from the current parse position.
+     *
+     * @param pattern String to read
+     * @param pos current position
+     */
+    private void seekNonWs(final String pattern, final ParsePosition pos) {
+<span class="fc" id="L507">        int len = 0;</span>
+<span class="fc" id="L508">        final char[] buffer = pattern.toCharArray();</span>
+        do {
+<span class="fc" id="L510">            len = StringMatcherFactory.INSTANCE.splitMatcher().isMatch(buffer, pos.getIndex(), 0, buffer.length);</span>
+<span class="fc" id="L511">            pos.setIndex(pos.getIndex() + len);</span>
+<span class="fc bfc" id="L512" title="All 4 branches covered.">        } while (len &gt; 0 &amp;&amp; pos.getIndex() &lt; pattern.length());</span>
+<span class="fc" id="L513">    }</span>
+
+    /**
+     * Throws UnsupportedOperationException - see class Javadoc for details.
+     *
+     * @param formatElementIndex format element index
+     * @param newFormat the new format
+     * @throws UnsupportedOperationException always thrown since this isn't
+     *                                       supported by ExtendMessageFormat
+     */
+    @Override
+    public void setFormat(final int formatElementIndex, final Format newFormat) {
+<span class="fc" id="L525">        throw new UnsupportedOperationException();</span>
+    }
+
+    /**
+     * Throws UnsupportedOperationException - see class Javadoc for details.
+     *
+     * @param argumentIndex argument index
+     * @param newFormat the new format
+     * @throws UnsupportedOperationException always thrown since this isn't
+     *                                       supported by ExtendMessageFormat
+     */
+    @Override
+    public void setFormatByArgumentIndex(final int argumentIndex,
+                                         final Format newFormat) {
+<span class="fc" id="L539">        throw new UnsupportedOperationException();</span>
+    }
+
+    /**
+     * Throws UnsupportedOperationException - see class Javadoc for details.
+     *
+     * @param newFormats new formats
+     * @throws UnsupportedOperationException always thrown since this isn't
+     *                                       supported by ExtendMessageFormat
+     */
+    @Override
+    public void setFormats(final Format[] newFormats) {
+<span class="fc" id="L551">        throw new UnsupportedOperationException();</span>
+    }
+
+    /**
+     * Throws UnsupportedOperationException - see class Javadoc for details.
+     *
+     * @param newFormats new formats
+     * @throws UnsupportedOperationException always thrown since this isn't
+     *                                       supported by ExtendMessageFormat
+     */
+    @Override
+    public void setFormatsByArgumentIndex(final Format[] newFormats) {
+<span class="fc" id="L563">        throw new UnsupportedOperationException();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toPattern() {
+<span class="fc" id="L571">        return toPattern;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

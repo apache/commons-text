@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LongestCommonSubsequence.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.similarity</a> &gt; <span class="el_source">LongestCommonSubsequence.java</span></div><h1>LongestCommonSubsequence.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.similarity;
+
+/**
+ * A similarity algorithm indicating the length of the longest common subsequence between two strings.
+ *
+ * &lt;p&gt;
+ * The Longest common subsequence algorithm returns the length of the longest subsequence that two strings have in
+ * common. Two strings that are entirely different, return a value of 0, and two strings that return a value
+ * of the commonly shared length implies that the strings are completely the same in value and position.
+ * &lt;i&gt;Note.&lt;/i&gt;  Generally this algorithm is fairly inefficient, as for length &lt;i&gt;m&lt;/i&gt;, &lt;i&gt;n&lt;/i&gt; of the input
+ * {@code CharSequence}'s {@code left} and {@code right} respectively, the runtime of the
+ * algorithm is &lt;i&gt;O(m*n)&lt;/i&gt;.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * As of version 1.10, a more space-efficient of the algorithm is implemented. The new algorithm has linear space
+ * complexity instead of quadratic. However, time complexity is still quadratic in the size of input strings.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * The implementation is based on Hirschberg's Longest Commons Substring algorithm (cited below).
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;For further reading see:&lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;
+ * Lothaire, M. &lt;i&gt;Applied combinatorics on words&lt;/i&gt;. New York: Cambridge U Press, 2005. &lt;b&gt;12-13&lt;/b&gt;
+ * &lt;/li&gt;
+ * &lt;li&gt;
+ * D. S. Hirschberg, &quot;A linear space algorithm for computing maximal common subsequences,&quot; CACM, 1975, pp. 341--343.
+ * &lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @since 1.0
+ */
+<span class="fc" id="L52">public class LongestCommonSubsequence implements SimilarityScore&lt;Integer&gt; {</span>
+
+    /**
+     * Singleton instance.
+     */
+<span class="fc" id="L57">    static final LongestCommonSubsequence INSTANCE = new LongestCommonSubsequence();</span>
+
+    /**
+     * An implementation of &quot;ALG B&quot; from Hirschberg's CACM '71 paper.
+     * Assuming the first input sequence is of size &lt;code&gt;m&lt;/code&gt; and the second input sequence is of size
+     * &lt;code&gt;n&lt;/code&gt;, this method returns the last row of the dynamic programming (DP) table when calculating
+     * the LCS of the two sequences in &lt;i&gt;O(m*n)&lt;/i&gt; time and &lt;i&gt;O(n)&lt;/i&gt; space.
+     * The last element of the returned array, is the size of the LCS of the two input sequences.
+     *
+     * @param left first input sequence.
+     * @param right second input sequence.
+     * @return last row of the dynamic-programming (DP) table for calculating the LCS of &lt;code&gt;left&lt;/code&gt; and &lt;code&gt;right&lt;/code&gt;
+     * @since 1.10.0
+     */
+    private static int[] algorithmB(final CharSequence left, final CharSequence right) {
+<span class="fc" id="L72">        final int m = left.length();</span>
+<span class="fc" id="L73">        final int n = right.length();</span>
+
+        // Creating an array for storing two rows of DP table
+<span class="fc" id="L76">        final int[][] dpRows = new int[2][1 + n];</span>
+
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        for (int i = 1; i &lt;= m; i++) {</span>
+            // K(0, j) &lt;- K(1, j) [j = 0...n], as per the paper:
+            // Since we have references in Java, we can swap references instead of literal copying.
+            // We could also use a &quot;binary index&quot; using modulus operator, but directly swapping the
+            // two rows helps readability and keeps the code consistent with the algorithm description
+            // in the paper.
+<span class="fc" id="L84">            final int[] temp = dpRows[0];</span>
+<span class="fc" id="L85">            dpRows[0] = dpRows[1];</span>
+<span class="fc" id="L86">            dpRows[1] = temp;</span>
+
+<span class="fc bfc" id="L88" title="All 2 branches covered.">            for (int j = 1; j &lt;= n; j++) {</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">                if (left.charAt(i - 1) == right.charAt(j - 1)) {</span>
+<span class="fc" id="L90">                    dpRows[1][j] = dpRows[0][j - 1] + 1;</span>
+                } else {
+<span class="fc" id="L92">                    dpRows[1][j] = Math.max(dpRows[1][j - 1], dpRows[0][j]);</span>
+                }
+            }
+        }
+
+        // LL(j) &lt;- K(1, j) [j=0...n], as per the paper:
+        // We don't need literal copying of the array, we can just return the reference
+<span class="fc" id="L99">        return dpRows[1];</span>
+    }
+
+    /**
+     * An implementation of &quot;ALG C&quot; from Hirschberg's CACM '71 paper.
+     * Assuming the first input sequence is of size &lt;code&gt;m&lt;/code&gt; and the second input sequence is of size
+     * &lt;code&gt;n&lt;/code&gt;, this method returns the Longest Common Subsequence (LCS) of the two sequences in
+     * &lt;i&gt;O(m*n)&lt;/i&gt; time and &lt;i&gt;O(m+n)&lt;/i&gt; space.
+     *
+     * @param left first input sequence.
+     * @param right second input sequence.
+     * @return the LCS of &lt;code&gt;left&lt;/code&gt; and &lt;code&gt;right&lt;/code&gt;
+     * @since 1.10.0
+     */
+    private static String algorithmC(final CharSequence left, final CharSequence right) {
+<span class="fc" id="L114">        final int m = left.length();</span>
+<span class="fc" id="L115">        final int n = right.length();</span>
+
+<span class="fc" id="L117">        final StringBuilder out = new StringBuilder();</span>
+
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        if (m == 1) { // Handle trivial cases, as per the paper</span>
+<span class="fc" id="L120">            final char leftCh = left.charAt(0);</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">            for (int j = 0; j &lt; n; j++) {</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">                if (leftCh == right.charAt(j)) {</span>
+<span class="fc" id="L123">                    out.append(leftCh);</span>
+<span class="fc" id="L124">                    break;</span>
+                }
+            }
+<span class="pc bpc" id="L127" title="1 of 4 branches missed.">        } else if (n &gt; 0 &amp;&amp; m &gt; 1) {</span>
+<span class="fc" id="L128">            final int mid = m / 2; // Find the middle point</span>
+
+<span class="fc" id="L130">            final CharSequence leftFirstPart = left.subSequence(0, mid);</span>
+<span class="fc" id="L131">            final CharSequence leftSecondPart = left.subSequence(mid, m);</span>
+
+            // Step 3 of the algorithm: two calls to Algorithm B
+<span class="fc" id="L134">            final int[] l1 = algorithmB(leftFirstPart, right);</span>
+<span class="fc" id="L135">            final int[] l2 = algorithmB(reverse(leftSecondPart), reverse(right));</span>
+
+            // Find k, as per the Step 4 of the algorithm
+<span class="fc" id="L138">            int k = 0;</span>
+<span class="fc" id="L139">            int t = 0;</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">            for (int j = 0; j &lt;= n; j++) {</span>
+<span class="fc" id="L141">                final int s = l1[j] + l2[n - j];</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">                if (t &lt; s) {</span>
+<span class="fc" id="L143">                    t = s;</span>
+<span class="fc" id="L144">                    k = j;</span>
+                }
+            }
+
+            // Step 5: solve simpler problems, recursively
+<span class="fc" id="L149">            out.append(algorithmC(leftFirstPart, right.subSequence(0, k)));</span>
+<span class="fc" id="L150">            out.append(algorithmC(leftSecondPart, right.subSequence(k, n)));</span>
+        }
+
+<span class="fc" id="L153">        return out.toString();</span>
+    }
+
+    // An auxiliary method for CharSequence reversal
+    private static String reverse(final CharSequence s) {
+<span class="fc" id="L158">        return new StringBuilder(s).reverse().toString();</span>
+    }
+
+    /**
+     * Calculates the longest common subsequence similarity score of two {@code CharSequence}'s passed as
+     * input.
+     *
+     * &lt;p&gt;
+     * This method implements a more efficient version of LCS algorithm which has quadratic time and
+     * linear space complexity.
+     * &lt;/p&gt;
+     *
+     * &lt;p&gt;
+     * This method is based on newly implemented {@link #algorithmB(CharSequence, CharSequence)}.
+     * An evaluation using JMH revealed that this method is almost two times faster than its previous version.
+     * &lt;/p&gt;
+     *
+     * @param left first character sequence
+     * @param right second character sequence
+     * @return length of the longest common subsequence of &lt;code&gt;left&lt;/code&gt; and &lt;code&gt;right&lt;/code&gt;
+     * @throws IllegalArgumentException if either String input {@code null}
+     */
+    @Override
+    public Integer apply(final CharSequence left, final CharSequence right) {
+        // Quick return for invalid inputs
+<span class="fc bfc" id="L183" title="All 4 branches covered.">        if (left == null || right == null) {</span>
+<span class="fc" id="L184">            throw new IllegalArgumentException(&quot;Inputs must not be null&quot;);</span>
+        }
+        // Find lengths of two strings
+<span class="fc" id="L187">        final int leftSz = left.length();</span>
+<span class="fc" id="L188">        final int rightSz = right.length();</span>
+
+        // Check if we can avoid calling algorithmB which involves heap space allocation
+<span class="fc bfc" id="L191" title="All 4 branches covered.">        if (leftSz == 0 || rightSz == 0) {</span>
+<span class="fc" id="L192">            return 0;</span>
+        }
+
+        // Check if we can save even more space
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        if (leftSz &lt; rightSz) {</span>
+<span class="fc" id="L197">            return algorithmB(right, left)[leftSz];</span>
+        }
+<span class="fc" id="L199">        return algorithmB(left, right)[rightSz];</span>
+    }
+
+    /**
+     * Computes the longest common subsequence between the two {@code CharSequence}'s passed as input.
+     *
+     * &lt;p&gt;
+     * Note, a substring and subsequence are not necessarily the same thing. Indeed, {@code abcxyzqrs} and
+     * {@code xyzghfm} have both the same common substring and subsequence, namely {@code xyz}. However,
+     * {@code axbyczqrs} and {@code abcxyzqtv} have the longest common subsequence {@code xyzq} because a
+     * subsequence need not have adjacent characters.
+     * &lt;/p&gt;
+     *
+     * &lt;p&gt;
+     * For reference, we give the definition of a subsequence for the reader: a &lt;i&gt;subsequence&lt;/i&gt; is a sequence that
+     * can be derived from another sequence by deleting some elements without changing the order of the remaining
+     * elements.
+     * &lt;/p&gt;
+     *
+     * @param left first character sequence
+     * @param right second character sequence
+     * @return the longest common subsequence found
+     * @throws IllegalArgumentException if either String input {@code null}
+     * @deprecated Deprecated as of 1.2 due to a typo in the method name.
+     * Use {@link #longestCommonSubsequence(CharSequence, CharSequence)} instead.
+     * This method will be removed in 2.0.
+     */
+    @Deprecated
+    public CharSequence logestCommonSubsequence(final CharSequence left, final CharSequence right) {
+<span class="fc" id="L228">        return longestCommonSubsequence(left, right);</span>
+    }
+
+    /**
+     * Computes the longest common subsequence between the two {@code CharSequence}'s passed as
+     * input.
+     *
+     * &lt;p&gt;
+     * This method implements a more efficient version of LCS algorithm which although has quadratic time, it
+     * has linear space complexity.
+     * &lt;/p&gt;
+     *
+     *
+     * &lt;p&gt;
+     * Note, a substring and subsequence are not necessarily the same thing. Indeed, {@code abcxyzqrs} and
+     * {@code xyzghfm} have both the same common substring and subsequence, namely {@code xyz}. However,
+     * {@code axbyczqrs} and {@code abcxyzqtv} have the longest common subsequence {@code xyzq} because a
+     * subsequence need not have adjacent characters.
+     * &lt;/p&gt;
+     *
+     * &lt;p&gt;
+     * For reference, we give the definition of a subsequence for the reader: a &lt;i&gt;subsequence&lt;/i&gt; is a sequence that
+     * can be derived from another sequence by deleting some elements without changing the order of the remaining
+     * elements.
+     * &lt;/p&gt;
+     *
+     * @param left first character sequence
+     * @param right second character sequence
+     * @return the longest common subsequence found
+     * @throws IllegalArgumentException if either String input {@code null}
+     * @since 1.2
+     */
+    public CharSequence longestCommonSubsequence(final CharSequence left, final CharSequence right) {
+        // Quick return
+<span class="fc bfc" id="L262" title="All 4 branches covered.">        if (left == null || right == null) {</span>
+<span class="fc" id="L263">            throw new IllegalArgumentException(&quot;Inputs must not be null&quot;);</span>
+        }
+        // Find lengths of two strings
+<span class="fc" id="L266">        final int leftSz = left.length();</span>
+<span class="fc" id="L267">        final int rightSz = right.length();</span>
+
+        // Check if we can avoid calling algorithmC which involves heap space allocation
+<span class="fc bfc" id="L270" title="All 4 branches covered.">        if (leftSz == 0 || rightSz == 0) {</span>
+<span class="fc" id="L271">            return &quot;&quot;;</span>
+        }
+
+        // Check if we can save even more space
+<span class="fc bfc" id="L275" title="All 2 branches covered.">        if (leftSz &lt; rightSz) {</span>
+<span class="fc" id="L276">            return algorithmC(right, left);</span>
+        }
+<span class="fc" id="L278">        return algorithmC(left, right);</span>
+    }
+
+    /**
+     * Computes the lcsLengthArray for the sake of doing the actual lcs calculation. This is the
+     * dynamic programming portion of the algorithm, and is the reason for the runtime complexity being
+     * O(m*n), where m=left.length() and n=right.length().
+     *
+     * @param left first character sequence
+     * @param right second character sequence
+     * @return lcsLengthArray
+     * @deprecated Deprecated as of 1.10. A more efficient implementation for calculating LCS is now available.
+     * Use {@link #longestCommonSubsequence(CharSequence, CharSequence)} instead to directly calculate the LCS.
+     * This method will be removed in 2.0.
+     */
+    @Deprecated
+    public int[][] longestCommonSubstringLengthArray(final CharSequence left, final CharSequence right) {
+<span class="nc" id="L295">        final int[][] lcsLengthArray = new int[left.length() + 1][right.length() + 1];</span>
+<span class="nc bnc" id="L296" title="All 2 branches missed.">        for (int i = 0; i &lt; left.length(); i++) {</span>
+<span class="nc bnc" id="L297" title="All 2 branches missed.">            for (int j = 0; j &lt; right.length(); j++) {</span>
+<span class="nc bnc" id="L298" title="All 2 branches missed.">                if (i == 0) {</span>
+<span class="nc" id="L299">                    lcsLengthArray[i][j] = 0;</span>
+                }
+<span class="nc bnc" id="L301" title="All 2 branches missed.">                if (j == 0) {</span>
+<span class="nc" id="L302">                    lcsLengthArray[i][j] = 0;</span>
+                }
+<span class="nc bnc" id="L304" title="All 2 branches missed.">                if (left.charAt(i) == right.charAt(j)) {</span>
+<span class="nc" id="L305">                    lcsLengthArray[i + 1][j + 1] = lcsLengthArray[i][j] + 1;</span>
+                } else {
+<span class="nc" id="L307">                    lcsLengthArray[i + 1][j + 1] = Math.max(lcsLengthArray[i + 1][j], lcsLengthArray[i][j + 1]);</span>
+                }
+            }
+        }
+<span class="nc" id="L311">        return lcsLengthArray;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

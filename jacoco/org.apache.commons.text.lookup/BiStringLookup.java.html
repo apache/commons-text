@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BiStringLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.lookup</a> &gt; <span class="el_source">BiStringLookup.java</span></div><h1>BiStringLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache license, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the license for the specific language governing permissions and
+ * limitations under the license.
+ */
+
+package org.apache.commons.text.lookup;
+
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+/**
+ * Lookups a String key for a String value.
+ * &lt;p&gt;
+ * This class represents the simplest form of a string to string map. It has a benefit over a map in that it can create
+ * the result on demand based on the key.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * For example, it would be possible to implement a lookup that used the key as a primary key, and looked up the value
+ * on demand from the database.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Like {@link BiFunction} is a variant of {@link Function}, this {@code BiStringLookup} is a variant of
+ * {@link StringLookup}.
+ * &lt;/p&gt;
+ *
+ * @param &lt;U&gt; The second argument type.
+ *
+ * @since 1.9
+ */
+@FunctionalInterface
+public interface BiStringLookup&lt;U&gt; extends StringLookup {
+
+    /**
+     * Looks up a String key to provide a String value.
+     * &lt;p&gt;
+     * The internal implementation may use any mechanism to return the value. The simplest implementation is to use a
+     * Map. However, virtually any implementation is possible.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * For example, it would be possible to implement a lookup that used the key as a primary key, and looked up the
+     * value on demand from the database Or, a numeric based implementation could be created that treats the key as an
+     * integer, increments the value and return the result as a string - converting 1 to 2, 15 to 16 etc.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * This method always returns a String, regardless of the underlying data, by converting it as necessary. For
+     * example:
+     * &lt;/p&gt;
+     *
+     * &lt;pre&gt;
+     * Map&amp;lt;String, Object&amp;gt; map = new HashMap&amp;lt;String, Object&amp;gt;();
+     * map.put(&quot;number&quot;, new Integer(2));
+     * assertEquals(&quot;2&quot;, StringLookupFactory.biFunctionStringLookup(map).lookup(&quot;number&quot;, &quot;A context object&quot;));
+     * &lt;/pre&gt;
+     *
+     * @param key the key to look up, may be null.
+     * @param object ignored by default.
+     * @return The matching value, null if no match.
+     */
+    default String lookup(final String key, final U object) {
+<span class="fc" id="L72">        return lookup(key);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

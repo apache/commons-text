@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractStringLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.lookup</a> &gt; <span class="el_source">AbstractStringLookup.java</span></div><h1>AbstractStringLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache license, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the license for the specific language governing permissions and
+ * limitations under the license.
+ */
+
+package org.apache.commons.text.lookup;
+
+import org.apache.commons.lang3.StringUtils;
+
+/**
+ * A default lookup for others to extend in this package.
+ *
+ * @since 1.3
+ */
+<span class="fc" id="L27">abstract class AbstractStringLookup implements StringLookup {</span>
+
+    /**
+     * The default split char.
+     */
+    protected static final char SPLIT_CH = ':';
+
+    /**
+     * The default split string.
+     */
+<span class="fc" id="L37">    protected static final String SPLIT_STR = String.valueOf(SPLIT_CH);</span>
+
+    /**
+     * Creates a lookup key for a given file and key.
+     */
+    static String toLookupKey(final String left, final String right) {
+<span class="fc" id="L43">        return toLookupKey(left, SPLIT_STR, right);</span>
+    }
+
+    /**
+     * Creates a lookup key for a given file and key.
+     */
+    static String toLookupKey(final String left, final String separator, final String right) {
+<span class="fc" id="L50">        return left + separator + right;</span>
+    }
+
+    /**
+     * Returns the substring after the first occurrence of {@code ch} in {@code value}.
+     *
+     * @param value The source string.
+     * @param ch The character to search.
+     * @return a new string.
+     * @deprecated Use {@link StringUtils#substringAfter(String, int)}.
+     */
+    @Deprecated
+    protected String substringAfter(final String value, final char ch) {
+<span class="fc" id="L63">        return StringUtils.substringAfter(value, ch);</span>
+    }
+
+    /**
+     * Returns the substring after the first occurrence of {@code str} in {@code value}.
+     *
+     * @param value The source string.
+     * @param str The string to search.
+     * @return a new string.
+     * @deprecated Use {@link StringUtils#substringAfter(String, String)}.
+     */
+    @Deprecated
+    protected String substringAfter(final String value, final String str) {
+<span class="fc" id="L76">        return StringUtils.substringAfter(value, str);</span>
+    }
+
+    /**
+     * Returns the substring after the first occurrence of {@code ch} in {@code value}.
+     *
+     * @param value The source string.
+     * @param ch The character to search.
+     * @return a new string.
+     * @deprecated Use {@link StringUtils#substringAfterLast(String, int)}.
+     */
+    @Deprecated
+    protected String substringAfterLast(final String value, final char ch) {
+<span class="fc" id="L89">        return StringUtils.substringAfterLast(value, ch);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

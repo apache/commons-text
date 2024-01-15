@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StrLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text</a> &gt; <span class="el_source">StrLookup.java</span></div><h1>StrLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
+import java.util.ResourceBundle;
+
+import org.apache.commons.text.lookup.StringLookup;
+import org.apache.commons.text.lookup.StringLookupFactory;
+
+/**
+ * Lookup a String key to a String value.
+ * &lt;p&gt;
+ * This class represents the simplest form of a string to string map. It has a benefit over a map in that it can create
+ * the result on demand based on the key.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * This class comes complete with various factory methods. If these do not suffice, you can subclass and implement your
+ * own matcher.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * For example, it would be possible to implement a lookup that used the key as a primary key, and looked up the value
+ * on demand from the database
+ * &lt;/p&gt;
+ *
+ * @param &lt;V&gt; the type of the values supported by the lookup
+ * @since 1.0
+ * @deprecated Deprecated as of 1.3, use {@link StringLookupFactory} instead. This class will be removed in 2.0.
+ */
+@Deprecated
+public abstract class StrLookup&lt;V&gt; implements StringLookup {
+
+    /**
+     * Lookup implementation that uses a Map.
+     *
+     * @param &lt;V&gt; the type of the values supported by the lookup
+     */
+    static class MapStrLookup&lt;V&gt; extends StrLookup&lt;V&gt; {
+
+        /** Map keys are variable names and value. */
+        private final Map&lt;String, V&gt; map;
+
+        /**
+         * Creates a new instance backed by a Map.
+         *
+         * @param map the map of keys to values, may be null
+         */
+<span class="fc" id="L64">        MapStrLookup(final Map&lt;String, V&gt; map) {</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            this.map = map != null ? map : Collections.emptyMap();</span>
+<span class="fc" id="L66">        }</span>
+
+        /**
+         * Looks up a String key to a String value using the map.
+         * &lt;p&gt;
+         * If the map is null, then null is returned. The map result object is converted to a string using toString().
+         * &lt;/p&gt;
+         *
+         * @param key the key to be looked up, may be null
+         * @return The matching value, null if no match
+         */
+        @Override
+        public String lookup(final String key) {
+<span class="fc" id="L79">            return Objects.toString(map.get(key), null);</span>
+        }
+
+        @Override
+        public String toString() {
+<span class="nc" id="L84">            return super.toString() + &quot; [map=&quot; + map + &quot;]&quot;;</span>
+        }
+    }
+
+    /**
+     * Lookup implementation based on a ResourceBundle.
+     */
+    private static final class ResourceBundleLookup extends StrLookup&lt;String&gt; {
+
+        /** ResourceBundle keys are variable names and value. */
+        private final ResourceBundle resourceBundle;
+
+        /**
+         * Creates a new instance backed by a ResourceBundle.
+         *
+         * @param resourceBundle the ResourceBundle of keys to values, may be null
+         */
+<span class="fc" id="L101">        private ResourceBundleLookup(final ResourceBundle resourceBundle) {</span>
+<span class="fc" id="L102">            this.resourceBundle = resourceBundle;</span>
+<span class="fc" id="L103">        }</span>
+
+        @Override
+        public String lookup(final String key) {
+<span class="fc bfc" id="L107" title="All 6 branches covered.">            if (resourceBundle == null || key == null || !resourceBundle.containsKey(key)) {</span>
+<span class="fc" id="L108">                return null;</span>
+            }
+<span class="fc" id="L110">            return resourceBundle.getString(key);</span>
+        }
+
+        @Override
+        public String toString() {
+<span class="nc" id="L115">            return super.toString() + &quot; [resourceBundle=&quot; + resourceBundle + &quot;]&quot;;</span>
+        }
+
+    }
+
+    /**
+     * Lookup implementation based on system properties.
+     */
+    private static final class SystemPropertiesStrLookup extends StrLookup&lt;String&gt; {
+        /**
+         * {@inheritDoc} This implementation directly accesses system properties.
+         */
+        @Override
+        public String lookup(final String key) {
+<span class="fc bfc" id="L129" title="All 2 branches covered.">            if (!key.isEmpty()) {</span>
+                try {
+<span class="fc" id="L131">                    return System.getProperty(key);</span>
+<span class="nc" id="L132">                } catch (final SecurityException ignored) {</span>
+                    // Noop: All lookup(String) will return null.
+                }
+            }
+<span class="fc" id="L136">            return null;</span>
+        }
+    }
+
+    /**
+     * Lookup that always returns null.
+     */
+<span class="fc" id="L143">    private static final StrLookup&lt;String&gt; NONE_LOOKUP = new MapStrLookup&lt;&gt;(null);</span>
+
+    /**
+     * Lookup based on system properties.
+     */
+<span class="fc" id="L148">    private static final StrLookup&lt;String&gt; SYSTEM_PROPERTIES_LOOKUP = new SystemPropertiesStrLookup();</span>
+
+    /**
+     * Returns a lookup which looks up values using a map.
+     * &lt;p&gt;
+     * If the map is null, then null will be returned from every lookup. The map result object is converted to a string
+     * using toString().
+     * &lt;/p&gt;
+     *
+     * @param &lt;V&gt; the type of the values supported by the lookup
+     * @param map the map of keys to values, may be null
+     * @return a lookup using the map, not null
+     */
+    public static &lt;V&gt; StrLookup&lt;V&gt; mapLookup(final Map&lt;String, V&gt; map) {
+<span class="fc" id="L162">        return new MapStrLookup&lt;&gt;(map);</span>
+    }
+
+    /**
+     * Returns a lookup which always returns null.
+     *
+     * @return a lookup that always returns null, not null
+     */
+    public static StrLookup&lt;?&gt; noneLookup() {
+<span class="fc" id="L171">        return NONE_LOOKUP;</span>
+    }
+
+    /**
+     * Returns a lookup which looks up values using a ResourceBundle.
+     * &lt;p&gt;
+     * If the ResourceBundle is null, then null will be returned from every lookup. The map result object is converted
+     * to a string using toString().
+     * &lt;/p&gt;
+     *
+     * @param resourceBundle the map of keys to values, may be null
+     * @return a lookup using the map, not null
+     * @see StringLookupFactory#resourceBundleStringLookup(String)
+     */
+    public static StrLookup&lt;String&gt; resourceBundleLookup(final ResourceBundle resourceBundle) {
+<span class="fc" id="L186">        return new ResourceBundleLookup(resourceBundle);</span>
+    }
+
+    /**
+     * Returns a new lookup which uses a copy of the current {@link System#getProperties() System properties}.
+     * &lt;p&gt;
+     * If a security manager blocked access to system properties, then null will be returned from every lookup.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * If a null key is used, this lookup will throw a NullPointerException.
+     * &lt;/p&gt;
+     *
+     * @return a lookup using system properties, not null
+     */
+    public static StrLookup&lt;String&gt; systemPropertiesLookup() {
+<span class="fc" id="L201">        return SYSTEM_PROPERTIES_LOOKUP;</span>
+    }
+
+    /**
+     * Constructs a new instance.
+     */
+<span class="fc" id="L207">    protected StrLookup() {</span>
+<span class="fc" id="L208">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

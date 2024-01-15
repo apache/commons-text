@@ -1,0 +1,4326 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>StringMatcherFactory.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/*</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * Licensed to the Apache Software Foundation (ASF) under one or more</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * contributor license agreements.  See the NOTICE file distributed with</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * this work for additional information regarding copyright ownership.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * The ASF licenses this file to You under the Apache License, Version 2.0</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * (the &#34;License&#34;); you may not use this file except in compliance with</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * the License.  You may obtain a copy of the License at</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *      http://www.apache.org/licenses/LICENSE-2.0</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * Unless required by applicable law or agreed to in writing, software</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * distributed under the License is distributed on an &#34;AS IS&#34; BASIS,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * See the License for the specific language governing permissions and</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * limitations under the License.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.apache.commons.text.matcher;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.commons.lang3.ArrayUtils;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.commons.lang3.StringUtils;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * Provides access to matchers defined in this package.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * @since 1.3</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>public final class StringMatcherFactory {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Matches the comma character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static final AbstractStringMatcher.CharMatcher COMMA_MATCHER = new AbstractStringMatcher.CharMatcher(&#39;,&#39;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Matches the double quote character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static final AbstractStringMatcher.CharMatcher DOUBLE_QUOTE_MATCHER = new AbstractStringMatcher.CharMatcher(</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        &#39;&#34;&#39;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Defines the singleton for this class.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    public static final StringMatcherFactory INSTANCE = new StringMatcherFactory();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Matches no characters.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static final AbstractStringMatcher.NoneMatcher NONE_MATCHER = new AbstractStringMatcher.NoneMatcher();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_51'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Matches the single or double quote character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_54'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static final AbstractStringMatcher.CharSetMatcher QUOTE_MATCHER = new AbstractStringMatcher.CharSetMatcher(</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_55'/>
+55
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_55'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        &#34;&#39;\&#34;&#34;.toCharArray());</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_56'/>
+56
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_56'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Matches the double quote character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static final AbstractStringMatcher.CharMatcher SINGLE_QUOTE_MATCHER = new AbstractStringMatcher.CharMatcher(</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        &#39;\&#39;&#39;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_62'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_63'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_64'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Matches the space character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static final AbstractStringMatcher.CharMatcher SPACE_MATCHER = new AbstractStringMatcher.CharMatcher(&#39; &#39;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_67'/>
+67
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_67'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_68'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_69'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Matches the same characters as StringTokenizer, namely space, tab, newline, form feed.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_70'/>
+70
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_70'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_71'/>
+71
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_71'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static final AbstractStringMatcher.CharSetMatcher SPLIT_MATCHER = new AbstractStringMatcher.CharSetMatcher(</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_72'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        &#34; \t\n\r\f&#34;.toCharArray());</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_73'/>
+73
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_73'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_74'/>
+74
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_74'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_75'/>
+75
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_75'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Matches the tab character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_76'/>
+76
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_76'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_77'/>
+77
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_77'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static final AbstractStringMatcher.CharMatcher TAB_MATCHER = new AbstractStringMatcher.CharMatcher(&#39;\t&#39;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_78'/>
+78
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_78'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_79'/>
+79
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_79'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_80'/>
+80
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_80'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Matches the String trim() whitespace characters.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_81'/>
+81
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_81'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_82'/>
+82
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_82'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static final AbstractStringMatcher.TrimMatcher TRIM_MATCHER = new AbstractStringMatcher.TrimMatcher();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_83'/>
+83
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_83'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_84'/>
+84
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_84'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_85'/>
+85
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_85'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * No need to build instances for now.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_86'/>
+86
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_86'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_87'/>
+87
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_87'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private StringMatcherFactory() {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_88'/>
+88
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_88'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        // empty</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_89'/>
+89
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_89'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_90'/>
+90
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_90'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_91'/>
+91
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_91'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_92'/>
+92
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_92'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Creates a matcher that matches all of the given matchers in order.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_93'/>
+93
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_93'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_94'/>
+94
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_94'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param stringMatchers the matcher</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_95'/>
+95
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_95'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a matcher that matches all of the given matchers in order.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_96'/>
+96
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_96'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @since 1.9</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_97'/>
+97
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_97'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_98'/>
+98
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_98'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher andMatcher(final StringMatcher... stringMatchers) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_99'/>
+99
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_99'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        final int len = ArrayUtils.getLength(stringMatchers);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_100'/>
+100
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_100'>1</a>
+<span>
+
+1. andMatcher : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (len == 0) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_101'/>
+101
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_101'>1</a>
+<span>
+
+1. andMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::andMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return NONE_MATCHER;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_102'/>
+102
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_102'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_103'/>
+103
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_103'>1</a>
+<span>
+
+1. andMatcher : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (len == 1) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_104'/>
+104
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_104'>1</a>
+<span>
+
+1. andMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::andMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return stringMatchers[0];</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_105'/>
+105
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_105'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_106'/>
+106
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_106'>1</a>
+<span>
+
+1. andMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::andMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return new AbstractStringMatcher.AndStringMatcher(stringMatchers);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_107'/>
+107
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_107'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_108'/>
+108
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_108'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_109'/>
+109
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_109'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_110'/>
+110
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_110'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Constructor that creates a matcher from a character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_111'/>
+111
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_111'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_112'/>
+112
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_112'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param ch the character to match, must not be null</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_113'/>
+113
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_113'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a new Matcher for the given char</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_114'/>
+114
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_114'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_115'/>
+115
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_115'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher charMatcher(final char ch) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_116'/>
+116
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_116'>1</a>
+<span>
+
+1. charMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return new AbstractStringMatcher.CharMatcher(ch);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_117'/>
+117
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_117'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_118'/>
+118
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_118'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_119'/>
+119
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_119'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_120'/>
+120
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_120'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Constructor that creates a matcher from a set of characters.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_121'/>
+121
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_121'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_122'/>
+122
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_122'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param chars the characters to match, null or empty matches nothing</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_123'/>
+123
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_123'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a new matcher for the given char[]</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_124'/>
+124
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_124'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_125'/>
+125
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_125'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher charSetMatcher(final char... chars) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_126'/>
+126
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_126'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        final int len = ArrayUtils.getLength(chars);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_127'/>
+127
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_127'>1</a>
+<span>
+
+1. charSetMatcher : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (len == 0) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_128'/>
+128
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_128'>1</a>
+<span>
+
+1. charSetMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charSetMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return NONE_MATCHER;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_129'/>
+129
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_129'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_130'/>
+130
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_130'>1</a>
+<span>
+
+1. charSetMatcher : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (len == 1) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_131'/>
+131
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_131'>1</a>
+<span>
+
+1. charSetMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charSetMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return new AbstractStringMatcher.CharMatcher(chars[0]);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_132'/>
+132
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_132'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_133'/>
+133
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_133'>1</a>
+<span>
+
+1. charSetMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charSetMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return new AbstractStringMatcher.CharSetMatcher(chars);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_134'/>
+134
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_134'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_135'/>
+135
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_135'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_136'/>
+136
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_136'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_137'/>
+137
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_137'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Creates a matcher from a string representing a set of characters.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_138'/>
+138
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_138'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_139'/>
+139
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_139'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param chars the characters to match, null or empty matches nothing</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_140'/>
+140
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_140'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a new Matcher for the given characters</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_141'/>
+141
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_141'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_142'/>
+142
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_142'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher charSetMatcher(final String chars) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_143'/>
+143
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_143'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        final int len = StringUtils.length(chars);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_144'/>
+144
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_144'>1</a>
+<span>
+
+1. charSetMatcher : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (len == 0) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_145'/>
+145
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_145'>1</a>
+<span>
+
+1. charSetMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charSetMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return NONE_MATCHER;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_146'/>
+146
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_146'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_147'/>
+147
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_147'>1</a>
+<span>
+
+1. charSetMatcher : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (len == 1) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_148'/>
+148
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_148'>1</a>
+<span>
+
+1. charSetMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charSetMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return new AbstractStringMatcher.CharMatcher(chars.charAt(0));</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_149'/>
+149
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_149'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_150'/>
+150
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_150'>1</a>
+<span>
+
+1. charSetMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charSetMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return new AbstractStringMatcher.CharSetMatcher(chars.toCharArray());</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_151'/>
+151
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_151'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_152'/>
+152
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_152'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_153'/>
+153
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_153'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_154'/>
+154
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_154'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Returns a matcher which matches the comma character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_155'/>
+155
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_155'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_156'/>
+156
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_156'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a matcher for a comma</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_157'/>
+157
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_157'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_158'/>
+158
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_158'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher commaMatcher() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_159'/>
+159
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_159'>1</a>
+<span>
+
+1. commaMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::commaMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return COMMA_MATCHER;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_160'/>
+160
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_160'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_161'/>
+161
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_161'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_162'/>
+162
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_162'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_163'/>
+163
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_163'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Returns a matcher which matches the double quote character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_164'/>
+164
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_164'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_165'/>
+165
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_165'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a matcher for a double quote</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_166'/>
+166
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_166'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_167'/>
+167
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_167'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher doubleQuoteMatcher() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_168'/>
+168
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_168'>1</a>
+<span>
+
+1. doubleQuoteMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::doubleQuoteMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return DOUBLE_QUOTE_MATCHER;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_169'/>
+169
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_169'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_170'/>
+170
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_170'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_171'/>
+171
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_171'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_172'/>
+172
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_172'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Matches no characters.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_173'/>
+173
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_173'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_174'/>
+174
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_174'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a matcher that matches nothing</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_175'/>
+175
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_175'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_176'/>
+176
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_176'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher noneMatcher() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_177'/>
+177
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_177'>1</a>
+<span>
+
+1. noneMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::noneMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return NONE_MATCHER;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_178'/>
+178
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_178'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_179'/>
+179
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_179'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_180'/>
+180
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_180'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_181'/>
+181
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_181'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Returns a matcher which matches the single or double quote character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_182'/>
+182
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_182'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_183'/>
+183
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_183'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a matcher for a single or double quote</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_184'/>
+184
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_184'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_185'/>
+185
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_185'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher quoteMatcher() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_186'/>
+186
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_186'>1</a>
+<span>
+
+1. quoteMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::quoteMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return QUOTE_MATCHER;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_187'/>
+187
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_187'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_188'/>
+188
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_188'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_189'/>
+189
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_189'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_190'/>
+190
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_190'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Returns a matcher which matches the single quote character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_191'/>
+191
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_191'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_192'/>
+192
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_192'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a matcher for a single quote</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_193'/>
+193
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_193'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_194'/>
+194
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_194'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher singleQuoteMatcher() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_195'/>
+195
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_195'>1</a>
+<span>
+
+1. singleQuoteMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::singleQuoteMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return SINGLE_QUOTE_MATCHER;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_196'/>
+196
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_196'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_197'/>
+197
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_197'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_198'/>
+198
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_198'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_199'/>
+199
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_199'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Returns a matcher which matches the space character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_200'/>
+200
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_200'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_201'/>
+201
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_201'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a matcher for a space</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_202'/>
+202
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_202'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_203'/>
+203
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_203'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher spaceMatcher() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_204'/>
+204
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_204'>1</a>
+<span>
+
+1. spaceMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::spaceMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return SPACE_MATCHER;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_205'/>
+205
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_205'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_206'/>
+206
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_206'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_207'/>
+207
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_207'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_208'/>
+208
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_208'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Matches the same characters as StringTokenizer, namely space, tab, newline and form feed.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_209'/>
+209
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_209'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_210'/>
+210
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_210'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return The split matcher</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_211'/>
+211
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_211'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_212'/>
+212
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_212'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher splitMatcher() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_213'/>
+213
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_213'>1</a>
+<span>
+
+1. splitMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::splitMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return SPLIT_MATCHER;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_214'/>
+214
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_214'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_215'/>
+215
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_215'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_216'/>
+216
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_216'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_217'/>
+217
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_217'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Creates a matcher from a string.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_218'/>
+218
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_218'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_219'/>
+219
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_219'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param chars the string to match, null or empty matches nothing</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_220'/>
+220
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_220'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a new Matcher for the given String</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_221'/>
+221
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_221'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @since 1.9</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_222'/>
+222
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_222'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_223'/>
+223
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_223'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher stringMatcher(final char... chars) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_224'/>
+224
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_224'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        final int length = ArrayUtils.getLength(chars);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_225'/>
+225
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_225'>2</a>
+<span>
+
+1. stringMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::stringMatcher &rarr; KILLED<br/>
+
+2. stringMatcher : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return length == 0 ? NONE_MATCHER</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_226'/>
+226
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_226'>1</a>
+<span>
+
+1. stringMatcher : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            : length == 1 ? new AbstractStringMatcher.CharMatcher(chars[0])</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_227'/>
+227
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_227'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                : new AbstractStringMatcher.CharArrayMatcher(chars);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_228'/>
+228
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_228'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_229'/>
+229
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_229'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_230'/>
+230
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_230'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_231'/>
+231
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_231'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Creates a matcher from a string.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_232'/>
+232
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_232'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_233'/>
+233
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_233'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param str the string to match, null or empty matches nothing</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_234'/>
+234
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_234'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a new Matcher for the given String</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_235'/>
+235
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_235'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_236'/>
+236
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_236'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher stringMatcher(final String str) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_237'/>
+237
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_237'>2</a>
+<span>
+
+1. stringMatcher : negated conditional &rarr; KILLED<br/>
+
+2. stringMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::stringMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return StringUtils.isEmpty(str) ? NONE_MATCHER : stringMatcher(str.toCharArray());</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_238'/>
+238
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_238'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_239'/>
+239
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_239'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_240'/>
+240
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_240'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_241'/>
+241
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_241'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Returns a matcher which matches the tab character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_242'/>
+242
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_242'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_243'/>
+243
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_243'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return a matcher for a tab</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_244'/>
+244
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_244'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_245'/>
+245
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_245'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher tabMatcher() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_246'/>
+246
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_246'>1</a>
+<span>
+
+1. tabMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::tabMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return TAB_MATCHER;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_247'/>
+247
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_247'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_248'/>
+248
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_248'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_249'/>
+249
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_249'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_250'/>
+250
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_250'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Matches the String trim() whitespace characters.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_251'/>
+251
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_251'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_252'/>
+252
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_252'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return The trim matcher</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_253'/>
+253
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_253'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_254'/>
+254
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_254'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public StringMatcher trimMatcher() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_255'/>
+255
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_255'>1</a>
+<span>
+
+1. trimMatcher : replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::trimMatcher &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return TRIM_MATCHER;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_256'/>
+256
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_256'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_257'/>
+257
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_257'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7a97b86d_258'/>
+258
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_258'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_100'>100</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_100'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>andMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_andMatcher()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_101'>101</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_101'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>andMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_andMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::andMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_103'>103</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_103'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>andMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_andMatcher()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_104'>104</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_104'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>andMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_andMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::andMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_106'>106</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_106'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>andMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_andMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::andMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_116'>116</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_116'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>charMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_charMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_127'>127</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_127'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>charSetMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_charSetMatcher_char()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_128'>128</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_128'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>charSetMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testCharSetMatcher_charArray()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charSetMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_130'>130</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_130'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>charSetMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testCharSetMatcher_charArray()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_131'>131</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_131'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>charSetMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_charSetMatcher_char()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charSetMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_133'>133</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_133'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>charSetMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testCharSetMatcher_charArray()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charSetMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_144'>144</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_144'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>charSetMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_charSetMatcher_String()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_145'>145</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_145'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>charSetMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testCharSetMatcher_String()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charSetMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_147'>147</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_147'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>charSetMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testCharSetMatcher_String()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_148'>148</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_148'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>charSetMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_charSetMatcher_String()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charSetMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_150'>150</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_150'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>charSetMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testCharSetMatcher_String()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::charSetMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_159'>159</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_159'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>commaMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_commaMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::commaMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_168'>168</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_168'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>doubleQuoteMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_doubleQuoteMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::doubleQuoteMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_177'>177</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_177'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>noneMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_noneMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::noneMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_186'>186</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_186'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>quoteMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_quoteMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::quoteMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_195'>195</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_195'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>singleQuoteMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_singleQuoteMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::singleQuoteMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_204'>204</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_204'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>spaceMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_spaceMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::spaceMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_213'>213</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_213'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>splitMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_splitMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::splitMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_225'>225</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_225'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>stringMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_stringMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::stringMatcher &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>stringMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_stringMatcher()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_226'>226</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_226'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>stringMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_stringMatcherChars()]</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_237'>237</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_237'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>stringMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_stringMatcher()]</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>stringMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_stringMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::stringMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_246'>246</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_246'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>tabMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testTabMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::tabMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7a97b86d_255'>255</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7a97b86d_255'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>trimMatcher<br/><b>Killed by : </b>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testTrimMatcher()]</span></span> replaced return value with null for org/apache/commons/text/matcher/StringMatcherFactory::trimMatcher &rarr; KILLED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+
+<li class='mutator'>EMPTY_RETURNS</li>
+
+<li class='mutator'>FALSE_RETURNS</li>
+
+<li class='mutator'>INCREMENTS</li>
+
+<li class='mutator'>INVERT_NEGS</li>
+
+<li class='mutator'>MATH</li>
+
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+
+<li class='mutator'>NULL_RETURNS</li>
+
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+
+<li class='mutator'>TRUE_RETURNS</li>
+
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_charSetMatcher_char()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testCharSetMatcher_charArray()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testCharSetMatcher_charArray()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testDelimMatcher()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testDelimMatcherQuoteMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_stringMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_andMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testMatcherIndices()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testMatcherIndices()] (0 ms)</li><li>org.apache.commons.text.matcher.StringSubstitutorGetSetTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringSubstitutorGetSetTest]/[method:testGetSetValueDelimiter()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testStringMatcher_String_fromString()] (0 ms)</li><li>org.apache.commons.text.matcher.StringSubstitutorGetSetTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringSubstitutorGetSetTest]/[method:testGetSetSuffix()] (1 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testStringMatcher_String_fromChars()] (0 ms)</li><li>org.apache.commons.text.matcher.StringSubstitutorGetSetTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringSubstitutorGetSetTest]/[method:testGetSetPrefix()] (1 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testStringMatcher_String()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceInTakingStringBuilderWithNull()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testChaining()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testConstructorNullMap()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceInTakingStringBuilderWithNull()] (1 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testAndMatcher_char()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testAndMatcher_char()] (0 ms)</li><li>org.apache.commons.text.TextStringBuilderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.TextStringBuilderTest]/[method:testContains_StringMatcher()] (0 ms)</li><li>org.apache.commons.text.TextStringBuilderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.TextStringBuilderTest]/[method:testReplace_StringMatcher_String_int_int_int_VaryReplace()] (0 ms)</li><li>org.apache.commons.text.TextStringBuilderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.TextStringBuilderTest]/[method:testReplace_StringMatcher_String_int_int_int_VaryMatcher()] (0 ms)</li><li>org.apache.commons.text.TextStringBuilderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.TextStringBuilderTest]/[method:testReplace_StringMatcher_String_int_int_int_VaryCount()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testConstructorNullMap()] (3 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceInTakingStringBuilderWithNonNull()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceInTakingStringBuilderWithNonNull()] (1 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testDelimString()] (0 ms)</li><li>org.apache.commons.text.TextStringBuilderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.TextStringBuilderTest]/[method:testReplaceFirst_StringMatcher_String()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testStringTokenizerStringMatcher()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceInTakingStringBufferWithNonNull()] (0 ms)</li><li>org.apache.commons.text.TextStringBuilderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.TextStringBuilderTest]/[method:testReplace_StringMatcher_String_int_int_int_VaryEndIndex()] (1 ms)</li><li>org.apache.commons.text.TextStringBuilderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.TextStringBuilderTest]/[method:testReplaceAll_StringMatcher_String()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceInTakingStringBufferWithNonNull()] (1 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicIgnoreTrimmed3()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicTrimmed2()] (0 ms)</li><li>org.apache.commons.text.TextStringBuilderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.TextStringBuilderTest]/[method:testReplace_StringMatcher_String_int_int_int_VaryStartIndex()] (1 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicIgnoreTrimmed1()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicIgnoreTrimmed2()] (1 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicIgnoreTrimmed4()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testSamePrefixAndSuffix()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testStaticReplacePrefixSuffix()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testStaticReplacePrefixSuffix()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testSamePrefixAndSuffix()] (1 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testSubstitutePreserveEscape()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testSubstitutePreserveEscape()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testCharSetMatcher_String()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testCharSetMatcher_String()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_charMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_tabMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_trimMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testCharMatcher_char()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testCharMatcher_char()] (0 ms)</li><li>org.apache.commons.text.TextStringBuilderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.TextStringBuilderTest]/[method:testIndexOf_StringMatcher()] (0 ms)</li><li>org.apache.commons.text.TextStringBuilderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.TextStringBuilderTest]/[method:testLastIndexOf_StringMatcher()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testConstructorStringSubstitutor()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testConstructorStringSubstitutor()] (0 ms)</li><li>org.apache.commons.text.TextStringBuilderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.TextStringBuilderTest]/[method:testIndexOf_StringMatcher_int()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicDelim1()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicDelim2()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasic5()] (0 ms)</li><li>org.apache.commons.text.TextStringBuilderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.TextStringBuilderTest]/[method:testLastIndexOf_StringMatcher_int()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testConstructor_String_char()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicQuoted6()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicQuoted1()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testConstructor_charArray_char()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicQuoted7()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicQuoted3()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testConstructor_String_char_char()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicTrimmed1()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testConstructor_charArray_char_char()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicQuoted2()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:test2()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:test3()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:test4()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicQuoted4()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:test5()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicQuoted5()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:test1()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicQuotedTrimmed1()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:test6()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceKeyStartChars2Only()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceKeyStartChars1Only()] (2 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReadMixedBufferLengths1ToVarLenPlusNoReplace()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReadMixedBufferLengthsVarLenPlusToNoReplace()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceKeyStartChars()] (2 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyOnly()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyExtraLast()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyExtraFirst()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownShortestKeyOnlyExtraFirst()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownShortestKeyOnly()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownKeyOnly()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownShortestKeyOnlyExtraLast()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownKeyOnlyExtraFirst()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownKeyOnlyExtraLast()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceAdjacentAtStart()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReadMixedBufferLengthsReplace()] (2 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceChangedMap()] (2 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceInVariableDisabled()] (2 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceInVariableRecursive()] (3 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceFailOnUndefinedVariable()] (6 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceInVariable()] (4 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceFailOnUndefinedVariableWithReplaceInVariable()] (6 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount1Escaping2To1()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount1Escaping6To4()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount1Escaping5To4()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount1Escaping4To3()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount1Escaping3To2()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyWithDefaultOnlyEmpty()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceSimpleKeySize1()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyWithDefaultOnly()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceSimpleKeySize3()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyWithDefaultOnlyShortest()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount1()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceSimpleKeySize2()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplace_JiraText178_WeirdPatterns2()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount2()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount3()] (3 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount3NonAdjacent()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceVariablesCount2NonAdjacent()] (2 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplacePrefixNoSuffix()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyWithDefault()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceSimple()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownKey()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceRecursive()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceUnknownKeyDefaultValue()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceToIdentical()] (1 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKey()] (4 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceIncompletePrefix()] (5 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceNoPrefixSuffix()] (5 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceNoPrefixNoSuffix()] (6 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEscaping()] (11 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceAdjacentAtEnd()] (57 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceComplexEscaping()] (33 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceNull()] (168 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyKeyShortest()] (984 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceEmptyString()] (1146 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceNoVariables()] (2176 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplace_JiraText178_WeirdPatterns1()] (2787 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceWeirdPattens()] (10200 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testTabMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testTabMatcher()] (0 ms)</li><li>org.apache.commons.text.StringSubstitutorTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringSubstitutorTest]/[method:testReplaceInTakingTwoAndThreeIntsReturningFalse()] (0 ms)</li><li>org.apache.commons.text.io.StringSubstitutorFilterReaderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.io.StringSubstitutorFilterReaderTest]/[method:testReplaceInTakingTwoAndThreeIntsReturningFalse()] (1 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testCSVSimple()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_doubleQuoteMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testDoubleQuoteMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testDoubleQuoteMatcher()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:test8()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:test7()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_quoteMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testQuoteMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testQuoteMatcher()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testStringTokenizerQuoteMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_stringMatcherChars()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_splitMatcher()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testCloneNotSupportedException()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testCloneNull()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testGetContent()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testSplitMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testSplitMatcher()] (0 ms)</li><li>org.apache.commons.text.ExtendedMessageFormatTest.[engine:junit-jupiter]/[class:org.apache.commons.text.ExtendedMessageFormatTest]/[method:testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionThree()] (1 ms)</li><li>org.apache.commons.text.ExtendedMessageFormatTest.[engine:junit-jupiter]/[class:org.apache.commons.text.ExtendedMessageFormatTest]/[method:testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFour()] (1 ms)</li><li>org.apache.commons.text.ExtendedMessageFormatTest.[engine:junit-jupiter]/[class:org.apache.commons.text.ExtendedMessageFormatTest]/[method:testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionOne()] (1 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testStringTokenizerStrMatcher()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasic4()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testTokenizeSubclassInputChange()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testToString()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicEmpty1()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testConstructor_charArray()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testTokenizeSubclassOutputChange()] (1 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testConstructor_String()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testReset_charArray()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testReset_String()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testCloneReset()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasic2()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasic3()] (0 ms)</li><li>org.apache.commons.text.ExtendedMessageFormatTest.[engine:junit-jupiter]/[class:org.apache.commons.text.ExtendedMessageFormatTest]/[method:testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFive()] (1 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasic1()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testReset()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testBasicEmpty2()] (0 ms)</li><li>org.apache.commons.text.ExtendedMessageFormatTest.[engine:junit-jupiter]/[class:org.apache.commons.text.ExtendedMessageFormatTest]/[method:testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionTwo()] (4 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testListArray()] (1 ms)</li><li>org.apache.commons.text.ExtendedMessageFormatTest.[engine:junit-jupiter]/[class:org.apache.commons.text.ExtendedMessageFormatTest]/[method:testChoiceQuoteJustBeforeBraceEnd_TEXT_106()] (0 ms)</li><li>org.apache.commons.text.StringTokenizerTest.[engine:junit-jupiter]/[class:org.apache.commons.text.StringTokenizerTest]/[method:testIteration()] (3 ms)</li><li>org.apache.commons.text.TextStringBuilderTest.[engine:junit-jupiter]/[class:org.apache.commons.text.TextStringBuilderTest]/[method:testAsTokenizer()] (0 ms)</li><li>org.apache.commons.text.ExtendedMessageFormatTest.[engine:junit-jupiter]/[class:org.apache.commons.text.ExtendedMessageFormatTest]/[method:testExtendedFormats()] (1 ms)</li><li>org.apache.commons.text.ExtendedMessageFormatTest.[engine:junit-jupiter]/[class:org.apache.commons.text.ExtendedMessageFormatTest]/[method:testEscapedQuote_LANG_477()] (0 ms)</li><li>org.apache.commons.text.ExtendedMessageFormatTest.[engine:junit-jupiter]/[class:org.apache.commons.text.ExtendedMessageFormatTest]/[method:testEmbeddedPatternInChoice()] (2 ms)</li><li>org.apache.commons.text.ExtendedMessageFormatTest.[engine:junit-jupiter]/[class:org.apache.commons.text.ExtendedMessageFormatTest]/[method:testEqualsHashcode()] (17 ms)</li><li>org.apache.commons.text.ExtendedMessageFormatTest.[engine:junit-jupiter]/[class:org.apache.commons.text.ExtendedMessageFormatTest]/[method:testEscapedBraces_LANG_948()] (34 ms)</li><li>org.apache.commons.text.ExtendedMessageFormatTest.[engine:junit-jupiter]/[class:org.apache.commons.text.ExtendedMessageFormatTest]/[method:testExtendedAndBuiltInFormats()] (273 ms)</li><li>org.apache.commons.text.ExtendedMessageFormatTest.[engine:junit-jupiter]/[class:org.apache.commons.text.ExtendedMessageFormatTest]/[method:testOverriddenBuiltinFormat()] (469 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_singleQuoteMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testSingleQuoteMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testSingleQuoteMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_noneMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testNoneMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testNoneMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_charSetMatcher_String()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testTrimMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testTrimMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_commaMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testCommaMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testCommaMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherFactoryTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherFactoryTest]/[method:test_spaceMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharArrayTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharArrayTest]/[method:testSpaceMatcher()] (0 ms)</li><li>org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest.[engine:junit-jupiter]/[class:org.apache.commons.text.matcher.StringMatcherOnCharSequenceStringTest]/[method:testSpaceMatcher()] (0 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.15.3
+
+</body>
+</html>

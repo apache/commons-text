@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JaccardSimilarity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.similarity</a> &gt; <span class="el_source">JaccardSimilarity.java</span></div><h1>JaccardSimilarity.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.similarity;
+
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * Measures the Jaccard similarity (aka Jaccard index) of two sets of character
+ * sequence. Jaccard similarity is the size of the intersection divided by the
+ * size of the union of the two sets.
+ *
+ * &lt;p&gt;
+ * For further explanation about Jaccard Similarity, refer
+ * https://en.wikipedia.org/wiki/Jaccard_index
+ * &lt;/p&gt;
+ *
+ * @since 1.0
+ */
+<span class="fc" id="L34">public class JaccardSimilarity implements SimilarityScore&lt;Double&gt; {</span>
+
+    /**
+     * Singleton instance.
+     */
+<span class="fc" id="L39">    static final JaccardSimilarity INSTANCE = new JaccardSimilarity();</span>
+
+    /**
+     * Calculates Jaccard Similarity of two set character sequence passed as
+     * input.
+     *
+     * @param left first character sequence
+     * @param right second character sequence
+     * @return index
+     * @throws IllegalArgumentException
+     *             if either String input {@code null}
+     */
+    @Override
+    public Double apply(final CharSequence left, final CharSequence right) {
+<span class="fc bfc" id="L53" title="All 4 branches covered.">        if (left == null || right == null) {</span>
+<span class="fc" id="L54">            throw new IllegalArgumentException(&quot;Input cannot be null&quot;);</span>
+        }
+<span class="fc" id="L56">        return calculateJaccardSimilarity(left, right);</span>
+    }
+
+    /**
+     * Calculates Jaccard Similarity of two character sequences passed as
+     * input. Does the calculation by identifying the union (characters in at
+     * least one of the two sets) of the two sets and intersection (characters
+     * which are present in set one which are present in set two)
+     *
+     * @param left first character sequence
+     * @param right second character sequence
+     * @return index
+     */
+    private Double calculateJaccardSimilarity(final CharSequence left, final CharSequence right) {
+<span class="fc" id="L70">        final int leftLength = left.length();</span>
+<span class="fc" id="L71">        final int rightLength = right.length();</span>
+<span class="fc bfc" id="L72" title="All 4 branches covered.">        if (leftLength == 0 &amp;&amp; rightLength == 0) {</span>
+<span class="fc" id="L73">            return 1d;</span>
+        }
+<span class="fc bfc" id="L75" title="All 4 branches covered.">        if (leftLength == 0 || rightLength == 0) {</span>
+<span class="fc" id="L76">            return 0d;</span>
+        }
+<span class="fc" id="L78">        final Set&lt;Character&gt; leftSet = new HashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        for (int i = 0; i &lt; leftLength; i++) {</span>
+<span class="fc" id="L80">            leftSet.add(left.charAt(i));</span>
+        }
+<span class="fc" id="L82">        final Set&lt;Character&gt; rightSet = new HashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        for (int i = 0; i &lt; rightLength; i++) {</span>
+<span class="fc" id="L84">            rightSet.add(right.charAt(i));</span>
+        }
+<span class="fc" id="L86">        final Set&lt;Character&gt; unionSet = new HashSet&lt;&gt;(leftSet);</span>
+<span class="fc" id="L87">        unionSet.addAll(rightSet);</span>
+<span class="fc" id="L88">        final int intersectionSize = leftSet.size() + rightSet.size() - unionSet.size();</span>
+<span class="fc" id="L89">        return 1.0d * intersectionSize / unionSet.size();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

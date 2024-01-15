@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ScriptStringLookup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.lookup</a> &gt; <span class="el_source">ScriptStringLookup.java</span></div><h1>ScriptStringLookup.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements. See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache license, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the license for the specific language governing permissions and
+ * limitations under the license.
+ */
+
+package org.apache.commons.text.lookup;
+
+import java.util.Objects;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
+import org.apache.commons.text.StringSubstitutor;
+
+/**
+ * Executes the script with the given engine name.
+ * &lt;p&gt;
+ * Execute the script with the engine name in the format &quot;EngineName:Script&quot;.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * For example: {@code &quot;javascript:3 + 4&quot;}.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Using a {@link StringSubstitutor}:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * StringSubstitutor.createInterpolator().replace(&quot;${script:javascript:3 + 4}&quot;));
+ * &lt;/pre&gt;
+ *
+ * @since 1.5
+ */
+final class ScriptStringLookup extends AbstractStringLookup {
+
+    /**
+     * Defines the singleton for this class.
+     */
+<span class="fc" id="L50">    static final ScriptStringLookup INSTANCE = new ScriptStringLookup();</span>
+
+    /**
+     * No need to build instances for now.
+     */
+    private ScriptStringLookup() {
+        // empty
+    }
+
+    /**
+     * Execute the script with the engine name in the format &quot;EngineName:Script&quot;. Extra colons will be ignored.
+     * &lt;p&gt;
+     * For example: {@code &quot;javascript:3 + 4&quot;}.
+     * &lt;/p&gt;
+     *
+     * @param key the engine:script to execute, may be null
+     * @return The value returned by the execution.
+     */
+    @Override
+    public String lookup(final String key) {
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (key == null) {</span>
+<span class="fc" id="L71">            return null;</span>
+        }
+<span class="fc" id="L73">        final String[] keys = key.split(SPLIT_STR, 2);</span>
+<span class="fc" id="L74">        final int keyLen = keys.length;</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (keyLen != 2) {</span>
+<span class="fc" id="L76">            throw IllegalArgumentExceptions.format(&quot;Bad script key format [%s]; expected format is EngineName:Script.&quot;,</span>
+                key);
+        }
+<span class="fc" id="L79">        final String engineName = keys[0];</span>
+<span class="fc" id="L80">        final String script = keys[1];</span>
+        try {
+<span class="fc" id="L82">            final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName(engineName);</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">            if (scriptEngine == null) {</span>
+<span class="fc" id="L84">                throw new IllegalArgumentException(&quot;No script engine named &quot; + engineName);</span>
+            }
+<span class="fc" id="L86">            return Objects.toString(scriptEngine.eval(script), null);</span>
+<span class="fc" id="L87">        } catch (final Exception e) {</span>
+<span class="fc" id="L88">            throw IllegalArgumentExceptions.format(e, &quot;Error in script engine [%s] evaluating script [%s].&quot;, engineName,</span>
+                script);
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

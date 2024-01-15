@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LevenshteinDetailedDistance.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.similarity</a> &gt; <span class="el_source">LevenshteinDetailedDistance.java</span></div><h1>LevenshteinDetailedDistance.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.similarity;
+
+import java.util.Arrays;
+
+/**
+ * An algorithm for measuring the difference between two character sequences.
+ *
+ * &lt;p&gt;
+ * This is the number of changes needed to change one sequence into another,
+ * where each change is a single character modification (deletion, insertion
+ * or substitution).
+ * &lt;/p&gt;
+ *
+ * @since 1.0
+ */
+public class LevenshteinDetailedDistance implements EditDistance&lt;LevenshteinResults&gt; {
+
+    /**
+     * Singleton instance.
+     */
+<span class="fc" id="L37">    private static final LevenshteinDetailedDistance INSTANCE = new LevenshteinDetailedDistance();</span>
+
+    /**
+     * Finds count for each of the three [insert, delete, substitute] operations
+     * needed. This is based on the matrix formed based on the two character
+     * sequence.
+     *
+     * @param left character sequence which need to be converted from
+     * @param right character sequence which need to be converted to
+     * @param matrix two dimensional array containing
+     * @param swapped tells whether the value for left character sequence and right
+     *            character sequence were swapped to save memory
+     * @return result object containing the count of insert, delete and substitute and total count needed
+     */
+    private static LevenshteinResults findDetailedResults(final CharSequence left,
+                                                          final CharSequence right,
+                                                          final int[][] matrix,
+                                                          final boolean swapped) {
+
+<span class="fc" id="L56">        int delCount = 0;</span>
+<span class="fc" id="L57">        int addCount = 0;</span>
+<span class="fc" id="L58">        int subCount = 0;</span>
+
+<span class="fc" id="L60">        int rowIndex = right.length();</span>
+<span class="fc" id="L61">        int columnIndex = left.length();</span>
+
+<span class="fc" id="L63">        int dataAtLeft = 0;</span>
+<span class="fc" id="L64">        int dataAtTop = 0;</span>
+<span class="fc" id="L65">        int dataAtDiagonal = 0;</span>
+<span class="fc" id="L66">        int data = 0;</span>
+<span class="fc" id="L67">        boolean deleted = false;</span>
+<span class="fc" id="L68">        boolean added = false;</span>
+
+<span class="pc bpc" id="L70" title="2 of 4 branches missed.">        while (rowIndex &gt;= 0 &amp;&amp; columnIndex &gt;= 0) {</span>
+
+<span class="fc bfc" id="L72" title="All 2 branches covered.">            if (columnIndex == 0) {</span>
+<span class="fc" id="L73">                dataAtLeft = -1;</span>
+            } else {
+<span class="fc" id="L75">                dataAtLeft = matrix[rowIndex][columnIndex - 1];</span>
+            }
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            if (rowIndex == 0) {</span>
+<span class="fc" id="L78">                dataAtTop = -1;</span>
+            } else {
+<span class="fc" id="L80">                dataAtTop = matrix[rowIndex - 1][columnIndex];</span>
+            }
+<span class="fc bfc" id="L82" title="All 4 branches covered.">            if (rowIndex &gt; 0 &amp;&amp; columnIndex &gt; 0) {</span>
+<span class="fc" id="L83">                dataAtDiagonal = matrix[rowIndex - 1][columnIndex - 1];</span>
+            } else {
+<span class="fc" id="L85">                dataAtDiagonal = -1;</span>
+            }
+<span class="pc bpc" id="L87" title="1 of 6 branches missed.">            if (dataAtLeft == -1 &amp;&amp; dataAtTop == -1 &amp;&amp; dataAtDiagonal == -1) {</span>
+<span class="fc" id="L88">                break;</span>
+            }
+<span class="fc" id="L90">            data = matrix[rowIndex][columnIndex];</span>
+
+            // case in which the character at left and right are the same,
+            // in this case none of the counters will be incremented.
+<span class="pc bpc" id="L94" title="1 of 6 branches missed.">            if (columnIndex &gt; 0 &amp;&amp; rowIndex &gt; 0 &amp;&amp; left.charAt(columnIndex - 1) == right.charAt(rowIndex - 1)) {</span>
+<span class="fc" id="L95">                columnIndex--;</span>
+<span class="fc" id="L96">                rowIndex--;</span>
+<span class="fc" id="L97">                continue;</span>
+            }
+
+            // handling insert and delete cases.
+<span class="fc" id="L101">            deleted = false;</span>
+<span class="fc" id="L102">            added = false;</span>
+<span class="pc bpc" id="L103" title="2 of 10 branches missed.">            if (data - 1 == dataAtLeft &amp;&amp; data &lt;= dataAtDiagonal &amp;&amp; data &lt;= dataAtTop</span>
+                    || dataAtDiagonal == -1 &amp;&amp; dataAtTop == -1) { // NOPMD
+<span class="fc" id="L105">                columnIndex--;</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">                if (swapped) {</span>
+<span class="fc" id="L107">                    addCount++;</span>
+<span class="fc" id="L108">                    added = true;</span>
+                } else {
+<span class="fc" id="L110">                    delCount++;</span>
+<span class="fc" id="L111">                    deleted = true;</span>
+                }
+<span class="pc bpc" id="L113" title="2 of 10 branches missed.">            } else if (data - 1 == dataAtTop &amp;&amp; data &lt;= dataAtDiagonal &amp;&amp; data &lt;= dataAtLeft</span>
+                    || dataAtDiagonal == -1 &amp;&amp; dataAtLeft == -1) { // NOPMD
+<span class="fc" id="L115">                rowIndex--;</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">                if (swapped) {</span>
+<span class="fc" id="L117">                    delCount++;</span>
+<span class="fc" id="L118">                    deleted = true;</span>
+                } else {
+<span class="fc" id="L120">                    addCount++;</span>
+<span class="fc" id="L121">                    added = true;</span>
+                }
+            }
+
+            // substituted case
+<span class="fc bfc" id="L126" title="All 4 branches covered.">            if (!added &amp;&amp; !deleted) {</span>
+<span class="fc" id="L127">                subCount++;</span>
+<span class="fc" id="L128">                columnIndex--;</span>
+<span class="fc" id="L129">                rowIndex--;</span>
+            }
+        }
+<span class="fc" id="L132">        return new LevenshteinResults(addCount + delCount + subCount, addCount, delCount, subCount);</span>
+    }
+
+    /**
+     * Gets the default instance.
+     *
+     * @return The default instace
+     */
+    public static LevenshteinDetailedDistance getDefaultInstance() {
+<span class="fc" id="L141">        return INSTANCE;</span>
+    }
+
+    /**
+     * Finds the Levenshtein distance between two CharSequences if it's less than or
+     * equal to a given threshold.
+     *
+     * &lt;p&gt;
+     * This implementation follows from Algorithms on Strings, Trees and
+     * Sequences by Dan Gusfield and Chas Emerick's implementation of the
+     * Levenshtein distance algorithm from &lt;a
+     * href=&quot;http://www.merriampark.com/ld.htm&quot;
+     * &gt;http://www.merriampark.com/ld.htm&lt;/a&gt;
+     * &lt;/p&gt;
+     *
+     * &lt;pre&gt;
+     * limitedCompare(null, *, *)             = IllegalArgumentException
+     * limitedCompare(*, null, *)             = IllegalArgumentException
+     * limitedCompare(*, *, -1)               = IllegalArgumentException
+     * limitedCompare(&quot;&quot;,&quot;&quot;, 0)               = 0
+     * limitedCompare(&quot;aaapppp&quot;, &quot;&quot;, 8)       = 7
+     * limitedCompare(&quot;aaapppp&quot;, &quot;&quot;, 7)       = 7
+     * limitedCompare(&quot;aaapppp&quot;, &quot;&quot;, 6))      = -1
+     * limitedCompare(&quot;elephant&quot;, &quot;hippo&quot;, 7) = 7
+     * limitedCompare(&quot;elephant&quot;, &quot;hippo&quot;, 6) = -1
+     * limitedCompare(&quot;hippo&quot;, &quot;elephant&quot;, 7) = 7
+     * limitedCompare(&quot;hippo&quot;, &quot;elephant&quot;, 6) = -1
+     * &lt;/pre&gt;
+     *
+     * @param left the first CharSequence, must not be null
+     * @param right the second CharSequence, must not be null
+     * @param threshold the target threshold, must not be negative
+     * @return result distance, or -1
+     */
+    private static LevenshteinResults limitedCompare(CharSequence left,
+                                                     CharSequence right,
+                                                     final int threshold) { //NOPMD
+<span class="fc bfc" id="L178" title="All 4 branches covered.">        if (left == null || right == null) {</span>
+<span class="fc" id="L179">            throw new IllegalArgumentException(&quot;CharSequences must not be null&quot;);</span>
+        }
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">        if (threshold &lt; 0) {</span>
+<span class="nc" id="L182">            throw new IllegalArgumentException(&quot;Threshold must not be negative&quot;);</span>
+        }
+
+        /*
+         * This implementation only computes the distance if it's less than or
+         * equal to the threshold value, returning -1 if it's greater. The
+         * advantage is performance: unbounded distance is O(nm), but a bound of
+         * k allows us to reduce it to O(km) time by only computing a diagonal
+         * stripe of width 2k + 1 of the cost table. It is also possible to use
+         * this to compute the unbounded Levenshtein distance by starting the
+         * threshold at 1 and doubling each time until the distance is found;
+         * this is O(dm), where d is the distance.
+         *
+         * One subtlety comes from needing to ignore entries on the border of
+         * our stripe eg. p[] = |#|#|#|* d[] = *|#|#|#| We must ignore the entry
+         * to the left of the leftmost member We must ignore the entry above the
+         * rightmost member
+         *
+         * Another subtlety comes from our stripe running off the matrix if the
+         * strings aren't of the same size. Since string s is always swapped to
+         * be the shorter of the two, the stripe will always run off to the
+         * upper right instead of the lower left of the matrix.
+         *
+         * As a concrete example, suppose s is of length 5, t is of length 7,
+         * and our threshold is 1. In this case we're going to walk a stripe of
+         * length 3. The matrix would look like so:
+         *
+         * &lt;pre&gt;
+         *    1 2 3 4 5
+         * 1 |#|#| | | |
+         * 2 |#|#|#| | |
+         * 3 | |#|#|#| |
+         * 4 | | |#|#|#|
+         * 5 | | | |#|#|
+         * 6 | | | | |#|
+         * 7 | | | | | |
+         * &lt;/pre&gt;
+         *
+         * Note how the stripe leads off the table as there is no possible way
+         * to turn a string of length 5 into one of length 7 in edit distance of
+         * 1.
+         *
+         * Additionally, this implementation decreases memory usage by using two
+         * single-dimensional arrays and swapping them back and forth instead of
+         * allocating an entire n by m matrix. This requires a few minor
+         * changes, such as immediately returning when it's detected that the
+         * stripe has run off the matrix and initially filling the arrays with
+         * large values so that entries we don't compute are ignored.
+         *
+         * See Algorithms on Strings, Trees and Sequences by Dan Gusfield for
+         * some discussion.
+         */
+
+<span class="fc" id="L235">        int n = left.length(); // length of left</span>
+<span class="fc" id="L236">        int m = right.length(); // length of right</span>
+
+        // if one string is empty, the edit distance is necessarily the length of the other
+<span class="fc bfc" id="L239" title="All 2 branches covered.">        if (n == 0) {</span>
+<span class="fc bfc" id="L240" title="All 2 branches covered.">            return m &lt;= threshold ? new LevenshteinResults(m, m, 0, 0) : new LevenshteinResults(-1, 0, 0, 0);</span>
+        }
+<span class="fc bfc" id="L242" title="All 2 branches covered.">        if (m == 0) {</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">            return n &lt;= threshold ? new LevenshteinResults(n, 0, n, 0) : new LevenshteinResults(-1, 0, 0, 0);</span>
+        }
+
+<span class="fc" id="L246">        boolean swapped = false;</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">        if (n &gt; m) {</span>
+            // swap the two strings to consume less memory
+<span class="fc" id="L249">            final CharSequence tmp = left;</span>
+<span class="fc" id="L250">            left = right;</span>
+<span class="fc" id="L251">            right = tmp;</span>
+<span class="fc" id="L252">            n = m;</span>
+<span class="fc" id="L253">            m = right.length();</span>
+<span class="fc" id="L254">            swapped = true;</span>
+        }
+
+<span class="fc" id="L257">        int[] p = new int[n + 1]; // 'previous' cost array, horizontally</span>
+<span class="fc" id="L258">        int[] d = new int[n + 1]; // cost array, horizontally</span>
+        int[] tempD; // placeholder to assist in swapping p and d
+<span class="fc" id="L260">        final int[][] matrix = new int[m + 1][n + 1];</span>
+
+        //filling the first row and first column values in the matrix
+<span class="fc bfc" id="L263" title="All 2 branches covered.">        for (int index = 0; index &lt;= n; index++) {</span>
+<span class="fc" id="L264">            matrix[0][index] = index;</span>
+        }
+<span class="fc bfc" id="L266" title="All 2 branches covered.">        for (int index = 0; index &lt;= m; index++) {</span>
+<span class="fc" id="L267">            matrix[index][0] = index;</span>
+        }
+
+        // fill in starting table values
+<span class="fc" id="L271">        final int boundary = Math.min(n, threshold) + 1;</span>
+<span class="fc bfc" id="L272" title="All 2 branches covered.">        for (int i = 0; i &lt; boundary; i++) {</span>
+<span class="fc" id="L273">            p[i] = i;</span>
+        }
+        // these fills ensure that the value above the rightmost entry of our
+        // stripe will be ignored in following loop iterations
+<span class="fc" id="L277">        Arrays.fill(p, boundary, p.length, Integer.MAX_VALUE);</span>
+<span class="fc" id="L278">        Arrays.fill(d, Integer.MAX_VALUE);</span>
+
+        // iterates through t
+<span class="fc bfc" id="L281" title="All 2 branches covered.">        for (int j = 1; j &lt;= m; j++) {</span>
+<span class="fc" id="L282">            final char rightJ = right.charAt(j - 1); // jth character of right</span>
+<span class="fc" id="L283">            d[0] = j;</span>
+
+            // compute stripe indices, constrain to array size
+<span class="fc" id="L286">            final int min = Math.max(1, j - threshold);</span>
+<span class="fc bfc" id="L287" title="All 2 branches covered.">            final int max = j &gt; Integer.MAX_VALUE - threshold ? n : Math.min(</span>
+                    n, j + threshold);
+
+            // the stripe may lead off of the table if s and t are of different sizes
+<span class="fc bfc" id="L291" title="All 2 branches covered.">            if (min &gt; max) {</span>
+<span class="fc" id="L292">                return new LevenshteinResults(-1, 0, 0, 0);</span>
+            }
+
+            // ignore entry left of leftmost
+<span class="fc bfc" id="L296" title="All 2 branches covered.">            if (min &gt; 1) {</span>
+<span class="fc" id="L297">                d[min - 1] = Integer.MAX_VALUE;</span>
+            }
+
+            // iterates through [min, max] in s
+<span class="fc bfc" id="L301" title="All 2 branches covered.">            for (int i = min; i &lt;= max; i++) {</span>
+<span class="fc bfc" id="L302" title="All 2 branches covered.">                if (left.charAt(i - 1) == rightJ) {</span>
+                    // diagonally left and up
+<span class="fc" id="L304">                    d[i] = p[i - 1];</span>
+                } else {
+                    // 1 + minimum of cell to the left, to the top, diagonally left and up
+<span class="fc" id="L307">                    d[i] = 1 + Math.min(Math.min(d[i - 1], p[i]), p[i - 1]);</span>
+                }
+<span class="fc" id="L309">                matrix[j][i] = d[i];</span>
+            }
+
+            // copy current distance counts to 'previous row' distance counts
+<span class="fc" id="L313">            tempD = p;</span>
+<span class="fc" id="L314">            p = d;</span>
+<span class="fc" id="L315">            d = tempD;</span>
+        }
+
+        // if p[n] is greater than the threshold, there's no guarantee on it being the correct distance
+<span class="fc bfc" id="L319" title="All 2 branches covered.">        if (p[n] &lt;= threshold) {</span>
+<span class="fc" id="L320">            return findDetailedResults(left, right, matrix, swapped);</span>
+        }
+<span class="fc" id="L322">        return new LevenshteinResults(-1, 0, 0, 0);</span>
+    }
+
+    /**
+     * Finds the Levenshtein distance between two Strings.
+     *
+     * &lt;p&gt;A higher score indicates a greater distance.&lt;/p&gt;
+     *
+     * &lt;p&gt;The previous implementation of the Levenshtein distance algorithm
+     * was from &lt;a href=&quot;http://www.merriampark.com/ld.htm&quot;&gt;http://www.merriampark.com/ld.htm&lt;/a&gt;&lt;/p&gt;
+     *
+     * &lt;p&gt;Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError
+     * which can occur when my Java implementation is used with very large strings.&lt;br&gt;
+     * This implementation of the Levenshtein distance algorithm
+     * is from &lt;a href=&quot;http://www.merriampark.com/ldjava.htm&quot;&gt;http://www.merriampark.com/ldjava.htm&lt;/a&gt;&lt;/p&gt;
+     *
+     * &lt;pre&gt;
+     * unlimitedCompare(null, *)             = IllegalArgumentException
+     * unlimitedCompare(*, null)             = IllegalArgumentException
+     * unlimitedCompare(&quot;&quot;,&quot;&quot;)               = 0
+     * unlimitedCompare(&quot;&quot;,&quot;a&quot;)              = 1
+     * unlimitedCompare(&quot;aaapppp&quot;, &quot;&quot;)       = 7
+     * unlimitedCompare(&quot;frog&quot;, &quot;fog&quot;)       = 1
+     * unlimitedCompare(&quot;fly&quot;, &quot;ant&quot;)        = 3
+     * unlimitedCompare(&quot;elephant&quot;, &quot;hippo&quot;) = 7
+     * unlimitedCompare(&quot;hippo&quot;, &quot;elephant&quot;) = 7
+     * unlimitedCompare(&quot;hippo&quot;, &quot;zzzzzzzz&quot;) = 8
+     * unlimitedCompare(&quot;hello&quot;, &quot;hallo&quot;)    = 1
+     * &lt;/pre&gt;
+     *
+     * @param left the first CharSequence, must not be null
+     * @param right the second CharSequence, must not be null
+     * @return result distance, or -1
+     * @throws IllegalArgumentException if either CharSequence input is {@code null}
+     */
+    private static LevenshteinResults unlimitedCompare(CharSequence left, CharSequence right) {
+<span class="fc bfc" id="L358" title="All 4 branches covered.">        if (left == null || right == null) {</span>
+<span class="fc" id="L359">            throw new IllegalArgumentException(&quot;CharSequences must not be null&quot;);</span>
+        }
+
+        /*
+           The difference between this impl. and the previous is that, rather
+           than creating and retaining a matrix of size s.length() + 1 by t.length() + 1,
+           we maintain two single-dimensional arrays of length s.length() + 1.  The first, d,
+           is the 'current working' distance array that maintains the newest distance cost
+           counts as we iterate through the characters of String s.  Each time we increment
+           the index of String t we are comparing, d is copied to p, the second int[].  Doing so
+           allows us to retain the previous cost counts as required by the algorithm (taking
+           the minimum of the cost count to the left, up one, and diagonally up and to the left
+           of the current cost count being calculated).  (Note that the arrays aren't really
+           copied anymore, just switched...this is clearly much better than cloning an array
+           or doing a System.arraycopy() each time  through the outer loop.)
+
+           Effectively, the difference between the two implementations is this one does not
+           cause an out of memory condition when calculating the LD over two very large strings.
+         */
+
+<span class="fc" id="L379">        int n = left.length(); // length of left</span>
+<span class="fc" id="L380">        int m = right.length(); // length of right</span>
+
+<span class="fc bfc" id="L382" title="All 2 branches covered.">        if (n == 0) {</span>
+<span class="fc" id="L383">            return new LevenshteinResults(m, m, 0, 0);</span>
+        }
+<span class="fc bfc" id="L385" title="All 2 branches covered.">        if (m == 0) {</span>
+<span class="fc" id="L386">            return new LevenshteinResults(n, 0, n, 0);</span>
+        }
+<span class="fc" id="L388">        boolean swapped = false;</span>
+<span class="fc bfc" id="L389" title="All 2 branches covered.">        if (n &gt; m) {</span>
+            // swap the input strings to consume less memory
+<span class="fc" id="L391">            final CharSequence tmp = left;</span>
+<span class="fc" id="L392">            left = right;</span>
+<span class="fc" id="L393">            right = tmp;</span>
+<span class="fc" id="L394">            n = m;</span>
+<span class="fc" id="L395">            m = right.length();</span>
+<span class="fc" id="L396">            swapped = true;</span>
+        }
+
+<span class="fc" id="L399">        int[] p = new int[n + 1]; // 'previous' cost array, horizontally</span>
+<span class="fc" id="L400">        int[] d = new int[n + 1]; // cost array, horizontally</span>
+        int[] tempD; //placeholder to assist in swapping p and d
+<span class="fc" id="L402">        final int[][] matrix = new int[m + 1][n + 1];</span>
+
+        // filling the first row and first column values in the matrix
+<span class="fc bfc" id="L405" title="All 2 branches covered.">        for (int index = 0; index &lt;= n; index++) {</span>
+<span class="fc" id="L406">            matrix[0][index] = index;</span>
+        }
+<span class="fc bfc" id="L408" title="All 2 branches covered.">        for (int index = 0; index &lt;= m; index++) {</span>
+<span class="fc" id="L409">            matrix[index][0] = index;</span>
+        }
+
+        // indexes into strings left and right
+        int i; // iterates through left
+        int j; // iterates through right
+
+        char rightJ; // jth character of right
+
+        int cost; // cost
+<span class="fc bfc" id="L419" title="All 2 branches covered.">        for (i = 0; i &lt;= n; i++) {</span>
+<span class="fc" id="L420">            p[i] = i;</span>
+        }
+
+<span class="fc bfc" id="L423" title="All 2 branches covered.">        for (j = 1; j &lt;= m; j++) {</span>
+<span class="fc" id="L424">            rightJ = right.charAt(j - 1);</span>
+<span class="fc" id="L425">            d[0] = j;</span>
+
+<span class="fc bfc" id="L427" title="All 2 branches covered.">            for (i = 1; i &lt;= n; i++) {</span>
+<span class="fc bfc" id="L428" title="All 2 branches covered.">                cost = left.charAt(i - 1) == rightJ ? 0 : 1;</span>
+                // minimum of cell to the left+1, to the top+1, diagonally left and up +cost
+<span class="fc" id="L430">                d[i] = Math.min(Math.min(d[i - 1] + 1, p[i] + 1), p[i - 1] + cost);</span>
+                //filling the matrix
+<span class="fc" id="L432">                matrix[j][i] = d[i];</span>
+            }
+
+            // copy current distance counts to 'previous row' distance counts
+<span class="fc" id="L436">            tempD = p;</span>
+<span class="fc" id="L437">            p = d;</span>
+<span class="fc" id="L438">            d = tempD;</span>
+        }
+<span class="fc" id="L440">        return findDetailedResults(left, right, matrix, swapped);</span>
+    }
+
+    /**
+     * Threshold.
+     */
+    private final Integer threshold;
+
+    /**
+     * &lt;p&gt;
+     * This returns the default instance that uses a version
+     * of the algorithm that does not use a threshold parameter.
+     * &lt;/p&gt;
+     *
+     * @see LevenshteinDetailedDistance#getDefaultInstance()
+     */
+    public LevenshteinDetailedDistance() {
+<span class="fc" id="L457">        this(null);</span>
+<span class="fc" id="L458">    }</span>
+
+    /**
+     * If the threshold is not null, distance calculations will be limited to a maximum length.
+     *
+     * &lt;p&gt;If the threshold is null, the unlimited version of the algorithm will be used.&lt;/p&gt;
+     *
+     * @param threshold If this is null then distances calculations will not be limited. This may not be negative.
+     */
+<span class="fc" id="L467">    public LevenshteinDetailedDistance(final Integer threshold) {</span>
+<span class="fc bfc" id="L468" title="All 4 branches covered.">        if (threshold != null &amp;&amp; threshold &lt; 0) {</span>
+<span class="fc" id="L469">            throw new IllegalArgumentException(&quot;Threshold must not be negative&quot;);</span>
+        }
+<span class="fc" id="L471">        this.threshold = threshold;</span>
+<span class="fc" id="L472">    }</span>
+
+    /**
+     * Finds the Levenshtein distance between two Strings.
+     *
+     * &lt;p&gt;A higher score indicates a greater distance.&lt;/p&gt;
+     *
+     * &lt;p&gt;The previous implementation of the Levenshtein distance algorithm
+     * was from &lt;a href=&quot;http://www.merriampark.com/ld.htm&quot;&gt;http://www.merriampark.com/ld.htm&lt;/a&gt;&lt;/p&gt;
+     *
+     * &lt;p&gt;Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError
+     * which can occur when my Java implementation is used with very large strings.&lt;br&gt;
+     * This implementation of the Levenshtein distance algorithm
+     * is from &lt;a href=&quot;http://www.merriampark.com/ldjava.htm&quot;&gt;http://www.merriampark.com/ldjava.htm&lt;/a&gt;&lt;/p&gt;
+     *
+     * &lt;pre&gt;
+     * distance.apply(null, *)             = IllegalArgumentException
+     * distance.apply(*, null)             = IllegalArgumentException
+     * distance.apply(&quot;&quot;,&quot;&quot;)               = 0
+     * distance.apply(&quot;&quot;,&quot;a&quot;)              = 1
+     * distance.apply(&quot;aaapppp&quot;, &quot;&quot;)       = 7
+     * distance.apply(&quot;frog&quot;, &quot;fog&quot;)       = 1
+     * distance.apply(&quot;fly&quot;, &quot;ant&quot;)        = 3
+     * distance.apply(&quot;elephant&quot;, &quot;hippo&quot;) = 7
+     * distance.apply(&quot;hippo&quot;, &quot;elephant&quot;) = 7
+     * distance.apply(&quot;hippo&quot;, &quot;zzzzzzzz&quot;) = 8
+     * distance.apply(&quot;hello&quot;, &quot;hallo&quot;)    = 1
+     * &lt;/pre&gt;
+     *
+     * @param left the first string, must not be null
+     * @param right the second string, must not be null
+     * @return result distance, or -1
+     * @throws IllegalArgumentException if either String input {@code null}
+     */
+    @Override
+    public LevenshteinResults apply(final CharSequence left, final CharSequence right) {
+<span class="fc bfc" id="L508" title="All 2 branches covered.">        if (threshold != null) {</span>
+<span class="fc" id="L509">            return limitedCompare(left, right, threshold);</span>
+        }
+<span class="fc" id="L511">        return unlimitedCompare(left, right);</span>
+    }
+
+    /**
+     * Gets the distance threshold.
+     *
+     * @return The distance threshold
+     */
+    public Integer getThreshold() {
+<span class="fc" id="L520">        return threshold;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

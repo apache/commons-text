@@ -1,0 +1,1569 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StringSubstitutor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text</a> &gt; <span class="el_source">StringSubstitutor.java</span></div><h1>StringSubstitutor.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Properties;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.text.lookup.StringLookup;
+import org.apache.commons.text.lookup.StringLookupFactory;
+import org.apache.commons.text.matcher.StringMatcher;
+import org.apache.commons.text.matcher.StringMatcherFactory;
+
+/**
+ * Substitutes variables within a string by values.
+ * &lt;p&gt;
+ * This class takes a piece of text and substitutes all the variables within it. The default definition of a variable is
+ * {@code ${variableName}}. The prefix and suffix can be changed via constructors and set methods.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Variable values are typically resolved from a map, but could also be resolved from system properties, or by supplying
+ * a custom variable resolver.
+ * &lt;/p&gt;
+ * &lt;h2&gt;Using System Properties&lt;/h2&gt;
+ * &lt;p&gt;
+ * The simplest example is to use this class to replace Java System properties. For example:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * StringSubstitutor
+ *     .replaceSystemProperties(&quot;You are running with java.version = ${java.version} and os.name = ${os.name}.&quot;);
+ * &lt;/pre&gt;
+ *
+ * &lt;h2&gt;Using a Custom Map&lt;/h2&gt;
+ * &lt;p&gt;
+ * Typical usage of this class follows the following pattern:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;Create and initialize a StringSubstitutor with the map that contains the values for the variables you want to
+ * make available.&lt;/li&gt;
+ * &lt;li&gt;Optionally set attributes like variable prefix, variable suffix, default value delimiter, and so on.&lt;/li&gt;
+ * &lt;li&gt;Call the {@code replace()} method with in the source text for interpolation.&lt;/li&gt;
+ * &lt;li&gt;The returned text contains all variable references (as long as their values are known) as resolved.&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;p&gt;
+ * For example:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * // Build map
+ * Map&amp;lt;String, String&amp;gt; valuesMap = new HashMap&amp;lt;&amp;gt;();
+ * valuesMap.put(&amp;quot;animal&amp;quot;, &amp;quot;quick brown fox&amp;quot;);
+ * valuesMap.put(&amp;quot;target&amp;quot;, &amp;quot;lazy dog&amp;quot;);
+ * String templateString = &amp;quot;The ${animal} jumped over the ${target}.&amp;quot;;
+ *
+ * // Build StringSubstitutor
+ * StringSubstitutor sub = new StringSubstitutor(valuesMap);
+ *
+ * // Replace
+ * String resolvedString = sub.replace(templateString);
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;
+ * yielding:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * &quot;The quick brown fox jumped over the lazy dog.&quot;
+ * &lt;/pre&gt;
+ *
+ * &lt;h2&gt;Providing Default Values&lt;/h2&gt;
+ * &lt;p&gt;
+ * You can set a default value for unresolved variables. The default value for a variable can be appended to the
+ * variable name after the variable default value delimiter. The default value of the variable default value delimiter
+ * is &quot;:-&quot;, as in bash and other *nix shells.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * You can set the variable value delimiter with {@link #setValueDelimiterMatcher(StringMatcher)},
+ * {@link #setValueDelimiter(char)} or {@link #setValueDelimiter(String)}.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * For example:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * // Build map
+ * Map&amp;lt;String, String&amp;gt; valuesMap = new HashMap&amp;lt;&amp;gt;();
+ * valuesMap.put(&amp;quot;animal&amp;quot;, &amp;quot;quick brown fox&amp;quot;);
+ * valuesMap.put(&amp;quot;target&amp;quot;, &amp;quot;lazy dog&amp;quot;);
+ * String templateString = &amp;quot;The ${animal} jumped over the ${target} ${undefined.number:-1234567890} times.&amp;quot;;
+ *
+ * // Build StringSubstitutor
+ * StringSubstitutor sub = new StringSubstitutor(valuesMap);
+ *
+ * // Replace
+ * String resolvedString = sub.replace(templateString);
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;
+ * yielding:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * &quot;The quick brown fox jumped over the lazy dog 1234567890 times.&quot;
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;
+ * {@code StringSubstitutor} supports throwing exceptions for unresolved variables, you enable this by setting calling
+ * {@link #setEnableUndefinedVariableException(boolean)} with {@code true}.
+ * &lt;/p&gt;
+ *
+ * &lt;h2&gt;Reusing Instances&lt;/h2&gt;
+ * &lt;p&gt;
+ * Static shortcut methods cover the most common use cases. If multiple replace operations are to be performed, creating
+ * and reusing an instance of this class will be more efficient.
+ * &lt;/p&gt;
+ *
+ * &lt;h2&gt;Using Interpolation&lt;/h2&gt;
+ * &lt;p&gt;
+ * The default interpolator lets you use string lookups like:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * final StringSubstitutor interpolator = StringSubstitutor.createInterpolator();
+ * final String text = interpolator.replace(
+ *       &quot;Base64 Decoder:        ${base64Decoder:SGVsbG9Xb3JsZCE=}\n&quot;
+ *     + &quot;Base64 Encoder:        ${base64Encoder:HelloWorld!}\n&quot;
+ *     + &quot;Java Constant:         ${const:java.awt.event.KeyEvent.VK_ESCAPE}\n&quot;
+ *     + &quot;Date:                  ${date:yyyy-MM-dd}\n&quot;
+ *     + &quot;Environment Variable:  ${env:USERNAME}\n&quot;
+ *     + &quot;File Content:          ${file:UTF-8:src/test/resources/document.properties}\n&quot;
+ *     + &quot;Java:                  ${java:version}\n&quot;
+ *     + &quot;Localhost:             ${localhost:canonical-name}\n&quot;
+ *     + &quot;Properties File:       ${properties:src/test/resources/document.properties::mykey}\n&quot;
+ *     + &quot;Resource Bundle:       ${resourceBundle:org.apache.commons.text.example.testResourceBundleLookup:mykey}\n&quot;
+ *     + &quot;System Property:       ${sys:user.dir}\n&quot;
+ *     + &quot;URL Decoder:           ${urlDecoder:Hello%20World%21}\n&quot;
+ *     + &quot;URL Encoder:           ${urlEncoder:Hello World!}\n&quot;
+ *     + &quot;XML XPath:             ${xml:src/test/resources/document.xml:/root/path/to/node}\n&quot;);
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * For documentation and a full list of available lookups, see {@link StringLookupFactory}.
+ * &lt;/p&gt;
+ * &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The list of lookups available by default in {@link #createInterpolator()} changed
+ * in version {@code 1.10.0}. See the {@link StringLookupFactory} documentation for details and an explanation
+ * on how to reproduce the previous functionality.
+ * &lt;/p&gt;
+ *
+ * &lt;h2&gt;Using Recursive Variable Replacement&lt;/h2&gt;
+ * &lt;p&gt;
+ * Variable replacement can work recursively by calling {@link #setEnableSubstitutionInVariables(boolean)} with
+ * {@code true}. If a variable value contains a variable then that variable will also be replaced. Cyclic replacements
+ * are detected and will throw an exception.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * You can get the replace result to contain a variable prefix. For example:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * &quot;The variable ${${name}} must be used.&quot;
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;
+ * If the value of the &quot;name&quot; variable is &quot;x&quot;, then only the variable &quot;name&quot; is replaced resulting in:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * &quot;The variable ${x} must be used.&quot;
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;
+ * To achieve this effect there are two possibilities: Either set a different prefix and suffix for variables which do
+ * not conflict with the result text you want to produce. The other possibility is to use the escape character, by
+ * default '$'. If this character is placed before a variable reference, this reference is ignored and won't be
+ * replaced. For example:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * &quot;The variable $${${name}} must be used.&quot;
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * In some complex scenarios you might even want to perform substitution in the names of variables, for instance
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * ${jre-${java.specification.version}}
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;
+ * {@code StringSubstitutor} supports this recursive substitution in variable names, but it has to be enabled explicitly
+ * by calling {@link #setEnableSubstitutionInVariables(boolean)} with {@code true}.
+ * &lt;/p&gt;
+ *
+ * &lt;h2&gt;Thread Safety&lt;/h2&gt;
+ * &lt;p&gt;
+ * This class is &lt;b&gt;not&lt;/b&gt; thread safe.
+ * &lt;/p&gt;
+ *
+ * @since 1.3
+ */
+public class StringSubstitutor {
+
+    /**
+     * The low-level result of a substitution.
+     *
+     * @since 1.9
+     */
+    private static final class Result {
+
+        /** Whether the buffer is altered. */
+        public final boolean altered;
+
+        /** The length of change. */
+        public final int lengthChange;
+
+<span class="fc" id="L235">        private Result(final boolean altered, final int lengthChange) {</span>
+<span class="fc" id="L236">            this.altered = altered;</span>
+<span class="fc" id="L237">            this.lengthChange = lengthChange;</span>
+<span class="fc" id="L238">        }</span>
+
+        @Override
+        public String toString() {
+<span class="nc" id="L242">            return &quot;Result [altered=&quot; + altered + &quot;, lengthChange=&quot; + lengthChange + &quot;]&quot;;</span>
+        }
+    }
+
+    /**
+     * Constant for the default escape character.
+     */
+    public static final char DEFAULT_ESCAPE = '$';
+
+    /**
+     * The default variable default separator.
+     *
+     * @since 1.5.
+     */
+    public static final String DEFAULT_VAR_DEFAULT = &quot;:-&quot;;
+
+    /**
+     * The default variable end separator.
+     *
+     * @since 1.5.
+     */
+    public static final String DEFAULT_VAR_END = &quot;}&quot;;
+
+    /**
+     * The default variable start separator.
+     *
+     * @since 1.5.
+     */
+    public static final String DEFAULT_VAR_START = &quot;${&quot;;
+
+    /**
+     * Constant for the default variable prefix.
+     */
+<span class="fc" id="L275">    public static final StringMatcher DEFAULT_PREFIX = StringMatcherFactory.INSTANCE.stringMatcher(DEFAULT_VAR_START);</span>
+
+    /**
+     * Constant for the default variable suffix.
+     */
+<span class="fc" id="L280">    public static final StringMatcher DEFAULT_SUFFIX = StringMatcherFactory.INSTANCE.stringMatcher(DEFAULT_VAR_END);</span>
+
+    /**
+     * Constant for the default value delimiter of a variable.
+     */
+<span class="fc" id="L285">    public static final StringMatcher DEFAULT_VALUE_DELIMITER = StringMatcherFactory.INSTANCE</span>
+<span class="fc" id="L286">        .stringMatcher(DEFAULT_VAR_DEFAULT);</span>
+
+    /**
+     * Creates a new instance using the interpolator string lookup
+     * {@link StringLookupFactory#interpolatorStringLookup()}.
+     * &lt;p&gt;
+     * This StringSubstitutor lets you perform substitutions like:
+     * &lt;/p&gt;
+     *
+     * &lt;pre&gt;
+     * StringSubstitutor.createInterpolator().replace(
+     *   &quot;OS name: ${sys:os.name}, user: ${env:USER}&quot;);
+     * &lt;/pre&gt;
+     *
+     * &lt;p&gt;The table below lists the lookups available by default in the returned instance. These
+     * may be modified through the use of the
+     * {@value org.apache.commons.text.lookup.StringLookupFactory#DEFAULT_STRING_LOOKUPS_PROPERTY}
+     * system property, as described in the {@link StringLookupFactory} documentation.&lt;/p&gt;
+     *
+     * &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The list of lookups available by default changed in version {@code 1.10.0}.
+     * Configuration via system property (as mentioned above) may be necessary to reproduce previous functionality.
+     * &lt;/p&gt;
+     *
+     * &lt;table&gt;
+     * &lt;caption&gt;Default Lookups&lt;/caption&gt;
+     * &lt;tr&gt;
+     * &lt;th&gt;Key&lt;/th&gt;
+     * &lt;th&gt;Lookup&lt;/th&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_BASE64_DECODER}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#base64DecoderStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_BASE64_ENCODER}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#base64EncoderStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_CONST}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#constantStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_DATE}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#dateStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_ENV}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#environmentVariableStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_FILE}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#fileStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_JAVA}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#javaPlatformStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_LOCALHOST}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#localHostStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_PROPERTIES}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#propertiesStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_RESOURCE_BUNDLE}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#resourceBundleStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_SYS}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#systemPropertyStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_URL_DECODER}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#urlDecoderStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_URL_ENCODER}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#urlEncoderStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#xmlStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML_DECODER}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#xmlDecoderStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;tr&gt;
+     * &lt;td&gt;{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML_ENCODER}&lt;/td&gt;
+     * &lt;td&gt;{@link StringLookupFactory#xmlEncoderStringLookup()}&lt;/td&gt;
+     * &lt;/tr&gt;
+     * &lt;/table&gt;
+     *
+     * @return a new instance using the interpolator string lookup.
+     * @see StringLookupFactory#interpolatorStringLookup()
+     * @since 1.8
+     */
+    public static StringSubstitutor createInterpolator() {
+<span class="fc" id="L386">        return new StringSubstitutor(StringLookupFactory.INSTANCE.interpolatorStringLookup());</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables in the given source object with their matching values from the map.
+     *
+     * @param &lt;V&gt; the type of the values in the map
+     * @param source the source text containing the variables to substitute, null returns null
+     * @param valueMap the map with the values, may be null
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if a variable is not found and enableUndefinedVariableException is true
+     */
+    public static &lt;V&gt; String replace(final Object source, final Map&lt;String, V&gt; valueMap) {
+<span class="fc" id="L399">        return new StringSubstitutor(valueMap).replace(source);</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables in the given source object with their matching values from the map.
+     * This method allows to specify a custom variable prefix and suffix
+     *
+     * @param &lt;V&gt; the type of the values in the map
+     * @param source the source text containing the variables to substitute, null returns null
+     * @param valueMap the map with the values, may be null
+     * @param prefix the prefix of variables, not null
+     * @param suffix the suffix of variables, not null
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if the prefix or suffix is null
+     * @throws IllegalArgumentException if a variable is not found and enableUndefinedVariableException is true
+     */
+    public static &lt;V&gt; String replace(final Object source, final Map&lt;String, V&gt; valueMap, final String prefix,
+        final String suffix) {
+<span class="fc" id="L417">        return new StringSubstitutor(valueMap, prefix, suffix).replace(source);</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables in the given source object with their matching values from the
+     * properties.
+     *
+     * @param source the source text containing the variables to substitute, null returns null
+     * @param valueProperties the properties with values, may be null
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if a variable is not found and enableUndefinedVariableException is true
+     */
+    public static String replace(final Object source, final Properties valueProperties) {
+<span class="fc bfc" id="L430" title="All 2 branches covered.">        if (valueProperties == null) {</span>
+<span class="nc" id="L431">            return source.toString();</span>
+        }
+<span class="fc" id="L433">        return StringSubstitutor.replace(source,</span>
+<span class="fc" id="L434">                valueProperties.stringPropertyNames().stream().collect(Collectors.toMap(Function.identity(), valueProperties::getProperty)));</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables in the given source object with their matching values from the system
+     * properties.
+     *
+     * @param source the source text containing the variables to substitute, null returns null
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if a variable is not found and enableUndefinedVariableException is true
+     */
+    public static String replaceSystemProperties(final Object source) {
+<span class="fc" id="L446">        return new StringSubstitutor(StringLookupFactory.INSTANCE.systemPropertyStringLookup()).replace(source);</span>
+    }
+
+    /**
+     * The flag whether substitution in variable values is disabled.
+     */
+    private boolean disableSubstitutionInValues;
+
+    /**
+     * The flag whether substitution in variable names is enabled.
+     */
+    private boolean enableSubstitutionInVariables;
+
+    /**
+     * The flag whether exception should be thrown on undefined variable.
+     */
+    private boolean enableUndefinedVariableException;
+
+    /**
+     * Stores the escape character.
+     */
+    private char escapeChar;
+
+    /**
+     * Stores the variable prefix.
+     */
+    private StringMatcher prefixMatcher;
+
+    /**
+     * Whether escapes should be preserved. Default is false;
+     */
+    private boolean preserveEscapes;
+
+    /**
+     * Stores the variable suffix.
+     */
+    private StringMatcher suffixMatcher;
+
+    /**
+     * Stores the default variable value delimiter.
+     */
+    private StringMatcher valueDelimiterMatcher;
+
+    /**
+     * Variable resolution is delegated to an implementor of {@link StringLookup}.
+     */
+    private StringLookup variableResolver;
+
+    /**
+     * Creates a new instance with defaults for variable prefix and suffix and the escaping character.
+     */
+    public StringSubstitutor() {
+<span class="fc" id="L498">        this((StringLookup) null, DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);</span>
+<span class="fc" id="L499">    }</span>
+
+    /**
+     * Creates a new instance and initializes it. Uses defaults for variable prefix and suffix and the escaping
+     * character.
+     *
+     * @param &lt;V&gt; the type of the values in the map
+     * @param valueMap the map with the variables' values, may be null
+     */
+    public &lt;V&gt; StringSubstitutor(final Map&lt;String, V&gt; valueMap) {
+<span class="fc" id="L509">        this(StringLookupFactory.INSTANCE.mapStringLookup(valueMap), DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);</span>
+<span class="fc" id="L510">    }</span>
+
+    /**
+     * Creates a new instance and initializes it. Uses a default escaping character.
+     *
+     * @param &lt;V&gt; the type of the values in the map
+     * @param valueMap the map with the variables' values, may be null
+     * @param prefix the prefix for variables, not null
+     * @param suffix the suffix for variables, not null
+     * @throws IllegalArgumentException if the prefix or suffix is null
+     */
+    public &lt;V&gt; StringSubstitutor(final Map&lt;String, V&gt; valueMap, final String prefix, final String suffix) {
+<span class="fc" id="L522">        this(StringLookupFactory.INSTANCE.mapStringLookup(valueMap), prefix, suffix, DEFAULT_ESCAPE);</span>
+<span class="fc" id="L523">    }</span>
+
+    /**
+     * Creates a new instance and initializes it.
+     *
+     * @param &lt;V&gt; the type of the values in the map
+     * @param valueMap the map with the variables' values, may be null
+     * @param prefix the prefix for variables, not null
+     * @param suffix the suffix for variables, not null
+     * @param escape the escape character
+     * @throws IllegalArgumentException if the prefix or suffix is null
+     */
+    public &lt;V&gt; StringSubstitutor(final Map&lt;String, V&gt; valueMap, final String prefix, final String suffix,
+        final char escape) {
+<span class="fc" id="L537">        this(StringLookupFactory.INSTANCE.mapStringLookup(valueMap), prefix, suffix, escape);</span>
+<span class="fc" id="L538">    }</span>
+
+    /**
+     * Creates a new instance and initializes it.
+     *
+     * @param &lt;V&gt; the type of the values in the map
+     * @param valueMap the map with the variables' values, may be null
+     * @param prefix the prefix for variables, not null
+     * @param suffix the suffix for variables, not null
+     * @param escape the escape character
+     * @param valueDelimiter the variable default value delimiter, may be null
+     * @throws IllegalArgumentException if the prefix or suffix is null
+     */
+    public &lt;V&gt; StringSubstitutor(final Map&lt;String, V&gt; valueMap, final String prefix, final String suffix,
+        final char escape, final String valueDelimiter) {
+<span class="fc" id="L553">        this(StringLookupFactory.INSTANCE.mapStringLookup(valueMap), prefix, suffix, escape, valueDelimiter);</span>
+<span class="fc" id="L554">    }</span>
+
+    /**
+     * Creates a new instance and initializes it.
+     *
+     * @param variableResolver the variable resolver, may be null
+     */
+    public StringSubstitutor(final StringLookup variableResolver) {
+<span class="fc" id="L562">        this(variableResolver, DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);</span>
+<span class="fc" id="L563">    }</span>
+
+    /**
+     * Creates a new instance and initializes it.
+     *
+     * @param variableResolver the variable resolver, may be null
+     * @param prefix the prefix for variables, not null
+     * @param suffix the suffix for variables, not null
+     * @param escape the escape character
+     * @throws IllegalArgumentException if the prefix or suffix is null
+     */
+    public StringSubstitutor(final StringLookup variableResolver, final String prefix, final String suffix,
+<span class="fc" id="L575">        final char escape) {</span>
+<span class="fc" id="L576">        this.setVariableResolver(variableResolver);</span>
+<span class="fc" id="L577">        this.setVariablePrefix(prefix);</span>
+<span class="fc" id="L578">        this.setVariableSuffix(suffix);</span>
+<span class="fc" id="L579">        this.setEscapeChar(escape);</span>
+<span class="fc" id="L580">        this.setValueDelimiterMatcher(DEFAULT_VALUE_DELIMITER);</span>
+<span class="fc" id="L581">    }</span>
+
+    /**
+     * Creates a new instance and initializes it.
+     *
+     * @param variableResolver the variable resolver, may be null
+     * @param prefix the prefix for variables, not null
+     * @param suffix the suffix for variables, not null
+     * @param escape the escape character
+     * @param valueDelimiter the variable default value delimiter string, may be null
+     * @throws IllegalArgumentException if the prefix or suffix is null
+     */
+    public StringSubstitutor(final StringLookup variableResolver, final String prefix, final String suffix,
+<span class="fc" id="L594">        final char escape, final String valueDelimiter) {</span>
+<span class="fc" id="L595">        this.setVariableResolver(variableResolver);</span>
+<span class="fc" id="L596">        this.setVariablePrefix(prefix);</span>
+<span class="fc" id="L597">        this.setVariableSuffix(suffix);</span>
+<span class="fc" id="L598">        this.setEscapeChar(escape);</span>
+<span class="fc" id="L599">        this.setValueDelimiter(valueDelimiter);</span>
+<span class="fc" id="L600">    }</span>
+
+    /**
+     * Creates a new instance and initializes it.
+     *
+     * @param variableResolver the variable resolver, may be null
+     * @param prefixMatcher the prefix for variables, not null
+     * @param suffixMatcher the suffix for variables, not null
+     * @param escape the escape character
+     * @throws IllegalArgumentException if the prefix or suffix is null
+     */
+    public StringSubstitutor(final StringLookup variableResolver, final StringMatcher prefixMatcher,
+        final StringMatcher suffixMatcher, final char escape) {
+<span class="fc" id="L613">        this(variableResolver, prefixMatcher, suffixMatcher, escape, DEFAULT_VALUE_DELIMITER);</span>
+<span class="fc" id="L614">    }</span>
+
+    /**
+     * Creates a new instance and initializes it.
+     *
+     * @param variableResolver the variable resolver, may be null
+     * @param prefixMatcher the prefix for variables, not null
+     * @param suffixMatcher the suffix for variables, not null
+     * @param escape the escape character
+     * @param valueDelimiterMatcher the variable default value delimiter matcher, may be null
+     * @throws IllegalArgumentException if the prefix or suffix is null
+     */
+    public StringSubstitutor(final StringLookup variableResolver, final StringMatcher prefixMatcher,
+<span class="fc" id="L627">        final StringMatcher suffixMatcher, final char escape, final StringMatcher valueDelimiterMatcher) {</span>
+<span class="fc" id="L628">        this.setVariableResolver(variableResolver);</span>
+<span class="fc" id="L629">        this.setVariablePrefixMatcher(prefixMatcher);</span>
+<span class="fc" id="L630">        this.setVariableSuffixMatcher(suffixMatcher);</span>
+<span class="fc" id="L631">        this.setEscapeChar(escape);</span>
+<span class="fc" id="L632">        this.setValueDelimiterMatcher(valueDelimiterMatcher);</span>
+<span class="fc" id="L633">    }</span>
+
+    /**
+     * Creates a new instance based on the given StringSubstitutor.
+     *
+     * @param other The StringSubstitutor used as the source.
+     * @since 1.9
+     */
+<span class="fc" id="L641">    public StringSubstitutor(final StringSubstitutor other) {</span>
+<span class="fc" id="L642">        disableSubstitutionInValues = other.isDisableSubstitutionInValues();</span>
+<span class="fc" id="L643">        enableSubstitutionInVariables = other.isEnableSubstitutionInVariables();</span>
+<span class="fc" id="L644">        enableUndefinedVariableException = other.isEnableUndefinedVariableException();</span>
+<span class="fc" id="L645">        escapeChar = other.getEscapeChar();</span>
+<span class="fc" id="L646">        prefixMatcher = other.getVariablePrefixMatcher();</span>
+<span class="fc" id="L647">        preserveEscapes = other.isPreserveEscapes();</span>
+<span class="fc" id="L648">        suffixMatcher = other.getVariableSuffixMatcher();</span>
+<span class="fc" id="L649">        valueDelimiterMatcher = other.getValueDelimiterMatcher();</span>
+<span class="fc" id="L650">        variableResolver = other.getStringLookup();</span>
+<span class="fc" id="L651">    }</span>
+
+    /**
+     * Checks if the specified variable is already in the stack (list) of variables.
+     *
+     * @param varName the variable name to check
+     * @param priorVariables the list of prior variables
+     */
+    private void checkCyclicSubstitution(final String varName, final List&lt;String&gt; priorVariables) {
+<span class="pc bpc" id="L660" title="1 of 2 branches missed.">        if (!priorVariables.contains(varName)) {</span>
+<span class="fc" id="L661">            return;</span>
+        }
+<span class="nc" id="L663">        final TextStringBuilder buf = new TextStringBuilder(256);</span>
+<span class="nc" id="L664">        buf.append(&quot;Infinite loop in property interpolation of &quot;);</span>
+<span class="nc" id="L665">        buf.append(priorVariables.remove(0));</span>
+<span class="nc" id="L666">        buf.append(&quot;: &quot;);</span>
+<span class="nc" id="L667">        buf.appendWithSeparators(priorVariables, &quot;-&gt;&quot;);</span>
+<span class="nc" id="L668">        throw new IllegalStateException(buf.toString());</span>
+    }
+
+    // Escape
+    /**
+     * Returns the escape character.
+     *
+     * @return The character used for escaping variable references
+     */
+    public char getEscapeChar() {
+<span class="fc" id="L678">        return this.escapeChar;</span>
+    }
+
+    /**
+     * Gets the StringLookup that is used to lookup variables.
+     *
+     * @return The StringLookup
+     */
+    public StringLookup getStringLookup() {
+<span class="fc" id="L687">        return this.variableResolver;</span>
+    }
+
+    /**
+     * Gets the variable default value delimiter matcher currently in use.
+     * &lt;p&gt;
+     * The variable default value delimiter is the character or characters that delimit the variable name and the
+     * variable default value. This delimiter is expressed in terms of a matcher allowing advanced variable default
+     * value delimiter matches.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * If it returns null, then the variable default value resolution is disabled.
+     *
+     * @return The variable default value delimiter matcher in use, may be null
+     */
+    public StringMatcher getValueDelimiterMatcher() {
+<span class="fc" id="L703">        return valueDelimiterMatcher;</span>
+    }
+
+    /**
+     * Gets the variable prefix matcher currently in use.
+     * &lt;p&gt;
+     * The variable prefix is the character or characters that identify the start of a variable. This prefix is
+     * expressed in terms of a matcher allowing advanced prefix matches.
+     * &lt;/p&gt;
+     *
+     * @return The prefix matcher in use
+     */
+    public StringMatcher getVariablePrefixMatcher() {
+<span class="fc" id="L716">        return prefixMatcher;</span>
+    }
+
+    /**
+     * Gets the variable suffix matcher currently in use.
+     * &lt;p&gt;
+     * The variable suffix is the character or characters that identify the end of a variable. This suffix is expressed
+     * in terms of a matcher allowing advanced suffix matches.
+     * &lt;/p&gt;
+     *
+     * @return The suffix matcher in use
+     */
+    public StringMatcher getVariableSuffixMatcher() {
+<span class="fc" id="L729">        return suffixMatcher;</span>
+    }
+
+    /**
+     * Returns a flag whether substitution is disabled in variable values.If set to &lt;b&gt;true&lt;/b&gt;, the values of variables
+     * can contain other variables will not be processed and substituted original variable is evaluated, e.g.
+     *
+     * &lt;pre&gt;
+     * Map&amp;lt;String, String&amp;gt; valuesMap = new HashMap&amp;lt;&amp;gt;();
+     * valuesMap.put(&amp;quot;name&amp;quot;, &amp;quot;Douglas ${surname}&amp;quot;);
+     * valuesMap.put(&amp;quot;surname&amp;quot;, &amp;quot;Crockford&amp;quot;);
+     * String templateString = &amp;quot;Hi ${name}&amp;quot;;
+     * StrSubstitutor sub = new StrSubstitutor(valuesMap);
+     * String resolvedString = sub.replace(templateString);
+     * &lt;/pre&gt;
+     *
+     * yielding:
+     *
+     * &lt;pre&gt;
+     *      Hi Douglas ${surname}
+     * &lt;/pre&gt;
+     *
+     * @return The substitution in variable values flag
+     */
+    public boolean isDisableSubstitutionInValues() {
+<span class="fc" id="L754">        return disableSubstitutionInValues;</span>
+    }
+
+    /**
+     * Returns a flag whether substitution is done in variable names.
+     *
+     * @return The substitution in variable names flag
+     */
+    public boolean isEnableSubstitutionInVariables() {
+<span class="fc" id="L763">        return enableSubstitutionInVariables;</span>
+    }
+
+    /**
+     * Returns a flag whether exception can be thrown upon undefined variable.
+     *
+     * @return The fail on undefined variable flag
+     */
+    public boolean isEnableUndefinedVariableException() {
+<span class="fc" id="L772">        return enableUndefinedVariableException;</span>
+    }
+
+    /**
+     * Returns the flag controlling whether escapes are preserved during substitution.
+     *
+     * @return The preserve escape flag
+     */
+    public boolean isPreserveEscapes() {
+<span class="fc" id="L781">        return preserveEscapes;</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables with their matching values from the resolver using the given source
+     * array as a template. The array is not altered by this method.
+     *
+     * @param source the character array to replace in, not altered, null returns null
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     */
+    public String replace(final char[] source) {
+<span class="fc bfc" id="L793" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L794">            return null;</span>
+        }
+<span class="fc" id="L796">        final TextStringBuilder buf = new TextStringBuilder(source.length).append(source);</span>
+<span class="fc" id="L797">        substitute(buf, 0, source.length);</span>
+<span class="fc" id="L798">        return buf.toString();</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables with their matching values from the resolver using the given source
+     * array as a template. The array is not altered by this method.
+     * &lt;p&gt;
+     * Only the specified portion of the array will be processed. The rest of the array is not processed, and is not
+     * returned.
+     * &lt;/p&gt;
+     *
+     * @param source the character array to replace in, not altered, null returns null
+     * @param offset the start offset within the array, must be valid
+     * @param length the length within the array to be processed, must be valid
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     * @throws StringIndexOutOfBoundsException if {@code offset} is not in the
+     *  range {@code 0 &lt;= offset &lt;= chars.length}
+     * @throws StringIndexOutOfBoundsException if {@code length &lt; 0}
+     * @throws StringIndexOutOfBoundsException if {@code offset + length &gt; chars.length}
+     */
+    public String replace(final char[] source, final int offset, final int length) {
+<span class="fc bfc" id="L820" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L821">            return null;</span>
+        }
+<span class="fc" id="L823">        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);</span>
+<span class="fc" id="L824">        substitute(buf, 0, length);</span>
+<span class="fc" id="L825">        return buf.toString();</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables with their matching values from the resolver using the given source as
+     * a template. The source is not altered by this method.
+     *
+     * @param source the buffer to use as a template, not changed, null returns null
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     */
+    public String replace(final CharSequence source) {
+<span class="fc bfc" id="L837" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L838">            return null;</span>
+        }
+<span class="fc" id="L840">        return replace(source, 0, source.length());</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables with their matching values from the resolver using the given source as
+     * a template. The source is not altered by this method.
+     * &lt;p&gt;
+     * Only the specified portion of the buffer will be processed. The rest of the buffer is not processed, and is not
+     * returned.
+     * &lt;/p&gt;
+     *
+     * @param source the buffer to use as a template, not changed, null returns null
+     * @param offset the start offset within the array, must be valid
+     * @param length the length within the array to be processed, must be valid
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     */
+    public String replace(final CharSequence source, final int offset, final int length) {
+<span class="pc bpc" id="L858" title="1 of 2 branches missed.">        if (source == null) {</span>
+<span class="nc" id="L859">            return null;</span>
+        }
+<span class="fc" id="L861">        final TextStringBuilder buf = new TextStringBuilder(length).append(source.toString(), offset, length);</span>
+<span class="fc" id="L862">        substitute(buf, 0, length);</span>
+<span class="fc" id="L863">        return buf.toString();</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables in the given source object with their matching values from the
+     * resolver. The input source object is converted to a string using {@code toString} and is not altered.
+     *
+     * @param source the source to replace in, null returns null
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if a variable is not found and enableUndefinedVariableException is true
+     */
+    public String replace(final Object source) {
+<span class="fc bfc" id="L875" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L876">            return null;</span>
+        }
+<span class="fc" id="L878">        final TextStringBuilder buf = new TextStringBuilder().append(source);</span>
+<span class="fc" id="L879">        substitute(buf, 0, buf.length());</span>
+<span class="fc" id="L880">        return buf.toString();</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables with their matching values from the resolver using the given source
+     * string as a template.
+     *
+     * @param source the string to replace in, null returns null
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     */
+    public String replace(final String source) {
+<span class="fc bfc" id="L892" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L893">            return null;</span>
+        }
+<span class="fc" id="L895">        final TextStringBuilder buf = new TextStringBuilder(source);</span>
+<span class="fc bfc" id="L896" title="All 2 branches covered.">        if (!substitute(buf, 0, source.length())) {</span>
+<span class="fc" id="L897">            return source;</span>
+        }
+<span class="fc" id="L899">        return buf.toString();</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables with their matching values from the resolver using the given source
+     * string as a template.
+     * &lt;p&gt;
+     * Only the specified portion of the string will be processed. The rest of the string is not processed, and is not
+     * returned.
+     * &lt;/p&gt;
+     *
+     * @param source the string to replace in, null returns null
+     * @param offset the start offset within the source, must be valid
+     * @param length the length within the source to be processed, must be valid
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     * @throws StringIndexOutOfBoundsException if {@code offset} is not in the
+     *  range {@code 0 &lt;= offset &lt;= source.length()}
+     * @throws StringIndexOutOfBoundsException if {@code length &lt; 0}
+     * @throws StringIndexOutOfBoundsException if {@code offset + length &gt; source.length()}
+     */
+    public String replace(final String source, final int offset, final int length) {
+<span class="fc bfc" id="L921" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L922">            return null;</span>
+        }
+<span class="fc" id="L924">        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);</span>
+<span class="fc bfc" id="L925" title="All 2 branches covered.">        if (!substitute(buf, 0, length)) {</span>
+<span class="fc" id="L926">            return source.substring(offset, offset + length);</span>
+        }
+<span class="fc" id="L928">        return buf.toString();</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables with their matching values from the resolver using the given source
+     * buffer as a template. The buffer is not altered by this method.
+     *
+     * @param source the buffer to use as a template, not changed, null returns null
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     */
+    public String replace(final StringBuffer source) {
+<span class="fc bfc" id="L940" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L941">            return null;</span>
+        }
+<span class="fc" id="L943">        final TextStringBuilder buf = new TextStringBuilder(source.length()).append(source);</span>
+<span class="fc" id="L944">        substitute(buf, 0, buf.length());</span>
+<span class="fc" id="L945">        return buf.toString();</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables with their matching values from the resolver using the given source
+     * buffer as a template. The buffer is not altered by this method.
+     * &lt;p&gt;
+     * Only the specified portion of the buffer will be processed. The rest of the buffer is not processed, and is not
+     * returned.
+     * &lt;/p&gt;
+     *
+     * @param source the buffer to use as a template, not changed, null returns null
+     * @param offset the start offset within the source, must be valid
+     * @param length the length within the source to be processed, must be valid
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     */
+    public String replace(final StringBuffer source, final int offset, final int length) {
+<span class="fc bfc" id="L963" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L964">            return null;</span>
+        }
+<span class="fc" id="L966">        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);</span>
+<span class="fc" id="L967">        substitute(buf, 0, length);</span>
+<span class="fc" id="L968">        return buf.toString();</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables with their matching values from the resolver using the given source
+     * builder as a template. The builder is not altered by this method.
+     *
+     * @param source the builder to use as a template, not changed, null returns null
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     */
+    public String replace(final TextStringBuilder source) {
+<span class="fc bfc" id="L980" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L981">            return null;</span>
+        }
+<span class="fc" id="L983">        final TextStringBuilder builder = new TextStringBuilder(source.length()).append(source);</span>
+<span class="fc" id="L984">        substitute(builder, 0, builder.length());</span>
+<span class="fc" id="L985">        return builder.toString();</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables with their matching values from the resolver using the given source
+     * builder as a template. The builder is not altered by this method.
+     * &lt;p&gt;
+     * Only the specified portion of the builder will be processed. The rest of the builder is not processed, and is not
+     * returned.
+     * &lt;/p&gt;
+     *
+     * @param source the builder to use as a template, not changed, null returns null
+     * @param offset the start offset within the source, must be valid
+     * @param length the length within the source to be processed, must be valid
+     * @return The result of the replace operation
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     */
+    public String replace(final TextStringBuilder source, final int offset, final int length) {
+<span class="fc bfc" id="L1003" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L1004">            return null;</span>
+        }
+<span class="fc" id="L1006">        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);</span>
+<span class="fc" id="L1007">        substitute(buf, 0, length);</span>
+<span class="fc" id="L1008">        return buf.toString();</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables within the given source buffer with their matching values from the
+     * resolver. The buffer is updated with the result.
+     *
+     * @param source the buffer to replace in, updated, null returns zero
+     * @return true if altered
+     */
+    public boolean replaceIn(final StringBuffer source) {
+<span class="fc bfc" id="L1019" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L1020">            return false;</span>
+        }
+<span class="fc" id="L1022">        return replaceIn(source, 0, source.length());</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables within the given source buffer with their matching values from the
+     * resolver. The buffer is updated with the result.
+     * &lt;p&gt;
+     * Only the specified portion of the buffer will be processed. The rest of the buffer is not processed, but it is
+     * not deleted.
+     * &lt;/p&gt;
+     *
+     * @param source the buffer to replace in, updated, null returns zero
+     * @param offset the start offset within the source, must be valid
+     * @param length the length within the source to be processed, must be valid
+     * @return true if altered
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     */
+    public boolean replaceIn(final StringBuffer source, final int offset, final int length) {
+<span class="fc bfc" id="L1040" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L1041">            return false;</span>
+        }
+<span class="fc" id="L1043">        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);</span>
+<span class="fc bfc" id="L1044" title="All 2 branches covered.">        if (!substitute(buf, 0, length)) {</span>
+<span class="fc" id="L1045">            return false;</span>
+        }
+<span class="fc" id="L1047">        source.replace(offset, offset + length, buf.toString());</span>
+<span class="fc" id="L1048">        return true;</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables within the given source buffer with their matching values from the
+     * resolver. The buffer is updated with the result.
+     *
+     * @param source the buffer to replace in, updated, null returns zero
+     * @return true if altered
+     */
+    public boolean replaceIn(final StringBuilder source) {
+<span class="fc bfc" id="L1059" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L1060">            return false;</span>
+        }
+<span class="fc" id="L1062">        return replaceIn(source, 0, source.length());</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables within the given source builder with their matching values from the
+     * resolver. The builder is updated with the result.
+     * &lt;p&gt;
+     * Only the specified portion of the buffer will be processed. The rest of the buffer is not processed, but it is
+     * not deleted.
+     * &lt;/p&gt;
+     *
+     * @param source the buffer to replace in, updated, null returns zero
+     * @param offset the start offset within the source, must be valid
+     * @param length the length within the source to be processed, must be valid
+     * @return true if altered
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     */
+    public boolean replaceIn(final StringBuilder source, final int offset, final int length) {
+<span class="fc bfc" id="L1080" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L1081">            return false;</span>
+        }
+<span class="fc" id="L1083">        final TextStringBuilder buf = new TextStringBuilder(length).append(source, offset, length);</span>
+<span class="fc bfc" id="L1084" title="All 2 branches covered.">        if (!substitute(buf, 0, length)) {</span>
+<span class="fc" id="L1085">            return false;</span>
+        }
+<span class="fc" id="L1087">        source.replace(offset, offset + length, buf.toString());</span>
+<span class="fc" id="L1088">        return true;</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables within the given source builder with their matching values from the
+     * resolver.
+     *
+     * @param source the builder to replace in, updated, null returns zero
+     * @return true if altered
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     */
+    public boolean replaceIn(final TextStringBuilder source) {
+<span class="fc bfc" id="L1100" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L1101">            return false;</span>
+        }
+<span class="fc" id="L1103">        return substitute(source, 0, source.length());</span>
+    }
+
+    /**
+     * Replaces all the occurrences of variables within the given source builder with their matching values from the
+     * resolver.
+     * &lt;p&gt;
+     * Only the specified portion of the builder will be processed. The rest of the builder is not processed, but it is
+     * not deleted.
+     * &lt;/p&gt;
+     *
+     * @param source the builder to replace in, null returns zero
+     * @param offset the start offset within the source, must be valid
+     * @param length the length within the source to be processed, must be valid
+     * @return true if altered
+     * @throws IllegalArgumentException if variable is not found when its allowed to throw exception
+     */
+    public boolean replaceIn(final TextStringBuilder source, final int offset, final int length) {
+<span class="fc bfc" id="L1121" title="All 2 branches covered.">        if (source == null) {</span>
+<span class="fc" id="L1122">            return false;</span>
+        }
+<span class="fc" id="L1124">        return substitute(source, offset, length);</span>
+    }
+
+    /**
+     * Internal method that resolves the value of a variable.
+     * &lt;p&gt;
+     * Most users of this class do not need to call this method. This method is called automatically by the substitution
+     * process.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * Writers of subclasses can override this method if they need to alter how each substitution occurs. The method is
+     * passed the variable's name and must return the corresponding value. This implementation uses the
+     * {@link #getStringLookup()} with the variable's name as the key.
+     * &lt;/p&gt;
+     *
+     * @param variableName the name of the variable, not null
+     * @param buf the buffer where the substitution is occurring, not null
+     * @param startPos the start position of the variable including the prefix, valid
+     * @param endPos the end position of the variable including the suffix, valid
+     * @return The variable's value or &lt;b&gt;null&lt;/b&gt; if the variable is unknown
+     */
+    protected String resolveVariable(final String variableName, final TextStringBuilder buf, final int startPos,
+        final int endPos) {
+<span class="fc" id="L1147">        final StringLookup resolver = getStringLookup();</span>
+<span class="fc bfc" id="L1148" title="All 2 branches covered.">        if (resolver == null) {</span>
+<span class="fc" id="L1149">            return null;</span>
+        }
+<span class="fc" id="L1151">        return resolver.lookup(variableName);</span>
+    }
+
+    /**
+     * Sets a flag whether substitution is done in variable values (recursive).
+     *
+     * @param disableSubstitutionInValues true if substitution in variable value are disabled
+     * @return this, to enable chaining
+     */
+    public StringSubstitutor setDisableSubstitutionInValues(final boolean disableSubstitutionInValues) {
+<span class="fc" id="L1161">        this.disableSubstitutionInValues = disableSubstitutionInValues;</span>
+<span class="fc" id="L1162">        return this;</span>
+    }
+
+    /**
+     * Sets a flag whether substitution is done in variable names. If set to &lt;b&gt;true&lt;/b&gt;, the names of variables can
+     * contain other variables which are processed first before the original variable is evaluated, e.g.
+     * {@code ${jre-${java.version}}}. The default value is &lt;b&gt;false&lt;/b&gt;.
+     *
+     * @param enableSubstitutionInVariables the new value of the flag
+     * @return this, to enable chaining
+     */
+    public StringSubstitutor setEnableSubstitutionInVariables(final boolean enableSubstitutionInVariables) {
+<span class="fc" id="L1174">        this.enableSubstitutionInVariables = enableSubstitutionInVariables;</span>
+<span class="fc" id="L1175">        return this;</span>
+    }
+
+    /**
+     * Sets a flag whether exception should be thrown if any variable is undefined.
+     *
+     * @param failOnUndefinedVariable true if exception should be thrown on undefined variable
+     * @return this, to enable chaining
+     */
+    public StringSubstitutor setEnableUndefinedVariableException(final boolean failOnUndefinedVariable) {
+<span class="fc" id="L1185">        this.enableUndefinedVariableException = failOnUndefinedVariable;</span>
+<span class="fc" id="L1186">        return this;</span>
+    }
+
+    /**
+     * Sets the escape character. If this character is placed before a variable reference in the source text, this
+     * variable will be ignored.
+     *
+     * @param escapeCharacter the escape character (0 for disabling escaping)
+     * @return this, to enable chaining
+     */
+    public StringSubstitutor setEscapeChar(final char escapeCharacter) {
+<span class="fc" id="L1197">        this.escapeChar = escapeCharacter;</span>
+<span class="fc" id="L1198">        return this;</span>
+    }
+
+    /**
+     * Sets a flag controlling whether escapes are preserved during substitution. If set to &lt;b&gt;true&lt;/b&gt;, the escape
+     * character is retained during substitution (e.g. {@code $${this-is-escaped}} remains {@code $${this-is-escaped}}).
+     * If set to &lt;b&gt;false&lt;/b&gt;, the escape character is removed during substitution (e.g. {@code $${this-is-escaped}}
+     * becomes {@code ${this-is-escaped}}). The default value is &lt;b&gt;false&lt;/b&gt;
+     *
+     * @param preserveEscapes true if escapes are to be preserved
+     * @return this, to enable chaining
+     */
+    public StringSubstitutor setPreserveEscapes(final boolean preserveEscapes) {
+<span class="fc" id="L1211">        this.preserveEscapes = preserveEscapes;</span>
+<span class="fc" id="L1212">        return this;</span>
+    }
+
+    /**
+     * Sets the variable default value delimiter to use.
+     * &lt;p&gt;
+     * The variable default value delimiter is the character or characters that delimit the variable name and the
+     * variable default value. This method allows a single character variable default value delimiter to be easily set.
+     * &lt;/p&gt;
+     *
+     * @param valueDelimiter the variable default value delimiter character to use
+     * @return this, to enable chaining
+     */
+    public StringSubstitutor setValueDelimiter(final char valueDelimiter) {
+<span class="fc" id="L1226">        return setValueDelimiterMatcher(StringMatcherFactory.INSTANCE.charMatcher(valueDelimiter));</span>
+    }
+
+    /**
+     * Sets the variable default value delimiter to use.
+     * &lt;p&gt;
+     * The variable default value delimiter is the character or characters that delimit the variable name and the
+     * variable default value. This method allows a string variable default value delimiter to be easily set.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * If the {@code valueDelimiter} is null or empty string, then the variable default value resolution becomes
+     * disabled.
+     * &lt;/p&gt;
+     *
+     * @param valueDelimiter the variable default value delimiter string to use, may be null or empty
+     * @return this, to enable chaining
+     */
+    public StringSubstitutor setValueDelimiter(final String valueDelimiter) {
+<span class="pc bpc" id="L1244" title="1 of 4 branches missed.">        if (valueDelimiter == null || valueDelimiter.isEmpty()) {</span>
+<span class="fc" id="L1245">            setValueDelimiterMatcher(null);</span>
+<span class="fc" id="L1246">            return this;</span>
+        }
+<span class="fc" id="L1248">        return setValueDelimiterMatcher(StringMatcherFactory.INSTANCE.stringMatcher(valueDelimiter));</span>
+    }
+
+    /**
+     * Sets the variable default value delimiter matcher to use.
+     * &lt;p&gt;
+     * The variable default value delimiter is the character or characters that delimit the variable name and the
+     * variable default value. This delimiter is expressed in terms of a matcher allowing advanced variable default
+     * value delimiter matches.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * If the {@code valueDelimiterMatcher} is null, then the variable default value resolution becomes disabled.
+     * &lt;/p&gt;
+     *
+     * @param valueDelimiterMatcher variable default value delimiter matcher to use, may be null
+     * @return this, to enable chaining
+     */
+    public StringSubstitutor setValueDelimiterMatcher(final StringMatcher valueDelimiterMatcher) {
+<span class="fc" id="L1266">        this.valueDelimiterMatcher = valueDelimiterMatcher;</span>
+<span class="fc" id="L1267">        return this;</span>
+    }
+
+    /**
+     * Sets the variable prefix to use.
+     * &lt;p&gt;
+     * The variable prefix is the character or characters that identify the start of a variable. This method allows a
+     * single character prefix to be easily set.
+     * &lt;/p&gt;
+     *
+     * @param prefix the prefix character to use
+     * @return this, to enable chaining
+     */
+    public StringSubstitutor setVariablePrefix(final char prefix) {
+<span class="fc" id="L1281">        return setVariablePrefixMatcher(StringMatcherFactory.INSTANCE.charMatcher(prefix));</span>
+    }
+
+    /**
+     * Sets the variable prefix to use.
+     * &lt;p&gt;
+     * The variable prefix is the character or characters that identify the start of a variable. This method allows a
+     * string prefix to be easily set.
+     * &lt;/p&gt;
+     *
+     * @param prefix the prefix for variables, not null
+     * @return this, to enable chaining
+     * @throws IllegalArgumentException if the prefix is null
+     */
+    public StringSubstitutor setVariablePrefix(final String prefix) {
+<span class="fc bfc" id="L1296" title="All 2 branches covered.">        Validate.isTrue(prefix != null, &quot;Variable prefix must not be null!&quot;);</span>
+<span class="fc" id="L1297">        return setVariablePrefixMatcher(StringMatcherFactory.INSTANCE.stringMatcher(prefix));</span>
+    }
+
+    /**
+     * Sets the variable prefix matcher currently in use.
+     * &lt;p&gt;
+     * The variable prefix is the character or characters that identify the start of a variable. This prefix is
+     * expressed in terms of a matcher allowing advanced prefix matches.
+     * &lt;/p&gt;
+     *
+     * @param prefixMatcher the prefix matcher to use, null ignored
+     * @return this, to enable chaining
+     * @throws IllegalArgumentException if the prefix matcher is null
+     */
+    public StringSubstitutor setVariablePrefixMatcher(final StringMatcher prefixMatcher) {
+<span class="fc bfc" id="L1312" title="All 2 branches covered.">        Validate.isTrue(prefixMatcher != null, &quot;Variable prefix matcher must not be null!&quot;);</span>
+<span class="fc" id="L1313">        this.prefixMatcher = prefixMatcher;</span>
+<span class="fc" id="L1314">        return this;</span>
+    }
+
+    /**
+     * Sets the VariableResolver that is used to lookup variables.
+     *
+     * @param variableResolver the VariableResolver
+     * @return this, to enable chaining
+     */
+    public StringSubstitutor setVariableResolver(final StringLookup variableResolver) {
+<span class="fc" id="L1324">        this.variableResolver = variableResolver;</span>
+<span class="fc" id="L1325">        return this;</span>
+    }
+
+    /**
+     * Sets the variable suffix to use.
+     * &lt;p&gt;
+     * The variable suffix is the character or characters that identify the end of a variable. This method allows a
+     * single character suffix to be easily set.
+     * &lt;/p&gt;
+     *
+     * @param suffix the suffix character to use
+     * @return this, to enable chaining
+     */
+    public StringSubstitutor setVariableSuffix(final char suffix) {
+<span class="fc" id="L1339">        return setVariableSuffixMatcher(StringMatcherFactory.INSTANCE.charMatcher(suffix));</span>
+    }
+
+    /**
+     * Sets the variable suffix to use.
+     * &lt;p&gt;
+     * The variable suffix is the character or characters that identify the end of a variable. This method allows a
+     * string suffix to be easily set.
+     * &lt;/p&gt;
+     *
+     * @param suffix the suffix for variables, not null
+     * @return this, to enable chaining
+     * @throws IllegalArgumentException if the suffix is null
+     */
+    public StringSubstitutor setVariableSuffix(final String suffix) {
+<span class="fc bfc" id="L1354" title="All 2 branches covered.">        Validate.isTrue(suffix != null, &quot;Variable suffix must not be null!&quot;);</span>
+<span class="fc" id="L1355">        return setVariableSuffixMatcher(StringMatcherFactory.INSTANCE.stringMatcher(suffix));</span>
+    }
+
+    /**
+     * Sets the variable suffix matcher currently in use.
+     * &lt;p&gt;
+     * The variable suffix is the character or characters that identify the end of a variable. This suffix is expressed
+     * in terms of a matcher allowing advanced suffix matches.
+     * &lt;/p&gt;
+     *
+     * @param suffixMatcher the suffix matcher to use, null ignored
+     * @return this, to enable chaining
+     * @throws IllegalArgumentException if the suffix matcher is null
+     */
+    public StringSubstitutor setVariableSuffixMatcher(final StringMatcher suffixMatcher) {
+<span class="fc bfc" id="L1370" title="All 2 branches covered.">        Validate.isTrue(suffixMatcher != null, &quot;Variable suffix matcher must not be null!&quot;);</span>
+<span class="fc" id="L1371">        this.suffixMatcher = suffixMatcher;</span>
+<span class="fc" id="L1372">        return this;</span>
+    }
+
+    /**
+     * Internal method that substitutes the variables.
+     * &lt;p&gt;
+     * Most users of this class do not need to call this method. This method will be called automatically by another
+     * (public) method.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * Writers of subclasses can override this method if they need access to the substitution process at the start or
+     * end.
+     * &lt;/p&gt;
+     *
+     * @param builder the string builder to substitute into, not null
+     * @param offset the start offset within the builder, must be valid
+     * @param length the length within the builder to be processed, must be valid
+     * @return true if altered
+     */
+    protected boolean substitute(final TextStringBuilder builder, final int offset, final int length) {
+<span class="fc" id="L1392">        return substitute(builder, offset, length, null).altered;</span>
+    }
+
+    /**
+     * Recursive handler for multiple levels of interpolation. This is the main interpolation method, which resolves the
+     * values of all variable references contained in the passed in text.
+     *
+     * @param builder the string builder to substitute into, not null
+     * @param offset the start offset within the builder, must be valid
+     * @param length the length within the builder to be processed, must be valid
+     * @param priorVariables the stack keeping track of the replaced variables, may be null
+     * @return The result.
+     * @throws IllegalArgumentException if variable is not found and &lt;pre&gt;isEnableUndefinedVariableException()==true&lt;/pre&gt;
+     * @since 1.9
+     */
+    private Result substitute(final TextStringBuilder builder, final int offset, final int length,
+        List&lt;String&gt; priorVariables) {
+<span class="fc" id="L1409">        Objects.requireNonNull(builder, &quot;builder&quot;);</span>
+<span class="fc" id="L1410">        final StringMatcher prefixMatcher = getVariablePrefixMatcher();</span>
+<span class="fc" id="L1411">        final StringMatcher suffixMatcher = getVariableSuffixMatcher();</span>
+<span class="fc" id="L1412">        final char escapeCh = getEscapeChar();</span>
+<span class="fc" id="L1413">        final StringMatcher valueDelimMatcher = getValueDelimiterMatcher();</span>
+<span class="fc" id="L1414">        final boolean substitutionInVariablesEnabled = isEnableSubstitutionInVariables();</span>
+<span class="fc" id="L1415">        final boolean substitutionInValuesDisabled = isDisableSubstitutionInValues();</span>
+<span class="fc" id="L1416">        final boolean undefinedVariableException = isEnableUndefinedVariableException();</span>
+<span class="fc" id="L1417">        final boolean preserveEscapes = isPreserveEscapes();</span>
+
+<span class="fc" id="L1419">        boolean altered = false;</span>
+<span class="fc" id="L1420">        int lengthChange = 0;</span>
+<span class="fc" id="L1421">        int bufEnd = offset + length;</span>
+<span class="fc" id="L1422">        int pos = offset;</span>
+<span class="fc" id="L1423">        int escPos = -1;</span>
+<span class="fc bfc" id="L1424" title="All 2 branches covered.">        outer: while (pos &lt; bufEnd) {</span>
+<span class="fc" id="L1425">            final int startMatchLen = prefixMatcher.isMatch(builder, pos, offset, bufEnd);</span>
+<span class="fc bfc" id="L1426" title="All 2 branches covered.">            if (startMatchLen == 0) {</span>
+<span class="fc" id="L1427">                pos++;</span>
+            } else {
+                // found variable start marker
+<span class="fc bfc" id="L1430" title="All 4 branches covered.">                if (pos &gt; offset &amp;&amp; builder.charAt(pos - 1) == escapeCh) {</span>
+                    // escape detected
+<span class="fc bfc" id="L1432" title="All 2 branches covered.">                    if (preserveEscapes) {</span>
+                        // keep escape
+<span class="fc" id="L1434">                        pos++;</span>
+<span class="fc" id="L1435">                        continue;</span>
+                    }
+                    // mark esc ch for deletion if we find a complete variable
+<span class="fc" id="L1438">                    escPos = pos - 1;</span>
+                }
+                // find suffix
+<span class="fc" id="L1441">                int startPos = pos;</span>
+<span class="fc" id="L1442">                pos += startMatchLen;</span>
+<span class="fc" id="L1443">                int endMatchLen = 0;</span>
+<span class="fc" id="L1444">                int nestedVarCount = 0;</span>
+<span class="fc bfc" id="L1445" title="All 2 branches covered.">                while (pos &lt; bufEnd) {</span>
+<span class="fc bfc" id="L1446" title="All 4 branches covered.">                    if (substitutionInVariablesEnabled &amp;&amp; prefixMatcher.isMatch(builder, pos, offset, bufEnd) != 0) {</span>
+                        // found a nested variable start
+<span class="fc" id="L1448">                        endMatchLen = prefixMatcher.isMatch(builder, pos, offset, bufEnd);</span>
+<span class="fc" id="L1449">                        nestedVarCount++;</span>
+<span class="fc" id="L1450">                        pos += endMatchLen;</span>
+<span class="fc" id="L1451">                        continue;</span>
+                    }
+
+<span class="fc" id="L1454">                    endMatchLen = suffixMatcher.isMatch(builder, pos, offset, bufEnd);</span>
+<span class="fc bfc" id="L1455" title="All 2 branches covered.">                    if (endMatchLen == 0) {</span>
+<span class="fc" id="L1456">                        pos++;</span>
+                    } else {
+                        // found variable end marker
+<span class="fc bfc" id="L1459" title="All 2 branches covered.">                        if (nestedVarCount == 0) {</span>
+<span class="fc bfc" id="L1460" title="All 2 branches covered.">                            if (escPos &gt;= 0) {</span>
+                                // delete escape
+<span class="fc" id="L1462">                                builder.deleteCharAt(escPos);</span>
+<span class="fc" id="L1463">                                escPos = -1;</span>
+<span class="fc" id="L1464">                                lengthChange--;</span>
+<span class="fc" id="L1465">                                altered = true;</span>
+<span class="fc" id="L1466">                                bufEnd--;</span>
+<span class="fc" id="L1467">                                pos = startPos + 1;</span>
+<span class="fc" id="L1468">                                startPos--;</span>
+<span class="fc" id="L1469">                                continue outer;</span>
+                            }
+                            // get var name
+<span class="fc" id="L1472">                            String varNameExpr = builder.midString(startPos + startMatchLen,</span>
+                                pos - startPos - startMatchLen);
+<span class="fc bfc" id="L1474" title="All 2 branches covered.">                            if (substitutionInVariablesEnabled) {</span>
+<span class="fc" id="L1475">                                final TextStringBuilder bufName = new TextStringBuilder(varNameExpr);</span>
+<span class="fc" id="L1476">                                substitute(bufName, 0, bufName.length());</span>
+<span class="fc" id="L1477">                                varNameExpr = bufName.toString();</span>
+                            }
+<span class="fc" id="L1479">                            pos += endMatchLen;</span>
+<span class="fc" id="L1480">                            final int endPos = pos;</span>
+
+<span class="fc" id="L1482">                            String varName = varNameExpr;</span>
+<span class="fc" id="L1483">                            String varDefaultValue = null;</span>
+
+<span class="pc bpc" id="L1485" title="1 of 2 branches missed.">                            if (valueDelimMatcher != null) {</span>
+<span class="fc" id="L1486">                                final char[] varNameExprChars = varNameExpr.toCharArray();</span>
+<span class="fc" id="L1487">                                int valueDelimiterMatchLen = 0;</span>
+<span class="fc bfc" id="L1488" title="All 2 branches covered.">                                for (int i = 0; i &lt; varNameExprChars.length; i++) {</span>
+                                    // if there's any nested variable when nested variable substitution disabled,
+                                    // then stop resolving name and default value.
+<span class="fc bfc" id="L1491" title="All 4 branches covered.">                                    if (!substitutionInVariablesEnabled &amp;&amp; prefixMatcher.isMatch(varNameExprChars, i, i,</span>
+                                        varNameExprChars.length) != 0) {
+<span class="fc" id="L1493">                                        break;</span>
+                                    }
+<span class="fc bfc" id="L1495" title="All 2 branches covered.">                                    if (valueDelimMatcher.isMatch(varNameExprChars, i, 0,</span>
+                                        varNameExprChars.length) != 0) {
+<span class="fc" id="L1497">                                        valueDelimiterMatchLen = valueDelimMatcher.isMatch(varNameExprChars, i, 0,</span>
+                                            varNameExprChars.length);
+<span class="fc" id="L1499">                                        varName = varNameExpr.substring(0, i);</span>
+<span class="fc" id="L1500">                                        varDefaultValue = varNameExpr.substring(i + valueDelimiterMatchLen);</span>
+<span class="fc" id="L1501">                                        break;</span>
+                                    }
+                                }
+                            }
+
+                            // on the first call initialize priorVariables
+<span class="fc bfc" id="L1507" title="All 2 branches covered.">                            if (priorVariables == null) {</span>
+<span class="fc" id="L1508">                                priorVariables = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L1509">                                priorVariables.add(builder.midString(offset, length));</span>
+                            }
+
+                            // handle cyclic substitution
+<span class="fc" id="L1513">                            checkCyclicSubstitution(varName, priorVariables);</span>
+<span class="fc" id="L1514">                            priorVariables.add(varName);</span>
+
+                            // resolve the variable
+<span class="fc" id="L1517">                            String varValue = resolveVariable(varName, builder, startPos, endPos);</span>
+<span class="fc bfc" id="L1518" title="All 2 branches covered.">                            if (varValue == null) {</span>
+<span class="fc" id="L1519">                                varValue = varDefaultValue;</span>
+                            }
+<span class="fc bfc" id="L1521" title="All 2 branches covered.">                            if (varValue != null) {</span>
+<span class="fc" id="L1522">                                final int varLen = varValue.length();</span>
+<span class="fc" id="L1523">                                builder.replace(startPos, endPos, varValue);</span>
+<span class="fc" id="L1524">                                altered = true;</span>
+<span class="fc" id="L1525">                                int change = 0;</span>
+<span class="pc bpc" id="L1526" title="1 of 2 branches missed.">                                if (!substitutionInValuesDisabled) { // recursive replace</span>
+<span class="fc" id="L1527">                                    change = substitute(builder, startPos, varLen, priorVariables).lengthChange;</span>
+                                }
+<span class="fc" id="L1529">                                change = change + varLen - (endPos - startPos);</span>
+<span class="fc" id="L1530">                                pos += change;</span>
+<span class="fc" id="L1531">                                bufEnd += change;</span>
+<span class="fc" id="L1532">                                lengthChange += change;</span>
+<span class="fc bfc" id="L1533" title="All 2 branches covered.">                            } else if (undefinedVariableException) {</span>
+<span class="fc" id="L1534">                                throw new IllegalArgumentException(</span>
+<span class="fc" id="L1535">                                    String.format(&quot;Cannot resolve variable '%s' (enableSubstitutionInVariables=%s).&quot;,</span>
+<span class="fc" id="L1536">                                        varName, substitutionInVariablesEnabled));</span>
+                            }
+
+                            // remove variable from the cyclic stack
+<span class="fc" id="L1540">                            priorVariables.remove(priorVariables.size() - 1);</span>
+<span class="fc" id="L1541">                            break;</span>
+                        }
+<span class="fc" id="L1543">                        nestedVarCount--;</span>
+<span class="fc" id="L1544">                        pos += endMatchLen;</span>
+                    }
+                }
+            }
+<span class="fc" id="L1548">        }</span>
+<span class="fc" id="L1549">        return new Result(altered, lengthChange);</span>
+    }
+
+    /**
+     * Returns a string representation of the object.
+     *
+     * @return a string representation of the object.
+     * @since 1.11.0
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L1560">        final StringBuilder builder = new StringBuilder();</span>
+<span class="nc" id="L1561">        builder.append(&quot;StringSubstitutor [disableSubstitutionInValues=&quot;).append(disableSubstitutionInValues).append(&quot;, enableSubstitutionInVariables=&quot;)</span>
+<span class="nc" id="L1562">                .append(enableSubstitutionInVariables).append(&quot;, enableUndefinedVariableException=&quot;).append(enableUndefinedVariableException)</span>
+<span class="nc" id="L1563">                .append(&quot;, escapeChar=&quot;).append(escapeChar).append(&quot;, prefixMatcher=&quot;).append(prefixMatcher).append(&quot;, preserveEscapes=&quot;)</span>
+<span class="nc" id="L1564">                .append(preserveEscapes).append(&quot;, suffixMatcher=&quot;).append(suffixMatcher).append(&quot;, valueDelimiterMatcher=&quot;).append(valueDelimiterMatcher)</span>
+<span class="nc" id="L1565">                .append(&quot;, variableResolver=&quot;).append(variableResolver).append(&quot;]&quot;);</span>
+<span class="nc" id="L1566">        return builder.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

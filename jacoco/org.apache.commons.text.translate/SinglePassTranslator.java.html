@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SinglePassTranslator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.translate</a> &gt; <span class="el_source">SinglePassTranslator.java</span></div><h1>SinglePassTranslator.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.text.translate;
+
+import java.io.IOException;
+import java.io.Writer;
+
+/**
+ * Abstract translator for processing whole input in single pass.
+ * Handles initial index checking and counting of returned code points.
+ */
+<span class="fc" id="L26">abstract class SinglePassTranslator extends CharSequenceTranslator {</span>
+
+    /**
+     * A utility method to be used in the {@link #translate(CharSequence, int, Writer)} method.
+     *
+     * @return The name of this or the extending class.
+     */
+    private String getClassName() {
+<span class="fc" id="L34">        final Class&lt;? extends SinglePassTranslator&gt; clazz = this.getClass();</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        return clazz.isAnonymousClass() ?  clazz.getName() : clazz.getSimpleName();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     * @throws IllegalArgumentException if {@code index != 0}
+     */
+    @Override
+    public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (index != 0) {</span>
+<span class="fc" id="L45">            throw new IllegalArgumentException(getClassName() + &quot;.translate(final CharSequence input, final int &quot;</span>
+                    + &quot;index, final Writer out) can not handle a non-zero index.&quot;);
+        }
+
+<span class="fc" id="L49">        translateWhole(input, writer);</span>
+
+<span class="fc" id="L51">        return Character.codePointCount(input, index, input.length());</span>
+    }
+
+    /**
+     * Translates whole set of code points passed in input.
+     *
+     * @param input CharSequence that is being translated
+     * @param writer Writer to translate the text to
+     * @throws IOException if and only if the Writer produces an IOException
+     */
+    abstract void translateWhole(CharSequence input, Writer writer) throws IOException;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StringMatcherFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Text</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.text.matcher</a> &gt; <span class="el_source">StringMatcherFactory.java</span></div><h1>StringMatcherFactory.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.commons.text.matcher;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
+/**
+ * Provides access to matchers defined in this package.
+ *
+ * @since 1.3
+ */
+public final class StringMatcherFactory {
+
+    /**
+     * Matches the comma character.
+     */
+<span class="fc" id="L33">    private static final AbstractStringMatcher.CharMatcher COMMA_MATCHER = new AbstractStringMatcher.CharMatcher(',');</span>
+
+    /**
+     * Matches the double quote character.
+     */
+<span class="fc" id="L38">    private static final AbstractStringMatcher.CharMatcher DOUBLE_QUOTE_MATCHER = new AbstractStringMatcher.CharMatcher(</span>
+        '&quot;');
+
+    /**
+     * Defines the singleton for this class.
+     */
+<span class="fc" id="L44">    public static final StringMatcherFactory INSTANCE = new StringMatcherFactory();</span>
+
+    /**
+     * Matches no characters.
+     */
+<span class="fc" id="L49">    private static final AbstractStringMatcher.NoneMatcher NONE_MATCHER = new AbstractStringMatcher.NoneMatcher();</span>
+
+    /**
+     * Matches the single or double quote character.
+     */
+<span class="fc" id="L54">    private static final AbstractStringMatcher.CharSetMatcher QUOTE_MATCHER = new AbstractStringMatcher.CharSetMatcher(</span>
+<span class="fc" id="L55">        &quot;'\&quot;&quot;.toCharArray());</span>
+
+    /**
+     * Matches the double quote character.
+     */
+<span class="fc" id="L60">    private static final AbstractStringMatcher.CharMatcher SINGLE_QUOTE_MATCHER = new AbstractStringMatcher.CharMatcher(</span>
+        '\'');
+
+    /**
+     * Matches the space character.
+     */
+<span class="fc" id="L66">    private static final AbstractStringMatcher.CharMatcher SPACE_MATCHER = new AbstractStringMatcher.CharMatcher(' ');</span>
+
+    /**
+     * Matches the same characters as StringTokenizer, namely space, tab, newline, form feed.
+     */
+<span class="fc" id="L71">    private static final AbstractStringMatcher.CharSetMatcher SPLIT_MATCHER = new AbstractStringMatcher.CharSetMatcher(</span>
+<span class="fc" id="L72">        &quot; \t\n\r\f&quot;.toCharArray());</span>
+
+    /**
+     * Matches the tab character.
+     */
+<span class="fc" id="L77">    private static final AbstractStringMatcher.CharMatcher TAB_MATCHER = new AbstractStringMatcher.CharMatcher('\t');</span>
+
+    /**
+     * Matches the String trim() whitespace characters.
+     */
+<span class="fc" id="L82">    private static final AbstractStringMatcher.TrimMatcher TRIM_MATCHER = new AbstractStringMatcher.TrimMatcher();</span>
+
+    /**
+     * No need to build instances for now.
+     */
+    private StringMatcherFactory() {
+        // empty
+    }
+
+    /**
+     * Creates a matcher that matches all of the given matchers in order.
+     *
+     * @param stringMatchers the matcher
+     * @return a matcher that matches all of the given matchers in order.
+     * @since 1.9
+     */
+    public StringMatcher andMatcher(final StringMatcher... stringMatchers) {
+<span class="fc" id="L99">        final int len = ArrayUtils.getLength(stringMatchers);</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        if (len == 0) {</span>
+<span class="fc" id="L101">            return NONE_MATCHER;</span>
+        }
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        if (len == 1) {</span>
+<span class="fc" id="L104">            return stringMatchers[0];</span>
+        }
+<span class="fc" id="L106">        return new AbstractStringMatcher.AndStringMatcher(stringMatchers);</span>
+    }
+
+    /**
+     * Constructor that creates a matcher from a character.
+     *
+     * @param ch the character to match, must not be null
+     * @return a new Matcher for the given char
+     */
+    public StringMatcher charMatcher(final char ch) {
+<span class="fc" id="L116">        return new AbstractStringMatcher.CharMatcher(ch);</span>
+    }
+
+    /**
+     * Constructor that creates a matcher from a set of characters.
+     *
+     * @param chars the characters to match, null or empty matches nothing
+     * @return a new matcher for the given char[]
+     */
+    public StringMatcher charSetMatcher(final char... chars) {
+<span class="fc" id="L126">        final int len = ArrayUtils.getLength(chars);</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        if (len == 0) {</span>
+<span class="fc" id="L128">            return NONE_MATCHER;</span>
+        }
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        if (len == 1) {</span>
+<span class="fc" id="L131">            return new AbstractStringMatcher.CharMatcher(chars[0]);</span>
+        }
+<span class="fc" id="L133">        return new AbstractStringMatcher.CharSetMatcher(chars);</span>
+    }
+
+    /**
+     * Creates a matcher from a string representing a set of characters.
+     *
+     * @param chars the characters to match, null or empty matches nothing
+     * @return a new Matcher for the given characters
+     */
+    public StringMatcher charSetMatcher(final String chars) {
+<span class="fc" id="L143">        final int len = StringUtils.length(chars);</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        if (len == 0) {</span>
+<span class="fc" id="L145">            return NONE_MATCHER;</span>
+        }
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        if (len == 1) {</span>
+<span class="fc" id="L148">            return new AbstractStringMatcher.CharMatcher(chars.charAt(0));</span>
+        }
+<span class="fc" id="L150">        return new AbstractStringMatcher.CharSetMatcher(chars.toCharArray());</span>
+    }
+
+    /**
+     * Returns a matcher which matches the comma character.
+     *
+     * @return a matcher for a comma
+     */
+    public StringMatcher commaMatcher() {
+<span class="fc" id="L159">        return COMMA_MATCHER;</span>
+    }
+
+    /**
+     * Returns a matcher which matches the double quote character.
+     *
+     * @return a matcher for a double quote
+     */
+    public StringMatcher doubleQuoteMatcher() {
+<span class="fc" id="L168">        return DOUBLE_QUOTE_MATCHER;</span>
+    }
+
+    /**
+     * Matches no characters.
+     *
+     * @return a matcher that matches nothing
+     */
+    public StringMatcher noneMatcher() {
+<span class="fc" id="L177">        return NONE_MATCHER;</span>
+    }
+
+    /**
+     * Returns a matcher which matches the single or double quote character.
+     *
+     * @return a matcher for a single or double quote
+     */
+    public StringMatcher quoteMatcher() {
+<span class="fc" id="L186">        return QUOTE_MATCHER;</span>
+    }
+
+    /**
+     * Returns a matcher which matches the single quote character.
+     *
+     * @return a matcher for a single quote
+     */
+    public StringMatcher singleQuoteMatcher() {
+<span class="fc" id="L195">        return SINGLE_QUOTE_MATCHER;</span>
+    }
+
+    /**
+     * Returns a matcher which matches the space character.
+     *
+     * @return a matcher for a space
+     */
+    public StringMatcher spaceMatcher() {
+<span class="fc" id="L204">        return SPACE_MATCHER;</span>
+    }
+
+    /**
+     * Matches the same characters as StringTokenizer, namely space, tab, newline and form feed.
+     *
+     * @return The split matcher
+     */
+    public StringMatcher splitMatcher() {
+<span class="fc" id="L213">        return SPLIT_MATCHER;</span>
+    }
+
+    /**
+     * Creates a matcher from a string.
+     *
+     * @param chars the string to match, null or empty matches nothing
+     * @return a new Matcher for the given String
+     * @since 1.9
+     */
+    public StringMatcher stringMatcher(final char... chars) {
+<span class="fc" id="L224">        final int length = ArrayUtils.getLength(chars);</span>
+<span class="fc bfc" id="L225" title="All 2 branches covered.">        return length == 0 ? NONE_MATCHER</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">            : length == 1 ? new AbstractStringMatcher.CharMatcher(chars[0])</span>
+<span class="fc" id="L227">                : new AbstractStringMatcher.CharArrayMatcher(chars);</span>
+    }
+
+    /**
+     * Creates a matcher from a string.
+     *
+     * @param str the string to match, null or empty matches nothing
+     * @return a new Matcher for the given String
+     */
+    public StringMatcher stringMatcher(final String str) {
+<span class="fc bfc" id="L237" title="All 2 branches covered.">        return StringUtils.isEmpty(str) ? NONE_MATCHER : stringMatcher(str.toCharArray());</span>
+    }
+
+    /**
+     * Returns a matcher which matches the tab character.
+     *
+     * @return a matcher for a tab
+     */
+    public StringMatcher tabMatcher() {
+<span class="fc" id="L246">        return TAB_MATCHER;</span>
+    }
+
+    /**
+     * Matches the String trim() whitespace characters.
+     *
+     * @return The trim matcher
+     */
+    public StringMatcher trimMatcher() {
+<span class="fc" id="L255">        return TRIM_MATCHER;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
