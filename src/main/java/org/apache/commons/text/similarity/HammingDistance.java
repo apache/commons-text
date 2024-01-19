@@ -22,7 +22,7 @@ package org.apache.commons.text.similarity;
  *
  * <p>
  * For further explanation about the Hamming Distance, take a look at its
- * Wikipedia page at http://en.wikipedia.org/wiki/Hamming_distance.
+ * Wikipedia page at https://en.wikipedia.org/wiki/Hamming_distance.
  * </p>
  *
  * @since 1.0

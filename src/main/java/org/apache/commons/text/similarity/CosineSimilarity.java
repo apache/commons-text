@@ -23,7 +23,7 @@ import java.util.Set;
 /**
  * Measures the Cosine similarity of two vectors of an inner product space and compares the angle between them.
  * <p>
- * For further explanation about the Cosine Similarity, refer to http://en.wikipedia.org/wiki/Cosine_similarity.
+ * For further explanation about the Cosine Similarity, refer to https://en.wikipedia.org/wiki/Cosine_similarity.
  * </p>
  * <p>
  * Instances of this class are immutable and are safe for use by multiple concurrent threads.

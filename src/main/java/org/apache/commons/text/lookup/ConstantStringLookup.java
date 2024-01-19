@@ -134,7 +134,7 @@ class ConstantStringLookup extends AbstractStringLookup {
 
     /**
      * Determines the value of the specified constant member field of a class. This implementation will call
-     * {@code fetchClass()} to obtain the {@code java.lang.Class} object for the target class. Then it will use
+     * {@code fetchClass()} to obtain the {@link Class} object for the target class. Then it will use
      * reflection to obtain the field's value. For this to work the field must be accessible.
      *
      * @param className the name of the class

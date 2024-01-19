@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * <p>
  * For further explanation about Cosine Similarity and Cosine Distance, refer to
- * http://en.wikipedia.org/wiki/Cosine_similarity.
+ * https://en.wikipedia.org/wiki/Cosine_similarity.
  * </p>
  *
  * @since 1.0

@@ -202,7 +202,7 @@ public abstract class StrLookup<V> implements StringLookup {
     }
 
     /**
-     * Constructor.
+     * Constructs a new instance.
      */
     protected StrLookup() {
     }
