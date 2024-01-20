@@ -77,7 +77,6 @@ public class UnicodeEscaper extends CodePointTranslator {
 
     /**
      * Constructs a {@code UnicodeEscaper} for all characters.
-     *
      */
     public UnicodeEscaper() {
         this(0, Integer.MAX_VALUE, true);
@@ -105,7 +104,6 @@ public class UnicodeEscaper extends CodePointTranslator {
      * @param codePoint
      *            a Unicode code point
      * @return The hexadecimal string for the given code point
-     *
      */
     protected String toUtf16Escape(final int codePoint) {
         return "\\u" + hex(codePoint);

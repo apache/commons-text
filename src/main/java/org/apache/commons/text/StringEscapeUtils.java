@@ -67,7 +67,6 @@ public class StringEscapeUtils {
      *      .append("&lt;/p&gt;")
      *      .toString()
      * </pre>
-     *
      */
     public static final class Builder {
 
