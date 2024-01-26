@@ -72,5 +72,29 @@ public class CaseUtilsTest {
         assertThat(CaseUtils.toCamelCase("\uD800\uDF00 \uD800\uDF02", true)).isEqualTo("\uD800\uDF00\uD800\uDF02");
         assertThat(CaseUtils.toCamelCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", true, '\uD800',
             '\uDF14')).isEqualTo("\uD800\uDF00\uD800\uDF01\uD800\uDF02\uD800\uDF03");
+
+        // Test edge cases in delimiter set generation:
+        assertThat(CaseUtils.toCamelCase("To camel case", false, null)).isEqualTo("toCamelCase");
+        assertThat(CaseUtils.toCamelCase("To camel case", false, '')).isEqualTo("toCamelCase");
+        assertThat(CaseUtils.toCamelCase("To camel case", false, ' ')).isEqualTo("toCamelCase");
+        assertThat(CaseUtils.toCamelCase("To camel case", false, '?')).isEqualTo("toCamelCase");
+
+        // Test basic Unicode handling:
+        assertThat(CaseUtils.toCamelCase("TØ ÇÆМ€£ çÄßΕ", false, null)).isEqualTo("tøÇæм€£Çäßε");
+
+        // Test non-BMP delimiters:
+        assertThat(CaseUtils.toCamelCase("To😃camel☹️case", false, "😃☹️".toCharArray())).isEqualTo("toCamelCase");
+        assertThat(CaseUtils.toCamelCase("To😃camel☹️case", false, "😃".toCharArray())).isEqualTo("toCamel☹️case");
+
+        // Test mispaired surrogates:
+        assertThat(CaseUtils.toCamelCase("To\uD83Dcamel\uDE03case", false, "😃".toCharArray())).isEqualTo("to\uD83Dcamel\uDE03case");
+        assertThat(CaseUtils.toCamelCase("To😃camel☹️case", false, "\uD83D\uDE03".toCharArray())).isEqualTo("toCamel☹️case");
+        assertThat(CaseUtils.toCamelCase("To😃camel☹️case", false, "\uDE03\uD83D".toCharArray())).isEqualTo("to😃camel☹️case");
+
+        // Test letters with special title case forms:
+        assertThat(CaseUtils.toCamelCase("ǄǄ ǅǅ ǆǆ", true)).isEqualTo("ǅǆǅǆǅǆ");
+
+        // Test letters as delimiters:
+        assertThat(CaseUtils.toCamelCase("ToAcameltcase", false, 'A', 't')).isEqualTo("toCamelCase");
     }
 }
