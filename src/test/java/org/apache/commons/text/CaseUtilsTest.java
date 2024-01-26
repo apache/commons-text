@@ -75,7 +75,7 @@ public class CaseUtilsTest {
 
         // Test edge cases in delimiter set generation:
         assertThat(CaseUtils.toCamelCase("To camel case", false, null)).isEqualTo("toCamelCase");
-        assertThat(CaseUtils.toCamelCase("To camel case", false, '')).isEqualTo("toCamelCase");
+        assertThat(CaseUtils.toCamelCase("To camel case", false, new char[0])).isEqualTo("toCamelCase");
         assertThat(CaseUtils.toCamelCase("To camel case", false, ' ')).isEqualTo("toCamelCase");
         assertThat(CaseUtils.toCamelCase("To camel case", false, '?')).isEqualTo("toCamelCase");
 
