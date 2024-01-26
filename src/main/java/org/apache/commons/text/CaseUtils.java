@@ -32,7 +32,7 @@ import org.apache.commons.lang3.StringUtils;
  * @since 1.2
  */
 public class CaseUtils {
-    public static final int SPACE_CODEPOINT = 32;
+    private static final int SPACE_CODEPOINT = 32;
     private static final Set<Integer> DEFAULT_DELIMITER_SET = Set.of(SPACE_CODEPOINT);
 
     /**
