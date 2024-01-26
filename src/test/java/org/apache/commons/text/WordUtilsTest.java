@@ -18,6 +18,8 @@ package org.apache.commons.text;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
@@ -164,23 +166,26 @@ public class WordUtilsTest {
 
     @Test
     public void testContainsAllWords_StringString() {
-        assertThat(WordUtils.containsAllWords(null, (String) null)).isFalse();
-        assertThat(WordUtils.containsAllWords(null, "")).isFalse();
-        assertThat(WordUtils.containsAllWords(null, "ab")).isFalse();
+        assertFalse(WordUtils.containsAllWords(null, (String) null));
+        assertFalse(WordUtils.containsAllWords(null, ""));
+        assertFalse(WordUtils.containsAllWords(null, "ab"));
 
-        assertThat(WordUtils.containsAllWords("", (String) null)).isFalse();
-        assertThat(WordUtils.containsAllWords("", "")).isFalse();
-        assertThat(WordUtils.containsAllWords("", "ab")).isFalse();
+        assertFalse(WordUtils.containsAllWords("", (String) null));
+        assertFalse(WordUtils.containsAllWords("", ""));
+        assertFalse(WordUtils.containsAllWords("", "ab"));
 
-        assertThat(WordUtils.containsAllWords("foo", (String) null)).isFalse();
-        assertThat(WordUtils.containsAllWords("bar", "")).isFalse();
-        assertThat(WordUtils.containsAllWords("zzabyycdxx", "by")).isFalse();
-        assertThat(WordUtils.containsAllWords("lorem ipsum dolor sit amet", "ipsum", "lorem", "dolor")).isTrue();
-        assertThat(WordUtils.containsAllWords("lorem ipsum dolor sit amet", "ipsum", null, "lorem", "dolor")).isFalse();
-        assertThat(WordUtils.containsAllWords("lorem ipsum null dolor sit amet", "ipsum", null, "lorem", "dolor"))
-            .isFalse();
-        assertThat(WordUtils.containsAllWords("ab", "b")).isFalse();
-        assertThat(WordUtils.containsAllWords("ab", "z")).isFalse();
+        assertFalse(WordUtils.containsAllWords("foo", (String) null));
+        assertFalse(WordUtils.containsAllWords("bar", ""));
+        assertFalse(WordUtils.containsAllWords("zzabyycdxx", "by"));
+        assertTrue(WordUtils.containsAllWords("lorem ipsum dolor sit amet", "ipsum", "lorem", "dolor"));
+        assertFalse(WordUtils.containsAllWords("lorem ipsum dolor sit amet", "ipsum", null, "lorem", "dolor"));
+        assertFalse(WordUtils.containsAllWords("lorem ipsum null dolor sit amet", "ipsum", null, "lorem", "dolor"));
+        assertFalse(WordUtils.containsAllWords("ab", "b"));
+        assertFalse(WordUtils.containsAllWords("ab", "z"));
+        assertFalse(WordUtils.containsAllWords("ab", "["));
+        assertFalse(WordUtils.containsAllWords("ab", "]"));
+        assertFalse(WordUtils.containsAllWords("ab", "*"));
+        assertTrue(WordUtils.containsAllWords("ab x", "ab", "x"));
     }
 
     @Test
