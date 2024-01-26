@@ -32,6 +32,8 @@ import org.apache.commons.lang3.StringUtils;
  * @since 1.2
  */
 public class CaseUtils {
+    public static final int SPACE_CODEPOINT = 32;
+    private static final Set<Integer> DEFAULT_DELIMITER_SET = Set.of(SPACE_CODEPOINT);
 
     /**
      * Converts all the delimiter separated words in a String into camelCase,
@@ -70,27 +72,25 @@ public class CaseUtils {
         if (StringUtils.isEmpty(str)) {
             return str;
         }
-        str = str.toLowerCase();
+
         final int strLen = str.length();
         final int[] newCodePoints = new int[strLen];
-        int outOffset = 0;
         final Set<Integer> delimiterSet = toDelimiterSet(delimiters);
+
+        int outOffset = 0;
         boolean capitalizeNext = capitalizeFirstLetter;
         for (int index = 0; index < strLen;) {
             final int codePoint = str.codePointAt(index);
 
             if (delimiterSet.contains(codePoint)) {
-                capitalizeNext = outOffset != 0;
-                index += Character.charCount(codePoint);
-            } else if (capitalizeNext || outOffset == 0 && capitalizeFirstLetter) {
-                final int titleCaseCodePoint = Character.toTitleCase(codePoint);
-                newCodePoints[outOffset++] = titleCaseCodePoint;
-                index += Character.charCount(titleCaseCodePoint);
+                capitalizeNext = outOffset != 0 || capitalizeFirstLetter;
+            } else if (capitalizeNext) {
+                newCodePoints[outOffset++] = Character.toTitleCase(codePoint);
                 capitalizeNext = false;
             } else {
-                newCodePoints[outOffset++] = codePoint;
-                index += Character.charCount(codePoint);
+                newCodePoints[outOffset++] = Character.toLowerCase(codePoint);
             }
+            index += Character.charCount(codePoint);
         }
 
         return new String(newCodePoints, 0, outOffset);
@@ -104,16 +104,22 @@ public class CaseUtils {
      * @return Set<Integer>
      */
     private static Set<Integer> toDelimiterSet(final char[] delimiters) {
-        final Set<Integer> delimiterHashSet = new HashSet<>();
-        delimiterHashSet.add(Character.codePointAt(new char[]{' '}, 0));
         if (ArrayUtils.isEmpty(delimiters)) {
+            return DEFAULT_DELIMITER_SET;
+        } else if (delimiters.length == 1) {
+            final int delimiter = delimiters[0];  // With length == 1 there cannot be a surrogate pair!
+            return delimiter == SPACE_CODEPOINT ? DEFAULT_DELIMITER_SET : Set.of(SPACE_CODEPOINT, delimiter);
+        } else {
+            final Set<Integer> delimiterHashSet = new HashSet<>(1 + delimiters.length);
+            delimiterHashSet.add(SPACE_CODEPOINT);
+
+            for (int index = 0; index < delimiters.length;) {
+                final int codePoint = Character.codePointAt(delimiters, index);
+                delimiterHashSet.add(codePoint);
+                index += Character.charCount(codePoint);
+            }
             return delimiterHashSet;
         }
-
-        for (int index = 0; index < delimiters.length; index++) {
-            delimiterHashSet.add(Character.codePointAt(delimiters, index));
-        }
-        return delimiterHashSet;
     }
 
     /**
@@ -127,4 +133,3 @@ public class CaseUtils {
     public CaseUtils() {
     }
 }
-
