@@ -359,8 +359,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     public int hashCode() {
         int result = super.hashCode();
         result = HASH_SEED * result + Objects.hashCode(registry);
-        result = HASH_SEED * result + Objects.hashCode(toPattern);
-        return result;
+        return HASH_SEED * result + Objects.hashCode(toPattern);
     }
 
     /**
