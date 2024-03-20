@@ -24,14 +24,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
 
 /**
- * Looks up keys from a file.
+ * Looks up file contents.
  * <p>
  * Using a {@link StringLookup} from the {@link StringLookupFactory}:
  * </p>
  *
  * <pre>
- * StringLookupFactory.INSTANCE.fileStringLookup().lookup(UTF-8:com/domain/document.properties");
+ * StringLookupFactory.INSTANCE.fileStringLookup().lookup("UTF-8:com/domain/document.properties");
  * </pre>
+ * <p>
+ * The above example converts {@code "UTF-8:com/domain/document.properties"} to the UTF-8 contents of the file at {@code com/domain/document.properties}.
+ * </p>
  * <p>
  * Using a {@link StringSubstitutor}:
  * </p>
@@ -40,7 +43,7 @@ import org.apache.commons.text.StringSubstitutor;
  * StringSubstitutor.createInterpolator().replace("... ${file:UTF-8:com/domain/document.properties} ..."));
  * </pre>
  * <p>
- * The above examples convert {@code "UTF-8:SomePath"} to the contents of the file.
+ * The above example converts {@code "UTF-8:SomePath"} to the UTF-8 contents of the file at {@code SomePath}.
  * </p>
  *
  * @since 1.5
