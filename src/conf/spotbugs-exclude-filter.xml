@@ -57,4 +57,9 @@
     <Method name="lookup" />
     <Bug pattern="DCN_NULLPOINTER_EXCEPTION" />
   </Match>
+  <!-- https://github.com/spotbugs/spotbugs/issues/2710 -->
+  <Match>
+    <Class name="~.*" />
+    <Bug pattern="CT_CONSTRUCTOR_THROW" />
+  </Match>  
 </FindBugsFilter>

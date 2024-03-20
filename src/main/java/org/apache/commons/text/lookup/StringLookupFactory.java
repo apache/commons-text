@@ -286,7 +286,7 @@ public final class StringLookupFactory {
                         addLookup(DefaultStringLookup.valueOf(lookupName.toUpperCase()), lookupMap);
                     }
                 }
-            } catch (IllegalArgumentException exc) {
+            } catch (final IllegalArgumentException exc) {
                 throw new IllegalArgumentException("Invalid default string lookups definition: " + str, exc);
             }
 

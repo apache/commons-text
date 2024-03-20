@@ -429,60 +429,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
     }
 
     /**
-     * Matches Uppercase characters as determined by {@link java.lang.Character#isUpperCase(int)}
-     * <p>
-     * Thread=safe.
-     * </p>
-     */
-    static final class UppercaseMatcher extends AbstractStringMatcher {
-
-        /**
-         * Constructs a new instance of {@code UppercaseMatcher}.
-         */
-        UppercaseMatcher() {
-        }
-
-        /**
-         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
-         *
-         * @param buffer the text content to match against, do not change
-         * @param start the starting position for the match, valid for buffer
-         * @param bufferStart unused
-         * @param bufferEnd unused
-         * @return the number of matching characters, zero for no match
-         */
-        @Override
-        public int isMatch(char[] buffer, int start, int bufferStart, int bufferEnd) {
-            int codePoint = Character.codePointAt(buffer, start);
-            return Character.isUpperCase(codePoint) ? Character.charCount(codePoint) : 0;
-        }
-
-        /**
-         * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
-         *
-         * @param buffer the text content to match against, do not change
-         * @param start the starting position for the match, valid for buffer
-         * @param bufferStart unused
-         * @param bufferEnd unused
-         * @return The number of matching characters, zero for no match
-         */
-        @Override
-        public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
-            int codePoint = Character.codePointAt(buffer, start);
-            return Character.isUpperCase(codePoint) ? Character.charCount(codePoint) : 0;
-        }
-
-        /**
-         * Returns 1.
-         */
-        @Override
-        public int size() {
-            throw new UnsupportedOperationException("Uppercase Matcher doesn't support size() method");
-        }
-    }
-
-    /**
-     * Constructor.
+     * Constructs a new instance.
      */
     protected AbstractStringMatcher() {
     }

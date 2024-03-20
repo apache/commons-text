@@ -1537,7 +1537,7 @@ public class TextStringBuilderTest {
             for (int i = 0; i < 3; i++) {
                 sb.append(chars);
             }
-        } catch (OutOfMemoryError ignored) {
+        } catch (final OutOfMemoryError ignored) {
             Assumptions.abort("Not enough memory for the test");
         }
 
@@ -1561,7 +1561,7 @@ public class TextStringBuilderTest {
         final char[] extra = new char[small + 1];
         try {
             sb.ensureCapacity(big);
-        } catch (OutOfMemoryError ignored) {
+        } catch (final OutOfMemoryError ignored) {
             Assumptions.abort("Not enough memory for the test");
         }
 
@@ -1583,7 +1583,7 @@ public class TextStringBuilderTest {
         final int length = 1 << 30;
         try {
             sb.ensureCapacity(length);
-        } catch (OutOfMemoryError ignored) {
+        } catch (final OutOfMemoryError ignored) {
             Assumptions.abort("Not enough memory for the test");
         }
 

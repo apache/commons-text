@@ -31,8 +31,8 @@ import org.apache.commons.lang3.StringUtils;
  *
  * <p>
  * This implementation is based on the Jaro Winkler similarity algorithm
- * from <a href="http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance">
- * http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance</a>.
+ * from <a href="https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance">
+ * https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance</a>.
  * </p>
  *
  * <p>

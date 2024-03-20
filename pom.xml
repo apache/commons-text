@@ -20,7 +20,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>64</version>
+    <version>67</version>
   </parent>
   <artifactId>commons-text</artifactId>
   <version>1.11.1-SNAPSHOT</version>
@@ -31,6 +31,7 @@
   <properties>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
 
@@ -49,7 +50,7 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
-    <commons.bytebuddy.version>1.14.10</commons.bytebuddy.version>
+    <commons.bytebuddy.version>1.14.12</commons.bytebuddy.version>
     <commons.mockito.version>4.11.0</commons.mockito.version>
 
     <!-- 22.1.0 requires Java 11 -->
@@ -103,13 +104,13 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.24.2</version>
+      <version>3.25.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.15.0</version>
+      <version>2.15.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -496,7 +497,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>3.1.1</version>
+            <version>3.2.0</version>
             <executions>
               <execution>
                 <id>benchmark</id>

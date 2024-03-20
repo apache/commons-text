@@ -66,18 +66,17 @@ public class UnicodeEscaper extends CodePointTranslator {
         return new UnicodeEscaper(codePointLow, codePointHigh, false);
     }
 
-    /** int value representing the lowest code point boundary. */
+    /** The lowest code point boundary. */
     private final int below;
 
-    /** int value representing the highest code point boundary. */
+    /** The highest code point boundary. */
     private final int above;
 
-    /** whether to escape between the boundaries or outside them. */
+    /** Whether to escape between the boundaries or outside them. */
     private final boolean between;
 
     /**
      * Constructs a {@code UnicodeEscaper} for all characters.
-     *
      */
     public UnicodeEscaper() {
         this(0, Integer.MAX_VALUE, true);
@@ -105,7 +104,6 @@ public class UnicodeEscaper extends CodePointTranslator {
      * @param codePoint
      *            a Unicode code point
      * @return The hexadecimal string for the given code point
-     *
      */
     protected String toUtf16Escape(final int codePoint) {
         return "\\u" + hex(codePoint);

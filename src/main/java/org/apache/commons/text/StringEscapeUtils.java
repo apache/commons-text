@@ -55,7 +55,7 @@ public class StringEscapeUtils {
     /* ESCAPE TRANSLATORS */
 
     /**
-     * Convenience wrapper for {@link java.lang.StringBuilder} providing escape methods.
+     * Convenience wrapper for {@link StringBuilder} providing escape methods.
      *
      * <p>Example:</p>
      * <pre>
@@ -67,7 +67,6 @@ public class StringEscapeUtils {
      *      .append("&lt;/p&gt;")
      *      .toString()
      * </pre>
-     *
      */
     public static final class Builder {
 
@@ -342,7 +341,7 @@ public class StringEscapeUtils {
     /**
      * Translator object for escaping Shell command language.
      *
-     * @see <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcu/chap2.html">Shell Command Language</a>
+     * @see <a href="https://pubs.opengroup.org/onlinepubs/7908799/xcu/chap2.html">Shell Command Language</a>
      */
     public static final CharSequenceTranslator ESCAPE_XSI;
     static {
@@ -500,8 +499,8 @@ public class StringEscapeUtils {
      * <p>If the value does not contain a comma, newline or double quote, then the
      *    String value is returned unchanged.</p>
      *
-     * see <a href="http://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia</a> and
-     * <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a>.
+     * see <a href="https://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia</a> and
+     * <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
      *
      * @param input the input CSV column String, may be null
      * @return The input String, enclosed in double quotes if the value contains a comma,
@@ -577,7 +576,7 @@ public class StringEscapeUtils {
      * @param input  the {@code String} to escape, may be null
      * @return a new escaped {@code String}, {@code null} if null string input
      *
-     * @see <a href="http://hotwired.lycos.com/webmonkey/reference/special_characters/">ISO Entities</a>
+     * @see <a href="https://hotwired.lycos.com/webmonkey/reference/special_characters/">ISO Entities</a>
      * @see <a href="http://www.w3.org/TR/REC-html32#latin1">HTML 3.2 Character Entities for ISO Latin-1</a>
      * @see <a href="http://www.w3.org/TR/REC-html40/sgml/entities.html">HTML 4.0 Character entity references</a>
      * @see <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01 Character References</a>
@@ -703,7 +702,7 @@ public class StringEscapeUtils {
      * Escapes the characters in a {@code String} using XSI rules.
      *
      * <p><b>Beware!</b> In most cases you don't want to escape shell commands but use multi-argument
-     * methods provided by {@link java.lang.ProcessBuilder} or {@link java.lang.Runtime#exec(String[])}
+     * methods provided by {@link ProcessBuilder} or {@link Runtime#exec(String[])}
      * instead.</p>
      *
      * <p>Example:</p>
@@ -712,7 +711,7 @@ public class StringEscapeUtils {
      * output string: He\ didn\'t\ say,\ \"Stop!\"
      * </pre>
      *
-     * @see <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcu/chap2.html">Shell Command Language</a>
+     * @see <a href="https://pubs.opengroup.org/onlinepubs/7908799/xcu/chap2.html">Shell Command Language</a>
      * @param input  String to escape values in, may be null
      * @return String with escaped values, {@code null} if null string input
      */
@@ -733,8 +732,8 @@ public class StringEscapeUtils {
      * <p>If the value is not enclosed in double quotes, or is and does not contain a
      *    comma, newline or double quote, then the String value is returned unchanged.</p>
      *
-     * see <a href="http://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia</a> and
-     * <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a>.
+     * see <a href="https://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia</a> and
+     * <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
      *
      * @param input the input CSV column String, may be null
      * @return The input String, with enclosing double quotes removed and embedded double

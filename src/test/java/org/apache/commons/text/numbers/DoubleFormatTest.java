@@ -44,7 +44,7 @@ public class DoubleFormatTest {
         try {
             Assertions.assertEquals(dfStr, fmtStr,
                 () -> "Unexpected output for locale [" + loc.toLanguageTag() + "] and double value " + d);
-        } catch (AssertionError e) {
+        } catch (final AssertionError e) {
             // Note:
             // The DecimalFormat may omit the fraction component if it is zero
             // when using the ENGINEERING format "##0.0##E0".
