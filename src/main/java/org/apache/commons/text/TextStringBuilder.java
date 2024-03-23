@@ -1165,7 +1165,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends the new line string to this string builder.
      * <p>
      * The new line string can be altered using {@link #setNewLineText(String)}. This might be used to force the output
-     * to always use Unix line endings even when on Windows.
+     * to always use UNIX line endings even when on Windows.
      * </p>
      *
      * @return this, to enable chaining
