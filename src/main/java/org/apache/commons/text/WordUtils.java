@@ -18,6 +18,7 @@ package org.apache.commons.text;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -170,7 +171,7 @@ public class WordUtils {
         if (StringUtils.isEmpty(str)) {
             return str;
         }
-        final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
+        final Predicate<Integer> isDelimiter = generateIsDelimiterFunction(delimiters);
         final int strLen = str.length();
         final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
@@ -179,7 +180,7 @@ public class WordUtils {
         for (int index = 0; index < strLen;) {
             final int codePoint = str.codePointAt(index);
 
-            if (delimiterSet.contains(codePoint)) {
+            if (isDelimiter.test(codePoint)) {
                 capitalizeNext = true;
                 newCodePoints[outOffset++] = codePoint;
                 index += Character.charCount(codePoint);
@@ -290,26 +291,32 @@ public class WordUtils {
     }
 
     /**
-     * Converts an array of delimiters to a hash set of code points. Code point of space(32) is added as the default
-     * value if delimiters is null. The generated hash set provides O(1) lookup time.
+     * Given the array of delimiters supplied; returns a function determining whether a character code point is a delimiter.
+     * The function provides O(1) lookup time.
+     * Whitespace is defined by {@link Character#isWhitespace(char)} and is used as the defaultvalue if delimiters is null.
      *
-     * @param delimiters set of characters to determine capitalization, null means whitespace
-     * @return Set<Integer>
+     * @param delimiters set of characters to determine delimiters, null means whitespace
+     * @return Predicate<Integer> taking a code point value as an argument and returning true if a delimiter.
      */
-    private static Set<Integer> generateDelimiterSet(final char[] delimiters) {
-        final Set<Integer> delimiterHashSet = new HashSet<>();
+    private static Predicate<Integer> generateIsDelimiterFunction(final char[] delimiters) {
+        final Predicate<Integer> isDelimiter;
+
         if (delimiters == null || delimiters.length == 0) {
             if (delimiters == null) {
-                delimiterHashSet.add(Character.codePointAt(new char[] {' '}, 0));
+                isDelimiter = (c) -> Character.isWhitespace(c);
+            } else {
+                isDelimiter = (c) -> false;
             }
 
-            return delimiterHashSet;
+        } else {
+            Set<Integer> delimiterSet = new HashSet<>();
+            for (int index = 0; index < delimiters.length; index++) {
+                delimiterSet.add(Character.codePointAt(delimiters, index));
+            }
+            isDelimiter = (c) -> delimiterSet.contains(c);
         }
 
-        for (int index = 0; index < delimiters.length; index++) {
-            delimiterHashSet.add(Character.codePointAt(delimiters, index));
-        }
-        return delimiterHashSet;
+        return isDelimiter;
     }
 
     /**
@@ -368,7 +375,7 @@ public class WordUtils {
         if (delimiters != null && delimiters.length == 0) {
             return StringUtils.EMPTY;
         }
-        final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
+        final Predicate<Integer> isDelimiter = generateIsDelimiterFunction(delimiters);
         final int strLen = str.length();
         final int[] newCodePoints = new int[strLen / 2 + 1];
         int count = 0;
@@ -376,7 +383,7 @@ public class WordUtils {
         for (int i = 0; i < strLen;) {
             final int codePoint = str.codePointAt(i);
 
-            if (delimiterSet.contains(codePoint) || delimiters == null && Character.isWhitespace(codePoint)) {
+            if (isDelimiter.test(codePoint)) {
                 lastWasGap = true;
             } else if (lastWasGap) {
                 newCodePoints[count++] = codePoint;
@@ -534,7 +541,7 @@ public class WordUtils {
         if (StringUtils.isEmpty(str)) {
             return str;
         }
-        final Set<Integer> delimiterSet = generateDelimiterSet(delimiters);
+        final Predicate<Integer> isDelimiter = generateIsDelimiterFunction(delimiters);
         final int strLen = str.length();
         final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
@@ -543,7 +550,7 @@ public class WordUtils {
         for (int index = 0; index < strLen;) {
             final int codePoint = str.codePointAt(index);
 
-            if (delimiterSet.contains(codePoint)) {
+            if (isDelimiter.test(codePoint)) {
                 uncapitalizeNext = true;
                 newCodePoints[outOffset++] = codePoint;
                 index += Character.charCount(codePoint);
