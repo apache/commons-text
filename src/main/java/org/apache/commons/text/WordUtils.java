@@ -300,20 +300,14 @@ public class WordUtils {
      */
     private static Predicate<Integer> generateIsDelimiterFunction(final char[] delimiters) {
         final Predicate<Integer> isDelimiter;
-
         if (delimiters == null || delimiters.length == 0) {
-            if (delimiters == null) {
-                isDelimiter = (c) -> Character.isWhitespace(c);
-            } else {
-                isDelimiter = (c) -> false;
-            }
-
+            isDelimiter = delimiters == null ? Character::isWhitespace : c -> false;
         } else {
             Set<Integer> delimiterSet = new HashSet<>();
             for (int index = 0; index < delimiters.length; index++) {
                 delimiterSet.add(Character.codePointAt(delimiters, index));
             }
-            isDelimiter = (c) -> delimiterSet.contains(c);
+            isDelimiter = delimiterSet::contains;
         }
 
         return isDelimiter;
