@@ -109,6 +109,8 @@ public class WordUtilsTest {
         assertThat(WordUtils.capitalizeFully("i am HERE 123")).isEqualTo("I Am Here 123");
         assertThat(WordUtils.capitalizeFully("I AM HERE 123")).isEqualTo("I Am Here 123");
         assertThat(WordUtils.capitalizeFully("alphabet")).isEqualTo("Alphabet"); // single word
+        assertThat(WordUtils.capitalizeFully("a\tb\nc d")).isEqualTo("A\tB\nC D");
+        assertThat(WordUtils.capitalizeFully("and \tbut \ncleat  dome")).isEqualTo("And \tBut \nCleat  Dome");
     }
 
     @Test
@@ -368,6 +370,8 @@ public class WordUtilsTest {
         assertThat(WordUtils.uncapitalize("I Am Here 123")).isEqualTo("i am here 123");
         assertThat(WordUtils.uncapitalize("i am HERE 123")).isEqualTo("i am hERE 123");
         assertThat(WordUtils.uncapitalize("I AM HERE 123")).isEqualTo("i aM hERE 123");
+        assertThat(WordUtils.uncapitalize("A\tB\nC D")).isEqualTo("a\tb\nc d");
+        assertThat(WordUtils.uncapitalize("And \tBut \nCLEAT  Dome")).isEqualTo("and \tbut \ncLEAT  dome");
     }
 
     @Test
