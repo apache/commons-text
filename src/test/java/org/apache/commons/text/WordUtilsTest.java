@@ -31,7 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests {@link WordUtils} class.
+ * Tests {@link WordUtils}.
  */
 public class WordUtilsTest {
 
