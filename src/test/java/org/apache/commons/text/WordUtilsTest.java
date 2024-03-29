@@ -18,11 +18,13 @@ package org.apache.commons.text;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +35,9 @@ import org.junit.jupiter.api.Test;
  */
 public class WordUtilsTest {
 
+    private static final String WHITESPACE = IntStream.rangeClosed(Character.MIN_CODE_POINT, Character.MAX_CODE_POINT).filter(Character::isWhitespace)
+            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+    
     @Test
     public void testAbbreviateForLowerThanMinusOneValues() {
         assertThatIllegalArgumentException().isThrownBy(() -> assertThat(WordUtils.abbreviate("01 23 45 67 89", 9, -10, null)).isEqualTo("01 23 45 67"));
@@ -101,7 +106,6 @@ public class WordUtilsTest {
         assertThat(WordUtils.capitalizeFully(null)).isNull();
         assertThat(WordUtils.capitalizeFully("")).isEqualTo("");
         assertThat(WordUtils.capitalizeFully("  ")).isEqualTo("  ");
-
         assertThat(WordUtils.capitalizeFully("I")).isEqualTo("I");
         assertThat(WordUtils.capitalizeFully("i")).isEqualTo("I");
         assertThat(WordUtils.capitalizeFully("i am here 123")).isEqualTo("I Am Here 123");
@@ -111,6 +115,10 @@ public class WordUtilsTest {
         assertThat(WordUtils.capitalizeFully("alphabet")).isEqualTo("Alphabet"); // single word
         assertThat(WordUtils.capitalizeFully("a\tb\nc d")).isEqualTo("A\tB\nC D");
         assertThat(WordUtils.capitalizeFully("and \tbut \ncleat  dome")).isEqualTo("And \tBut \nCleat  Dome");
+        // All whitespace
+        assertEquals(WHITESPACE, WordUtils.capitalizeFully(WHITESPACE));
+        assertEquals("A" + WHITESPACE + "B", WordUtils.capitalizeFully("a" + WHITESPACE + "b"));
+
     }
 
     @Test
@@ -363,7 +371,6 @@ public class WordUtilsTest {
         assertThat(WordUtils.uncapitalize(null)).isNull();
         assertThat(WordUtils.uncapitalize("")).isEqualTo("");
         assertThat(WordUtils.uncapitalize("  ")).isEqualTo("  ");
-
         assertThat(WordUtils.uncapitalize("I")).isEqualTo("i");
         assertThat(WordUtils.uncapitalize("i")).isEqualTo("i");
         assertThat(WordUtils.uncapitalize("i am here 123")).isEqualTo("i am here 123");
@@ -372,6 +379,9 @@ public class WordUtilsTest {
         assertThat(WordUtils.uncapitalize("I AM HERE 123")).isEqualTo("i aM hERE 123");
         assertThat(WordUtils.uncapitalize("A\tB\nC D")).isEqualTo("a\tb\nc d");
         assertThat(WordUtils.uncapitalize("And \tBut \nCLEAT  Dome")).isEqualTo("and \tbut \ncLEAT  dome");
+        // All whitespace
+        assertEquals(WHITESPACE, WordUtils.capitalizeFully(WHITESPACE));
+        assertEquals("A" + WHITESPACE + "B", WordUtils.capitalizeFully("a" + WHITESPACE + "b"));
     }
 
     @Test
