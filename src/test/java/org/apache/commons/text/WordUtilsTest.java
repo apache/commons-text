@@ -37,7 +37,7 @@ public class WordUtilsTest {
 
     private static final String WHITESPACE = IntStream.rangeClosed(Character.MIN_CODE_POINT, Character.MAX_CODE_POINT).filter(Character::isWhitespace)
             .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-    
+
     @Test
     public void testAbbreviateForLowerThanMinusOneValues() {
         assertThatIllegalArgumentException().isThrownBy(() -> assertThat(WordUtils.abbreviate("01 23 45 67 89", 9, -10, null)).isEqualTo("01 23 45 67"));
