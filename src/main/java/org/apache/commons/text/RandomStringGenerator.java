@@ -155,15 +155,12 @@ public final class RandomStringGenerator {
                 inclusivePredicates = null;
                 return this;
             }
-
             if (inclusivePredicates == null) {
                 inclusivePredicates = new HashSet<>();
             } else {
                 inclusivePredicates.clear();
             }
-
             Collections.addAll(inclusivePredicates, predicates);
-
             return this;
         }
 
@@ -284,7 +281,6 @@ public final class RandomStringGenerator {
             Validate.isTrue(minimumCodePoint >= 0, "Minimum code point %d is negative", minimumCodePoint);
             Validate.isTrue(maximumCodePoint <= Character.MAX_CODE_POINT,
                     "Value %d is larger than Character.MAX_CODE_POINT.", maximumCodePoint);
-
             this.minimumCodePoint = minimumCodePoint;
             this.maximumCodePoint = maximumCodePoint;
             return this;
@@ -377,10 +373,8 @@ public final class RandomStringGenerator {
             return StringUtils.EMPTY;
         }
         Validate.isTrue(length > 0, "Length %d is smaller than zero.", length);
-
         final StringBuilder builder = new StringBuilder(length);
         long remaining = length;
-
         do {
             final int codePoint;
             if (characterList != null && !characterList.isEmpty()) {
@@ -395,7 +389,6 @@ public final class RandomStringGenerator {
                 continue;
             default:
             }
-
             if (inclusivePredicates != null) {
                 boolean matchedFilter = false;
                 for (final CharacterPredicate predicate : inclusivePredicates) {
@@ -408,12 +401,9 @@ public final class RandomStringGenerator {
                     continue;
                 }
             }
-
             builder.appendCodePoint(codePoint);
             remaining--;
-
         } while (remaining != 0);
-
         return builder.toString();
     }
 
