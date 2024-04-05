@@ -60,7 +60,7 @@ abstract class AbstractPathFencedLookup extends AbstractStringLookup {
         if (first.isPresent()) {
             return path;
         }
-        throw new IllegalArgumentException(String.format("[%s] -> [%s] not in %s", fileName, pathAbs, fences));
+        throw IllegalArgumentExceptions.format("[%s] -> [%s] not in %s", fileName, pathAbs, fences);
     }
 
 }
