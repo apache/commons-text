@@ -23,7 +23,7 @@
     <version>69</version>
   </parent>
   <artifactId>commons-text</artifactId>
-  <version>1.11.1-SNAPSHOT</version>
+  <version>1.12.0-SNAPSHOT</version>
   <name>Apache Commons Text</name>
   <description>Apache Commons Text is a library focused on algorithms working on strings.</description>
   <url>https://commons.apache.org/proper/commons-text</url>
@@ -39,8 +39,8 @@
     <commons.packageId>text</commons.packageId>
     <commons.module.name>org.apache.commons.text</commons.module.name>
 
-    <commons.release.version>1.11.0</commons.release.version>
-    <commons.release.next>1.11.1</commons.release.next>
+    <commons.release.version>1.12.0</commons.release.version>
+    <commons.release.next>1.12.1</commons.release.next>
     <commons.release.desc>(Java 8+)</commons.release.desc>
 
     <commons.jira.id>TEXT</commons.jira.id>
@@ -63,7 +63,7 @@
 
     <!-- Commons Release Plugin -->
     <!-- Previous version of the component (used for reporting binary compatibility check)-->
-    <commons.bc.version>1.10.0</commons.bc.version>
+    <commons.bc.version>1.11.0</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>

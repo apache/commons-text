@@ -18,7 +18,13 @@
 package org.apache.commons.text.lookup;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
@@ -53,13 +59,33 @@ final class FileStringLookup extends AbstractStringLookup {
     /**
      * Defines the singleton for this class.
      */
-    static final AbstractStringLookup INSTANCE = new FileStringLookup();
+    static final AbstractStringLookup INSTANCE = new FileStringLookup((Path[]) null);
 
     /**
-     * No need to build instances for now.
+     * Fences guarding Path resolution.
      */
-    private FileStringLookup() {
-        // empty
+    private final List<Path> fences;
+
+    /**
+     * Constructs a new instance.
+     *
+     * @param fences The fences guarding Path resolution.
+     */
+    FileStringLookup(final Path... fences) {
+        this.fences = fences != null ? Arrays.asList(fences).stream().map(Path::toAbsolutePath).collect(Collectors.toList()) : Collections.emptyList();
+    }
+
+    private Path getPath(final String fileName) {
+        final Path path = Paths.get(fileName);
+        if (fences.isEmpty()) {
+            return path;
+        }
+        final Path pathAbs = path.normalize().toAbsolutePath();
+        final Optional<Path> first = fences.stream().filter(pathAbs::startsWith).findFirst();
+        if (first.isPresent()) {
+            return path;
+        }
+        throw new IllegalArgumentException(String.format("[%s] -> [%s] not in %s", fileName, pathAbs, fences));
     }
 
     /**
@@ -79,16 +105,14 @@ final class FileStringLookup extends AbstractStringLookup {
         final String[] keys = key.split(String.valueOf(SPLIT_CH));
         final int keyLen = keys.length;
         if (keyLen < 2) {
-            throw IllegalArgumentExceptions
-                .format("Bad file key format [%s], expected format is CharsetName:DocumentPath.", key);
+            throw IllegalArgumentExceptions.format("Bad file key format [%s], expected format is CharsetName:DocumentPath.", key);
         }
         final String charsetName = keys[0];
         final String fileName = StringUtils.substringAfter(key, SPLIT_CH);
         try {
-            return new String(Files.readAllBytes(Paths.get(fileName)), charsetName);
+            return new String(Files.readAllBytes(getPath(fileName)), charsetName);
         } catch (final Exception e) {
-            throw IllegalArgumentExceptions.format(e, "Error looking up file [%s] with charset [%s].", fileName,
-                charsetName);
+            throw IllegalArgumentExceptions.format(e, "Error looking up file [%s] with charset [%s].", fileName, charsetName);
         }
     }
 

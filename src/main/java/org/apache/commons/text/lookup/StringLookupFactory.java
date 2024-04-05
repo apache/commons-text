@@ -18,6 +18,7 @@
 package org.apache.commons.text.lookup;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
@@ -850,9 +851,45 @@ public final class StringLookupFactory {
      *
      * @return The FileStringLookup singleton instance.
      * @since 1.5
+     * @deprecated Use {@link #fileStringLookup(Path...)}.
      */
+    @Deprecated
     public StringLookup fileStringLookup() {
         return FileStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns a fenced FileStringLookup instance.
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory} fenced by the current directory ({@code Paths.get("")}):
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")).lookup("UTF-8:com/domain/document.properties");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
+     * final InterpolatorStringLookup stringLookup = (InterpolatorStringLookup) stringSubstitutor.getStringLookup();
+     * stringLookup.getStringLookupMap().replace(StringLookupFactory.KEY_FILE, StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")));
+     * stringSubstitutor.replace("... ${file:UTF-8:com/domain/document.properties} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "UTF-8:com/domain/document.properties"} to the contents of the file.
+     * </p>
+     * <p>
+     * Methods {@link StringSubstitutor#replace(String)} will throw a {@link IllegalArgumentException} when a file doesn't resolves in a fence.
+     * </p>
+     *
+     * @param fences The fences guarding Path resolution.
+     * @return The FileStringLookup singleton instance.
+     * @since 1.12.0
+     */
+    public StringLookup fileStringLookup(final Path... fences) {
+        return new FileStringLookup(fences);
     }
 
     /**

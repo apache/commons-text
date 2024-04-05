@@ -20,6 +20,7 @@ package org.apache.commons.text.lookup;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +41,16 @@ public class PropertiesStringLookupTest {
     public void testInterpolator() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
         assertEquals("Hello World!", stringSubstitutor.replace("${properties:" + KEY_PATH + "}"));
+    }
+
+    @Test
+    public void testInterpolatorReplaceFile() {
+        final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
+        assertEquals("Hello World!", stringSubstitutor.replace("${properties:" + KEY_PATH + "}"));
+        final InterpolatorStringLookup stringLookup = (InterpolatorStringLookup) stringSubstitutor.getStringLookup();
+        stringLookup.getStringLookupMap().replace(StringLookupFactory.KEY_FILE, StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")));
+        assertEquals("Hello World!", stringSubstitutor.replace("${properties:" + KEY_PATH + "}"));
+        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${file:UTF-8:/foo.txt}"));
     }
 
     @Test
