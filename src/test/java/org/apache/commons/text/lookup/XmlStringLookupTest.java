@@ -24,10 +24,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 import javax.xml.XMLConstants;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -35,12 +38,15 @@ import org.junit.jupiter.api.Test;
  */
 public class XmlStringLookupTest {
 
-    private static final String DOC_PATH = "src/test/resources/org/apache/commons/text/document.xml";
+    private static final Path CURRENT_PATH = Paths.get(StringUtils.EMPTY); // NOT "."
+    private static final Path ABSENT_PATH = Paths.get("does not exist at all");
+    private static final String DOC_RELATIVE = "src/test/resources/org/apache/commons/text/document.xml";
+    private static final String DOC_ROOT = "/document.xml";
 
     static void assertLookup(final StringLookup xmlStringLookup) {
         assertNotNull(xmlStringLookup);
         assertTrue(xmlStringLookup instanceof XmlStringLookup);
-        assertEquals("Hello World!", xmlStringLookup.lookup(DOC_PATH + ":/root/path/to/node"));
+        assertEquals("Hello World!", xmlStringLookup.lookup(DOC_RELATIVE + ":/root/path/to/node"));
         assertNull(xmlStringLookup.lookup(null));
     }
 
@@ -51,13 +57,19 @@ public class XmlStringLookupTest {
 
     @Test
     public void testMissingXPath() {
-        assertThrows(IllegalArgumentException.class, () -> XmlStringLookup.INSTANCE.lookup(DOC_PATH + ":" + "!JUNK!"));
+        assertThrows(IllegalArgumentException.class, () -> XmlStringLookup.INSTANCE.lookup(DOC_RELATIVE + ":" + "!JUNK!"));
     }
 
     @Test
     public void testNoFeatures() {
         final String xpath = "/root/path/to/node";
-        assertEquals("Hello World!", new XmlStringLookup(new HashMap<>()).lookup(DOC_PATH + ":" + xpath));
+        assertEquals("Hello World!", new XmlStringLookup(new HashMap<>()).lookup(DOC_RELATIVE + ":" + xpath));
+        assertEquals("Hello World!", new XmlStringLookup(new HashMap<>(), CURRENT_PATH).lookup(DOC_RELATIVE + ":" + xpath));
+        assertEquals("Hello World!", new XmlStringLookup(new HashMap<>(), CURRENT_PATH, ABSENT_PATH).lookup(DOC_RELATIVE + ":" + xpath));
+        assertEquals("Hello World!", new XmlStringLookup(new HashMap<>(), ABSENT_PATH, CURRENT_PATH).lookup(DOC_RELATIVE + ":" + xpath));
+        assertThrows(IllegalArgumentException.class, () -> new XmlStringLookup(new HashMap<>(), ABSENT_PATH).lookup(DOC_ROOT + ":" + xpath));
+        assertThrows(IllegalArgumentException.class, () -> new XmlStringLookup(new HashMap<>(), CURRENT_PATH).lookup(DOC_ROOT + ":" + xpath));
+        assertThrows(IllegalArgumentException.class, () -> new XmlStringLookup(new HashMap<>(), ABSENT_PATH, CURRENT_PATH).lookup(DOC_ROOT + ":" + xpath));
     }
 
     @Test

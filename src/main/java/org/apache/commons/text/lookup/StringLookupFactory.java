@@ -47,19 +47,15 @@ import org.apache.commons.text.StringSubstitutor;
  * <li>{@link #interpolatorStringLookup(Map, StringLookup, boolean)}.</li>
  * </ul>
  * <p>
- * Unless explicitly requested otherwise, a set of default lookups are included for convenience with these
- * variable interpolation methods. These defaults are listed in the table below. However, the exact lookups
- * included can be configured through the use of the {@value #DEFAULT_STRING_LOOKUPS_PROPERTY} system property.
- * If present, this system property will be parsed as a comma-separated list of lookup names, with the names
- * being those defined by the {@link DefaultStringLookup} enum. For example, setting this system property to
- * {@code "BASE64_ENCODER,ENVIRONMENT"} will only include the
- * {@link DefaultStringLookup#BASE64_ENCODER BASE64_ENCODER} and {@link DefaultStringLookup#ENVIRONMENT ENVIRONMENT}
- * lookups. Setting the property to the empty string will cause no defaults to be configured.
- * Note that not all lookups defined here and in {@link DefaultStringLookup} are included by default.
- * Specifically, lookups that can execute code (e.g., {@link DefaultStringLookup#SCRIPT SCRIPT}) and those
- * that can result in contact with remote servers (e.g., {@link DefaultStringLookup#URL URL} and
- * {@link DefaultStringLookup#DNS DNS}) are not included by default. The current set of default lookups can
- * be accessed directly with {@link #addDefaultStringLookups(Map)}.
+ * Unless explicitly requested otherwise, a set of default lookups are included for convenience with these variable interpolation methods. These defaults are
+ * listed in the table below. However, the exact lookups included can be configured through the use of the {@value #DEFAULT_STRING_LOOKUPS_PROPERTY} system
+ * property. If present, this system property will be parsed as a comma-separated list of lookup names, with the names being those defined by the
+ * {@link DefaultStringLookup} enum. For example, setting this system property to {@code "BASE64_ENCODER,ENVIRONMENT"} will only include the
+ * {@link DefaultStringLookup#BASE64_ENCODER BASE64_ENCODER} and {@link DefaultStringLookup#ENVIRONMENT ENVIRONMENT} lookups. Setting the property to the empty
+ * string will cause no defaults to be configured. Note that not all lookups defined here and in {@link DefaultStringLookup} are included by default.
+ * Specifically, lookups that can execute code (e.g., {@link DefaultStringLookup#SCRIPT SCRIPT}) and those that can result in contact with remote servers (e.g.,
+ * {@link DefaultStringLookup#URL URL} and {@link DefaultStringLookup#DNS DNS}) are not included by default. The current set of default lookups can be accessed
+ * directly with {@link #addDefaultStringLookups(Map)}.
  * </p>
  * <table>
  * <caption>Default String Lookups</caption>
@@ -221,8 +217,7 @@ import org.apache.commons.text.StringSubstitutor;
 public final class StringLookupFactory {
 
     /**
-     * Internal class used to construct the default {@link StringLookup} map used by
-     * {@link StringLookupFactory#addDefaultStringLookups(Map)}.
+     * Internal class used to construct the default {@link StringLookup} map used by {@link StringLookupFactory#addDefaultStringLookups(Map)}.
      */
     static final class DefaultStringLookupsHolder {
 
@@ -230,10 +225,11 @@ public final class StringLookupFactory {
         static final DefaultStringLookupsHolder INSTANCE = new DefaultStringLookupsHolder(System.getProperties());
 
         /**
-         * Add the key and string lookup from {@code lookup} to {@code map}, also adding any additional
-         * key aliases if needed. Keys are normalized using the {@link #toKey(String)} method.
+         * Add the key and string lookup from {@code lookup} to {@code map}, also adding any additional key aliases if needed. Keys are normalized using the
+         * {@link #toKey(String)} method.
+         *
          * @param lookup lookup to add
-         * @param map map to add to
+         * @param map    map to add to
          */
         private static void addLookup(final DefaultStringLookup lookup, final Map<String, StringLookup> map) {
             map.put(toKey(lookup.getKey()), lookup.getStringLookup());
@@ -245,6 +241,7 @@ public final class StringLookupFactory {
 
         /**
          * Create the lookup map used when the user has requested no customization.
+         *
          * @return default lookup map
          */
         private static Map<String, StringLookup> createDefaultStringLookups() {
@@ -271,9 +268,9 @@ public final class StringLookupFactory {
         }
 
         /**
-         * Constructs a lookup map by parsing the given string. The string is expected to contain
-         * comma or space-separated names of values from the {@link DefaultStringLookup} enum. If
-         * the given string is null or empty, an empty map is returned.
+         * Constructs a lookup map by parsing the given string. The string is expected to contain comma or space-separated names of values from the
+         * {@link DefaultStringLookup} enum. If the given string is null or empty, an empty map is returned.
+         *
          * @param str string to parse; may be null or empty
          * @return lookup map parsed from the given string
          */
@@ -296,24 +293,33 @@ public final class StringLookupFactory {
 
         /**
          * Constructs a new instance initialized with the given properties.
+         *
          * @param props initialization properties
          */
         DefaultStringLookupsHolder(final Properties props) {
-            final Map<String, StringLookup> lookups =
-                    props.containsKey(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY)
-                        ? parseStringLookups(props.getProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY))
-                        : createDefaultStringLookups();
+            final Map<String, StringLookup> lookups = props.containsKey(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY)
+                    ? parseStringLookups(props.getProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY))
+                    : createDefaultStringLookups();
             defaultStringLookups = Collections.unmodifiableMap(lookups);
         }
 
         /**
          * Gets the default string lookups map.
+         *
          * @return default string lookups map
          */
         Map<String, StringLookup> getDefaultStringLookups() {
             return defaultStringLookups;
         }
     }
+
+    /**
+     * Name of the system property used to determine the string lookups added by the {@link #addDefaultStringLookups(Map)} method. Use of this property is only
+     * required in cases where the set of default lookups must be modified. (See the class documentation for details.)
+     *
+     * @since 1.10.0
+     */
+    public static final String DEFAULT_STRING_LOOKUPS_PROPERTY = "org.apache.commons.text.lookup.StringLookupFactory.defaultStringLookups";
 
     /**
      * Defines the singleton for this class.
@@ -341,7 +347,7 @@ public final class StringLookupFactory {
      * </p>
      */
     static final FunctionStringLookup<String> INSTANCE_BASE64_DECODER = FunctionStringLookup
-        .on(key -> new String(Base64.getDecoder().decode(key), StandardCharsets.ISO_8859_1));
+            .on(key -> new String(Base64.getDecoder().decode(key), StandardCharsets.ISO_8859_1));
 
     /**
      * Encodes Base64 Strings.
@@ -365,7 +371,7 @@ public final class StringLookupFactory {
      * Defines the singleton for this class.
      */
     static final FunctionStringLookup<String> INSTANCE_BASE64_ENCODER = FunctionStringLookup
-        .on(key -> Base64.getEncoder().encodeToString(key.getBytes(StandardCharsets.ISO_8859_1)));
+            .on(key -> Base64.getEncoder().encodeToString(key.getBytes(StandardCharsets.ISO_8859_1)));
 
     /**
      * Looks up keys from environment variables.
@@ -384,8 +390,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${env:USER} ..."));
      * </pre>
      * <p>
-     * The above examples convert (on Linux) {@code "USER"} to the current user name. On Windows 10, you would use
-     * {@code "USERNAME"} to the same effect.
+     * The above examples convert (on Linux) {@code "USER"} to the current user name. On Windows 10, you would use {@code "USERNAME"} to the same effect.
      * </p>
      */
     static final FunctionStringLookup<String> INSTANCE_ENVIRONMENT_VARIABLES = FunctionStringLookup.on(System::getenv);
@@ -534,16 +539,6 @@ public final class StringLookupFactory {
     public static final String KEY_XML_ENCODER = "xmlEncoder";
 
     /**
-     * Name of the system property used to determine the string lookups added by the
-     * {@link #addDefaultStringLookups(Map)} method. Use of this property is only required
-     * in cases where the set of default lookups must be modified. (See the class documentation
-     * for details.)
-     *
-     * @since 1.10.0
-     */
-    public static final String DEFAULT_STRING_LOOKUPS_PROPERTY = "org.apache.commons.text.lookup.StringLookupFactory.defaultStringLookups";
-
-    /**
      * Clears any static resources.
      *
      * @since 1.5
@@ -554,6 +549,7 @@ public final class StringLookupFactory {
 
     /**
      * Gets a string suitable for use as a key in the string lookup map.
+     *
      * @param key string to convert to a string lookup map key
      * @return string lookup map key
      */
@@ -581,10 +577,9 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Adds the default string lookups for this class to {@code stringLookupMap}. The default string
-     * lookups are a set of built-in lookups added for convenience during string interpolation. The
-     * defaults may be configured using the {@value #DEFAULT_STRING_LOOKUPS_PROPERTY} system property.
-     * See the class documentation for details and a list of lookups.
+     * Adds the default string lookups for this class to {@code stringLookupMap}. The default string lookups are a set of built-in lookups added for convenience
+     * during string interpolation. The defaults may be configured using the {@value #DEFAULT_STRING_LOOKUPS_PROPERTY} system property. See the class
+     * documentation for details and a list of lookups.
      *
      * @param stringLookupMap the map of string lookups to edit.
      * @since 1.5
@@ -679,11 +674,10 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns a new function-based lookup where the request for a lookup is answered by applying the function with a
-     * lookup key.
+     * Returns a new function-based lookup where the request for a lookup is answered by applying the function with a lookup key.
      *
-     * @param <R> the function return type.
-     * @param <U> the function's second parameter type.
+     * @param <R>        the function return type.
+     * @param <U>        the function's second parameter type.
      * @param biFunction the function.
      * @return a new MapStringLookup.
      * @since 1.9
@@ -695,15 +689,14 @@ public final class StringLookupFactory {
     /**
      * Returns the ConstantStringLookup singleton instance to look up the value of a fully-qualified static final value.
      * <p>
-     * Sometimes it is necessary in a configuration file to refer to a constant defined in a class. This can be done
-     * with this lookup implementation. Variable names must be in the format {@code apackage.AClass.AFIELD}. The
-     * {@code lookup(String)} method will split the passed in string at the last dot, separating the fully qualified
-     * class name and the name of the constant (i.e. <b>static final</b>) member field. Then the class is loaded and the
-     * field's value is obtained using reflection.
+     * Sometimes it is necessary in a configuration file to refer to a constant defined in a class. This can be done with this lookup implementation. Variable
+     * names must be in the format {@code apackage.AClass.AFIELD}. The {@code lookup(String)} method will split the passed in string at the last dot, separating
+     * the fully qualified class name and the name of the constant (i.e. <b>static final</b>) member field. Then the class is loaded and the field's value is
+     * obtained using reflection.
      * </p>
      * <p>
-     * Once retrieved values are cached for fast access. This class is thread-safe. It can be used as a standard (i.e.
-     * global) lookup object and serve multiple clients concurrently.
+     * Once retrieved values are cached for fast access. This class is thread-safe. It can be used as a standard (i.e. global) lookup object and serve multiple
+     * clients concurrently.
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
@@ -731,8 +724,8 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the DateStringLookup singleton instance to format the current date with the format given in the key in a
-     * format compatible with {@link java.text.SimpleDateFormat}.
+     * Returns the DateStringLookup singleton instance to format the current date with the format given in the key in a format compatible with
+     * {@link java.text.SimpleDateFormat}.
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
@@ -773,9 +766,8 @@ public final class StringLookupFactory {
      * StringLookupFactory.INSTANCE.dnsStringLookup().lookup("address|apache.org");
      * </pre>
      * <p>
-     * When used through a {@link StringSubstitutor}, this lookup must either be added programmatically
-     * (as below) or enabled as a default lookup using the {@value #DEFAULT_STRING_LOOKUPS_PROPERTY} system property
-     * (see class documentation).
+     * When used through a {@link StringSubstitutor}, this lookup must either be added programmatically (as below) or enabled as a default lookup using the
+     * {@value #DEFAULT_STRING_LOOKUPS_PROPERTY} system property (see class documentation).
      * </p>
      *
      * <pre>
@@ -798,8 +790,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the EnvironmentVariableStringLookup singleton instance where the lookup key is an environment variable
-     * name.
+     * Returns the EnvironmentVariableStringLookup singleton instance where the lookup key is an environment variable name.
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
@@ -815,8 +806,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${env:USER} ..."));
      * </pre>
      * <p>
-     * The above examples convert (on Linux) {@code "USER"} to the current user name. On Windows 10, you would use
-     * {@code "USERNAME"} to the same effect.
+     * The above examples convert (on Linux) {@code "USER"} to the current user name. On Windows 10, you would use {@code "USERNAME"} to the same effect.
      * </p>
      *
      * @return The EnvironmentVariableStringLookup singleton instance.
@@ -889,10 +879,9 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns a new function-based lookup where the request for a lookup is answered by applying the function with a
-     * lookup key.
+     * Returns a new function-based lookup where the request for a lookup is answered by applying the function with a lookup key.
      *
-     * @param <R> the function return type.
+     * @param <R>      the function return type.
      * @param function the function.
      * @return a new MapStringLookup.
      * @since 1.9
@@ -902,9 +891,8 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns a {@link InterpolatorStringLookup} containing the configured
-     * {@link #addDefaultStringLookups(Map) default lookups}. See the class documentation for
-     * details on how these defaults are configured.
+     * Returns a {@link InterpolatorStringLookup} containing the configured {@link #addDefaultStringLookups(Map) default lookups}. See the class documentation
+     * for details on how these defaults are configured.
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
@@ -930,27 +918,25 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns a new InterpolatorStringLookup. If {@code addDefaultLookups} is {@code true}, the configured
-     * {@link #addDefaultStringLookups(Map) default lookups} are included in addition to the ones
-     * provided in {@code stringLookupMap}. (See the class documentation for details on how default lookups
-     * are configured.)
+     * Returns a new InterpolatorStringLookup. If {@code addDefaultLookups} is {@code true}, the configured {@link #addDefaultStringLookups(Map) default
+     * lookups} are included in addition to the ones provided in {@code stringLookupMap}. (See the class documentation for details on how default lookups are
+     * configured.)
      *
-     * @param stringLookupMap the map of string lookups.
-     * @param defaultStringLookup the default string lookup; this lookup is used when a variable cannot be
-     *      resolved using the lookups in {@code stringLookupMap} or the configured default lookups (if enabled)
-     * @param addDefaultLookups whether to use default lookups as described above.
+     * @param stringLookupMap     the map of string lookups.
+     * @param defaultStringLookup the default string lookup; this lookup is used when a variable cannot be resolved using the lookups in {@code stringLookupMap}
+     *                            or the configured default lookups (if enabled)
+     * @param addDefaultLookups   whether to use default lookups as described above.
      * @return a new InterpolatorStringLookup.
      * @since 1.4
      */
-    public StringLookup interpolatorStringLookup(final Map<String, StringLookup> stringLookupMap,
-        final StringLookup defaultStringLookup, final boolean addDefaultLookups) {
+    public StringLookup interpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup,
+            final boolean addDefaultLookups) {
         return new InterpolatorStringLookup(stringLookupMap, defaultStringLookup, addDefaultLookups);
     }
 
     /**
-     * Returns a new InterpolatorStringLookup using the given key-value pairs and the configured
-     * {@link #addDefaultStringLookups(Map) default lookups} to resolve variables. (See the class
-     * documentation for details on how default lookups are configured.)
+     * Returns a new InterpolatorStringLookup using the given key-value pairs and the configured {@link #addDefaultStringLookups(Map) default lookups} to
+     * resolve variables. (See the class documentation for details on how default lookups are configured.)
      *
      * @param <V> the value type the default string lookup's map.
      * @param map the default map for string lookups.
@@ -961,9 +947,8 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns a new InterpolatorStringLookup using the given lookup and the configured
-     * {@link #addDefaultStringLookups(Map) default lookups} to resolve variables. (See the class
-     * documentation for details on how default lookups are configured.)
+     * Returns a new InterpolatorStringLookup using the given lookup and the configured {@link #addDefaultStringLookups(Map) default lookups} to resolve
+     * variables. (See the class documentation for details on how default lookups are configured.)
      *
      * @param defaultStringLookup the default string lookup.
      * @return a new InterpolatorStringLookup.
@@ -973,8 +958,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the JavaPlatformStringLookup singleton instance. Looks up keys related to Java: Java version, JRE
-     * version, VM version, and so on.
+     * Returns the JavaPlatformStringLookup singleton instance. Looks up keys related to Java: Java version, JRE version, VM version, and so on.
      * <p>
      * The lookup keys with examples are:
      * </p>
@@ -1002,8 +986,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${java:version} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "version"} to the current VM version, for example,
-     * {@code "Java version 1.8.0_181"}.
+     * The above examples convert {@code "version"} to the current VM version, for example, {@code "Java version 1.8.0_181"}.
      * </p>
      *
      * @return The JavaPlatformStringLookup singleton instance.
@@ -1035,8 +1018,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${localhost:canonical-name} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "canonical-name"} to the current host name, for example,
-     * {@code "EXAMPLE.apache.org"}.
+     * The above examples convert {@code "canonical-name"} to the current host name, for example, {@code "EXAMPLE.apache.org"}.
      * </p>
      *
      * @return The DateStringLookup singleton instance.
@@ -1092,8 +1074,8 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${properties:com/domain/document.properties::MyKey} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "com/domain/document.properties::MyKey"} to the key value in the properties
-     * file at the path "com/domain/document.properties".
+     * The above examples convert {@code "com/domain/document.properties::MyKey"} to the key value in the properties file at the path
+     * "com/domain/document.properties".
      * </p>
      *
      * @return The PropertiesStringLookup singleton instance.
@@ -1135,8 +1117,8 @@ public final class StringLookupFactory {
      * stringSubstitutor.replace("... ${properties:com/domain/document.properties::MyKey} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "com/domain/document.properties::MyKey"} to the key value in the properties
-     * file at the path "com/domain/document.properties".
+     * The above examples convert {@code "com/domain/document.properties::MyKey"} to the key value in the properties file at the path
+     * "com/domain/document.properties".
      * </p>
      * <p>
      * Methods {@link StringSubstitutor#replace(String)} will throw a {@link IllegalArgumentException} when a file doesn't resolves in a fence.
@@ -1173,8 +1155,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${resourceBundle:com.domain.messages:MyKey} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "com.domain.messages:MyKey"} to the key value in the resource bundle at
-     * {@code "com.domain.messages"}.
+     * The above examples convert {@code "com.domain.messages:MyKey"} to the key value in the resource bundle at {@code "com.domain.messages"}.
      * </p>
      *
      * @return The ResourceBundleStringLookup singleton instance.
@@ -1199,8 +1180,7 @@ public final class StringLookupFactory {
      * StringLookupFactory.INSTANCE.resourceBundleStringLookup("com.domain.messages").lookup("MyKey");
      * </pre>
      * <p>
-     * The above example converts {@code "MyKey"} to the key value in the resource bundle at
-     * {@code "com.domain.messages"}.
+     * The above example converts {@code "MyKey"} to the key value in the resource bundle at {@code "com.domain.messages"}.
      * </p>
      *
      * @param bundleName Only lookup in this bundle.
@@ -1212,9 +1192,8 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the ScriptStringLookup singleton instance. NOTE: This lookup is not included
-     * as a {@link #addDefaultStringLookups(Map) default lookup} unless explicitly enabled. See
-     * the class level documentation for details.
+     * Returns the ScriptStringLookup singleton instance. NOTE: This lookup is not included as a {@link #addDefaultStringLookups(Map) default lookup} unless
+     * explicitly enabled. See the class level documentation for details.
      * <p>
      * Looks up the value for the key in the format "ScriptEngineName:Script".
      * </p>
@@ -1229,9 +1208,8 @@ public final class StringLookupFactory {
      * StringLookupFactory.INSTANCE.scriptStringLookup().lookup("javascript:3 + 4");
      * </pre>
      * <p>
-     * When used through a {@link StringSubstitutor}, this lookup must either be added programmatically
-     * (as below) or enabled as a default lookup using the {@value #DEFAULT_STRING_LOOKUPS_PROPERTY} system property
-     * (see class documentation).
+     * When used through a {@link StringSubstitutor}, this lookup must either be added programmatically (as below) or enabled as a default lookup using the
+     * {@value #DEFAULT_STRING_LOOKUPS_PROPERTY} system property (see class documentation).
      * </p>
      *
      * <pre>
@@ -1347,9 +1325,8 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the UrlStringLookup singleton instance. This lookup is not included
-     * as a {@link #addDefaultStringLookups(Map) default lookup} unless explicitly enabled. See
-     * the class level documentation for details.
+     * Returns the UrlStringLookup singleton instance. This lookup is not included as a {@link #addDefaultStringLookups(Map) default lookup} unless explicitly
+     * enabled. See the class level documentation for details.
      * <p>
      * Looks up the value for the key in the format "CharsetName:URL".
      * </p>
@@ -1357,8 +1334,7 @@ public final class StringLookupFactory {
      * For example, using the HTTP scheme: "UTF-8:http://www.google.com"
      * </p>
      * <p>
-     * For example, using the file scheme:
-     * "UTF-8:file:///C:/somehome/commons/commons-text/src/test/resources/document.properties"
+     * For example, using the file scheme: "UTF-8:file:///C:/somehome/commons/commons-text/src/test/resources/document.properties"
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
@@ -1368,9 +1344,8 @@ public final class StringLookupFactory {
      * StringLookupFactory.INSTANCE.urlStringLookup().lookup("UTF-8:https://www.apache.org");
      * </pre>
      * <p>
-     * When used through a {@link StringSubstitutor}, this lookup must either be added programmatically
-     * (as below) or enabled as a default lookup using the {@value #DEFAULT_STRING_LOOKUPS_PROPERTY} system property
-     * (see class documentation).
+     * When used through a {@link StringSubstitutor}, this lookup must either be added programmatically (as below) or enabled as a default lookup using the
+     * {@value #DEFAULT_STRING_LOOKUPS_PROPERTY} system property (see class documentation).
      * </p>
      *
      * <pre>
@@ -1481,19 +1456,20 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${xml:com/domain/document.xml:/path/to/node} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML
-     * document.
+     * The above examples convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML document.
      * </p>
      *
      * @return The XmlStringLookup singleton instance.
      * @since 1.5
+     * @deprecated Use {@link #xmlStringLookup(Map, Path...)}.
      */
+    @Deprecated
     public StringLookup xmlStringLookup() {
         return XmlStringLookup.INSTANCE;
     }
 
     /**
-     * Returns the XmlStringLookup singleton instance.
+     * Returns a XmlStringLookup instance.
      * <p>
      * Looks up the value for the key in the format "DocumentPath:XPath".
      * </p>
@@ -1515,16 +1491,55 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${xml:com/domain/document.xml:/path/to/node} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML
-     * document.
+     * The above examples convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML document.
      * </p>
      *
      * @param xPathFactoryFeatures XPathFactory features to set.
      * @return The XmlStringLookup singleton instance.
      * @see XPathFactory#setFeature(String, boolean)
      * @since 1.11.0
+     * @deprecated Use {@link #xmlStringLookup(Map, Path...)}.
      */
+    @Deprecated
     public StringLookup xmlStringLookup(final Map<String, Boolean> xPathFactoryFeatures) {
         return new XmlStringLookup(xPathFactoryFeatures);
+    }
+
+    /**
+     * Returns a fenced XmlStringLookup instance.
+     * <p>
+     * Looks up the value for the key in the format "DocumentPath:XPath".
+     * </p>
+     * <p>
+     * For example: "com/domain/document.xml:/path/to/node".
+     * </p>
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory} fenced by the current directory ({@code Paths.get("")}):
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.xmlStringLookup(map, Pathe.get("")).lookup("com/domain/document.xml:/path/to/node");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
+     * final InterpolatorStringLookup stringLookup = (InterpolatorStringLookup) stringSubstitutor.getStringLookup();
+     * stringLookup.getStringLookupMap().replace(StringLookupFactory.KEY_PROPERTIES, StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")));
+     * stringSubstitutor.replace("... ${xml:com/domain/document.xml:/path/to/node} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML document.
+     * </p>
+     *
+     * @param xPathFactoryFeatures XPathFactory features to set.
+     * @param fences               The fences guarding Path resolution.
+     * @return The XmlStringLookup singleton instance.
+     * @since 1.12.0
+     */
+    public StringLookup xmlStringLookup(final Map<String, Boolean> xPathFactoryFeatures, final Path... fences) {
+        return new XmlStringLookup(xPathFactoryFeatures, fences);
     }
 }

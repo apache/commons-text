@@ -25,6 +25,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ import org.junit.jupiter.api.Test;
 public class PropertiesStringLookupTest {
 
     private static final Path[] NULL_PATH_ARRAY = null;
-    private static final Path CURRENT_PATH = Paths.get(""); // NOT "."!
+    private static final Path CURRENT_PATH = Paths.get(StringUtils.EMPTY); // NOT "."!
     private static final String DOC_RELATIVE = "src/test/resources/org/apache/commons/text/document.properties";
     private static final String DOC_ROOT = "/foo.txt";
     private static final String KEY = "mykey";

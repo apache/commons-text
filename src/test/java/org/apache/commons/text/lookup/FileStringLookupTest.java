@@ -33,6 +33,8 @@ import org.junit.jupiter.api.Test;
  */
 public class FileStringLookupTest {
 
+    private static final Path CURRENT_PATH = Paths.get(StringUtils.EMPTY);
+
     @Test
     public void testDefaultInstanceBadCharsetName() {
         assertThrows(IllegalArgumentException.class,
@@ -78,8 +80,7 @@ public class FileStringLookupTest {
     public void testFenceBadDirPlusGoodOne() throws Exception {
         final byte[] expectedBytes = Files.readAllBytes(Paths.get("src/test/resources/org/apache/commons/text/document.properties"));
         final String expectedString = new String(expectedBytes, StandardCharsets.UTF_8);
-        final Path currentPath = Paths.get(StringUtils.EMPTY);
-        final FileStringLookup fileStringLookup = new FileStringLookup(Paths.get("dir does not exist at all"), currentPath);
+        final FileStringLookup fileStringLookup = new FileStringLookup(Paths.get("dir does not exist at all"), CURRENT_PATH);
         Assertions.assertEquals(expectedString, fileStringLookup.lookup("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
         assertThrows(IllegalArgumentException.class, () -> fileStringLookup.lookup("UTF-8:/src/test/resources/org/apache/commons/text/document.properties"));
     }
@@ -88,8 +89,7 @@ public class FileStringLookupTest {
     public void testFenceCurrentDirOne() throws Exception {
         final byte[] expectedBytes = Files.readAllBytes(Paths.get("src/test/resources/org/apache/commons/text/document.properties"));
         final String expectedString = new String(expectedBytes, StandardCharsets.UTF_8);
-        final Path currentPath = Paths.get(StringUtils.EMPTY);
-        final FileStringLookup fileStringLookup = new FileStringLookup(currentPath);
+        final FileStringLookup fileStringLookup = new FileStringLookup(CURRENT_PATH);
         Assertions.assertEquals(expectedString, fileStringLookup.lookup("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
         assertThrows(IllegalArgumentException.class, () -> fileStringLookup.lookup("UTF-8:/src/test/resources/org/apache/commons/text/document.properties"));
     }
@@ -98,8 +98,7 @@ public class FileStringLookupTest {
     public void testFenceCurrentDirPlusOne() throws Exception {
         final byte[] expectedBytes = Files.readAllBytes(Paths.get("src/test/resources/org/apache/commons/text/document.properties"));
         final String expectedString = new String(expectedBytes, StandardCharsets.UTF_8);
-        final Path currentPath = Paths.get(StringUtils.EMPTY);
-        final FileStringLookup fileStringLookup = new FileStringLookup(Paths.get("target"), currentPath);
+        final FileStringLookup fileStringLookup = new FileStringLookup(Paths.get("target"), CURRENT_PATH);
         Assertions.assertEquals(expectedString, fileStringLookup.lookup("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
         assertThrows(IllegalArgumentException.class, () -> fileStringLookup.lookup("UTF-8:/src/test/resources/org/apache/commons/text/document.properties"));
     }

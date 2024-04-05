@@ -19,7 +19,7 @@ package org.apache.commons.text.lookup;
 
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -42,12 +42,12 @@ import org.xml.sax.InputSource;
  *
  * @since 1.5
  */
-final class XmlStringLookup extends AbstractStringLookup {
+final class XmlStringLookup extends AbstractPathFencedLookup {
 
     /**
      * Defines default XPath factory features.
      */
-    private static final Map<String, Boolean> DEFAULT_FEATURES;
+    static final Map<String, Boolean> DEFAULT_FEATURES;
 
     static {
         DEFAULT_FEATURES = new HashMap<>(1);
@@ -57,7 +57,7 @@ final class XmlStringLookup extends AbstractStringLookup {
     /**
      * Defines the singleton for this class.
      */
-    static final XmlStringLookup INSTANCE = new XmlStringLookup(DEFAULT_FEATURES);
+    static final XmlStringLookup INSTANCE = new XmlStringLookup(DEFAULT_FEATURES, (Path[]) null);
 
     /**
      * Defines XPath factory features.
@@ -70,7 +70,8 @@ final class XmlStringLookup extends AbstractStringLookup {
      * @param xPathFactoryFeatures XPathFactory features to set.
      * @see XPathFactory#setFeature(String, boolean)
      */
-    XmlStringLookup(final Map<String, Boolean> xPathFactoryFeatures) {
+    XmlStringLookup(final Map<String, Boolean> xPathFactoryFeatures, final Path... fences) {
+        super(fences);
         this.xPathFactoryFeatures = Objects.requireNonNull(xPathFactoryFeatures, "xPathFfactoryFeatures");
     }
 
@@ -96,7 +97,7 @@ final class XmlStringLookup extends AbstractStringLookup {
         }
         final String documentPath = keys[0];
         final String xpath = StringUtils.substringAfter(key, SPLIT_CH);
-        try (InputStream inputStream = Files.newInputStream(Paths.get(documentPath))) {
+        try (InputStream inputStream = Files.newInputStream(getPath(documentPath))) {
             final XPathFactory factory = XPathFactory.newInstance();
             for (final Entry<String, Boolean> p : xPathFactoryFeatures.entrySet()) {
                 factory.setFeature(p.getKey(), p.getValue());
