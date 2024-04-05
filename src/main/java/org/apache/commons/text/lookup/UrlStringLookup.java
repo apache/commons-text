@@ -30,7 +30,7 @@ import org.apache.commons.lang3.StringUtils;
  * Looks up the value for a given key in the format "Charset:URL".
  * </p>
  * <p>
- * For example: "UTF-8:com/domain/document.properties".
+ * For example: "UTF-8:https://www.apache.org".
  * </p>
  *
  * @since 1.5
@@ -50,9 +50,9 @@ final class UrlStringLookup extends AbstractStringLookup {
     }
 
     /**
-     * Looks up the value for the key in the format "DocumentPath:XPath".
+     * Looks up the value for the key in the format "DocumentPath:URL".
      * <p>
-     * For example: "com/domain/document.xml:/path/to/node".
+     * For example: "UTF-8:https://www.apache.org".
      * </p>
      *
      * @param key the key to be looked up, may be null
