@@ -237,7 +237,6 @@ public final class StringLookupFactory {
          */
         private static void addLookup(final DefaultStringLookup lookup, final Map<String, StringLookup> map) {
             map.put(toKey(lookup.getKey()), lookup.getStringLookup());
-
             if (DefaultStringLookup.BASE64_DECODER.equals(lookup)) {
                 // "base64" is deprecated in favor of KEY_BASE64_DECODER.
                 map.put(toKey("base64"), lookup.getStringLookup());
@@ -280,7 +279,6 @@ public final class StringLookupFactory {
          */
         private static Map<String, StringLookup> parseStringLookups(final String str) {
             final Map<String, StringLookup> lookupMap = new HashMap<>();
-
             try {
                 for (final String lookupName : str.split("[\\s,]+")) {
                     if (!lookupName.isEmpty()) {
@@ -290,7 +288,6 @@ public final class StringLookupFactory {
             } catch (final IllegalArgumentException exc) {
                 throw new IllegalArgumentException("Invalid default string lookups definition: " + str, exc);
             }
-
             return lookupMap;
         }
 
@@ -306,7 +303,6 @@ public final class StringLookupFactory {
                     props.containsKey(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY)
                         ? parseStringLookups(props.getProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY))
                         : createDefaultStringLookups();
-
             defaultStringLookups = Collections.unmodifiableMap(lookups);
         }
 
@@ -868,7 +864,7 @@ public final class StringLookupFactory {
      * StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")).lookup("UTF-8:com/domain/document.properties");
      * </pre>
      * <p>
-     * Using a {@link StringSubstitutor}:
+     * Using a {@link StringSubstitutor} fenced by the current directory ({@code Paths.get("")}):
      * </p>
      *
      * <pre>
@@ -1102,9 +1098,56 @@ public final class StringLookupFactory {
      *
      * @return The PropertiesStringLookup singleton instance.
      * @since 1.5
+     * @deprecated Use {@link #propertiesStringLookup(Path...)}.
      */
+    @Deprecated
     public StringLookup propertiesStringLookup() {
         return PropertiesStringLookup.INSTANCE;
+    }
+
+    /**
+     * Returns a fenced PropertiesStringLookup instance.
+     * <p>
+     * Looks up the value for the key in the format "DocumentPath::MyKey":.
+     * </p>
+     * <p>
+     * Note the use of "::" instead of ":" to allow for "C:" drive letters in paths.
+     * </p>
+     * <p>
+     * For example: "com/domain/document.properties::MyKey".
+     * </p>
+     *
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory} fenced by the current directory ({@code Paths.get("")}):
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.propertiesStringLookup(Paths.get("")).lookup("com/domain/document.properties::MyKey");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor} fenced by the current directory ({@code Paths.get("")}):
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
+     * final InterpolatorStringLookup stringLookup = (InterpolatorStringLookup) stringSubstitutor.getStringLookup();
+     * stringLookup.getStringLookupMap().replace(StringLookupFactory.KEY_PROPERTIES, StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")));
+     * stringSubstitutor.replace("... ${properties:com/domain/document.properties::MyKey} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "com/domain/document.properties::MyKey"} to the key value in the properties
+     * file at the path "com/domain/document.properties".
+     * </p>
+     * <p>
+     * Methods {@link StringSubstitutor#replace(String)} will throw a {@link IllegalArgumentException} when a file doesn't resolves in a fence.
+     * </p>
+     *
+     * @param fences The fences guarding Path resolution.
+     * @return The PropertiesStringLookup singleton instance.
+     * @since 1.12.0
+     */
+    public StringLookup propertiesStringLookup(final Path... fences) {
+        return new PropertiesStringLookup(fences);
     }
 
     /**

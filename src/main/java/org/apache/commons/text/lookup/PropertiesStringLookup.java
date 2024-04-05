@@ -19,7 +19,7 @@ package org.apache.commons.text.lookup;
 
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,12 +39,12 @@ import org.apache.commons.lang3.StringUtils;
  * @see Properties
  * @since 1.5
  */
-final class PropertiesStringLookup extends AbstractStringLookup {
+final class PropertiesStringLookup extends AbstractPathFencedLookup {
 
     /**
      * Defines the singleton for this class.
      */
-    static final PropertiesStringLookup INSTANCE = new PropertiesStringLookup();
+    static final PropertiesStringLookup INSTANCE = new PropertiesStringLookup((Path[]) null);
 
     /** Separates file and key. */
     static final String SEPARATOR = "::";
@@ -57,10 +57,12 @@ final class PropertiesStringLookup extends AbstractStringLookup {
     }
 
     /**
-     * No need to build instances for now.
+     * Constructs a new instance.
+     *
+     * @param fences The fences guarding Path resolution.
      */
-    private PropertiesStringLookup() {
-        // empty
+    PropertiesStringLookup(final Path... fences) {
+        super(fences);
     }
 
     /**
@@ -90,7 +92,7 @@ final class PropertiesStringLookup extends AbstractStringLookup {
         final String propertyKey = StringUtils.substringAfter(key, SEPARATOR);
         try {
             final Properties properties = new Properties();
-            try (InputStream inputStream = Files.newInputStream(Paths.get(documentPath))) {
+            try (InputStream inputStream = Files.newInputStream(getPath(documentPath))) {
                 properties.load(inputStream);
             }
             return properties.getProperty(propertyKey);

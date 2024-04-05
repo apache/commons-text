@@ -19,12 +19,6 @@ package org.apache.commons.text.lookup;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
@@ -54,7 +48,7 @@ import org.apache.commons.text.StringSubstitutor;
  *
  * @since 1.5
  */
-final class FileStringLookup extends AbstractStringLookup {
+final class FileStringLookup extends AbstractPathFencedLookup {
 
     /**
      * Defines the singleton for this class.
@@ -62,30 +56,12 @@ final class FileStringLookup extends AbstractStringLookup {
     static final AbstractStringLookup INSTANCE = new FileStringLookup((Path[]) null);
 
     /**
-     * Fences guarding Path resolution.
-     */
-    private final List<Path> fences;
-
-    /**
      * Constructs a new instance.
      *
      * @param fences The fences guarding Path resolution.
      */
     FileStringLookup(final Path... fences) {
-        this.fences = fences != null ? Arrays.asList(fences).stream().map(Path::toAbsolutePath).collect(Collectors.toList()) : Collections.emptyList();
-    }
-
-    private Path getPath(final String fileName) {
-        final Path path = Paths.get(fileName);
-        if (fences.isEmpty()) {
-            return path;
-        }
-        final Path pathAbs = path.normalize().toAbsolutePath();
-        final Optional<Path> first = fences.stream().filter(pathAbs::startsWith).findFirst();
-        if (first.isPresent()) {
-            return path;
-        }
-        throw new IllegalArgumentException(String.format("[%s] -> [%s] not in %s", fileName, pathAbs, fences));
+        super(fences);
     }
 
     /**
