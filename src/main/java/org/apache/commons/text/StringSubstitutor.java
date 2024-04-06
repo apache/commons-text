@@ -492,14 +492,14 @@ public class StringSubstitutor {
     private StringLookup variableResolver;
 
     /**
-     * Creates a new instance with defaults for variable prefix and suffix and the escaping character.
+     * Constructs a new instance with defaults for variable prefix and suffix and the escaping character.
      */
     public StringSubstitutor() {
         this((StringLookup) null, DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ESCAPE);
     }
 
     /**
-     * Creates a new instance and initializes it. Uses defaults for variable prefix and suffix and the escaping
+     * Constructs a new initialized instance. Uses defaults for variable prefix and suffix and the escaping
      * character.
      *
      * @param <V> the type of the values in the map
@@ -510,7 +510,7 @@ public class StringSubstitutor {
     }
 
     /**
-     * Creates a new instance and initializes it. Uses a default escaping character.
+     * Constructs a new initialized instance. Uses a default escaping character.
      *
      * @param <V> the type of the values in the map
      * @param valueMap the map with the variables' values, may be null
@@ -523,7 +523,7 @@ public class StringSubstitutor {
     }
 
     /**
-     * Creates a new instance and initializes it.
+     * Constructs a new initialized instance.
      *
      * @param <V> the type of the values in the map
      * @param valueMap the map with the variables' values, may be null
@@ -538,7 +538,7 @@ public class StringSubstitutor {
     }
 
     /**
-     * Creates a new instance and initializes it.
+     * Constructs a new initialized instance.
      *
      * @param <V> the type of the values in the map
      * @param valueMap the map with the variables' values, may be null
@@ -554,7 +554,7 @@ public class StringSubstitutor {
     }
 
     /**
-     * Creates a new instance and initializes it.
+     * Constructs a new initialized instance.
      *
      * @param variableResolver the variable resolver, may be null
      */
@@ -563,7 +563,7 @@ public class StringSubstitutor {
     }
 
     /**
-     * Creates a new instance and initializes it.
+     * Constructs a new initialized instance.
      *
      * @param variableResolver the variable resolver, may be null
      * @param prefix the prefix for variables, not null
@@ -581,7 +581,7 @@ public class StringSubstitutor {
     }
 
     /**
-     * Creates a new instance and initializes it.
+     * Constructs a new initialized instance.
      *
      * @param variableResolver the variable resolver, may be null
      * @param prefix the prefix for variables, not null
@@ -600,7 +600,7 @@ public class StringSubstitutor {
     }
 
     /**
-     * Creates a new instance and initializes it.
+     * Constructs a new initialized instance.
      *
      * @param variableResolver the variable resolver, may be null
      * @param prefixMatcher the prefix for variables, not null
@@ -614,7 +614,7 @@ public class StringSubstitutor {
     }
 
     /**
-     * Creates a new instance and initializes it.
+     * Constructs a new initialized instance.
      *
      * @param variableResolver the variable resolver, may be null
      * @param prefixMatcher the prefix for variables, not null
