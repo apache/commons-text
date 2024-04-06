@@ -98,7 +98,7 @@ import org.apache.commons.text.StringSubstitutor;
  * <tr>
  * <td>{@value #KEY_FILE}</td>
  * <td>{@link StringLookup}</td>
- * <td>{@link #fileStringLookup()}</td>
+ * <td>{@link #fileStringLookup(Path...)}</td>
  * <td>1.5</td>
  * </tr>
  * <tr>
@@ -116,7 +116,7 @@ import org.apache.commons.text.StringSubstitutor;
  * <tr>
  * <td>{@value #KEY_PROPERTIES}</td>
  * <td>{@link StringLookup}</td>
- * <td>{@link #propertiesStringLookup()}</td>
+ * <td>{@link #propertiesStringLookup(Path...)}</td>
  * <td>1.5</td>
  * </tr>
  * <tr>
@@ -146,7 +146,7 @@ import org.apache.commons.text.StringSubstitutor;
  * <tr>
  * <td>{@value #KEY_XML}</td>
  * <td>{@link StringLookup}</td>
- * <td>{@link #xmlStringLookup()}</td>
+ * <td>{@link #xmlStringLookup(Map, Path...)}</td>
  * <td>1.5</td>
  * </tr>
  * <tr>
