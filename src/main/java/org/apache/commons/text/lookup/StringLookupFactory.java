@@ -1647,7 +1647,6 @@ public final class StringLookupFactory {
      * StringLookupFactory.INSTANCE.xmlStringLookup(map, Pathe.get("")).lookup("com/domain/document.xml:/path/to/node");
      * </pre>
      * <p>
-     * <p>
      * To use a {@link StringLookup} fenced by the current directory, use:
      * </p>
      *
