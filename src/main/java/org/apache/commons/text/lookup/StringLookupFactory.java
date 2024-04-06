@@ -225,7 +225,7 @@ public final class StringLookupFactory {
         static final DefaultStringLookupsHolder INSTANCE = new DefaultStringLookupsHolder(System.getProperties());
 
         /**
-         * Add the key and string lookup from {@code lookup} to {@code map}, also adding any additional key aliases if needed. Keys are normalized using the
+         * Adds the key and string lookup from {@code lookup} to {@code map}, also adding any additional key aliases if needed. Keys are normalized using the
          * {@link #toKey(String)} method.
          *
          * @param lookup lookup to add
@@ -240,7 +240,7 @@ public final class StringLookupFactory {
         }
 
         /**
-         * Create the lookup map used when the user has requested no customization.
+         * Creates the lookup map used when the user has requested no customization.
          *
          * @return default lookup map
          */
