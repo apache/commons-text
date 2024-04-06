@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import javax.xml.xpath.XPathFactory;
 
@@ -215,6 +216,49 @@ import org.apache.commons.text.StringSubstitutor;
  * @since 1.3
  */
 public final class StringLookupFactory {
+
+    /**
+     * Builds instance of {@link StringLookupFactory}.
+     *
+     * @since 1.12.0
+     */
+    public static final class Builder implements Supplier<StringLookupFactory> {
+
+        /**
+         * Fences.
+         */
+        private Path[] fences;
+
+        @Override
+        public StringLookupFactory get() {
+            return new StringLookupFactory(fences);
+        }
+
+        /**
+         * Sets Path resolution fences.
+         * <p>
+         * Path Fences apply to the file, property, and XML string lookups.
+         * </p>
+         *
+         * @param fences Path resolution fences.
+         * @return this.
+         */
+        public Builder setFences(final Path... fences) {
+            this.fences = fences;
+            return this;
+        }
+
+    }
+
+    /**
+     * Constructs a new {@link Builder}.
+     *
+     * @return a new {@link Builder}
+     * @since 1.12.0
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
 
     /**
      * Internal class used to construct the default {@link StringLookup} map used by {@link StringLookupFactory#addDefaultStringLookups(Map)}.
@@ -570,10 +614,22 @@ public final class StringLookupFactory {
     }
 
     /**
-     * No need to build instances for now.
+     * Fences.
+     */
+    private final Path[] fences;
+
+    /**
+     * Constructs a new instance.
      */
     private StringLookupFactory() {
-        // empty
+        this(null);
+    }
+
+    /**
+     * Constructs a new instance.
+     */
+    private StringLookupFactory(final Path[] fences) {
+        this.fences = fences;
     }
 
     /**
@@ -816,62 +872,94 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the FileStringLookup singleton instance.
+     * Returns a file StringLookup instance.
      * <p>
-     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * If this factory was built using {@link Builder#setFences(Path...)}, then the string lookup is fenced and will throw an {@link IllegalArgumentException}
+     * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
+     * </p>
+     * <em>Using a fenced StringLookup</em>
+     * <p>
+     * To use a fenced {@link StringLookup}, use {@link StringLookupFactory#builder()}:
+     * </p>
+     *
+     * <pre>
+     * // Make the fence the current directory
+     * StringLookupFactory factory = StringLookupFactory.builder().setFences(Paths.get("")).get();
+     * factory.fileStringLookup().lookup("UTF-8:com/domain/document.txt");
+     *
+     * // throws IllegalArgumentException
+     * factory.fileStringLookup().lookup("UTF-8:/rootdir/foo/document.txt");
+     *
+     * // throws IllegalArgumentException
+     * factory.fileStringLookup().lookup("UTF-8:../document.txt");
+     * </pre>
+     *
+     * <em>Using an unfenced StringLookup</em>
+     * <p>
+     * To use an unfenced {@link StringLookup}, use {@link StringLookupFactory#INSTANCE}:
      * </p>
      *
      * <pre>
      * StringLookupFactory.INSTANCE.fileStringLookup().lookup("UTF-8:com/domain/document.properties");
      * </pre>
+     *
+     * <em>Using a StringLookup with StringSubstitutor</em>
      * <p>
-     * Using a {@link StringSubstitutor}:
+     * To build a fenced StringSubstitutor, use:
      * </p>
      *
      * <pre>
-     * StringSubstitutor.createInterpolator().replace("... ${file:UTF-8:com/domain/document.properties} ..."));
+     * // Make the fence the current directory
+     * final StringLookupFactory factory = StringLookupFactory.builder().setFences(Paths.get("")).get();
+     * final StringSubstitutor stringSubstitutor = new StringSubstitutor(factory.interpolatorStringLookup());
+     * stringSubstitutor.replace("... ${file:UTF-8:com/domain/document.txt} ..."));
+     *
+     * // throws IllegalArgumentException
+     * stringSubstitutor.replace("... ${file:UTF-8:/rootdir/foo/document.txt} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "UTF-8:com/domain/document.properties"} to the contents of the file.
+     * Using an unfenced {@link StringSubstitutor}:
      * </p>
      *
-     * @return The FileStringLookup singleton instance.
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${file:UTF-8:com/domain/document.txt} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "UTF-8:com/domain/document.txt"} to the contents of the file.
+     * </p>
+     *
+     * @return a file StringLookup instance.
      * @since 1.5
-     * @deprecated Use {@link #fileStringLookup(Path...)}.
      */
-    @Deprecated
     public StringLookup fileStringLookup() {
-        return FileStringLookup.INSTANCE;
+        return fences != null ? fileStringLookup(fences) : FileStringLookup.INSTANCE;
     }
 
     /**
-     * Returns a fenced FileStringLookup instance.
+     * Returns a fenced file StringLookup instance.
      * <p>
-     * Using a {@link StringLookup} from the {@link StringLookupFactory} fenced by the current directory ({@code Paths.get("")}):
+     * To use a {@link StringLookup} fenced by the current directory, use:
      * </p>
      *
      * <pre>
-     * StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")).lookup("UTF-8:com/domain/document.properties");
-     * </pre>
-     * <p>
-     * Using a {@link StringSubstitutor} fenced by the current directory ({@code Paths.get("")}):
-     * </p>
+     * StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")).lookup("UTF-8:com/domain/document.txt");
      *
-     * <pre>
-     * StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
-     * final InterpolatorStringLookup stringLookup = (InterpolatorStringLookup) stringSubstitutor.getStringLookup();
-     * stringLookup.getStringLookupMap().replace(StringLookupFactory.KEY_FILE, StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")));
-     * stringSubstitutor.replace("... ${file:UTF-8:com/domain/document.properties} ..."));
+     * // throws IllegalArgumentException
+     * StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")).lookup("UTF-8:/rootdir/foo/document.txt");
+     *
+     * // throws IllegalArgumentException
+     * StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")).lookup("UTF-8:../com/domain/document.txt");
      * </pre>
      * <p>
-     * The above examples convert {@code "UTF-8:com/domain/document.properties"} to the contents of the file.
+     * The above example converts {@code "UTF-8:com/domain/document.txt"} to the contents of the file.
      * </p>
      * <p>
-     * Methods {@link StringSubstitutor#replace(String)} will throw a {@link IllegalArgumentException} when a file doesn't resolves in a fence.
+     * {@link StringSubstitutor} methods like {@link StringSubstitutor#replace(String)} will throw a {@link IllegalArgumentException} when a file doesn't
+     * resolves in a fence.
      * </p>
      *
      * @param fences The fences guarding Path resolution.
-     * @return The FileStringLookup singleton instance.
+     * @return a file StringLookup instance.
      * @since 1.12.0
      */
     public StringLookup fileStringLookup(final Path... fences) {
@@ -1048,9 +1136,13 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the PropertiesStringLookup singleton instance.
+     * Returns a Properties StringLookup instance.
      * <p>
-     * Looks up the value for the key in the format "DocumentPath::MyKey".
+     * If this factory was built using {@link Builder#setFences(Path...)}, then the string lookup is fenced and will throw an {@link IllegalArgumentException}
+     * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
+     * </p>
+     * <p>
+     * We looks up a value for the key in the format "DocumentPath::MyKey".
      * </p>
      * <p>
      * Note the use of "::" instead of ":" to allow for "C:" drive letters in paths.
@@ -1058,16 +1150,48 @@ public final class StringLookupFactory {
      * <p>
      * For example: "com/domain/document.properties::MyKey".
      * </p>
-     *
+     * <em>Using a fenced StringLookup</em>
      * <p>
-     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * To use a fenced {@link StringLookup}, use {@link StringLookupFactory#builder()}:
+     * </p>
+     *
+     * <pre>
+     * // Make the fence the current directory
+     * StringLookupFactory factory = StringLookupFactory.builder().setFences(Paths.get("")).get();
+     * factory.propertiesStringLookup().lookup("com/domain/document.properties::MyKey");
+     *
+     * // throws IllegalArgumentException
+     * factory.propertiesStringLookup().lookup("/com/domain/document.properties::MyKey");
+     *
+     * // throws IllegalArgumentException
+     * factory.propertiesStringLookup().lookup("../com/domain/document.properties::MyKey");
+     * </pre>
+     *
+     * <em>Using an unfenced StringLookup</em>
+     * <p>
+     * To use an unfenced {@link StringLookup}, use {@link StringLookupFactory#INSTANCE}:
      * </p>
      *
      * <pre>
      * StringLookupFactory.INSTANCE.propertiesStringLookup().lookup("com/domain/document.properties::MyKey");
      * </pre>
+     *
+     * <em>Using a StringLookup with StringSubstitutor</em>
      * <p>
-     * Using a {@link StringSubstitutor}:
+     * To build a fenced StringSubstitutor, use:
+     * </p>
+     *
+     * <pre>
+     * // Make the fence the current directory
+     * final StringLookupFactory factory = StringLookupFactory.builder().setFences(Paths.get("")).get();
+     * final StringSubstitutor stringSubstitutor = new StringSubstitutor(factory.interpolatorStringLookup());
+     * stringSubstitutor.replace("... ${properties:com/domain/document.properties::MyKey} ..."));
+     *
+     * // throws IllegalArgumentException
+     * stringSubstitutor.replace("... ${properties:/rootdir/foo/document.properties::MyKey} ..."));
+     * </pre>
+     * <p>
+     * Using an unfenced {@link StringSubstitutor}:
      * </p>
      *
      * <pre>
@@ -1078,17 +1202,15 @@ public final class StringLookupFactory {
      * "com/domain/document.properties".
      * </p>
      *
-     * @return The PropertiesStringLookup singleton instance.
+     * @return a Properties StringLookup instance.
      * @since 1.5
-     * @deprecated Use {@link #propertiesStringLookup(Path...)}.
      */
-    @Deprecated
     public StringLookup propertiesStringLookup() {
-        return PropertiesStringLookup.INSTANCE;
+        return fences != null ? propertiesStringLookup(fences) : PropertiesStringLookup.INSTANCE;
     }
 
     /**
-     * Returns a fenced PropertiesStringLookup instance.
+     * Returns a fenced Properties StringLookup instance.
      * <p>
      * Looks up the value for the key in the format "DocumentPath::MyKey":.
      * </p>
@@ -1098,34 +1220,30 @@ public final class StringLookupFactory {
      * <p>
      * For example: "com/domain/document.properties::MyKey".
      * </p>
-     *
      * <p>
-     * Using a {@link StringLookup} from the {@link StringLookupFactory} fenced by the current directory ({@code Paths.get("")}):
+     * To use a {@link StringLookup} fenced by the current directory, use:
      * </p>
      *
      * <pre>
-     * StringLookupFactory.INSTANCE.propertiesStringLookup(Paths.get("")).lookup("com/domain/document.properties::MyKey");
-     * </pre>
-     * <p>
-     * Using a {@link StringSubstitutor} fenced by the current directory ({@code Paths.get("")}):
-     * </p>
+     * StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")).lookup("com/domain/document.properties::MyKey");
      *
-     * <pre>
-     * StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
-     * final InterpolatorStringLookup stringLookup = (InterpolatorStringLookup) stringSubstitutor.getStringLookup();
-     * stringLookup.getStringLookupMap().replace(StringLookupFactory.KEY_PROPERTIES, StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")));
-     * stringSubstitutor.replace("... ${properties:com/domain/document.properties::MyKey} ..."));
+     * // throws IllegalArgumentException
+     * StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")).lookup("com/domain/document.properties::MyKey");
+     *
+     * // throws IllegalArgumentException
+     * StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")).lookup("com/domain/document.properties::MyKey");
      * </pre>
      * <p>
-     * The above examples convert {@code "com/domain/document.properties::MyKey"} to the key value in the properties file at the path
+     * The above example converts {@code "com/domain/document.properties::MyKey"} to the key value in the properties file at the path
      * "com/domain/document.properties".
      * </p>
      * <p>
-     * Methods {@link StringSubstitutor#replace(String)} will throw a {@link IllegalArgumentException} when a file doesn't resolves in a fence.
+     * {@link StringSubstitutor} methods like {@link StringSubstitutor#replace(String)} will throw a {@link IllegalArgumentException} when a file doesn't
+     * resolves in a fence.
      * </p>
      *
      * @param fences The fences guarding Path resolution.
-     * @return The PropertiesStringLookup singleton instance.
+     * @return a Properties StringLookup instance.
      * @since 1.12.0
      */
     public StringLookup propertiesStringLookup(final Path... fences) {
@@ -1434,9 +1552,13 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the XmlStringLookup singleton instance.
+     * Returns an XML StringLookup instance.
      * <p>
-     * Looks up the value for the key in the format "DocumentPath:XPath".
+     * If this factory was built using {@link Builder#setFences(Path...)}, then the string lookup is fenced and will throw an {@link IllegalArgumentException}
+     * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
+     * </p>
+     * <p>
+     * We look up the value for the key in the format "DocumentPath:XPath".
      * </p>
      * <p>
      * For example: "com/domain/document.xml:/path/to/node".
@@ -1459,19 +1581,21 @@ public final class StringLookupFactory {
      * The above examples convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML document.
      * </p>
      *
-     * @return The XmlStringLookup singleton instance.
+     * @return An XML StringLookup instance.
      * @since 1.5
-     * @deprecated Use {@link #xmlStringLookup(Map, Path...)}.
      */
-    @Deprecated
     public StringLookup xmlStringLookup() {
-        return XmlStringLookup.INSTANCE;
+        return fences != null ? xmlStringLookup(XmlStringLookup.DEFAULT_FEATURES, fences) : XmlStringLookup.INSTANCE;
     }
 
     /**
-     * Returns a XmlStringLookup instance.
+     * Returns an XML StringLookup instance.
      * <p>
-     * Looks up the value for the key in the format "DocumentPath:XPath".
+     * If this factory was built using {@link Builder#setFences(Path...)}, then the string lookup is fenced and will throw an {@link IllegalArgumentException}
+     * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
+     * </p>
+     * <p>
+     * We look up the value for the key in the format "DocumentPath:XPath".
      * </p>
      * <p>
      * For example: "com/domain/document.xml:/path/to/node".
@@ -1495,20 +1619,22 @@ public final class StringLookupFactory {
      * </p>
      *
      * @param xPathFactoryFeatures XPathFactory features to set.
-     * @return The XmlStringLookup singleton instance.
+     * @return An XML StringLookup instance.
      * @see XPathFactory#setFeature(String, boolean)
      * @since 1.11.0
-     * @deprecated Use {@link #xmlStringLookup(Map, Path...)}.
      */
-    @Deprecated
     public StringLookup xmlStringLookup(final Map<String, Boolean> xPathFactoryFeatures) {
-        return new XmlStringLookup(xPathFactoryFeatures);
+        return xmlStringLookup(xPathFactoryFeatures, fences);
     }
 
     /**
-     * Returns a fenced XmlStringLookup instance.
+     * Returns a fenced XML StringLookup instance.
      * <p>
-     * Looks up the value for the key in the format "DocumentPath:XPath".
+     * If this factory was built using {@link Builder#setFences(Path...)}, then the string lookup is fenced and will throw an {@link IllegalArgumentException}
+     * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
+     * </p>
+     * <p>
+     * We look up the value for the key in the format "DocumentPath:XPath".
      * </p>
      * <p>
      * For example: "com/domain/document.xml:/path/to/node".
@@ -1521,22 +1647,30 @@ public final class StringLookupFactory {
      * StringLookupFactory.INSTANCE.xmlStringLookup(map, Pathe.get("")).lookup("com/domain/document.xml:/path/to/node");
      * </pre>
      * <p>
-     * Using a {@link StringSubstitutor}:
+     * <p>
+     * To use a {@link StringLookup} fenced by the current directory, use:
      * </p>
      *
      * <pre>
-     * StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
-     * final InterpolatorStringLookup stringLookup = (InterpolatorStringLookup) stringSubstitutor.getStringLookup();
-     * stringLookup.getStringLookupMap().replace(StringLookupFactory.KEY_PROPERTIES, StringLookupFactory.INSTANCE.fileStringLookup(Paths.get("")));
-     * stringSubstitutor.replace("... ${xml:com/domain/document.xml:/path/to/node} ..."));
+     * StringLookupFactory.INSTANCE.xmlStringLookup(Paths.get("")).lookup("com/domain/document.xml:/path/to/node");
+     *
+     * // throws IllegalArgumentException
+     * StringLookupFactory.INSTANCE.xmlStringLookup(Paths.get("")).lookup("/rootdir/foo/document.xml:/path/to/node");
+     *
+     * // throws IllegalArgumentException
+     * StringLookupFactory.INSTANCE.xmlStringLookup(Paths.get("")).lookup("../com/domain/document.xml:/path/to/node");
      * </pre>
      * <p>
      * The above examples convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML document.
      * </p>
+     * <p>
+     * {@link StringSubstitutor} methods like {@link StringSubstitutor#replace(String)} will throw a {@link IllegalArgumentException} when a file doesn't
+     * resolves in a fence.
+     * </p>
      *
      * @param xPathFactoryFeatures XPathFactory features to set.
      * @param fences               The fences guarding Path resolution.
-     * @return The XmlStringLookup singleton instance.
+     * @return An XML StringLookup instance.
      * @since 1.12.0
      */
     public StringLookup xmlStringLookup(final Map<String, Boolean> xPathFactoryFeatures, final Path... fences) {

@@ -35,13 +35,25 @@ import org.junit.jupiter.api.Test;
  */
 public class PropertiesStringLookupTest {
 
-    private static final Path[] NULL_PATH_ARRAY = null;
     private static final Path CURRENT_PATH = Paths.get(StringUtils.EMPTY); // NOT "."!
     private static final String DOC_RELATIVE = "src/test/resources/org/apache/commons/text/document.properties";
     private static final String DOC_ROOT = "/foo.txt";
     private static final String KEY = "mykey";
     private static final String KEY_RELATIVE = PropertiesStringLookup.toPropertyKey(DOC_RELATIVE, KEY);
     private static final String KEY_ROOT = PropertiesStringLookup.toPropertyKey(DOC_ROOT, KEY);
+    private static final Path[] NULL_PATH_ARRAY = null;
+
+    public static void testFence(final StringSubstitutor stringSubstitutor) {
+        assertEquals("Hello World!", stringSubstitutor.replace("${properties:" + KEY_RELATIVE + "}"));
+        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${file:UTF-8:/foo.txt}"));
+        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${file:UTF-8:../foo.txt}"));
+    }
+
+    @Test
+    public void testFenceOne() {
+        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(CURRENT_PATH).lookup(KEY_ROOT));
+        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(Paths.get("not a dir at all"), CURRENT_PATH).lookup(KEY_ROOT));
+    }
 
     @Test
     public void testInterpolator() {
@@ -50,13 +62,21 @@ public class PropertiesStringLookupTest {
     }
 
     @Test
-    public void testInterpolatorReplaceFile() {
+    public void testInterpolatorNestedColon() {
+        final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
+        // Need to handle "C:" in the sys prop user.dir.
+        final String replaced = stringSubstitutor.replace("$${properties:${sys:user.dir}/" + KEY_RELATIVE + "}");
+        assertEquals("${properties:" + System.getProperty("user.dir") + "/src/test/resources/org/apache/commons/text/document.properties::mykey}", replaced);
+        assertEquals("Hello World!", stringSubstitutor.replace(replaced));
+    }
+
+    @Test
+    public void testInterpolatorReplace() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
         assertEquals("Hello World!", stringSubstitutor.replace("${properties:" + KEY_RELATIVE + "}"));
         final InterpolatorStringLookup stringLookup = (InterpolatorStringLookup) stringSubstitutor.getStringLookup();
         stringLookup.getStringLookupMap().replace(StringLookupFactory.KEY_FILE, StringLookupFactory.INSTANCE.fileStringLookup(CURRENT_PATH));
-        assertEquals("Hello World!", stringSubstitutor.replace("${properties:" + KEY_RELATIVE + "}"));
-        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${file:UTF-8:/foo.txt}"));
+        testFence(stringSubstitutor);
     }
 
     @Test
@@ -67,15 +87,6 @@ public class PropertiesStringLookupTest {
         stringLookup.getStringLookupMap().replace(StringLookupFactory.KEY_PROPERTIES, StringLookupFactory.INSTANCE.propertiesStringLookup(CURRENT_PATH));
         assertEquals("Hello World!", stringSubstitutor.replace("${properties:" + KEY_RELATIVE + "}"));
         assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${properties:UTF-8:/foo.txt}"));
-    }
-
-    @Test
-    public void testInterpolatorNestedColon() {
-        final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
-        // Need to handle "C:" in the sys prop user.dir.
-        final String replaced = stringSubstitutor.replace("$${properties:${sys:user.dir}/" + KEY_RELATIVE + "}");
-        assertEquals("${properties:" + System.getProperty("user.dir") + "/src/test/resources/org/apache/commons/text/document.properties::mykey}", replaced);
-        assertEquals("Hello World!", stringSubstitutor.replace(replaced));
     }
 
     @Test
@@ -133,12 +144,6 @@ public class PropertiesStringLookupTest {
         assertEquals("Hello World!", new PropertiesStringLookup(NULL_PATH_ARRAY).lookup(KEY_RELATIVE));
         assertEquals("Hello World!", new PropertiesStringLookup(CURRENT_PATH).lookup(KEY_RELATIVE));
         assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(CURRENT_PATH).lookup(KEY_ROOT));
-    }
-
-    @Test
-    public void testFenceOne() {
-        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(CURRENT_PATH).lookup(KEY_ROOT));
-        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(Paths.get("not a dir at all"), CURRENT_PATH).lookup(KEY_ROOT));
     }
 
     @Test

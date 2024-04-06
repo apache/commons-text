@@ -50,6 +50,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StringLookupFactory.fileStringLookup(Path...) and deprecated fileStringLookup().</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StringLookupFactory.propertiesStringLookup(Path...) and deprecated propertiesStringLookup().</action>
     <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StringLookupFactory.xmlStringLookup(Map, Path...) and deprecated xmlStringLookup() and xmlStringLookup(Map).</action>
+    <action                  type="add" dev="ggregory" due-to="Gary Gregory">Add StringLookupFactory.builder() for fencing Path resolution of the file, properties and XML lookups.</action>
     <!-- FIX -->
     <action issue="TEXT-232" type="fix" dev="ggregory" due-to="Arnout Engelen, Gary Gregory">WordUtils.containsAllWords​() may throw PatternSyntaxException.</action>
     <action issue="TEXT-175" type="fix" dev="ggregory" due-to="David Lavati, seanfabs, Gary Gregory, Bruno P. Kinoshita">Fix regression for determining whitespace in WordUtils #519.</action>
