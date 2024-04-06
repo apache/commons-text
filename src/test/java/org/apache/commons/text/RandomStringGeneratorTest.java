@@ -303,7 +303,7 @@ public class RandomStringGeneratorTest {
         // @formatter:off
         final RandomStringGenerator generator = RandomStringGenerator.builder()
                 .withinRange()
-                .withinRange(null)
+                .withinRange((char[][]) null)
                 .withinRange(pairs)
                 .build();
         // @formatter:on
