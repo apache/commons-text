@@ -16,6 +16,7 @@
  */
 package org.apache.commons.text;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -334,7 +335,7 @@ public class StringSubstitutor {
      * </tr>
      * <tr>
      * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_FILE}</td>
-     * <td>{@link StringLookupFactory#fileStringLookup()}</td>
+     * <td>{@link StringLookupFactory#fileStringLookup(Path...)}</td>
      * </tr>
      * <tr>
      * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_JAVA}</td>
@@ -346,7 +347,7 @@ public class StringSubstitutor {
      * </tr>
      * <tr>
      * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_PROPERTIES}</td>
-     * <td>{@link StringLookupFactory#propertiesStringLookup()}</td>
+     * <td>{@link StringLookupFactory#propertiesStringLookup(Path...)}</td>
      * </tr>
      * <tr>
      * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_RESOURCE_BUNDLE}</td>
@@ -366,7 +367,7 @@ public class StringSubstitutor {
      * </tr>
      * <tr>
      * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML}</td>
-     * <td>{@link StringLookupFactory#xmlStringLookup()}</td>
+     * <td>{@link StringLookupFactory#xmlStringLookup(Map, Path...)}</td>
      * </tr>
      * <tr>
      * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_XML_DECODER}</td>
