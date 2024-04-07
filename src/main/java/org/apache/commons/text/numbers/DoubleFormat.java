@@ -20,6 +20,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Objects;
 import java.util.function.DoubleFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Enum containing standard double format types with methods to produce
@@ -330,7 +331,7 @@ public enum DoubleFormat {
     /**
      * Builds configured format functions for standard double format types.
      */
-    public static final class Builder {
+    public static final class Builder implements Supplier<DoubleFunction<String>> {
 
         /** Default value for the plain format max decimal exponent. */
         private static final int DEFAULT_PLAIN_FORMAT_MAX_DECIMAL_EXPONENT = 6;
@@ -447,9 +448,11 @@ public enum DoubleFormat {
          * Builds a new double format function.
          *
          * @return format function
+         * @deprecated Use {@link #get()}.
          */
+        @Deprecated
         public DoubleFunction<String> build() {
-            return factory.apply(this);
+            return get();
         }
 
         /**
@@ -518,6 +521,16 @@ public enum DoubleFormat {
 
             return digits(getDigitString(symbols)).decimalSeparator(symbols.getDecimalSeparator()).groupingSeparator(symbols.getGroupingSeparator())
                     .minusSign(symbols.getMinusSign()).exponentSeparator(symbols.getExponentSeparator()).infinity(symbols.getInfinity()).nan(symbols.getNaN());
+        }
+
+        /**
+         * Builds a new double format function.
+         *
+         * @return format function
+         */
+        @Override
+        public DoubleFunction<String> get() {
+            return factory.apply(this);
         }
 
         /**

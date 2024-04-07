@@ -97,7 +97,7 @@ public class DoubleFormatTest {
      * @param type format type
      */
     private static void checkFormatAccuracyWithDefaults(final DoubleFormat type) {
-        final DoubleFunction<String> fmt = type.builder().build();
+        final DoubleFunction<String> fmt = type.builder().get();
 
         checkDefaultFormatSpecial(fmt);
 
@@ -191,8 +191,8 @@ public class DoubleFormatTest {
             // Example of different Double.toString representations across JDKs
             // JDK 17: -9.3540047119774374E17
             // JDK 21: -9.354004711977437E17
-            Arguments.of(DoubleFormat.PLAIN.builder().build(), -9.3540047119774374E17),
-            Arguments.of(DoubleFormat.SCIENTIFIC.builder().build(), -9.3540047119774374E17)
+            Arguments.of(DoubleFormat.PLAIN.builder().get(), -9.3540047119774374E17),
+            Arguments.of(DoubleFormat.SCIENTIFIC.builder().get(), -9.3540047119774374E17)
         );
     }
 
@@ -231,10 +231,10 @@ public class DoubleFormatTest {
     void testCustomDigitString() {
         // arrange
         final String digits = "abcdefghij";
-        final DoubleFunction<String> plain = DoubleFormat.PLAIN.builder().digits(digits).build();
-        final DoubleFunction<String> sci = DoubleFormat.SCIENTIFIC.builder().digits(digits).build();
-        final DoubleFunction<String> eng = DoubleFormat.ENGINEERING.builder().digits(digits).build();
-        final DoubleFunction<String> mixed = DoubleFormat.MIXED.builder().digits(digits).build();
+        final DoubleFunction<String> plain = DoubleFormat.PLAIN.builder().digits(digits).get();
+        final DoubleFunction<String> sci = DoubleFormat.SCIENTIFIC.builder().digits(digits).get();
+        final DoubleFunction<String> eng = DoubleFormat.ENGINEERING.builder().digits(digits).get();
+        final DoubleFunction<String> mixed = DoubleFormat.MIXED.builder().digits(digits).get();
 
         // act/assert
         checkFormat(plain, 9876543210.0, "jihgfedcba.a");
@@ -256,7 +256,7 @@ public class DoubleFormatTest {
                 .infinity("inf")
                 .nan("nan")
                 .minusSign('!')
-                .build();
+                .get();
 
         // act/assert
         checkFormat(fmt, Double.NaN, "nan");
@@ -297,7 +297,7 @@ public class DoubleFormatTest {
     void testEngineering_defaults() {
         // act
         final DoubleFunction<String> fmt = DoubleFormat.ENGINEERING.builder()
-                .build();
+                .get();
 
         // act/assert
         checkDefaultFormatSpecial(fmt);
@@ -339,7 +339,7 @@ public class DoubleFormatTest {
                 .maxPrecision(6)
                 .alwaysIncludeExponent(true)
                 .formatSymbols(DecimalFormatSymbols.getInstance(loc))
-                .build());
+                .get());
     }
 
     @Test
@@ -381,7 +381,7 @@ public class DoubleFormatTest {
                 .infinity("inf")
                 .nan("nan")
                 .minusSign('!')
-                .build();
+                .get();
 
         // act/assert
         checkFormat(fmt, Double.NaN, "nan");
@@ -421,8 +421,10 @@ public class DoubleFormatTest {
     @Test
     void testMixed_defaults() {
         // arrange
-        final DoubleFunction<String> fmt = DoubleFormat.MIXED.builder().build();
+        testMixed_defaults(DoubleFormat.MIXED.builder().get());
+    }
 
+    private void testMixed_defaults(final DoubleFunction<String> fmt) {
         // act/assert
         checkDefaultFormatSpecial(fmt);
 
@@ -457,6 +459,11 @@ public class DoubleFormatTest {
     }
 
     @Test
+    void testMixed_defaultsDeprecated() {
+        testMixed_defaults(DoubleFormat.MIXED.builder().build());
+    }
+
+    @Test
     void testPlain_custom() {
         // arrange
         final DoubleFunction<String> fmt = DoubleFormat.PLAIN.builder()
@@ -469,7 +476,7 @@ public class DoubleFormatTest {
             .infinity("inf")
             .nan("nan")
             .minusSign('!')
-            .build();
+            .get();
 
         // act/assert
         checkFormat(fmt, Double.NaN, "nan");
@@ -510,7 +517,7 @@ public class DoubleFormatTest {
     void testPlain_defaults() {
         // arrange
         final DoubleFunction<String> fmt = DoubleFormat.PLAIN.builder()
-            .build();
+            .get();
 
         // act/assert
         checkFormat(fmt, 0.00001, "0.00001");
@@ -549,12 +556,12 @@ public class DoubleFormatTest {
         checkLocalizedFormats("0.0##", loc -> DoubleFormat.PLAIN.builder()
                 .minDecimalExponent(-3)
                 .formatSymbols(DecimalFormatSymbols.getInstance(loc))
-                .build());
+                .get());
         checkLocalizedFormats("#,##0.0##", loc -> DoubleFormat.PLAIN.builder()
                 .minDecimalExponent(-3)
                 .groupThousands(true)
                 .formatSymbols(DecimalFormatSymbols.getInstance(loc))
-                .build());
+                .get());
     }
 
     @Test
@@ -570,7 +577,7 @@ public class DoubleFormatTest {
                 .infinity("inf")
                 .nan("nan")
                 .minusSign('!')
-                .build();
+                .get();
 
         // act/assert
         checkFormat(fmt, Double.NaN, "nan");
@@ -610,7 +617,7 @@ public class DoubleFormatTest {
     @Test
     void testScientific_defaults() {
         // arrange
-        final DoubleFunction<String> fmt = DoubleFormat.SCIENTIFIC.builder().build();
+        final DoubleFunction<String> fmt = DoubleFormat.SCIENTIFIC.builder().get();
 
         // act/assert
         checkDefaultFormatSpecial(fmt);
@@ -652,6 +659,6 @@ public class DoubleFormatTest {
                 .maxPrecision(4)
                 .alwaysIncludeExponent(true)
                 .formatSymbols(DecimalFormatSymbols.getInstance(loc))
-                .build());
+                .get());
     }
 }

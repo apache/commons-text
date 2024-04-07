@@ -207,11 +207,10 @@ public class DoubleFormatPerformance {
      */
     @Benchmark
     public void doubleFormatEngineering(final DoubleInput input, final Blackhole bh) {
-        final DoubleFunction<String> fmt = DoubleFormat.ENGINEERING.builder()
+        runDoubleFunction(input, bh, DoubleFormat.ENGINEERING.builder()
                 .maxPrecision(6)
                 .alwaysIncludeExponent(true)
-                .build();
-        runDoubleFunction(input, bh, fmt);
+                .get());
     }
 
     /** Benchmark testing the {@link DoubleFormat#PLAIN} format.
@@ -220,10 +219,9 @@ public class DoubleFormatPerformance {
      */
     @Benchmark
     public void doubleFormatPlain(final DoubleInput input, final Blackhole bh) {
-        final DoubleFunction<String> fmt = DoubleFormat.PLAIN.builder()
+        runDoubleFunction(input, bh, DoubleFormat.PLAIN.builder()
                 .minDecimalExponent(-3)
-                .build();
-        runDoubleFunction(input, bh, fmt);
+                .get());
     }
 
     /** Benchmark testing the {@link DoubleFormat#PLAIN} format with
@@ -233,11 +231,10 @@ public class DoubleFormatPerformance {
      */
     @Benchmark
     public void doubleFormatPlainGrouped(final DoubleInput input, final Blackhole bh) {
-        final DoubleFunction<String> fmt = DoubleFormat.PLAIN.builder()
+        runDoubleFunction(input, bh, DoubleFormat.PLAIN.builder()
                 .minDecimalExponent(-3)
                 .groupThousands(true)
-                .build();
-        runDoubleFunction(input, bh, fmt);
+                .get());
     }
 
     /** Benchmark testing the {@link DoubleFormat#SCIENTIFIC} format.
@@ -246,11 +243,10 @@ public class DoubleFormatPerformance {
      */
     @Benchmark
     public void doubleFormatScientific(final DoubleInput input, final Blackhole bh) {
-        final DoubleFunction<String> fmt = DoubleFormat.SCIENTIFIC.builder()
+        runDoubleFunction(input, bh, DoubleFormat.SCIENTIFIC.builder()
                 .maxPrecision(4)
                 .alwaysIncludeExponent(true)
-                .build();
-        runDoubleFunction(input, bh, fmt);
+                .get());
     }
 
     /** Benchmark testing the {@link Double#toString()} method.
