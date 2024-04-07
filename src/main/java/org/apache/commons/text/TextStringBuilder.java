@@ -1548,11 +1548,13 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Implement the {@link Builder} interface.
+     * Converts this instance to a String.
      *
-     * @return The builder as a String
+     * @return This instance as a String
      * @see #toString()
+     * @deprecated Use {@link #get()}.
      */
+    @Deprecated
     @Override
     public String build() {
         return toString();
@@ -1959,6 +1961,18 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             }
         }
         return true;
+    }
+
+    /**
+     * Converts this instance to a String.
+     *
+     * @return This instance as a String
+     * @see #toString()
+     * @since 1.12.0
+     */
+    @Override
+    public String get() {
+        return toString();
     }
 
     /** Gets a direct reference to internal storage, not for public consumption. */

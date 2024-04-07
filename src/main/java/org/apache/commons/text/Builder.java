@@ -16,28 +16,29 @@
  */
 package org.apache.commons.text;
 
+import java.util.function.Supplier;
+
 /**
- * The Builder interface is designed to designate a class as a <em>builder</em>
- * object in the Builder design pattern. Builders are capable of creating and
- * configuring objects or results that normally take multiple steps to construct
- * or are very complex to derive.
- *
+ * Duplicates the functionality of {@link Supplier}.
  * <p>
- * The builder interface defines a single method, {@link #build()}, that
- * classes must implement. The result of this method should be the final
- * configured object or result after all building operations are performed.
+ * Defines a class as a <em>builder</em> following the Builder design pattern. Builders are capable of creating and configuring objects or results that normally
+ * take multiple steps to construct or are very complex to derive.
  * </p>
- *
  * <p>
- * It is a recommended practice that the methods supplied to configure the
- * object or result being built return a reference to {@code this} so that
- * method calls can be chained together.
+ * The builder interface defines a single method, {@link #get()}, that classes must implement. The result of this method should be the final configured object
+ * or result after all building operations are performed.
+ * </p>
+ * <p>
+ * It is a recommended practice that the methods supplied to configure the object or result being built return a reference to {@code this} so that method calls
+ * can be chained together.
  * </p>
  *
  * <p>
  * Example Builder:
  * </p>
- * <pre><code>
+ *
+ * <pre>
+ * <code>
  * class FontBuilder implements Builder&lt;Font&gt; {
  *     private Font font;
  *
@@ -61,26 +62,34 @@ package org.apache.commons.text;
  *         return this.font;
  *     }
  * }
- * </code></pre>
+ * </code>
+ * </pre>
  *
  * Example Builder Usage:
- * <pre><code>
- * Font bold14ptSansSerifFont = new FontBuilder(Font.SANS_SERIF).bold()
- *                                                              .size(14.0f)
- *                                                              .build();
- * </code></pre>
+ *
+ * <pre>
+ * <code>
+ * Font bold14ptSansSerifFont = new FontBuilder(Font.SANS_SERIF)
+ *      .bold()
+ *      .size(14.0f)
+ *      .get();
+ * </code>
+ * </pre>
  *
  *
  * @param <T> the type of object that the builder will construct or compute.
  * @since 1.0
+ * @see Supplier
+ * @deprecated Use :@link Supplier}.
  */
-public interface Builder<T> {
+@Deprecated
+public interface Builder<T> extends Supplier<T> {
 
     /**
-     * Returns a reference to the object being constructed or result being
-     * calculated by the builder.
+     * Returns a reference to the object being constructed or result being calculated by the builder.
      *
      * @return The object constructed or result calculated by the builder.
      */
     T build();
+
 }

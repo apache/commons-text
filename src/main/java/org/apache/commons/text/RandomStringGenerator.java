@@ -126,14 +126,15 @@ public final class RandomStringGenerator {
         private List<Character> characterList;
 
         /**
-         * Builds the {@code RandomStringGenerator} using the properties specified.
+         * Builds a new {@code RandomStringGenerator}.
          *
-         * @return The configured {@code RandomStringGenerator}
+         * @return A new {@code RandomStringGenerator}
+         * @deprecated Use {@link #get()}.
          */
+        @Deprecated
         @Override
         public RandomStringGenerator build() {
-            return new RandomStringGenerator(minimumCodePoint, maximumCodePoint, inclusivePredicates,
-                    random, characterList);
+            return get();
         }
 
         /**
@@ -162,6 +163,18 @@ public final class RandomStringGenerator {
             }
             Collections.addAll(inclusivePredicates, predicates);
             return this;
+        }
+
+        /**
+         * Builds a new {@code RandomStringGenerator}.
+         *
+         * @return A new {@code RandomStringGenerator}
+         * @since 1.12.0
+         */
+        @Override
+        public RandomStringGenerator get() {
+            return new RandomStringGenerator(minimumCodePoint, maximumCodePoint, inclusivePredicates,
+                    random, characterList);
         }
 
         /**

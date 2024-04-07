@@ -1510,11 +1510,13 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
-     * Builds a string.
+     * Converts this instance to a String.
      *
-     * @return The builder as a String
+     * @return This instance as a String
      * @see #toString()
+     * @deprecated Use {@link #get()}.
      */
+    @Deprecated
     @Override
     public String build() {
         return toString();
@@ -1866,6 +1868,18 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
             }
         }
         return true;
+    }
+
+    /**
+     * Converts this instance to a String.
+     *
+     * @return This instance as a String
+     * @see #toString()
+     * @since 1.12.0
+     */
+    @Override
+    public String get() {
+        return toString();
     }
 
     /**

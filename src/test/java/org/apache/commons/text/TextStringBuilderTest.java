@@ -341,6 +341,12 @@ public class TextStringBuilderTest {
     }
 
     @Test
+    public void testAsSupplier() {
+        final TextStringBuilder sb = new TextStringBuilder().appendAll("Lorem", " ", "ipsum", " ", "dolor");
+        assertEquals(sb.toString(), sb.get());
+    }
+
+    @Test
     public void testAsTokenizer() throws Exception {
         // from Javadoc
         final TextStringBuilder b = new TextStringBuilder();

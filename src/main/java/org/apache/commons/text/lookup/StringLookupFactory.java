@@ -251,16 +251,6 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Constructs a new {@link Builder}.
-     *
-     * @return a new {@link Builder}
-     * @since 1.12.0
-     */
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    /**
      * Internal class used to construct the default {@link StringLookup} map used by {@link StringLookupFactory#addDefaultStringLookups(Map)}.
      */
     static final class DefaultStringLookupsHolder {
@@ -581,6 +571,16 @@ public final class StringLookupFactory {
      * @since 1.11.0
      */
     public static final String KEY_XML_ENCODER = "xmlEncoder";
+
+    /**
+     * Constructs a new {@link Builder}.
+     *
+     * @return a new {@link Builder}
+     * @since 1.12.0
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
 
     /**
      * Clears any static resources.
