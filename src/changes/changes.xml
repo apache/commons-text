@@ -60,7 +60,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-lang3 from 3.13.0 to 3.14.0.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump commons.bytebuddy.version from 1.14.9 to 1.14.13 #476, #482, #505, #521.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump org.codehaus.mojo:exec-maven-plugin from 3.1.0 to 3.2.0 #474, #508.</action>
-    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io from 2.15.0 to 2.16.0 #522.</action>
+    <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io from 2.15.0 to 2.16.1 #522, #527.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-parent from 64 to 69 #524.</action>
     <action                  type="update" dev="ggregory" due-to="Dependabot">Bump org.assertj:assertj-core from 3.24.2 to 3.25.3.</action>
   </release>
