@@ -80,7 +80,7 @@ public class CaseUtils {
      * </pre>
      *
      * @param str  the String to be converted to camelCase, may be null
-     * @param capitalizeFirstLetter boolean if true sets the first character of the first word to title case.
+     * @param capitalizeFirstLetter boolean. If true, set the first character of the first word to title case.
      * @param delimiters  set of characters to determine capitalization, null and/or empty array means whitespace
      * @return camelCase of String, {@code null} if null String input
      */

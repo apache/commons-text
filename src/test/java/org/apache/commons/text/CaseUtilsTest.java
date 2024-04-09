@@ -69,7 +69,7 @@ public class CaseUtilsTest {
         assertThat(CaseUtils.toCamelCase("tocamelcase", true)).isEqualTo("Tocamelcase");
         assertThat(CaseUtils.toCamelCase("tocamelcase", false)).isEqualTo("tocamelcase");
 
-        assertThat(CaseUtils.toCamelCase("\uD800\uDF00 \uD800\uDF02", true, null)).isEqualTo("\uD800\uDF00\uD800\uDF02");
+        assertThat(CaseUtils.toCamelCase("\uD800\uDF00 \uD800\uDF02", true)).isEqualTo("\uD800\uDF00\uD800\uDF02");
         assertThat(CaseUtils.toCamelCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", true, '\uD800',
             '\uDF14')).isEqualTo("\uD800\uDF00\uD800\uDF01\uD800\uDF02\uD800\uDF03");
 
