@@ -18,6 +18,7 @@ package org.apache.commons.text;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -28,13 +29,30 @@ import org.apache.commons.lang3.StringUtils;
  * <p>This class tries to handle {@code null} input gracefully.
  * An exception will not be thrown for a {@code null} input.
  * Each method documents its behavior in more detail.</p>
+ * Examples:
+ * <pre>
+ *                              "Two words" "foo bar" "Piñata Café"
+ * toCamelCase(str)             "twoWords"  "fooBar"  "pinataCafe"
+ * toCamelCase(str, false, " ") "twoWords"  "fooBar"  "piñataCafé"
+ * toCamelCase(str, true, " ")  "TwoWords"  "FooBar"  "PiñataCafé"
+ * ToCamelSnakeCase             "two_Words" "foo_Bar" "pinata_Cafe"
+ * toFlatcase(str)              "twowords"  "foobar"  "pinatacafe"
+ * toKebabCase(str)             "two-words" "foo-bar" "pinata-cafe"
+ * toScreamingCase(str)         "TWOWORDS"  "FOOBAR"  "PINATACAFE"
+ * toScreamingKebabCase(str)    "TWO-WORDS" "FOO-BAR" "PINATA-CAFE"
+ * toScreamingSnakeCase(str)    "TWO_WORDS" "FOO_BAR" "PINATA_CAFE"
+ * toSnakeCase(str)             "two_words" "foo_bar" "pinata_cafe"
+ * toTitleCase(str)             "Two_Words" "Foo_Bar" "Pinata_Cafe"
+ * toTrainCase(str)             "Two-Words" "Foo-Bar" "Pinata-Cafe"
+ * toUpperCamelCase(str)        "TwoWords"  "FooBar"  "PinataCafe"
+ * </pre>
  *
  * @since 1.2
  */
 public class CaseUtils {
 
     /**
-     * Converts all the delimiter separated words in a String into camelCase,
+     * Converts all the delimiter-separated words in a String into camelCase,
      * that is each word is made up of a title case character and then a series of
      * lowercase characters.
      *
@@ -62,7 +80,7 @@ public class CaseUtils {
      * </pre>
      *
      * @param str  the String to be converted to camelCase, may be null
-     * @param capitalizeFirstLetter boolean that determines if the first character of first word should be title case.
+     * @param capitalizeFirstLetter boolean if true sets the first character of the first word to title case.
      * @param delimiters  set of characters to determine capitalization, null and/or empty array means whitespace
      * @return camelCase of String, {@code null} if null String input
      */
@@ -114,6 +132,237 @@ public class CaseUtils {
             delimiterHashSet.add(Character.codePointAt(delimiters, index));
         }
         return delimiterHashSet;
+    }
+
+    /**
+     * Uses {@code toTitleCase()} to convert a string to camelCase. <br>
+     * This method has different behavior from {@link #toCamelCase(String, boolean, char[])}
+     * because all accented characters are normalized (accents removed). <br>
+     * For example, {@code toCamelCase("Piñata Café")} will return {@code "pinataCafe"}, where
+     * {@code toCamelCase("Piñata Café", false, " ")} will return {@code "piñataCafé"}. <br>
+     * The first alphanumeric character of the string is converted to lower case.
+     * The first character of all other alphanumeric sequences capitalized.
+     * The rest of the characters in the sequence are converted to lower case. <br>
+     * Strips all non-alphanumeric characters or sequences of non-alphanumeric characters
+     * from the beginning and end of the string. <br>
+     * All other non-alphanumeric characters or sequences of non-alphanumeric characters are deleted. <br>
+     *
+     * @see #toCamelCase(String, boolean, char[])
+     * @see #toTitleCase(String)
+     * @param str The text to convert.
+     * @return The convertedText.
+     */
+    public static String toCamelCase(String str) {
+        if (StringUtils.isEmpty(str)) return str;
+        String titleCase = toTitleCase(str).replace("_", "");
+        if (titleCase.length() <= 1) return titleCase.toLowerCase();
+        return titleCase.substring(0,1).toLowerCase() + titleCase.substring(1);
+    }
+
+    /**
+     * Uses {@code toTitleCase()} to convert a string to camel_Snake_Case. <br>
+     * All accented characters are normalized (accents removed). <br>
+     * The first alphanumeric character of the string is converted to lower case.
+     * The first character of all other alphanumeric sequences capitalized.
+     * The rest of the characters in the sequence are converted to lower case. <br>
+     * Strips all non-alphanumeric characters or sequences of non-alphanumeric characters
+     * from the beginning and end of the string. <br>
+     * All other non-alphanumeric characters or sequences of non-alphanumeric characters
+     * are converted to a single underscore ('_'). <br>
+     *
+     * @see #toTitleCase(String)
+     * @param str The text to convert.
+     * @return The converted_Text.
+     */
+    public static String toCamelSnakeCase(String str) {
+        if (StringUtils.isEmpty(str)) return str;
+        String titleCase = toTitleCase(str);
+        if (titleCase.length() <= 1) return titleCase.toLowerCase();
+        return titleCase.substring(0,1).toLowerCase() + titleCase.substring(1);
+    }
+
+    /**
+     * Uses {@code toTitleCase()} to convert a string to flatcase. <br>
+     * All accented characters are normalized (accents removed). <br>
+     * All alphanumeric characters are converted to lower case. <br>
+     * All non-alphanumeric characters or sequences of non-alphanumeric characters are deleted. <br>
+     *
+     * @see #toTitleCase(String)
+     * @param str The text to convert.
+     * @return The convertedtext.
+     */
+    public static String toFlatCase(String str) {
+        if (StringUtils.isEmpty(str)) return str;
+        return toSnakeCase(str).replace("_", "");
+    }
+
+    /**
+     * Uses {@code toTitleCase()} to convert a string to kebab-case. <br>
+     * All accented characters are normalized (accents removed). <br>
+     * All alphanumeric characters are converted to lower case. <br>
+     * Strips all non-alphanumeric characters or sequences of non-alphanumeric characters
+     * from the beginning and end of the string. <br>
+     * All other non-alphanumeric characters or sequences of non-alphanumeric characters
+     * are converted to a single hyphen ('-'). <br>
+     *
+     * @see #toTitleCase(String)
+     * @param str The text to convert.
+     * @return The converted-text.
+     */
+    public static String toKebabCase(String str){
+        if (StringUtils.isEmpty(str)) return str;
+        return toSnakeCase(str).replace("_", "-");
+    }
+
+    /**
+     * Uses {@code toTitleCase()} to convert a string to SCREAMINGCASE. <br>
+     * All accented characters are normalized (accents removed). <br>
+     * All alphanumeric characters are converted to upper case. <br>
+     * All non-alphanumeric characters or sequences of non-alphanumeric characters are deleted. <br>
+     *
+     * @see #toTitleCase(String)
+     * @param str The text to convert.
+     * @return The CONVERTEDTEXT.
+     */
+    public static String toScreamingCase(String str) {
+        if (StringUtils.isEmpty(str)) return str;
+        return toScreamingSnakeCase(str).replace("_", "");
+    }
+
+    /**
+     * Uses {@code toTitleCase()} to convert a string to SCREAMING-KEBAB-CASE. <br>
+     * All accented characters are normalized (accents removed). <br>
+     * All alphanumeric characters are converted to upper case. <br>
+     * Strips all non-alphanumeric characters or sequences of non-alphanumeric characters
+     * from the beginning and end of the string. <br>
+     * All other non-alphanumeric characters or sequences of non-alphanumeric characters
+     * are converted to a single hyphen ('-'). <br>
+     *
+     * @see #toTitleCase(String)
+     * @param str The text to convert.
+     * @return The CONVERTED-TEXT.
+     */
+    public static String toScreamingKebabCase(String str){
+        if (StringUtils.isEmpty(str)) return str;
+        return toScreamingSnakeCase(str).replace("_", "-");
+    }
+
+    /**
+     * Uses {@code toTitleCase()} to convert a string to SCREAMING_SNAKE_CASE. <br>
+     * All accented characters are normalized (accents removed). <br>
+     * All alphanumeric characters are converted to upper case. <br>
+     * Strips all non-alphanumeric characters or sequences of non-alphanumeric characters
+     * from the beginning and end of the string. <br>
+     * All other non-alphanumeric characters or sequences of non-alphanumeric characters
+     * are converted to a single underscore ('_'). <br>
+     *
+     * @see #toTitleCase(String)
+     * @param str The text to convert.
+     * @return The CONVERTED_TEXT.
+     */
+    public static String toScreamingSnakeCase(String str){
+        if (StringUtils.isEmpty(str)) return str;
+        return toTitleCase(str).toUpperCase();
+    }
+
+    /**
+     * Uses {@code toTitleCase()} to convert a string to snake_case. <br>
+     * All accented characters are normalized (accents removed). <br>
+     * All alphanumeric characters are converted to lower case. <br>
+     * Strips all non-alphanumeric characters or sequences of non-alphanumeric characters
+     * from the beginning and end of the string. <br>
+     * All other non-alphanumeric characters or sequences of non-alphanumeric characters
+     * are converted to a single underscore ('_'). <br>
+     *
+     * @see #toTitleCase(String)
+     * @param str The text to convert.
+     * @return The converted_text.
+     */
+    public static String toSnakeCase(String str){
+        if (StringUtils.isEmpty(str)) return str;
+        return toTitleCase(str).toLowerCase();
+    }
+
+    /**
+     * Converts a string to Title_Case. <br>
+     * All accented characters are normalized (accents removed). <br>
+     * The first character of any alphanumeric sequence is capitalized.
+     * The rest of the characters in the sequence are converted to lower case<br>
+     * Strips all non-alphanumeric characters or sequences of non-alphanumeric characters
+     * from the beginning and end of the string. <br>
+     * All other non-alphanumeric characters or sequences of non-alphanumeric characters
+     * are converted to a single underscore ('_'). <br>
+     *
+     * @see #toTitleCase(String)
+     * @param str The text to convert.
+     * @return The Converted_Text.
+     */
+    public static String toTitleCase(String str) {
+        if (StringUtils.isEmpty(str)) {
+            return str;
+        }
+        String normalized = StringUtils.stripAccents(str).trim();
+        if (Pattern.matches("^[^a-zA-Z0-9]*$", normalized)) {
+            return "";
+        }
+        int startIndex = 0;
+        for (int i = 0; i < normalized.length(); i++){
+            if (Pattern.matches("[0-9A-Za-z]", Character.toString(normalized.charAt(i)))){
+                startIndex = i;
+                break;
+            }
+        }
+        StringBuilder snake = new StringBuilder();
+        for (int i = startIndex; i < normalized.length(); i++) {
+            if (i > 0 && !Pattern.matches("[0-9A-Za-z'\u2019]", Character.toString(normalized.charAt(i)))) {
+                if (snake.charAt(snake.length() - 1) != '_' && i != normalized.length() - 1) {
+                    snake.append("_");
+                }
+            } else if (i == startIndex || snake.charAt(snake.length() - 1) == '_') {
+                snake.append(Character.toUpperCase(normalized.charAt(i)));
+            }
+            else if (normalized.charAt(i) != '\'' && normalized.charAt(i) != '\u2019') {
+                snake.append(Character.toLowerCase(normalized.charAt(i)));
+            }
+        }
+        return snake.toString();
+    }
+
+    /**
+     * Uses {@code toTitleCase()} to convert a string to Train-Case. <br>
+     * All accented characters are normalized (accents removed). <br>
+     * The first character of any alphanumeric sequence is capitalized.
+     * The rest of the characters in the sequence are converted to lower case<br>
+     * Strips all non-alphanumeric characters or sequences of non-alphanumeric characters
+     * from the beginning and end of the string. <br>
+     * All other non-alphanumeric characters or sequences of non-alphanumeric characters
+     * are converted to a single hyphen ('-'). <br>
+     *
+     * @see #toTitleCase(String)
+     * @param str The text to convert.
+     * @return The Converted-Text.
+     */
+    public static String toTrainCase(String str) {
+        if (StringUtils.isEmpty(str)) return str;
+        return toTitleCase(str).replace("_", "-");
+    }
+
+    /**
+     * Uses {@code toTitleCase()} to convert a string to UpperCamelCase. <br>
+     * All accented characters are normalized (accents removed). <br>
+     * The first character of any alphanumeric sequence is capitalized.
+     * The rest of the characters in the sequence are converted to lower case <br>
+     * Strips all non-alphanumeric characters or sequences of non-alphanumeric characters
+     * from the beginning and end of the string. <br>
+     * All other non-alphanumeric characters or sequences of non-alphanumeric characters are deleted. <br>
+     *
+     * @see #toTitleCase(String)
+     * @param str The text to convert.
+     * @return The ConvertedText.
+     */
+    public static String toUpperCamelCase(String str) {
+        if (StringUtils.isEmpty(str)) return str;
+        return toTitleCase(str).replace("_", "");
     }
 
     /**
