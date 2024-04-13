@@ -36,9 +36,6 @@ ${project.name} Version ${version} Release Notes
 ------------------------------------------------
 
 This document contains the release notes for the ${version} version of Apache Commons Text.
-Commons Text is a set of utility functions and reusable components for the purpose of processing
-and manipulating text that should be of use in a Java environment.
-
 
 $introduction.replaceAll("(?<!\015)\012", "
 ").replaceAll("(?m)^ +","")
