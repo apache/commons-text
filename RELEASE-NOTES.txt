@@ -15,69 +15,133 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Apache Commons Text
-Version 1.11.0
-Release Notes
+Apache Commons Text Version 1.12.0 Release Notes
+------------------------------------------------
+
+This document contains the release notes for the 1.12.0 version of Apache Commons Text.
+Apache Commons Text is a set of utility functions and reusable components for the purpose of processing
+and manipulating text that should be of use in a Java environment.
+
+Release 1.12.0. Requires Java 8 or above.
+
+New features
+------------
+
+*            Add StringLookupFactory.fileStringLookup(Path...) and deprecated fileStringLookup(). Thanks to Gary Gregory.
+*            Add StringLookupFactory.propertiesStringLookup(Path...) and deprecated propertiesStringLookup(). Thanks to Gary Gregory.
+*            Add StringLookupFactory.xmlStringLookup(Map, Path...) and deprecated xmlStringLookup() and xmlStringLookup(Map). Thanks to Gary Gregory.
+*            Add StringLookupFactory.builder() for fencing Path resolution of the file, properties and XML lookups. Thanks to Gary Gregory.
+*            Add DoubleFormat.Builder.get() as Builder now implements Supplier. Thanks to Gary Gregory.
+
+Fixed Bugs
+----------
+
+* TEXT-232:  WordUtils.containsAllWords?() may throw PatternSyntaxException. Thanks to Arnout Engelen, Gary Gregory.
+* TEXT-175:  Fix regression for determining whitespace in WordUtils #519. Thanks to David Lavati, seanfabs, Gary Gregory, Bruno P. Kinoshita.
+*            Deprecate Builder in favor of Supplier. Thanks to Gary Gregory.
+
+Changes
+-------
+
+*            Bump commons-lang3 from 3.13.0 to 3.14.0. Thanks to Gary Gregory.
+*            Bump commons.bytebuddy.version from 1.14.9 to 1.14.13 #476, #482, #505, #521. Thanks to Dependabot.
+*            Bump org.codehaus.mojo:exec-maven-plugin from 3.1.0 to 3.2.0 #474, #508. Thanks to Dependabot.
+*            Bump commons-io from 2.15.0 to 2.16.1 #522, #527. Thanks to Gary Gregory.
+*            Bump commons-parent from 64 to 69 #524. Thanks to Gary Gregory.
+*            Bump org.assertj:assertj-core from 3.24.2 to 3.25.3. Thanks to Dependabot.
+
+Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
+
+For complete information on Apache Commons Text, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons Text website:
+
+https://commons.apache.org/proper/commons-text
+
+Download page: https://commons.apache.org/proper/commons-text/download_text.cgi
+
+Have fun!
+-Apache Commons Team
+
+-----------------------------------------------------------------------------
+
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 
-INTRODUCTION:
+Apache Commons Text Version 1.11.0 Release Notes
+------------------------------------------------
 
 This document contains the release notes for the 1.11.0 version of Apache Commons Text.
 Commons Text is a set of utility functions and reusable components for the purpose of processing
 and manipulating text that should be of use in a Java environment.
 
-
 Apache Commons Text is a library focused on algorithms working on strings.
 
 Release 1.11.0. Requires Java 8 or above.
 
-Changes in this version include:
+New features
+------------
 
-New features:
-o TEXT-224:  Set SecureProcessing feature in XmlStringLookup by default. Thanks to PJ Fanning, Gary Gregory.
-o TEXT-224:  Add StringLookupFactory.xmlStringLookup(Map<String, Boolean>...). Thanks to Gary Gregory.
-o            Add @FunctionalInterface to FormatFactory. Thanks to Gary Gregory.
-o            Add RandomStringGenerator.builder(). Thanks to Gary Gregory.
-o TEXT-229:  Add XmlEncoderStringLookup/XmlDecoderStringLookup #449. Thanks to Michael Osipov, Elliotte Rusty Harold, Gary Gregory.
-o            Add StringSubstitutor.toString(). Thanks to Gary Gregory.
+* TEXT-224:  Set SecureProcessing feature in XmlStringLookup by default. Thanks to PJ Fanning, Gary Gregory.
+* TEXT-224:  Add StringLookupFactory.xmlStringLookup(Map<String, Boolean>...). Thanks to Gary Gregory.
+*            Add @FunctionalInterface to FormatFactory. Thanks to Gary Gregory.
+*            Add RandomStringGenerator.builder(). Thanks to Gary Gregory.
+* TEXT-229:  Add XmlEncoderStringLookup/XmlDecoderStringLookup #449. Thanks to Michael Osipov, Elliotte Rusty Harold, Gary Gregory.
+*            Add StringSubstitutor.toString(). Thanks to Gary Gregory.
 
-Fixed Bugs:
-o TEXT-219:  Fix StringTokenizer.getTokenList to return an independent modifiable list Thanks to Jaap Sperling.
-o            Fix Javadoc for StringEscapeUtils.escapeHtml4 #382 Thanks to James Nord.
-o            TextStringBuidler#hashCode() allocates a String on each call #387. Thanks to Pavel Belousov, Gary Gregory.
-o TEXT-221:  Fix Bundle-SymbolicName to use the package name org.apache.commons.text Thanks to Remco Riswick.
-o            Add and use a package-private singleton for RegexTokenizer. Thanks to Gary Gregory.
-o            Add and use a package-private singleton for CosineSimilarity. Thanks to Gary Gregory.
-o            Add and use a package-private singleton for LongestCommonSubsequence. Thanks to Gary Gregory.
-o            Add and use a package-private singleton for JaroWinklerSimilarity. Thanks to Gary Gregory.
-o            Add and use a package-private singleton for JaccardSimilarity. Thanks to Gary Gregory.
-o            [StepSecurity] ci: Harden GitHub Actions #428. Thanks to step-security-bot, Gary Gregory.
-o            Improve AlphabetConverter Javadoc #429. Thanks to Dimitrios Efthymiou.
-o            Fix exception message in IntersectionResult to make set-theoretic sense #438. Thanks to Dimitrios Efthymiou.
-o            Add null-check in RandomStringGenerator#Builder#selectFrom() to avoid NullPointerException #434. Thanks to Dimitrios Efthymiou, Gary Gregory.
-o            Add null-check in RandomStringGenerator#Builder#withinRange() to avoid NullPointerException. Thanks to Dimitrios Efthymiou, Gary Gregory.
-o TEXT-228:  Fix TextStringBuilder to over-allocate when ensuring capacity #452. Thanks to Alex Herbert, Gary Gregory.
-o            Constructor for ResourceBundleStringLookup should be private instead of package-private. Thanks to Elliotte Rusty Harold, Gary Gregory.
-o            Constructor for UrlDecoderStringLookup should be private instead of package-private. Thanks to Elliotte Rusty Harold, Gary Gregory.
-o            Constructor for UrlEncoderStringLookup should be private instead of package-private. Thanks to Elliotte Rusty Harold, Gary Gregory.
-o TEXT-230:  Javadoc of org.apache.commons.text.lookup.DefaultStringLookup.XML is incorrect. Thanks to Michael Osipov, Gary Gregory.
-o            Update DoubleFormat to state it is based on Double.toString. #467. Thanks to Alex Herbert.
+Fixed Bugs
+----------
 
-Changes:
-o            Bump actions/cache. Thanks to Dependabot.
-o            Bump actions/setup-java. Thanks to Dependabot.
-o            Bump actions/checkout. Thanks to Dependabot.
-o            Bump pmd from 6.49.0 to 6.52.0 #364. Thanks to Dependabot, Gary Gregory.
-o            Bump commons-rng-simple from 1.4 to 1.5 #370. Thanks to Dependabot.
-o            Bump spotbugs-maven-plugin from 4.7.2.0 to 4.7.3.6 #371, #385. Thanks to Dependabot, Gary Gregory.
-o            Bump spotbugs from 4.7.2 to 4.7.3 #373. Thanks to Dependabot.
-o            Bump mockito-inline from 4.8.0 to 4.11.0 #380, #389, #396, #400. Thanks to Dependabot.
-o            Bump jmh.version from 1.35 to 1.37 #388. Thanks to Dependabot.
-o            Bump commons-parent from 54 to 64 #392, #401. Thanks to Gary Gregory.
-o            Bump assertj-core from 3.23.1 to 3.24.2 #405, #410. Thanks to Dependabot.
-o            Bump maven-checkstyle-plugin from 3.2.0 to 3.2.1 #407. Thanks to Dependabot.
-o            Bump commons-io from 2.11.0 to 2.14.0. Thanks to Gary Gregory.
-o            Bump commons-lang3 from 3.12.0 to 3.13.0. Thanks to Gary Gregory.
+* TEXT-219:  Fix StringTokenizer.getTokenList to return an independent modifiable list Thanks to Jaap Sperling.
+*            Fix Javadoc for StringEscapeUtils.escapeHtml4 #382 Thanks to James Nord.
+*            TextStringBuidler#hashCode() allocates a String on each call #387. Thanks to Pavel Belousov, Gary Gregory.
+* TEXT-221:  Fix Bundle-SymbolicName to use the package name org.apache.commons.text Thanks to Remco Riswick.
+*            Add and use a package-private singleton for RegexTokenizer. Thanks to Gary Gregory.
+*            Add and use a package-private singleton for CosineSimilarity. Thanks to Gary Gregory.
+*            Add and use a package-private singleton for LongestCommonSubsequence. Thanks to Gary Gregory.
+*            Add and use a package-private singleton for JaroWinklerSimilarity. Thanks to Gary Gregory.
+*            Add and use a package-private singleton for JaccardSimilarity. Thanks to Gary Gregory.
+*            [StepSecurity] ci: Harden GitHub Actions #428. Thanks to step-security-bot, Gary Gregory.
+*            Improve AlphabetConverter Javadoc #429. Thanks to Dimitrios Efthymiou.
+*            Fix exception message in IntersectionResult to make set-theoretic sense #438. Thanks to Dimitrios Efthymiou.
+*            Add null-check in RandomStringGenerator#Builder#selectFrom() to avoid NullPointerException #434. Thanks to Dimitrios Efthymiou, Gary Gregory.
+*            Add null-check in RandomStringGenerator#Builder#withinRange() to avoid NullPointerException. Thanks to Dimitrios Efthymiou, Gary Gregory.
+* TEXT-228:  Fix TextStringBuilder to over-allocate when ensuring capacity #452. Thanks to Alex Herbert, Gary Gregory.
+*            Constructor for ResourceBundleStringLookup should be private instead of package-private. Thanks to Elliotte Rusty Harold, Gary Gregory.
+*            Constructor for UrlDecoderStringLookup should be private instead of package-private. Thanks to Elliotte Rusty Harold, Gary Gregory.
+*            Constructor for UrlEncoderStringLookup should be private instead of package-private. Thanks to Elliotte Rusty Harold, Gary Gregory.
+* TEXT-230:  Javadoc of org.apache.commons.text.lookup.DefaultStringLookup.XML is incorrect. Thanks to Michael Osipov, Gary Gregory.
+*            Update DoubleFormat to state it is based on Double.toString. #467. Thanks to Alex Herbert.
+
+Changes
+-------
+
+*            Bump actions/cache. Thanks to Dependabot.
+*            Bump actions/setup-java. Thanks to Dependabot.
+*            Bump actions/checkout. Thanks to Dependabot.
+*            Bump pmd from 6.49.0 to 6.52.0 #364. Thanks to Dependabot, Gary Gregory.
+*            Bump commons-rng-simple from 1.4 to 1.5 #370. Thanks to Dependabot.
+*            Bump spotbugs-maven-plugin from 4.7.2.0 to 4.7.3.6 #371, #385. Thanks to Dependabot, Gary Gregory.
+*            Bump spotbugs from 4.7.2 to 4.7.3 #373. Thanks to Dependabot.
+*            Bump mockito-inline from 4.8.0 to 4.11.0 #380, #389, #396, #400. Thanks to Dependabot.
+*            Bump jmh.version from 1.35 to 1.37 #388. Thanks to Dependabot.
+*            Bump commons-parent from 54 to 64 #392, #401. Thanks to Gary Gregory.
+*            Bump assertj-core from 3.23.1 to 3.24.2 #405, #410. Thanks to Dependabot.
+*            Bump maven-checkstyle-plugin from 3.2.0 to 3.2.1 #407. Thanks to Dependabot.
+*            Bump commons-io from 2.11.0 to 2.14.0. Thanks to Gary Gregory.
+*            Bump commons-lang3 from 3.12.0 to 3.13.0. Thanks to Gary Gregory.
 
 
 Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
@@ -92,13 +156,10 @@ Download page: https://commons.apache.org/proper/commons-text/download_text.cgi
 Have fun!
 -Apache Commons Team
 
-=============================================================================
+-------------------------------------------------------------------------------------------------------
 
-Apache Commons Text
-Version 1.10.0
-Release Notes
-
-INTRODUCTION:
+Apache Commons Text Version 1.10.0 Release Notes
+------------------------------------------------
 
 This document contains the release notes for the 1.10.0 version of Apache Commons Text.
 Commons Text is a set of utility functions and reusable components for the purpose of processing
@@ -110,67 +171,72 @@ Release 1.10.0. Requires Java 8 or above.
 
 Changes in this version include:
 
-New features:
-o TEXT-207:  Add DoubleFormat utility.
-o TEXT-190:  Document negative limit for WordUtils abbreviate method Thanks to Benjamin Bing.
-o TEXT-188:  Speed up LevenshteinDistance with threshold by exiting early Thanks to Jakob Vesterstrøm.
-o TEXT-185:  Release Notes page hasn't been updated for 1.9 release yet. Thanks to Larry West, Gary Gregory.
-o            Add StrBuilder.isNotEmpty(). Thanks to Gary Gregory.
+New features
+------------
 
-Fixed Bugs:
-o TEXT-189:  Fix CaseUtils when the input string contains only delimiters Thanks to Gongpu Zhu.
-o TEXT-187:  Add GraalVM test dependencies to fix test failures with Java 15.
-o TEXT-158:  Incorrect values for Jaccard similarity with empty strings.
-o TEXT-186:  StringSubstitutor map constructor throws NPE on 1.9 with null map. Thanks to Gautam Korlam, Gary Gregory.
-o TEXT-191:  JaroWinklerDistance returns the same values as JaroWinklerSimilarity. Thanks to Bradley David Rumball.
-o            Correct Javadoc in FileStringLookup. Thanks to Gary Gregory.
-o            Minor Improvements #192, #196. Thanks to Arturo Bernal.
-o TEXT-194:  Use StringUtils.INDEX_NOT_FOUND constant. Thanks to Arturo Bernal.
-o TEXT-199:  Remove redundant local variable. Thanks to Arturo Bernal.
-o TEXT-198:  Replace lambda with method reference. Thanks to Arturo Bernal.
-o TEXT-200:  Simplify statements. Thanks to Arturo Bernal.
-o TEXT-197:  Replace statement lambda with expression lambda. Thanks to Arturo Bernal.
-o TEXT-204:  Use static class inner class in tests. Thanks to Arturo Bernal.
-o TEXT-201:  Simplify assertion. Thanks to Arturo Bernal.
-o TEXT-202:  Extract duplicate code. Thanks to Arturo Bernal.
-o TEXT-205:  Set void return method. Thanks to Arturo Bernal.
-o            Remove unused exception from TextStringBuilder.readFrom(CharBuffer). This preserves binary compatibility but not source compatibility. Thanks to Gary Gregory.
-o            StrBuilder.StrBuilderReader.skip(long): Throw an exception when an implicit narrowing conversion in a compound assignment would result in information loss or a numeric error such as an overflows. Thanks to CodeQL, Gary Gregory.
-o            TextStringBuilder.TextStringBuilderReader.skip(long): Throw an exception when an implicit narrowing conversion in a compound assignment would result in information loss or a numeric error such as an overflows. Thanks to CodeQL, Gary Gregory.
-o TEXT-211:  TextStringBuilder.equals whatever the capacity is #281. Thanks to sebx59.
-o TEXT=212:  A More Efficient Implementation for Calculating Size of Longest Common Subsequence. Thanks to Ali Ghanbari.
-o TEXT-209:  LookupTranslator returns count of chars consumed, not of codepoints consumed. Thanks to fourAjeff.
-o TEXT-209:  Use Math.min() call instead of doing it manually. #335. Thanks to Arturo Bernal.
-o            TextStringBuilder: Throw OutOfMemoryError instead of NegativeArraySizeException. Thanks to ValentijnvdBeek, Gary Gregory.
-o            TextStringBuilder: Can't grow to sizes up to Integer.MAX_VALUE. Thanks to ValentijnvdBeek, Gary Gregory.
-o            Make default string lookups configurable via system property. Remove dns, url, and script lookups from defaults. If these lookups are required for use in StringSubstitutor.createInterpolator(), they must be enabled via system property. See StringLookupFactory for details.
+* TEXT-207:  Add DoubleFormat utility.
+* TEXT-190:  Document negative limit for WordUtils abbreviate method Thanks to Benjamin Bing.
+* TEXT-188:  Speed up LevenshteinDistance with threshold by exiting early Thanks to Jakob Vesterstrøm.
+* TEXT-185:  Release Notes page hasn't been updated for 1.9 release yet. Thanks to Larry West, Gary Gregory.
+*            Add StrBuilder.isNotEmpty(). Thanks to Gary Gregory.
 
-Changes:
-o            Bump actions/setup-java from v1.4.0 to 3 #147, #156, #155, #172, #215, #314. Thanks to Dependabot.
-o            Bump github/codeql-action from 1 to 2 #319. Thanks to Dependabot.
-o            Bump checkstyle from 8.34 to 9.3, #141, #168, #182, #188, #193, #201, #208, #211, #228, #235, #245, #253, #255, #262, #270, #280, #287, #299, #315, #321. Thanks to Dependabot.
-o            Bump spotbugs-maven-plugin from 4.0.0 to 4.7.2.0, #144, #150, #167, #176, #194, #210, #223, #250, #268, #273, #277, #278, #286, #293, #303, #320, #325, #338, #344, #354. Thanks to Gary Gregory, Dependabot.
-o            Bump spotbugs from 4.1.3 to 4.7.2 #175, 189, #209, #218, #247, #256, #264, #275, #284, #289, #296, #306, #355. Thanks to Gary Gregory, Dependabot.
-o            Bump mockito-inline from 3.4.4 to 4.8.0, #143, #148, #149, #152, #153, #154, #158, #159, #166, #177, #180, #187, #195, #197, #207, #216, #231, #236, #237, #243, #258, #259, #260, #261, #272, #285, #291, #305, #317, #330, #331, #347, #352. Thanks to Dependabot.
-o            Bump junit-jupiter from 5.6.2 to 5.9.1 #163, #204, #232, #265, #269, #288, #343, #357. Thanks to Dependabot.
-o            Bump assertj-core from 3.16.1 to 3.23.1 #151, #157, #160, #178, #184, #199, #244, #267, #294. Thanks to Dependabot, Gary Gregory.
-o            Bump commons-io from 2.7 to 2.11.0 #161 #251. Thanks to Dependabot, Gary Gregory.
-o            Bump commons-parent from 51 to 54 #145, #358. Thanks to Dependabot, Gary Gregory.
-o            Bump maven-pmd-plugin from 3.13.0 to 3.19.0 #186, #263, #302, #334, #349, #353. Thanks to Dependabot.
-o            Bump pmd from 6.42.0 to 6.46.0. Thanks to Gary Gregory.
-o            Bump graalvm.version from 20.2.0 to 22.0.0.2 #185, #198, #206, #227, #252, #276, #295, #300. Thanks to Dependabot.
-o            Bump commons.japicmp.version from 0.14.3 to 0.16.0. Thanks to Gary Gregory.
-o            Bump commons.jacoco.version 0.8.5 to 0.8.8; fixes Java 15 build. Thanks to Gary Gregory.
-o            Bump maven-checkstyle-plugin from 3.1.1 to 3.2.0 #202, #348. Thanks to Dependabot.
-o            Bump commons-lang3 3.11 -> 3.12.0. Thanks to Gary Gregory.
-o            Bump commons.javadoc.version from 3.2.0 to 3.4.1. Thanks to Gary Gregory.
-o            Bump commons.project-info.version from 3.1.0 to 3.1.2. Thanks to Gary Gregory.
-o            Bump jmh.version from 1.32 to 1.35 #254, #292, #313. Thanks to Dependabot.
-o            Bump commons-rng-simple from 1.3 to 1.4 #266. Thanks to Dependabot.
-o            Bump taglist-maven-plugin from 2.4 to 3.0.0 #297. Thanks to Dependabot.
-o            Bump commons.pmd-impl.version from 6.44.0 to 6.49.0 #323, #336, #345, #350. Thanks to Dependabot.
-o            Bump exec-maven-plugin from 3.0.0 to 3.1.0 #340. Thanks to Dependabot.
+Fixed Bugs
+----------
 
+* TEXT-189:  Fix CaseUtils when the input string contains only delimiters Thanks to Gongpu Zhu.
+* TEXT-187:  Add GraalVM test dependencies to fix test failures with Java 15.
+* TEXT-158:  Incorrect values for Jaccard similarity with empty strings.
+* TEXT-186:  StringSubstitutor map constructor throws NPE on 1.9 with null map. Thanks to Gautam Korlam, Gary Gregory.
+* TEXT-191:  JaroWinklerDistance returns the same values as JaroWinklerSimilarity. Thanks to Bradley David Rumball.
+*            Correct Javadoc in FileStringLookup. Thanks to Gary Gregory.
+*            Minor Improvements #192, #196. Thanks to Arturo Bernal.
+* TEXT-194:  Use StringUtils.INDEX_NOT_FOUND constant. Thanks to Arturo Bernal.
+* TEXT-199:  Remove redundant local variable. Thanks to Arturo Bernal.
+* TEXT-198:  Replace lambda with method reference. Thanks to Arturo Bernal.
+* TEXT-200:  Simplify statements. Thanks to Arturo Bernal.
+* TEXT-197:  Replace statement lambda with expression lambda. Thanks to Arturo Bernal.
+* TEXT-204:  Use static class inner class in tests. Thanks to Arturo Bernal.
+* TEXT-201:  Simplify assertion. Thanks to Arturo Bernal.
+* TEXT-202:  Extract duplicate code. Thanks to Arturo Bernal.
+* TEXT-205:  Set void return method. Thanks to Arturo Bernal.
+*            Remove unused exception from TextStringBuilder.readFrom(CharBuffer). This preserves binary compatibility but not source compatibility. Thanks to Gary Gregory.
+*            StrBuilder.StrBuilderReader.skip(long): Throw an exception when an implicit narrowing conversion in a compound assignment would result in information loss or a numeric error such as an overflows. Thanks to CodeQL, Gary Gregory.
+*            TextStringBuilder.TextStringBuilderReader.skip(long): Throw an exception when an implicit narrowing conversion in a compound assignment would result in information loss or a numeric error such as an overflows. Thanks to CodeQL, Gary Gregory.
+* TEXT-211:  TextStringBuilder.equals whatever the capacity is #281. Thanks to sebx59.
+* TEXT=212:  A More Efficient Implementation for Calculating Size of Longest Common Subsequence. Thanks to Ali Ghanbari.
+* TEXT-209:  LookupTranslator returns count of chars consumed, not of codepoints consumed. Thanks to fourAjeff.
+* TEXT-209:  Use Math.min() call instead of doing it manually. #335. Thanks to Arturo Bernal.
+*            TextStringBuilder: Throw OutOfMemoryError instead of NegativeArraySizeException. Thanks to ValentijnvdBeek, Gary Gregory.
+*            TextStringBuilder: Can't grow to sizes up to Integer.MAX_VALUE. Thanks to ValentijnvdBeek, Gary Gregory.
+*            Make default string lookups configurable via system property. Remove dns, url, and script lookups from defaults. If these lookups are required for use in StringSubstitutor.createInterpolator(), they must be enabled via system property. See StringLookupFactory for details.
+
+Changes
+-------
+
+*            Bump actions/setup-java from v1.4.0 to 3 #147, #156, #155, #172, #215, #314. Thanks to Dependabot.
+*            Bump github/codeql-action from 1 to 2 #319. Thanks to Dependabot.
+*            Bump checkstyle from 8.34 to 9.3, #141, #168, #182, #188, #193, #201, #208, #211, #228, #235, #245, #253, #255, #262, #270, #280, #287, #299, #315, #321. Thanks to Dependabot.
+*            Bump spotbugs-maven-plugin from 4.0.0 to 4.7.2.0, #144, #150, #167, #176, #194, #210, #223, #250, #268, #273, #277, #278, #286, #293, #303, #320, #325, #338, #344, #354. Thanks to Gary Gregory, Dependabot.
+*            Bump spotbugs from 4.1.3 to 4.7.2 #175, 189, #209, #218, #247, #256, #264, #275, #284, #289, #296, #306, #355. Thanks to Gary Gregory, Dependabot.
+*            Bump mockito-inline from 3.4.4 to 4.8.0, #143, #148, #149, #152, #153, #154, #158, #159, #166, #177, #180, #187, #195, #197, #207, #216, #231, #236, #237, #243, #258, #259, #260, #261, #272, #285, #291, #305, #317, #330, #331, #347, #352. Thanks to Dependabot.
+*            Bump junit-jupiter from 5.6.2 to 5.9.1 #163, #204, #232, #265, #269, #288, #343, #357. Thanks to Dependabot.
+*            Bump assertj-core from 3.16.1 to 3.23.1 #151, #157, #160, #178, #184, #199, #244, #267, #294. Thanks to Dependabot, Gary Gregory.
+*            Bump commons-io from 2.7 to 2.11.0 #161 #251. Thanks to Dependabot, Gary Gregory.
+*            Bump commons-parent from 51 to 54 #145, #358. Thanks to Dependabot, Gary Gregory.
+*            Bump maven-pmd-plugin from 3.13.0 to 3.19.0 #186, #263, #302, #334, #349, #353. Thanks to Dependabot.
+*            Bump pmd from 6.42.0 to 6.46.0. Thanks to Gary Gregory.
+*            Bump graalvm.version from 20.2.0 to 22.0.0.2 #185, #198, #206, #227, #252, #276, #295, #300. Thanks to Dependabot.
+*            Bump commons.japicmp.version from 0.14.3 to 0.16.0. Thanks to Gary Gregory.
+*            Bump commons.jacoco.version 0.8.5 to 0.8.8; fixes Java 15 build. Thanks to Gary Gregory.
+*            Bump maven-checkstyle-plugin from 3.1.1 to 3.2.0 #202, #348. Thanks to Dependabot.
+*            Bump commons-lang3 3.11 -> 3.12.0. Thanks to Gary Gregory.
+*            Bump commons.javadoc.version from 3.2.0 to 3.4.1. Thanks to Gary Gregory.
+*            Bump commons.project-info.version from 3.1.0 to 3.1.2. Thanks to Gary Gregory.
+*            Bump jmh.version from 1.32 to 1.35 #254, #292, #313. Thanks to Dependabot.
+*            Bump commons-rng-simple from 1.3 to 1.4 #266. Thanks to Dependabot.
+*            Bump taglist-maven-plugin from 2.4 to 3.0.0 #297. Thanks to Dependabot.
+*            Bump commons.pmd-impl.version from 6.44.0 to 6.49.0 #323, #336, #345, #350. Thanks to Dependabot.
+*            Bump exec-maven-plugin from 3.0.0 to 3.1.0 #340. Thanks to Dependabot.
 
 Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
 
@@ -184,19 +250,14 @@ Download page: https://commons.apache.org/proper/commons-text/download_text.cgi
 Have fun!
 -Apache Commons Team
 
-=============================================================================
+-------------------------------------------------------------------------------------------------------
 
-Apache Commons Text
-Version 1.9
-Release Notes
-
-
-INTRODUCTION:
+Apache Commons Text Version 1.9 Release Notes
+---------------------------------------------
 
 This document contains the release notes for the 1.9 version of Apache Commons Text.
 Commons Text is a set of utility functions and reusable components for the purpose of processing
 and manipulating text that should be of use in a Java environment.
-
 
 Apache Commons Text is a library focused on algorithms working on strings.
 
@@ -204,54 +265,59 @@ Release 1.9. Requires Java 8 or above.
 
 Changes in this version include:
 
-New features:
-o Add StringMatcher.size(). Thanks to Gary Gregory.
-o Refactor TextStringBuilder.readFrom(Readable), extracting readFrom(CharBuffer) and readFrom(Reader). Thanks to Gary Gregory.
-o Add BiStringLookup and implementation BiFunctionStringLookup. Thanks to Gary Gregory.
-o Add org.apache.commons.text.StringSubstitutor.StringSubstitutor(StringSubstitutor). Thanks to Gary Gregory.
-o Add org.apache.commons.text.TextStringBuilder.TextStringBuilder(CharSequence). Thanks to Gary Gregory.
-o Add org.apache.commons.text.TextStringBuilder.drainChar(int). Thanks to Gary Gregory.
-o Add org.apache.commons.text.TextStringBuilder.drainChars(int, int, char[]. int). Thanks to Gary Gregory.
-o Add org.apache.commons.text.TextStringBuilder.isNotEmpty(). Thanks to Gary Gregory.
-o Add org.apache.commons.text.TextStringBuilder.isReallocated(). Thanks to Gary Gregory.
-o Add org.apache.commons.text.TextStringBuilder.readFrom(Reader, int). Thanks to Gary Gregory.
-o Add org.apache.commons.text.TextStringBuilder.set(String). Thanks to Gary Gregory.
-o Add org.apache.commons.text.TextStringBuilder.wrap(char[]). Thanks to Gary Gregory.
-o Add org.apache.commons.text.TextStringBuilder.wrap(char[], int). Thanks to Gary Gregory.
-o Add org.apache.commons.text.io.StringSubstitutorReader. Thanks to Gary Gregory.
-o Add org.apache.commons.text.lookup.StringLookupFactory.functionStringLookup(Function<String, V>). Thanks to Gary Gregory.
-o Add org.apache.commons.text.matcher.StringMatcher.isMatch(CharSequence, int). Thanks to Gary Gregory.
-o Add org.apache.commons.text.matcher.StringMatcher.isMatch(CharSequence, int, int, int). Thanks to Gary Gregory.
-o Add org.apache.commons.text.matcher.StringMatcherFactory.andMatcher(StringMatcher...). Thanks to Gary Gregory.
-o Add org.apache.commons.text.matcher.StringMatcherFactory.stringMatcher(char...). Thanks to Gary Gregory.
+New features
+------------
 
-Fixed Bugs:
-o TEXT-166:  Removed non-existing parameter from Javadocs and spelled out parameters in throws. Thanks to Mikko Maunu.
-o TEXT-149:  StringEscapeUtils.unescapeCsv doesn't remove quotes at begin and end of string. Thanks to Yuji Konishi.
-o TEXT-174:  ScriptStringLookup does not accept ":" #126. Thanks to furkilic.
-o TEXT-178:  StringSubstitutor incorrectly removes some escape characters. Thanks to Gary Gregory.
-o TEXT-181:  Fix Javadocs #135. Thanks to XenoAmess.
-o TEXT-182:  Fix typos #137. Thanks to XenoAmess.
-o TEXT-183:  Make ConstantStringLookup.constantCache final #136. Thanks to XenoAmess.
-o TEXT-184:  Simplify if in CaseUtils #134. Thanks to XenoAmess.
+* Add StringMatcher.size(). Thanks to Gary Gregory.
+* Refactor TextStringBuilder.readFrom(Readable), extracting readFrom(CharBuffer) and readFrom(Reader). Thanks to Gary Gregory.
+* Add BiStringLookup and implementation BiFunctionStringLookup. Thanks to Gary Gregory.
+* Add org.apache.commons.text.StringSubstitutor.StringSubstitutor(StringSubstitutor). Thanks to Gary Gregory.
+* Add org.apache.commons.text.TextStringBuilder.TextStringBuilder(CharSequence). Thanks to Gary Gregory.
+* Add org.apache.commons.text.TextStringBuilder.drainChar(int). Thanks to Gary Gregory.
+* Add org.apache.commons.text.TextStringBuilder.drainChars(int, int, char[]. int). Thanks to Gary Gregory.
+* Add org.apache.commons.text.TextStringBuilder.isNotEmpty(). Thanks to Gary Gregory.
+* Add org.apache.commons.text.TextStringBuilder.isReallocated(). Thanks to Gary Gregory.
+* Add org.apache.commons.text.TextStringBuilder.readFrom(Reader, int). Thanks to Gary Gregory.
+* Add org.apache.commons.text.TextStringBuilder.set(String). Thanks to Gary Gregory.
+* Add org.apache.commons.text.TextStringBuilder.wrap(char[]). Thanks to Gary Gregory.
+* Add org.apache.commons.text.TextStringBuilder.wrap(char[], int). Thanks to Gary Gregory.
+* Add org.apache.commons.text.io.StringSubstitutorReader. Thanks to Gary Gregory.
+* Add org.apache.commons.text.lookup.StringLookupFactory.functionStringLookup(Function<String, V>). Thanks to Gary Gregory.
+* Add org.apache.commons.text.matcher.StringMatcher.isMatch(CharSequence, int). Thanks to Gary Gregory.
+* Add org.apache.commons.text.matcher.StringMatcher.isMatch(CharSequence, int, int, int). Thanks to Gary Gregory.
+* Add org.apache.commons.text.matcher.StringMatcherFactory.andMatcher(StringMatcher...). Thanks to Gary Gregory.
+* Add org.apache.commons.text.matcher.StringMatcherFactory.stringMatcher(char...). Thanks to Gary Gregory.
 
-Changes:
-o [javadoc] Fix compiler warnings in Java code example in Javadoc #124. Thanks to Johan Hammar.
-o TEXT-177:  Update from Apache Commons Lang 3.9 to 3.11. Thanks to Gary Gregory.
-o [build] Skip clirr since we use JApiCmp. Thanks to Gary Gregory.
-o [test] junit-jupiter 5.5.1 -> 5.5.2. Thanks to Gary Gregory.
-o [test] org.assertj:assertj-core 3.13.2 -> 3.16.1. Thanks to Gary Gregory.
-o [build] com.puppycrawl.tools:checkstyle 8.23 -> 8.34. Thanks to Gary Gregory.
-o [build] Update JUnit from 5.5.2 to 5.6.2. Thanks to Gary Gregory.
-o [build] commons.jacoco.version 0.8.4 -> 0.8.5. Thanks to Gary Gregory.
-o [build] commons.javadoc.version 3.1.1 -> 3.2.0. Thanks to Gary Gregory.
-o [build] commons.japicmp.version 0.14.1 -> 0.14.3. Thanks to Gary Gregory.
-o [build] checkstyle.plugin.version 3.1.0 -> 3.1.1. Thanks to Gary Gregory.
-o [build] checkstyle.version 8.27 -> 8.33. Thanks to Gary Gregory.
-o [build] org.apache.commons:commons-parent 48 -> 51. Thanks to Gary Gregory.
-o [build] maven-pmd-plugin 3.12.0 -> 3.13.0. Thanks to Gary Gregory.
-o [build] org.mockito 3.3.3 -> 3.4.4. Thanks to Gary Gregory.
+Fixed Bugs
+----------
 
+* TEXT-166:  Removed non-existing parameter from Javadocs and spelled out parameters in throws. Thanks to Mikko Maunu.
+* TEXT-149:  StringEscapeUtils.unescapeCsv doesn't remove quotes at begin and end of string. Thanks to Yuji Konishi.
+* TEXT-174:  ScriptStringLookup does not accept ":" #126. Thanks to furkilic.
+* TEXT-178:  StringSubstitutor incorrectly removes some escape characters. Thanks to Gary Gregory.
+* TEXT-181:  Fix Javadocs #135. Thanks to XenoAmess.
+* TEXT-182:  Fix typos #137. Thanks to XenoAmess.
+* TEXT-183:  Make ConstantStringLookup.constantCache final #136. Thanks to XenoAmess.
+* TEXT-184:  Simplify if in CaseUtils #134. Thanks to XenoAmess.
+
+Changes
+-------
+
+* [javadoc] Fix compiler warnings in Java code example in Javadoc #124. Thanks to Johan Hammar.
+* TEXT-177:  Update from Apache Commons Lang 3.9 to 3.11. Thanks to Gary Gregory.
+* [build] Skip clirr since we use JApiCmp. Thanks to Gary Gregory.
+* [test] junit-jupiter 5.5.1 -> 5.5.2. Thanks to Gary Gregory.
+* [test] org.assertj:assertj-core 3.13.2 -> 3.16.1. Thanks to Gary Gregory.
+* [build] com.puppycrawl.tools:checkstyle 8.23 -> 8.34. Thanks to Gary Gregory.
+* [build] Update JUnit from 5.5.2 to 5.6.2. Thanks to Gary Gregory.
+* [build] commons.jacoco.version 0.8.4 -> 0.8.5. Thanks to Gary Gregory.
+* [build] commons.javadoc.version 3.1.1 -> 3.2.0. Thanks to Gary Gregory.
+* [build] commons.japicmp.version 0.14.1 -> 0.14.3. Thanks to Gary Gregory.
+* [build] checkstyle.plugin.version 3.1.0 -> 3.1.1. Thanks to Gary Gregory.
+* [build] checkstyle.version 8.27 -> 8.33. Thanks to Gary Gregory.
+* [build] org.apache.commons:commons-parent 48 -> 51. Thanks to Gary Gregory.
+* [build] maven-pmd-plugin 3.12.0 -> 3.13.0. Thanks to Gary Gregory.
+* [build] org.mockito 3.3.3 -> 3.4.4. Thanks to Gary Gregory.
 
 Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
 
@@ -265,19 +331,14 @@ Download page: https://commons.apache.org/proper/commons-text/download_text.cgi
 Have fun!
 -Apache Commons Team
 
-=============================================================================
+-------------------------------------------------------------------------------------------------------
 
-Apache Commons Text
-Version 1.8
-Release Notes
-
-
-INTRODUCTION:
+Apache Commons Text Version 1.8 Release Notes
+---------------------------------------------
 
 This document contains the release notes for the 1.8 version of Apache Commons Text.
 Commons Text is a set of utility functions and reusable components for the purpose of processing
 and manipulating text that should be of use in a Java environment.
-
 
 Apache Commons Text is a library focused on algorithms working on strings.
 
@@ -285,18 +346,24 @@ Release 1.8
 
 Changes in this version include:
 
-- New Features
-  o TEXT-169: Add helper factory method org.apache.commons.text.StringSubstitutor.createInterpolator(). Thanks to Gary Gregory.
-  o TEXT-170: Add String lookup for host names and IP addresses (DnsStringLookup). Thanks to Gary Gregory.
+New Features
+------------
+
+* TEXT-169: Add helper factory method org.apache.commons.text.StringSubstitutor.createInterpolator(). Thanks to Gary Gregory.
+* TEXT-170: Add String lookup for host names and IP addresses (DnsStringLookup). Thanks to Gary Gregory.
     
-- Fixed Bugs
-  o TEXT-167: commons-text web page missing "RELEASE-NOTES-1.7.txt". Thanks to Larry West.
-  o TEXT-168: (doc) Fixed wrong value for Jaro-Winkler example #117. Thanks to luksan47.
-  o TEXT-171: StringLookupFactory.addDefaultStringLookups(Map) does not convert keys to lower case. Thanks to Gary Gregory.
+Fixed Bugs
+----------
+
+* TEXT-167: commons-text web page missing "RELEASE-NOTES-1.7.txt". Thanks to Larry West.
+* TEXT-168: (doc) Fixed wrong value for Jaro-Winkler example #117. Thanks to luksan47.
+* TEXT-171: StringLookupFactory.addDefaultStringLookups(Map) does not convert keys to lower case. Thanks to Gary Gregory.
     
-- Changes
-  o Expand Javadoc for StringSubstitutor and friends. Thanks to Gary Gregory.
-  o [site] checkstyle.version 8.21 -> 8.23. Thanks to Gary Gregory.
+Changes
+-------
+
+* Expand Javadoc for StringSubstitutor and friends. Thanks to Gary Gregory.
+* [site] checkstyle.version 8.21 -> 8.23. Thanks to Gary Gregory.
     
 
 Historical list of changes: https://commons.apache.org/proper/commons-textchanges-report.html
@@ -308,13 +375,10 @@ https://commons.apache.org/proper/commons-text
 
 Download it from https://commons.apache.org/proper/commons-text/download_text.cgi
 
-=============================================================================
+-------------------------------------------------------------------------------------------------------
 
-Apache Commons Text
-Version 1.7
-Release Notes
-
-INTRODUCTION:
+Apache Commons Text Version 1.7 Release Notes
+---------------------------------------------
 
 This document contains the release notes for the 1.7 version of Apache Commons Text.
 Commons Text is a set of utility functions and reusable components for the purpose of processing
@@ -324,29 +388,32 @@ Apache Commons Text is a library focused on algorithms working on strings.
 
 Changes in this version include:
 
-New features:
+New features
+------------
 
-o TEXT-148:  Add an enum to the lookup package that lists all StringLookups
-o TEXT-127:  Add a toggle to throw an exception when a variable is unknown in StringSubstitutor Thanks to Jean-Baptiste REICH, Sebb, Don Jeba, Gary Gregory.
-o TEXT-138:  TextStringBuilder append sub-sequence not consistent with Appendable. Thanks to Neal Johnson, Don Jeba.
-o TEXT-152:  Fix possible infinite loop in WordUtils.wrap for a regex pattern that would trigger on a match of 0 length Thanks to @CAPS50.
-o TEXT-155:  Add a generic IntersectionSimilarity measure
+* TEXT-148:  Add an enum to the lookup package that lists all StringLookups
+* TEXT-127:  Add a toggle to throw an exception when a variable is unknown in StringSubstitutor Thanks to Jean-Baptiste REICH, Sebb, Don Jeba, Gary Gregory.
+* TEXT-138:  TextStringBuilder append sub-sequence not consistent with Appendable. Thanks to Neal Johnson, Don Jeba.
+* TEXT-152:  Fix possible infinite loop in WordUtils.wrap for a regex pattern that would trigger on a match of 0 length Thanks to @CAPS50.
+* TEXT-155:  Add a generic IntersectionSimilarity measure
 
-Fixed Bugs:
+Fixed Bugs
+----------
 
-o TEXT-111:  WordUtils.wrap must calculate offset increment from wrapOn pattern length Thanks to @CAPS50.
-o TEXT-151:  Fix the JaroWinklerSimilarity to use StringUtils.equals to test for CharSequence equality
-o TEXT-165:  ResourceBundleStringLookup.lookup(String) throws MissingResourceException instead of returning null.
+* TEXT-111:  WordUtils.wrap must calculate offset increment from wrapOn pattern length Thanks to @CAPS50.
+* TEXT-151:  Fix the JaroWinklerSimilarity to use StringUtils.equals to test for CharSequence equality
+* TEXT-165:  ResourceBundleStringLookup.lookup(String) throws MissingResourceException instead of returning null.
 
-Changes:
+Changes
+-------
 
-o TEXT-104:  Jaro Winkler Distance refers to similarity Thanks to Sascha Szott.
-o TEXT-153:  Make prefixSet in LookupTranslator a BitSet Thanks to amirhadadi.
-o TEXT-156:  Fix the RegexTokenizer to use a static Pattern
-o TEXT-157:  Remove rounding from JaccardDistance and JaccardSimilarity
-o TEXT-162:  Update Apache Commons Lang from 3.8.1 to 3.9.
-o Update tests from org.assertj:assertj-core 3.12.1 to 3.12.2.
-o Update site from com.puppycrawl.tools:checkstyle 8.18 to 8.21.
+* TEXT-104:  Jaro Winkler Distance refers to similarity Thanks to Sascha Szott.
+* TEXT-153:  Make prefixSet in LookupTranslator a BitSet Thanks to amirhadadi.
+* TEXT-156:  Fix the RegexTokenizer to use a static Pattern
+* TEXT-157:  Remove rounding from JaccardDistance and JaccardSimilarity
+* TEXT-162:  Update Apache Commons Lang from 3.8.1 to 3.9.
+* Update tests from org.assertj:assertj-core 3.12.1 to 3.12.2.
+* Update site from com.puppycrawl.tools:checkstyle 8.18 to 8.21.
 
 Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
 
@@ -357,29 +424,26 @@ https://commons.apache.org/proper/commons-text
 
 Download it from https://commons.apache.org/proper/commons-text/download_text.cgi
 
-=============================================================================
+-------------------------------------------------------------------------------------------------------
 
-                          Apache Commons Text
-                              Version 1.6
-                             Release Notes
+Apache Commons Text Version 1.6 Release Notes
+---------------------------------------------
 
-INTRODUCTION
-============
 
 This document contains the release notes for the 1.6 version of Apache Commons
 Text. Commons Text is a set of utility functions and reusable components for
 the purpose of processing and manipulating text that should be of use in a Java
 environment.
 
-This component requires Java 8.
+This release requires Java 8.
 
-CHANGES
-=======
+Changes
+-------
 
-o TEXT-144:  Add the resource string bundle string lookup to the default set of lookups
-o TEXT-145:  Add StringLookupFactory methods for the URL encoder and decoder string lookups
-o TEXT-146:  org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup() should reuse a singleton instance
-o TEXT-147:  Add a Base64 encoder string lookup.
+* TEXT-144:  Add the resource string bundle string lookup to the default set of lookups
+* TEXT-145:  Add StringLookupFactory methods for the URL encoder and decoder string lookups
+* TEXT-146:  org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup() should reuse a singleton instance
+* TEXT-147:  Add a Base64 encoder string lookup.
 
 Historical list of changes: https://commons.apache.org/proper/commons-text/changes-report.html
 
@@ -388,237 +452,227 @@ patches, or suggestions for improvement, see the Apache Commons Text website:
 
 https://commons.apache.org/proper/commons-text
 
-=============================================================================
+-------------------------------------------------------------------------------------------------------
 
-                          Apache Commons Text
-                              Version 1.5
-                             Release Notes
-
-INTRODUCTION
-============
+Apache Commons Text Version 1.5 Release Notes
+---------------------------------------------
 
 This document contains the release notes for the 1.5 version of Apache Commons
 Text. Commons Text is a set of utility functions and reusable components for 
 the purpose of processing and manipulating text that should be of use in a Java
 environment.
 
-This component requires Java 8.
+This release requires Java 8.
 
-NEW FEATURES
-============
+New Features
+------------
 
-o TEXT-133:  Add a XML file XPath string lookup.
-o TEXT-134:  Add a Properties file string lookup.
-o TEXT-135:  Add a script string lookup.
-o TEXT-136:  Add a file string lookup.
-o TEXT-137:  Add a URL string lookup.
-o TEXT-140:  Add a Base64 string lookup.
-o TEXT-141:  Add org.apache.commons.text.lookup.StringLookupFactory.resourceBundleStringLookup(String).
-o TEXT-142:  Add URL encoder and decoder string lookups.
-o TEXT-143:  Add constant string lookup like the one in Apache Commons Configuration.
+* TEXT-133:  Add a XML file XPath string lookup.
+* TEXT-134:  Add a Properties file string lookup.
+* TEXT-135:  Add a script string lookup.
+* TEXT-136:  Add a file string lookup.
+* TEXT-137:  Add a URL string lookup.
+* TEXT-140:  Add a Base64 string lookup.
+* TEXT-141:  Add org.apache.commons.text.lookup.StringLookupFactory.resourceBundleStringLookup(String).
+* TEXT-142:  Add URL encoder and decoder string lookups.
+* TEXT-143:  Add constant string lookup like the one in Apache Commons Configuration.
 
-FIXED BUGS
-==========
+Fixed Bugs
+----------
 
-o TEXT-139:  Improve JaccardSimilarity computational cost Thanks to Nick Wong.
-o TEXT-118:  JSON escaping incorrect for the delete control character Thanks to Nandor Kollar.
-o TEXT-130:  Fixes JaroWinklerDistance: Wrong results due to precision of transpositions Thanks to Jan Martin Keil.
-o TEXT-131:  JaroWinklerDistance: Calculation deviates from definition Thanks to Jan Martin Keil.
+* TEXT-139:  Improve JaccardSimilarity computational cost Thanks to Nick Wong.
+* TEXT-118:  JSON escaping incorrect for the delete control character Thanks to Nandor Kollar.
+* TEXT-130:  Fixes JaroWinklerDistance: Wrong results due to precision of transpositions Thanks to Jan Martin Keil.
+* TEXT-131:  JaroWinklerDistance: Calculation deviates from definition Thanks to Jan Martin Keil.
 
-CHANGES
-=======
+Changes
+-------
 
-o TEXT-132:  Update Apache Commons Lang from 3.7 to 3.8.1
+* TEXT-132:  Update Apache Commons Lang from 3.7 to 3.8.1
 
-=============================================================================
+-------------------------------------------------------------------------------------------------------
 
-                          Apache Commons Text
-                              Version 1.4
-                             Release Notes
-
-INTRODUCTION
-============
+Apache Commons Text Version 1.4 Release Notes
+---------------------------------------------
 
 This document contains the release notes for the 1.4 version of Apache Commons
 Text. Commons Text is a set of utility functions and reusable components for 
 the purpose of processing and manipulating text that should be of use in a Java
 environment.
 
-This component requires Java 8.
-
+This release requires Java 8.
 
 Changes in this version include:
     
-Fixed Bugs:
-o TEXT-120:  StringEscapeUtils#unescapeJson does not unescape double quotes and forward slash.
-o TEXT-119:  Remove mention of SQL escaping from user guide.
-o TEXT-123:  WordUtils.wrap throws StringIndexOutOfBoundsException when wrapLength is Integer.MAX_VALUE. Thanks to Takanobu Asanuma.
+Fixed Bugs
+----------
+
+* TEXT-120:  StringEscapeUtils#unescapeJson does not unescape double quotes and forward slash.
+* TEXT-119:  Remove mention of SQL escaping from user guide.
+* TEXT-123:  WordUtils.wrap throws StringIndexOutOfBoundsException when wrapLength is Integer.MAX_VALUE. Thanks to Takanobu Asanuma.
                 
-Changes:
-o TEXT-121:  Update Java requirement from version 7 to 8. Thanks to pschumacher.
-o TEXT-122:  Allow full customization with new API org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup(Map<String, StringLookup>, StringLookup, boolean).
+Changes
+-------
 
-=============================================================================
+* TEXT-121:  Update Java requirement from version 7 to 8. Thanks to pschumacher.
+* TEXT-122:  Allow full customization with new API org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup(Map<String, StringLookup>, StringLookup, boolean).
 
-                          Apache Commons Text
-                              Version 1.3
-                             Release Notes
+-------------------------------------------------------------------------------------------------------
 
-INTRODUCTION
-============
+Apache Commons Text Version 1.3 Release Notes
+---------------------------------------------
 
 This document contains the release notes for the 1.3 version of Apache Commons
 Text. Commons Text is a set of utility functions and reusable components for 
 the purpose of processing and manipulating text that should be of use in a Java
 environment.
 
-This component requires Java 7.
+This release requires Java 7.
 
-NEW FEATURES
-=============
+New Features
+------------
 
-o Add Automatic-Module-Name MANIFEST entry for Java 9 compatibility  Issue: TEXT-110. 
-o Add an interpolator string lookup: StringLookupFactory#interpolatorStringLookup()  Issue: TEXT-113. 
-o Add a StrSubstitutor replacement based on interfaces: StringSubstitutor  Issue: TEXT-114. 
-o Add a StrBuilder replacement based on the StringMatcher interface: TextStringBuilder  Issue: TEXT-115. 
-o Add a StrTokenizer replacement based on the StringMatcher interface: StringTokenizer  Issue: TEXT-116. 
-o Add a local host string lookup: LocalHostStringLookup  Issue: TEXT-117. 
+* Add Automatic-Module-Name MANIFEST entry for Java 9 compatibility  Issue: TEXT-110. 
+* Add an interpolator string lookup: StringLookupFactory#interpolatorStringLookup()  Issue: TEXT-113. 
+* Add a StrSubstitutor replacement based on interfaces: StringSubstitutor  Issue: TEXT-114. 
+* Add a StrBuilder replacement based on the StringMatcher interface: TextStringBuilder  Issue: TEXT-115. 
+* Add a StrTokenizer replacement based on the StringMatcher interface: StringTokenizer  Issue: TEXT-116. 
+* Add a local host string lookup: LocalHostStringLookup  Issue: TEXT-117. 
 
-FIXED BUGS
-==========
+Fixed Bugs
+----------
 
-o Build failure with java 9-ea+159  Issue: TEXT-70. 
-o StrLookup API confusing  Issue: TEXT-80. 
+* Build failure with java 9-ea+159  Issue: TEXT-70. 
+* StrLookup API confusing  Issue: TEXT-80. 
 
-=============================================================================
+-------------------------------------------------------------------------------------------------------
 
-                          Apache Commons Text
-                              Version 1.2
-                             Release Notes
+Apache Commons Text Version 1.2 Release Notes
+---------------------------------------------
 
-INTRODUCTION
-============
 
 This document contains the release notes for the 1.2 version of Apache Commons
 Text. Commons Text is a set of utility functions and reusable components for 
 the purpose of processing and manipulating text that should be of use in a Java
 environment.
 
-This component requires Java 7.
+This release requires Java 7.
 
-JAVA 9 SUPPORT
-==============
+Java 9 Support
+--------------
 
 At our time of release of 1.1, our build succeeds with Java 9-ea build 159,
 and we believe all of our features to be Java 9 compatible. However, when we
 run "mvn clean site" we have failures.
 
-NEW FEATURES
-=============
+New Features
+------------
 
-o TEXT-74:   StrSubstitutor: Ability to turn off substitution in values. Thanks to Ioannis Sermetziadis.
-o TEXT-97:   RandomStringGenerator able to pass multiple ranges to .withinRange(). Thanks to Amey Jadiye.
-o TEXT-89:   WordUtils.initials support for UTF-16 surrogate pairs. Thanks to Arun Vinud S S.
-o TEXT-90:   Add CharacterPredicates for ASCII letters (uppercase/lowercase) and arabic numerals.
-o TEXT-85:   Added CaseUtils class with camel case conversion support. Thanks to Arun Vinud S S.
-o TEXT-91:   RandomStringGenerator should be able to generate a String with a random length.
-o TEXT-102:  Add StrLookup.resourceBundleLookup(ResourceBundle).
+* TEXT-74:   StrSubstitutor: Ability to turn off substitution in values. Thanks to Ioannis Sermetziadis.
+* TEXT-97:   RandomStringGenerator able to pass multiple ranges to .withinRange(). Thanks to Amey Jadiye.
+* TEXT-89:   WordUtils.initials support for UTF-16 surrogate pairs. Thanks to Arun Vinud S S.
+* TEXT-90:   Add CharacterPredicates for ASCII letters (uppercase/lowercase) and arabic numerals.
+* TEXT-85:   Added CaseUtils class with camel case conversion support. Thanks to Arun Vinud S S.
+* TEXT-91:   RandomStringGenerator should be able to generate a String with a random length.
+* TEXT-102:  Add StrLookup.resourceBundleLookup(ResourceBundle).
 
-FIXED BUGS
-==========
+Fixed Bugs
+----------
 
-o TEXT-106:  Exception thrown in ExtendedMessageFormat using quotes with custom registry. Thanks to Benoit Moreau.
-o TEXT-100:  StringEscapeUtils#UnEscapeJson doesn't recognize escape signs correctly. Thanks to Don Jeba.
-o TEXT-105:  Typo in LongestCommonSubsequence#logestCommonSubsequence. Thanks to Abrasha.
+* TEXT-106:  Exception thrown in ExtendedMessageFormat using quotes with custom registry. Thanks to Benoit Moreau.
+* TEXT-100:  StringEscapeUtils#UnEscapeJson doesn't recognize escape signs correctly. Thanks to Don Jeba.
+* TEXT-105:  Typo in LongestCommonSubsequence#logestCommonSubsequence. Thanks to Abrasha.
 
-CHANGES
-=======
+Changes
+-------
 
-o TEXT-107:  Upversion commons-lang to 3.7.
-o TEXT-98:   Deprecate isDelimiter and use HashSets for delimiter checks. Thanks to Arun Vinud S S.
-o TEXT-88:   WordUtils should treat an empty delimiter array as no delimiters. Thanks to Amey Jadiye.
-o TEXT-93:   Update RandomStringGenerator to accept a list of valid characters. Thanks to Amey Jadiye.
-o TEXT-92:   Update commons-lang dependency to version 3.6.
-o TEXT-83:   Document that commons-csv should be used in preference to CsvTranslators. Thanks to Amey Jadiye.
-o TEXT-67:   NumericEntityUnescaper.options - fix TODO.
-o TEXT-84:   RandomStringGenerator claims to be immutable, but isn't.
+* TEXT-107:  Upversion commons-lang to 3.7.
+* TEXT-98:   Deprecate isDelimiter and use HashSets for delimiter checks. Thanks to Arun Vinud S S.
+* TEXT-88:   WordUtils should treat an empty delimiter array as no delimiters. Thanks to Amey Jadiye.
+* TEXT-93:   Update RandomStringGenerator to accept a list of valid characters. Thanks to Amey Jadiye.
+* TEXT-92:   Update commons-lang dependency to version 3.6.
+* TEXT-83:   Document that commons-csv should be used in preference to CsvTranslators. Thanks to Amey Jadiye.
+* TEXT-67:   NumericEntityUnescaper.options - fix TODO.
+* TEXT-84:   RandomStringGenerator claims to be immutable, but isn't.
 
-=============================================================================
+-------------------------------------------------------------------------------------------------------
 
-                        Release Notes for version 1.1
+Apache Commons Text Version 1.1 Release Notes
+---------------------------------------------
 
-JAVA 9 SUPPORT
-==============
+Java 9 Support
+--------------
 
 At our time of release of 1.1, our build succeeds with Java 9-ea build 159,
 and we believe all of our features to be Java 9 compatible. However, when we 
 run "mvn clean site" we have failures.
 
-NEW FEATURES
-============
+New Features
+------------
 
-o TEXT-41:   WordUtils.abbreviate support Thanks to Amey Jadiye.
-o TEXT-82:   Putting WordUtils back in to the codebase Thanks to Amey Jadiye.
-o TEXT-81:   Add RandomStringGenerator Thanks to djones.
-o TEXT-36:   RandomStringGenerator: allow users to provide source of randomness
+* TEXT-41:   WordUtils.abbreviate support Thanks to Amey Jadiye.
+* TEXT-82:   Putting WordUtils back in to the codebase Thanks to Amey Jadiye.
+* TEXT-81:   Add RandomStringGenerator Thanks to djones.
+* TEXT-36:   RandomStringGenerator: allow users to provide source of randomness
              Thanks to Raymond DeCampo.
                 
-FIXED BUGS
-==========
+Fixed Bugs
+----------
 
-o TEXT-76:   Correct round issue in Jaro Winkler implementation
-o TEXT-72:   Similar to LANG-1025, clirr fails site build.
+* TEXT-76:   Correct round issue in Jaro Winkler implementation
+* TEXT-72:   Similar to LANG-1025, clirr fails site build.
                 
 CHANGES
 =======
 
-o TEXT-39:   WordUtils should use toXxxxCase(int) rather than toXxxxCase(char) 
+* TEXT-39:   WordUtils should use toXxxxCase(int) rather than toXxxxCase(char) 
              Thanks to Amey Jadiye.
 
-=============================================================================
+-------------------------------------------------------------------------------------------------------
 
-                        Release Notes for version 1.0
+Apache Commons Text Version 1.0 Release Notes
+---------------------------------------------
 
-INCOMPATIBLE CHANGES
-====================
+Incompatible Changes
+--------------------
 
-All package names changed from org.apache.commons.text.beta in 1.0-beta-1 to
-org.apache.commons.text in 1.0.
+All package names changed from org.apache.commons.text.beta in 1.0-beta-1 to org.apache.commons.text 
+in 1.0.
 
 Methods StringEscapeUtils#escapeHtml3Once and StringEscapeUtils#escapeHtml4Once
 have been removed; see TEXT-40
 
-JAVA 9 SUPPORT
-==============
+Java 9 Support
+--------------
 
 At our time of release of 1.0, our build succeeds with Java 9-ea build 158,
 and we believe all of our features to be Java 9 compatible. However, when we run
 "mvn clean site" we have failures.
 
-FIXED BUGS
-==========
+Fixed Bugs
+----------
 
-o TEXT-64:   Investigate locale issue in ExtendedMessageFormatTest. Thanks to
+* TEXT-64:   Investigate locale issue in ExtendedMessageFormatTest. Thanks to
              chtompki.
-o TEXT-69:   Resolve PMD/CMD Violations
-o TEXT-65:   Fixing the 200 checkstyle errors present in 1.0-beta-1.
-o TEXT-63:   Mutable fields should be private.
+* TEXT-69:   Resolve PMD/CMD Violations
+* TEXT-65:   Fixing the 200 checkstyle errors present in 1.0-beta-1.
+* TEXT-63:   Mutable fields should be private.
 
-REMOVED
-=======
+Removed
+-------
 
-o TEXT-40:   Escape HTML characters only once: revert.
+* TEXT-40:   Escape HTML characters only once: revert.
 
-=============================================================================
+-------------------------------------------------------------------------------------------------------
 
-                        Release Notes for version 1.0-beta-1
+Apache Commons Text Version 1.0-beta-1 Release Notes
+----------------------------------------------------
 
-
-A NOTE ON THE HISTORY OF THE CODE
-=================================
+A note on the History of the Code
+---------------------------------
 
 The codebase began in the fall of 2014 as a location for housing algorithms for
-operating on Strings that seemed to have a more complex nature than those which
+*perating on Strings that seemed to have a more complex nature than those which
 would be considered a needed extension to java.lang. Thus, a new component,
 different from Apache Commons Lang was warranted. As the project evolved, it was
 noticed that Commons Lang had considerable more text manipulation tools than
@@ -626,80 +680,80 @@ the average Java application developer would need or even want. So, we have
 decided to move the more esoteric String processing algorithms out of Commons
 Lang into Commons Text.
 
-JAVA 9 SUPPORT
-==============
+Java 9 Support
+--------------
 
 At our time of release of 1.0-beta-1, our build succeeds with Java 9-ea build 153,
 and we believe all of our features to be Java 9 compatible.
 
-NEW FEATURES
-============
+New Features
+------------
 
-o TEXT-56:   Move CvsTranslators out of StringEscapeUtils and make them DRY
+* TEXT-56:   Move CvsTranslators out of StringEscapeUtils and make them DRY
              Thanks to Jarek Strzeleck.
-o TEXT-40:   Escape HTML characters only once Thanks to Sampanna Kahu.
-o TEXT-32:   Add LCS similarity and distance
-o TEXT-34:   Add class to generate random strings
-o TEXT-29:   Add a builder to StringEscapeUtils
-o TEXT-28:   Add shell/XSI escape/unescape support
-o TEXT-2:    Add Jaccard Index and Jaccard Distance Thanks to Don Jeba.
-o TEXT-27:   Move org.apache.commons.lang3.StringEscapeUtils.java into text
-o TEXT-23:   Moving from commons-lang, the package org.apache.commons.lang3.text
-o TEXT-10:   A more complex Levenshtein distance Thanks to Don Jeba.
-o TEXT-24:   Add coveralls and Travis.ci integration
-o TEXT-19:   Add alphabet converter Thanks to Eyal Allweil.
-o TEXT-13:   Create Commons Text logo
-o TEXT-7:    Write user guide
-o TEXT-15:   Human name parser
-o TEXT-3:    Add Cosine Similarity and Cosine Distance
-o TEXT-4:    Port Myers algorithm from [collections]
-o TEXT-1:    Add Hamming distance
-o TEXT-9:    Incorporate String algorithms from Commons Lang Thanks to britter.
+* TEXT-40:   Escape HTML characters only once Thanks to Sampanna Kahu.
+* TEXT-32:   Add LCS similarity and distance
+* TEXT-34:   Add class to generate random strings
+* TEXT-29:   Add a builder to StringEscapeUtils
+* TEXT-28:   Add shell/XSI escape/unescape support
+* TEXT-2:    Add Jaccard Index and Jaccard Distance Thanks to Don Jeba.
+* TEXT-27:   Move org.apache.commons.lang3.StringEscapeUtils.java into text
+* TEXT-23:   Moving from commons-lang, the package org.apache.commons.lang3.text
+* TEXT-10:   A more complex Levenshtein distance Thanks to Don Jeba.
+* TEXT-24:   Add coveralls and Travis.ci integration
+* TEXT-19:   Add alphabet converter Thanks to Eyal Allweil.
+* TEXT-13:   Create Commons Text logo
+* TEXT-7:    Write user guide
+* TEXT-15:   Human name parser
+* TEXT-3:    Add Cosine Similarity and Cosine Distance
+* TEXT-4:    Port Myers algorithm from [collections]
+* TEXT-1:    Add Hamming distance
+* TEXT-9:    Incorporate String algorithms from Commons Lang Thanks to britter.
 
-FIXED BUGS
-==========
+Fixed Bugs
+----------
 
 Note. We recognize the curiosity of a new component having "fixed bugs," but a
 considerable number of files were migrated over from Commons Lang, some of which
 needed fixes.
 
-o TEXT-62:   Incorporate suggestions from RC2 into 1.0 release.
-o TEXT-60:   Upgrading Jacoco for Java 9-ea compatibility. Thanks to Lee Adcock.
-o TEXT-52:   Possible attacks through StringEscapeUtils.escapeEcmaScrip better
+* TEXT-62:   Incorporate suggestions from RC2 into 1.0 release.
+* TEXT-60:   Upgrading Jacoco for Java 9-ea compatibility. Thanks to Lee Adcock.
+* TEXT-52:   Possible attacks through StringEscapeUtils.escapeEcmaScrip better
              javadoc
-o TEXT-37:   Global vs local source of randomness
-o TEXT-38:   Fluent API in "RandomStringBuilder"
-o TEXT-26:   Fix JaroWinklerDistance in the manner of LUCENE-1297
-o TEXT-35:   Unfinished class Javadoc for CosineDistance
-o TEXT-22:   LevenshteinDistance reduce memory consumption
-o TEXT-5:    IP clearance for the names package
-o TEXT-11:   Work on the string metric, distance, and similarity definitions for
+* TEXT-37:   Global vs local source of randomness
+* TEXT-38:   Fluent API in "RandomStringBuilder"
+* TEXT-26:   Fix JaroWinklerDistance in the manner of LUCENE-1297
+* TEXT-35:   Unfinished class Javadoc for CosineDistance
+* TEXT-22:   LevenshteinDistance reduce memory consumption
+* TEXT-5:    IP clearance for the names package
+* TEXT-11:   Work on the string metric, distance, and similarity definitions for
              the project
-o TEXT-12:   Create StringDistanceFrom class that contains a StringMetric and
+* TEXT-12:   Create StringDistanceFrom class that contains a StringMetric and
              the "left" side string. This would have a method that accepts the
              "right" side string to test. Thanks to Jonathan baker.
-o TEXT-8:    Change (R) StringMetric.compare(CS left, CS right) to "apply" so
+* TEXT-8:    Change (R) StringMetric.compare(CS left, CS right) to "apply" so
              that it is consistent with BiFunction. Thanks to Jonathan Baker.
-o TEXT-6:    Allow extra information (e.g. Levenshtein threshold) to be stored
+* TEXT-6:    Allow extra information (e.g. Levenshtein threshold) to be stored
              as (final) fields in the StringMetric instance. Thanks to Jonathan
              Baker.
 
-CHANGES
-=======
+Changes
+-------
 
-o TEXT-61:   Naming packages org.apache.commons.text.beta Thanks to Lee Adcock.
-o TEXT-58:   Refactor EntityArrays to have unmodifiableMaps in leu of String[][]
-o TEXT-53:   Prepare site for 1.0 release
-o TEXT-50:   Upgrade from commons-parent version 41 to version 42
-o TEXT-33:   Consolidating since tags at 1.0, removing deprecated methods
-o TEXT-16:   Improve HumanNameParser
+* TEXT-61:   Naming packages org.apache.commons.text.beta Thanks to Lee Adcock.
+* TEXT-58:   Refactor EntityArrays to have unmodifiableMaps in leu of String[][]
+* TEXT-53:   Prepare site for 1.0 release
+* TEXT-50:   Upgrade from commons-parent version 41 to version 42
+* TEXT-33:   Consolidating since tags at 1.0, removing deprecated methods
+* TEXT-16:   Improve HumanNameParser
 
-REMOVED
-=======
+Removed
+-------
 
-o TEXT-55:   Remove WordUtils to be added back in an upcoming 1.X release
-o TEXT-51:   Remove RandomStringGenerator to be added back in the 1.1 release
-o TEXT-31:   Remove org.apache.commons.text.names, for later release than 1.0
+* TEXT-55:   Remove WordUtils to be added back in an upcoming 1.X release
+* TEXT-51:   Remove RandomStringGenerator to be added back in the 1.1 release
+* TEXT-31:   Remove org.apache.commons.text.names, for later release than 1.0
 
 
 Historical list of changes: https://commons.apache.org/text/changes-report.html
@@ -712,3 +766,5 @@ https://commons.apache.org/text/
 
 Have fun!
 -Apache Commons Text team
+
+-------------------------------------------------------------------------------------------------------

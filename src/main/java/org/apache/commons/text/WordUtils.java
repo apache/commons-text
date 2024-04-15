@@ -303,7 +303,7 @@ public class WordUtils {
         if (delimiters == null || delimiters.length == 0) {
             isDelimiter = delimiters == null ? Character::isWhitespace : c -> false;
         } else {
-            Set<Integer> delimiterSet = new HashSet<>();
+            final Set<Integer> delimiterSet = new HashSet<>();
             for (int index = 0; index < delimiters.length; index++) {
                 delimiterSet.add(Character.codePointAt(delimiters, index));
             }

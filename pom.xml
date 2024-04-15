@@ -25,7 +25,9 @@
   <artifactId>commons-text</artifactId>
   <version>1.12.0-SNAPSHOT</version>
   <name>Apache Commons Text</name>
-  <description>Apache Commons Text is a library focused on algorithms working on strings.</description>
+  <description>Apache Commons Text is a set of utility functions and reusable components for the purpose of processing
+    and manipulating text that should be of use in a Java environment.
+  </description>
   <url>https://commons.apache.org/proper/commons-text</url>
 
   <properties>
@@ -73,6 +75,14 @@
       commons.releaseManagerName
       commons.releaseManagerKey
     -->
+    <!-- JaCoCo: Don't make code coverage worse than: -->
+    <commons.jacoco.haltOnFailure>true</commons.jacoco.haltOnFailure>
+    <commons.jacoco.classRatio>1.00</commons.jacoco.classRatio>
+    <commons.jacoco.instructionRatio>0.97</commons.jacoco.instructionRatio>
+    <commons.jacoco.methodRatio>0.98</commons.jacoco.methodRatio>
+    <commons.jacoco.branchRatio>0.95</commons.jacoco.branchRatio>
+    <commons.jacoco.complexityRatio>0.94</commons.jacoco.complexityRatio>
+    <commons.jacoco.lineRatio>0.98</commons.jacoco.lineRatio>    
   </properties>
 
   <dependencies>
@@ -454,6 +464,16 @@
   </distributionManagement>
 
   <profiles>
+    <profile>
+	  <!-- Java 11 and up -->
+      <id>java-11-up</id>
+      <activation>
+		<jdk>[11,)</jdk>
+	  </activation>
+      <properties>
+        <graalvm.version>22.3.5</graalvm.version>
+      </properties>
+    </profile>
     <profile>
       <id>setup-checkout</id>
       <activation>

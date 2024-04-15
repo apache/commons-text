@@ -1975,7 +1975,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         return toString();
     }
 
-    /** Gets a direct reference to internal storage, not for public consumption. */
+    /**
+     * Gets a direct reference to internal storage, not for public consumption.
+     */
     char[] getBuffer() {
         return buffer;
     }
