@@ -70,11 +70,9 @@ public class CaseUtilsTest {
         assertThat(CaseUtils.toCamelCase("tocamelcase", false)).isEqualTo("tocamelcase");
 
         assertThat(CaseUtils.toCamelCase("\uD800\uDF00 \uD800\uDF02", true)).isEqualTo("\uD800\uDF00\uD800\uDF02");
-        assertThat(CaseUtils.toCamelCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", true, '\uD800',
-            '\uDF14')).isEqualTo("\uD800\uDF00\uD800\uDF01\uD800\uDF02\uD800\uDF03");
+        assertThat(CaseUtils.toCamelCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", true, '\uD800', '\uDF14')).isEqualTo("\uD800\uDF00\uD800\uDF01\uD800\uDF02\uD800\uDF03");
 
-        assertThat(CaseUtils.toCamelCase("The café\u2019s piñata gave me déjà vu.", true, '.'))
-                .isEqualTo("TheCafé\u2019sPiñataGaveMeDéjàVu");
+        /* **** NEW TESTS **** */
 
         assertThat(CaseUtils.toCamelCase(null)).isNull();
         assertThat(CaseUtils.toCamelCase("")).isEqualTo("");
@@ -95,73 +93,59 @@ public class CaseUtilsTest {
         assertThat(CaseUtils.toCamelCase("TO CAMEL CASE")).isEqualTo("toCamelCase");
         assertThat(CaseUtils.toCamelCase("tocamelcase")).isEqualTo("tocamelcase");
 
-        assertThat(CaseUtils.toCamelCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03"))
-                .isEqualTo("");
+        assertThat(CaseUtils.toCamelCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03")).isEqualTo("");
 
-        assertThat(CaseUtils.toCamelCase("The café\u2019s piñata gave me déjà vu."))
-                .isEqualTo("theCafesPinataGaveMeDejaVu");
-        assertThat(CaseUtils.toCamelCase("\u1E70\u01EB \u010C\u0227\u1E41\u0113\u0142 \u010D\u1E01\u0219\u1E1B"))
-                .isEqualTo("toCamelCase");
+        assertThat(CaseUtils.toCamelCase("The café\u2019s piñata gave me déjà vu.")).isEqualTo("theCafesPinataGaveMeDejaVu");
+        assertThat(CaseUtils.toCamelCase("\u1E70\u01EB \u010C\u0227\u1E41\u0113\u0142 \u010D\u1E01\u0219\u1E1B")).isEqualTo("toCamelCase");
     }
 
     @Test
-    public void testToCamelSnakeCase() {
-        assertThat(CaseUtils.toCamelSnakeCase(null)).isNull();
-        assertThat(CaseUtils.toCamelSnakeCase("")).isEqualTo("");
-        assertThat(CaseUtils.toCamelSnakeCase("          ")).isEqualTo("");
-        assertThat(CaseUtils.toCamelSnakeCase("a  b  c  @def")).isEqualTo("a_B_C_Def");
-        assertThat(CaseUtils.toCamelSnakeCase("a b c @def")).isEqualTo("a_B_C_Def");
+    public void testToDelimitedCase() {
+        assertThat(CaseUtils.toDelimitedCase(null, null)).isNull();
+        assertThat(CaseUtils.toDelimitedCase(null, null, null)).isNull();
+        assertThat(CaseUtils.toDelimitedCase("", ' ')).isEqualTo("");
+        assertThat(CaseUtils.toDelimitedCase("          ", ' ')).isEqualTo("");
+        assertThat(CaseUtils.toDelimitedCase("a  b  c  @def", '_')).isEqualTo("A_B_C_Def");
+        assertThat(CaseUtils.toDelimitedCase("a b c @def", '-')).isEqualTo("A-B-C-Def");
+        assertThat(CaseUtils.toDelimitedCase("a  b  c  @def", true, null)).isEqualTo("ABCDef");
+        assertThat(CaseUtils.toDelimitedCase("a  b  c  @def", null, null)).isEqualTo("ABCDef");
+        assertThat(CaseUtils.toDelimitedCase("a  b  c  @def", null, '_')).isEqualTo("A_B_C_Def");
 
-        assertThat(CaseUtils.toCamelSnakeCase("-+@ ")).isEqualTo("");
-        assertThat(CaseUtils.toCamelSnakeCase("  to-CAMELSNAKE-cASE")).isEqualTo("to_Camelsnake_Case");
-        assertThat(CaseUtils.toCamelSnakeCase("@@@@   to+CAMELSNAKE@cASE ")).isEqualTo("to_Camelsnake_Case");
-        assertThat(CaseUtils.toCamelSnakeCase("To+CAMEL+SNAK E@cASE")).isEqualTo("to_Camel_Snak_E_Case");
+        assertThat(CaseUtils.toDelimitedCase("-+@ ", '@')).isEqualTo("");
 
-        assertThat(CaseUtils.toCamelSnakeCase("To.CamelSnake.Case")).isEqualTo("to_Camelsnake_Case");
-        assertThat(CaseUtils.toCamelSnakeCase("To.CamelSnake-Case")).isEqualTo("to_Camelsnake_Case");
-        assertThat(CaseUtils.toCamelSnakeCase(" to @ CamelSnake case")).isEqualTo("to_Camelsnake_Case");
-        assertThat(CaseUtils.toCamelSnakeCase(" @to @ CamelSnake case_")).isEqualTo("to_Camelsnake_Case");
+        assertThat(CaseUtils.toDelimitedCase("  to-Delimited-cASE", '_')).isEqualTo("To_Delimited_Case");
+        assertThat(CaseUtils.toDelimitedCase("@@@@   to+DELIMITED@cASE ", '_')).isEqualTo("To_Delimited_Case");
+        assertThat(CaseUtils.toDelimitedCase("To+DELIM+IT ED@cASE", '+')).isEqualTo("To+Delim+It+Ed+Case");
 
-        assertThat(CaseUtils.toCamelSnakeCase("TO CAMELSNAKE CASE")).isEqualTo("to_Camelsnake_Case");
-        assertThat(CaseUtils.toCamelSnakeCase("tocamelsnakecase")).isEqualTo("tocamelsnakecase");
+        assertThat(CaseUtils.toDelimitedCase("  to-Delimited-cASE", false, '_')).isEqualTo("to_Delimited_Case");
+        assertThat(CaseUtils.toDelimitedCase("@@@@   to+DELIMITED@cASE ", false, '_')).isEqualTo("to_Delimited_Case");
+        assertThat(CaseUtils.toDelimitedCase("To+DELIM+IT ED@cASE", false, '+')).isEqualTo("to+Delim+It+Ed+Case");
 
-        assertThat(CaseUtils.toCamelSnakeCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03"))
-                .isEqualTo("");
+        assertThat(CaseUtils.toDelimitedCase("To.Delimited.Case", '.')).isEqualTo("To.Delimited.Case");
+        assertThat(CaseUtils.toDelimitedCase("To.Delimited-Case", '\u2250')).isEqualTo("To\u2250Delimited\u2250Case");
+        assertThat(CaseUtils.toDelimitedCase(" to @ Delimited case", ' ')).isEqualTo("To Delimited Case");
+        assertThat(CaseUtils.toDelimitedCase(" @to @ Delimited case_", '@')).isEqualTo("To@Delimited@Case");
 
-        assertThat(CaseUtils.toCamelSnakeCase("The café\u2019s piñata gave me déjà vu."))
-                .isEqualTo("the_Cafes_Pinata_Gave_Me_Deja_Vu");
-        assertThat(CaseUtils.toCamelSnakeCase("\u010C\u0227\u1E41\u0113\u0142 \u1E61\u1E47\u1EA3\u1E31\u1EB9"))
-                .isEqualTo("camel_Snake");
-    }
+        assertThat(CaseUtils.toDelimitedCase("To.Delimited.Case", false, '.')).isEqualTo("to.Delimited.Case");
+        assertThat(CaseUtils.toDelimitedCase("To.Delimited-Case", false, '\u2250')).isEqualTo("to\u2250Delimited\u2250Case");
+        assertThat(CaseUtils.toDelimitedCase(" to @ Delimited case", false, ' ')).isEqualTo("to Delimited Case");
+        assertThat(CaseUtils.toDelimitedCase(" @to @ Delimited case_", false, '@')).isEqualTo("to@Delimited@Case");
 
-    @Test
-    public void testToFlatCase() {
-        assertThat(CaseUtils.toFlatCase(null)).isNull();
-        assertThat(CaseUtils.toFlatCase("")).isEqualTo("");
-        assertThat(CaseUtils.toFlatCase("          ")).isEqualTo("");
-        assertThat(CaseUtils.toFlatCase("a  b  c  @def")).isEqualTo("abcdef");
-        assertThat(CaseUtils.toFlatCase("a b c @def")).isEqualTo("abcdef");
+        assertThat(CaseUtils.toDelimitedCase("TO DELIMITED CASE", '_')).isEqualTo("To_Delimited_Case");
+        assertThat(CaseUtils.toDelimitedCase("todelimitedcase", '_')).isEqualTo("Todelimitedcase");
 
-        assertThat(CaseUtils.toFlatCase("-+@ ")).isEqualTo("");
-        assertThat(CaseUtils.toFlatCase("  to-FLAT-cASE")).isEqualTo("toflatcase");
-        assertThat(CaseUtils.toFlatCase("@@@@   to+FLAT@cASE ")).isEqualTo("toflatcase");
-        assertThat(CaseUtils.toFlatCase("To+FL+A T@cASE")).isEqualTo("toflatcase");
+        assertThat(CaseUtils.toDelimitedCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", '\uD800')).isEqualTo("");
 
-        assertThat(CaseUtils.toFlatCase("To.Flat.Case")).isEqualTo("toflatcase");
-        assertThat(CaseUtils.toFlatCase("To.Flat-Case")).isEqualTo("toflatcase");
-        assertThat(CaseUtils.toFlatCase(" to @ Flat case")).isEqualTo("toflatcase");
-        assertThat(CaseUtils.toFlatCase(" @to @ Flat case_")).isEqualTo("toflatcase");
+        assertThat(CaseUtils.toDelimitedCase("The café\u2019s piñata gave me déjà vu.", '_')).isEqualTo("The_Cafes_Pinata_Gave_Me_Deja_Vu");
+        assertThat(CaseUtils.toDelimitedCase("The café\u2019s piñata gave me déjà vu.", false, '_')).isEqualTo("the_Cafes_Pinata_Gave_Me_Deja_Vu");
+        assertThat(CaseUtils.toDelimitedCase("\u1E70\u01EB \u1E12\u0205\u0142\u012B\u1E43\u01D0\u1E6B\u0119\u1E0B " +
+                                             "\u010D\u1E01\u0219\u1E1B", '_')).isEqualTo("To_Delimited_Case");
 
-        assertThat(CaseUtils.toFlatCase("TO FLAT CASE")).isEqualTo("toflatcase");
-        assertThat(CaseUtils.toFlatCase("toflatcase")).isEqualTo("toflatcase");
+        assertThat(CaseUtils.toDelimitedCase("\u2026with boughs of holly\u2026\n\u2019Tis the season\u2026", '\u272F')).isEqualTo("With\u272FBoughs\u272FOf\u272FHolly\u272FTis\u272FThe\u272FSeason");
+        assertThat(CaseUtils.toDelimitedCase("\u2026with boughs of holly\u2026\n\u2019Tis the season\u2026", false, '\u272F')).isEqualTo("with\u272FBoughs\u272FOf\u272FHolly\u272FTis\u272FThe\u272FSeason");
 
-        assertThat(CaseUtils.toFlatCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03"))
-                .isEqualTo("");
-
-        assertThat(CaseUtils.toFlatCase("The café\u2019s piñata gave me déjà vu."))
-                .isEqualTo("thecafespinatagavemedejavu");
-        assertThat(CaseUtils.toFlatCase("\u1E70\u01EB \u1E1E\u0142\u1EA3\u1E6F \u010D\u1E01\u0219\u1E1B"))
-                .isEqualTo("toflatcase");
+        assertThat(CaseUtils.toDelimitedCase("\"Officer O'Malley and Peart O'Niel " +
+                                             "walk into the Protestant's Bar.\"", '_')).isEqualTo("Officer_O_Malley_And_Peart_O_Niel_Walk_Into_The_Protestants_Bar");
     }
 
     @Test
@@ -185,106 +169,37 @@ public class CaseUtilsTest {
         assertThat(CaseUtils.toKebabCase("TO KEBAB CASE")).isEqualTo("to-kebab-case");
         assertThat(CaseUtils.toKebabCase("tokebabcase")).isEqualTo("tokebabcase");
 
-        assertThat(CaseUtils.toKebabCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03"))
-                .isEqualTo("");
+        assertThat(CaseUtils.toKebabCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03")).isEqualTo("");
 
-        assertThat(CaseUtils.toKebabCase("The café\u2019s piñata gave me déjà vu."))
-                .isEqualTo("the-cafes-pinata-gave-me-deja-vu");
-        assertThat(CaseUtils.toKebabCase("\u1E70\u01EB \u1E31\u0115\u1E07\u0227\u1E05 \u010D\u1E01\u0219\u1E1B"))
-                .isEqualTo("to-kebab-case");
+        assertThat(CaseUtils.toKebabCase("The café\u2019s piñata gave me déjà vu.")).isEqualTo("the-cafes-pinata-gave-me-deja-vu");
+        assertThat(CaseUtils.toKebabCase("\u1E70\u01EB \u1E31\u0115\u1E07\u0227\u1E05 \u010D\u1E01\u0219\u1E1B")).isEqualTo("to-kebab-case");
     }
 
     @Test
-    public void testToScreamingCase() {
-        assertThat(CaseUtils.toScreamingCase(null)).isNull();
-        assertThat(CaseUtils.toScreamingCase("")).isEqualTo("");
-        assertThat(CaseUtils.toScreamingCase("          ")).isEqualTo("");
-        assertThat(CaseUtils.toScreamingCase("a  b  c  @def")).isEqualTo("ABCDEF");
-        assertThat(CaseUtils.toScreamingCase("a b c @def")).isEqualTo("ABCDEF");
+    public void testToPascalCase() {
+        assertThat(CaseUtils.toPascalCase(null)).isNull();
+        assertThat(CaseUtils.toPascalCase("")).isEqualTo("");
+        assertThat(CaseUtils.toPascalCase("          ")).isEqualTo("");
+        assertThat(CaseUtils.toPascalCase("a  b  c  @def")).isEqualTo("ABCDef");
+        assertThat(CaseUtils.toPascalCase("a b c @def")).isEqualTo("ABCDef");
 
-        assertThat(CaseUtils.toScreamingCase("-+@ ")).isEqualTo("");
-        assertThat(CaseUtils.toScreamingCase("  to-SCREAMING-cASE")).isEqualTo("TOSCREAMINGCASE");
-        assertThat(CaseUtils.toScreamingCase("@@@@   to+SCREAMING@cASE ")).isEqualTo("TOSCREAMINGCASE");
-        assertThat(CaseUtils.toScreamingCase("To+SCR+EAM ING@cASE")).isEqualTo("TOSCREAMINGCASE");
+        assertThat(CaseUtils.toPascalCase("-+@ ")).isEqualTo("");
+        assertThat(CaseUtils.toPascalCase("  to-CAMEL-cASE")).isEqualTo("ToCamelCase");
+        assertThat(CaseUtils.toPascalCase("@@@@   to+CAMEL@cASE ")).isEqualTo("ToCamelCase");
+        assertThat(CaseUtils.toPascalCase("To+CA+ME L@cASE")).isEqualTo("ToCaMeLCase");
 
-        assertThat(CaseUtils.toScreamingCase("To.SCREAMING.Case")).isEqualTo("TOSCREAMINGCASE");
-        assertThat(CaseUtils.toScreamingCase("To.SCREAMING-Case")).isEqualTo("TOSCREAMINGCASE");
-        assertThat(CaseUtils.toScreamingCase(" to @ SCREAMING case")).isEqualTo("TOSCREAMINGCASE");
-        assertThat(CaseUtils.toScreamingCase(" @to @ SCREAMING case_")).isEqualTo("TOSCREAMINGCASE");
+        assertThat(CaseUtils.toPascalCase("To.Camel.Case")).isEqualTo("ToCamelCase");
+        assertThat(CaseUtils.toPascalCase("To.Camel-Case")).isEqualTo("ToCamelCase");
+        assertThat(CaseUtils.toPascalCase(" to @ Camel case")).isEqualTo("ToCamelCase");
+        assertThat(CaseUtils.toPascalCase(" @to @ Camel case_")).isEqualTo("ToCamelCase");
 
-        assertThat(CaseUtils.toScreamingCase("TO SCREAMING CASE")).isEqualTo("TOSCREAMINGCASE");
-        assertThat(CaseUtils.toScreamingCase("toscreamingcase")).isEqualTo("TOSCREAMINGCASE");
+        assertThat(CaseUtils.toPascalCase("TO CAMEL CASE")).isEqualTo("ToCamelCase");
+        assertThat(CaseUtils.toPascalCase("tocamelcase")).isEqualTo("Tocamelcase");
 
-        assertThat(CaseUtils.toScreamingCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03"))
-                .isEqualTo("");
+        assertThat(CaseUtils.toPascalCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03")).isEqualTo("");
 
-        assertThat(CaseUtils.toScreamingCase("The café\u2019s piñata gave me déjà vu."))
-                .isEqualTo("THECAFESPINATAGAVEMEDEJAVU");
-
-        assertThat(CaseUtils.toScreamingCase("\u0218\u0107\u1E59\u0113\u1E01\u1E43\u1EC9\u1F09\u0148\u1E21 " +
-                                             "\u010D\u1E01\u0219\u1E1B")).isEqualTo("SCREAMINGCASE");
-    }
-
-    @Test
-    public void testToScreamingKebabCase() {
-        assertThat(CaseUtils.toScreamingKebabCase(null)).isNull();
-        assertThat(CaseUtils.toScreamingKebabCase("")).isEqualTo("");
-        assertThat(CaseUtils.toScreamingKebabCase("          ")).isEqualTo("");
-        assertThat(CaseUtils.toScreamingKebabCase("a  b  c  @def")).isEqualTo("A-B-C-DEF");
-        assertThat(CaseUtils.toScreamingKebabCase("a b c @def")).isEqualTo("A-B-C-DEF");
-
-        assertThat(CaseUtils.toScreamingKebabCase("-+@ ")).isEqualTo("");
-        assertThat(CaseUtils.toScreamingKebabCase("  to-KEBAB-cASE")).isEqualTo("TO-KEBAB-CASE");
-        assertThat(CaseUtils.toScreamingKebabCase("@@@@   to+KEBAB@cASE ")).isEqualTo("TO-KEBAB-CASE");
-        assertThat(CaseUtils.toScreamingKebabCase("To+KE+BA B@cASE")).isEqualTo("TO-KE-BA-B-CASE");
-
-        assertThat(CaseUtils.toScreamingKebabCase("To.Kebab.Case")).isEqualTo("TO-KEBAB-CASE");
-        assertThat(CaseUtils.toScreamingKebabCase("To.Kebab-Case")).isEqualTo("TO-KEBAB-CASE");
-        assertThat(CaseUtils.toScreamingKebabCase(" to @ Kebab case")).isEqualTo("TO-KEBAB-CASE");
-        assertThat(CaseUtils.toScreamingKebabCase(" @to @ Kebab case_")).isEqualTo("TO-KEBAB-CASE");
-
-        assertThat(CaseUtils.toScreamingKebabCase("TO KEBAB CASE")).isEqualTo("TO-KEBAB-CASE");
-        assertThat(CaseUtils.toScreamingKebabCase("tokebabcase")).isEqualTo("TOKEBABCASE");
-
-        assertThat(CaseUtils.toScreamingKebabCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03"))
-                .isEqualTo("");
-
-        assertThat(CaseUtils.toScreamingKebabCase("The café\u2019s piñata gave me déjà vu."))
-                .isEqualTo("THE-CAFES-PINATA-GAVE-ME-DEJA-VU");
-
-        assertThat(CaseUtils.toScreamingKebabCase("\u1E70\u01EB \u1E31\u0115\u1E07\u0227\u1E05 \u010D\u1E01\u0219\u1E1B"))
-                .isEqualTo("TO-KEBAB-CASE");
-    }
-
-    @Test
-    public void testToScreamingSnakeCase() {
-        assertThat(CaseUtils.toScreamingSnakeCase(null)).isNull();
-        assertThat(CaseUtils.toScreamingSnakeCase("")).isEqualTo("");
-        assertThat(CaseUtils.toScreamingSnakeCase("          ")).isEqualTo("");
-        assertThat(CaseUtils.toScreamingSnakeCase("a  b  c  @def")).isEqualTo("A_B_C_DEF");
-        assertThat(CaseUtils.toScreamingSnakeCase("a b c @def")).isEqualTo("A_B_C_DEF");
-
-        assertThat(CaseUtils.toScreamingSnakeCase("-+@ ")).isEqualTo("");
-        assertThat(CaseUtils.toScreamingSnakeCase("  to-SNAKE-cASE")).isEqualTo("TO_SNAKE_CASE");
-        assertThat(CaseUtils.toScreamingSnakeCase("@@@@   to+SNAKE@cASE ")).isEqualTo("TO_SNAKE_CASE");
-        assertThat(CaseUtils.toScreamingSnakeCase("To+SN+AK E@cASE")).isEqualTo("TO_SN_AK_E_CASE");
-
-        assertThat(CaseUtils.toScreamingSnakeCase("To.Snake.Case")).isEqualTo("TO_SNAKE_CASE");
-        assertThat(CaseUtils.toScreamingSnakeCase("To.Snake-Case")).isEqualTo("TO_SNAKE_CASE");
-        assertThat(CaseUtils.toScreamingSnakeCase(" to @ Snake case")).isEqualTo("TO_SNAKE_CASE");
-        assertThat(CaseUtils.toScreamingSnakeCase(" @to @ Snake case_")).isEqualTo("TO_SNAKE_CASE");
-
-        assertThat(CaseUtils.toScreamingSnakeCase("TO SNAKE CASE")).isEqualTo("TO_SNAKE_CASE");
-        assertThat(CaseUtils.toScreamingSnakeCase("tosnakecase")).isEqualTo("TOSNAKECASE");
-
-        assertThat(CaseUtils.toScreamingSnakeCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03"))
-                .isEqualTo("");
-
-        assertThat(CaseUtils.toScreamingSnakeCase("The café\u2019s piñata gave me déjà vu."))
-                .isEqualTo("THE_CAFES_PINATA_GAVE_ME_DEJA_VU");
-
-        assertThat(CaseUtils.toScreamingSnakeCase("\u1E70\u01EB \u1E61\u1E47\u1EA3\u1E31\u1EB9 " +
-                                                  "\u010D\u1E01\u0219\u1E1B")).isEqualTo("TO_SNAKE_CASE");
+        assertThat(CaseUtils.toPascalCase("The café\u2019s piñata gave me déjà vu.")).isEqualTo("TheCafesPinataGaveMeDejaVu");
+        assertThat(CaseUtils.toPascalCase("\u1E70\u01EB \u010C\u0227\u1E41\u0113\u0142 \u010D\u1E01\u0219\u1E1B")).isEqualTo("ToCamelCase");
     }
 
     @Test
@@ -308,103 +223,28 @@ public class CaseUtilsTest {
         assertThat(CaseUtils.toSnakeCase("TO SNAKE CASE")).isEqualTo("to_snake_case");
         assertThat(CaseUtils.toSnakeCase("tosnakecase")).isEqualTo("tosnakecase");
 
-        assertThat(CaseUtils.toSnakeCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03"))
-                .isEqualTo("");
+        assertThat(CaseUtils.toSnakeCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03")).isEqualTo("");
 
-        assertThat(CaseUtils.toSnakeCase("The café\u2019s piñata gave me déjà vu."))
-                .isEqualTo("the_cafes_pinata_gave_me_deja_vu");
-        assertThat(CaseUtils.toSnakeCase("\u1E70\u01EB \u1E61\u1E47\u1EA3\u1E31\u1EB9 \u010D\u1E01\u0219\u1E1B"))
-                .isEqualTo("to_snake_case");
+        assertThat(CaseUtils.toSnakeCase("The café\u2019s piñata gave me déjà vu.")).isEqualTo("the_cafes_pinata_gave_me_deja_vu");
+        assertThat(CaseUtils.toSnakeCase("\u1E70\u01EB \u1E61\u1E47\u1EA3\u1E31\u1EB9 \u010D\u1E01\u0219\u1E1B")).isEqualTo("to_snake_case");
     }
 
     @Test
-    public void testToTitleCase() {
-        assertThat(CaseUtils.toTitleCase(null)).isNull();
-        assertThat(CaseUtils.toTitleCase("")).isEqualTo("");
-        assertThat(CaseUtils.toTitleCase("          ")).isEqualTo("");
-        assertThat(CaseUtils.toTitleCase("a  b  c  @def")).isEqualTo("A_B_C_Def");
-        assertThat(CaseUtils.toTitleCase("a b c @def")).isEqualTo("A_B_C_Def");
+    public void testSeparatedWordFormats() {
+        assertThat(CaseUtils.toCamelCase("Çàmè\u0142 çásé")).isEqualTo("camelCase");
+        assertThat(CaseUtils.toCamelCase("Çàmè\u0142 çásé", false, ' ')).isEqualTo("çàmè\u0142Çásé");
+        assertThat(CaseUtils.toDelimitedCase("Camel snake", false, '_')).isEqualTo("camel_Snake");
+        assertThat(CaseUtils.toPascalCase("FLAT CASE").toLowerCase()).isEqualTo("flatcase");
+        assertThat(CaseUtils.toKebabCase("Kebab Case")).isEqualTo("kebab-case");
+        assertThat(CaseUtils.toPascalCase("pâsçã\u0142 çäsê")).isEqualTo("PascalCase");
+        assertThat(CaseUtils.toCamelCase("pâsçã\u0142 çäsê", true, ' ')).isEqualTo("Pâsçã\u0142Çäsê");
+        assertThat(CaseUtils.toPascalCase("screaming case").toUpperCase()).isEqualTo("SCREAMINGCASE");
+        assertThat(CaseUtils.toDelimitedCase("screaming KEBAB-CASE", '-').toUpperCase()).isEqualTo("SCREAMING-KEBAB-CASE");
+        assertThat(CaseUtils.toDelimitedCase("SCREAMING snake_case", '_').toUpperCase()).isEqualTo("SCREAMING_SNAKE_CASE");
+        assertThat(CaseUtils.toDelimitedCase("Snake Case", '_').toLowerCase()).isEqualTo("snake_case");
+        assertThat(CaseUtils.toDelimitedCase("title case", true, '_')).isEqualTo("Title_Case");
+        assertThat(CaseUtils.toDelimitedCase("train case", true, '-')).isEqualTo("Train-Case");
 
-        assertThat(CaseUtils.toTitleCase("-+@ ")).isEqualTo("");
-        assertThat(CaseUtils.toTitleCase("  to-TITLE-cASE")).isEqualTo("To_Title_Case");
-        assertThat(CaseUtils.toTitleCase("@@@@   to+TITLE@cASE ")).isEqualTo("To_Title_Case");
-        assertThat(CaseUtils.toTitleCase("To+TI+TL E@cASE")).isEqualTo("To_Ti_Tl_E_Case");
-
-        assertThat(CaseUtils.toTitleCase("To.Title.Case")).isEqualTo("To_Title_Case");
-        assertThat(CaseUtils.toTitleCase("To.Title-Case")).isEqualTo("To_Title_Case");
-        assertThat(CaseUtils.toTitleCase(" to @ Title case")).isEqualTo("To_Title_Case");
-        assertThat(CaseUtils.toTitleCase(" @to @ Title case_")).isEqualTo("To_Title_Case");
-
-        assertThat(CaseUtils.toTitleCase("TO TITLE CASE")).isEqualTo("To_Title_Case");
-        assertThat(CaseUtils.toTitleCase("totitlecase")).isEqualTo("Totitlecase");
-
-        assertThat(CaseUtils.toTitleCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03"))
-                .isEqualTo("");
-
-        assertThat(CaseUtils.toTitleCase("The café\u2019s piñata gave me déjà vu."))
-                .isEqualTo("The_Cafes_Pinata_Gave_Me_Deja_Vu");
-        assertThat(CaseUtils.toTitleCase("\u1E70\u01EB \u1E6A\u1ECB\u1E71\u0142\u1EB9 \u010D\u1E01\u0219\u1E1B"))
-                .isEqualTo("To_Title_Case");
-    }
-
-    @Test
-    public void testToTrainCase() {
-        assertThat(CaseUtils.toTrainCase(null)).isNull();
-        assertThat(CaseUtils.toTrainCase("")).isEqualTo("");
-        assertThat(CaseUtils.toTrainCase("          ")).isEqualTo("");
-        assertThat(CaseUtils.toTrainCase("a  b  c  @def")).isEqualTo("A-B-C-Def");
-        assertThat(CaseUtils.toTrainCase("a b c @def")).isEqualTo("A-B-C-Def");
-
-        assertThat(CaseUtils.toTrainCase("-+@ ")).isEqualTo("");
-        assertThat(CaseUtils.toTrainCase("  to-TRAIN-cASE")).isEqualTo("To-Train-Case");
-        assertThat(CaseUtils.toTrainCase("@@@@   to+TRAIN@cASE ")).isEqualTo("To-Train-Case");
-        assertThat(CaseUtils.toTrainCase("To+TR+AI N@cASE")).isEqualTo("To-Tr-Ai-N-Case");
-
-        assertThat(CaseUtils.toTrainCase("To.Train.Case")).isEqualTo("To-Train-Case");
-        assertThat(CaseUtils.toTrainCase("To.Train-Case")).isEqualTo("To-Train-Case");
-        assertThat(CaseUtils.toTrainCase(" to @ Train case")).isEqualTo("To-Train-Case");
-        assertThat(CaseUtils.toTrainCase(" @to @ Train case_")).isEqualTo("To-Train-Case");
-
-        assertThat(CaseUtils.toTrainCase("TO TRAIN CASE")).isEqualTo("To-Train-Case");
-        assertThat(CaseUtils.toTrainCase("totraincase")).isEqualTo("Totraincase");
-
-        assertThat(CaseUtils.toTrainCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03"))
-                .isEqualTo("");
-
-        assertThat(CaseUtils.toTrainCase("The café\u2019s piñata gave me déjà vu."))
-                .isEqualTo("The-Cafes-Pinata-Gave-Me-Deja-Vu");
-        assertThat(CaseUtils.toTrainCase("\u1E70\u01EB \u1E6A\u0211\u0101\u012F\u1E49 \u010D\u1E01\u0219\u1E1B"))
-                .isEqualTo("To-Train-Case");
-    }
-
-    @Test
-    public void testToUpperCamelCase() {
-        assertThat(CaseUtils.toUpperCamelCase(null)).isNull();
-        assertThat(CaseUtils.toUpperCamelCase("")).isEqualTo("");
-        assertThat(CaseUtils.toUpperCamelCase("          ")).isEqualTo("");
-        assertThat(CaseUtils.toUpperCamelCase("a  b  c  @def")).isEqualTo("ABCDef");
-        assertThat(CaseUtils.toUpperCamelCase("a b c @def")).isEqualTo("ABCDef");
-
-        assertThat(CaseUtils.toUpperCamelCase("-+@ ")).isEqualTo("");
-        assertThat(CaseUtils.toUpperCamelCase("  to-CAMEL-cASE")).isEqualTo("ToCamelCase");
-        assertThat(CaseUtils.toUpperCamelCase("@@@@   to+CAMEL@cASE ")).isEqualTo("ToCamelCase");
-        assertThat(CaseUtils.toUpperCamelCase("To+CA+ME L@cASE")).isEqualTo("ToCaMeLCase");
-
-        assertThat(CaseUtils.toUpperCamelCase("To.Camel.Case")).isEqualTo("ToCamelCase");
-        assertThat(CaseUtils.toUpperCamelCase("To.Camel-Case")).isEqualTo("ToCamelCase");
-        assertThat(CaseUtils.toUpperCamelCase(" to @ Camel case")).isEqualTo("ToCamelCase");
-        assertThat(CaseUtils.toUpperCamelCase(" @to @ Camel case_")).isEqualTo("ToCamelCase");
-
-        assertThat(CaseUtils.toUpperCamelCase("TO CAMEL CASE")).isEqualTo("ToCamelCase");
-        assertThat(CaseUtils.toUpperCamelCase("tocamelcase")).isEqualTo("Tocamelcase");
-
-        assertThat(CaseUtils.toUpperCamelCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03"))
-                .isEqualTo("");
-
-        assertThat(CaseUtils.toUpperCamelCase("The café\u2019s piñata gave me déjà vu."))
-                .isEqualTo("TheCafesPinataGaveMeDejaVu");
-        assertThat(CaseUtils.toUpperCamelCase("\u1E70\u01EB \u010C\u0227\u1E41\u0113\u0142 \u010D\u1E01\u0219\u1E1B"))
-                .isEqualTo("ToCamelCase");
     }
 
 }
