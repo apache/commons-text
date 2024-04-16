@@ -447,7 +447,7 @@
 	  <!-- Java 8-10 -->
       <id>java-8-10</id>
       <activation>
-		<jdk>[8,10)</jdk>
+		<jdk>[1.8,10)</jdk>
 	  </activation>
       <properties>
         <commons.mockito.version>4.11.0</commons.mockito.version>
