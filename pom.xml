@@ -53,7 +53,6 @@
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
     <commons.bytebuddy.version>1.14.13</commons.bytebuddy.version>
-    <commons.mockito.version>4.11.0</commons.mockito.version>
 
     <commons.rng.version>1.5</commons.rng.version>
 
@@ -458,6 +457,7 @@
 		<jdk>[8,10)</jdk>
 	  </activation>
       <properties>
+        <commons.mockito.version>4.11.0</commons.mockito.version>
         <graalvm.version>22.0.0.2</graalvm.version>
       </properties>
 	  <dependencies>
@@ -482,6 +482,7 @@
 		<jdk>[11,22)</jdk>
 	  </activation>
       <properties>
+        <commons.mockito.version>5.2.0</commons.mockito.version>
         <graalvm.version>22.3.5</graalvm.version>
       </properties>
 	  <dependencies>
@@ -507,6 +508,9 @@
 	  </activation>
       <properties>
         <graalvm.version>24.0.0</graalvm.version>
+        <commons.mockito.version>5.2.0</commons.mockito.version>
+        <!-- For Java 23 -->
+        <net.bytebuddy.experimental>true</net.bytebuddy.experimental>
       </properties>
 	  <dependencies>
 <!--        <dependency>-->
