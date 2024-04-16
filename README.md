@@ -50,7 +50,8 @@ Apache Commons Text
 [![CodeQL](https://github.com/apache/commons-text/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/apache/commons-text/actions/workflows/codeql-analysis.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/apache/commons-text/badge)](https://api.securityscorecards.dev/projects/github.com/apache/commons-text)
 
-Apache Commons Text is a library focused on algorithms working on strings.
+Apache Commons Text is a set of utility functions and reusable components for the purpose of processing
+    and manipulating text that should be of use in a Java environment.
 
 Documentation
 -------------
