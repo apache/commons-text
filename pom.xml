@@ -516,9 +516,22 @@
       <properties>
         <graalvm.version>24.0.0</graalvm.version>
         <commons.mockito.version>5.2.0</commons.mockito.version>
-        <!-- For Java 23 -->
-        <net.bytebuddy.experimental>true</net.bytebuddy.experimental>
       </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <!-- For Java 23 -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.2.5</version>
+            <configuration>
+              <systemPropertyVariables>
+                <net.bytebuddy.experimental>true</net.bytebuddy.experimental>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+		</plugins>
+	  </build>
 	  <dependencies>
         <dependency>
           <groupId>org.mockito</groupId>
