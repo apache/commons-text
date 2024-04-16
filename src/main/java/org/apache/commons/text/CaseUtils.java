@@ -16,8 +16,6 @@
  */
 package org.apache.commons.text;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -48,9 +46,30 @@ import org.apache.commons.lang3.StringUtils;
  * Train-Case       toDelimitedCase(str, '-')                "Two-Words" "Foo-Bar" "Pinata-Cafe"
  * </pre>
  *
+ * Note: Examples with {@code toUpperCase()} and {@code toLowerCase()} may be replaced with
+ * {@code StringUtils.upperCase(str)} or {@code StringUtils.lowerCase(str)} to be null-safe.
+ *
  * @since 1.2
  */
 public class CaseUtils {
+
+    /**
+     * All lower ASCII alphanumeric characters.
+     */
+    private static final Pattern ALPHANUMERIC = Pattern.compile("[0-9A-Za-z]");
+
+    /**
+     * All lower ASCII alphanumeric characters, single quote, and right single "curly" quote (\u2019).
+     */
+    private static final Pattern ALPHANUMERIC_WITH_APOSTROPHE = Pattern.compile("[0-9A-Za-z'\u2019]");
+
+    /**
+     * All characters not included in ALPHANUMERIC
+     */
+    private static final Pattern NON_ALPHANUMERIC = Pattern.compile("^[^0-9A-Za-z]*$");
+
+    private static final Pattern O_IRISH = Pattern.compile("(O')|(O\u2019)");
+
 
     /**
      * Converts all the delimiter-separated words in a String into camelCase,
@@ -85,59 +104,39 @@ public class CaseUtils {
      * @param delimiters            set of characters to determine capitalization, null and/or empty array means whitespace
      * @return camelCase of String, {@code null} if null String input
      */
-    public static String toCamelCase(String str, final boolean capitalizeFirstLetter, final char... delimiters) {
+    public static String toCamelCase(String str, final Boolean capitalizeFirstLetter, char... delimiters) {
         if (StringUtils.isEmpty(str)) {
             return str;
         }
-        str = str.toLowerCase();
-        final int strLen = str.length();
-        final int[] newCodePoints = new int[strLen];
-        int outOffset = 0;
-        final Set<Integer> delimiterSet = toDelimiterSet(delimiters);
-        boolean capitalizeNext = capitalizeFirstLetter;
-        for (int index = 0; index < strLen; ) {
-            final int codePoint = str.codePointAt(index);
-
-            if (delimiterSet.contains(codePoint)) {
-                capitalizeNext = outOffset != 0;
-                index += Character.charCount(codePoint);
-            } else if (capitalizeNext || outOffset == 0 && capitalizeFirstLetter) {
-                final int titleCaseCodePoint = Character.toTitleCase(codePoint);
-                newCodePoints[outOffset++] = titleCaseCodePoint;
-                index += Character.charCount(titleCaseCodePoint);
-                capitalizeNext = false;
+        boolean capitalizeFirst = BooleanUtils.isTrue(capitalizeFirstLetter);
+        if (ArrayUtils.isEmpty(delimiters)) {
+            delimiters = new char[]{' '};
+        }
+        // The delimiter array in text.WordUtils.capitalize(String, char[]) is not working properly
+        // in the current (1.12) build.
+        // The following loop is a temporary fix.
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) != ' ' && ArrayUtils.contains(delimiters, str.charAt(i))) {
+                sb.append(' ');
             } else {
-                newCodePoints[outOffset++] = codePoint;
-                index += Character.charCount(codePoint);
+                int codepoint = str.codePointAt(i);
+                sb.append(Character.toChars(Character.toLowerCase(codepoint)));
             }
         }
-
-        return new String(newCodePoints, 0, outOffset);
-    }
-
-    /**
-     * Converts an array of delimiters to a hash set of code points. Code point of space(32) is added
-     * as the default value. The generated hash set provides O(1) lookup time.
-     *
-     * @param delimiters set of characters to determine capitalization, null means whitespace
-     * @return Set<Integer>
-     */
-    private static Set<Integer> toDelimiterSet(final char[] delimiters) {
-        final Set<Integer> delimiterHashSet = new HashSet<>();
-        delimiterHashSet.add(Character.codePointAt(new char[]{' '}, 0));
-        if (ArrayUtils.isEmpty(delimiters)) {
-            return delimiterHashSet;
+        str = sb.toString();
+        delimiters = new char[]{' '};
+        // End temporary fix.
+        if (capitalizeFirst) {
+            return StringUtils.deleteWhitespace(WordUtils.capitalize(str, delimiters));
+        } else {
+            return WordUtils.uncapitalize(StringUtils.deleteWhitespace(WordUtils.capitalize(str, delimiters)));
         }
-
-        for (int index = 0; index < delimiters.length; index++) {
-            delimiterHashSet.add(Character.codePointAt(delimiters, index));
-        }
-        return delimiterHashSet;
     }
 
     /**
      * Uses {@code toDelimitedCase()} to convert a string to camelCase. <br>
-     * This method has different behavior from {@link #toCamelCase(String, boolean, char[])}
+     * This method has different behavior from {@link #toCamelCase(String, Boolean, char[])}
      * because all accented characters are normalized (accents removed). <br>
      * For example, {@code toCamelCase("Piñata Café")} will return {@code "pinataCafe"}, where
      * {@code toCamelCase("Piñata Café", false, " ")} will return {@code "piñataCafé"}. <br>
@@ -150,7 +149,7 @@ public class CaseUtils {
      *
      * @param str The text to convert.
      * @return The convertedText.
-     * @see #toCamelCase(String, boolean, char[])
+     * @see #toCamelCase(String, Boolean, char[])
      * @see #toDelimitedCase(String, Boolean, Character)
      */
     public static String toCamelCase(String str) {
@@ -176,7 +175,6 @@ public class CaseUtils {
         return toDelimitedCase(str, true, separator);
     }
 
-    // todo reduce cyclomatic complexity (17) to < 10 if possible. Create a private method for sanitization?
     /**
      * Converts a string to Delimited Case. <br>
      * Normalizes accented characters (removes accents). <br>
@@ -195,32 +193,48 @@ public class CaseUtils {
      * @return The Converted_Text.
      */
     public static String toDelimitedCase(String str, final Boolean capitalizeFirstLetter, Character separator) {
+        // This method sanitizes the input to run through toDelimitedEngine().
         if (StringUtils.isEmpty(str)) {
             return str;
         }
         boolean capitalizeFirst = BooleanUtils.isNotFalse(capitalizeFirstLetter);
         if (separator == null) {
-            return toPascalCase(str);
+            if (capitalizeFirst) {
+                return toPascalCase(str);
+            } else {
+                return toCamelCase(str);
+            }
         }
-        // todo precompile regex patterns to handle these and other regex patterns.
-        String normalized = StringUtils.stripAccents(str)
-                .replace("O'", "O ")
-                .replace("O\u2019", "O ").trim();
-        if (Pattern.matches("^[^0-9A-Za-z]*$", normalized)) {
+        // return STRIP_ACCENTS_PATTERN.matcher(decomposed).replaceAll(EMPTY);
+        String normalized = O_IRISH.matcher(StringUtils.stripAccents(str).trim()).replaceAll("O ");
+        if (NON_ALPHANUMERIC.matcher(normalized).matches()) {
             return "";
         }
         int startIndex = 0;
         for (int i = 0; i < normalized.length(); i++) {
-            if (Pattern.matches("[0-9A-Za-z]", Character.toString(normalized.charAt(i)))) {
+            if (ALPHANUMERIC.matcher(Character.toString(normalized.charAt(i))).matches()) {
                 startIndex = i;
                 break;
             }
         }
-        // todo see if TextStringBuilder is better than StringBuilder for this application.
+
+        return toDelimitedEngine(normalized, capitalizeFirst, separator, startIndex);
+    }
+
+    /**
+     * This is the engine that generates the return value of {@link #toDelimitedCase(String, Boolean, Character)}
+     *
+     * @param normalized      String: the sanitized and normalized text to convert.
+     * @param capitalizeFirst boolean: If false, converts the first character of the string to lower case.
+     * @param separator       char: The separator to use as a delimiter.
+     * @param startIndex      int: The index of the first alphanumeric character.
+     * @return The Converted_Text.
+     */
+    private static String toDelimitedEngine(String normalized, boolean capitalizeFirst, char separator, int startIndex) {
         StringBuilder delimited = new StringBuilder();
         for (int i = startIndex; i < normalized.length(); i++) {
-            if (i > startIndex && !Pattern.matches("[0-9A-Za-z'\u2019]",
-                    Character.toString(normalized.charAt(i)))) {
+            if (i > startIndex &&
+                !ALPHANUMERIC_WITH_APOSTROPHE.matcher(Character.toString(normalized.charAt(i))).matches()) {
                 if (delimited.charAt(delimited.length() - 1) != separator) {
                     delimited.append(separator);
                 }
@@ -306,4 +320,3 @@ public class CaseUtils {
     public CaseUtils() {
     }
 }
-
