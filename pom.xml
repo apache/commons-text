@@ -122,13 +122,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.mockito</groupId>
-      <!--  Use mockito-inline instead of mockito-core to mock and spy on final classes. -->
-      <artifactId>mockito-inline</artifactId>
-      <version>${commons.mockito.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-rng-simple</artifactId>
       <version>${commons.rng.version}</version>
@@ -462,6 +455,13 @@
       </properties>
 	  <dependencies>
         <dependency>
+          <groupId>org.mockito</groupId>
+          <!--  Use mockito-inline instead of mockito-core to mock and spy on final classes. -->
+          <artifactId>mockito-inline</artifactId>
+          <version>${commons.mockito.version}</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
           <groupId>org.graalvm.js</groupId>
           <artifactId>js</artifactId>
           <version>${graalvm.version}</version>
@@ -486,6 +486,13 @@
         <graalvm.version>22.3.5</graalvm.version>
       </properties>
 	  <dependencies>
+        <dependency>
+          <groupId>org.mockito</groupId>
+          <!--  Use mockito-inline instead of mockito-core to mock and spy on final classes. -->
+          <artifactId>mockito-inline</artifactId>
+          <version>${commons.mockito.version}</version>
+          <scope>test</scope>
+        </dependency>
         <dependency>
           <groupId>org.graalvm.js</groupId>
           <artifactId>js</artifactId>
@@ -513,6 +520,13 @@
         <net.bytebuddy.experimental>true</net.bytebuddy.experimental>
       </properties>
 	  <dependencies>
+        <dependency>
+          <groupId>org.mockito</groupId>
+          <!--  Use mockito-inline instead of mockito-core to mock and spy on final classes. -->
+          <artifactId>mockito-inline</artifactId>
+          <version>${commons.mockito.version}</version>
+          <scope>test</scope>
+        </dependency>
 <!--        <dependency>-->
 <!--          <groupId>org.graalvm.polyglot</groupId>-->
 <!--          <artifactId>js</artifactId>-->
