@@ -51,7 +51,7 @@ public abstract class StrLookup<V> implements StringLookup {
      *
      * @param <V> the type of the values supported by the lookup
      */
-    static class MapStrLookup<V> extends StrLookup<V> {
+    private static final class MapStrLookup<V> extends StrLookup<V> {
 
         /** Map keys are variable names and value. */
         private final Map<String, V> map;

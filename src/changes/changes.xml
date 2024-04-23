@@ -51,6 +51,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix build on Java 23-ea.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Make internal constructor private for org.apache.commons.text.StrLookup.MapStrLookup.MapStrLookup(Map).</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Make internal constructor private for org.apache.commons.text.StrLookup.SystemPropertiesStrLookup.SystemPropertiesStrLookup().</action>
+    <action type="fix" dev="ggregory" due-to="Gary Gregory">Make package-private class private and final: MapStrLookup.</action>
     <!-- UPDATE -->
     <action type="udpate" dev="ggregory" due-to="Gary Gregory">Bump tests on Java >= 22 org.graalvm.*:* from 24.0.0 to 24.0.1.</action>
   </release>
