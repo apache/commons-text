@@ -39,6 +39,7 @@ public abstract class StrMatcher {
      * Class used to define a character for matching purposes.
      */
     static final class CharMatcher extends StrMatcher {
+
         /** The character to match. */
         private final char ch;
 
@@ -70,6 +71,7 @@ public abstract class StrMatcher {
      * Class used to define a set of characters for matching purposes.
      */
     static final class CharSetMatcher extends StrMatcher {
+
         /** The set of characters to match. */
         private final char[] chars;
 
@@ -128,6 +130,7 @@ public abstract class StrMatcher {
      * Class used to define a set of characters for matching purposes.
      */
     static final class StringMatcher extends StrMatcher {
+
         /** The string to match, as a character array. */
         private final char[] chars;
 
