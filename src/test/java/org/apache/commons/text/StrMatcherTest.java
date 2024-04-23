@@ -17,6 +17,7 @@
 package org.apache.commons.text;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +32,18 @@ public class StrMatcherTest  {
     private static final char[] BUFFER1 = "0,1\t2 3\n\r\f\u0000'\"".toCharArray();
 
     private static final char[] BUFFER2 = "abcdef".toCharArray();
+
+    static void assertStrMatcherImpl(final String internalSimpleName, final StrMatcher obj) {
+        assertEquals(StrMatcher.class.getName() + "$" + internalSimpleName, obj.getClass().getName());
+    }
+
+    static void assertStrMatcherPrefixImpl(final String internalSimpleName, final StrSubstitutor obj) {
+        assertStrMatcherImpl(internalSimpleName, obj.getVariablePrefixMatcher());
+    }
+
+    static void assertStrMatcherSuffixImpl(final String internalSimpleName, final StrSubstitutor obj) {
+        assertStrMatcherImpl(internalSimpleName, obj.getVariableSuffixMatcher());
+    }
 
     @Test
     public void testCharMatcher_char() {
@@ -54,7 +67,7 @@ public class StrMatcherTest  {
         assertThat(matcher.isMatch(BUFFER2, 5)).isEqualTo(0);
         assertThat(StrMatcher.charSetMatcher()).isSameAs(StrMatcher.noneMatcher());
         assertThat(StrMatcher.charSetMatcher((char[]) null)).isSameAs(StrMatcher.noneMatcher());
-        assertThat(StrMatcher.charSetMatcher("a".toCharArray()) instanceof StrMatcher.CharMatcher).isTrue();
+        StrMatcherTest.assertStrMatcherImpl("CharMatcher", StrMatcher.charSetMatcher("a".toCharArray()));
     }
 
     @Test
@@ -68,7 +81,7 @@ public class StrMatcherTest  {
         assertThat(matcher.isMatch(BUFFER2, 5)).isEqualTo(0);
         assertThat(StrMatcher.charSetMatcher("")).isSameAs(StrMatcher.noneMatcher());
         assertThat(StrMatcher.charSetMatcher((String) null)).isSameAs(StrMatcher.noneMatcher());
-        assertThat(StrMatcher.charSetMatcher("a") instanceof StrMatcher.CharMatcher).isTrue();
+        StrMatcherTest.assertStrMatcherImpl("CharMatcher", StrMatcher.charSetMatcher("a"));
     }
 
     @Test

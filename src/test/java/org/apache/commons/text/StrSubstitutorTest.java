@@ -291,14 +291,18 @@ public class StrSubstitutorTest {
     @Test
     public void testGetSetPrefix() {
         final StrSubstitutor sub = new StrSubstitutor();
-        assertTrue(sub.getVariablePrefixMatcher() instanceof StrMatcher.StringMatcher);
+        StrMatcherTest.assertStrMatcherPrefixImpl("StringMatcher", sub);
+        StrMatcherTest.assertStrMatcherSuffixImpl("StringMatcher", sub);
         sub.setVariablePrefix('<');
-        assertTrue(sub.getVariablePrefixMatcher() instanceof StrMatcher.CharMatcher);
+        StrMatcherTest.assertStrMatcherPrefixImpl("CharMatcher", sub);
+        StrMatcherTest.assertStrMatcherSuffixImpl("StringMatcher", sub);
 
         sub.setVariablePrefix("<<");
-        assertTrue(sub.getVariablePrefixMatcher() instanceof StrMatcher.StringMatcher);
+        StrMatcherTest.assertStrMatcherPrefixImpl("StringMatcher", sub);
+        StrMatcherTest.assertStrMatcherSuffixImpl("StringMatcher", sub);
         assertThrows(IllegalArgumentException.class, () -> sub.setVariablePrefix((String) null));
-        assertTrue(sub.getVariablePrefixMatcher() instanceof StrMatcher.StringMatcher);
+        StrMatcherTest.assertStrMatcherPrefixImpl("StringMatcher", sub);
+        StrMatcherTest.assertStrMatcherSuffixImpl("StringMatcher", sub);
 
         final StrMatcher matcher = StrMatcher.commaMatcher();
         sub.setVariablePrefixMatcher(matcher);
@@ -313,14 +317,18 @@ public class StrSubstitutorTest {
     @Test
     public void testGetSetSuffix() {
         final StrSubstitutor sub = new StrSubstitutor();
-        assertTrue(sub.getVariableSuffixMatcher() instanceof StrMatcher.StringMatcher);
+        StrMatcherTest.assertStrMatcherPrefixImpl("StringMatcher", sub);
+        StrMatcherTest.assertStrMatcherSuffixImpl("StringMatcher", sub);
         sub.setVariableSuffix('<');
-        assertTrue(sub.getVariableSuffixMatcher() instanceof StrMatcher.CharMatcher);
+        StrMatcherTest.assertStrMatcherPrefixImpl("StringMatcher", sub);
+        StrMatcherTest.assertStrMatcherSuffixImpl("CharMatcher", sub);
 
         sub.setVariableSuffix("<<");
-        assertTrue(sub.getVariableSuffixMatcher() instanceof StrMatcher.StringMatcher);
+        StrMatcherTest.assertStrMatcherPrefixImpl("StringMatcher", sub);
+        StrMatcherTest.assertStrMatcherSuffixImpl("StringMatcher", sub);
         assertThrows(IllegalArgumentException.class, () -> sub.setVariableSuffix((String) null));
-        assertTrue(sub.getVariableSuffixMatcher() instanceof StrMatcher.StringMatcher);
+        StrMatcherTest.assertStrMatcherPrefixImpl("StringMatcher", sub);
+        StrMatcherTest.assertStrMatcherSuffixImpl("StringMatcher", sub);
 
         final StrMatcher matcher = StrMatcher.commaMatcher();
         sub.setVariableSuffixMatcher(matcher);
@@ -335,12 +343,15 @@ public class StrSubstitutorTest {
     @Test
     public void testGetSetValueDelimiter() {
         final StrSubstitutor sub = new StrSubstitutor();
-        assertTrue(sub.getValueDelimiterMatcher() instanceof StrMatcher.StringMatcher);
+        StrMatcherTest.assertStrMatcherPrefixImpl("StringMatcher", sub);
+        StrMatcherTest.assertStrMatcherSuffixImpl("StringMatcher", sub);
         sub.setValueDelimiter(':');
-        assertTrue(sub.getValueDelimiterMatcher() instanceof StrMatcher.CharMatcher);
+        StrMatcherTest.assertStrMatcherPrefixImpl("StringMatcher", sub);
+        StrMatcherTest.assertStrMatcherSuffixImpl("StringMatcher", sub);
 
         sub.setValueDelimiter("||");
-        assertTrue(sub.getValueDelimiterMatcher() instanceof StrMatcher.StringMatcher);
+        StrMatcherTest.assertStrMatcherPrefixImpl("StringMatcher", sub);
+        StrMatcherTest.assertStrMatcherSuffixImpl("StringMatcher", sub);
         sub.setValueDelimiter((String) null);
         assertNull(sub.getValueDelimiterMatcher());
 
