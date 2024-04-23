@@ -48,7 +48,7 @@ public abstract class StrMatcher {
          *
          * @param ch  the character to match
          */
-        CharMatcher(final char ch) {
+        private CharMatcher(final char ch) {
             this.ch = ch;
         }
 
@@ -80,7 +80,7 @@ public abstract class StrMatcher {
          *
          * @param chars  the characters to match, must not be null
          */
-        CharSetMatcher(final char[] chars) {
+        private CharSetMatcher(final char[] chars) {
             this.chars = chars.clone();
             Arrays.sort(this.chars);
         }
@@ -108,7 +108,7 @@ public abstract class StrMatcher {
         /**
          * Constructs a new instance of {@code NoMatcher}.
          */
-        NoMatcher() {
+        private NoMatcher() {
         }
 
         /**
@@ -139,7 +139,7 @@ public abstract class StrMatcher {
          *
          * @param str  the string to match, must not be null
          */
-        StringMatcher(final String str) {
+        private StringMatcher(final String str) {
             chars = str.toCharArray();
         }
 
@@ -181,7 +181,7 @@ public abstract class StrMatcher {
         /**
          * Constructs a new instance of {@code TrimMatcher}.
          */
-        TrimMatcher() {
+        private TrimMatcher() {
         }
 
         /**

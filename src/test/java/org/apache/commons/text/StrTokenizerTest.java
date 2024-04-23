@@ -675,7 +675,7 @@ public class StrTokenizerTest {
     @Test
     public void testDelimMatcher() {
         final String input = "a/b\\c";
-        final StrMatcher delimMatcher = new StrMatcher.CharSetMatcher(new char[] {'/', '\\'});
+        final StrMatcher delimMatcher = StrMatcher.charSetMatcher(new char[] {'/', '\\'});
 
         final StrTokenizer tok = new StrTokenizer(input, delimMatcher);
         assertEquals("a", tok.next());
@@ -687,8 +687,8 @@ public class StrTokenizerTest {
     @Test
     public void testDelimMatcherQuoteMatcher() {
         final String input = "`a`;`b`;`c`";
-        final StrMatcher delimMatcher = new StrMatcher.CharSetMatcher(new char[] {';'});
-        final StrMatcher quoteMatcher = new StrMatcher.CharSetMatcher(new char[] {'`'});
+        final StrMatcher delimMatcher = StrMatcher.charSetMatcher(new char[] {';'});
+        final StrMatcher quoteMatcher = StrMatcher.charSetMatcher(new char[] {'`'});
 
         final StrTokenizer tok = new StrTokenizer(input, delimMatcher, quoteMatcher);
         assertEquals("a", tok.next());
