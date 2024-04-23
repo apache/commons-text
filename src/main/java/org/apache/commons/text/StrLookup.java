@@ -61,7 +61,7 @@ public abstract class StrLookup<V> implements StringLookup {
          *
          * @param map the map of keys to values, may be null
          */
-        MapStrLookup(final Map<String, V> map) {
+        private MapStrLookup(final Map<String, V> map) {
             this.map = map != null ? map : Collections.emptyMap();
         }
 
@@ -121,6 +121,13 @@ public abstract class StrLookup<V> implements StringLookup {
      * Lookup implementation based on system properties.
      */
     private static final class SystemPropertiesStrLookup extends StrLookup<String> {
+
+        /**
+         * Private for Spotbugs SING_SINGLETON_GETTER_NOT_SYNCHRONIZED.
+         */
+        private SystemPropertiesStrLookup() {
+            // default
+        }
 
         /**
          * {@inheritDoc} This implementation directly accesses system properties.
