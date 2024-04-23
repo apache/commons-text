@@ -49,14 +49,16 @@ The <action> type attribute can be add,update,fix,remove.
     <!-- FIX -->
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix build on Java 22.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix build on Java 23-ea.</action>
-    <action type="fix" dev="ggregory" due-to="Gary Gregory">Make package-private constructor private: org.apache.commons.text.StrLookup.MapStrLookup.MapStrLookup(Map).</action>
-    <action type="fix" dev="ggregory" due-to="Gary Gregory">Make package-private constructor private: org.apache.commons.text.StrLookup.SystemPropertiesStrLookup.SystemPropertiesStrLookup().</action>
+    <action type="fix" dev="ggregory" due-to="Gary Gregory">Make package-private constructor private: StrLookup.MapStrLookup.MapStrLookup(Map).</action>
+    <action type="fix" dev="ggregory" due-to="Gary Gregory">Make package-private constructor private: StrLookup.SystemPropertiesStrLookup.SystemPropertiesStrLookup().</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Make package-private class private and final: MapStrLookup.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Make package-private class private: StrMatcher.CharMatcher.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Make package-private class private: StrMatcher.CharSetMatcher.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Make package-private class private: StrMatcher.NoMatcher.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Make package-private class private: StrMatcher.StringMatcher.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Make package-private class private: StrMatcher.TrimMatcher.</action>
+    <action type="fix" dev="ggregory" due-to="Gary Gregory">Make package-private class private and final: IntersectionSimilarity.BagCount.</action>
+    <action type="fix" dev="ggregory" due-to="Gary Gregory">Make package-private class private and final: IntersectionSimilarity.TinyCount.</action>
     <!-- UPDATE -->
     <action type="udpate" dev="ggregory" due-to="Gary Gregory">Bump tests on Java >= 22 org.graalvm.*:* from 24.0.0 to 24.0.1.</action>
   </release>

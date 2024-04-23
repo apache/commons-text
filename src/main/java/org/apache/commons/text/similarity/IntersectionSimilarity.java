@@ -46,7 +46,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
         private static final BagCount ZERO = new BagCount();
 
         /** The count. */
-        int count;
+        private int count;
 
         private BagCount() {
             this.count = 0;
@@ -60,10 +60,13 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
     /**
      * A minimal implementation of a Bag that can store elements and a count.
      *
-     * <p>For the intended purpose the Bag does not have to be a {@link Collection}. It does not
+     * <p>
+     * For the intended purpose the Bag does not have to be a {@link Collection}. It does not
      * even have to know its own size.
+     * </p>
      */
-    private class TinyBag {
+    private final class TinyBag {
+
         /** The backing map. */
         private final Map<T, BagCount> map;
 
@@ -72,7 +75,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
          *
          * @param initialCapacity the initial capacity
          */
-        TinyBag(final int initialCapacity) {
+        private TinyBag(final int initialCapacity) {
             map = new HashMap<>(initialCapacity);
         }
 
@@ -81,7 +84,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
          *
          * @param object the object to add
          */
-        void add(final T object) {
+        private void add(final T object) {
             map.computeIfAbsent(object, k -> new BagCount()).count++;
         }
 
@@ -90,7 +93,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
          *
          * @return The Set view
          */
-        Set<Entry<T, BagCount>> entrySet() {
+        private Set<Entry<T, BagCount>> entrySet() {
             return map.entrySet();
         }
 
@@ -101,7 +104,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
          * @param object the object to search for
          * @return The number of occurrences of the object, zero if not found
          */
-        int getCount(final Object object) {
+        private int getCount(final Object object) {
             return map.getOrDefault(object, BagCount.ZERO).count;
         }
 
@@ -110,7 +113,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
          *
          * @return The unique element size
          */
-        int uniqueElementSize() {
+        private int uniqueElementSize() {
             return map.size();
         }
     }
