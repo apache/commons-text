@@ -121,6 +121,7 @@ public abstract class StrLookup<V> implements StringLookup {
      * Lookup implementation based on system properties.
      */
     private static final class SystemPropertiesStrLookup extends StrLookup<String> {
+
         /**
          * {@inheritDoc} This implementation directly accesses system properties.
          */
