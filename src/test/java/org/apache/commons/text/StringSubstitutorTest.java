@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemProperties;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.apache.commons.text.lookup.StringLookup;
 import org.apache.commons.text.lookup.StringLookupFactory;
@@ -1056,11 +1057,11 @@ public class StringSubstitutorTest {
     @Test
     public void testStaticReplaceSystemProperties() {
         final TextStringBuilder buf = new TextStringBuilder();
-        buf.append("Hi ").append(System.getProperty("user.name"));
+        buf.append("Hi ").append(SystemProperties.getUserName());
         buf.append(", you are working with ");
-        buf.append(System.getProperty("os.name"));
+        buf.append(SystemProperties.getOsName());
         buf.append(", your home directory is ");
-        buf.append(System.getProperty("user.home")).append('.');
+        buf.append(SystemProperties.getUserHome()).append('.');
         assertEqualsCharSeq(buf.toString(), StringSubstitutor.replaceSystemProperties(
             "Hi ${user.name}, you are " + "working with ${os.name}, your home " + "directory is ${user.home}."));
     }
