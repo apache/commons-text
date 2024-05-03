@@ -476,7 +476,7 @@ public enum DoubleFormat {
          * @throws IllegalArgumentException if the argument does not have a length of exactly 10
          */
         public Builder digits(final String digits) {
-            Objects.requireNonNull(digits, "Digits string cannot be null");
+            Objects.requireNonNull(digits, "digits");
             if (digits.length() != DEFAULT_DECIMAL_DIGITS.length()) {
                 throw new IllegalArgumentException("Digits string must contain exactly " + DEFAULT_DECIMAL_DIGITS.length() + " characters.");
             }
@@ -494,7 +494,7 @@ public enum DoubleFormat {
          * @throws NullPointerException if the argument is {@code null}
          */
         public Builder exponentSeparator(final String exponentSeparator) {
-            this.exponentSeparator = Objects.requireNonNull(exponentSeparator, "Exponent separator cannot be null");
+            this.exponentSeparator = Objects.requireNonNull(exponentSeparator, "exponentSeparator");
             return this;
         }
 
@@ -517,7 +517,7 @@ public enum DoubleFormat {
          * @throws NullPointerException if the argument is {@code null}
          */
         public Builder formatSymbols(final DecimalFormatSymbols symbols) {
-            Objects.requireNonNull(symbols, "Decimal format symbols cannot be null");
+            Objects.requireNonNull(symbols, "symbols");
 
             return digits(getDigitString(symbols)).decimalSeparator(symbols.getDecimalSeparator()).groupingSeparator(symbols.getGroupingSeparator())
                     .minusSign(symbols.getMinusSign()).exponentSeparator(symbols.getExponentSeparator()).infinity(symbols.getInfinity()).nan(symbols.getNaN());
@@ -581,7 +581,7 @@ public enum DoubleFormat {
          * @throws NullPointerException if the argument is {@code null}
          */
         public Builder infinity(final String infinity) {
-            this.infinity = Objects.requireNonNull(infinity, "Infinity string cannot be null");
+            this.infinity = Objects.requireNonNull(infinity, "infinity");
             return this;
         }
 
@@ -630,7 +630,7 @@ public enum DoubleFormat {
          * @throws NullPointerException if the argument is {@code null}
          */
         public Builder nan(final String nan) {
-            this.nan = Objects.requireNonNull(nan, "NaN string cannot be null");
+            this.nan = Objects.requireNonNull(nan, "nan");
             return this;
         }
 
