@@ -411,8 +411,7 @@ public class EntityArrays {
     }
 
     /**
-     * A Map&lt;CharSequence, CharSequence&gt; to escape the Java
-     * control characters.
+     * A Map&lt;CharSequence, CharSequence&gt; to escape the Java control characters.
      *
      * Namely: {@code \b \n \t \f \r}
      */

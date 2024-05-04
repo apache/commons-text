@@ -57,32 +57,24 @@
   <!-- Checks whether files end with a new line. -->
   <!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
   <module name="NewlineAtEndOfFile" />
-
   <!-- Checks that property files contain the same keys. -->
   <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
   <module name="Translation" />
-
   <module name="FileLength" />
-
   <!-- Following interprets the header file as regular expressions. -->
   <!-- <module name="RegexpHeader"/> -->
-
   <module name="FileTabCharacter">
     <property name="eachLine" value="true" />
   </module>
-
   <module name="RegexpSingleline">
     <!-- \s matches whitespace character, $ matches end of line. -->
     <property name="format" value="\s+$" />
     <property name="message" value="Line has trailing spaces." />
   </module>
-
   <module name="LineLength">
     <property name="max" value="160" />
   </module>
-
   <module name="TreeWalker">
-
     <module name="ExplicitInitializationCheck" />
     <!-- Checks for Javadoc comments. -->
     <!-- See http://checkstyle.sf.net/config_javadoc.html -->
@@ -101,7 +93,6 @@
     <module name="ParameterName" />
     <module name="StaticVariableName" />
     <module name="TypeName" />
-
     <!-- Checks for Headers -->
     <!-- See http://checkstyle.sf.net/config_header.html -->
     <!-- <module name="Header"> -->
@@ -122,12 +113,10 @@
     <module name="IllegalImport" /> <!-- defaults to sun.* packages -->
     <module name="RedundantImport" />
     <module name="UnusedImports" />
-
     <!-- Checks for Size Violations. -->
     <!-- See http://checkstyle.sf.net/config_sizes.html -->
     <module name="MethodLength" />
     <module name="ParameterNumber" />
-
     <!-- Checks for whitespace -->
     <!-- See http://checkstyle.sf.net/config_whitespace.html -->
     <module name="EmptyForIteratorPad" />
@@ -137,13 +126,12 @@
     <module name="TypecastParenPad" />
     <module name="WhitespaceAfter" />
     <module name="WhitespaceAround" />
+    <module name="WhitespaceAroundCheck" />
     <module name="GenericWhitespace" />
-
     <!-- Modifier Checks -->
     <!-- See http://checkstyle.sf.net/config_modifiers.html -->
     <module name="ModifierOrder" />
     <module name="RedundantModifier" />
-
     <!-- Checks for blocks. You know, those {}'s -->
     <!-- See http://checkstyle.sf.net/config_blocks.html -->
     <module name="AvoidNestedBlocks" />
@@ -151,7 +139,6 @@
     <module name="LeftCurly" />
     <module name="NeedBraces" />
     <module name="RightCurly" />
-
     <!-- Checks for common coding problems -->
     <!-- See http://checkstyle.sf.net/config_coding.html -->
     <module name="EmptyStatement" />
@@ -162,13 +149,10 @@
     <module name="MissingSwitchDefault" />
     <module name="SimplifyBooleanExpression" />
     <module name="SimplifyBooleanReturn" />
-
     <!-- Checks for class design -->
     <!-- See http://checkstyle.sf.net/config_design.html -->
     <module name="FinalClass" />
     <module name="InterfaceIsType" />
-
-
     <!-- Miscellaneous other checks. -->
     <!-- See http://checkstyle.sf.net/config_misc.html -->
     <module name="ArrayTypeStyle" />
@@ -180,7 +164,6 @@
       <property name="ordered" value="true"/>
       <property name="separated" value="true"/>
     </module>
-
   </module>
   <!-- @author tags are deprecated -->
   <module name="RegexpSingleline">
