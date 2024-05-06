@@ -61,5 +61,15 @@
   <Match>
     <Class name="~.*" />
     <Bug pattern="CT_CONSTRUCTOR_THROW" />
+  </Match>
+  <!-- Can't make ctor private until next major release -->  
+  <Match>
+    <Class name="org.apache.commons.text.similarity.LevenshteinDetailedDistance" />
+    <Bug pattern="SING_SINGLETON_HAS_NONPRIVATE_CONSTRUCTOR" />
+  </Match>  
+  <!-- Can't make ctor private until next major release -->  
+  <Match>
+    <Class name="org.apache.commons.text.similarity.LevenshteinDistance" />
+    <Bug pattern="SING_SINGLETON_HAS_NONPRIVATE_CONSTRUCTOR" />
   </Match>  
 </FindBugsFilter>
