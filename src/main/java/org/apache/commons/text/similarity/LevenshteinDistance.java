@@ -327,7 +327,9 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * of the algorithm that does not use a threshold parameter.
      *
      * @see LevenshteinDistance#getDefaultInstance()
+     * @deprecated Use {@link #getDefaultInstance()}.
      */
+    @Deprecated
     public LevenshteinDistance() {
         this(null);
     }
