@@ -452,7 +452,9 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * </p>
      *
      * @see LevenshteinDetailedDistance#getDefaultInstance()
+     * @deprecated Use {@link #getDefaultInstance()}
      */
+    @Deprecated
     public LevenshteinDetailedDistance() {
         this(null);
     }
