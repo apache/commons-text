@@ -25,8 +25,9 @@ import java.io.Writer;
  * @since 1.0
  */
 public class UnicodeUnpairedSurrogateRemover extends CodePointTranslator {
+
     /**
-     * Implementation of translate that throws out unpaired surrogates.
+     * Implements translate to throw out unpaired surrogates.
      * {@inheritDoc}
      */
     @Override
