@@ -27,10 +27,6 @@ import java.io.Writer;
  */
 public abstract class CodePointTranslator extends CharSequenceTranslator {
 
-    /**
-     * Implementation of translate that maps onto the abstract translate(int, Writer) method.
-     * {@inheritDoc}
-     */
     @Override
     public final int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
         final int codePoint = Character.codePointAt(input, index);
