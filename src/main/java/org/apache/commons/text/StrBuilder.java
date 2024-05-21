@@ -1115,6 +1115,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * Appends the new line string to this string builder.
      * <p>
      * The new line string can be altered using {@link #setNewLineText(String)}.
+     * If it is set to null, the system default is used.
      * This might be used to force the output to always use UNIX line endings
      * even when on Windows.
      * </p>
@@ -1926,7 +1927,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     /**
      * Gets the text to be appended when a new line is added.
      *
-     * @return The new line text, null means use system default
+     * @return The new line text, null means that {@link #appendNewLine()} uses system default
      */
     public String getNewLineText() {
         return newLine;
@@ -2849,8 +2850,8 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
 
     /**
      * Sets the text to be appended when a new line is added.
-     *
-     * @param newLine  the new line text, null means use system default
+     * 
+     * @param newLine  the new line text, null means that {@link #appendNewLine()} uses system default
      * @return this, to enable chaining
      */
     public StrBuilder setNewLineText(final String newLine) {
