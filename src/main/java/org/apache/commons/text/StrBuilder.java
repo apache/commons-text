@@ -32,7 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Builds a string from constituent parts providing a more flexible and powerful API than {@link StringBuffer} and {@link StringBuilder}.
  * <p>
- * The main differences from StringBuffer/StringBuilder are:
+ * The main differences from {@link StrBuilder} and {@link StringBuilder} are:
  * </p>
  * <ul>
  * <li>Not synchronized</li>
