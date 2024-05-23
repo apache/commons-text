@@ -241,7 +241,7 @@ public final class StringLookupFactory {
          * </p>
          *
          * @param fences Path resolution fences.
-         * @return this.
+         * @return {@code this} instance.
          */
         public Builder setFences(final Path... fences) {
             this.fences = fences;

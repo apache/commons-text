@@ -2740,7 +2740,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * Sets the text to be appended when {@link #appendNewLine() new line} is called.
      *
      * @param newLine the new line text, {@code null} means use the system default from {@link System#lineSeparator()}.
-     * @return this.
+     * @return {@code this} instance.
      */
     public StrBuilder setNewLineText(final String newLine) {
         this.newLine = newLine;
