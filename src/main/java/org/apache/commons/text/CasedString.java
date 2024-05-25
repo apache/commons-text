@@ -28,16 +28,18 @@ import java.util.function.Predicate;
  * @since 1.13.0
  */
 public class CasedString {
-    private String string;
-    private StringCase stringCase;
+    /** the string the the cased format. */
+    private final String string;
+    /** the case of the string. */
+    private final StringCase stringCase;
 
     /**
      * A method to join camel string fragments together.
      */
-    private final static Function<String[],String> camelJoiner = a -> {
+    private static final Function<String[], String> CAMEL_JOINER = a -> {
         StringBuilder sb = new StringBuilder(a[0]);
 
-        for (int i=1;i<a.length;i++) {
+        for (int i = 1; i < a.length; i++) {
             sb.append(WordUtils.capitalize(a[i]));
         }
         return sb.toString();
@@ -50,37 +52,40 @@ public class CasedString {
         /**
          * Camel case identifies strings like 'CamelCase'.
          */
-        Camel(Character::isUpperCase, true,  camelJoiner),
+        Camel(Character::isUpperCase, true, CAMEL_JOINER),
         /**
-         * Snake case identifies strings like 'Snake_Case'
+         * Snake case identifies strings like 'Snake_Case'.
          */
-        Snake(c -> c =='_', false, a -> String.join("_", a)),
+        Snake(c -> c == '_', false, a -> String.join("_", a)),
         /**
-         * Kebab case identifies strings like 'kebab-case'
+         * Kebab case identifies strings like 'kebab-case'.
          */
         Kebab(c -> c == '-', false, a -> String.join("-", a)),
 
         /**
-         * Phrase case identifies phrases of words like 'phrase case'
+         * Phrase case identifies phrases of words like 'phrase case'.
          */
         Phrase(c -> c == ' ', false, a -> String.join(" ", a)),
 
         /**
-         * Dot case identifies strings of words like 'dot.case'
+         * Dot case identifies strings of words like 'dot.case'.
          */
         Dot(c -> c == '.', false, a -> String.join(".", a));
 
+        /** test for split position character. */
         private final Predicate<Character> splitter;
+        /** if {@code true} split position character will be preserved in following segment. */
         private final boolean preserveSplit;
-        private final Function<String[],String> joiner;
+        /** a function to joing the segments into this case type. */
+        private final Function<String[], String> joiner;
 
         /**
-         * Defines a String Case
+         * Defines a String Case.
          * @param splitter The predicate that determines when a new word in the cased string begins.
          * @param preserveSplit if {@code true} the character that the splitter detected is preserved as the first character of the new word.
          * @param joiner The function to merge a list of strings into the cased String.
          */
-        StringCase(final Predicate<Character> splitter, final boolean preserveSplit, final Function<String[],String> joiner) {
+        StringCase(final Predicate<Character> splitter, final boolean preserveSplit, final Function<String[], String> joiner) {
             this.splitter = splitter;
             this.preserveSplit = preserveSplit;
             this.joiner = joiner;
@@ -100,8 +105,7 @@ public class CasedString {
     private String[] split() {
         List<String> lst = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
-        for (char c : string.toCharArray())
-        {
+        for (char c : string.toCharArray()) {
             if (stringCase.splitter.test(c)) {
                 if (sb.length() > 0) {
                     lst.add(sb.toString());
