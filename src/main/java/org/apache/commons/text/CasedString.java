@@ -29,7 +29,7 @@ import java.util.function.Predicate;
  * @since 1.13.0
  */
 public class CasedString {
-    /** the string the the cased format. */
+    /** the string of the cased format. */
     private final String string;
     /** the case of the string. */
     private final StringCase stringCase;
