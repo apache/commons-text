@@ -25,6 +25,7 @@ import java.util.function.Predicate;
 
 /**
  * Handles converting from one string case to another (e.g. camel case to snake case).
+ * @since 1.13.0
  */
 public class CasedString {
     private String string;
