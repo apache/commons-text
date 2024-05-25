@@ -45,15 +45,5 @@ package org.apache.commons.text.similarity;
  * @since 1.0
  */
 public interface EditDistance<R> extends SimilarityScore<R> {
-
-    /**
-     * Compares two CharSequences.
-     *
-     * @param left the first CharSequence
-     * @param right the second CharSequence
-     * @return The similarity score between two CharSequences
-     */
-    @Override
-    R apply(CharSequence left, CharSequence right);
-
+    // empty
 }
