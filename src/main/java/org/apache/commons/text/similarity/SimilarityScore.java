@@ -17,7 +17,7 @@
 package org.apache.commons.text.similarity;
 
 /**
- * Interface for the concept of a string similarity score.
+ * Interface for the concept of a {@link CharSequence} (like a {@link String}) similarity score.
  *
  * <p>
  * A string similarity score is intended to have <i>some</i> of the properties of a metric, yet
