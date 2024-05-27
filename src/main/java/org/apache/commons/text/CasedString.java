@@ -29,9 +29,9 @@ import java.util.function.Predicate;
  * @since 1.13.0
  */
 public class CasedString {
-    /** the string of the cased format. */
+    /** The string of the cased format. */
     private final String string;
-    /** the case of the string. */
+    /** The case of the string. */
     private final StringCase stringCase;
 
     /**
@@ -51,9 +51,8 @@ public class CasedString {
      */
     public enum StringCase {
         /**
-         * Camel case tags strings like 'CamelCase' or 'camelCase'. This conversion forces the first character to
-         * lower case. If specific capitalization rules are required use {@code WordUtils.capitalize()} to set the first
-         * character of the string.
+         * Camel case tags strings like 'camelCase'. This conversion forces the first character to of the result to be
+         * lower case. Other than the upper case separating character all other characters are lower cased.
          */
         CAMEL(Character::isUpperCase, true, CAMEL_JOINER),
         /**
@@ -83,16 +82,22 @@ public class CasedString {
          */
         DOT(c -> c == '.', false, a -> String.join(".", a));
 
-        /** test for split position character. */
+        /** The segment representation of a null String. */
+        private static final String[] NULL_STRING = new String[0];
+        /** The segment representation of an empty String. */
+        private static final String[] EMPTY_STRING = new String[]{""};
+
+        /** Tests for split position character. */
         private final Predicate<Character> splitter;
-        /** if {@code true} split position character will be preserved in following segment. */
+        /** If {@code true} split position character will be preserved in following segment. */
         private final boolean preserveSplit;
-        /** a function to joining the segments into this case type. */
+        /** A function to joining the segments into this case type. */
         private final Function<String[], String> joiner;
 
         /**
          * Defines a String Case.
-         * @param splitter The predicate that determines when a new word in the cased string begins.
+         * @param splitter The predicate that determines when a new word in the cased string begins.  This function will never receive
+         * {@code null} argument.
          * @param preserveSplit if {@code true} the character that the splitter detected is preserved as the first character of the new word.
          * @param joiner The function to merge a list of strings into the cased String.
          */
@@ -104,11 +109,11 @@ public class CasedString {
 
         /**
          * Creates a cased string from a collection of segments.
-         * @param segments the segments to create the CasedString from.
-         * @return a CasedString
+         * @param segments the segments to create the CasedString from.  A {@code null} or zero length argument will result in an empty string.
+         * @return a string that is formatted for this Cased type.
          */
         public String assemble(String[] segments) {
-            return segments.length == 0 ? null : this.joiner.apply(segments);
+            return segments == null || segments.length == 0 ? null : this.joiner.apply(segments);
         }
 
         /**
@@ -118,10 +123,10 @@ public class CasedString {
          */
         public String[] getSegments(String string) {
             if (string == null) {
-                return new String[0];
+                return NULL_STRING;
             }
             if (string.isEmpty()) {
-                return new String[]{""};
+                return EMPTY_STRING;
             }
             List<String> lst = new ArrayList<>();
             StringBuilder sb = new StringBuilder();
