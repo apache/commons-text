@@ -898,7 +898,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public TextStringBuilder appendFixedWidthPadLeft(final Object obj, final int width, final char padChar) {
         if (width > 0) {
             ensureCapacityInternal(size + width);
-            String str = obj == null ? getNullText() : obj.toString();
+            String str = Objects.toString(obj, getNullText());
             if (str == null) {
                 str = StringUtils.EMPTY;
             }
@@ -943,7 +943,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     public TextStringBuilder appendFixedWidthPadRight(final Object obj, final int width, final char padChar) {
         if (width > 0) {
             ensureCapacityInternal(size + width);
-            String str = obj == null ? getNullText() : obj.toString();
+            String str = Objects.toString(obj, getNullText());
             if (str == null) {
                 str = StringUtils.EMPTY;
             }
