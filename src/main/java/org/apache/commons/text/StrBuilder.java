@@ -816,7 +816,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     public StrBuilder appendFixedWidthPadLeft(final Object obj, final int width, final char padChar) {
         if (width > 0) {
             ensureCapacity(size + width);
-            String str = obj == null ? getNullText() : obj.toString();
+            String str = Objects.toString(obj, getNullText());
             if (str == null) {
                 str = StringUtils.EMPTY;
             }
@@ -860,7 +860,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     public StrBuilder appendFixedWidthPadRight(final Object obj, final int width, final char padChar) {
         if (width > 0) {
             ensureCapacity(size + width);
-            String str = obj == null ? getNullText() : obj.toString();
+            String str = Objects.toString(obj, getNullText());
             if (str == null) {
                 str = StringUtils.EMPTY;
             }
