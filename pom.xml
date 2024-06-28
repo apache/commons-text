@@ -520,7 +520,6 @@
             <!-- For Java 23 -->
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.2.5</version>
             <configuration>
               <systemPropertyVariables>
                 <net.bytebuddy.experimental>true</net.bytebuddy.experimental>
