@@ -78,8 +78,6 @@
     <commons.jacoco.branchRatio>0.95</commons.jacoco.branchRatio>
     <commons.jacoco.complexityRatio>0.94</commons.jacoco.complexityRatio>
     <commons.jacoco.lineRatio>0.98</commons.jacoco.lineRatio>    
-    <!-- Java 23: Temp until next parent POM -->
-    <commons.spotbugs.impl.version>4.8.5</commons.spotbugs.impl.version>
   </properties>
 
   <dependencies>
