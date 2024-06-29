@@ -44,7 +44,6 @@ Apache Commons Text
 ===================
 
 [![Java CI](https://github.com/apache/commons-text/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-text/actions/workflows/maven.yml)
-[![Coverage Status](https://codecov.io/gh/apache/commons-text/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-text)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-text/?gav=true)
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-text/1.12.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-text/1.12.0)
 [![CodeQL](https://github.com/apache/commons-text/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/apache/commons-text/actions/workflows/codeql-analysis.yml)
