@@ -19,7 +19,7 @@ package org.apache.commons.text.similarity;
 import org.apache.commons.lang3.Validate;
 
 /**
- * This stores a {@link EditDistance} implementation and a {@link CharSequence} "left" string.
+ * Stores a {@link EditDistance} implementation and a {@link CharSequence} "left" string.
  * The {@link #apply(CharSequence right)} method accepts the "right" string and invokes the
  * comparison function for the pair of strings.
  *
@@ -56,13 +56,14 @@ public class EditDistanceFrom<R> {
      * Edit distance.
      */
     private final EditDistance<R> editDistance;
+
     /**
      * Left parameter used in distance function.
      */
     private final CharSequence left;
 
     /**
-     * This accepts the edit distance implementation and the "left" string.
+     * Constructs the edit distance implementation and the "left" string.
      *
      * @param editDistance This may not be null.
      * @param left This may be null here,
@@ -71,13 +72,12 @@ public class EditDistanceFrom<R> {
      */
     public EditDistanceFrom(final EditDistance<R> editDistance, final CharSequence left) {
         Validate.isTrue(editDistance != null, "The edit distance may not be null.");
-
         this.editDistance = editDistance;
         this.left = left;
     }
 
     /**
-     * This compares "left" field against the "right" parameter
+     * Compares "left" field against the "right" parameter
      * using the "edit distance" implementation.
      *
      * @param right the second CharSequence
