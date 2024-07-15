@@ -28,7 +28,7 @@ public class StringMetricFromTest {
 
     @Test
     public void testEquivalence() {
-        final EditDistance<Integer> metric = new LevenshteinDistance();
+        final EditDistance<Integer> metric = LevenshteinDistance.getDefaultInstance();
         final String left = "Apache";
         final String right = "a patchy";
         final Integer distance = 4;
@@ -40,7 +40,7 @@ public class StringMetricFromTest {
 
     @Test
     public void testJavadocExample() {
-        final EditDistance<Integer> metric = new LevenshteinDistance();
+        final EditDistance<Integer> metric = LevenshteinDistance.getDefaultInstance();
         final String target = "Apache";
         final EditDistanceFrom<Integer> metricFrom =
             new EditDistanceFrom<>(metric, target);
