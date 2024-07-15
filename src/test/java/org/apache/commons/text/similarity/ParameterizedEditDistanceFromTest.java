@@ -37,9 +37,9 @@ public class ParameterizedEditDistanceFromTest<R> {
                 Arguments.of(new HammingDistance(), "Japtheth, Ham, Shem", "Japtheth, HAM, Shem", 2),
                 Arguments.of(new HammingDistance(), "Hamming", "Hamming", 0),
 
-                Arguments.of(new LevenshteinDistance(), "Apache", "a patchy", 4),
-                Arguments.of(new LevenshteinDistance(), "go", "no go", 3),
-                Arguments.of(new LevenshteinDistance(), "go", "go", 0),
+                Arguments.of(LevenshteinDistance.getDefaultInstance(), "Apache", "a patchy", 4),
+                Arguments.of(LevenshteinDistance.getDefaultInstance(), "go", "no go", 3),
+                Arguments.of(LevenshteinDistance.getDefaultInstance(), "go", "go", 0),
 
                 Arguments.of(new LevenshteinDistance(4), "Apache", "a patchy", 4),
                 Arguments.of(new LevenshteinDistance(4), "go", "no go", 3),
