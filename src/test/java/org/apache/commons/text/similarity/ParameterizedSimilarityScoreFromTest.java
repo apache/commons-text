@@ -33,9 +33,9 @@ public class ParameterizedSimilarityScoreFromTest<R> {
 
     public static Stream<Arguments> parameters() {
         return Stream.of(
-                Arguments.of(new LevenshteinDistance(), "elephant", "hippo", 7),
-                Arguments.of(new LevenshteinDistance(), "hippo", "elephant", 7),
-                Arguments.of(new LevenshteinDistance(), "hippo", "zzzzzzzz", 8),
+                Arguments.of(LevenshteinDistance.getDefaultInstance(), "elephant", "hippo", 7),
+                Arguments.of(LevenshteinDistance.getDefaultInstance(), "hippo", "elephant", 7),
+                Arguments.of(LevenshteinDistance.getDefaultInstance(), "hippo", "zzzzzzzz", 8),
 
                 Arguments.of(
                         (SimilarityScore<Boolean>) (left, right) -> left == right
