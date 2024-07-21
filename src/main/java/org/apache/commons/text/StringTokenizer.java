@@ -35,16 +35,16 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * {@link java.util.StringTokenizer StringTokenizer}, however it offers much more control and flexibility including
  * implementing the {@code ListIterator} interface. By default, it is set up like {@code StringTokenizer}.
  * <p>
- * The input String is split into a number of <i>tokens</i>. Each token is separated from the next String by a
- * <i>delimiter</i>. One or more delimiter characters must be specified.
+ * The input String is split into a number of <em>tokens</em>. Each token is separated from the next String by a
+ * <em>delimiter</em>. One or more delimiter characters must be specified.
  * <p>
- * Each token may be surrounded by quotes. The <i>quote</i> matcher specifies the quote character(s). A quote may be
+ * Each token may be surrounded by quotes. The <em>quote</em> matcher specifies the quote character(s). A quote may be
  * escaped within a quoted section by duplicating itself.
  * <p>
- * Between each token and the delimiter are potentially characters that need trimming. The <i>trimmer</i> matcher
+ * Between each token and the delimiter are potentially characters that need trimming. The <em>trimmer</em> matcher
  * specifies these characters. One usage might be to trim whitespace characters.
  * <p>
- * At any point outside the quotes there might potentially be invalid characters. The <i>ignored</i> matcher specifies
+ * At any point outside the quotes there might potentially be invalid characters. The <em>ignored</em> matcher specifies
  * these characters to be removed. One usage might be to remove new line characters.
  * <p>
  * Empty tokens may be removed or returned as null.

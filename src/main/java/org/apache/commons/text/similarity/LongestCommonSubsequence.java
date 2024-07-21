@@ -23,9 +23,9 @@ package org.apache.commons.text.similarity;
  * The Longest common subsequence algorithm returns the length of the longest subsequence that two strings have in
  * common. Two strings that are entirely different, return a value of 0, and two strings that return a value
  * of the commonly shared length implies that the strings are completely the same in value and position.
- * <i>Note.</i>  Generally this algorithm is fairly inefficient, as for length <i>m</i>, <i>n</i> of the input
+ * <em>Note.</em>  Generally this algorithm is fairly inefficient, as for length <em>m</em>, <em>n</em> of the input
  * {@code CharSequence}'s {@code left} and {@code right} respectively, the runtime of the
- * algorithm is <i>O(m*n)</i>.
+ * algorithm is <em>O(m*n)</em>.
  * </p>
  *
  * <p>
@@ -40,7 +40,7 @@ package org.apache.commons.text.similarity;
  * <p>For further reading see:</p>
  * <ul>
  * <li>
- * Lothaire, M. <i>Applied combinatorics on words</i>. New York: Cambridge U Press, 2005. <b>12-13</b>
+ * Lothaire, M. <em>Applied combinatorics on words</em>. New York: Cambridge U Press, 2005. <b>12-13</b>
  * </li>
  * <li>
  * D. S. Hirschberg, "A linear space algorithm for computing maximal common subsequences," CACM, 1975, pp. 341--343.
@@ -60,7 +60,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * An implementation of "ALG B" from Hirschberg's CACM '71 paper.
      * Assuming the first input sequence is of size <code>m</code> and the second input sequence is of size
      * <code>n</code>, this method returns the last row of the dynamic programming (DP) table when calculating
-     * the LCS of the two sequences in <i>O(m*n)</i> time and <i>O(n)</i> space.
+     * the LCS of the two sequences in <em>O(m*n)</em> time and <em>O(n)</em> space.
      * The last element of the returned array, is the size of the LCS of the two input sequences.
      *
      * @param left first input sequence.
@@ -103,7 +103,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * An implementation of "ALG C" from Hirschberg's CACM '71 paper.
      * Assuming the first input sequence is of size <code>m</code> and the second input sequence is of size
      * <code>n</code>, this method returns the Longest Common Subsequence (LCS) of the two sequences in
-     * <i>O(m*n)</i> time and <i>O(m+n)</i> space.
+     * <em>O(m*n)</em> time and <em>O(m+n)</em> space.
      *
      * @param left first input sequence.
      * @param right second input sequence.
@@ -210,7 +210,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * </p>
      *
      * <p>
-     * For reference, we give the definition of a subsequence for the reader: a <i>subsequence</i> is a sequence that
+     * For reference, we give the definition of a subsequence for the reader: a <em>subsequence</em> is a sequence that
      * can be derived from another sequence by deleting some elements without changing the order of the remaining
      * elements.
      * </p>
@@ -246,7 +246,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * </p>
      *
      * <p>
-     * For reference, we give the definition of a subsequence for the reader: a <i>subsequence</i> is a sequence that
+     * For reference, we give the definition of a subsequence for the reader: a <em>subsequence</em> is a sequence that
      * can be derived from another sequence by deleting some elements without changing the order of the remaining
      * elements.
      * </p>
