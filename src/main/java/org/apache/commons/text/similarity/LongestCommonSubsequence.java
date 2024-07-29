@@ -58,14 +58,14 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
 
     /**
      * An implementation of "ALG B" from Hirschberg's CACM '71 paper.
-     * Assuming the first input sequence is of size <code>m</code> and the second input sequence is of size
-     * <code>n</code>, this method returns the last row of the dynamic programming (DP) table when calculating
+     * Assuming the first input sequence is of size {@code m} and the second input sequence is of size
+     * {@code n}, this method returns the last row of the dynamic programming (DP) table when calculating
      * the LCS of the two sequences in <em>O(m*n)</em> time and <em>O(n)</em> space.
      * The last element of the returned array, is the size of the LCS of the two input sequences.
      *
      * @param left first input sequence.
      * @param right second input sequence.
-     * @return last row of the dynamic-programming (DP) table for calculating the LCS of <code>left</code> and <code>right</code>
+     * @return last row of the dynamic-programming (DP) table for calculating the LCS of {@code left} and {@code right}
      * @since 1.10.0
      */
     private static int[] algorithmB(final CharSequence left, final CharSequence right) {
@@ -101,13 +101,13 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
 
     /**
      * An implementation of "ALG C" from Hirschberg's CACM '71 paper.
-     * Assuming the first input sequence is of size <code>m</code> and the second input sequence is of size
-     * <code>n</code>, this method returns the Longest Common Subsequence (LCS) of the two sequences in
+     * Assuming the first input sequence is of size {@code m} and the second input sequence is of size
+     * {@code n}, this method returns the Longest Common Subsequence (LCS) of the two sequences in
      * <em>O(m*n)</em> time and <em>O(m+n)</em> space.
      *
      * @param left first input sequence.
      * @param right second input sequence.
-     * @return the LCS of <code>left</code> and <code>right</code>
+     * @return the LCS of {@code left} and {@code right}
      * @since 1.10.0
      */
     private static String algorithmC(final CharSequence left, final CharSequence right) {
@@ -174,7 +174,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      *
      * @param left first character sequence
      * @param right second character sequence
-     * @return length of the longest common subsequence of <code>left</code> and <code>right</code>
+     * @return length of the longest common subsequence of {@code left} and {@code right}
      * @throws IllegalArgumentException if either String input {@code null}
      */
     @Override

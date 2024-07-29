@@ -68,12 +68,12 @@ import java.util.function.Supplier;
  * Example Builder Usage:
  *
  * <pre>
- * <code>
+ * {@code
  * Font bold14ptSansSerifFont = new FontBuilder(Font.SANS_SERIF)
  *      .bold()
  *      .size(14.0f)
  *      .get();
- * </code>
+ * }
  * </pre>
  *
  *
