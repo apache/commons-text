@@ -1557,12 +1557,28 @@ public class StringSubstitutor {
      */
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("StringSubstitutor [disableSubstitutionInValues=").append(disableSubstitutionInValues).append(", enableSubstitutionInVariables=")
-                .append(enableSubstitutionInVariables).append(", enableUndefinedVariableException=").append(enableUndefinedVariableException)
-                .append(", escapeChar=").append(escapeChar).append(", prefixMatcher=").append(prefixMatcher).append(", preserveEscapes=")
-                .append(preserveEscapes).append(", suffixMatcher=").append(suffixMatcher).append(", valueDelimiterMatcher=").append(valueDelimiterMatcher)
-                .append(", variableResolver=").append(variableResolver).append("]");
-        return builder.toString();
+        // @formatter:off
+        return new StringBuilder()
+            .append("StringSubstitutor [disableSubstitutionInValues=")
+            .append(disableSubstitutionInValues)
+            .append(", enableSubstitutionInVariables=")
+            .append(enableSubstitutionInVariables)
+            .append(", enableUndefinedVariableException=")
+            .append(enableUndefinedVariableException)
+            .append(", escapeChar=")
+            .append(escapeChar)
+            .append(", prefixMatcher=")
+            .append(prefixMatcher)
+            .append(", preserveEscapes=")
+            .append(preserveEscapes)
+            .append(", suffixMatcher=")
+            .append(suffixMatcher)
+            .append(", valueDelimiterMatcher=")
+            .append(valueDelimiterMatcher)
+            .append(", variableResolver=")
+            .append(variableResolver)
+            .append("]")
+            .toString();
+        // @formatter:on
     }
 }
