@@ -71,7 +71,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action type="update" dev="ggregory" due-to="Dependabot">Bump org.assertj:assertj-core from 3.25.3 to 3.26.3 #554, #566.</action>
     <action type="update" dev="ggregory" due-to="Dependabot">Bump org.codehaus.mojo:taglist-maven-plugin from 3.0.0 to 3.1.0 #564.</action>
     <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-rng-simple from 1.5 to 1.6 #568.</action>
-    <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-lang3 from 3.14.0 to 3.15.0 #569.</action>
+    <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-lang3 from 3.14.0 to 3.16.0 #569, #575.</action>
   </release>
   <release version="1.12.0" date="2024-04-13" description="Release 1.12.0. Requires Java 8 or above.">
     <!-- ADD -->
