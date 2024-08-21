@@ -263,6 +263,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-156" type="update" dev="aherbert">Fix the RegexTokenizer to use a static Pattern</action>
     <action issue="TEXT-157" type="update" dev="aherbert">Remove rounding from JaccardDistance and JaccardSimilarity</action>
     <action issue="TEXT-151" type="fix" dev="aherbert">Fix the JaroWinklerSimilarity to use StringUtils.equals to test for CharSequence equality</action>
+    <action issue="TEXT-158" type="fix" dev="milaKisialiova" due-to="@CAPS50">Fix the Jaccard Similarity to return correct similarity for two empty strings</action>
     <action issue="TEXT-155" type="add" dev="aherbert">Add a generic IntersectionSimilarity measure</action>
     <action issue="TEXT-162" type="update" dev="ggregory">Update Apache Commons Lang from 3.8.1 to 3.9.</action>
     <action issue="TEXT-165" type="fix" dev="ggregory">ResourceBundleStringLookup.lookup(String) throws MissingResourceException instead of returning null.</action>
