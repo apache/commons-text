@@ -52,7 +52,7 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
-    <commons.bytebuddy.version>1.15.0</commons.bytebuddy.version>
+    <commons.bytebuddy.version>1.15.1</commons.bytebuddy.version>
     <commons.rng.version>1.6</commons.rng.version>
     <japicmp.skip>false</japicmp.skip>
     <jmh.version>1.37</jmh.version>
