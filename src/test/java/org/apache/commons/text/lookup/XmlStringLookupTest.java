@@ -19,10 +19,10 @@ package org.apache.commons.text.lookup;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,7 +45,7 @@ public class XmlStringLookupTest {
 
     static void assertLookup(final StringLookup xmlStringLookup) {
         assertNotNull(xmlStringLookup);
-        assertTrue(xmlStringLookup instanceof XmlStringLookup);
+        assertInstanceOf(XmlStringLookup.class, xmlStringLookup);
         assertEquals("Hello World!", xmlStringLookup.lookup(DOC_RELATIVE + ":/root/path/to/node"));
         assertNull(xmlStringLookup.lookup(null));
     }
