@@ -32,6 +32,7 @@ import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.commons.text.translate.NumericEntityEscaper;
 import org.apache.commons.text.translate.NumericEntityUnescaper;
 import org.apache.commons.text.translate.OctalUnescaper;
+import org.apache.commons.text.translate.HexUnescaper;
 import org.apache.commons.text.translate.UnicodeUnescaper;
 import org.apache.commons.text.translate.UnicodeUnpairedSurrogateRemover;
 
@@ -374,14 +375,13 @@ public class StringEscapeUtils {
         );
     }
 
-    /**
-     * Translator object for unescaping escaped Java.
-     *
-     * While {@link #unescapeJava(String)} is the expected method of use, this
-     * object allows the Java unescaping functionality to be used
-     * as the foundation for a custom translator.
-     */
-    public static final CharSequenceTranslator UNESCAPE_JAVA;
+    private static final CharSequenceTranslator OCTAL_JAVA_TRANSLATOR = new OctalUnescaper();
+
+    private static final CharSequenceTranslator UNICODE_JAVA_TRANSLATOR = new UnicodeUnescaper();
+
+    private static final CharSequenceTranslator CTRL_CHARS_JAVA_TRANSLATOR = new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_UNESCAPE);
+
+    private static final CharSequenceTranslator UNESCAPE_JAVA_TRANSLATOR;
 
     static {
         final Map<CharSequence, CharSequence> unescapeJavaMap = new HashMap<>();
@@ -389,13 +389,22 @@ public class StringEscapeUtils {
         unescapeJavaMap.put("\\\"", "\"");
         unescapeJavaMap.put("\\'", "'");
         unescapeJavaMap.put("\\", StringUtils.EMPTY);
-        UNESCAPE_JAVA = new AggregateTranslator(
-                new OctalUnescaper(),     // .between('\1', '\377'),
-                new UnicodeUnescaper(),
-                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_UNESCAPE),
-                new LookupTranslator(Collections.unmodifiableMap(unescapeJavaMap))
-        );
+        UNESCAPE_JAVA_TRANSLATOR = new LookupTranslator(Collections.unmodifiableMap(unescapeJavaMap));
     }
+
+    /**
+     * Translator object for unescaping escaped Java.
+     *
+     * While {@link #unescapeJava(String)} is the expected method of use, this
+     * object allows the Java unescaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+    public static final CharSequenceTranslator UNESCAPE_JAVA = new AggregateTranslator(
+        OCTAL_JAVA_TRANSLATOR,
+        UNICODE_JAVA_TRANSLATOR,
+        CTRL_CHARS_JAVA_TRANSLATOR,
+        UNESCAPE_JAVA_TRANSLATOR
+    );
 
     /**
      * Translator object for unescaping escaped EcmaScript.
@@ -404,7 +413,13 @@ public class StringEscapeUtils {
      * object allows the EcmaScript unescaping functionality to be used
      * as the foundation for a custom translator.
      */
-    public static final CharSequenceTranslator UNESCAPE_ECMASCRIPT = UNESCAPE_JAVA;
+    public static final CharSequenceTranslator UNESCAPE_ECMASCRIPT = new AggregateTranslator(
+        new HexUnescaper(),
+        OCTAL_JAVA_TRANSLATOR,
+        UNICODE_JAVA_TRANSLATOR,
+        CTRL_CHARS_JAVA_TRANSLATOR,
+        UNESCAPE_JAVA_TRANSLATOR
+    );
 
     /**
      * Translator object for unescaping escaped Json.
