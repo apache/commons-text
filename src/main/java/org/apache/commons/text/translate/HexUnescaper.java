@@ -29,10 +29,12 @@ public class HexUnescaper extends CharSequenceTranslator {
      */
     @Override
     public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
+        final int prefixLength = 2; // "\\x".length()
+        final int escapeLength = 4; // "\\xHH".length()
         if (input.charAt(index) == '\\' && index + 1 < input.length() && input.charAt(index + 1) == 'x') {
-            if (index + 4 <= input.length()) {
+            if (index + escapeLength <= input.length()) {
                 // Get 2 hex digits
-                final CharSequence hex = input.subSequence(index + 2, index + 4);
+                final CharSequence hex = input.subSequence(index + prefixLength, index + escapeLength);
 
                 try {
                     final int value = Integer.parseInt(hex.toString(), 16);
@@ -40,7 +42,7 @@ public class HexUnescaper extends CharSequenceTranslator {
                 } catch (final NumberFormatException nfe) {
                     throw new IllegalArgumentException("Unable to parse ASCII value: " + hex, nfe);
                 }
-                return 4;
+                return escapeLength;
             }
             throw new IllegalArgumentException("Less than 2 hex digits in ASCII value: '"
                     + input.subSequence(index, input.length())

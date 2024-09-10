@@ -27,12 +27,12 @@ import org.apache.commons.text.translate.AggregateTranslator;
 import org.apache.commons.text.translate.CharSequenceTranslator;
 import org.apache.commons.text.translate.CsvTranslators;
 import org.apache.commons.text.translate.EntityArrays;
+import org.apache.commons.text.translate.HexUnescaper;
 import org.apache.commons.text.translate.JavaUnicodeEscaper;
 import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.commons.text.translate.NumericEntityEscaper;
 import org.apache.commons.text.translate.NumericEntityUnescaper;
 import org.apache.commons.text.translate.OctalUnescaper;
-import org.apache.commons.text.translate.HexUnescaper;
 import org.apache.commons.text.translate.UnicodeUnescaper;
 import org.apache.commons.text.translate.UnicodeUnpairedSurrogateRemover;
 
@@ -375,12 +375,24 @@ public class StringEscapeUtils {
         );
     }
 
+    /**
+     * Translator for octal escapes.
+     */
     private static final CharSequenceTranslator OCTAL_JAVA_TRANSLATOR = new OctalUnescaper();
 
+    /**
+     * Translator for Unicode escapes.
+     */
     private static final CharSequenceTranslator UNICODE_JAVA_TRANSLATOR = new UnicodeUnescaper();
 
+    /**
+     * Translator for Java control characters.
+     */
     private static final CharSequenceTranslator CTRL_CHARS_JAVA_TRANSLATOR = new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_UNESCAPE);
 
+    /**
+     * Translator for Java escapes that aren't control characters.
+     */
     private static final CharSequenceTranslator UNESCAPE_JAVA_TRANSLATOR;
 
     static {
