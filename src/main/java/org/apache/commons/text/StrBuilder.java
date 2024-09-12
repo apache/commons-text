@@ -112,7 +112,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
             if (!ready()) {
                 return -1;
             }
-            return StrBuilder.this.charAt(pos++);
+            return charAt(pos++);
         }
 
         /** {@inheritDoc} */
@@ -124,11 +124,11 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
             if (len == 0) {
                 return 0;
             }
-            if (pos >= StrBuilder.this.size()) {
+            if (pos >= size()) {
                 return -1;
             }
             if (pos + len > size()) {
-                len = StrBuilder.this.size() - pos;
+                len = size() - pos;
             }
             StrBuilder.this.getChars(pos, pos + len, b, off);
             pos += len;
@@ -138,7 +138,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
         /** {@inheritDoc} */
         @Override
         public boolean ready() {
-            return pos < StrBuilder.this.size();
+            return pos < size();
         }
 
         /** {@inheritDoc} */
@@ -150,8 +150,8 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
         /** {@inheritDoc} */
         @Override
         public long skip(long n) {
-            if (pos + n > StrBuilder.this.size()) {
-                n = StrBuilder.this.size() - pos;
+            if (pos + n > size()) {
+                n = size() - pos;
             }
             if (n < 0) {
                 return 0;
@@ -317,15 +317,14 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
             buffer[size++] = 't';
             buffer[size++] = 'r';
             buffer[size++] = 'u';
-            buffer[size++] = 'e';
         } else {
             ensureCapacity(size + 5);
             buffer[size++] = 'f';
             buffer[size++] = 'a';
             buffer[size++] = 'l';
             buffer[size++] = 's';
-            buffer[size++] = 'e';
         }
+        buffer[size++] = 'e';
         return this;
     }
 
