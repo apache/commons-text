@@ -117,7 +117,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             if (!ready()) {
                 return -1;
             }
-            return TextStringBuilder.this.charAt(pos++);
+            return charAt(pos++);
         }
 
         /** {@inheritDoc} */
@@ -129,11 +129,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             if (len == 0) {
                 return 0;
             }
-            if (pos >= TextStringBuilder.this.size()) {
+            if (pos >= size()) {
                 return -1;
             }
             if (pos + len > size()) {
-                len = TextStringBuilder.this.size() - pos;
+                len = size() - pos;
             }
             TextStringBuilder.this.getChars(pos, pos + len, b, off);
             pos += len;
@@ -143,7 +143,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         /** {@inheritDoc} */
         @Override
         public boolean ready() {
-            return pos < TextStringBuilder.this.size();
+            return pos < size();
         }
 
         /** {@inheritDoc} */
@@ -155,8 +155,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         /** {@inheritDoc} */
         @Override
         public long skip(long n) {
-            if (pos + n > TextStringBuilder.this.size()) {
-                n = TextStringBuilder.this.size() - pos;
+            if (pos + n > size()) {
+                n = size() - pos;
             }
             if (n < 0) {
                 return 0;
@@ -191,7 +191,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         @Override
         protected List<String> tokenize(final char[] chars, final int offset, final int count) {
             if (chars == null) {
-                return super.tokenize(TextStringBuilder.this.getBuffer(), 0, TextStringBuilder.this.size());
+                return super.tokenize(getBuffer(), 0, TextStringBuilder.this.size());
             }
             return super.tokenize(chars, offset, count);
         }
