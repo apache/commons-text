@@ -198,20 +198,22 @@ limitations under the License.
       <source>
 final StringSubstitutor interpolator = StringSubstitutor.createInterpolator();
 final String text = interpolator.replace(
-    "Base64 Decoder:        ${base64Decoder:SGVsbG9Xb3JsZCE=}\n" +
-    "Base64 Encoder:        ${base64Encoder:HelloWorld!}\n" +
-    "Java Constant:         ${const:java.awt.event.KeyEvent.VK_ESCAPE}\n" +
-    "Date:                  ${date:yyyy-MM-dd}\n" +
-    "Environment Variable:  ${env:USERNAME}\n" +
-    "File Content:          ${file:UTF-8:src/test/resources/document.properties}\n" +
-    "Java:                  ${java:version}\n" +
-    "Localhost:             ${localhost:canonical-name}\n" +
-    "Properties File:       ${properties:src/test/resources/document.properties::mykey}\n" +
-    "Resource Bundle:       ${resourceBundle:org.apache.commons.text.example.testResourceBundleLookup:mykey}\n" +
-    "System Property:       ${sys:user.dir}\n" +
-    "URL Decoder:           ${urlDecoder:Hello%20World%21}\n" +
-    "URL Encoder:           ${urlEncoder:Hello World!}\n" +
-    "XML XPath:             ${xml:src/test/resources/document.xml:/root/path/to/node}\n"
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#base64DecoderStringLookup()">Base64 Decoder</a>:        ${base64Decoder:SGVsbG9Xb3JsZCE=}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#base64EncoderStringLookup()">Base64 Encoder</a>:        ${base64Encoder:HelloWorld!}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#constantStringLookup()">Java Constant</a>:         ${const:java.awt.event.KeyEvent.VK_ESCAPE}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#dateStringLookup()">Date</a>:                  ${date:yyyy-MM-dd}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#environmentVariableStringLookup()">Environment Variable</a>:  ${env:USERNAME}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#fileStringLookup(java.nio.file.Path...)()">File Content</a>:          ${file:UTF-8:src/test/resources/document.properties}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#javaPlatformStringLookup()">Java</a>:                  ${java:version}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#localHostStringLookup()">Localhost</a>:             ${localhost:canonical-name}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#propertiesStringLookup(java.nio.file.Path...)()">Properties File</a>:       ${properties:src/test/resources/document.properties::mykey}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#resourceBundleStringLookup(java.lang.String)()">Resource Bundle</a>:       ${resourceBundle:org.apache.commons.text.example.testResourceBundleLookup:mykey}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#systemPropertyStringLookup()">System Property</a>:       ${sys:user.dir}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#urlDecoderStringLookup()">URL Decoder</a>:           ${urlDecoder:Hello%20World%21}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#urlEncoderStringLookup()">URL Encoder</a>:           ${urlEncoder:Hello World!}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#xmlDecoderStringLookup()">XML Decoder</a>:           ${xmlDecoder:&amp;lt;element&amp;gt;}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#xmlEncoderStringLookup()">XML Encoder</a>:           ${xmlEncoder:&lt;element&gt;}\n" +
+    "<a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html#xmlStringLookup()">XML XPath</a>:             ${xml:src/test/resources/document.xml:/root/path/to/node}\n"
 );
       </source>
     </section>
