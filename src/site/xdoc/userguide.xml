@@ -48,7 +48,7 @@ limitations under the License.
       </p>
     </section>
 
-    <section name="text">
+    <section name="Package org.apache.commons.text">
 
       <p>Originally the text package was added in Commons Lang 2.2. However, its
         new home is here. It provides, amongst other
@@ -67,7 +67,7 @@ limitations under the License.
         differences.
       </p>
 
-      <subsection name="StringEscapeUtils">
+      <subsection name="Class StringEscapeUtils">
         <p>From Lang 3.5, we have moved into Text StringEscapeUtils and StrTokenizer.
           It provides ways in which to generate pieces of text, such as might
           be used for default passwords. StringEscapeUtils contains methods to
@@ -79,7 +79,7 @@ limitations under the License.
         </p>
       </subsection>
 
-      <subsection name="StringSubstitutor">
+      <subsection name="Class StringSubstitutor">
       <p>
         The simplest example is to use this class to replace Java System properties. For example: 
         <pre>              
@@ -160,7 +160,7 @@ limitations under the License.
 
     </section>
 
-    <section name="text.diff">
+    <section name="Package org.apache.commons.text.diff">
       <!--
       CommandVisitor
       DeleteCommand
@@ -178,7 +178,7 @@ limitations under the License.
       </p>
     </section>
 
-    <section name="text.lookup">
+    <section name="Package org.apache.commons.text.lookup">
       <p>Provides algorithms for looking up strings used by a 
         <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">StringSubstitutor</a>.
         Standard lookups are defined in
@@ -216,7 +216,7 @@ final String text = interpolator.replace(
       </source>
     </section>
 
-    <section name="text.similarity">
+    <section name="Package org.apache.commons.text.similarity">
       <!--
       Enum
       EnumUtils
@@ -270,7 +270,7 @@ final String text = interpolator.replace(
       </p>
     </section>
 
-    <section name="text.translate.*">
+    <section name="Package org.apache.commons.text.translate.*">
       <!--
       ExceptionUtils
       Nestable
