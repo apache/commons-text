@@ -1112,7 +1112,7 @@ public final class StringLookupFactory {
      * @return The DateStringLookup singleton instance.
      */
     public StringLookup localHostStringLookup() {
-        return LocalHostStringLookup.INSTANCE;
+        return InetAddressStringLookup.INSTANCE;
     }
 
     /**

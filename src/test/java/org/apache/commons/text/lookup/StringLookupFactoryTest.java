@@ -223,7 +223,7 @@ public class StringLookupFactoryTest {
             stringLookupFactory.environmentVariableStringLookup());
         Assertions.assertSame(InterpolatorStringLookup.INSTANCE, stringLookupFactory.interpolatorStringLookup());
         Assertions.assertSame(JavaPlatformStringLookup.INSTANCE, stringLookupFactory.javaPlatformStringLookup());
-        Assertions.assertSame(LocalHostStringLookup.INSTANCE, stringLookupFactory.localHostStringLookup());
+        Assertions.assertSame(InetAddressStringLookup.INSTANCE, stringLookupFactory.localHostStringLookup());
         Assertions.assertSame(StringLookupFactory.INSTANCE_NULL, stringLookupFactory.nullStringLookup());
         Assertions.assertSame(ResourceBundleStringLookup.INSTANCE, stringLookupFactory.resourceBundleStringLookup());
         Assertions.assertSame(ScriptStringLookup.INSTANCE, stringLookupFactory.scriptStringLookup());

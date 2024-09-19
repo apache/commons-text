@@ -24,42 +24,42 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests {@link LocalHostStringLookup}.
+ * Tests {@link InetAddressStringLookup}.
  */
 public class LocalHostStringLookupTest {
 
     @Test
     public void testAddress() throws UnknownHostException {
         Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(),
-            LocalHostStringLookup.INSTANCE.lookup("address"));
+            InetAddressStringLookup.INSTANCE.lookup("address"));
     }
 
     @Test
     public void testBadKey() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> LocalHostStringLookup.INSTANCE.lookup("FOO"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.INSTANCE.lookup("FOO"));
     }
 
     @Test
     public void testCanonicalName() throws UnknownHostException {
         Assertions.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(),
-            LocalHostStringLookup.INSTANCE.lookup("canonical-name"));
+            InetAddressStringLookup.INSTANCE.lookup("canonical-name"));
     }
 
     @Test
     public void testName() throws UnknownHostException {
         Assertions.assertEquals(InetAddress.getLocalHost().getHostName(),
-            LocalHostStringLookup.INSTANCE.lookup("name"));
+            InetAddressStringLookup.INSTANCE.lookup("name"));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(LocalHostStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(InetAddressStringLookup.INSTANCE.lookup(null));
     }
 
     @Test
     public void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(LocalHostStringLookup.INSTANCE.toString().isEmpty());
+        Assertions.assertFalse(InetAddressStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

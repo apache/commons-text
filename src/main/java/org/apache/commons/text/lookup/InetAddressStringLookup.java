@@ -20,7 +20,10 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * Looks up keys related to the local host: host name, canonical host name, host address.
+ * Looks up keys related to an {@link InetAddresse}.
+ * <ul>
+ *   <li>local host: host name, canonical host name, host address.</li>
+ * </ul>
  * <p>
  * The lookup keys are:
  * </p>
@@ -32,17 +35,17 @@ import java.net.UnknownHostException;
  *
  * @since 1.3
  */
-final class LocalHostStringLookup extends AbstractStringLookup {
+final class InetAddressStringLookup extends AbstractStringLookup {
 
     /**
      * Defines the singleton for this class.
      */
-    static final LocalHostStringLookup INSTANCE = new LocalHostStringLookup();
+    static final InetAddressStringLookup INSTANCE = new InetAddressStringLookup();
 
     /**
      * No need to build instances for now.
      */
-    private LocalHostStringLookup() {
+    private InetAddressStringLookup() {
         // empty
     }
 
