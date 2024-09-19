@@ -64,14 +64,15 @@ The <action> type attribute can be add,update,fix,remove.
     <action type="fix" dev="ggregory" due-to="Gary Gregory" issue="TEXT-234">Improve StrBuilder documentation for new line text.</action>
     <action type="fix" dev="ggregory" due-to="TobiasKiecker" issue="TEXT-234">Improve TextStringBuilder documentation for new line text #547.</action>
     <!-- UPDATE -->
-    <action type="udpate" dev="ggregory" due-to="Gary Gregory">Bump tests on Java >= 22 org.graalvm.*:* from 24.0.0 to 24.0.1.</action>
+    <action type="udpate" dev="ggregory" due-to="Gary Gregory">Bump tests on Java >= 22 org.graalvm.*:* from 24.0.0 to 24.1.0 #592.</action>
     <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.bytebuddy.version from 1.14.13 to 1.15.1 #538, #548, #553, #565, #579, #582, #585.</action>
     <action type="update" dev="ggregory" due-to="Gary Gregory">Bump SpotBugs from 4.8.3 to 4.8.5.</action>
-    <action type="update" dev="ggregory" due-to="Dependabot">Bump org.apache.commons:commons-parent from 69 to 74 #542, #557, #571, #581, #584.</action>
+    <action type="update" dev="ggregory" due-to="Dependabot">Bump org.apache.commons:commons-parent from 69 to 75 #542, #557, #571, #581, #584, #593.</action>
     <action type="update" dev="ggregory" due-to="Dependabot">Bump org.assertj:assertj-core from 3.25.3 to 3.26.3 #554, #566.</action>
     <action type="update" dev="ggregory" due-to="Dependabot">Bump org.codehaus.mojo:taglist-maven-plugin from 3.0.0 to 3.1.0 #564.</action>
     <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-rng-simple from 1.5 to 1.6 #568.</action>
     <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump org.apache.commons:commons-lang3 from 3.14.0 to 3.17.0 #569, #575, #586.</action>
+    <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump commons-io:commons-io from 2.16.1 to 2.17.0 #594.</action>
   </release>
   <release version="1.12.0" date="2024-04-13" description="Release 1.12.0. Requires Java 8 or above.">
     <!-- ADD -->
