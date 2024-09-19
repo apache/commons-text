@@ -18,48 +18,44 @@
 package org.apache.commons.text.lookup;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests {@link InetAddressStringLookup}.
+ * Tests {@link InetAddressStringLookup#LOOPACK_ADDRESS}.
  */
-public class LocalHostStringLookupTest {
+public class InetAddressStringLookupLoopbackAddressTest {
 
     @Test
-    public void testAddress() throws UnknownHostException {
-        Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(),
-            InetAddressStringLookup.INSTANCE.lookup("address"));
+    public void testAddress() {
+        Assertions.assertEquals(InetAddress.getLoopbackAddress().getHostAddress(), InetAddressStringLookup.LOOPACK_ADDRESS.lookup("address"));
     }
 
     @Test
     public void testBadKey() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.INSTANCE.lookup("FOO"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.LOOPACK_ADDRESS.lookup("FOO"));
     }
 
     @Test
-    public void testCanonicalName() throws UnknownHostException {
-        Assertions.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(),
-            InetAddressStringLookup.INSTANCE.lookup("canonical-name"));
+    public void testCanonicalName() {
+        Assertions.assertEquals(InetAddress.getLoopbackAddress().getCanonicalHostName(), InetAddressStringLookup.LOOPACK_ADDRESS.lookup("canonical-name"));
     }
 
     @Test
-    public void testName() throws UnknownHostException {
-        Assertions.assertEquals(InetAddress.getLocalHost().getHostName(),
-            InetAddressStringLookup.INSTANCE.lookup("name"));
+    public void testName() {
+        Assertions.assertEquals(InetAddress.getLoopbackAddress().getHostName(), InetAddressStringLookup.LOOPACK_ADDRESS.lookup("name"));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(InetAddressStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(InetAddressStringLookup.LOOPACK_ADDRESS.lookup(null));
     }
 
     @Test
     public void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(InetAddressStringLookup.INSTANCE.toString().isEmpty());
+        Assertions.assertFalse(InetAddressStringLookup.LOOPACK_ADDRESS.toString().isEmpty());
     }
 
 }

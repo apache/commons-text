@@ -107,6 +107,14 @@ public enum DefaultStringLookup {
     LOCAL_HOST(StringLookupFactory.KEY_LOCALHOST, StringLookupFactory.INSTANCE.localHostStringLookup()),
 
     /**
+     * The lookup for local host information using the key {@code "loopbackAddress"}.
+     *
+     * @see StringLookupFactory#KEY_LOOPBACK_ADDRESS
+     * @see StringLookupFactory#loopbackAddressStringLookup()
+     */
+    LOOPBACK_ADDRESS(StringLookupFactory.KEY_LOOPBACK_ADDRESS, StringLookupFactory.INSTANCE.loopbackAddressStringLookup()),
+
+    /**
      * The lookup for properties using the key {@code "properties"}.
      *
      * @see StringLookupFactory#KEY_PROPERTIES

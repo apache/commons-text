@@ -345,6 +345,10 @@ public class StringSubstitutor {
      * <td>{@link StringLookupFactory#localHostStringLookup()}</td>
      * </tr>
      * <tr>
+     * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_LOOPBACK_ADDRESS}</td>
+     * <td>{@link StringLookupFactory#loopbackAddressStringLookup()}</td>
+     * </tr>
+     * <tr>
      * <td>{@value org.apache.commons.text.lookup.StringLookupFactory#KEY_PROPERTIES}</td>
      * <td>{@link StringLookupFactory#propertiesStringLookup()}</td>
      * </tr>

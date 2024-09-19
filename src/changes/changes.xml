@@ -45,7 +45,11 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Apache Commons Text Changes</title>
   </properties>
   <body>
-  <release version="1.12.1" date="YYYY-MM-DD" description="Release 1.12.1. Requires Java 8 or above.">
+  <release version="1.13.0" date="YYYY-MM-DD" description="Release 1.13.0. Requires Java 8 or above.">
+    <!-- ADD -->
+    <action type="add" dev="ggregory" due-to="Gary Gregory">Add StringLookupFactory.loopbackAddressStringLookup().</action>
+    <action type="add" dev="ggregory" due-to="Gary Gregory">Add StringLookupFactory.KEY_LOOPBACK_ADDRESS.</action>
+    <action type="add" dev="ggregory" due-to="Gary Gregory">Add DefaultStringLookup.LOOPBACK_ADDRESS.</action>
     <!-- FIX -->
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix build on Java 22.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix build on Java 23-ea.</action>

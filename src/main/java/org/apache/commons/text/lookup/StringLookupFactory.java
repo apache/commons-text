@@ -17,6 +17,7 @@
 
 package org.apache.commons.text.lookup;
 
+import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Base64;
@@ -113,6 +114,12 @@ import org.apache.commons.text.StringSubstitutor;
  * <td>{@link StringLookup}</td>
  * <td>{@link #localHostStringLookup()}</td>
  * <td>1.3</td>
+ * </tr>
+ * <tr>
+ * <td>{@value #KEY_LOOPBACK_ADDRESS}</td>
+ * <td>{@link StringLookup}</td>
+ * <td>{@link #loopbackAddressStringLookup()}</td>
+ * <td>1.13.0</td>
  * </tr>
  * <tr>
  * <td>{@value #KEY_PROPERTIES}</td>
@@ -288,6 +295,7 @@ public final class StringLookupFactory {
             addLookup(DefaultStringLookup.ENVIRONMENT, lookupMap);
             addLookup(DefaultStringLookup.FILE, lookupMap);
             addLookup(DefaultStringLookup.JAVA, lookupMap);
+            addLookup(DefaultStringLookup.LOCAL_HOST, lookupMap);
             addLookup(DefaultStringLookup.LOCAL_HOST, lookupMap);
             addLookup(DefaultStringLookup.PROPERTIES, lookupMap);
             addLookup(DefaultStringLookup.RESOURCE_BUNDLE, lookupMap);
@@ -501,6 +509,13 @@ public final class StringLookupFactory {
      * @since 1.6
      */
     public static final String KEY_LOCALHOST = "localhost";
+
+    /**
+     * Default lookup key for interpolation {@value #KEY_LOOPBACK_ADDRESS}.
+     *
+     * @since 1.13.0
+     */
+    public static final String KEY_LOOPBACK_ADDRESS = "loobackAddress";
 
     /**
      * Default lookup key for interpolation {@value #KEY_PROPERTIES}.
@@ -1084,7 +1099,7 @@ public final class StringLookupFactory {
     }
 
     /**
-     * Returns the LocalHostStringLookup singleton instance where the lookup key is one of:
+     * Returns the InetAddressStringLookup instance where the lookup key for {@link InetAddress#getLocalHost()} is one of:
      * <ul>
      * <li><b>name</b>: for the local host name, for example {@code EXAMPLE}.</li>
      * <li><b>canonical-name</b>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
@@ -1109,10 +1124,42 @@ public final class StringLookupFactory {
      * The above examples convert {@code "canonical-name"} to the current host name, for example, {@code "EXAMPLE.apache.org"}.
      * </p>
      *
-     * @return The DateStringLookup singleton instance.
+     * @return The InetAddressStringLookup singleton instance.
      */
     public StringLookup localHostStringLookup() {
-        return InetAddressStringLookup.INSTANCE;
+        return InetAddressStringLookup.LOCAL_HOST;
+    }
+
+    /**
+     * Returns the InetAddressStringLookup instance where the lookup key for {@link InetAddress#getLoopbackAddress()} is one of:
+     * <ul>
+     * <li><b>name</b>: for the local host name, for example {@code EXAMPLE}.</li>
+     * <li><b>canonical-name</b>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
+     * <li><b>address</b>: for the local host address, for example {@code 192.168.56.1}.</li>
+     * </ul>
+     *
+     * <p>
+     * Using a {@link StringLookup} from the {@link StringLookupFactory}:
+     * </p>
+     *
+     * <pre>
+     * StringLookupFactory.INSTANCE.loopbackAddressStringLookup().lookup("canonical-name");
+     * </pre>
+     * <p>
+     * Using a {@link StringSubstitutor}:
+     * </p>
+     *
+     * <pre>
+     * StringSubstitutor.createInterpolator().replace("... ${loopbackAddress:canonical-name} ..."));
+     * </pre>
+     * <p>
+     * The above examples convert {@code "canonical-name"} to the current host name, for example, {@code "EXAMPLE.apache.org"}.
+     * </p>
+     *
+     * @return The InetAddressStringLookup singleton instance.
+     */
+    public StringLookup loopbackAddressStringLookup() {
+        return InetAddressStringLookup.LOOPACK_ADDRESS;
     }
 
     /**

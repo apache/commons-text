@@ -44,6 +44,7 @@ public class StringLookupFactoryTest {
                 StringLookupFactory.KEY_FILE,
                 StringLookupFactory.KEY_JAVA,
                 StringLookupFactory.KEY_LOCALHOST,
+                StringLookupFactory.KEY_LOOPBACK_ADDRESS,
                 StringLookupFactory.KEY_PROPERTIES,
                 StringLookupFactory.KEY_RESOURCE_BUNDLE,
                 StringLookupFactory.KEY_SYS,
@@ -120,6 +121,7 @@ public class StringLookupFactoryTest {
                 StringLookupFactory.KEY_FILE,
                 StringLookupFactory.KEY_JAVA,
                 StringLookupFactory.KEY_LOCALHOST,
+                StringLookupFactory.KEY_LOOPBACK_ADDRESS,
                 StringLookupFactory.KEY_PROPERTIES,
                 StringLookupFactory.KEY_RESOURCE_BUNDLE,
                 StringLookupFactory.KEY_SYS,
@@ -185,6 +187,7 @@ public class StringLookupFactoryTest {
                 StringLookupFactory.KEY_FILE,
                 StringLookupFactory.KEY_JAVA,
                 StringLookupFactory.KEY_LOCALHOST,
+                StringLookupFactory.KEY_LOOPBACK_ADDRESS,
                 StringLookupFactory.KEY_PROPERTIES,
                 StringLookupFactory.KEY_RESOURCE_BUNDLE,
                 StringLookupFactory.KEY_SYS,
@@ -223,7 +226,8 @@ public class StringLookupFactoryTest {
             stringLookupFactory.environmentVariableStringLookup());
         Assertions.assertSame(InterpolatorStringLookup.INSTANCE, stringLookupFactory.interpolatorStringLookup());
         Assertions.assertSame(JavaPlatformStringLookup.INSTANCE, stringLookupFactory.javaPlatformStringLookup());
-        Assertions.assertSame(InetAddressStringLookup.INSTANCE, stringLookupFactory.localHostStringLookup());
+        Assertions.assertSame(InetAddressStringLookup.LOCAL_HOST, stringLookupFactory.localHostStringLookup());
+        Assertions.assertSame(InetAddressStringLookup.LOOPACK_ADDRESS, stringLookupFactory.loopbackAddressStringLookup());
         Assertions.assertSame(StringLookupFactory.INSTANCE_NULL, stringLookupFactory.nullStringLookup());
         Assertions.assertSame(ResourceBundleStringLookup.INSTANCE, stringLookupFactory.resourceBundleStringLookup());
         Assertions.assertSame(ScriptStringLookup.INSTANCE, stringLookupFactory.scriptStringLookup());

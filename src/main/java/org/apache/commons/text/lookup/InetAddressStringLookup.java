@@ -18,6 +18,9 @@ package org.apache.commons.text.lookup;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Objects;
+
+import org.apache.commons.lang3.function.FailableSupplier;
 
 /**
  * Looks up keys related to an {@link InetAddresse}.
@@ -38,15 +41,30 @@ import java.net.UnknownHostException;
 final class InetAddressStringLookup extends AbstractStringLookup {
 
     /**
-     * Defines the singleton for this class.
+     * Defines the LOCAL_HOST constant.
      */
-    static final InetAddressStringLookup INSTANCE = new InetAddressStringLookup();
+    static final InetAddressStringLookup LOCAL_HOST = new InetAddressStringLookup(InetAddress::getLocalHost);
+
+    /**
+     * Defines the LOCAL_HOST constant.
+     */
+    static final InetAddressStringLookup LOOPACK_ADDRESS = new InetAddressStringLookup(InetAddress::getLoopbackAddress);
+
+    /**
+     * Supplies the InetAddress.
+     */
+    private final FailableSupplier<InetAddress, UnknownHostException> inetAddressSupplier;
 
     /**
      * No need to build instances for now.
      */
-    private InetAddressStringLookup() {
-        // empty
+    private InetAddressStringLookup(final FailableSupplier<InetAddress, UnknownHostException> inetAddressSupplier) {
+        this.inetAddressSupplier = Objects.requireNonNull(inetAddressSupplier, "inetAddressSupplier");
+    }
+
+    private InetAddress getInetAddress() throws UnknownHostException {
+        // Don't cache result, methods, like InetAddress::getLocalHost do their own cacheing.
+        return inetAddressSupplier.get();
     }
 
     /**
@@ -63,11 +81,11 @@ final class InetAddressStringLookup extends AbstractStringLookup {
         try {
             switch (key) {
             case InetAddressKeys.KEY_NAME:
-                return InetAddress.getLocalHost().getHostName();
+                return getInetAddress().getHostName();
             case InetAddressKeys.KEY_CANONICAL_NAME:
-                return InetAddress.getLocalHost().getCanonicalHostName();
+                return getInetAddress().getCanonicalHostName();
             case InetAddressKeys.KEY_ADDRESS:
-                return InetAddress.getLocalHost().getHostAddress();
+                return getInetAddress().getHostAddress();
             default:
                 throw new IllegalArgumentException(key);
             }
