@@ -28,6 +28,11 @@ import org.junit.jupiter.api.Test;
 
 public class StringSubstitutorOssFuzzTest {
 
+    private String readAllString(final String testCase) throws IOException {
+        final byte[] allBytes = Files.readAllBytes(Paths.get("src/test/resources/org/apache/commons/text/oss-fuzz/" + testCase));
+        return new String(allBytes, StandardCharsets.UTF_8);
+    }
+
     /**
      * Tests OSS-Fuzz issue 42522985.
      *
@@ -36,10 +41,8 @@ public class StringSubstitutorOssFuzzTest {
      * https://issues.oss-fuzz.com/issues/42522985
      */
     @Test
-    public void test() throws IOException {
-        final byte[] allBytes = Files.readAllBytes(
-                Paths.get("src/test/resources/org/apache/commons/text/oss-fuzz/clusterfuzz-testcase-StringSubstitutorInterpolatorFuzzer-5149898315268096"));
-        assertThrows(IllegalArgumentException.class, () -> StringSubstitutor.createInterpolator().replace(new String(allBytes, StandardCharsets.UTF_8)));
+    public void test42522985() throws IOException {
+        StringSubstitutor.createInterpolator().replace(readAllString("clusterfuzz-testcase-StringSubstitutorInterpolatorFuzzer-6287296750813184"));
     }
 
     /**
@@ -52,5 +55,18 @@ public class StringSubstitutorOssFuzzTest {
     @Test
     public void test42527553() {
         StringSubstitutor.createInterpolator().replace("${date:swswswswsws\177sw\001\000swswswswswwswsswswswsws\177sw\001\000swswswsswswswswswswswswswswsws}");
+    }
+
+    /**
+     * Tests OSS-Fuzz issue 42527776.
+     *
+     * apache-commons-text:StringSubstitutorInterpolatorFuzzer: Security exception in java.base/java.util.Arrays.copyOf
+     *
+     * https://issues.oss-fuzz.com/issues/42527776
+     */
+    @Test
+    public void test42527776() throws IOException {
+        assertThrows(IllegalArgumentException.class, () -> StringSubstitutor.createInterpolator()
+                .replace(readAllString("clusterfuzz-testcase-StringSubstitutorInterpolatorFuzzer-5149898315268096")));
     }
 }
