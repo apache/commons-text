@@ -17,12 +17,31 @@
 
 package org.apache.commons.text;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.junit.jupiter.api.Test;
 
 public class StringSubstitutorOssFuzzTest {
 
     /**
-     * Tests OSS-Fuzz issue 42527553
+     * Tests OSS-Fuzz issue 42522985.
+     *
+     * apache-commons-text:StringSubstitutorInterpolatorFuzzer: Security exception in java.base/java.util.Arrays.copyOf
+     *
+     * https://issues.oss-fuzz.com/issues/42522985
+     */
+    @Test
+    public void test() throws IOException {
+        final byte[] allBytes = Files.readAllBytes(
+                Paths.get("src/test/resources/org/apache/commons/text/oss-fuzz/clusterfuzz-testcase-StringSubstitutorInterpolatorFuzzer-5149898315268096"));
+        StringSubstitutor.createInterpolator().replace(new String(allBytes, StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Tests OSS-Fuzz issue 42527553.
      *
      * apache-commons-text:StringSubstitutorInterpolatorFuzzer: Security exception in java.base/java.util.Arrays.copyOf
      *
