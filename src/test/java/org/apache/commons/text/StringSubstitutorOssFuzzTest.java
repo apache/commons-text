@@ -17,6 +17,8 @@
 
 package org.apache.commons.text;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -37,7 +39,7 @@ public class StringSubstitutorOssFuzzTest {
     public void test() throws IOException {
         final byte[] allBytes = Files.readAllBytes(
                 Paths.get("src/test/resources/org/apache/commons/text/oss-fuzz/clusterfuzz-testcase-StringSubstitutorInterpolatorFuzzer-5149898315268096"));
-        StringSubstitutor.createInterpolator().replace(new String(allBytes, StandardCharsets.UTF_8));
+        assertThrows(IllegalArgumentException.class, () -> StringSubstitutor.createInterpolator().replace(new String(allBytes, StandardCharsets.UTF_8)));
     }
 
     /**
