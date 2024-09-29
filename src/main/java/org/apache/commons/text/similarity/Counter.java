@@ -18,12 +18,13 @@ package org.apache.commons.text.similarity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * Java implementation of Python's collections Counter module.
  *
  * <p>It counts how many times each element provided occurred in an array and
- * returns a dict with the element as key and the count as value.</p>
+ * returns a map with the element as key and the count as value.</p>
  *
  * @see <a href="https://docs.python.org/dev/library/collections.html#collections.Counter">
  * https://docs.python.org/dev/library/collections.html#collections.Counter</a>
@@ -34,18 +35,15 @@ final class Counter {
 
     /**
      * Counts how many times each element provided occurred in an array and
-     * returns a dict with the element as key and the count as value.
+     * returns a map with the element as key and the count as value.
      *
-     * @param tokens array of tokens
-     * @return dict, where the elements are key, and the count the value
+     * @param tokens array of tokens.
+     * @return a map, where the elements are key, and the count the value.
      */
     public static Map<CharSequence, Integer> of(final CharSequence[] tokens) {
-        final Map<CharSequence, Integer> innerCounter = new HashMap<>();
-        for (final CharSequence token : tokens) {
-            final Integer integer = innerCounter.get(token);
-            innerCounter.put(token, integer != null ? integer + 1 : 1);
-        }
-        return innerCounter;
+        final Map<CharSequence, Integer> map = new HashMap<>();
+        Stream.of(tokens).forEach(token -> map.compute(token, (k, v) -> v != null ? v + 1 : 1));
+        return map;
     }
 
     /**
