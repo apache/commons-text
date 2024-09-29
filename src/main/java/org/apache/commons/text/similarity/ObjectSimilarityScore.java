@@ -14,44 +14,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.text.similarity;
 
+import java.util.function.BiFunction;
+
 /**
- * Scores {@link CharSequence} similarity, like a {@link String}.
+ * Scores the similarity between two {@link Object}s of the same type.
+ *
  * <p>
- * A string similarity score is intended to have <em>some</em> of the properties of a metric, yet
- * allowing for exceptions, like the Jaro-Winkler similarity score.
+ * A string similarity score is intended to have <em>some</em> of the properties of a metric, yet allowing for exceptions, like the Jaro-Winkler similarity
+ * score.
  * </p>
  * <p>
- * A similarity score is the function {@code d: [X * X] -&gt; [0, INFINITY)} with the
- * following properties:
+ * A similarity score is the function {@code d: [X * X] -&gt; [0, INFINITY)} with the following properties:
  * </p>
  * <ul>
- *     <li>{@code d(x,y) &gt;= 0}, non-negativity or separation axiom</li>
- *     <li>{@code d(x,y) == d(y,x)}, symmetry.</li>
+ * <li>{@code d(x,y) &gt;= 0}, non-negativity or separation axiom</li>
+ * <li>{@code d(x,y) == d(y,x)}, symmetry.</li>
  * </ul>
+ *
  * <p>
  * Notice, these are two of the properties that contribute to {@code d} being a metric.
  * </p>
- * <p>
- * Further, this intended to be BiFunction&lt;CharSequence, CharSequence, R&gt;.
- * The {@code apply} method accepts a pair of {@link CharSequence} parameters
- * and returns an {@code R} type similarity score.
- * </p>
  *
- * @param <R> The type of similarity score unit.
- * @since 1.0
+ * @param <T> Input type
+ * @param <R> The type of similarity score unit used by this score.
+ * @since 1.13.0
  */
-public interface SimilarityScore<R> extends ObjectSimilarityScore<CharSequence, R> {
+public interface ObjectSimilarityScore<T, R> extends BiFunction<T, T, R> {
 
     /**
-     * Compares two CharSequences.
+     * Compares two Objects.
      *
      * @param left  the "left" or "first" input.
      * @param right the "right" or "second" input.
-     * @return The similarity score between two CharSequences.
+     * @return The similarity score between two Objects.
      */
     @Override
-    R apply(CharSequence left, CharSequence right);
+    R apply(T left, T right);
 
 }

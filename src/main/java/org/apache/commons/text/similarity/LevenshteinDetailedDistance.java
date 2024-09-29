@@ -41,6 +41,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * needed. This is based on the matrix formed based on the two character
      * sequence.
      *
+     * @param <E> The type of similarity score unit.
      * @param left character sequence which need to be converted from
      * @param right character sequence which need to be converted to
      * @param matrix two dimensional array containing
@@ -48,8 +49,8 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      *            character sequence were swapped to save memory
      * @return result object containing the count of insert, delete and substitute and total count needed
      */
-    private static LevenshteinResults findDetailedResults(final CharSequence left,
-                                                          final CharSequence right,
+    private static <E> LevenshteinResults findDetailedResults(final SimilarityInput<E> left,
+                                                          final SimilarityInput<E> right,
                                                           final int[][] matrix,
                                                           final boolean swapped) {
 
@@ -91,7 +92,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
 
             // case in which the character at left and right are the same,
             // in this case none of the counters will be incremented.
-            if (columnIndex > 0 && rowIndex > 0 && left.charAt(columnIndex - 1) == right.charAt(rowIndex - 1)) {
+            if (columnIndex > 0 && rowIndex > 0 && left.at(columnIndex - 1).equals(right.at(rowIndex - 1))) {
                 columnIndex--;
                 rowIndex--;
                 continue;
@@ -167,14 +168,13 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * limitedCompare("hippo", "elephant", 6) = -1
      * </pre>
      *
+     * @param <E> The type of similarity score unit.
      * @param left the first CharSequence, must not be null
      * @param right the second CharSequence, must not be null
      * @param threshold the target threshold, must not be negative
      * @return result distance, or -1
      */
-    private static LevenshteinResults limitedCompare(CharSequence left,
-                                                     CharSequence right,
-                                                     final int threshold) { //NOPMD
+    private static <E> LevenshteinResults limitedCompare(SimilarityInput<E> left, SimilarityInput<E> right, final int threshold) { //NOPMD
         if (left == null || right == null) {
             throw new IllegalArgumentException("CharSequences must not be null");
         }
@@ -246,7 +246,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         boolean swapped = false;
         if (n > m) {
             // swap the two strings to consume less memory
-            final CharSequence tmp = left;
+            final SimilarityInput<E> tmp = left;
             left = right;
             right = tmp;
             n = m;
@@ -279,7 +279,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
 
         // iterates through t
         for (int j = 1; j <= m; j++) {
-            final char rightJ = right.charAt(j - 1); // jth character of right
+            final E rightJ = right.at(j - 1); // jth character of right
             d[0] = j;
 
             // compute stripe indices, constrain to array size
@@ -299,7 +299,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
 
             // iterates through [min, max] in s
             for (int i = min; i <= max; i++) {
-                if (left.charAt(i - 1) == rightJ) {
+                if (left.at(i - 1).equals(rightJ)) {
                     // diagonally left and up
                     d[i] = p[i - 1];
                 } else {
@@ -349,12 +349,13 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * unlimitedCompare("hello", "hallo")    = 1
      * </pre>
      *
+     * @param <E> The type of similarity score unit.
      * @param left the first CharSequence, must not be null
      * @param right the second CharSequence, must not be null
      * @return result distance, or -1
      * @throws IllegalArgumentException if either CharSequence input is {@code null}
      */
-    private static LevenshteinResults unlimitedCompare(CharSequence left, CharSequence right) {
+    private static <E> LevenshteinResults unlimitedCompare(SimilarityInput<E> left, SimilarityInput<E> right) {
         if (left == null || right == null) {
             throw new IllegalArgumentException("CharSequences must not be null");
         }
@@ -388,7 +389,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         boolean swapped = false;
         if (n > m) {
             // swap the input strings to consume less memory
-            final CharSequence tmp = left;
+            final SimilarityInput<E> tmp = left;
             left = right;
             right = tmp;
             n = m;
@@ -413,7 +414,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         int i; // iterates through left
         int j; // iterates through right
 
-        char rightJ; // jth character of right
+        E rightJ; // jth character of right
 
         int cost; // cost
         for (i = 0; i <= n; i++) {
@@ -421,11 +422,11 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         }
 
         for (j = 1; j <= m; j++) {
-            rightJ = right.charAt(j - 1);
+            rightJ = right.at(j - 1);
             d[0] = j;
 
             for (i = 1; i <= n; i++) {
-                cost = left.charAt(i - 1) == rightJ ? 0 : 1;
+                cost = left.at(i - 1).equals(rightJ) ? 0 : 1;
                 // minimum of cell to the left+1, to the top+1, diagonally left and up +cost
                 d[i] = Math.min(Math.min(d[i - 1] + 1, p[i] + 1), p[i - 1] + cost);
                 //filling the matrix
@@ -474,7 +475,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
     }
 
     /**
-     * Finds the Levenshtein distance between two Strings.
+     * Computes the Levenshtein distance between two Strings.
      *
      * <p>A higher score indicates a greater distance.</p>
      *
@@ -500,13 +501,51 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      * distance.apply("hello", "hallo")    = 1
      * </pre>
      *
-     * @param left the first string, must not be null
-     * @param right the second string, must not be null
+     * @param left the first input, must not be null
+     * @param right the second input, must not be null
      * @return result distance, or -1
      * @throws IllegalArgumentException if either String input {@code null}
      */
     @Override
     public LevenshteinResults apply(final CharSequence left, final CharSequence right) {
+        return apply(SimilarityInput.input(left), SimilarityInput.input(right));
+    }
+
+    /**
+     * Computes the Levenshtein distance between two Strings.
+     *
+     * <p>A higher score indicates a greater distance.</p>
+     *
+     * <p>The previous implementation of the Levenshtein distance algorithm
+     * was from <a href="http://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a></p>
+     *
+     * <p>Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError
+     * which can occur when my Java implementation is used with very large strings.<br>
+     * This implementation of the Levenshtein distance algorithm
+     * is from <a href="http://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a></p>
+     *
+     * <pre>
+     * distance.apply(null, *)             = IllegalArgumentException
+     * distance.apply(*, null)             = IllegalArgumentException
+     * distance.apply("","")               = 0
+     * distance.apply("","a")              = 1
+     * distance.apply("aaapppp", "")       = 7
+     * distance.apply("frog", "fog")       = 1
+     * distance.apply("fly", "ant")        = 3
+     * distance.apply("elephant", "hippo") = 7
+     * distance.apply("hippo", "elephant") = 7
+     * distance.apply("hippo", "zzzzzzzz") = 8
+     * distance.apply("hello", "hallo")    = 1
+     * </pre>
+     *
+     * @param <E> The type of similarity score unit.
+     * @param left the first input, must not be null
+     * @param right the second input, must not be null
+     * @return result distance, or -1
+     * @throws IllegalArgumentException if either String input {@code null}
+     * @since 1.13.0
+     */
+    public <E> LevenshteinResults apply(final SimilarityInput<E> left, final SimilarityInput<E> right) {
         if (threshold != null) {
             return limitedCompare(left, right, threshold);
         }

@@ -16,130 +16,159 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests {@link LevenshteinDistance}.
  */
 public class LevenshteinDistanceTest {
 
-    private static final LevenshteinDistance UNLIMITED_DISTANCE = new LevenshteinDistance();
+    private static final LevenshteinDistance UNLIMITED_DISTANCE = LevenshteinDistance.getDefaultInstance();
 
     @Test
-    public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDistanceTakingInteger() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDistance(0).apply(null, null));
+    public void testApplyThrowsIllegalArgumentExceptionString() {
+        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(0).apply((String) null, (String) null));
+    }
+
+    @Test
+    public void testApplyThrowsIllegalArgumentExceptionSimilarityInput() {
+        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(0).apply((SimilarityInput<Object>) null, (SimilarityInput<Object>) null));
     }
 
     @Test
     public void testConstructorWithNegativeThreshold() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDistance(-1));
+        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(-1));
     }
 
-    @Test
-    public void testGetLevenshteinDistance_NullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
+    @ParameterizedTest
+    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
+    public void testGetLevenshteinDistance(final Class<?> cls) {
+        assertEquals(0, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "")));
+        assertEquals(1, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "a")));
+        assertEquals(7, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "aaapppp"), SimilarityInputTest.build(cls, "")));
+        assertEquals(1, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "frog"), SimilarityInputTest.build(cls, "fog")));
+        assertEquals(3, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "fly"), SimilarityInputTest.build(cls, "ant")));
+        assertEquals(7, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "elephant"), SimilarityInputTest.build(cls, "hippo")));
+        assertEquals(7, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "hippo"), SimilarityInputTest.build(cls, "elephant")));
+        assertEquals(8, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "hippo"), SimilarityInputTest.build(cls, "zzzzzzzz")));
+        assertEquals(8, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "zzzzzzzz"), SimilarityInputTest.build(cls, "hippo")));
+        assertEquals(1, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "hello"), SimilarityInputTest.build(cls, "hallo")));
     }
 
-    @Test
-    public void testGetLevenshteinDistance_NullStringInt() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
+    @ParameterizedTest
+    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
+    public void testGetLevenshteinDistance_NullString(final Class<?> cls) {
+        assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "a"), SimilarityInputTest.build(cls, null)));
     }
 
-    @Test
-    public void testGetLevenshteinDistance_StringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
+    @ParameterizedTest
+    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
+    public void testGetLevenshteinDistance_NullStringInt(final Class<?> cls) {
+        assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, null), SimilarityInputTest.build(cls, "a")));
     }
 
-    @Test
-    public void testGetLevenshteinDistance_StringNullInt() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
+    @ParameterizedTest
+    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
+    public void testGetLevenshteinDistance_StringNull(final Class<?> cls) {
+        assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, null), SimilarityInputTest.build(cls, "a")));
     }
 
-    @Test
-    public void testGetLevenshteinDistance_StringString() {
-        assertThat(UNLIMITED_DISTANCE.apply("", "")).isEqualTo(0);
-        assertThat(UNLIMITED_DISTANCE.apply("", "a")).isEqualTo(1);
-        assertThat(UNLIMITED_DISTANCE.apply("aaapppp", "")).isEqualTo(7);
-        assertThat(UNLIMITED_DISTANCE.apply("frog", "fog")).isEqualTo(1);
-        assertThat(UNLIMITED_DISTANCE.apply("fly", "ant")).isEqualTo(3);
-        assertThat(UNLIMITED_DISTANCE.apply("elephant", "hippo")).isEqualTo(7);
-        assertThat(UNLIMITED_DISTANCE.apply("hippo", "elephant")).isEqualTo(7);
-        assertThat(UNLIMITED_DISTANCE.apply("hippo", "zzzzzzzz")).isEqualTo(8);
-        assertThat(UNLIMITED_DISTANCE.apply("zzzzzzzz", "hippo")).isEqualTo(8);
-        assertThat(UNLIMITED_DISTANCE.apply("hello", "hallo")).isEqualTo(1);
+    @ParameterizedTest
+    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
+    public void testGetLevenshteinDistance_StringNullInt(final Class<?> cls) {
+        assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "a"), SimilarityInputTest.build(cls, null)));
     }
 
-    @Test
-    public void testGetLevenshteinDistance_StringStringInt() {
+    @ParameterizedTest
+    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
+    public void testGetLevenshteinDistance_StringString(final Class<?> cls) {
+        assertEquals(0, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "")));
+        assertEquals(1, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "a")));
+        assertEquals(7, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "aaapppp"), SimilarityInputTest.build(cls, "")));
+        assertEquals(1, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "frog"), SimilarityInputTest.build(cls, "fog")));
+        assertEquals(3, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "fly"), SimilarityInputTest.build(cls, "ant")));
+        assertEquals(7, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "elephant"), SimilarityInputTest.build(cls, "hippo")));
+        assertEquals(7, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "hippo"), SimilarityInputTest.build(cls, "elephant")));
+        assertEquals(8, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "hippo"), SimilarityInputTest.build(cls, "zzzzzzzz")));
+        assertEquals(8, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "zzzzzzzz"), SimilarityInputTest.build(cls, "hippo")));
+        assertEquals(1, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "hello"), SimilarityInputTest.build(cls, "hallo")));
+    }
+
+    @ParameterizedTest
+    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
+    public void testGetLevenshteinDistance_StringStringInt(final Class<?> cls) {
         // empty strings
-        assertThat(new LevenshteinDistance(0).apply("", "")).isEqualTo(0);
-        assertThat(new LevenshteinDistance(8).apply("aaapppp", "")).isEqualTo(7);
-        assertThat(new LevenshteinDistance(7).apply("aaapppp", "")).isEqualTo(7);
-        assertThat(new LevenshteinDistance(6).apply("aaapppp", "")).isEqualTo(-1);
+        assertEquals(0, new LevenshteinDistance(0).apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "")));
+        assertEquals(7, new LevenshteinDistance(8).apply(SimilarityInputTest.build(cls, "aaapppp"), SimilarityInputTest.build(cls, "")));
+        assertEquals(7, new LevenshteinDistance(7).apply(SimilarityInputTest.build(cls, "aaapppp"), SimilarityInputTest.build(cls, "")));
+        assertEquals(-1, new LevenshteinDistance(6).apply(SimilarityInputTest.build(cls, "aaapppp"), SimilarityInputTest.build(cls, "")));
 
         // unequal strings, zero threshold
-        assertThat(new LevenshteinDistance(0).apply("b", "a")).isEqualTo(-1);
-        assertThat(new LevenshteinDistance(0).apply("a", "b")).isEqualTo(-1);
+        assertEquals(-1, new LevenshteinDistance(0).apply(SimilarityInputTest.build(cls, "b"), SimilarityInputTest.build(cls, "a")));
+        assertEquals(-1, new LevenshteinDistance(0).apply(SimilarityInputTest.build(cls, "a"), SimilarityInputTest.build(cls, "b")));
 
         // equal strings
-        assertThat(new LevenshteinDistance(0).apply("aa", "aa")).isEqualTo(0);
-        assertThat(new LevenshteinDistance(2).apply("aa", "aa")).isEqualTo(0);
+        assertEquals(0, new LevenshteinDistance(0).apply(SimilarityInputTest.build(cls, "aa"), SimilarityInputTest.build(cls, "aa")));
+        assertEquals(0, new LevenshteinDistance(2).apply(SimilarityInputTest.build(cls, "aa"), SimilarityInputTest.build(cls, "aa")));
 
         // same length
-        assertThat(new LevenshteinDistance(2).apply("aaa", "bbb")).isEqualTo(-1);
-        assertThat(new LevenshteinDistance(3).apply("aaa", "bbb")).isEqualTo(3);
+        assertEquals(-1, new LevenshteinDistance(2).apply(SimilarityInputTest.build(cls, "aaa"), SimilarityInputTest.build(cls, "bbb")));
+        assertEquals(3, new LevenshteinDistance(3).apply(SimilarityInputTest.build(cls, "aaa"), SimilarityInputTest.build(cls, "bbb")));
 
         // big stripe
-        assertThat(new LevenshteinDistance(10).apply("aaaaaa", "b")).isEqualTo(6);
+        assertEquals(6, new LevenshteinDistance(10).apply(SimilarityInputTest.build(cls, "aaaaaa"), SimilarityInputTest.build(cls, "b")));
 
         // distance less than threshold
-        assertThat(new LevenshteinDistance(8).apply("aaapppp", "b")).isEqualTo(7);
-        assertThat(new LevenshteinDistance(4).apply("a", "bbb")).isEqualTo(3);
+        assertEquals(7, new LevenshteinDistance(8).apply(SimilarityInputTest.build(cls, "aaapppp"), SimilarityInputTest.build(cls, "b")));
+        assertEquals(3, new LevenshteinDistance(4).apply(SimilarityInputTest.build(cls, "a"), SimilarityInputTest.build(cls, "bbb")));
 
         // distance equal to threshold
-        assertThat(new LevenshteinDistance(7).apply("aaapppp", "b")).isEqualTo(7);
-        assertThat(new LevenshteinDistance(3).apply("a", "bbb")).isEqualTo(3);
+        assertEquals(7, new LevenshteinDistance(7).apply(SimilarityInputTest.build(cls, "aaapppp"), SimilarityInputTest.build(cls, "b")));
+        assertEquals(3, new LevenshteinDistance(3).apply(SimilarityInputTest.build(cls, "a"), SimilarityInputTest.build(cls, "bbb")));
 
         // distance greater than threshold
-        assertThat(new LevenshteinDistance(2).apply("a", "bbb")).isEqualTo(-1);
-        assertThat(new LevenshteinDistance(2).apply("bbb", "a")).isEqualTo(-1);
-        assertThat(new LevenshteinDistance(6).apply("aaapppp", "b")).isEqualTo(-1);
+        assertEquals(-1, new LevenshteinDistance(2).apply(SimilarityInputTest.build(cls, "a"), SimilarityInputTest.build(cls, "bbb")));
+        assertEquals(-1, new LevenshteinDistance(2).apply(SimilarityInputTest.build(cls, "bbb"), SimilarityInputTest.build(cls, "a")));
+        assertEquals(-1, new LevenshteinDistance(6).apply(SimilarityInputTest.build(cls, "aaapppp"), SimilarityInputTest.build(cls, "b")));
 
         // stripe runs off array, strings not similar
-        assertThat(new LevenshteinDistance(1).apply("a", "bbb")).isEqualTo(-1);
-        assertThat(new LevenshteinDistance(1).apply("bbb", "a")).isEqualTo(-1);
+        assertEquals(-1, new LevenshteinDistance(1).apply(SimilarityInputTest.build(cls, "a"), SimilarityInputTest.build(cls, "bbb")));
+        assertEquals(-1, new LevenshteinDistance(1).apply(SimilarityInputTest.build(cls, "bbb"), SimilarityInputTest.build(cls, "a")));
 
         // stripe runs off array, strings are similar
-        assertThat(new LevenshteinDistance(1).apply("12345", "1234567")).isEqualTo(-1);
-        assertThat(new LevenshteinDistance(1).apply("1234567", "12345")).isEqualTo(-1);
+        assertEquals(-1, new LevenshteinDistance(1).apply(SimilarityInputTest.build(cls, "12345"), SimilarityInputTest.build(cls, "1234567")));
+        assertEquals(-1, new LevenshteinDistance(1).apply(SimilarityInputTest.build(cls, "1234567"), SimilarityInputTest.build(cls, "12345")));
 
         // old getLevenshteinDistance test cases
-        assertThat(new LevenshteinDistance(1).apply("frog", "fog")).isEqualTo(1);
-        assertThat(new LevenshteinDistance(3).apply("fly", "ant")).isEqualTo(3);
-        assertThat(new LevenshteinDistance(7).apply("elephant", "hippo")).isEqualTo(7);
-        assertThat(new LevenshteinDistance(6).apply("elephant", "hippo")).isEqualTo(-1);
-        assertThat(new LevenshteinDistance(7).apply("hippo", "elephant")).isEqualTo(7);
-        assertThat(new LevenshteinDistance(6).apply("hippo", "elephant")).isEqualTo(-1);
-        assertThat(new LevenshteinDistance(8).apply("hippo", "zzzzzzzz")).isEqualTo(8);
-        assertThat(new LevenshteinDistance(8).apply("zzzzzzzz", "hippo")).isEqualTo(8);
-        assertThat(new LevenshteinDistance(1).apply("hello", "hallo")).isEqualTo(1);
+        assertEquals(1, new LevenshteinDistance(1).apply(SimilarityInputTest.build(cls, "frog"), SimilarityInputTest.build(cls, "fog")));
+        assertEquals(3, new LevenshteinDistance(3).apply(SimilarityInputTest.build(cls, "fly"), SimilarityInputTest.build(cls, "ant")));
+        assertEquals(7, new LevenshteinDistance(7).apply(SimilarityInputTest.build(cls, "elephant"), SimilarityInputTest.build(cls, "hippo")));
+        assertEquals(-1, new LevenshteinDistance(6).apply(SimilarityInputTest.build(cls, "elephant"), SimilarityInputTest.build(cls, "hippo")));
+        assertEquals(7, new LevenshteinDistance(7).apply(SimilarityInputTest.build(cls, "hippo"), SimilarityInputTest.build(cls, "elephant")));
+        assertEquals(-1, new LevenshteinDistance(6).apply(SimilarityInputTest.build(cls, "hippo"), SimilarityInputTest.build(cls, "elephant")));
+        assertEquals(8, new LevenshteinDistance(8).apply(SimilarityInputTest.build(cls, "hippo"), SimilarityInputTest.build(cls, "zzzzzzzz")));
+        assertEquals(8, new LevenshteinDistance(8).apply(SimilarityInputTest.build(cls, "zzzzzzzz"), SimilarityInputTest.build(cls, "hippo")));
+        assertEquals(1, new LevenshteinDistance(1).apply(SimilarityInputTest.build(cls, "hello"), SimilarityInputTest.build(cls, "hallo")));
 
-        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("frog", "fog")).isEqualTo(1);
-        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("fly", "ant")).isEqualTo(3);
-        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("elephant", "hippo")).isEqualTo(7);
-        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("hippo", "elephant")).isEqualTo(7);
-        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("hippo", "zzzzzzzz")).isEqualTo(8);
-        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("zzzzzzzz", "hippo")).isEqualTo(8);
-        assertThat(new LevenshteinDistance(Integer.MAX_VALUE).apply("hello", "hallo")).isEqualTo(1);
-        assertThat(new LevenshteinDistance(1).apply("abc", "acb")).isEqualTo(-1);
+        assertEquals(1, new LevenshteinDistance(Integer.MAX_VALUE).apply(SimilarityInputTest.build(cls, "frog"), SimilarityInputTest.build(cls, "fog")));
+        assertEquals(3, new LevenshteinDistance(Integer.MAX_VALUE).apply(SimilarityInputTest.build(cls, "fly"), SimilarityInputTest.build(cls, "ant")));
+        assertEquals(7, new LevenshteinDistance(Integer.MAX_VALUE).apply(SimilarityInputTest.build(cls, "elephant"), SimilarityInputTest.build(cls, "hippo")));
+        assertEquals(7, new LevenshteinDistance(Integer.MAX_VALUE).apply(SimilarityInputTest.build(cls, "hippo"), SimilarityInputTest.build(cls, "elephant")));
+        assertEquals(8, new LevenshteinDistance(Integer.MAX_VALUE).apply(SimilarityInputTest.build(cls, "hippo"), SimilarityInputTest.build(cls, "zzzzzzzz")));
+        assertEquals(8, new LevenshteinDistance(Integer.MAX_VALUE).apply(SimilarityInputTest.build(cls, "zzzzzzzz"), SimilarityInputTest.build(cls, "hippo")));
+        assertEquals(1, new LevenshteinDistance(Integer.MAX_VALUE).apply(SimilarityInputTest.build(cls, "hello"), SimilarityInputTest.build(cls, "hallo")));
+        assertEquals(-1, new LevenshteinDistance(1).apply(SimilarityInputTest.build(cls, "abc"), SimilarityInputTest.build(cls, "acb")));
     }
 
     @Test
     public void testGetThresholdDirectlyAfterObjectInstantiation() {
-        assertThat(new LevenshteinDistance().getThreshold()).isNull();
+        assertNull(LevenshteinDistance.getDefaultInstance().getThreshold());
     }
 
 }

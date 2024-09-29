@@ -16,169 +16,181 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.apache.commons.text.TextStringBuilder;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class LevenshteinDetailedDistanceTest {
 
-    private static final LevenshteinDetailedDistance UNLIMITED_DISTANCE = new LevenshteinDetailedDistance();
+    private static final LevenshteinDetailedDistance UNLIMITED_DISTANCE = LevenshteinDetailedDistance.getDefaultInstance();
 
     @Test
     public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDetailedDistanceTakingInteger() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
             final CharSequence charSequence = new TextStringBuilder();
-
             levenshteinDetailedDistance.apply(charSequence, null);
         });
     }
 
     @Test
-    public void testApplyWithNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDetailedDistance(0).apply(null, null));
+    public void testApplyWithNullSimilarityInput() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new LevenshteinDetailedDistance(0).apply((SimilarityInput<Object>) null, (SimilarityInput<Object>) null));
+    }
+
+    @Test
+    public void testApplyWithNullString() {
+        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDetailedDistance(0).apply((String) null, (String) null));
     }
 
     @Test
     public void testConstructorWithNegativeThreshold() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new LevenshteinDetailedDistance(-1));
+        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDetailedDistance(-1));
     }
 
-    @Test
-    public void testCreatesLevenshteinDetailedDistanceTakingInteger6() {
+    @ParameterizedTest
+    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
+    public void testCreatesLevenshteinDetailedDistanceTakingInteger6(final Class<?> cls) {
         final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
-        final LevenshteinResults levenshteinResults =
-                levenshteinDetailedDistance.apply("", "Distance: 38, Insert: 0, Delete: 0, Substitute: 0");
-
-        assertThat(levenshteinResults.getSubstituteCount()).isEqualTo(0);
-        assertThat(levenshteinResults.getDeleteCount()).isEqualTo(0);
-
-        assertThat(levenshteinResults.getInsertCount()).isEqualTo(0);
-        assertThat(levenshteinResults.getDistance()).isEqualTo(-1);
+        final LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("", "Distance: 38, Insert: 0, Delete: 0, Substitute: 0");
+        assertEquals(0, levenshteinResults.getSubstituteCount());
+        assertEquals(0, levenshteinResults.getDeleteCount());
+        assertEquals(0, levenshteinResults.getInsertCount());
+        assertEquals(-1, levenshteinResults.getDistance());
+        assertEquals(levenshteinResults, levenshteinDetailedDistance.apply(SimilarityInputTest.build(cls, ""),
+                SimilarityInputTest.build(cls, "Distance: 38, Insert: 0, Delete: 0, Substitute: 0")));
     }
 
-    @Test
-    public void testEquals() {
-     final LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
-     LevenshteinResults actualResult = classBeingTested.apply("hello", "hallo");
-     LevenshteinResults expectedResult = new LevenshteinResults(1, 0, 0, 1);
-     assertThat(expectedResult).isEqualTo(actualResult);
+    @ParameterizedTest
+    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
+    public void testEquals(final Class<?> cls) {
+        final LevenshteinDetailedDistance classBeingTested = LevenshteinDetailedDistance.getDefaultInstance();
+        LevenshteinResults actualResult = classBeingTested.apply(SimilarityInputTest.build(cls, "hello"), SimilarityInputTest.build(cls, "hallo"));
+        LevenshteinResults expectedResult = new LevenshteinResults(1, 0, 0, 1);
+        assertEquals(expectedResult, actualResult);
 
-     actualResult = classBeingTested.apply("zzzzzzzz", "hippo");
-     expectedResult = new LevenshteinResults(8, 0, 3, 5);
-     assertThat(expectedResult).isEqualTo(actualResult);
-     assertThat(actualResult).isEqualTo(actualResult); //intentionally added
+        assertEquals(classBeingTested.apply("zzzzzzzz", "hippo"),
+                classBeingTested.apply(SimilarityInputTest.build(cls, "zzzzzzzz"), SimilarityInputTest.build(cls, "hippo")));
+        actualResult = classBeingTested.apply(SimilarityInputTest.build(cls, "zzzzzzzz"), SimilarityInputTest.build(cls, "hippo"));
+        expectedResult = new LevenshteinResults(8, 0, 3, 5);
+        assertEquals(expectedResult, actualResult);
+        assertEquals(actualResult, actualResult); // intentionally added
 
-     actualResult = classBeingTested.apply("", "");
-     expectedResult = new LevenshteinResults(0, 0, 0, 0);
-     assertThat(expectedResult).isEqualTo(actualResult);
+        actualResult = classBeingTested.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, ""));
+        expectedResult = new LevenshteinResults(0, 0, 0, 0);
+        assertEquals(expectedResult, actualResult);
     }
 
-    @Test
-    public void testGetDefaultInstanceOne() {
-        final LevenshteinDetailedDistance levenshteinDetailedDistance =
-                LevenshteinDetailedDistance.getDefaultInstance();
-        final LevenshteinResults levenshteinResults =
-                levenshteinDetailedDistance.apply("Distance: -2147483643, Insert: 0, Delete: 0, Substitute: 0",
-                        "Distance: 0, Insert: 2147483536, Delete: 0, Substitute: 0");
+    @ParameterizedTest
+    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
+    public void testGetDefaultInstanceOne(final Class<?> cls) {
+        final LevenshteinDetailedDistance levenshteinDetailedDistance = LevenshteinDetailedDistance.getDefaultInstance();
+        final LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply(
+                SimilarityInputTest.build(cls, "Distance: -2147483643, Insert: 0, Delete: 0, Substitute: 0"),
+                SimilarityInputTest.build(cls, "Distance: 0, Insert: 2147483536, Delete: 0, Substitute: 0"));
 
-        assertThat(levenshteinResults.getDistance()).isEqualTo(21);
+        assertEquals(21, levenshteinResults.getDistance());
     }
 
-    @Test
-    public void testGetDefaultInstanceTwo() {
-        final LevenshteinDetailedDistance levenshteinDetailedDistance =
-                LevenshteinDetailedDistance.getDefaultInstance();
-        final LevenshteinResults levenshteinResults =
-                levenshteinDetailedDistance.apply("Distance: 2147483647, Insert: 0, Delete: 0, Substitute: 0",
-                        "Distance: 0, Insert: 2147483647, Delete: 0, Substitute: 0");
-
-        assertThat(levenshteinResults.getDistance()).isEqualTo(20);
+    @ParameterizedTest
+    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
+    public void testGetDefaultInstanceTwo(final Class<?> cls) {
+        final LevenshteinDetailedDistance levenshteinDetailedDistance = LevenshteinDetailedDistance.getDefaultInstance();
+        final LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("Distance: 2147483647, Insert: 0, Delete: 0, Substitute: 0",
+                "Distance: 0, Insert: 2147483647, Delete: 0, Substitute: 0");
+        assertEquals(20, levenshteinResults.getDistance());
+        assertEquals(levenshteinResults,
+                levenshteinDetailedDistance.apply(SimilarityInputTest.build(cls, "Distance: 2147483647, Insert: 0, Delete: 0, Substitute: 0"),
+                        SimilarityInputTest.build(cls, "Distance: 0, Insert: 2147483647, Delete: 0, Substitute: 0")));
     }
 
     @Test
     public void testGetLevenshteinDetailedDistance_NullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
+        assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply("a", null));
     }
 
     @Test
     public void testGetLevenshteinDetailedDistance_NullStringInt() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
+        assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply(null, "a"));
     }
 
     @Test
     public void testGetLevenshteinDetailedDistance_StringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply(null, "a"));
+        assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply(null, "a"));
     }
 
     @Test
     public void testGetLevenshteinDetailedDistance_StringNullInt() {
-        assertThatIllegalArgumentException().isThrownBy(() -> UNLIMITED_DISTANCE.apply("a", null));
+        assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply("a", null));
     }
 
-    @Test
-    public void testGetLevenshteinDetailedDistance_StringString() {
-        LevenshteinResults result = UNLIMITED_DISTANCE.apply("", "");
-        assertThat(result.getDistance()).isEqualTo(0);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+    @ParameterizedTest
+    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
+    public void testGetLevenshteinDetailedDistance_StringString(final Class<?> cls) {
+        LevenshteinResults result = UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, ""));
+        assertEquals(0, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
-        result = UNLIMITED_DISTANCE.apply("", "a");
-        assertThat(result.getDistance()).isEqualTo(1);
-        assertThat(result.getInsertCount()).isEqualTo(1);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        result = UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "a"));
+        assertEquals(1, result.getDistance());
+        assertEquals(1, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
-        result = UNLIMITED_DISTANCE.apply("aaapppp", "");
-        assertThat(result.getDistance()).isEqualTo(7);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(7);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        result = UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "aaapppp"), SimilarityInputTest.build(cls, ""));
+        assertEquals(7, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(7, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
-        result = UNLIMITED_DISTANCE.apply("frog", "fog");
-        assertThat(result.getDistance()).isEqualTo(1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(1);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        result = UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "frog"), SimilarityInputTest.build(cls, "fog"));
+        assertEquals(1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(1, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
-        result = UNLIMITED_DISTANCE.apply("fly", "ant");
-        assertThat(result.getDistance()).isEqualTo(3);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(3);
+        result = UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "fly"), SimilarityInputTest.build(cls, "ant"));
+        assertEquals(3, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(3, result.getSubstituteCount());
 
-        result = UNLIMITED_DISTANCE.apply("elephant", "hippo");
-        assertThat(result.getDistance()).isEqualTo(7);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(3);
-        assertThat(result.getSubstituteCount()).isEqualTo(4);
+        result = UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "elephant"), SimilarityInputTest.build(cls, "hippo"));
+        assertEquals(7, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(3, result.getDeleteCount());
+        assertEquals(4, result.getSubstituteCount());
 
-        result = UNLIMITED_DISTANCE.apply("hippo", "elephant");
-        assertThat(result.getDistance()).isEqualTo(7);
-        assertThat(result.getInsertCount()).isEqualTo(3);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(4);
+        result = UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "hippo"), SimilarityInputTest.build(cls, "elephant"));
+        assertEquals(7, result.getDistance());
+        assertEquals(3, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(4, result.getSubstituteCount());
 
-        result = UNLIMITED_DISTANCE.apply("hippo", "zzzzzzzz");
-        assertThat(result.getDistance()).isEqualTo(8);
-        assertThat(result.getInsertCount()).isEqualTo(3);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(5);
+        result = UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "hippo"), SimilarityInputTest.build(cls, "zzzzzzzz"));
+        assertEquals(8, result.getDistance());
+        assertEquals(3, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(5, result.getSubstituteCount());
 
-        result = UNLIMITED_DISTANCE.apply("zzzzzzzz", "hippo");
-        assertThat(result.getDistance()).isEqualTo(8);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(3);
-        assertThat(result.getSubstituteCount()).isEqualTo(5);
+        result = UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "zzzzzzzz"), SimilarityInputTest.build(cls, "hippo"));
+        assertEquals(8, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(3, result.getDeleteCount());
+        assertEquals(5, result.getSubstituteCount());
 
-        result = UNLIMITED_DISTANCE.apply("hello", "hallo");
-        assertThat(result.getDistance()).isEqualTo(1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(1);
+        result = UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "hello"), SimilarityInputTest.build(cls, "hallo"));
+        assertEquals(1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(1, result.getSubstituteCount());
     }
 
     @Test
@@ -186,277 +198,277 @@ public class LevenshteinDetailedDistanceTest {
 
         LevenshteinResults result = new LevenshteinDetailedDistance(0).apply("", "");
 
-        assertThat(result.getDistance()).isEqualTo(0);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(0, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(8).apply("aaapppp", "");
-        assertThat(result.getDistance()).isEqualTo(7);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(7);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(7, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(7, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(7).apply("aaapppp", "");
-        assertThat(result.getDistance()).isEqualTo(7);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(7);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(7, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(7, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(6).apply("aaapppp", "");
-        assertThat(result.getDistance()).isEqualTo(-1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(-1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(0).apply("b", "a");
-        assertThat(result.getDistance()).isEqualTo(-1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(-1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(0).apply("a", "b");
-        assertThat(result.getDistance()).isEqualTo(-1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(-1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(0).apply("aa", "aa");
-        assertThat(result.getDistance()).isEqualTo(0);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(0, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(2).apply("aa", "aa");
-        assertThat(result.getDistance()).isEqualTo(0);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(0, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(2).apply("aaa", "bbb");
-        assertThat(result.getDistance()).isEqualTo(-1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(-1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(3).apply("aaa", "bbb");
-        assertThat(result.getDistance()).isEqualTo(3);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(3);
+        assertEquals(3, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(3, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(10).apply("aaaaaa", "b");
-        assertThat(result.getDistance()).isEqualTo(6);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(5);
-        assertThat(result.getSubstituteCount()).isEqualTo(1);
+        assertEquals(6, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(5, result.getDeleteCount());
+        assertEquals(1, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(8).apply("aaapppp", "b");
-        assertThat(result.getDistance()).isEqualTo(7);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(6);
-        assertThat(result.getSubstituteCount()).isEqualTo(1);
+        assertEquals(7, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(6, result.getDeleteCount());
+        assertEquals(1, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(4).apply("a", "bbb");
-        assertThat(result.getDistance()).isEqualTo(3);
-        assertThat(result.getInsertCount()).isEqualTo(2);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(1);
+        assertEquals(3, result.getDistance());
+        assertEquals(2, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(1, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(7).apply("aaapppp", "b");
-        assertThat(result.getDistance()).isEqualTo(7);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(6);
-        assertThat(result.getSubstituteCount()).isEqualTo(1);
+        assertEquals(7, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(6, result.getDeleteCount());
+        assertEquals(1, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(3).apply("a", "bbb");
-        assertThat(result.getDistance()).isEqualTo(3);
-        assertThat(result.getInsertCount()).isEqualTo(2);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(1);
+        assertEquals(3, result.getDistance());
+        assertEquals(2, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(1, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(2).apply("a", "bbb");
-        assertThat(result.getDistance()).isEqualTo(-1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(-1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(2).apply("bbb", "a");
-        assertThat(result.getDistance()).isEqualTo(-1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(-1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(6).apply("aaapppp", "b");
-        assertThat(result.getDistance()).isEqualTo(-1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(-1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(1).apply("a", "bbb");
-        assertThat(result.getDistance()).isEqualTo(-1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(-1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(1).apply("bbb", "a");
-        assertThat(result.getDistance()).isEqualTo(-1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(-1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(1).apply("12345", "1234567");
-        assertThat(result.getDistance()).isEqualTo(-1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(-1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(1).apply("1234567", "12345");
-        assertThat(result.getDistance()).isEqualTo(-1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(-1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(1).apply("frog", "fog");
-        assertThat(result.getDistance()).isEqualTo(1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(1);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(1, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(3).apply("fly", "ant");
-        assertThat(result.getDistance()).isEqualTo(3);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(3);
+        assertEquals(3, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(3, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(7).apply("elephant", "hippo");
-        assertThat(result.getDistance()).isEqualTo(7);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(3);
-        assertThat(result.getSubstituteCount()).isEqualTo(4);
+        assertEquals(7, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(3, result.getDeleteCount());
+        assertEquals(4, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(6).apply("elephant", "hippo");
-        assertThat(result.getDistance()).isEqualTo(-1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(-1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(7).apply("hippo", "elephant");
-        assertThat(result.getDistance()).isEqualTo(7);
-        assertThat(result.getInsertCount()).isEqualTo(3);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(4);
+        assertEquals(7, result.getDistance());
+        assertEquals(3, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(4, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(7).apply("hippo", "elephant");
-        assertThat(result.getDistance()).isEqualTo(7);
-        assertThat(result.getInsertCount()).isEqualTo(3);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(4);
+        assertEquals(7, result.getDistance());
+        assertEquals(3, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(4, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(6).apply("hippo", "elephant");
-        assertThat(result.getDistance()).isEqualTo(-1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(-1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(8).apply("hippo", "zzzzzzzz");
-        assertThat(result.getDistance()).isEqualTo(8);
-        assertThat(result.getInsertCount()).isEqualTo(3);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(5);
+        assertEquals(8, result.getDistance());
+        assertEquals(3, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(5, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(8).apply("zzzzzzzz", "hippo");
-        assertThat(result.getDistance()).isEqualTo(8);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(3);
-        assertThat(result.getSubstituteCount()).isEqualTo(5);
+        assertEquals(8, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(3, result.getDeleteCount());
+        assertEquals(5, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(1).apply("hello", "hallo");
-        assertThat(result.getDistance()).isEqualTo(1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(1);
+        assertEquals(1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(1, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(Integer.MAX_VALUE).apply("frog", "fog");
-        assertThat(result.getDistance()).isEqualTo(1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(1);
-        assertThat(result.getSubstituteCount()).isEqualTo(0);
+        assertEquals(1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(1, result.getDeleteCount());
+        assertEquals(0, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(Integer.MAX_VALUE).apply("fly", "ant");
-        assertThat(result.getDistance()).isEqualTo(3);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(3);
+        assertEquals(3, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(3, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(Integer.MAX_VALUE).apply("elephant", "hippo");
-        assertThat(result.getDistance()).isEqualTo(7);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(3);
-        assertThat(result.getSubstituteCount()).isEqualTo(4);
+        assertEquals(7, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(3, result.getDeleteCount());
+        assertEquals(4, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(Integer.MAX_VALUE).apply("hippo", "elephant");
-        assertThat(result.getDistance()).isEqualTo(7);
-        assertThat(result.getInsertCount()).isEqualTo(3);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(4);
+        assertEquals(7, result.getDistance());
+        assertEquals(3, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(4, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(Integer.MAX_VALUE).apply("hippo", "zzzzzzzz");
-        assertThat(result.getDistance()).isEqualTo(8);
-        assertThat(result.getInsertCount()).isEqualTo(3);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(5);
+        assertEquals(8, result.getDistance());
+        assertEquals(3, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(5, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(Integer.MAX_VALUE).apply("zzzzzzzz", "hippo");
-        assertThat(result.getDistance()).isEqualTo(8);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(3);
-        assertThat(result.getSubstituteCount()).isEqualTo(5);
+        assertEquals(8, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(3, result.getDeleteCount());
+        assertEquals(5, result.getSubstituteCount());
 
         result = new LevenshteinDetailedDistance(Integer.MAX_VALUE).apply("hello", "hallo");
-        assertThat(result.getDistance()).isEqualTo(1);
-        assertThat(result.getInsertCount()).isEqualTo(0);
-        assertThat(result.getDeleteCount()).isEqualTo(0);
-        assertThat(result.getSubstituteCount()).isEqualTo(1);
+        assertEquals(1, result.getDistance());
+        assertEquals(0, result.getInsertCount());
+        assertEquals(0, result.getDeleteCount());
+        assertEquals(1, result.getSubstituteCount());
     }
 
     @Test
     public void testGetThreshold() {
         final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
 
-        assertThat(levenshteinDetailedDistance.getThreshold()).isEqualTo(0);
+        assertEquals(0, levenshteinDetailedDistance.getThreshold());
     }
 
     @Test
     public void testHashCode() {
-     final LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
-     LevenshteinResults actualResult = classBeingTested.apply("aaapppp", "");
-     LevenshteinResults expectedResult = new LevenshteinResults(7, 0, 7, 0);
-     assertThat(expectedResult.hashCode()).isEqualTo(actualResult.hashCode());
+        final LevenshteinDetailedDistance classBeingTested = LevenshteinDetailedDistance.getDefaultInstance();
+        LevenshteinResults actualResult = classBeingTested.apply("aaapppp", "");
+        LevenshteinResults expectedResult = new LevenshteinResults(7, 0, 7, 0);
+        assertEquals(expectedResult.hashCode(), actualResult.hashCode());
 
-     actualResult = classBeingTested.apply("frog", "fog");
-     expectedResult = new LevenshteinResults(1, 0, 1, 0);
-     assertThat(expectedResult.hashCode()).isEqualTo(actualResult.hashCode());
+        actualResult = classBeingTested.apply("frog", "fog");
+        expectedResult = new LevenshteinResults(1, 0, 1, 0);
+        assertEquals(expectedResult.hashCode(), actualResult.hashCode());
 
-     actualResult = classBeingTested.apply("elephant", "hippo");
-     expectedResult = new LevenshteinResults(7, 0, 3, 4);
-     assertThat(expectedResult.hashCode()).isEqualTo(actualResult.hashCode());
+        actualResult = classBeingTested.apply("elephant", "hippo");
+        expectedResult = new LevenshteinResults(7, 0, 3, 4);
+        assertEquals(expectedResult.hashCode(), actualResult.hashCode());
     }
 
     @Test
     public void testToString() {
-     final LevenshteinDetailedDistance classBeingTested = new LevenshteinDetailedDistance();
-     LevenshteinResults actualResult = classBeingTested.apply("fly", "ant");
-     LevenshteinResults expectedResult = new LevenshteinResults(3, 0, 0, 3);
-     assertThat(expectedResult.toString()).isEqualTo(actualResult.toString());
+        final LevenshteinDetailedDistance classBeingTested = LevenshteinDetailedDistance.getDefaultInstance();
+        LevenshteinResults actualResult = classBeingTested.apply("fly", "ant");
+        LevenshteinResults expectedResult = new LevenshteinResults(3, 0, 0, 3);
+        assertEquals(expectedResult.toString(), actualResult.toString());
 
-     actualResult = classBeingTested.apply("hippo", "elephant");
-     expectedResult = new LevenshteinResults(7, 3, 0, 4);
-     assertThat(expectedResult.toString()).isEqualTo(actualResult.toString());
+        actualResult = classBeingTested.apply("hippo", "elephant");
+        expectedResult = new LevenshteinResults(7, 3, 0, 4);
+        assertEquals(expectedResult.toString(), actualResult.toString());
 
-     actualResult = classBeingTested.apply("", "a");
-     expectedResult = new LevenshteinResults(1, 1, 0, 0);
-     assertThat(expectedResult.toString()).isEqualTo(actualResult.toString());
+        actualResult = classBeingTested.apply("", "a");
+        expectedResult = new LevenshteinResults(1, 1, 0, 0);
+        assertEquals(expectedResult.toString(), actualResult.toString());
     }
 
 }

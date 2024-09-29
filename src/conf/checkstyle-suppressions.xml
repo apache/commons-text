@@ -45,4 +45,5 @@
   <suppress checks="MethodLength" files="TextStringBuilderAppendInsertTest.java" />
   <suppress checks="TodoComment" files="StringEscapeUtilsTest.java" />
   <suppress checks="TodoComment" files="JaroWinklerDistance.*.java" />
+  <suppress checks="LineLength" files="OssFuzzTest.java" />
 </suppressions>

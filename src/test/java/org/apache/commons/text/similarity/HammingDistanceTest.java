@@ -16,11 +16,13 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests {@link HammingDistance}.
@@ -34,26 +36,39 @@ public class HammingDistanceTest {
         distance = new HammingDistance();
     }
 
+    @ParameterizedTest
+    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputsEquals()")
+    public void testHammingDistance(final Class<?> cls) {
+        assertEquals(0, distance.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "")));
+        assertEquals(0, distance.apply(SimilarityInputTest.build(cls, "pappa"), SimilarityInputTest.build(cls, "pappa")));
+        assertEquals(1, distance.apply(SimilarityInputTest.build(cls, "papaa"), SimilarityInputTest.build(cls, "pappa")));
+        assertEquals(3, distance.apply(SimilarityInputTest.build(cls, "karolin"), SimilarityInputTest.build(cls, "kathrin")));
+        assertEquals(3, distance.apply(SimilarityInputTest.build(cls, "karolin"), SimilarityInputTest.build(cls, "kerstin")));
+        assertEquals(2, distance.apply(SimilarityInputTest.build(cls, "1011101"), SimilarityInputTest.build(cls, "1001001")));
+        assertEquals(3, distance.apply(SimilarityInputTest.build(cls, "2173896"), SimilarityInputTest.build(cls, "2233796")));
+        assertEquals(2, distance.apply(SimilarityInputTest.build(cls, "ATCG"), SimilarityInputTest.build(cls, "ACCC")));
+    }
+
     @Test
-    public void testHammingDistance() {
-        assertThat(distance.apply("", "")).isEqualTo(0);
-        assertThat(distance.apply("pappa", "pappa")).isEqualTo(0);
-        assertThat(distance.apply("papaa", "pappa")).isEqualTo(1);
-        assertThat(distance.apply("karolin", "kathrin")).isEqualTo(3);
-        assertThat(distance.apply("karolin", "kerstin")).isEqualTo(3);
-        assertThat(distance.apply("1011101", "1001001")).isEqualTo(2);
-        assertThat(distance.apply("2173896", "2233796")).isEqualTo(3);
-        assertThat(distance.apply("ATCG", "ACCC")).isEqualTo(2);
+    public void testHammingDistanceCharSequence() {
+        assertEquals(0, distance.apply("", ""));
+        assertEquals(0, distance.apply("pappa", "pappa"));
+        assertEquals(1, distance.apply("papaa", "pappa"));
+        assertEquals(3, distance.apply("karolin", "kathrin"));
+        assertEquals(3, distance.apply("karolin", "kerstin"));
+        assertEquals(2, distance.apply("1011101", "1001001"));
+        assertEquals(3, distance.apply("2173896", "2233796"));
+        assertEquals(2, distance.apply("ATCG", "ACCC"));
     }
 
     @Test
     public void testHammingDistance_nullLeftValue() {
-        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply(null, ""));
+        assertThrows(IllegalArgumentException.class, () -> distance.apply(null, ""));
     }
 
     @Test
     public void testHammingDistance_nullRightValue() {
-        assertThatIllegalArgumentException().isThrownBy(() -> distance.apply("", null));
+        assertThrows(IllegalArgumentException.class, () -> distance.apply("", null));
     }
 
 }

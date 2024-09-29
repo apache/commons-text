@@ -50,6 +50,14 @@ The <action> type attribute can be add,update,fix,remove.
     <action type="add" dev="ggregory" due-to="Gary Gregory">Add StringLookupFactory.loopbackAddressStringLookup().</action>
     <action type="add" dev="ggregory" due-to="Gary Gregory">Add StringLookupFactory.KEY_LOOPBACK_ADDRESS.</action>
     <action type="add" dev="ggregory" due-to="Gary Gregory">Add DefaultStringLookup.LOOPBACK_ADDRESS.</action>
+    <action type="add" dev="ggregory" due-to="Gary Gregory">Add richer inputs in package org.apache.commons.text.similarity with SimilarityInput.</action>    
+    <action type="add" dev="ggregory" due-to="Gary Gregory">Add HammingDistance.apply(SimilarityInput, SimilarityInput).</action>
+    <action type="add" dev="ggregory" due-to="Gary Gregory">Add JaccardDistance.apply(SimilarityInput, SimilarityInput).</action>
+    <action type="add" dev="ggregory" due-to="Gary Gregory">Add JaccardSimilarity.apply(SimilarityInput, SimilarityInput).</action>
+    <action type="add" dev="ggregory" due-to="Gary Gregory">Add JaroWinklerDistance.apply(SimilarityInput, SimilarityInput).</action>
+    <action type="add" dev="ggregory" due-to="Gary Gregory">Add JaroWinklerSimilarity.apply(SimilarityInput, SimilarityInput).</action>
+    <action type="add" dev="ggregory" due-to="Gary Gregory">Add LevenshteinDetailedDistance.apply(SimilarityInput, SimilarityInput).</action>
+    <action type="add" dev="ggregory" due-to="Gary Gregory">Add LevenshteinDistance.apply(SimilarityInput, SimilarityInput).</action>
     <!-- FIX -->
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix build on Java 22.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix build on Java 23-ea.</action>

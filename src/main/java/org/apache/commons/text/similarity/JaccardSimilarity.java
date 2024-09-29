@@ -20,13 +20,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Measures the Jaccard similarity (aka Jaccard index) of two sets of character
- * sequence. Jaccard similarity is the size of the intersection divided by the
- * size of the union of the two sets.
+ * Measures the Jaccard similarity (aka Jaccard index) of two sets of character sequence. Jaccard similarity is the size of the intersection divided by the size
+ * of the union of the two sets.
  *
  * <p>
- * For further explanation about Jaccard Similarity, refer
- * https://en.wikipedia.org/wiki/Jaccard_index
+ * For further explanation about Jaccard Similarity, refer https://en.wikipedia.org/wiki/Jaccard_index
  * </p>
  *
  * @since 1.0
@@ -39,34 +37,32 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
     static final JaccardSimilarity INSTANCE = new JaccardSimilarity();
 
     /**
-     * Calculates Jaccard Similarity of two set character sequence passed as
-     * input.
+     * Computes the Jaccard Similarity of two set character sequence passed as input.
      *
-     * @param left first character sequence
-     * @param right second character sequence
-     * @return index
-     * @throws IllegalArgumentException
-     *             if either String input {@code null}
+     * @param left  first input sequence.
+     * @param right second input sequence.
+     * @return index.
+     * @throws IllegalArgumentException if either String input {@code null}.
      */
     @Override
     public Double apply(final CharSequence left, final CharSequence right) {
-        if (left == null || right == null) {
-            throw new IllegalArgumentException("Input cannot be null");
-        }
-        return calculateJaccardSimilarity(left, right);
+        return apply(SimilarityInput.input(left), SimilarityInput.input(right));
     }
 
     /**
-     * Calculates Jaccard Similarity of two character sequences passed as
-     * input. Does the calculation by identifying the union (characters in at
-     * least one of the two sets) of the two sets and intersection (characters
-     * which are present in set one which are present in set two)
+     * Computes the Jaccard Similarity of two character sequences passed as input. Does the calculation by identifying the union (characters in at least one of
+     * the two sets) of the two sets and intersection (characters which are present in set one which are present in set two)
      *
-     * @param left first character sequence
-     * @param right second character sequence
-     * @return index
+     * @param <E>   The type of similarity score unit.
+     * @param left  first input sequence.
+     * @param right second input sequence.
+     * @return index.
+     * @since 1.13.0
      */
-    private Double calculateJaccardSimilarity(final CharSequence left, final CharSequence right) {
+    public <E> Double apply(final SimilarityInput<E> left, final SimilarityInput<E> right) {
+        if (left == null || right == null) {
+            throw new IllegalArgumentException("Input cannot be null");
+        }
         final int leftLength = left.length();
         final int rightLength = right.length();
         if (leftLength == 0 && rightLength == 0) {
@@ -75,15 +71,15 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
         if (leftLength == 0 || rightLength == 0) {
             return 0d;
         }
-        final Set<Character> leftSet = new HashSet<>();
+        final Set<E> leftSet = new HashSet<>();
         for (int i = 0; i < leftLength; i++) {
-            leftSet.add(left.charAt(i));
+            leftSet.add(left.at(i));
         }
-        final Set<Character> rightSet = new HashSet<>();
+        final Set<E> rightSet = new HashSet<>();
         for (int i = 0; i < rightLength; i++) {
-            rightSet.add(right.charAt(i));
+            rightSet.add(right.at(i));
         }
-        final Set<Character> unionSet = new HashSet<>(leftSet);
+        final Set<E> unionSet = new HashSet<>(leftSet);
         unionSet.addAll(rightSet);
         final int intersectionSize = leftSet.size() + rightSet.size() - unionSet.size();
         return 1.0d * intersectionSize / unionSet.size();

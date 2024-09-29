@@ -71,10 +71,8 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
     private static int[] algorithmB(final CharSequence left, final CharSequence right) {
         final int m = left.length();
         final int n = right.length();
-
         // Creating an array for storing two rows of DP table
         final int[][] dpRows = new int[2][1 + n];
-
         for (int i = 1; i <= m; i++) {
             // K(0, j) <- K(1, j) [j = 0...n], as per the paper:
             // Since we have references in Java, we can swap references instead of literal copying.
@@ -93,7 +91,6 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
                 }
             }
         }
-
         // LL(j) <- K(1, j) [j=0...n], as per the paper:
         // We don't need literal copying of the array, we can just return the reference
         return dpRows[1];
@@ -113,9 +110,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
     private static String algorithmC(final CharSequence left, final CharSequence right) {
         final int m = left.length();
         final int n = right.length();
-
         final StringBuilder out = new StringBuilder();
-
         if (m == 1) { // Handle trivial cases, as per the paper
             final char leftCh = left.charAt(0);
             for (int j = 0; j < n; j++) {
@@ -126,14 +121,11 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
             }
         } else if (n > 0 && m > 1) {
             final int mid = m / 2; // Find the middle point
-
             final CharSequence leftFirstPart = left.subSequence(0, mid);
             final CharSequence leftSecondPart = left.subSequence(mid, m);
-
             // Step 3 of the algorithm: two calls to Algorithm B
             final int[] l1 = algorithmB(leftFirstPart, right);
             final int[] l2 = algorithmB(reverse(leftSecondPart), reverse(right));
-
             // Find k, as per the Step 4 of the algorithm
             int k = 0;
             int t = 0;
@@ -144,7 +136,6 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
                     k = j;
                 }
             }
-
             // Step 5: solve simpler problems, recursively
             out.append(algorithmC(leftFirstPart, right.subSequence(0, k)));
             out.append(algorithmC(leftSecondPart, right.subSequence(k, n)));
@@ -159,7 +150,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
     }
 
     /**
-     * Calculates the longest common subsequence similarity score of two {@code CharSequence}'s passed as
+     * Computes the longest common subsequence similarity score of two {@code CharSequence}'s passed as
      * input.
      *
      * <p>
@@ -186,12 +177,10 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
         // Find lengths of two strings
         final int leftSz = left.length();
         final int rightSz = right.length();
-
         // Check if we can avoid calling algorithmB which involves heap space allocation
         if (leftSz == 0 || rightSz == 0) {
             return 0;
         }
-
         // Check if we can save even more space
         if (leftSz < rightSz) {
             return algorithmB(right, left)[leftSz];

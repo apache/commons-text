@@ -17,13 +17,11 @@
 package org.apache.commons.text.similarity;
 
 /**
- * Measures the Jaccard distance of two sets of character sequence. Jaccard
- * distance is the dissimilarity between two sets. It is the complementary of
- * Jaccard similarity.
+ * Measures the Jaccard distance of two sets of character sequence. Jaccard distance is the dissimilarity between two sets. It is the complementary of Jaccard
+ * similarity.
  *
  * <p>
- * For further explanation about Jaccard Distance, refer
- * https://en.wikipedia.org/wiki/Jaccard_index
+ * For further explanation about Jaccard Distance, refer https://en.wikipedia.org/wiki/Jaccard_index
  * </p>
  *
  * @since 1.0
@@ -31,20 +29,29 @@ package org.apache.commons.text.similarity;
 public class JaccardDistance implements EditDistance<Double> {
 
     /**
-     * Calculates Jaccard distance of two set character sequence passed as
-     * input. Calculates Jaccard similarity and returns the complement of it.
+     * Computes the Jaccard distance of two set character sequence passed as input. Calculates Jaccard similarity and returns the complement of it.
      *
-     * @param left first character sequence
-     * @param right second character sequence
+     * @param left  first input sequence.
+     * @param right second input sequence.
      * @return index
-     * @throws IllegalArgumentException
-     *             if either String input {@code null}
+     * @throws IllegalArgumentException if either String input {@code null}.
      */
     @Override
     public Double apply(final CharSequence left, final CharSequence right) {
-        if (left == null || right == null) {
-            throw new IllegalArgumentException("Input cannot be null");
-        }
+        return apply(SimilarityInput.input(left), SimilarityInput.input(right));
+    }
+
+    /**
+     * Computes the Jaccard distance of two set character sequence passed as input. Calculates Jaccard similarity and returns the complement of it.
+     *
+     * @param <E>   The type of similarity score unit.
+     * @param left  first input sequence.
+     * @param right second input sequence.
+     * @return index
+     * @throws IllegalArgumentException if either String input {@code null}.
+     */
+    public <E> Double apply(final SimilarityInput<E> left, final SimilarityInput<E> right) {
         return 1.0 - JaccardSimilarity.INSTANCE.apply(left, right).doubleValue();
     }
+
 }
