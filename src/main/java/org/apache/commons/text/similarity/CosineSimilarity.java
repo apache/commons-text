@@ -91,7 +91,7 @@ public class CosineSimilarity {
     }
 
     /**
-     * Returns a set with strings common to the two given maps.
+     * Returns a set with keys common to the two given maps.
      *
      * @param leftVector left vector map
      * @param rightVector right vector map
