@@ -69,7 +69,7 @@ public class RandomStringGeneratorTest {
         final RandomStringGenerator generator = RandomStringGenerator.builder().build();
         final String str = generator.generate(minLength, maxLength);
         final int codePointLength = codePointLength(str);
-        assertTrue(codePointLength > 0 && codePointLength < 3);
+        assertTrue(codePointLength >= minLength && codePointLength <= maxLength);
     }
 
     @Test
