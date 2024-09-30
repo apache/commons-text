@@ -17,7 +17,6 @@
 
 package org.apache.commons.text;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -80,7 +79,7 @@ public class TextStringBuilderTest {
     /**
      * Clear the string builder and fill up to the specified length.
      *
-     * @param sb the string builder
+     * @param sb     the string builder
      * @param length the length
      */
     private static void fill(final TextStringBuilder sb, final int length) {
@@ -202,7 +201,7 @@ public class TextStringBuilderTest {
 
     @Test
     public void testAppendTakingTwoIntsWithIndexOutOfBoundsThrowsStringIndexOutOfBoundsExceptionTwo() {
-        assertThatExceptionOfType(StringIndexOutOfBoundsException.class).isThrownBy(() -> {
+        assertThrows(StringIndexOutOfBoundsException.class, () -> {
             final Charset charset = Charset.defaultCharset();
             final ByteBuffer byteBuffer = charset.encode("asdf");
             final CharBuffer charBuffer = charset.decode(byteBuffer);
@@ -213,7 +212,7 @@ public class TextStringBuilderTest {
 
     @Test
     public void testAppendTakingTwoIntsWithZeroThrowsStringIndexOutOfBoundsException() {
-        assertThatExceptionOfType(StringIndexOutOfBoundsException.class).isThrownBy(() -> {
+        assertThrows(StringIndexOutOfBoundsException.class, () -> {
             final Charset charset = Charset.defaultCharset();
             final ByteBuffer byteBuffer = charset.encode("end < start");
             final CharBuffer charBuffer = charset.decode(byteBuffer);
@@ -323,8 +322,7 @@ public class TextStringBuilderTest {
             assertThrows(IndexOutOfBoundsException.class, () -> reader.read(array, 0, -1));
             assertThrows(IndexOutOfBoundsException.class, () -> reader.read(array, 100, 1));
             assertThrows(IndexOutOfBoundsException.class, () -> reader.read(array, 0, 100));
-            assertThrows(IndexOutOfBoundsException.class,
-                () -> reader.read(array, Integer.MAX_VALUE, Integer.MAX_VALUE));
+            assertThrows(IndexOutOfBoundsException.class, () -> reader.read(array, Integer.MAX_VALUE, Integer.MAX_VALUE));
 
             assertEquals(0, reader.read(array, 0, 0));
             assertEquals(0, array[0]);
@@ -392,10 +390,10 @@ public class TextStringBuilderTest {
             writer.write('l');
             assertEquals("basel", sb.toString());
 
-            writer.write(new char[] {'i', 'n'});
+            writer.write(new char[] { 'i', 'n' });
             assertEquals("baselin", sb.toString());
 
-            writer.write(new char[] {'n', 'e', 'r'}, 1, 2);
+            writer.write(new char[] { 'n', 'e', 'r' }, 1, 2);
             assertEquals("baseliner", sb.toString());
 
             writer.write(" rout");
@@ -724,7 +722,7 @@ public class TextStringBuilderTest {
 
     @Test
     public void testDeleteCharAtWithNegative() {
-        assertThatExceptionOfType(StringIndexOutOfBoundsException.class).isThrownBy(() -> new TextStringBuilder().deleteCharAt(-1258));
+        assertThrows(StringIndexOutOfBoundsException.class, () -> new TextStringBuilder().deleteCharAt(-1258));
     }
 
     @Test
@@ -841,7 +839,7 @@ public class TextStringBuilderTest {
         final char[] b = new char[5];
         sb.set(data);
         assertEquals(2, sb.drainChars(0, 2, b, 3));
-        assertArrayEquals(new char[] {0, 0, 0, 'j', 'u'}, b);
+        assertArrayEquals(new char[] { 0, 0, 0, 'j', 'u' }, b);
 
         assertThrows(IndexOutOfBoundsException.class, () -> sb.drainChars(-1, 0, b, 0));
         assertThrows(IndexOutOfBoundsException.class, () -> sb.drainChars(0, -1, array, 0));
@@ -970,21 +968,16 @@ public class TextStringBuilderTest {
         assertTrue(sb1.equalsIgnoreCase(sb2));
 
         final Locale turkish = Locale.forLanguageTag("tr");
-        assertTrue(
-            new TextStringBuilder("title").equalsIgnoreCase(new TextStringBuilder("title".toLowerCase(turkish))));
-        assertTrue(
-            new TextStringBuilder("title").equalsIgnoreCase(new TextStringBuilder("TITLE".toLowerCase(turkish))));
-        assertTrue(
-            new TextStringBuilder("TITLE").equalsIgnoreCase(new TextStringBuilder("TITLE".toLowerCase(turkish))));
-        assertTrue(
-            new TextStringBuilder("TITLE").equalsIgnoreCase(new TextStringBuilder("title".toLowerCase(turkish))));
+        assertTrue(new TextStringBuilder("title").equalsIgnoreCase(new TextStringBuilder("title".toLowerCase(turkish))));
+        assertTrue(new TextStringBuilder("title").equalsIgnoreCase(new TextStringBuilder("TITLE".toLowerCase(turkish))));
+        assertTrue(new TextStringBuilder("TITLE").equalsIgnoreCase(new TextStringBuilder("TITLE".toLowerCase(turkish))));
+        assertTrue(new TextStringBuilder("TITLE").equalsIgnoreCase(new TextStringBuilder("title".toLowerCase(turkish))));
         //
         // assertTrue(new TextStringBuilder("title").equalsIgnoreCase(new
         // TextStringBuilder("title".toUpperCase(turkish))));
         // assertTrue(new TextStringBuilder("title").equalsIgnoreCase(new
         // TextStringBuilder("TITLE".toUpperCase(turkish))));
-        assertTrue(
-            new TextStringBuilder("TITLE").equalsIgnoreCase(new TextStringBuilder("TITLE".toUpperCase(turkish))));
+        assertTrue(new TextStringBuilder("TITLE").equalsIgnoreCase(new TextStringBuilder("TITLE".toUpperCase(turkish))));
         // assertTrue(new TextStringBuilder("TITLE").equalsIgnoreCase(new
         // TextStringBuilder("title".toUpperCase(turkish))));
     }
@@ -1001,7 +994,7 @@ public class TextStringBuilderTest {
         sb.append("junit");
         a = sb.getChars(input);
         assertSame(input, a);
-        assertArrayEquals(new char[] {'j', 'u', 'n', 'i', 't', 0, 0, 0, 0, 0}, a);
+        assertArrayEquals(new char[] { 'j', 'u', 'n', 'i', 't', 0, 0, 0, 0, 0 }, a);
 
         a = sb.getChars(null);
         assertNotSame(input, a);
@@ -1027,15 +1020,15 @@ public class TextStringBuilderTest {
 
         sb.set("junit");
         sb.getChars(0, 1, array1, 0);
-        assertArrayEquals(new char[] {'j'}, array1);
+        assertArrayEquals(new char[] { 'j' }, array1);
 
         final char[] array = new char[5];
         sb.getChars(0, 5, array, 0);
-        assertArrayEquals(new char[] {'j', 'u', 'n', 'i', 't'}, array);
+        assertArrayEquals(new char[] { 'j', 'u', 'n', 'i', 't' }, array);
 
         final char[] b = new char[5];
         sb.getChars(0, 2, b, 3);
-        assertArrayEquals(new char[] {0, 0, 0, 'j', 'u'}, b);
+        assertArrayEquals(new char[] { 0, 0, 0, 'j', 'u' }, b);
 
         assertThrows(IndexOutOfBoundsException.class, () -> sb.getChars(-1, 0, b, 0));
         assertThrows(IndexOutOfBoundsException.class, () -> sb.getChars(0, -1, array, 0));
@@ -1852,8 +1845,7 @@ public class TextStringBuilderTest {
         assertEquals("-x--y-", sb.toString());
 
         final TextStringBuilder builder = new TextStringBuilder("aaxaaaayaa");
-        assertThrows(IndexOutOfBoundsException.class,
-            () -> builder.replace(StringMatcherFactory.INSTANCE.stringMatcher("aa"), "-", 2, 1, -1));
+        assertThrows(IndexOutOfBoundsException.class, () -> builder.replace(StringMatcherFactory.INSTANCE.stringMatcher("aa"), "-", 2, 1, -1));
         assertEquals("aaxaaaayaa", builder.toString());
     }
 
@@ -1948,13 +1940,11 @@ public class TextStringBuilderTest {
         assertEquals("aaxaaaayaa", sb.toString());
 
         final TextStringBuilder builder = new TextStringBuilder("aaxaaaayaa");
-        assertThrows(IndexOutOfBoundsException.class,
-            () -> builder.replace(StringMatcherFactory.INSTANCE.stringMatcher("aa"), "-", 11, builder.length(), -1));
+        assertThrows(IndexOutOfBoundsException.class, () -> builder.replace(StringMatcherFactory.INSTANCE.stringMatcher("aa"), "-", 11, builder.length(), -1));
         assertEquals("aaxaaaayaa", builder.toString());
 
         builder.set("aaxaaaayaa");
-        assertThrows(IndexOutOfBoundsException.class,
-            () -> builder.replace(StringMatcherFactory.INSTANCE.stringMatcher("aa"), "-", -1, builder.length(), -1));
+        assertThrows(IndexOutOfBoundsException.class, () -> builder.replace(StringMatcherFactory.INSTANCE.stringMatcher("aa"), "-", -1, builder.length(), -1));
         assertEquals("aaxaaaayaa", builder.toString());
     }
 

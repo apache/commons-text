@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 package org.apache.commons.text.diff;
-import static org.assertj.core.api.Assertions.assertThat;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
@@ -118,7 +119,7 @@ public class StringsComparatorTest {
         for (int i = 0; i < before.size(); ++i) {
             final ExecutionVisitor<Character> ev = new ExecutionVisitor<>();
             new StringsComparator(before.get(i), after.get(i)).getScript().visit(ev);
-            assertThat(ev.getString()).isEqualTo(after.get(i));
+            assertEquals(after.get(i), ev.getString());
         }
     }
 
@@ -126,14 +127,14 @@ public class StringsComparatorTest {
     public void testLength() {
         for (int i = 0; i < before.size(); ++i) {
             final StringsComparator comparator =  new StringsComparator(before.get(i), after.get(i));
-            assertThat(comparator.getScript().getModifications()).isEqualTo(length[i]);
+            assertEquals(length[i], comparator.getScript().getModifications());
         }
     }
     @Test
     public void testLongestCommonSubsequence() {
         for (int i = 0; i < before.size(); ++i) {
             final StringsComparator comparator =  new StringsComparator(before.get(i), after.get(i));
-            assertThat(comparator.getScript().getLCSLength()).isEqualTo(lcs[i]);
+            assertEquals(lcs[i], comparator.getScript().getLCSLength());
         }
     }
 }

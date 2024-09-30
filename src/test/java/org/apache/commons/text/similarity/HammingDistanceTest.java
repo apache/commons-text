@@ -50,6 +50,16 @@ public class HammingDistanceTest {
     }
 
     @Test
+    public void testHammingDistance_nullLeftValue() {
+        assertThrows(IllegalArgumentException.class, () -> distance.apply(null, ""));
+    }
+
+    @Test
+    public void testHammingDistance_nullRightValue() {
+        assertThrows(IllegalArgumentException.class, () -> distance.apply("", null));
+    }
+
+    @Test
     public void testHammingDistanceCharSequence() {
         assertEquals(0, distance.apply("", ""));
         assertEquals(0, distance.apply("pappa", "pappa"));
@@ -59,16 +69,6 @@ public class HammingDistanceTest {
         assertEquals(2, distance.apply("1011101", "1001001"));
         assertEquals(3, distance.apply("2173896", "2233796"));
         assertEquals(2, distance.apply("ATCG", "ACCC"));
-    }
-
-    @Test
-    public void testHammingDistance_nullLeftValue() {
-        assertThrows(IllegalArgumentException.class, () -> distance.apply(null, ""));
-    }
-
-    @Test
-    public void testHammingDistance_nullRightValue() {
-        assertThrows(IllegalArgumentException.class, () -> distance.apply("", null));
     }
 
 }

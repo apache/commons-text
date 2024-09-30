@@ -32,13 +32,13 @@ public class LevenshteinDistanceTest {
     private static final LevenshteinDistance UNLIMITED_DISTANCE = LevenshteinDistance.getDefaultInstance();
 
     @Test
-    public void testApplyThrowsIllegalArgumentExceptionString() {
-        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(0).apply((String) null, (String) null));
+    public void testApplyThrowsIllegalArgumentExceptionSimilarityInput() {
+        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(0).apply((SimilarityInput<Object>) null, (SimilarityInput<Object>) null));
     }
 
     @Test
-    public void testApplyThrowsIllegalArgumentExceptionSimilarityInput() {
-        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(0).apply((SimilarityInput<Object>) null, (SimilarityInput<Object>) null));
+    public void testApplyThrowsIllegalArgumentExceptionString() {
+        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(0).apply((String) null, (String) null));
     }
 
     @Test

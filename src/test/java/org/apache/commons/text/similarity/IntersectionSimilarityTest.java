@@ -16,8 +16,8 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  */
 public class IntersectionSimilarityTest {
     private static <T> void assertIntersection(final IntersectionSimilarity<T> similarity, final CharSequence cs1, final CharSequence cs2, final int sizeA,
-        final int sizeB, final int intersection) {
+            final int sizeB, final int intersection) {
         final IntersectionResult result = similarity.apply(cs1, cs2);
         assertEquals(sizeA, result.getSizeA(), "Size A error");
         assertEquals(sizeB, result.getSizeB(), "Size B error");
@@ -44,8 +44,7 @@ public class IntersectionSimilarityTest {
     }
 
     /**
-     * Convert the {@link CharSequence} to a {@link List} of bigrams (pairs of characters). These are represented using 2
-     * 16-bit chars packed into a 32-bit int.
+     * Convert the {@link CharSequence} to a {@link List} of bigrams (pairs of characters). These are represented using 2 16-bit chars packed into a 32-bit int.
      *
      * @param sequence the sequence
      * @return the list
@@ -65,8 +64,7 @@ public class IntersectionSimilarityTest {
     }
 
     /**
-     * Convert the {@link CharSequence} to a {@link Set} of bigrams (pairs of characters). These are represented using 2
-     * 16-bit chars packed into a 32-bit int.
+     * Convert the {@link CharSequence} to a {@link Set} of bigrams (pairs of characters). These are represented using 2 16-bit chars packed into a 32-bit int.
      *
      * @param sequence the sequence
      * @return the set
@@ -123,25 +121,24 @@ public class IntersectionSimilarityTest {
 
     @Test
     public void testApplyNullNull() {
-        assertThatIllegalArgumentException()
-            .isThrownBy(() -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, null));
+        assertThrows(IllegalArgumentException.class, () -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, null));
     }
 
     @Test
     public void testApplyNullString() {
-        assertThatIllegalArgumentException()
-            .isThrownBy(() -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, "right"));
+        assertThrows(IllegalArgumentException.class,
+                () -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, "right"));
     }
 
     @Test
     public void testApplyStringNull() {
-        assertThatIllegalArgumentException()
-            .isThrownBy(() -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply("left", null));
+        assertThrows(IllegalArgumentException.class,
+                () -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply("left", null));
     }
 
     @Test
     public void testConstructorWithNullConverterThrows() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new IntersectionSimilarity<>(null));
+        assertThrows(IllegalArgumentException.class, () -> new IntersectionSimilarity<>(null));
     }
 
     @Test

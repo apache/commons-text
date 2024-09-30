@@ -16,8 +16,8 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -77,16 +77,16 @@ public class JaccardDistanceTest {
 
     @Test
     public void testGettingJaccardDistanceNullNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> classBeingTested.apply((String) null, null));
+        assertThrows(IllegalArgumentException.class, () -> classBeingTested.apply((String) null, null));
     }
 
     @Test
     public void testGettingJaccardDistanceNullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> classBeingTested.apply(null, "right"));
+        assertThrows(IllegalArgumentException.class, () -> classBeingTested.apply(null, "right"));
     }
 
     @Test
     public void testGettingJaccardDistanceStringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> classBeingTested.apply(" ", null));
+        assertThrows(IllegalArgumentException.class, () -> classBeingTested.apply(" ", null));
     }
 }

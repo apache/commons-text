@@ -16,7 +16,7 @@
  */
 package org.apache.commons.text.translate;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -34,7 +34,7 @@ public class CsvTranslatorsTest {
         final String input = "hi,this,is,a,test";
         escaper.translateWhole(input, writer);
         final String data = writer.toString();
-        assertThat(data).isEqualTo("\"hi,this,is,a,test\"");
+        assertEquals("\"hi,this,is,a,test\"", data);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class CsvTranslatorsTest {
         final String input = "hi,this,is,a,CR,test" + String.valueOf(CharUtils.CR);
         escaper.translateWhole(input, writer);
         final String data = writer.toString();
-        assertThat(data).isEqualTo("\"hi,this,is,a,CR,test" + String.valueOf(CharUtils.CR) + "\"");
+        assertEquals("\"hi,this,is,a,CR,test" + String.valueOf(CharUtils.CR) + "\"", data);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class CsvTranslatorsTest {
         final String input = "hi,this,is,a,LF,test" + String.valueOf(CharUtils.LF);
         escaper.translateWhole(input, writer);
         final String data = writer.toString();
-        assertThat(data).isEqualTo("\"hi,this,is,a,LF,test" + String.valueOf(CharUtils.LF) + "\"");
+        assertEquals("\"hi,this,is,a,LF,test" + String.valueOf(CharUtils.LF) + "\"", data);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class CsvTranslatorsTest {
         final String input = "hi this is just a plane text nothing to do with csv!";
         escaper.translateWhole(input, writer);
         final String data = writer.toString();
-        assertThat(input).isEqualTo(data);
+        assertEquals(data, input);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class CsvTranslatorsTest {
         final String input = "hi,this,is,a,\"quote,test";
         escaper.translateWhole(input, writer);
         final String data = writer.toString();
-        assertThat(data).isEqualTo("\"hi,this,is,a,\"\"quote,test\"");
+        assertEquals("\"hi,this,is,a,\"\"quote,test\"", data);
     }
 
     @Test
@@ -84,7 +84,7 @@ public class CsvTranslatorsTest {
         final String input = "hi,this,is,unescape,test";
         escaper.translateWhole(input, writer);
         final String data = writer.toString();
-        assertThat(data).isEqualTo("hi,this,is,unescape,test");
+        assertEquals(input, data);
     }
 
     @Test
@@ -94,7 +94,7 @@ public class CsvTranslatorsTest {
         final String input = "\"hi,this,is,unescape,test\"";
         escaper.translateWhole(input, writer);
         final String data = writer.toString();
-        assertThat(data).isEqualTo("hi,this,is,unescape,test");
+        assertEquals("hi,this,is,unescape,test", data);
     }
 
     @Test
@@ -104,7 +104,7 @@ public class CsvTranslatorsTest {
         final String input = "\"hi,this,is,unescape,test";
         escaper.translateWhole(input, writer);
         final String data = writer.toString();
-        assertThat(input).isEqualTo(data);
+        assertEquals(input, data);
     }
 
     @Test
@@ -114,7 +114,7 @@ public class CsvTranslatorsTest {
         final String input = "hi,this,is,unescape,test\"";
         escaper.translateWhole(input, writer);
         final String data = writer.toString();
-        assertThat(input).isEqualTo(data);
+        assertEquals(input, data);
     }
 
     @Test
@@ -124,7 +124,7 @@ public class CsvTranslatorsTest {
         final String input = "\"hi,this,is,\"unescape,test\"";
         escaper.translateWhole(input, writer);
         final String data = writer.toString();
-        assertThat(data).isEqualTo("hi,this,is,\"unescape,test");
+        assertEquals("hi,this,is,\"unescape,test", data);
     }
 
 }

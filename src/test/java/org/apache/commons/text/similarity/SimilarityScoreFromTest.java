@@ -17,8 +17,8 @@
 
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -27,15 +27,13 @@ public class SimilarityScoreFromTest {
     @Test
     public void testApply() {
         final LongestCommonSubsequence longestCommonSubsequence = new LongestCommonSubsequence();
-        final SimilarityScoreFrom<Integer> similarityScoreFrom =
-                new SimilarityScoreFrom<>(longestCommonSubsequence, "asdf");
-
-        assertThat(similarityScoreFrom.apply("s")).isEqualTo(1);
+        final SimilarityScoreFrom<Integer> similarityScoreFrom = new SimilarityScoreFrom<>(longestCommonSubsequence, "asdf");
+        assertEquals(1, similarityScoreFrom.apply("s"));
     }
 
     @Test
     public void testFailsToCreateSimilarityScoreFromThrowsIllegalArgumentException() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new SimilarityScoreFrom<>(null, ""));
+        assertThrows(IllegalArgumentException.class, () -> new SimilarityScoreFrom<>(null, ""));
     }
 
 }

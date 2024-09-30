@@ -17,8 +17,8 @@
 
 package org.apache.commons.text.translate;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -40,13 +40,13 @@ public class LookupTranslatorTest  {
         final LookupTranslator lt = new LookupTranslator(translatorMap);
         final StringWriter out = new StringWriter();
         final int result = lt.translate("one", 0, out);
-        assertThat(result).as("Incorrect code point consumption").isEqualTo(3);
-        assertThat(out.toString()).as("Incorrect value").isEqualTo("two");
+        assertEquals(3, result, "Incorrect code point consumption");
+        assertEquals("two", out.toString(), "Incorrect value");
     }
 
     @Test
     public void testFailsToCreateLookupTranslatorThrowsInvalidParameterException() {
-        assertThatExceptionOfType(InvalidParameterException.class).isThrownBy(() -> new LookupTranslator(null));
+        assertThrowsExactly(InvalidParameterException.class, () -> new LookupTranslator(null));
     }
 
     // Tests: https://issues.apache.org/jira/browse/LANG-882
@@ -57,8 +57,8 @@ public class LookupTranslatorTest  {
         final LookupTranslator lt = new LookupTranslator(translatorMap);
         final StringWriter out = new StringWriter();
         final int result = lt.translate(new StringBuffer("one"), 0, out);
-        assertThat(result).as("Incorrect code point consumption").isEqualTo(3);
-        assertThat(out.toString()).as("Incorrect value").isEqualTo("two");
+        assertEquals(3, result, "Incorrect code point consumption");
+        assertEquals("two", out.toString(), "Incorrect value");
     }
 
     @Test
@@ -71,7 +71,7 @@ public class LookupTranslatorTest  {
         final LookupTranslator translator = new LookupTranslator(map);
         final String translated = translator.translate(symbol + "=A");
         /* we should get "A=A". */
-        assertThat(translated).as("Incorrect value").isEqualTo("A=A");
+        assertEquals("A=A", translated, "Incorrect value");
     }
 
 }

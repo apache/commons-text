@@ -17,7 +17,6 @@
 
 package org.apache.commons.text;
 
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -657,7 +656,7 @@ public class StrSubstitutorTest {
 
     @Test
     public void testReplaceTakingThreeArgumentsThrowsNullPointerException() {
-        assertThatNullPointerException().isThrownBy(() -> StrSubstitutor.replace(null, (Properties) null));
+        assertThrows(NullPointerException.class, () -> StrSubstitutor.replace(null, (Properties) null));
     }
 
     /**

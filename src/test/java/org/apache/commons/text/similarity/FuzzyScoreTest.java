@@ -16,8 +16,9 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Locale;
 
@@ -32,28 +33,28 @@ public class FuzzyScoreTest {
 
     @Test
     public void testGetFuzzyScore() {
-        assertThat(ENGLISH_SCORE.fuzzyScore("", "")).isEqualTo(0);
-        assertThat(ENGLISH_SCORE.fuzzyScore("Workshop", "b")).isEqualTo(0);
-        assertThat(ENGLISH_SCORE.fuzzyScore("Room", "o")).isEqualTo(1);
-        assertThat(ENGLISH_SCORE.fuzzyScore("Workshop", "w")).isEqualTo(1);
-        assertThat(ENGLISH_SCORE.fuzzyScore("Workshop", "ws")).isEqualTo(2);
-        assertThat(ENGLISH_SCORE.fuzzyScore("Workshop", "wo")).isEqualTo(4);
-        assertThat(ENGLISH_SCORE.fuzzyScore("Apache Software Foundation", "asf")).isEqualTo(3);
+        assertEquals(0, ENGLISH_SCORE.fuzzyScore("", ""));
+        assertEquals(0, ENGLISH_SCORE.fuzzyScore("Workshop", "b"));
+        assertEquals(1, ENGLISH_SCORE.fuzzyScore("Room", "o"));
+        assertEquals(1, ENGLISH_SCORE.fuzzyScore("Workshop", "w"));
+        assertEquals(2, ENGLISH_SCORE.fuzzyScore("Workshop", "ws"));
+        assertEquals(4, ENGLISH_SCORE.fuzzyScore("Workshop", "wo"));
+        assertEquals(3, ENGLISH_SCORE.fuzzyScore("Apache Software Foundation", "asf"));
     }
 
     @Test
     public void testGetFuzzyScore_NullNullLocale() {
-        assertThatIllegalArgumentException().isThrownBy(() -> ENGLISH_SCORE.fuzzyScore(null, null));
+        assertThrows(IllegalArgumentException.class, () -> ENGLISH_SCORE.fuzzyScore(null, null));
     }
 
     @Test
     public void testGetFuzzyScore_NullStringLocale() {
-        assertThatIllegalArgumentException().isThrownBy(() -> ENGLISH_SCORE.fuzzyScore(null, "not null"));
+        assertThrows(IllegalArgumentException.class, () -> ENGLISH_SCORE.fuzzyScore(null, "not null"));
     }
 
     @Test
     public void testGetFuzzyScore_StringNullLocale() {
-        assertThatIllegalArgumentException().isThrownBy(() -> ENGLISH_SCORE.fuzzyScore("not null", null));
+        assertThrows(IllegalArgumentException.class, () -> ENGLISH_SCORE.fuzzyScore("not null", null));
     }
 
     @Test
@@ -61,13 +62,12 @@ public class FuzzyScoreTest {
         final Locale locale = Locale.CANADA_FRENCH;
         final FuzzyScore fuzzyScore = new FuzzyScore(locale);
         final Locale localeTwo = fuzzyScore.getLocale();
-
-        assertThat(localeTwo).isSameAs(locale);
+        assertSame(localeTwo, locale);
     }
 
     @Test
     public void testMissingLocale() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new FuzzyScore((Locale) null));
+        assertThrows(IllegalArgumentException.class, () -> new FuzzyScore((Locale) null));
     }
 
 }

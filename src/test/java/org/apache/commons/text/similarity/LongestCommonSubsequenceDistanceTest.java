@@ -16,8 +16,8 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -36,34 +36,34 @@ public class LongestCommonSubsequenceDistanceTest {
 
     @Test
     public void testGettingLongestCommonSubsequenceDistance() {
-        assertThat(subject.apply("", "")).isEqualTo(0);
-        assertThat(subject.apply("left", "")).isEqualTo(4);
-        assertThat(subject.apply("", "right")).isEqualTo(5);
-        assertThat(subject.apply("frog", "fog")).isEqualTo(1);
-        assertThat(subject.apply("fly", "ant")).isEqualTo(6);
-        assertThat(subject.apply("elephant", "hippo")).isEqualTo(11);
-        assertThat(subject.apply("ABC Corporation", "ABC Corp")).isEqualTo(7);
-        assertThat(subject.apply("D N H Enterprises Inc", "D & H Enterprises, Inc.")).isEqualTo(4);
-        assertThat(subject.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness")).isEqualTo(9);
-        assertThat(subject.apply("PENNSYLVANIA", "PENNCISYLVNIA")).isEqualTo(3);
-        assertThat(subject.apply("left", "right")).isEqualTo(7);
-        assertThat(subject.apply("leettteft", "ritttght")).isEqualTo(9);
-        assertThat(subject.apply("the same string", "the same string")).isEqualTo(0);
+        assertEquals(0, subject.apply("", ""));
+        assertEquals(4, subject.apply("left", ""));
+        assertEquals(5, subject.apply("", "right"));
+        assertEquals(1, subject.apply("frog", "fog"));
+        assertEquals(6, subject.apply("fly", "ant"));
+        assertEquals(11, subject.apply("elephant", "hippo"));
+        assertEquals(7, subject.apply("ABC Corporation", "ABC Corp"));
+        assertEquals(4, subject.apply("D N H Enterprises Inc", "D & H Enterprises, Inc."));
+        assertEquals(9, subject.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness"));
+        assertEquals(3, subject.apply("PENNSYLVANIA", "PENNCISYLVNIA"));
+        assertEquals(7, subject.apply("left", "right"));
+        assertEquals(9, subject.apply("leettteft", "ritttght"));
+        assertEquals(0, subject.apply("the same string", "the same string"));
     }
 
     @Test
     public void testGettingLongestCommonSubsequenceDistanceNullNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> subject.apply(null, null));
+        assertThrows(IllegalArgumentException.class, () -> subject.apply(null, null));
     }
 
     @Test
     public void testGettingLongestCommonSubsequenceDistanceNullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> subject.apply(null, "right"));
+        assertThrows(IllegalArgumentException.class, () -> subject.apply(null, "right"));
     }
 
     @Test
     public void testGettingLongestCommonSubsequenceDistanceStringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> subject.apply(" ", null));
+        assertThrows(IllegalArgumentException.class, () -> subject.apply(" ", null));
     }
 
 }

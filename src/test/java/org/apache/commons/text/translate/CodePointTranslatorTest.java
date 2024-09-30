@@ -16,7 +16,7 @@
  */
 package org.apache.commons.text.translate;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.io.PipedReader;
@@ -32,7 +32,7 @@ public class CodePointTranslatorTest {
         final UnicodeEscaper unicodeEscaper = new UnicodeEscaper();
         final String string = unicodeEscaper.toUtf16Escape(0);
         try (PipedReader pipedReader = new PipedReader(); PipedWriter pipedWriter = new PipedWriter(pipedReader)) {
-            assertThat(numericEntityEscaper.translate(string, 0, pipedWriter)).isEqualTo(1);
+            assertEquals(1, numericEntityEscaper.translate(string, 0, pipedWriter));
         }
     }
 

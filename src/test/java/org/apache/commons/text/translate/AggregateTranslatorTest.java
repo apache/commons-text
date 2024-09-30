@@ -16,7 +16,7 @@
  */
 package org.apache.commons.text.translate;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -41,26 +41,26 @@ public class AggregateTranslatorTest {
         final AggregateTranslator subject = new AggregateTranslator(translator1, translator2);
         final StringWriter out1 = new StringWriter();
         final int result1 = subject.translate(new StringBuffer("one"), 0, out1);
-        assertThat(result1).as("Incorrect code point consumption").isEqualTo(3);
-        assertThat(out1.toString()).as("Incorrect value").isEqualTo("two");
+        assertEquals(3, result1, "Incorrect code point consumption");
+        assertEquals("two", out1.toString());
         final StringWriter out2 = new StringWriter();
         final int result2 = subject.translate(new StringBuffer("three"), 0, out2);
-        assertThat(result2).as("Incorrect code point consumption").isEqualTo(5);
-        assertThat(out2.toString()).as("Incorrect value").isEqualTo("four");
+        assertEquals(5, result2, "Incorrect code point consumption");
+        assertEquals("four", out2.toString(), "Incorrect value");
     }
 
     @Test
     public void testNullConstructor() {
         final String testString = "foo";
         final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator[]) null);
-        assertThat(subject.translate(testString)).isEqualTo(testString);
+        assertEquals(testString, subject.translate(testString));
     }
 
     @Test
     public void testNullVarargConstructor() {
         final String testString = "foo";
         final AggregateTranslator subject = new AggregateTranslator((CharSequenceTranslator) null);
-        assertThat(subject.translate(testString)).isEqualTo(testString);
+        assertEquals(testString, subject.translate(testString));
     }
 
 }

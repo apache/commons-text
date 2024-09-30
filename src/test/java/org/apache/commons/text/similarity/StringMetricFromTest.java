@@ -16,8 +16,8 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -34,33 +34,32 @@ public class StringMetricFromTest {
         final Integer distance = 4;
         final EditDistanceFrom<Integer> metricFrom = new EditDistanceFrom<>(metric, left);
 
-        assertThat(metricFrom.apply(right)).isEqualTo(distance);
-        assertThat(metricFrom.apply(right)).isEqualTo(metric.apply(left, right));
+        assertEquals(distance, metricFrom.apply(right));
+        assertEquals(metric.apply(left, right), metricFrom.apply(right));
     }
 
     @Test
     public void testJavadocExample() {
         final EditDistance<Integer> metric = LevenshteinDistance.getDefaultInstance();
         final String target = "Apache";
-        final EditDistanceFrom<Integer> metricFrom =
-            new EditDistanceFrom<>(metric, target);
+        final EditDistanceFrom<Integer> metricFrom = new EditDistanceFrom<>(metric, target);
         String mostSimilar = null;
         Integer shortestDistance = null;
 
-        for (final String test : new String[] {"Appaloosa", "a patchy", "apple" }) {
+        for (final String test : new String[] { "Appaloosa", "a patchy", "apple" }) {
             final Integer distance = metricFrom.apply(test);
             if (shortestDistance == null || distance < shortestDistance) {
                 shortestDistance = distance;
                 mostSimilar = test;
             }
         }
-        assertThat(mostSimilar).isEqualTo("a patchy");
-        assertThat(shortestDistance).isEqualTo(4);
+        assertEquals("a patchy", mostSimilar);
+        assertEquals(4, shortestDistance);
     }
 
     @Test
     public void testMissingMetric() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new EditDistanceFrom<Number>(null, "no go"));
+        assertThrows(IllegalArgumentException.class, () -> new EditDistanceFrom<Number>(null, "no go"));
     }
 
 }

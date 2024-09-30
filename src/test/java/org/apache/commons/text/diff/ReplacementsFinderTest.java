@@ -16,8 +16,8 @@
  */
 package org.apache.commons.text.diff;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +86,7 @@ public class ReplacementsFinderTest {
         final StringsComparator sc = new StringsComparator(left, right);
         final ReplacementsFinder<Character> replacementFinder = new ReplacementsFinder<>(handler);
         sc.getScript().visit(replacementFinder);
-        assertThat(handler.getSkipped()).as("Skipped characters do not match").isEqualTo(skipped);
+        assertEquals(skipped, handler.getSkipped(), "Skipped characters do not match");
         assertArrayEquals(handler.getFrom().toArray(ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY), from,
             "From characters do not match");
         assertArrayEquals(to, handler.getTo().toArray(ArrayUtils.EMPTY_CHARACTER_OBJECT_ARRAY),

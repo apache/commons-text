@@ -17,9 +17,8 @@
 
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.within;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,15 +30,12 @@ public class CosineSimilarityTest {
     @Test
     public void testCosineSimilarityReturningDoubleWhereByteValueIsZero() {
         final Map<CharSequence, Integer> hashMap = new HashMap<>();
-        assertThat(CosineSimilarity.INSTANCE.cosineSimilarity(hashMap, hashMap)).isEqualTo(0.0, within(0.01));
+        assertEquals(0.0, CosineSimilarity.INSTANCE.cosineSimilarity(hashMap, hashMap), 0.01);
     }
 
     @Test
     public void testCosineSimilarityThrowsIllegalArgumentException() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            final Map<CharSequence, Integer> map = new HashMap<>();
-            CosineSimilarity.INSTANCE.cosineSimilarity(map, null);
-        });
+        assertThrows(IllegalArgumentException.class, () -> CosineSimilarity.INSTANCE.cosineSimilarity(new HashMap<>(), null));
     }
 
     @Test
@@ -48,15 +44,12 @@ public class CosineSimilarityTest {
         final Integer integer = -397;
         hashMap.put("3J/$3.L", integer);
         final Map<CharSequence, Integer> hashMapTwo = new HashMap<>();
-
-        assertThat(CosineSimilarity.INSTANCE.cosineSimilarity(hashMap, hashMapTwo)).isEqualTo(0.0, within(0.01));
+        assertEquals(0.0, CosineSimilarity.INSTANCE.cosineSimilarity(hashMap, hashMapTwo), 0.01);
     }
 
     @Test
     public void testCosineSimilarityWithNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            CosineSimilarity.INSTANCE.cosineSimilarity(null, null);
-        });
+        assertThrows(IllegalArgumentException.class, () -> CosineSimilarity.INSTANCE.cosineSimilarity(null, null));
     }
 
 }

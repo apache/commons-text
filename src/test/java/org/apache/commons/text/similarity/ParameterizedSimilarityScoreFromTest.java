@@ -16,7 +16,7 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.stream.Stream;
 
@@ -32,25 +32,17 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class ParameterizedSimilarityScoreFromTest<R> {
 
     public static Stream<Arguments> parameters() {
-        return Stream.of(
-                Arguments.of(LevenshteinDistance.getDefaultInstance(), "elephant", "hippo", 7),
+        return Stream.of(Arguments.of(LevenshteinDistance.getDefaultInstance(), "elephant", "hippo", 7),
                 Arguments.of(LevenshteinDistance.getDefaultInstance(), "hippo", "elephant", 7),
                 Arguments.of(LevenshteinDistance.getDefaultInstance(), "hippo", "zzzzzzzz", 8),
-
-                Arguments.of(
-                        (SimilarityScore<Boolean>) (left, right) -> left == right
-                                || left != null && left.equals(right),
-                        "Bob's your uncle.",
-                        "Every good boy does fine.",
-                        false
-                ));
+                Arguments.of((SimilarityScore<Boolean>) (left, right) -> left == right || left != null && left.equals(right), "Bob's your uncle.",
+                        "Every good boy does fine.", false));
     }
 
     @ParameterizedTest
     @MethodSource("parameters")
-    public void test(final SimilarityScore<R> similarityScore, final CharSequence left, final CharSequence right,
-            final R distance) {
+    public void test(final SimilarityScore<R> similarityScore, final CharSequence left, final CharSequence right, final R distance) {
         final SimilarityScoreFrom<R> similarityScoreFrom = new SimilarityScoreFrom<>(similarityScore, left);
-        assertThat(similarityScoreFrom.apply(right)).isEqualTo(distance);
+        assertEquals(distance, similarityScoreFrom.apply(right));
     }
 }

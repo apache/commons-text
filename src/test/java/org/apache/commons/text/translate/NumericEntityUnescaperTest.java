@@ -17,8 +17,8 @@
 
 package org.apache.commons.text.translate;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,8 +32,7 @@ public class NumericEntityUnescaperTest  {
         final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = {};
         final NumericEntityUnescaper numericEntityUnescaper =
                 new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
-
-        assertThat(numericEntityUnescaper.translate("2|y|O7y`&#uVWj")).isEqualTo("2|y|O7y`&#uVWj");
+        assertEquals("2|y|O7y`&#uVWj", numericEntityUnescaper.translate("2|y|O7y`&#uVWj"));
     }
 
     @Test
@@ -41,18 +40,17 @@ public class NumericEntityUnescaperTest  {
         final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = {};
         final NumericEntityUnescaper numericEntityUnescaper =
                 new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
-
-        assertThat(numericEntityUnescaper.translate("Ws2v8|O=7NR&#cB")).isEqualTo("Ws2v8|O=7NR&#cB");
+        assertEquals("Ws2v8|O=7NR&#cB", numericEntityUnescaper.translate("Ws2v8|O=7NR&#cB"));
     }
 
     @Test
     public void testOutOfBounds() {
         final NumericEntityUnescaper neu = new NumericEntityUnescaper();
 
-        assertThat(neu.translate("Test &")).as("Failed to ignore when last character is &").isEqualTo("Test &");
-        assertThat(neu.translate("Test &#")).as("Failed to ignore when last character is &").isEqualTo("Test &#");
-        assertThat(neu.translate("Test &#x")).as("Failed to ignore when last character is &").isEqualTo("Test &#x");
-        assertThat(neu.translate("Test &#X")).as("Failed to ignore when last character is &").isEqualTo("Test &#X");
+        assertEquals("Test &", neu.translate("Test &"), "Failed to ignore when last character is &");
+        assertEquals("Test &#", neu.translate("Test &#"), "Failed to ignore when last character is &");
+        assertEquals("Test &#x", neu.translate("Test &#x"), "Failed to ignore when last character is &");
+        assertEquals("Test &#X", neu.translate("Test &#X"), "Failed to ignore when last character is &");
     }
 
     @Test
@@ -62,7 +60,7 @@ public class NumericEntityUnescaperTest  {
         final String expected = "\uD803\uDC22";
 
         final String result = neu.translate(input);
-        assertThat(result).as("Failed to unescape numeric entities supplementary characters").isEqualTo(expected);
+        assertEquals(expected, result, "Failed to unescape numeric entities supplementary characters");
     }
 
     @Test
@@ -73,7 +71,7 @@ public class NumericEntityUnescaperTest  {
         String expected = "Test \u0030 not test";
 
         String result = neu.translate(input);
-        assertThat(result).as("Failed to support unfinished entities (i.e. missing semicolon)").isEqualTo(expected);
+        assertEquals(expected, result, "Failed to support unfinished entities (i.e. missing semicolon)");
 
         // ignore it
         neu = new NumericEntityUnescaper();
@@ -81,7 +79,7 @@ public class NumericEntityUnescaperTest  {
         expected = input;
 
         result = neu.translate(input);
-        assertThat(result).as("Failed to ignore unfinished entities (i.e. missing semicolon)").isEqualTo(expected);
+        assertEquals(expected, result, "Failed to ignore unfinished entities (i.e. missing semicolon)");
 
         // fail it
         neu = new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.errorIfNoSemiColon);

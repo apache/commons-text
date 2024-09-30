@@ -17,42 +17,36 @@
 
 package org.apache.commons.text.translate;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link UnicodeEscaper}.
  */
-public class UnicodeEscaperTest  {
+public class UnicodeEscaperTest {
 
     @Test
     public void testAbove() {
-        final UnicodeEscaper ue = UnicodeEscaper.above('F');
-
+        final UnicodeEscaper escaper = UnicodeEscaper.above('F');
         final String input = "ADFGZ";
-        final String result = ue.translate(input);
-        assertThat(result).as("Failed to escape Unicode characters via the above method")
-            .isEqualTo("ADF\\u0047\\u005A");
+        final String result = escaper.translate(input);
+        assertEquals("ADF\\u0047\\u005A", result, "Failed to escape Unicode characters via the above method");
     }
 
     @Test
     public void testBelow() {
-        final UnicodeEscaper ue = UnicodeEscaper.below('F');
-
+        final UnicodeEscaper escaper = UnicodeEscaper.below('F');
         final String input = "ADFGZ";
-        final String result = ue.translate(input);
-        assertThat(result).as("Failed to escape Unicode characters via the below method")
-            .isEqualTo("\\u0041\\u0044FGZ");
+        final String result = escaper.translate(input);
+        assertEquals("\\u0041\\u0044FGZ", result, "Failed to escape Unicode characters via the below method");
     }
 
     @Test
     public void testBetween() {
-        final UnicodeEscaper ue = UnicodeEscaper.between('F', 'L');
-
+        final UnicodeEscaper escaper = UnicodeEscaper.between('F', 'L');
         final String input = "ADFGZ";
-        final String result = ue.translate(input);
-        assertThat(result).as("Failed to escape Unicode characters via the between method")
-            .isEqualTo("AD\\u0046\\u0047Z");
+        final String result = escaper.translate(input);
+        assertEquals("AD\\u0046\\u0047Z", result, "Failed to escape Unicode characters via the between method");
     }
 }

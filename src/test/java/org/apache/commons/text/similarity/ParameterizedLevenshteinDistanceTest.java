@@ -16,7 +16,7 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.stream.Stream;
 
@@ -30,6 +30,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class ParameterizedLevenshteinDistanceTest {
 
     public static Stream<Arguments> parameters() {
+        // @formatter:off
         return Stream.of(
             /* empty strings */
             Arguments.of(0, "", "", 0),
@@ -91,14 +92,13 @@ public class ParameterizedLevenshteinDistanceTest {
             Arguments.of(Integer.MAX_VALUE, "hippo", "zzzzzzzz", 8),
             Arguments.of(Integer.MAX_VALUE, "zzzzzzzz", "hippo", 8),
             Arguments.of(Integer.MAX_VALUE, "hello", "hallo", 1));
+        // @formatter:on
     }
 
     @ParameterizedTest
     @MethodSource("parameters")
-    public void test(final Integer threshold, final CharSequence left, final CharSequence right,
-            final Integer distance) {
-        final LevenshteinDistance metric = new LevenshteinDistance(threshold);
-        assertThat(metric.apply(left, right)).isEqualTo(distance);
+    public void test(final Integer threshold, final CharSequence left, final CharSequence right, final Integer distance) {
+        assertEquals(distance, new LevenshteinDistance(threshold).apply(left, right));
     }
 
 }

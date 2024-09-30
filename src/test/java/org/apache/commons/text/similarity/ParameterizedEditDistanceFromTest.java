@@ -16,7 +16,7 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.stream.Stream;
 
@@ -54,10 +54,9 @@ public class ParameterizedEditDistanceFromTest<R> {
 
     @ParameterizedTest
     @MethodSource("parameters")
-    public void test(final EditDistance<R> editDistance, final CharSequence left, final CharSequence right,
-            final R distance) {
+    public void test(final EditDistance<R> editDistance, final CharSequence left, final CharSequence right, final R distance) {
         final EditDistanceFrom<R> editDistanceFrom = new EditDistanceFrom<>(editDistance, left);
-        assertThat(editDistanceFrom.apply(right)).isEqualTo(distance);
+        assertEquals(distance, editDistanceFrom.apply(right));
     }
 
 }

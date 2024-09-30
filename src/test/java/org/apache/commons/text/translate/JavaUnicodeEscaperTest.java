@@ -16,7 +16,7 @@
  */
 package org.apache.commons.text.translate;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,31 +28,25 @@ public class JavaUnicodeEscaperTest {
     @Test
     public void testAbove() {
         final JavaUnicodeEscaper jue = JavaUnicodeEscaper.above('F');
-
         final String input = "ADFGZ";
         final String result = jue.translate(input);
-        assertThat(result).as("Failed to escape Unicode characters via the above method")
-            .isEqualTo("ADF\\u0047\\u005A");
+        assertEquals("ADF\\u0047\\u005A", result, "Failed to escape Unicode characters via the above method");
     }
 
     @Test
     public void testBelow() {
         final JavaUnicodeEscaper jue = JavaUnicodeEscaper.below('F');
-
         final String input = "ADFGZ";
         final String result = jue.translate(input);
-        assertThat(result).as("Failed to escape Unicode characters via the below method")
-            .isEqualTo("\\u0041\\u0044FGZ");
+        assertEquals("\\u0041\\u0044FGZ", result, "Failed to escape Unicode characters via the below method");
     }
 
     @Test
     public void testBetween() {
         final JavaUnicodeEscaper jue = JavaUnicodeEscaper.between('F', 'L');
-
         final String input = "ADFGZ";
         final String result = jue.translate(input);
-        assertThat(result).as("Failed to escape Unicode characters via the between method")
-            .isEqualTo("AD\\u0046\\u0047Z");
+        assertEquals("AD\\u0046\\u0047Z", result, "Failed to escape Unicode characters via the between method");
     }
 
     @Test
@@ -62,6 +56,6 @@ public class JavaUnicodeEscaperTest {
         // Character ?, U+24B62, Binary Code Point 0010 0100 1011 0110 0010,
         // Binary UTF-167 1101 1000 0101 0010 1101 1111 0110 0010, UTF-16 Hex Code Units D852 DF62
         final String encoding = jue.toUtf16Escape(Integer.parseInt("024B62", 16));
-        assertThat(encoding).isEqualTo("\\uD852\\uDF62");
+        assertEquals("\\uD852\\uDF62", encoding);
     }
 }

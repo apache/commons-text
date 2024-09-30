@@ -16,8 +16,8 @@
  */
 package org.apache.commons.text.translate;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -48,19 +48,19 @@ public class SinglePassTranslatorTest {
 
     @Test
     public void testCodePointsAreReturned() throws Exception {
-        assertThat(dummyTranslator.translate("", 0, out)).isEqualTo(0);
-        assertThat(dummyTranslator.translate("abc", 0, out)).isEqualTo(3);
-        assertThat(dummyTranslator.translate("abcdefg", 0, out)).isEqualTo(7);
+        assertEquals(0, dummyTranslator.translate("", 0, out));
+        assertEquals(3, dummyTranslator.translate("abc", 0, out));
+        assertEquals(7, dummyTranslator.translate("abcdefg", 0, out));
     }
 
     @Test
     public void testIndexIsValidated() {
-        assertThatIllegalArgumentException().isThrownBy(() -> dummyTranslator.translate("abc", 1, out));
+        assertThrows(IllegalArgumentException.class, () -> dummyTranslator.translate("abc", 1, out));
     }
 
     @Test
     public void testTranslateThrowsIllegalArgumentException() {
-        assertThatIllegalArgumentException().isThrownBy(() -> dummyTranslator.translate("(,Fk", 647, null));
+        assertThrows(IllegalArgumentException.class, () -> dummyTranslator.translate("(,Fk", 647, null));
     }
 
 }

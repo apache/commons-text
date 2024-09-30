@@ -17,7 +17,7 @@
 
 package org.apache.commons.text.translate;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -29,27 +29,24 @@ public class UnicodeUnescaperTest {
 
     @Test
     public void testLessThanFour() {
-        final UnicodeUnescaper uu = new UnicodeUnescaper();
-
+        final UnicodeUnescaper escaper = new UnicodeUnescaper();
         final String input = "\\0047\\u006";
-        assertThrows(IllegalArgumentException.class, () -> uu.translate(input));
+        assertThrows(IllegalArgumentException.class, () -> escaper.translate(input));
     }
 
     // Requested in LANG-507
     @Test
     public void testUPlus() {
-        final UnicodeUnescaper uu = new UnicodeUnescaper();
-
+        final UnicodeUnescaper escaper = new UnicodeUnescaper();
         final String input = "\\u+0047";
-        assertThat(uu.translate(input)).as("Failed to unescape Unicode characters with 'u+' notation").isEqualTo("G");
+        assertEquals("G", escaper.translate(input), "Failed to unescape Unicode characters with 'u+' notation");
     }
 
     @Test
     public void testUuuuu() {
-        final UnicodeUnescaper uu = new UnicodeUnescaper();
-
+        final UnicodeUnescaper escaper = new UnicodeUnescaper();
         final String input = "\\uuuuuuuu0047";
-        final String result = uu.translate(input);
-        assertThat(result).as("Failed to unescape Unicode characters with many 'u' characters").isEqualTo("G");
+        final String result = escaper.translate(input);
+        assertEquals("G", result, "Failed to unescape Unicode characters with many 'u' characters");
     }
 }
