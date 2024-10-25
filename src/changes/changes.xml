@@ -78,7 +78,7 @@ The <action> type attribute can be add,update,fix,remove.
     <!-- UPDATE -->
     <action type="update" dev="ggregory" due-to="Dependabot">Bump org.apache.commons:commons-parent from 69 to 78 #542, #557, #571, #581, #584, #593, #600, #603, #614.</action>
     <action type="udpate" dev="ggregory" due-to="Gary Gregory">Bump tests on Java >= 22 org.graalvm.*:* from 24.0.0 to 24.1.1 #592, #610.</action>
-    <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.bytebuddy.version from 1.14.13 to 1.15.5 #538, #548, #553, #565, #579, #582, #585, #596, #597, #604, #612.</action>
+    <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.bytebuddy.version from 1.14.13 to 1.15.7 #538, #548, #553, #565, #579, #582, #585, #596, #597, #604, #612, #620.</action>
     <action type="update" dev="ggregory" due-to="Gary Gregory">Bump SpotBugs from 4.8.3 to 4.8.5.</action>
     <action type="update" dev="ggregory" due-to="Dependabot">Bump org.assertj:assertj-core from 3.25.3 to 3.26.3 #554, #566.</action>
     <action type="update" dev="ggregory" due-to="Dependabot">Bump org.codehaus.mojo:taglist-maven-plugin from 3.0.0 to 3.2.1 #564, #611.</action>
