@@ -77,8 +77,7 @@ public class DoubleFormatPerformance {
         /** Sets up the instance for the benchmark. */
         @Setup(Level.Iteration)
         public void setup() {
-            input = randomDoubleArray(size, minExp, maxExp,
-                RandomSource.create(RandomSource.XO_RO_SHI_RO_128_PP));
+            input = randomDoubleArray(size, minExp, maxExp, RandomSource.XO_RO_SHI_RO_128_PP.create());
         }
     }
 

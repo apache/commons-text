@@ -373,7 +373,7 @@ public class ParsedDecimalTest {
     @Test
     void testMaxPrecision_random() {
         // arrange
-        final UniformRandomProvider rand = RandomSource.create(RandomSource.XO_RO_SHI_RO_128_PP, 0L);
+        final UniformRandomProvider rand = RandomSource.XO_RO_SHI_RO_128_PP.create(0L);
         final ParsedDecimal.FormatOptions opts = new FormatOptionsImpl();
 
         for (int i = 0; i < 10_000; ++i) {
@@ -480,7 +480,7 @@ public class ParsedDecimalTest {
     @Test
     void testStringMethodAccuracy_random() {
         // arrange
-        final UniformRandomProvider rand = RandomSource.create(RandomSource.XO_RO_SHI_RO_128_PP, 0L);
+        final UniformRandomProvider rand = RandomSource.XO_RO_SHI_RO_128_PP.create(0L);
 
         final FormatOptionsImpl stdOpts = new FormatOptionsImpl();
         final FormatOptionsImpl altOpts = new FormatOptionsImpl();
