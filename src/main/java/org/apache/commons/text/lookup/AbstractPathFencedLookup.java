@@ -40,7 +40,7 @@ abstract class AbstractPathFencedLookup extends AbstractStringLookup {
      * @param fences The fences guarding Path resolution.
      */
     AbstractPathFencedLookup(final Path... fences) {
-        this.fences = fences != null ? Arrays.asList(fences).stream().map(Path::toAbsolutePath).collect(Collectors.toList()) : Collections.emptyList();
+        this.fences = fences != null ? Arrays.stream(fences).map(Path::toAbsolutePath).collect(Collectors.toList()) : Collections.emptyList();
     }
 
     /**
