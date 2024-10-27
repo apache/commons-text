@@ -16,12 +16,12 @@
  */
 package org.apache.commons.text.similarity;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A similarity algorithm indicating the percentage of matched characters
@@ -120,7 +120,7 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
     /**
      * Converter class for creating Bigrams for SorensenDice similarity.
      */
-    private static class SorensenDiceConverter implements Function<CharSequence, Collection<Integer>> {
+    private static final class SorensenDiceConverter implements Function<CharSequence, Collection<Integer>> {
         @Override
         public Collection<Integer> apply(CharSequence cs) {
             final int length = cs.length();

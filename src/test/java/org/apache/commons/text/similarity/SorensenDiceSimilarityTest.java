@@ -16,14 +16,14 @@
  */
 package org.apache.commons.text.similarity;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link SorensenDiceSimilarity}.
@@ -85,6 +85,12 @@ public class SorensenDiceSimilarityTest {
         assertThrows(IllegalArgumentException.class, () -> similarity.apply(null, "clear"));
     }
 
+    /**
+     * Format the double to two decimal places rounding it down.
+     *
+     * @param value the double value
+     * @return double formatted to two places rounding it down
+     */
     public static double printTwoDecimals(double value) {
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.DOWN);
