@@ -72,9 +72,8 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
      * similarity.apply("", "")                     = 1.0
      * similarity.apply("foo", "foo")               = 1.0
      * similarity.apply("foo", "foo ")              = 0.8
-     * similarity.apply("foo", "foo ")              = 0.66
-     * similarity.apply("foo", " foo ")             = 0.66
-     * similarity.apply("foo", " foo")              = 0.66
+     * similarity.apply("foo", " foo")              = 0.8
+     * similarity.apply("foo", " foo ")             &asymp; 0.66&hellip;
      * similarity.apply("", "a")                    = 0.0
      * similarity.apply("aaapppp", "")              = 0.0
      * similarity.apply("frog", "fog")              = 0.4
@@ -83,9 +82,9 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
      * similarity.apply("hippo", "elephant")        = 0.0
      * similarity.apply("hippo", "zzzzzzzz")        = 0.0
      * similarity.apply("hello", "hallo")           = 0.5
-     * similarity.apply("ABC Corporation", "ABC Corp") = 0.7
+     * similarity.apply("ABC Corporation", "ABC Corp") &asymp; 0.66&hellip;
      * similarity.apply("D N H Enterprises Inc", "D &amp; H Enterprises, Inc.") = 0.74
-     * similarity.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.81
+     * similarity.apply("My Gym Children's Fitness Center", "My Gym. Childrens Fitness") = 0.76
      * similarity.apply("PENNSYLVANIA", "PENNCISYLVNIA") = 0.69
      * </pre>
      *
