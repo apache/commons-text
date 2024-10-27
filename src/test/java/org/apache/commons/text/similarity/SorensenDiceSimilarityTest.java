@@ -16,14 +16,14 @@
  */
 package org.apache.commons.text.similarity;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
- * Unit tests for {@link SorensenDicesSimilarity}.
+ * Unit tests for {@link SorensenDiceSimilarity}.
  */
 public class SorensenDiceSimilarityTest {
 
@@ -68,23 +68,17 @@ public class SorensenDiceSimilarityTest {
 
     @Test
     public void testGetSorensenDicesSimilarity_NullNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            similarity.apply(null, null);
-        });
+        assertThrows(IllegalArgumentException.class, () -> similarity.apply(null, null));
     }
 
     @Test
     public void testGetSorensenDicesSimilarity_StringNull() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            similarity.apply(" ", null);
-        });
+        assertThrows(IllegalArgumentException.class, () -> similarity.apply(" ", null));
     }
 
     @Test
     public void testGetSorensenDicesSimilarity_NullString() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            similarity.apply(null, "clear");
-        });
+        assertThrows(IllegalArgumentException.class, () -> similarity.apply(null, "clear"));
     }
 
     public static double round(double value, int precision) {

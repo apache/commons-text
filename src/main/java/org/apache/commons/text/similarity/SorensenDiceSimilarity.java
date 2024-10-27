@@ -16,37 +16,31 @@
  */
 package org.apache.commons.text.similarity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * A similarity algorithm indicating the percentage of matched characters
  * between two character sequences.
  *
- * <p>
- * The S&#248;rensen-Dice coefficient is a statistic used for comparing the
+ * <p>The Sørensen-Dice coefficient is a statistic used for comparing the
  * similarity of two samples. It was independently developed by the botanists
- * Thorvald S&#248;rensen and Lee Raymond Dice, who published in 1948 and 1945
+ * Thorvald Sørensen and Lee Raymond Dice, who published in 1948 and 1945
  * respectively. The index is known by several other names, especially
- * S&#248;rensen-Dice index, S&#248;rensen index and Dice's coefficient. Other
+ * Sørensen-Dice index, Sørensen index and Dice's coefficient. Other
  * variations include the "similarity coefficient" or "index", such as Dice
- * similarity coefficient (DSC).
- * </p>
+ * similarity coefficient (DSC).</p>
  *
- * <p>
- * This implementation is based on the S&#248;rensen-Dice similarity algorithm
+ * <p>This implementation is based on the Sørensen-Dice similarity algorithm
  * from <a href=
- * "http://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient">
- * http://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient</a>.
+ * "https://en.wikipedia.org/wiki/Dice-S%C3%B8rensen_coefficient">
+ * https://en.wikipedia.org/wiki/Dice-S%C3%B8rensen_coefficient</a>.</p>
  *
- *
- * </p>
- *
- * @since 1.7
+ * @since 1.13
  */
 public class SorensenDiceSimilarity implements SimilarityScore<Double> {
 
@@ -62,7 +56,7 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
 
     /**
      * Measures the overlap of two sets created from a pair of character sequences.
-     * {@link OverlapSimilarity}}
+     * {@link IntersectionSimilarity}}
      */
     private final IntersectionSimilarity<Integer> similarity = new IntersectionSimilarity<>(this.converter);
 
@@ -137,7 +131,7 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
                 for (int i = 1; i < length; i++) {
                     final char ch1 = ch2;
                     ch2 = cs.charAt(i);
-                    list.add(Integer.valueOf((ch1 << SHIFT_NUMBER) | ch2));
+                    list.add((ch1 << SHIFT_NUMBER) | ch2);
                 }
             }
             return list;
