@@ -31,9 +31,9 @@ import org.apache.commons.lang3.function.FailableSupplier;
  * The lookup keys are:
  * </p>
  * <ul>
- * <li><b>name</b>: for the local host name, for example {@code EXAMPLE}.</li>
- * <li><b>canonical-name</b>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
- * <li><b>address</b>: for the local host address, for example {@code 192.168.56.1}.</li>
+ * <li><strong>name</strong>: for the local host name, for example {@code EXAMPLE}.</li>
+ * <li><strong>canonical-name</strong>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
+ * <li><strong>address</strong>: for the local host address, for example {@code 192.168.56.1}.</li>
  * </ul>
  *
  * @since 1.3

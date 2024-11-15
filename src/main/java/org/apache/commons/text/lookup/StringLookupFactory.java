@@ -762,8 +762,8 @@ public final class StringLookupFactory {
      * <p>
      * Sometimes it is necessary in a configuration file to refer to a constant defined in a class. This can be done with this lookup implementation. Variable
      * names must be in the format {@code apackage.AClass.AFIELD}. The {@code lookup(String)} method will split the passed in string at the last dot, separating
-     * the fully qualified class name and the name of the constant (i.e. <b>static final</b>) member field. Then the class is loaded and the field's value is
-     * obtained using reflection.
+     * the fully qualified class name and the name of the constant (i.e. <strong>static final</strong>) member field. Then the class is loaded and the field's
+     * value is obtained using reflection.
      * </p>
      * <p>
      * Once retrieved values are cached for fast access. This class is thread-safe. It can be used as a standard (i.e. global) lookup object and serve multiple
@@ -824,9 +824,9 @@ public final class StringLookupFactory {
     /**
      * Returns the DnsStringLookup singleton instance where the lookup key is one of:
      * <ul>
-     * <li><b>name</b>: for the local host name, for example {@code EXAMPLE} but also {@code EXAMPLE.apache.org}.</li>
-     * <li><b>canonical-name</b>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
-     * <li><b>address</b>: for the local host address, for example {@code 192.168.56.1}.</li>
+     * <li><strong>name</strong>: for the local host name, for example {@code EXAMPLE} but also {@code EXAMPLE.apache.org}.</li>
+     * <li><strong>canonical-name</strong>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
+     * <li><strong>address</strong>: for the local host address, for example {@code 192.168.56.1}.</li>
      * </ul>
      *
      * <p>
@@ -1066,12 +1066,12 @@ public final class StringLookupFactory {
      * The lookup keys with examples are:
      * </p>
      * <ul>
-     * <li><b>version</b>: "Java version 1.8.0_181"</li>
-     * <li><b>runtime</b>: "Java(TM) SE Runtime Environment (build 1.8.0_181-b13) from Oracle Corporation"</li>
-     * <li><b>vm</b>: "Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)"</li>
-     * <li><b>os</b>: "Windows 10 10.0, architecture: amd64-64"</li>
-     * <li><b>hardware</b>: "processors: 4, architecture: amd64-64, instruction sets: amd64"</li>
-     * <li><b>locale</b>: "default locale: en_US, platform encoding: iso-8859-1"</li>
+     * <li><strong>version</strong>: "Java version 1.8.0_181"</li>
+     * <li><strong>runtime</strong>: "Java(TM) SE Runtime Environment (build 1.8.0_181-b13) from Oracle Corporation"</li>
+     * <li><strong>vm</strong>: "Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)"</li>
+     * <li><strong>os</strong>: "Windows 10 10.0, architecture: amd64-64"</li>
+     * <li><strong>hardware</strong>: "processors: 4, architecture: amd64-64, instruction sets: amd64"</li>
+     * <li><strong>locale</strong>: "default locale: en_US, platform encoding: iso-8859-1"</li>
      * </ul>
      *
      * <p>
@@ -1101,9 +1101,9 @@ public final class StringLookupFactory {
     /**
      * Returns the InetAddressStringLookup instance where the lookup key for {@link InetAddress#getLocalHost()} is one of:
      * <ul>
-     * <li><b>name</b>: for the local host name, for example {@code EXAMPLE}.</li>
-     * <li><b>canonical-name</b>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
-     * <li><b>address</b>: for the local host address, for example {@code 192.168.56.1}.</li>
+     * <li><strong>name</strong>: for the local host name, for example {@code EXAMPLE}.</li>
+     * <li><strong>canonical-name</strong>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
+     * <li><strong>address</strong>: for the local host address, for example {@code 192.168.56.1}.</li>
      * </ul>
      *
      * <p>
@@ -1133,9 +1133,9 @@ public final class StringLookupFactory {
     /**
      * Returns the InetAddressStringLookup instance where the lookup key for {@link InetAddress#getLoopbackAddress()} is one of:
      * <ul>
-     * <li><b>name</b>: for the local host name, for example {@code EXAMPLE}.</li>
-     * <li><b>canonical-name</b>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
-     * <li><b>address</b>: for the local host address, for example {@code 192.168.56.1}.</li>
+     * <li><strong>name</strong>: for the local host name, for example {@code EXAMPLE}.</li>
+     * <li><strong>canonical-name</strong>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
+     * <li><strong>address</strong>: for the local host address, for example {@code 192.168.56.1}.</li>
      * </ul>
      *
      * <p>

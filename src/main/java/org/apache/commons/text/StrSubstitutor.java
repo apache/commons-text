@@ -117,8 +117,8 @@ import org.apache.commons.lang3.Validate;
  * {@code StrSubstitutor} supports this recursive substitution in variable
  * names, but it has to be enabled explicitly by setting the
  * {@link #setEnableSubstitutionInVariables(boolean) enableSubstitutionInVariables}
- * property to <b>true</b>.
- * <p>This class is <b>not</b> thread safe.</p>
+ * property to <strong>true</strong>.
+ * <p>This class is <strong>not</strong> thread safe.</p>
  *
  * @since 1.0
  * @deprecated Deprecated as of 1.3, use {@link StringSubstitutor} instead. This class will be removed in 2.0.
@@ -473,7 +473,7 @@ public class StrSubstitutor {
 
     /**
      * Returns a flag whether substitution is disabled in variable values.If set to
-     * <b>true</b>, the values of variables can contain other variables will not be
+     * <strong>true</strong>, the values of variables can contain other variables will not be
      * processed and substituted original variable is evaluated, e.g.
      * <pre>
      * Map&lt;String, String&gt; valuesMap = new HashMap&lt;&gt;();
@@ -865,7 +865,7 @@ public class StrSubstitutor {
      * @param buf  the buffer where the substitution is occurring, not null
      * @param startPos  the start position of the variable including the prefix, valid
      * @param endPos  the end position of the variable including the suffix, valid
-     * @return The variable's value or <b>null</b> if the variable is unknown
+     * @return The variable's value or <strong>null</strong> if the variable is unknown
      */
     protected String resolveVariable(final String variableName,
                                      final StrBuilder buf,
@@ -891,9 +891,9 @@ public class StrSubstitutor {
 
     /**
      * Sets a flag whether substitution is done in variable names. If set to
-     * <b>true</b>, the names of variables can contain other variables which are
+     * <strong>true</strong>, the names of variables can contain other variables which are
      * processed first before the original variable is evaluated, e.g.
-     * {@code ${jre-${java.version}}}. The default value is <b>false</b>.
+     * {@code ${jre-${java.version}}}. The default value is <strong>false</strong>.
      *
      * @param enableSubstitutionInVariables the new value of the flag
      */
@@ -915,12 +915,12 @@ public class StrSubstitutor {
 
     /**
      * Sets a flag controlling whether escapes are preserved during
-     * substitution.  If set to <b>true</b>, the escape character is retained
+     * substitution.  If set to <strong>true</strong>, the escape character is retained
      * during substitution (e.g. {@code $${this-is-escaped}} remains
-     * {@code $${this-is-escaped}}).  If set to <b>false</b>, the escape
+     * {@code $${this-is-escaped}}).  If set to <strong>false</strong>, the escape
      * character is removed during substitution (e.g.
      * {@code $${this-is-escaped}} becomes
-     * {@code ${this-is-escaped}}).  The default value is <b>false</b>
+     * {@code ${this-is-escaped}}).  The default value is <strong>false</strong>
      *
      * @param preserveEscapes true if escapes are to be preserved
      */

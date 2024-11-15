@@ -27,13 +27,13 @@ import org.apache.commons.text.StringSubstitutor;
  * The lookup keys are:
  * </p>
  * <ul>
- * <li><b>name|<em>address</em></b>: for the host name, for example {@code "name|93.184.216.34"} ->
+ * <li><strong>name|<em>address</em></strong>: for the host name, for example {@code "name|93.184.216.34"} ->
  * {@code "example.com"}.</li>
- * <li><b>canonical-name|<em>address</em></b>: for the canonical host name, for example {@code "name|93.184.216.34"} ->
+ * <li><strong>canonical-name|<em>address</em></strong>: for the canonical host name, for example {@code "name|93.184.216.34"} ->
  * {@code "example.com"}.</li>
- * <li><b>address|<em>hostname</em></b>: for the host address, for example {@code "address|example.com"} ->
+ * <li><strong>address|<em>hostname</em></strong>: for the host address, for example {@code "address|example.com"} ->
  * {@code "93.184.216.34"}.</li>
- * <li><b><em>address</em></b>: same as {@code address|hostname}.</li>
+ * <li><strong><em>address</em></strong>: same as {@code address|hostname}.</li>
  * </ul>
  *
  * <p>

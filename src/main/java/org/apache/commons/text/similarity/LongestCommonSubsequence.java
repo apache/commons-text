@@ -40,7 +40,7 @@ package org.apache.commons.text.similarity;
  * <p>For further reading see:</p>
  * <ul>
  * <li>
- * Lothaire, M. <em>Applied combinatorics on words</em>. New York: Cambridge U Press, 2005. <b>12-13</b>
+ * Lothaire, M. <em>Applied combinatorics on words</em>. New York: Cambridge U Press, 2005. <strong>12-13</strong>
  * </li>
  * <li>
  * D. S. Hirschberg, "A linear space algorithm for computing maximal common subsequences," CACM, 1975, pp. 341--343.

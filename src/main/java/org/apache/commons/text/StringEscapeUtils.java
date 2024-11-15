@@ -530,7 +530,7 @@ public class StringEscapeUtils {
      * output string: He didn\'t say, \"Stop!\"
      * </pre>
      *
-     * <b>Security Note.</b> We only provide backslash escaping in this method. For example, {@code '\"'} has the output
+     * <strong>Security Note.</strong> We only provide backslash escaping in this method. For example, {@code '\"'} has the output
      * {@code '\\\"'} which could result in potential issues in the case where the string being escaped is being used
      * in an HTML tag like {@code <select onmouseover="..." />}. If you wish to have more rigorous string escaping, you
      * may consider the
@@ -701,7 +701,7 @@ public class StringEscapeUtils {
     /**
      * Escapes the characters in a {@code String} using XSI rules.
      *
-     * <p><b>Beware!</b> In most cases you don't want to escape shell commands but use multi-argument
+     * <p><strong>Beware!</strong> In most cases you don't want to escape shell commands but use multi-argument
      * methods provided by {@link ProcessBuilder} or {@link Runtime#exec(String[])}
      * instead.</p>
      *

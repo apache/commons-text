@@ -27,12 +27,12 @@ import org.apache.commons.text.StringSubstitutor;
  * The lookup keys with examples are:
  * </p>
  * <ul>
- * <li><b>version</b>: "Java version 1.8.0_181"</li>
- * <li><b>runtime</b>: "Java(TM) SE Runtime Environment (build 1.8.0_181-b13) from Oracle Corporation"</li>
- * <li><b>vm</b>: "Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)"</li>
- * <li><b>os</b>: "Windows 10 10.0, architecture: amd64-64"</li>
- * <li><b>hardware</b>: "processors: 4, architecture: amd64-64, instruction sets: amd64"</li>
- * <li><b>locale</b>: "default locale: en_US, platform encoding: iso-8859-1"</li>
+ * <li><strong>version</strong>: "Java version 1.8.0_181"</li>
+ * <li><strong>runtime</strong>: "Java(TM) SE Runtime Environment (build 1.8.0_181-b13) from Oracle Corporation"</li>
+ * <li><strong>vm</strong>: "Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)"</li>
+ * <li><strong>os</strong>: "Windows 10 10.0, architecture: amd64-64"</li>
+ * <li><strong>hardware</strong>: "processors: 4, architecture: amd64-64, instruction sets: amd64"</li>
+ * <li><strong>locale</strong>: "default locale: en_US, platform encoding: iso-8859-1"</li>
  * </ul>
  *
  * <p>
@@ -180,12 +180,12 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      * The lookup keys with examples are:
      * </p>
      * <ul>
-     * <li><b>version</b>: "Java version 1.8.0_181"</li>
-     * <li><b>runtime</b>: "Java(TM) SE Runtime Environment (build 1.8.0_181-b13) from Oracle Corporation"</li>
-     * <li><b>vm</b>: "Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)"</li>
-     * <li><b>os</b>: "Windows 10 10.0, architecture: amd64-64"</li>
-     * <li><b>hardware</b>: "processors: 4, architecture: amd64-64, instruction sets: amd64"</li>
-     * <li><b>locale</b>: "default locale: en_US, platform encoding: iso-8859-1"</li>
+     * <li><strong>version</strong>: "Java version 1.8.0_181"</li>
+     * <li><strong>runtime</strong>: "Java(TM) SE Runtime Environment (build 1.8.0_181-b13) from Oracle Corporation"</li>
+     * <li><strong>vm</strong>: "Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)"</li>
+     * <li><strong>os</strong>: "Windows 10 10.0, architecture: amd64-64"</li>
+     * <li><strong>hardware</strong>: "processors: 4, architecture: amd64-64, instruction sets: amd64"</li>
+     * <li><strong>locale</strong>: "default locale: en_US, platform encoding: iso-8859-1"</li>
      * </ul>
      *
      * @param key the key to be looked up, may be null

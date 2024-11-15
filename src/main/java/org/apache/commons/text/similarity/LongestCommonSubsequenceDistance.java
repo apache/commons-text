@@ -30,7 +30,7 @@ package org.apache.commons.text.similarity;
  *
  * <p>For further reading see:</p>
  *
- * <p>Lothaire, M. <em>Applied combinatorics on words</em>. New York: Cambridge U Press, 2005. <b>12-13</b></p>
+ * <p>Lothaire, M. <em>Applied combinatorics on words</em>. New York: Cambridge U Press, 2005. <strong>12-13</strong></p>
  *
  * @since 1.0
  */

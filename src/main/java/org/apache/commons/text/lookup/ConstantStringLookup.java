@@ -31,7 +31,7 @@ import org.apache.commons.text.StringSubstitutor;
  * Sometimes it is necessary in a configuration file to refer to a constant defined in a class. This can be done with
  * this lookup implementation. Variable names must be in the format {@code apackage.AClass.AFIELD}. The
  * {@code lookup(String)} method will split the passed in string at the last dot, separating the fully qualified class
- * name and the name of the constant (i.e. <b>static final</b>) member field. Then the class is loaded and the field's
+ * name and the name of the constant (i.e. <strong>static final</strong>) member field. Then the class is loaded and the field's
  * value is obtained using reflection.
  * </p>
  * <p>
@@ -102,7 +102,7 @@ class ConstantStringLookup extends AbstractStringLookup {
      * the field.
      *
      * @param key the name of the variable to be resolved
-     * @return The value of this variable or <b>null</b> if it cannot be resolved
+     * @return The value of this variable or <strong>null</strong> if it cannot be resolved
      */
     @Override
     public synchronized String lookup(final String key) {
