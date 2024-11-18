@@ -61,6 +61,7 @@
     <!-- Apache Felix maven-bundle-plugin -->
     <commons.osgi.import>
     org.apache.commons.lang3;version="${commons.lang3.version}",
+    org.apache.commons.lang3.function;version="${commons.lang3.version}",
     org.apache.commons.lang3.time;version="${commons.lang3.version}",
     *
     </commons.osgi.import>
