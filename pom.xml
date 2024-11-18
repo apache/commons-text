@@ -52,10 +52,18 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
+    <commons.lang3.version>3.17.0</commons.lang3.version>
     <commons.bytebuddy.version>1.15.10</commons.bytebuddy.version>
     <commons.rng.version>1.6</commons.rng.version>
     <japicmp.skip>false</japicmp.skip>
     <jmh.version>1.37</jmh.version>
+
+    <!-- Apache Felix maven-bundle-plugin -->
+    <commons.osgi.import>
+    org.apache.commons.lang3;version="${commons.lang3.version}",
+    org.apache.commons.lang3.time;version="${commons.lang3.version}",
+    *
+    </commons.osgi.import>
 
     <!-- Commons Release Plugin -->
     <!-- Previous version of the component (used for reporting binary compatibility check)-->
@@ -84,7 +92,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.17.0</version>
+      <version>${commons.lang3.version}</version>
     </dependency>
     <!-- testing -->
     <dependency>
