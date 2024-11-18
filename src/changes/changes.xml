@@ -75,6 +75,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Deprecate LevenshteinDetailedDistance.LevenshteinDetailedDistance() in favor of LevenshteinDetailedDistance.getDefaultInstance().</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory" issue="TEXT-234">Improve StrBuilder documentation for new line text.</action>
     <action type="fix" dev="ggregory" due-to="TobiasKiecker" issue="TEXT-234">Improve TextStringBuilder documentation for new line text #547.</action>
+    <action type="fix" dev="ggregory" due-to="TobiasKiecker" issue="TEXT-233">Required OSGi Import-Package version numbers in MANIFEST.MF #627.</action>
     <!-- UPDATE -->
     <action type="update" dev="ggregory" due-to="Dependabot">Bump org.apache.commons:commons-parent from 69 to 78 #542, #557, #571, #581, #584, #593, #600, #603, #614.</action>
     <action type="udpate" dev="ggregory" due-to="Gary Gregory">Bump tests on Java >= 22 org.graalvm.*:* from 24.0.0 to 24.1.1 #592, #610.</action>
