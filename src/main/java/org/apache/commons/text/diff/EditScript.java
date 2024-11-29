@@ -41,7 +41,6 @@ import java.util.List;
  * @see EditCommand
  * @see CommandVisitor
  * @see ReplacementsHandler
- *
  * @param <T> object type
  * @since 1.0
  */

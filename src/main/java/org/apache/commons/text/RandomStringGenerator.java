@@ -303,7 +303,6 @@ public final class RandomStringGenerator {
     /**
      * Constructs a new builder.
      * @return a new builder.
-     *
      * @since 1.11.0
      */
     public static Builder builder() {

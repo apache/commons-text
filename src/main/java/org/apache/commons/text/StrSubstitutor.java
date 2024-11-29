@@ -489,7 +489,6 @@ public class StrSubstitutor {
      * </pre>
      *
      * @return The substitution in variable values flag
-     *
      * @since 1.2
      */
     public boolean isDisableSubstitutionInValues() {
@@ -882,7 +881,6 @@ public class StrSubstitutor {
      * Sets a flag whether substitution is done in variable values (recursive).
      *
      * @param disableSubstitutionInValues true if substitution in variable value are disabled
-     *
      * @since 1.2
      */
     public void setDisableSubstitutionInValues(final boolean disableSubstitutionInValues) {

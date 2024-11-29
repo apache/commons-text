@@ -47,7 +47,6 @@ package org.apache.commons.text.diff;
  *
  * @see StringsComparator
  * @see EditScript
- *
  * @param <T> object type
  * @since 1.0
  */

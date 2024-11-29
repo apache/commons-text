@@ -167,7 +167,6 @@ public class StringSubstitutorReader extends FilterReader {
      * @param target Target buffer.
      * @param targetIndexIn Index in the target at which to start storing characters.
      * @param targetLengthIn Maximum number of characters to read.
-     *
      * @return The number of characters read, or -1 on end of stream.
      * @throws IOException If an I/O error occurs
      */

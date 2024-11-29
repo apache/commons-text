@@ -36,7 +36,6 @@ import java.util.function.Function;
  * </p>
  *
  * @param <U> The second argument type.
- *
  * @since 1.9
  */
 @FunctionalInterface

@@ -46,7 +46,6 @@ import java.util.List;
  * @see ReplacementsHandler
  * @see EditScript
  * @see StringsComparator
- *
  * @param <T> object type
  * @since 1.0
  */

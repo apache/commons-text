@@ -25,7 +25,6 @@ import java.util.function.BiFunction;
  *
  * @param <R> A function's return type
  * @param <P> A function's second input type
- *
  * @since 1.9
  */
 final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
