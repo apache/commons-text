@@ -1169,7 +1169,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * By default, the new line is the system default from {@link System#lineSeparator()}.
      * </p>
      * <p>
-     * The new line string can be changed using {@link #setNewLineText(String)}. For example, you can use this to force the output to always use UNIX line
+     * The new line string can be changed using {@link #setNewLineText(String)}. For example, you can use this to force the output to always use Unix line
      * endings even when on Windows.
      * </p>
      *
