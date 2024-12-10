@@ -577,11 +577,11 @@ public class StringSubstitutor {
      */
     public StringSubstitutor(final StringLookup variableResolver, final String prefix, final String suffix,
         final char escape) {
-        this.setVariableResolver(variableResolver);
-        this.setVariablePrefix(prefix);
-        this.setVariableSuffix(suffix);
-        this.setEscapeChar(escape);
-        this.setValueDelimiterMatcher(DEFAULT_VALUE_DELIMITER);
+        setVariableResolver(variableResolver);
+        setVariablePrefix(prefix);
+        setVariableSuffix(suffix);
+        setEscapeChar(escape);
+        setValueDelimiterMatcher(DEFAULT_VALUE_DELIMITER);
     }
 
     /**
@@ -596,11 +596,11 @@ public class StringSubstitutor {
      */
     public StringSubstitutor(final StringLookup variableResolver, final String prefix, final String suffix,
         final char escape, final String valueDelimiter) {
-        this.setVariableResolver(variableResolver);
-        this.setVariablePrefix(prefix);
-        this.setVariableSuffix(suffix);
-        this.setEscapeChar(escape);
-        this.setValueDelimiter(valueDelimiter);
+        setVariableResolver(variableResolver);
+        setVariablePrefix(prefix);
+        setVariableSuffix(suffix);
+        setEscapeChar(escape);
+        setValueDelimiter(valueDelimiter);
     }
 
     /**
@@ -629,11 +629,11 @@ public class StringSubstitutor {
      */
     public StringSubstitutor(final StringLookup variableResolver, final StringMatcher prefixMatcher,
         final StringMatcher suffixMatcher, final char escape, final StringMatcher valueDelimiterMatcher) {
-        this.setVariableResolver(variableResolver);
-        this.setVariablePrefixMatcher(prefixMatcher);
-        this.setVariableSuffixMatcher(suffixMatcher);
-        this.setEscapeChar(escape);
-        this.setValueDelimiterMatcher(valueDelimiterMatcher);
+        setVariableResolver(variableResolver);
+        setVariablePrefixMatcher(prefixMatcher);
+        setVariableSuffixMatcher(suffixMatcher);
+        setEscapeChar(escape);
+        setValueDelimiterMatcher(valueDelimiterMatcher);
     }
 
     /**
