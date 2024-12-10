@@ -442,7 +442,7 @@
 
   <profiles>
     <profile>
-	  <!-- Java 8-10 -->
+	    <!-- Java 8-10 -->
       <id>java-8-10</id>
       <activation>
 		<jdk>[1.8,10)</jdk>
@@ -474,7 +474,7 @@
 	  </dependencies>
     </profile>
     <profile>
-	  <!-- Java 11-21 -->
+	    <!-- Java 11-21 -->
       <id>java-11-21</id>
       <activation>
 		<jdk>[11,22)</jdk>
@@ -483,7 +483,7 @@
         <commons.mockito.version>5.2.0</commons.mockito.version>
         <graalvm.version>22.3.5</graalvm.version>
       </properties>
-	  <dependencies>
+	    <dependencies>
         <dependency>
           <groupId>org.mockito</groupId>
           <!--  Use mockito-inline instead of mockito-core to mock and spy on final classes. -->
@@ -506,7 +506,7 @@
 	  </dependencies>
     </profile>
     <profile>
-	  <!-- Java 22 and up -->
+	    <!-- Java 22 and up -->
       <id>java-22-up</id>
       <activation>
 		<jdk>[22,)</jdk>
