@@ -76,7 +76,7 @@ public class EntityArrays {
         initialMap.put("\u00C2", "&Acirc;"); // Â - uppercase A, circumflex accent
         initialMap.put("\u00C3", "&Atilde;"); // Ã - uppercase A, tilde
         initialMap.put("\u00C4", "&Auml;"); // Ä - uppercase A, umlaut
-        initialMap.put("\u00C5", "&Aring;"); // � - uppercase A, ring
+        initialMap.put("\u00C5", "&Aring;"); // � - uppercase A, ring
         initialMap.put("\u00C6", "&AElig;"); // Æ - uppercase AE
         initialMap.put("\u00C7", "&Ccedil;"); // Ç - uppercase C, cedilla
         initialMap.put("\u00C8", "&Egrave;"); // È - uppercase E, grave accent
