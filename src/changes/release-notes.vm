@@ -32,7 +32,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-${project.name} Version ${version} Release Notes
+${project.name} ${version} Release Notes
 ------------------------------------------------
 
 This document contains the release notes for the ${version} version of Apache Commons Text.
