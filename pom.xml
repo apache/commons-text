@@ -150,7 +150,7 @@
           <configuration>
             <excludes>
               <exclude>site-content/**</exclude>
-              <exclude>src/site/resources/download_lang.cgi</exclude>
+              <exclude>src/site/resources/download_text.cgi</exclude>
               <exclude>src/site/resources/release-notes/RELEASE-NOTES-*.txt</exclude>
               <exclude>src/test/resources/org/apache/commons/text/stringEscapeUtilsTestData.txt</exclude>
               <exclude>src/test/resources/org/apache/commons/text/lcs-perf-analysis-inputs.csv</exclude>
