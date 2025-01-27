@@ -28,7 +28,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * <p>The {@link Formattable} interface provides basic control over formatting
  * when using a {@code Formatter}. It is primarily concerned with numeric precision
- * and padding, and is not designed to allow generalised alternate formats.</p>
+ * and padding, and is not designed to allow generalized alternate formats.</p>
  *
  * @since 1.0
  */
