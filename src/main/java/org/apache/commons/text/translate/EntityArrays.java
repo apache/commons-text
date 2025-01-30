@@ -447,4 +447,14 @@ public class EntityArrays {
         return map.entrySet().stream().collect(Collectors.toMap(Entry::getValue, Entry::getKey));
     }
 
+    /**
+     * Deprecated, only defines static methods.
+     *
+     * @deprecated Will be private.
+     */
+    @Deprecated
+    public EntityArrays() {
+        // empty
+    }
+
 }
