@@ -120,6 +120,13 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
     }
 
     /**
+     * Creates a new instance.
+     */
+    public JaroWinklerSimilarity() {
+        // empty
+    }
+
+    /**
      * Computes the Jaro Winkler Similarity between two character sequences.
      *
      * <pre>

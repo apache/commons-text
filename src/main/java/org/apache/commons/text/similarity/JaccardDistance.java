@@ -29,6 +29,13 @@ package org.apache.commons.text.similarity;
 public class JaccardDistance implements EditDistance<Double> {
 
     /**
+     * Creates a new instance.
+     */
+    public JaccardDistance() {
+        // empty
+    }
+
+    /**
      * Computes the Jaccard distance of two set character sequence passed as input. Calculates Jaccard similarity and returns the complement of it.
      *
      * @param left  first input sequence.

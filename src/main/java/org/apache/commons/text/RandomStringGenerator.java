@@ -126,6 +126,13 @@ public final class RandomStringGenerator {
         private List<Character> characterList;
 
         /**
+         * Creates a new instance.
+         */
+        public Builder() {
+            // empty
+        }
+
+        /**
          * Builds a new {@code RandomStringGenerator}.
          *
          * @return A new {@code RandomStringGenerator}

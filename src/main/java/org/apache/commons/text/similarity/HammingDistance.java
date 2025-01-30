@@ -28,6 +28,13 @@ package org.apache.commons.text.similarity;
 public class HammingDistance implements EditDistance<Integer> {
 
     /**
+     * Creates a new instance.
+     */
+    public HammingDistance() {
+        // empty
+    }
+
+    /**
      * Computes the Hamming Distance between two strings with the same length.
      *
      * <p>

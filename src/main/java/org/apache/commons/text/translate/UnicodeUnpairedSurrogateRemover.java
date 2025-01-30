@@ -27,6 +27,13 @@ import java.io.Writer;
 public class UnicodeUnpairedSurrogateRemover extends CodePointTranslator {
 
     /**
+     * Creates a new instance.
+     */
+    public UnicodeUnpairedSurrogateRemover() {
+        // empty
+    }
+
+    /**
      * Implements translate to throw out unpaired surrogates.
      * {@inheritDoc}
      */

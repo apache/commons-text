@@ -45,6 +45,13 @@ public class JaroWinklerDistance implements EditDistance<Double> {
     }
 
     /**
+     * Creates a new instance.
+     */
+    public JaroWinklerDistance() {
+        // empty
+    }
+
+    /**
      * Computes the Jaro Winkler Distance between two character sequences.
      *
      * <pre>

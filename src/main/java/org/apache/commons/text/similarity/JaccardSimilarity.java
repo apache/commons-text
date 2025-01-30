@@ -37,6 +37,13 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
     static final JaccardSimilarity INSTANCE = new JaccardSimilarity();
 
     /**
+     * Creates a new instance.
+     */
+    public JaccardSimilarity() {
+        // empty
+    }
+
+    /**
      * Computes the Jaccard Similarity of two set character sequence passed as input.
      *
      * @param left  first input sequence.

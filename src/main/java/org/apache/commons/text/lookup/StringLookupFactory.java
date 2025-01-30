@@ -236,6 +236,14 @@ public final class StringLookupFactory {
          */
         private Path[] fences;
 
+        /**
+         * Creates a new instance.
+         */
+        public Builder() {
+            // empty
+        }
+
+
         @Override
         public StringLookupFactory get() {
             return new StringLookupFactory(fences);

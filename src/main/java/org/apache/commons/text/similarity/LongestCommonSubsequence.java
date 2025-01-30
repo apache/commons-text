@@ -150,6 +150,13 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
     }
 
     /**
+     * Creates a new instance.
+     */
+    public LongestCommonSubsequence() {
+        // empty
+    }
+
+    /**
      * Computes the longest common subsequence similarity score of two {@code CharSequence}'s passed as
      * input.
      *
