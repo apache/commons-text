@@ -39,6 +39,13 @@ public class CosineSimilarity {
     static final CosineSimilarity INSTANCE = new CosineSimilarity();
 
     /**
+     * Construct a new instance.
+     */
+    public CosineSimilarity() {
+        // empty
+    }
+
+    /**
      * Calculates the cosine similarity for two given vectors.
      *
      * @param leftVector left vector

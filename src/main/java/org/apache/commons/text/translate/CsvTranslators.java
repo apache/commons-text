@@ -38,6 +38,13 @@ public final class CsvTranslators {
      */
     public static class CsvEscaper extends SinglePassTranslator {
 
+        /**
+         * Construct a new instance.
+         */
+        public CsvEscaper() {
+            // empty
+        }
+
         @Override
         void translateWhole(final CharSequence input, final Writer writer) throws IOException {
             final String inputSting = input.toString();
@@ -55,6 +62,13 @@ public final class CsvTranslators {
      * Translator for unescaping escaped Comma Separated Value entries.
      */
     public static class CsvUnescaper extends SinglePassTranslator {
+
+        /**
+         * Construct a new instance.
+         */
+        public CsvUnescaper() {
+            // empty
+        }
 
         @Override
         void translateWhole(final CharSequence input, final Writer writer) throws IOException {
@@ -89,5 +103,7 @@ public final class CsvTranslators {
     private static final char[] CSV_SEARCH_CHARS = { CSV_DELIMITER, CSV_QUOTE, CharUtils.CR, CharUtils.LF };
 
     /** Hidden constructor. */
-    private CsvTranslators() { }
+    private CsvTranslators() {
+        // empty
+    }
 }

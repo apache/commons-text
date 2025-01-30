@@ -35,6 +35,13 @@ import java.util.Map;
  */
 public class CosineDistance implements EditDistance<Double> {
 
+    /**
+     * Construct a new instance.
+     */
+    public CosineDistance() {
+        // empty
+    }
+
     @Override
     public Double apply(final CharSequence left, final CharSequence right) {
         final CharSequence[] leftTokens = RegexTokenizer.INSTANCE.apply(left);

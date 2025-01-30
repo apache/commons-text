@@ -37,6 +37,7 @@ public class EntityArrays {
      * characters to their named HTML 3.x equivalents.
      */
     public static final Map<CharSequence, CharSequence> ISO8859_1_ESCAPE;
+
     static {
         final Map<CharSequence, CharSequence> initialMap = new HashMap<>();
         initialMap.put("\u00A0", "&nbsp;"); // non-breaking space
