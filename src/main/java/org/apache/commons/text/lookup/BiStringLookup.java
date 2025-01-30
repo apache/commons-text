@@ -59,7 +59,7 @@ public interface BiStringLookup<U> extends StringLookup {
      *
      * <pre>
      * Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();
-     * map.put("number", new Integer(2));
+     * map.put("number", Integer.valueOf(2));
      * assertEquals("2", StringLookupFactory.biFunctionStringLookup(map).lookup("number", "A context object"));
      * </pre>
      *
