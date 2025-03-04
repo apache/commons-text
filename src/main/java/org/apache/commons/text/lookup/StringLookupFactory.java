@@ -295,7 +295,6 @@ public final class StringLookupFactory {
          */
         private static Map<String, StringLookup> createDefaultStringLookups() {
             final Map<String, StringLookup> lookupMap = new HashMap<>();
-
             addLookup(DefaultStringLookup.BASE64_DECODER, lookupMap);
             addLookup(DefaultStringLookup.BASE64_ENCODER, lookupMap);
             addLookup(DefaultStringLookup.CONST, lookupMap);
@@ -304,7 +303,7 @@ public final class StringLookupFactory {
             addLookup(DefaultStringLookup.FILE, lookupMap);
             addLookup(DefaultStringLookup.JAVA, lookupMap);
             addLookup(DefaultStringLookup.LOCAL_HOST, lookupMap);
-            addLookup(DefaultStringLookup.LOCAL_HOST, lookupMap);
+            addLookup(DefaultStringLookup.LOOPBACK_ADDRESS, lookupMap);
             addLookup(DefaultStringLookup.PROPERTIES, lookupMap);
             addLookup(DefaultStringLookup.RESOURCE_BUNDLE, lookupMap);
             addLookup(DefaultStringLookup.SYSTEM_PROPERTIES, lookupMap);
@@ -313,7 +312,6 @@ public final class StringLookupFactory {
             addLookup(DefaultStringLookup.XML, lookupMap);
             addLookup(DefaultStringLookup.XML_DECODER, lookupMap);
             addLookup(DefaultStringLookup.XML_ENCODER, lookupMap);
-
             return lookupMap;
         }
 

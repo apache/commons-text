@@ -16,15 +16,21 @@
  */
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 import javax.xml.XMLConstants;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -60,12 +66,12 @@ public class StringLookupFactoryTest {
 
         for (final String key : keys) {
             final String normalizedKey = StringLookupFactory.toKey(key);
-            Assertions.assertNotNull(normalizedKey, () -> "Expected map to contain string lookup for key " + key);
+            assertNotNull(normalizedKey, () -> "Expected map to contain string lookup for key " + key);
 
             remainingKeys.remove(normalizedKey);
         }
 
-        Assertions.assertTrue(remainingKeys.isEmpty(), () -> "Unexpected keys in lookup map: " + remainingKeys);
+        assertTrue(remainingKeys.isEmpty(), () -> "Unexpected keys in lookup map: " + remainingKeys);
     }
 
     private static void checkDefaultStringLookupsHolder(final Properties props, final String... keys) {
@@ -157,9 +163,9 @@ public class StringLookupFactoryTest {
         final Properties props = new Properties();
         props.setProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY, "base64_encoder nope");
 
-        final Exception exc = Assertions.assertThrows(IllegalArgumentException.class,
+        final Exception exc = assertThrows(IllegalArgumentException.class,
                 () -> new StringLookupFactory.DefaultStringLookupsHolder(props));
-        Assertions.assertEquals("Invalid default string lookups definition: base64_encoder nope", exc.getMessage());
+        assertEquals("Invalid default string lookups definition: base64_encoder nope", exc.getMessage());
     }
 
     @Test
@@ -215,30 +221,57 @@ public class StringLookupFactoryTest {
     @Test
     public void testSingletons() {
         final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
-        Assertions.assertSame(StringLookupFactory.INSTANCE_BASE64_DECODER,
+        assertSame(StringLookupFactory.INSTANCE_BASE64_DECODER,
             stringLookupFactory.base64DecoderStringLookup());
-        Assertions.assertSame(StringLookupFactory.INSTANCE_BASE64_ENCODER,
+        assertSame(StringLookupFactory.INSTANCE_BASE64_ENCODER,
             stringLookupFactory.base64EncoderStringLookup());
-        Assertions.assertSame(ConstantStringLookup.INSTANCE, stringLookupFactory.constantStringLookup());
-        Assertions.assertSame(DateStringLookup.INSTANCE, stringLookupFactory.dateStringLookup());
-        Assertions.assertSame(DnsStringLookup.INSTANCE, stringLookupFactory.dnsStringLookup());
-        Assertions.assertSame(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES,
+        assertSame(ConstantStringLookup.INSTANCE, stringLookupFactory.constantStringLookup());
+        assertSame(DateStringLookup.INSTANCE, stringLookupFactory.dateStringLookup());
+        assertSame(DnsStringLookup.INSTANCE, stringLookupFactory.dnsStringLookup());
+        assertSame(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES,
             stringLookupFactory.environmentVariableStringLookup());
-        Assertions.assertSame(InterpolatorStringLookup.INSTANCE, stringLookupFactory.interpolatorStringLookup());
-        Assertions.assertSame(JavaPlatformStringLookup.INSTANCE, stringLookupFactory.javaPlatformStringLookup());
-        Assertions.assertSame(InetAddressStringLookup.LOCAL_HOST, stringLookupFactory.localHostStringLookup());
-        Assertions.assertSame(InetAddressStringLookup.LOOPACK_ADDRESS, stringLookupFactory.loopbackAddressStringLookup());
-        Assertions.assertSame(StringLookupFactory.INSTANCE_NULL, stringLookupFactory.nullStringLookup());
-        Assertions.assertSame(ResourceBundleStringLookup.INSTANCE, stringLookupFactory.resourceBundleStringLookup());
-        Assertions.assertSame(ScriptStringLookup.INSTANCE, stringLookupFactory.scriptStringLookup());
-        Assertions.assertSame(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES,
+        assertSame(InterpolatorStringLookup.INSTANCE, stringLookupFactory.interpolatorStringLookup());
+        assertSame(JavaPlatformStringLookup.INSTANCE, stringLookupFactory.javaPlatformStringLookup());
+        assertSame(InetAddressStringLookup.LOCAL_HOST, stringLookupFactory.localHostStringLookup());
+        assertSame(InetAddressStringLookup.LOOPACK_ADDRESS, stringLookupFactory.loopbackAddressStringLookup());
+        assertSame(StringLookupFactory.INSTANCE_NULL, stringLookupFactory.nullStringLookup());
+        assertSame(ResourceBundleStringLookup.INSTANCE, stringLookupFactory.resourceBundleStringLookup());
+        assertSame(ScriptStringLookup.INSTANCE, stringLookupFactory.scriptStringLookup());
+        assertSame(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES,
             stringLookupFactory.systemPropertyStringLookup());
-        Assertions.assertSame(UrlDecoderStringLookup.INSTANCE, stringLookupFactory.urlDecoderStringLookup());
-        Assertions.assertSame(UrlEncoderStringLookup.INSTANCE, stringLookupFactory.urlEncoderStringLookup());
-        Assertions.assertSame(UrlStringLookup.INSTANCE, stringLookupFactory.urlStringLookup());
-        Assertions.assertSame(XmlStringLookup.INSTANCE, stringLookupFactory.xmlStringLookup());
-        Assertions.assertSame(XmlDecoderStringLookup.INSTANCE, stringLookupFactory.xmlDecoderStringLookup());
-        Assertions.assertSame(XmlEncoderStringLookup.INSTANCE, stringLookupFactory.xmlEncoderStringLookup());
+        assertSame(UrlDecoderStringLookup.INSTANCE, stringLookupFactory.urlDecoderStringLookup());
+        assertSame(UrlEncoderStringLookup.INSTANCE, stringLookupFactory.urlEncoderStringLookup());
+        assertSame(UrlStringLookup.INSTANCE, stringLookupFactory.urlStringLookup());
+        assertSame(XmlStringLookup.INSTANCE, stringLookupFactory.xmlStringLookup());
+        assertSame(XmlDecoderStringLookup.INSTANCE, stringLookupFactory.xmlDecoderStringLookup());
+        assertSame(XmlEncoderStringLookup.INSTANCE, stringLookupFactory.xmlEncoderStringLookup());
+    }
+
+    /**
+     * Tests that we return the singleton.
+     */
+    @Test
+    public void testDefault() {
+        final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
+        final Map<String, StringLookup> stringLookupMap = new HashMap<>();
+        stringLookupFactory.addDefaultStringLookups(stringLookupMap);
+        assertTrue(stringLookupMap.containsKey("base64"));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_BASE64_ENCODER.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_CONST.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_DATE));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_ENV.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_FILE.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_JAVA.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_LOCALHOST.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_LOOPBACK_ADDRESS.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_PROPERTIES.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_RESOURCE_BUNDLE.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_SYS.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_DECODER.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_ENCODER.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_XML.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_XML_DECODER.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_XML_ENCODER.toLowerCase(Locale.ROOT)));
     }
 
     @Test
