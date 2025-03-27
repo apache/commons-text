@@ -17,11 +17,11 @@
 
 package org.apache.commons.text.lookup;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * Looks up file contents.
@@ -80,7 +80,8 @@ final class FileStringLookup extends AbstractPathFencedLookup {
         }
         final String[] keys = key.split(String.valueOf(SPLIT_CH));
         final int keyLen = keys.length;
-        if (keyLen < 2) {
+        final int minimumRequiredParts = 2;
+        if (keyLen < minimumRequiredParts) {
             throw IllegalArgumentExceptions.format("Bad file key format [%s], expected format is CharsetName:DocumentPath.", key);
         }
         final String charsetName = keys[0];
