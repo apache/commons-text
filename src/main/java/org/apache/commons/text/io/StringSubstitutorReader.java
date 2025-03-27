@@ -17,14 +17,14 @@
 
 package org.apache.commons.text.io;
 
-import java.io.FilterReader;
-import java.io.IOException;
-import java.io.Reader;
-
 import org.apache.commons.text.StringSubstitutor;
 import org.apache.commons.text.TextStringBuilder;
 import org.apache.commons.text.matcher.StringMatcher;
 import org.apache.commons.text.matcher.StringMatcherFactory;
+
+import java.io.FilterReader;
+import java.io.IOException;
+import java.io.Reader;
 
 /**
  * A {@link Reader} that performs string substitution on a source {@code Reader} using a {@link StringSubstitutor}.
@@ -99,15 +99,24 @@ public class StringSubstitutorReader extends FilterReader {
     /**
      * Drains characters from our buffer to the given {@code target}.
      */
+
     private int drain(final char[] target, final int targetIndex, final int targetLength) {
-        final int actualLen = Math.min(buffer.length(), targetLength);
-        final int drainCount = buffer.drainChars(0, actualLen, target, targetIndex);
-        toDrain -= drainCount;
-        if (buffer.isEmpty() || toDrain == 0) {
-            // nothing or everything drained.
+        final int bufferLength = buffer.length();
+        final int lengthToDrain = Math.min(bufferLength, targetLength);
+        final int drainCount = performDrain(target, targetIndex, lengthToDrain);
+
+        final boolean isBufferEmpty = buffer.isEmpty();
+        final boolean drainedAll = toDrain == 0;
+        if (isBufferEmpty || drainedAll) {
             toDrain = 0;
         }
         return drainCount;
+    }
+
+    private int performDrain(final char[] target, final int targetIndex, final int lengthToDrain) {
+        final int drained = buffer.drainChars(0, lengthToDrain, target, targetIndex);
+        toDrain -= drained;
+        return drained;
     }
 
     /**
