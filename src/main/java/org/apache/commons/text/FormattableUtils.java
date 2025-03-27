@@ -16,12 +16,8 @@
  */
 package org.apache.commons.text;
 
-import static java.util.FormattableFlags.LEFT_JUSTIFY;
-
 import java.util.Formattable;
 import java.util.Formatter;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides utilities for working with the {@code Formattable} interface.
@@ -40,9 +36,8 @@ public class FormattableUtils {
     private static final String SIMPLEST_FORMAT = "%s";
 
     /**
-     * Handles the common {@code Formattable} operations of truncate-pad-append,
-     * with no ellipsis on precision overflow, and padding width underflow with
-     * spaces.
+     * Handles the common {@link Formattable} operations of truncate-pad-append,
+     * with no ellipsis on precision overflow, and padding width underflow with spaces.
      *
      * @param seq  the string to handle, not null
      * @param formatter  the destination formatter, not null
@@ -52,7 +47,7 @@ public class FormattableUtils {
      * @return The {@code formatter} instance, not null
      */
     public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
-            final int precision) {
+                                   final int precision) {
         return append(seq, formatter, flags, width, precision, ' ', null);
     }
 
@@ -69,12 +64,17 @@ public class FormattableUtils {
      * @return The {@code formatter} instance, not null
      */
     public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
-            final int precision, final char padChar) {
+                                   final int precision, final char padChar) {
         return append(seq, formatter, flags, width, precision, padChar, null);
     }
 
     /**
-     * Handles the common {@link Formattable} operations of truncate-pad-append.
+     * Handles the common {@link Formattable} operations of truncate-pad-append,
+     * including optional ellipsis for truncation and configurable padding.
+     * <p>
+     * Delegates the formatting logic to an internal helper class {@code TruncatePadFormatter}
+     * that applies precision handling, padding, and formatting output.
+     * </p>
      *
      * @param seq  the string to handle, not null
      * @param formatter  the destination formatter, not null
@@ -82,36 +82,15 @@ public class FormattableUtils {
      * @param width  the width of the output, see {@code Formattable}
      * @param precision  the precision of the output, see {@code Formattable}
      * @param padChar  the pad character to use
-     * @param truncateEllipsis  the ellipsis to use when precision dictates truncation, null or
-     *  empty causes a hard truncation
+     * @param truncateEllipsis  the ellipsis to use when precision dictates truncation,
+     *                          null or empty causes a hard truncation
      * @return The {@code formatter} instance, not null
-     * @throws IllegalArgumentException if {@code ellipsis.length() > precision},
-     *  given that {@code ellipsis} is not null and {@code precision >= 0}
+     * @throws IllegalArgumentException if {@code truncateEllipsis.length() > precision},
+     *         given that {@code truncateEllipsis} is not null and {@code precision >= 0}
      */
     public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
-            final int precision, final char padChar, final CharSequence truncateEllipsis) {
-        if (!(truncateEllipsis == null || precision < 0 || truncateEllipsis.length() <= precision)) {
-            throw new IllegalArgumentException(
-                    String.format("Specified ellipsis '%s' exceeds precision of %s",
-                            truncateEllipsis,
-                            precision));
-        }
-        final StringBuilder buf = new StringBuilder(seq);
-        if (precision >= 0 && precision < seq.length()) {
-            final CharSequence ellipsis;
-            if (truncateEllipsis == null) {
-                ellipsis = StringUtils.EMPTY;
-            } else {
-                ellipsis = truncateEllipsis;
-            }
-            buf.replace(precision - ellipsis.length(), seq.length(), ellipsis.toString());
-        }
-        final boolean leftJustify = (flags & LEFT_JUSTIFY) == LEFT_JUSTIFY;
-        for (int i = buf.length(); i < width; i++) {
-            buf.insert(leftJustify ? i : 0, padChar);
-        }
-        formatter.format(buf.toString());
-        return formatter;
+                                   final int precision, final char padChar, final CharSequence truncateEllipsis) {
+        return new TruncatePadFormatter(seq, formatter, flags, width, precision, padChar, truncateEllipsis).format();
     }
 
     /**
@@ -123,14 +102,14 @@ public class FormattableUtils {
      * @param flags  the flags for formatting, see {@code Formattable}
      * @param width  the width of the output, see {@code Formattable}
      * @param precision  the precision of the output, see {@code Formattable}
-     * @param ellipsis  the ellipsis to use when precision dictates truncation, null or
-     *  empty causes a hard truncation
+     * @param ellipsis  the ellipsis to use when precision dictates truncation,
+     *                  null or empty causes a hard truncation
      * @return The {@code formatter} instance, not null
      * @throws IllegalArgumentException if {@code ellipsis.length() > precision},
-     *  given that {@code ellipsis} is not null and {@code precision >= 0}
+     *         given that {@code ellipsis} is not null and {@code precision >= 0}
      */
     public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
-            final int precision, final CharSequence ellipsis) {
+                                   final int precision, final CharSequence ellipsis) {
         return append(seq, formatter, flags, width, precision, ' ', ellipsis);
     }
 
@@ -154,6 +133,7 @@ public class FormattableUtils {
      * instance to operate.</p>
      */
     public FormattableUtils() {
+        // Intentionally empty.
+        // Exists only for frameworks or tests that require a public no-arg constructor.
     }
-
 }
