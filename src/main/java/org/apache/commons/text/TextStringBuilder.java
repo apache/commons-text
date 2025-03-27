@@ -16,6 +16,10 @@
  */
 package org.apache.commons.text;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.matcher.StringMatcher;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Serializable;
@@ -25,10 +29,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.matcher.StringMatcher;
 
 /**
  * Builds a string from constituent parts providing a more flexible and powerful API than {@link StringBuffer} and
@@ -2441,38 +2441,56 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Searches the string builder to find the last reference to the specified string starting searching from the given
-     * index.
+     * Searches for the last occurrence of the specified string within the buffer,
+     * starting the search at the specified index and working backward.
      * <p>
-     * Note that a null input string will return -1, whereas the JDK throws an exception.
+     * Handles edge cases such as null input, out-of-bound indices, and empty strings.
+     * If the string to search is a single character, it delegates to a character-specific method.
      * </p>
      *
-     * @param str the string to find, null returns -1
-     * @param startIndex the index to start at, invalid index rounded to edge
-     * @return The last index of the string, or -1 if not found
+     * @param str the string to search for, may be null
+     * @param startIndex the index to start searching backward from; adjusted if greater than buffer size
+     * @return the last index of the specified string, or -1 if not found
      */
     public int lastIndexOf(final String str, int startIndex) {
-        startIndex = startIndex >= size ? size - 1 : startIndex;
-        if (str == null || startIndex < 0) {
+        startIndex = adjustStartIndex(startIndex);
+        if (isInvalidInput(str, startIndex)) {
             return StringUtils.INDEX_NOT_FOUND;
         }
+
         final int strLen = str.length();
-        if (strLen > 0 && strLen <= size) {
+        if (isSearchable(strLen)) {
             if (strLen == 1) {
                 return lastIndexOf(str.charAt(0), startIndex);
             }
-
-            outer: for (int i = startIndex - strLen + 1; i >= 0; i--) {
-                for (int j = 0; j < strLen; j++) {
-                    if (str.charAt(j) != buffer[i + j]) {
-                        continue outer;
-                    }
-                }
-                return i;
-            }
-
+            return searchFromEnd(str, strLen, startIndex);
         } else if (strLen == 0) {
             return startIndex;
+        }
+
+        return StringUtils.INDEX_NOT_FOUND;
+    }
+
+    private int adjustStartIndex(int startIndex) {
+        return startIndex >= size ? size - 1 : startIndex;
+    }
+
+    private boolean isInvalidInput(String str, int startIndex) {
+        return str == null || startIndex < 0;
+    }
+
+    private boolean isSearchable(int strLen) {
+        return strLen > 0 && strLen <= size;
+    }
+
+    private int searchFromEnd(String str, int strLen, int startIndex) {
+        outer: for (int i = startIndex - strLen + 1; i >= 0; i--) {
+            for (int j = 0; j < strLen; j++) {
+                if (str.charAt(j) != buffer[i + j]) {
+                    continue outer;
+                }
+            }
+            return i;
         }
         return StringUtils.INDEX_NOT_FOUND;
     }
