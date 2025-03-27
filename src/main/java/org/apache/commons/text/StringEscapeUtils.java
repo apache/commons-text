@@ -16,24 +16,14 @@
  */
 package org.apache.commons.text;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.translate.*;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.translate.AggregateTranslator;
-import org.apache.commons.text.translate.CharSequenceTranslator;
-import org.apache.commons.text.translate.CsvTranslators;
-import org.apache.commons.text.translate.EntityArrays;
-import org.apache.commons.text.translate.JavaUnicodeEscaper;
-import org.apache.commons.text.translate.LookupTranslator;
-import org.apache.commons.text.translate.NumericEntityEscaper;
-import org.apache.commons.text.translate.NumericEntityUnescaper;
-import org.apache.commons.text.translate.OctalUnescaper;
-import org.apache.commons.text.translate.UnicodeUnescaper;
-import org.apache.commons.text.translate.UnicodeUnpairedSurrogateRemover;
 
 /**
  * <p>
@@ -120,45 +110,6 @@ public class StringEscapeUtils {
         @Override
         public String toString() {
             return sb.toString();
-        }
-    }
-    /**
-     * Translator object for unescaping backslash escaped entries.
-     */
-    static class XsiUnescaper extends CharSequenceTranslator {
-
-        /**
-         * Escaped backslash constant.
-         */
-        private static final char BACKSLASH = '\\';
-
-        @Override
-        public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
-
-            if (index != 0) {
-                throw new IllegalStateException("XsiUnescaper should never reach the [1] index");
-            }
-
-            final String s = input.toString();
-
-            int segmentStart = 0;
-            int searchOffset = 0;
-            while (true) {
-                final int pos = s.indexOf(BACKSLASH, searchOffset);
-                if (pos == -1) {
-                    if (segmentStart < s.length()) {
-                        writer.write(s.substring(segmentStart));
-                    }
-                    break;
-                }
-                if (pos > segmentStart) {
-                    writer.write(s.substring(segmentStart, pos));
-                }
-                segmentStart = pos + 1;
-                searchOffset = pos + 2;
-            }
-
-            return Character.codePointCount(input, 0, input.length());
         }
     }
 
@@ -470,13 +421,45 @@ public class StringEscapeUtils {
     /* Helper functions */
 
     /**
-     * Translator object for unescaping escaped XSI Value entries.
+     * Translator object for unescaping escaped XSI (shell-style) values.
      *
-     * While {@link #unescapeXSI(String)}  is the expected method of use, this
+     * While {@link #unescapeXSI(String)} is the expected method of use, this
      * object allows the XSI unescaping functionality to be used
      * as the foundation for a custom translator.
      */
-    public static final CharSequenceTranslator UNESCAPE_XSI = new XsiUnescaper();
+    public static final CharSequenceTranslator UNESCAPE_XSI = new CharSequenceTranslator() {
+
+        /** Escaped backslash constant. */
+        private static final char BACKSLASH = '\\';
+
+        @Override
+        public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
+            if (index != 0) {
+                throw new IllegalStateException("XsiUnescaper should never reach the [1] index");
+            }
+
+            final String s = input.toString();
+            int segmentStart = 0;
+            int searchOffset = 0;
+
+            while (true) {
+                final int pos = s.indexOf(BACKSLASH, searchOffset);
+                if (pos == -1) {
+                    if (segmentStart < s.length()) {
+                        writer.write(s.substring(segmentStart));
+                    }
+                    break;
+                }
+                if (pos > segmentStart) {
+                    writer.write(s.substring(segmentStart, pos));
+                }
+                segmentStart = pos + 1;
+                searchOffset = pos + 2;
+            }
+
+            return Character.codePointCount(input, 0, input.length());
+        }
+    };
 
     /**
      * Gets a {@link Builder}.
