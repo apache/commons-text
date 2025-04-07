@@ -452,6 +452,7 @@ public class EntityArrays {
      *
      * @deprecated Will be private.
      */
+    @Deprecated
     public EntityArrays() {
         // empty
     }
