@@ -82,27 +82,27 @@ public class EntityArraysTest {
 
     @Test
     public void testForDuplicateDeclaredMapValuesAposMap() {
-        assertEquals(EntityArrays.APOS_UNESCAPE.keySet().size(), EntityArrays.APOS_ESCAPE.keySet().size());
+        assertEquals(EntityArrays.APOS_UNESCAPE.size(), EntityArrays.APOS_ESCAPE.size());
     }
 
     @Test
     public void testForDuplicateDeclaredMapValuesBasicMap() {
-        assertEquals(EntityArrays.BASIC_ESCAPE.keySet().size(), EntityArrays.BASIC_UNESCAPE.keySet().size());
+        assertEquals(EntityArrays.BASIC_ESCAPE.size(), EntityArrays.BASIC_UNESCAPE.size());
     }
 
     @Test
     public void testForDuplicateDeclaredMapValuesHtml40ExtendedMap() {
-        assertEquals(EntityArrays.HTML40_EXTENDED_ESCAPE.keySet().size(), EntityArrays.HTML40_EXTENDED_UNESCAPE.keySet().size());
+        assertEquals(EntityArrays.HTML40_EXTENDED_ESCAPE.size(), EntityArrays.HTML40_EXTENDED_UNESCAPE.size());
     }
 
     @Test
     public void testForDuplicateDeclaredMapValuesISO8859Map() {
-        assertEquals(EntityArrays.ISO8859_1_ESCAPE.keySet().size(), EntityArrays.ISO8859_1_UNESCAPE.keySet().size());
+        assertEquals(EntityArrays.ISO8859_1_ESCAPE.size(), EntityArrays.ISO8859_1_UNESCAPE.size());
     }
 
     @Test
     public void testForDuplicateDeclaredMapValuesJavaCtrlCharsMap() {
-        assertEquals(EntityArrays.JAVA_CTRL_CHARS_ESCAPE.keySet().size(), EntityArrays.JAVA_CTRL_CHARS_UNESCAPE.keySet().size());
+        assertEquals(EntityArrays.JAVA_CTRL_CHARS_ESCAPE.size(), EntityArrays.JAVA_CTRL_CHARS_UNESCAPE.size());
     }
 
     @Test
