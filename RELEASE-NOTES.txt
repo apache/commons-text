@@ -15,6 +15,63 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
+Apache Commons Text 1.13.1 Release Notes
+----------------------------------------
+
+This document contains the release notes for the 1.13.1 version of Apache Commons Text.
+
+Apache Commons Text is a set of utility functions and reusable components for the purpose of processing
+and manipulating text that should be of use in a Java environment.
+
+Release 1.13.1. Requires Java 8 or above.
+
+
+
+Fixed Bugs
+----------
+
+*            Remove -nouses directive from maven-bundle-plugin. OSGi package imports now state 'uses' definitions for package imports, this doesn't affect JPMS (from org.apache.commons:commons-parent:80). Thanks to Gary Gregory.
+*            Deprecate EntityArrays.EntityArrays(). Thanks to Gary Gregory.
+*            StringLookupFactory.DefaultStringLookupsHolder.createDefaultStringLookups() maps DefaultStringLookup.LOCAL_HOST twice instead of once for LOCAL_HOST and LOOPBACK_ADDRESS. Thanks to Gary Gregory.
+
+Changes
+-------
+
+*            Bump org.apache.commons:commons-parent from 79 to 81. Thanks to Gary Gregory.
+*            Bump commons.bytebuddy.version from 1.16.1 to 1.17.5 #643, #659, #660. Thanks to Gary Gregory, Dependabot.
+*            Bump graalvm.version from 24.1.2 to 24.2.0 #653. Thanks to Gary Gregory, Dependabot.
+
+
+Historical list of changes: https://commons.apache.org/proper/commons-text/changes.html
+
+For complete information on Apache Commons Text, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons Text website:
+
+https://commons.apache.org/proper/commons-text
+
+Download page: https://commons.apache.org/proper/commons-text/download_text.cgi
+
+Have fun!
+-Apache Commons Team
+
+-----------------------------------------------------------------------------
+
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+
 Apache Commons Text Version 1.13.0 Release Notes
 ------------------------------------------------
 

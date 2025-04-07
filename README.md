@@ -6,7 +6,7 @@
  (the "License"); you may not use this file except in compliance with
  the License.  You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+      https://www.apache.org/licenses/LICENSE-2.0
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,7 +45,7 @@ Apache Commons Text
 
 [![Java CI](https://github.com/apache/commons-text/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-text/actions/workflows/maven.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/org.apache.commons/commons-text?label=Maven%20Central)](https://search.maven.org/artifact/org.apache.commons/commons-text)
-[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-text/1.13.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-text/1.13.0)
+[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-text/1.13.1.svg)](https://javadoc.io/doc/org.apache.commons/commons-text/1.13.1)
 [![CodeQL](https://github.com/apache/commons-text/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/apache/commons-text/actions/workflows/codeql-analysis.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/apache/commons-text/badge)](https://api.securityscorecards.dev/projects/github.com/apache/commons-text)
 
@@ -69,7 +69,7 @@ Alternatively, you can pull it from the central Maven repositories:
 <dependency>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-text</artifactId>
-  <version>1.13.0</version>
+  <version>1.13.1</version>
 </dependency>
 ```
 
