@@ -109,6 +109,33 @@ public class StringLookupFactoryTest {
         StringLookupFactory.INSTANCE.addDefaultStringLookups(null);
     }
 
+    /**
+     * Tests that we return the singleton.
+     */
+    @Test
+    public void testDefault() {
+        final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
+        final Map<String, StringLookup> stringLookupMap = new HashMap<>();
+        stringLookupFactory.addDefaultStringLookups(stringLookupMap);
+        assertTrue(stringLookupMap.containsKey("base64"));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_BASE64_ENCODER.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_CONST.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_DATE));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_ENV.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_FILE.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_JAVA.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_LOCALHOST.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_LOOPBACK_ADDRESS.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_PROPERTIES.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_RESOURCE_BUNDLE.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_SYS.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_DECODER.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_ENCODER.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_XML.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_XML_DECODER.toLowerCase(Locale.ROOT)));
+        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_XML_ENCODER.toLowerCase(Locale.ROOT)));
+    }
+
     @Test
     public void testDefaultStringLookupsHolder_allLookups() {
         final Properties props = new Properties();
@@ -245,33 +272,6 @@ public class StringLookupFactoryTest {
         assertSame(XmlStringLookup.INSTANCE, stringLookupFactory.xmlStringLookup());
         assertSame(XmlDecoderStringLookup.INSTANCE, stringLookupFactory.xmlDecoderStringLookup());
         assertSame(XmlEncoderStringLookup.INSTANCE, stringLookupFactory.xmlEncoderStringLookup());
-    }
-
-    /**
-     * Tests that we return the singleton.
-     */
-    @Test
-    public void testDefault() {
-        final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
-        final Map<String, StringLookup> stringLookupMap = new HashMap<>();
-        stringLookupFactory.addDefaultStringLookups(stringLookupMap);
-        assertTrue(stringLookupMap.containsKey("base64"));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_BASE64_ENCODER.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_CONST.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_DATE));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_ENV.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_FILE.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_JAVA.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_LOCALHOST.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_LOOPBACK_ADDRESS.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_PROPERTIES.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_RESOURCE_BUNDLE.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_SYS.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_DECODER.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_URL_ENCODER.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_XML.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_XML_DECODER.toLowerCase(Locale.ROOT)));
-        assertTrue(stringLookupMap.containsKey(StringLookupFactory.KEY_XML_ENCODER.toLowerCase(Locale.ROOT)));
     }
 
     @Test
