@@ -45,6 +45,11 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Apache Commons Text Changes</title>
   </properties>
   <body>
+  <release version="1.13.2" date="YYYY-MM-DD" description="Release 1.13.2. Requires Java 8 or above.">
+    <!-- FIX -->
+    <!-- ADD -->
+    <!-- UPDATE -->
+  </release>
   <release version="1.13.1" date="2025-04-07" description="Release 1.13.1. Requires Java 8 or above.">
     <!-- FIX -->
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Remove -nouses directive from maven-bundle-plugin. OSGi package imports now state 'uses' definitions for package imports, this doesn't affect JPMS (from org.apache.commons:commons-parent:80).</action>
