@@ -25,8 +25,6 @@ and manipulating text that should be of use in a Java environment.
 
 Release 1.13.1. Requires Java 8 or above.
 
-
-
 Fixed Bugs
 ----------
 
@@ -81,7 +79,6 @@ Apache Commons Text is a set of utility functions and reusable components for th
 and manipulating text that should be of use in a Java environment.
 
 Release 1.13.0. Requires Java 8 or above.
-
 
 New features
 ------------
