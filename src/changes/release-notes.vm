@@ -35,7 +35,7 @@ limitations under the License.
 ${project.name} ${version} Release Notes
 ------------------------------------------------
 
-This document contains the release notes for the ${version} version of Apache Commons Text.
+The Apache Commons team is pleased to announce ${project.name} ${version}.
 
 $introduction.replaceAll("(?<!\015)\012", "
 ").replaceAll("(?m)^ +","")
