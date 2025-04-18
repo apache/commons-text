@@ -513,7 +513,7 @@
 		<jdk>[22,)</jdk>
 	  </activation>
       <properties>
-        <graalvm.version>24.2.0</graalvm.version>
+        <graalvm.version>24.2.1</graalvm.version>
         <commons.mockito.version>5.2.0</commons.mockito.version>
       </properties>
       <build>
