@@ -49,6 +49,7 @@ The <action> type attribute can be add,update,fix,remove.
     <!-- FIX -->
     <!-- ADD -->
     <!-- UPDATE -->
+    <action type="update" dev="chtompki" due-to="Rob Tompkins">Update commons-parent 81 -> 82</action>
     <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io:commons-io from 2.18.0 to 2.19.0.</action>
     <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">Bump graalvm.version from 24.2.0 to 24.2.1 #665.</action>
   </release>
