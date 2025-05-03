@@ -376,6 +376,40 @@ public class StringTokenizerTest {
     }
 
     @Test
+    public void testOmitDelimiter1() {
+        final String input = "AbcDefGhi";
+        final StringTokenizer tok = new StringTokenizer(input, StringMatcherFactory.INSTANCE.uppercaseMatcher());
+        tok.setOmitDelimiterMatches(false);
+        assertEquals("Abc", tok.next());
+        assertEquals("Def", tok.next());
+        assertEquals("Ghi", tok.next());
+        assertFalse(tok.hasNext());
+    }
+
+    @Test
+    public void testOmitDelimiter2() {
+        final String input = "Abc:Def:Ghi";
+        final StringTokenizer tok = new StringTokenizer(input, ':');
+        tok.setOmitDelimiterMatches(false);
+        assertEquals("Abc", tok.next());
+        assertEquals(":Def", tok.next());
+        assertEquals(":Ghi", tok.next());
+        assertFalse(tok.hasNext());
+    }
+
+    @Test
+    public void testOmitDelimiter3() {
+        final String input = "Abc :Def :Ghi ";
+        final StringTokenizer tok = new StringTokenizer(input, ':');
+        tok.setTrimmerMatcher(StringMatcherFactory.INSTANCE.trimMatcher());
+        tok.setOmitDelimiterMatches(false);
+        assertEquals("Abc", tok.next());
+        assertEquals(":Def", tok.next());
+        assertEquals(":Ghi", tok.next());
+        assertFalse(tok.hasNext());
+    }
+
+    @Test
     public void testBasicQuoted1() {
         final String input = "a 'b' c";
         final StringTokenizer tok = new StringTokenizer(input, ' ', '\'');
