@@ -37,12 +37,12 @@ public class DateStringLookupTest {
     @Test
     public void testBadFormat() {
         assertThrows(IllegalArgumentException.class,
-            () -> DateStringLookup.INSTANCE.lookup("this-is-a-bad-format-dontcha-know"));
+            () -> DateStringLookup.INSTANCE.apply("this-is-a-bad-format-dontcha-know"));
     }
 
     @Test
     public void testDefault() throws ParseException {
-        final String formatted = DateStringLookup.INSTANCE.lookup(null);
+        final String formatted = DateStringLookup.INSTANCE.apply(null);
         DateFormat.getInstance().parse(formatted); // throws ParseException
 
     }
@@ -50,7 +50,7 @@ public class DateStringLookupTest {
     @Test
     public void testFormat() {
         final String format = "yyyy-MM-dd";
-        final String value = DateStringLookup.INSTANCE.lookup(format);
+        final String value = DateStringLookup.INSTANCE.apply(format);
         // System.out.println(value);
         assertNotNull(value, "No Date");
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);

@@ -124,7 +124,7 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
             final StringLookup lookup = stringLookupMap.get(prefix);
             String value = null;
             if (lookup != null) {
-                value = lookup.lookup(name);
+                value = lookup.apply(name);
             }
 
             if (value != null) {
@@ -133,7 +133,7 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
             key = key.substring(prefixPos + 1);
         }
         if (defaultStringLookup != null) {
-            return defaultStringLookup.lookup(key);
+            return defaultStringLookup.apply(key);
         }
         return null;
     }

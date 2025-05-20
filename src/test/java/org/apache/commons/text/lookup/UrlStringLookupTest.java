@@ -35,17 +35,17 @@ public class UrlStringLookupTest {
 
     @Test
     public void testBadCharsetName() {
-        assertThrows(IllegalArgumentException.class, () -> UrlStringLookup.INSTANCE.lookup("BAD_CHARSET_NAME:BAD_URL"));
+        assertThrows(IllegalArgumentException.class, () -> UrlStringLookup.INSTANCE.apply("BAD_CHARSET_NAME:BAD_URL"));
     }
 
     @Test
     public void testBadEncoding() {
-        assertThrows(IllegalArgumentException.class, () -> UrlStringLookup.INSTANCE.lookup("FOO:https://www.google.com"));
+        assertThrows(IllegalArgumentException.class, () -> UrlStringLookup.INSTANCE.apply("FOO:https://www.google.com"));
     }
 
     @Test
     public void testBadUrl() {
-        assertThrows(IllegalArgumentException.class, () -> UrlStringLookup.INSTANCE.lookup("UTF-8:BAD_URL"));
+        assertThrows(IllegalArgumentException.class, () -> UrlStringLookup.INSTANCE.apply("UTF-8:BAD_URL"));
     }
 
     @Test
@@ -55,23 +55,23 @@ public class UrlStringLookupTest {
         // System.out.println(uri);
         final byte[] expectedBytes = Files.readAllBytes(path);
         final String expectedString = new String(expectedBytes, StandardCharsets.UTF_8);
-        Assertions.assertEquals(expectedString, UrlStringLookup.INSTANCE.lookup("UTF-8:" + uri.toString()));
+        Assertions.assertEquals(expectedString, UrlStringLookup.INSTANCE.apply("UTF-8:" + uri.toString()));
     }
 
     @Test
     public void testHttpScheme() {
-        Assertions.assertNotNull(UrlStringLookup.INSTANCE.lookup("UTF-8:https://www.apache.org"));
-        Assertions.assertNotNull(UrlStringLookup.INSTANCE.lookup("UTF-8:https://www.google.com"));
+        Assertions.assertNotNull(UrlStringLookup.INSTANCE.apply("UTF-8:https://www.apache.org"));
+        Assertions.assertNotNull(UrlStringLookup.INSTANCE.apply("UTF-8:https://www.google.com"));
     }
 
     @Test
     public void testMissingUrl() {
-        assertThrows(IllegalArgumentException.class, () -> UrlStringLookup.INSTANCE.lookup("UTF-8"));
+        assertThrows(IllegalArgumentException.class, () -> UrlStringLookup.INSTANCE.apply("UTF-8"));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(UrlStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(UrlStringLookup.INSTANCE.apply(null));
     }
 
     @Test

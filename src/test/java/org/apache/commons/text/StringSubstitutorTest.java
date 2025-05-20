@@ -201,6 +201,7 @@ public class StringSubstitutorTest {
     public void testConstructorNullMap() {
         final Map<String, Object> parameters = null;
         final StringSubstitutor s = new StringSubstitutor(parameters, "prefix", "suffix");
+        assertNull(s.getStringLookup().apply("X"));
         assertNull(s.getStringLookup().lookup("X"));
     }
 

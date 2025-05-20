@@ -40,50 +40,50 @@ public class ResourceBundleStringLookupTest {
         final String bundleName = TEST_RESOURCE_BUNDLE;
         final String bundleKey = KEY;
         Assertions.assertEquals(ResourceBundle.getBundle(bundleName).getString(bundleKey),
-            ResourceBundleStringLookup.INSTANCE.lookup(AbstractStringLookup.toLookupKey(bundleName, bundleKey)));
+            ResourceBundleStringLookup.INSTANCE.apply(AbstractStringLookup.toLookupKey(bundleName, bundleKey)));
     }
 
     @Test
     public void testBadKey() {
         final String bundleName = TEST_RESOURCE_BUNDLE;
         final String bundleKey = "bad_key";
-        assertNull(new ResourceBundleStringLookup(bundleName).lookup(bundleKey));
-        assertNull(ResourceBundleStringLookup.INSTANCE.lookup(AbstractStringLookup.toLookupKey(bundleName, bundleKey)));
+        assertNull(new ResourceBundleStringLookup(bundleName).apply(bundleKey));
+        assertNull(ResourceBundleStringLookup.INSTANCE.apply(AbstractStringLookup.toLookupKey(bundleName, bundleKey)));
     }
 
     @Test
     public void testBadNames() {
         assertNull(ResourceBundleStringLookup.INSTANCE
-            .lookup(AbstractStringLookup.toLookupKey("BAD_RESOURCE_BUNDLE_NAME", "KEY")));
+            .apply(AbstractStringLookup.toLookupKey("BAD_RESOURCE_BUNDLE_NAME", "KEY")));
     }
 
     @Test
     public void testDoubleBundle() {
         assertThrows(IllegalArgumentException.class, () -> new ResourceBundleStringLookup(TEST_RESOURCE_BUNDLE)
-            .lookup(AbstractStringLookup.toLookupKey("OtherBundle", KEY)));
+            .apply(AbstractStringLookup.toLookupKey("OtherBundle", KEY)));
     }
 
     @Test
     public void testExceptionGettingString() {
         final ResourceBundleStringLookup mockLookup = spy(ResourceBundleStringLookup.class);
         when(mockLookup.getString(TEST_RESOURCE_BUNDLE, KEY)).thenThrow(ClassCastException.class);
-        assertThrows(IllegalArgumentException.class, () -> mockLookup.lookup(AbstractStringLookup.toLookupKey(TEST_RESOURCE_BUNDLE, KEY)));
+        assertThrows(IllegalArgumentException.class, () -> mockLookup.apply(AbstractStringLookup.toLookupKey(TEST_RESOURCE_BUNDLE, KEY)));
     }
 
     @Test
     public void testMissingKeyInSpec() {
-        assertThrows(IllegalArgumentException.class, () -> ResourceBundleStringLookup.INSTANCE.lookup(TEST_RESOURCE_BUNDLE + ":"));
+        assertThrows(IllegalArgumentException.class, () -> ResourceBundleStringLookup.INSTANCE.apply(TEST_RESOURCE_BUNDLE + ":"));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(ResourceBundleStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(ResourceBundleStringLookup.INSTANCE.apply(null));
     }
 
     @Test
     public void testOne() {
         Assertions.assertEquals(ResourceBundle.getBundle(TEST_RESOURCE_BUNDLE).getString(KEY),
-            new ResourceBundleStringLookup(TEST_RESOURCE_BUNDLE).lookup(KEY));
+            new ResourceBundleStringLookup(TEST_RESOURCE_BUNDLE).apply(KEY));
     }
 
     @Test

@@ -30,27 +30,27 @@ public class InetAddressStringLookupLocalHostTest {
 
     @Test
     public void testAddress() throws UnknownHostException {
-        Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(), InetAddressStringLookup.LOCAL_HOST.lookup("address"));
+        Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(), InetAddressStringLookup.LOCAL_HOST.apply("address"));
     }
 
     @Test
     public void testBadKey() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.LOCAL_HOST.lookup("FOO"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.LOCAL_HOST.apply("FOO"));
     }
 
     @Test
     public void testCanonicalName() throws UnknownHostException {
-        Assertions.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(), InetAddressStringLookup.LOCAL_HOST.lookup("canonical-name"));
+        Assertions.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(), InetAddressStringLookup.LOCAL_HOST.apply("canonical-name"));
     }
 
     @Test
     public void testName() throws UnknownHostException {
-        Assertions.assertEquals(InetAddress.getLocalHost().getHostName(), InetAddressStringLookup.LOCAL_HOST.lookup("name"));
+        Assertions.assertEquals(InetAddress.getLocalHost().getHostName(), InetAddressStringLookup.LOCAL_HOST.apply("name"));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(InetAddressStringLookup.LOCAL_HOST.lookup(null));
+        Assertions.assertNull(InetAddressStringLookup.LOCAL_HOST.apply(null));
     }
 
     @Test

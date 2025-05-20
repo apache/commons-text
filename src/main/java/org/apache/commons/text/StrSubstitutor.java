@@ -874,7 +874,7 @@ public class StrSubstitutor {
         if (resolver == null) {
             return null;
         }
-        return resolver.lookup(variableName);
+        return resolver.apply(variableName);
     }
 
     /**

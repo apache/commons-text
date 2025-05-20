@@ -29,12 +29,12 @@ public class XmlEncoderStringLookupTest {
 
     @Test
     public void testDecode() {
-        Assertions.assertEquals(DATA, XmlEncoderStringLookup.INSTANCE.lookup("<element>"));
+        Assertions.assertEquals(DATA, XmlEncoderStringLookup.INSTANCE.apply("<element>"));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(XmlEncoderStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(XmlEncoderStringLookup.INSTANCE.apply(null));
     }
 
     @Test

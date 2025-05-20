@@ -31,7 +31,7 @@ public class JavaPlatformStringLookupTest {
 
     @Test
     public void testBadKey() {
-        assertThrows(IllegalArgumentException.class, () -> JavaPlatformStringLookup.INSTANCE.lookup("BADKEY"));
+        assertThrows(IllegalArgumentException.class, () -> JavaPlatformStringLookup.INSTANCE.apply("BADKEY"));
     }
 
     @Test
@@ -41,7 +41,7 @@ public class JavaPlatformStringLookupTest {
 
     @Test
     public void testNull() {
-        Assertions.assertNull(JavaPlatformStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(JavaPlatformStringLookup.INSTANCE.apply(null));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class JavaPlatformStringLookupTest {
     @Test
     public void testVm() {
         final String key = "vm";
-        assertTrue(JavaPlatformStringLookup.INSTANCE.lookup(key).contains(System.getProperty("java.vm.name")));
+        assertTrue(JavaPlatformStringLookup.INSTANCE.apply(key).contains(System.getProperty("java.vm.name")));
     }
 
 }

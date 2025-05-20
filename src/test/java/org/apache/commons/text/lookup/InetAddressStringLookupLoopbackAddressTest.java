@@ -29,27 +29,27 @@ public class InetAddressStringLookupLoopbackAddressTest {
 
     @Test
     public void testAddress() {
-        Assertions.assertEquals(InetAddress.getLoopbackAddress().getHostAddress(), InetAddressStringLookup.LOOPACK_ADDRESS.lookup("address"));
+        Assertions.assertEquals(InetAddress.getLoopbackAddress().getHostAddress(), InetAddressStringLookup.LOOPACK_ADDRESS.apply("address"));
     }
 
     @Test
     public void testBadKey() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.LOOPACK_ADDRESS.lookup("FOO"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.LOOPACK_ADDRESS.apply("FOO"));
     }
 
     @Test
     public void testCanonicalName() {
-        Assertions.assertEquals(InetAddress.getLoopbackAddress().getCanonicalHostName(), InetAddressStringLookup.LOOPACK_ADDRESS.lookup("canonical-name"));
+        Assertions.assertEquals(InetAddress.getLoopbackAddress().getCanonicalHostName(), InetAddressStringLookup.LOOPACK_ADDRESS.apply("canonical-name"));
     }
 
     @Test
     public void testName() {
-        Assertions.assertEquals(InetAddress.getLoopbackAddress().getHostName(), InetAddressStringLookup.LOOPACK_ADDRESS.lookup("name"));
+        Assertions.assertEquals(InetAddress.getLoopbackAddress().getHostName(), InetAddressStringLookup.LOOPACK_ADDRESS.apply("name"));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(InetAddressStringLookup.LOOPACK_ADDRESS.lookup(null));
+        Assertions.assertNull(InetAddressStringLookup.LOOPACK_ADDRESS.apply(null));
     }
 
     @Test

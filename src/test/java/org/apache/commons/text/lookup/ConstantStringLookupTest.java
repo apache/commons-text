@@ -71,7 +71,7 @@ public class ConstantStringLookupTest {
      */
     @Test
     public void testLookupConstant() {
-        Assertions.assertEquals(FIELD, stringLookup.lookup(variable("FIELD")), "Wrong value of constant");
+        Assertions.assertEquals(FIELD, stringLookup.apply(variable("FIELD")), "Wrong value of constant");
     }
 
     /**
@@ -79,7 +79,7 @@ public class ConstantStringLookupTest {
      */
     @Test
     public void testLookupInvalidSyntax() {
-        Assertions.assertNull(stringLookup.lookup("InvalidVariableName"),
+        Assertions.assertNull(stringLookup.apply("InvalidVariableName"),
             "Non null return value for invalid variable name");
     }
 
@@ -88,7 +88,7 @@ public class ConstantStringLookupTest {
      */
     @Test
     public void testLookupNonExisting() {
-        Assertions.assertNull(stringLookup.lookup(variable("NO_FIELD")),
+        Assertions.assertNull(stringLookup.apply(variable("NO_FIELD")),
             "Non null return value for non existing constant");
     }
 
@@ -99,8 +99,8 @@ public class ConstantStringLookupTest {
     public void testLookupNonString() {
         final String ref = KeyEvent.class.getName() + ".VK_ESCAPE";
         final String expected = Integer.toString(KeyEvent.VK_ESCAPE);
-        Assertions.assertEquals(expected, stringLookup.lookup(ref), "Wrong result of first lookup");
-        Assertions.assertEquals(expected, stringLookup.lookup(ref), "Wrong result of 2nd lookup");
+        Assertions.assertEquals(expected, stringLookup.apply(ref), "Wrong result of first lookup");
+        Assertions.assertEquals(expected, stringLookup.apply(ref), "Wrong result of 2nd lookup");
     }
 
     /**
@@ -108,7 +108,7 @@ public class ConstantStringLookupTest {
      */
     @Test
     public void testLookupNull() {
-        Assertions.assertNull(stringLookup.lookup(null), "Non null return value for null variable");
+        Assertions.assertNull(stringLookup.apply(null), "Non null return value for null variable");
     }
 
     /**
@@ -116,7 +116,7 @@ public class ConstantStringLookupTest {
      */
     @Test
     public void testLookupPrivate() {
-        Assertions.assertNull(stringLookup.lookup(variable("PRIVATE_FIELD")),
+        Assertions.assertNull(stringLookup.apply(variable("PRIVATE_FIELD")),
             "Non null return value for non accessible field");
     }
 
@@ -125,7 +125,7 @@ public class ConstantStringLookupTest {
      */
     @Test
     public void testLookupUnknownClass() {
-        Assertions.assertNull(stringLookup.lookup("org.apache.commons.configuration.NonExistingConfig." + FIELD),
+        Assertions.assertNull(stringLookup.apply("org.apache.commons.configuration.NonExistingConfig." + FIELD),
             "Non null return value for unknown class");
     }
 

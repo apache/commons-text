@@ -32,17 +32,17 @@ public class FunctionStringLookupTest {
 
     @Test
     public void testConcurrentHashMapNull() {
-        Assertions.assertNull(FunctionStringLookup.on(new ConcurrentHashMap<>()).lookup(null));
+        Assertions.assertNull(FunctionStringLookup.on(new ConcurrentHashMap<>()).apply(null));
     }
 
     @Test
     public void testHashMapNull() {
-        Assertions.assertNull(FunctionStringLookup.on(new HashMap<>()).lookup(null));
+        Assertions.assertNull(FunctionStringLookup.on(new HashMap<>()).apply(null));
     }
 
     @Test
     public void testNullFunction() {
-        Assertions.assertNull(FunctionStringLookup.on((Function<String, Object>) null).lookup(null));
+        Assertions.assertNull(FunctionStringLookup.on((Function<String, Object>) null).apply(null));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class FunctionStringLookupTest {
         final String value = "value";
         final Map<String, String> map = new HashMap<>();
         map.put(key, value);
-        Assertions.assertEquals(value, FunctionStringLookup.on(map).lookup(key));
+        Assertions.assertEquals(value, FunctionStringLookup.on(map).apply(key));
     }
 
     @Test

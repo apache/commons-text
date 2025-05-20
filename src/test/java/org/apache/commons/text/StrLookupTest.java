@@ -40,52 +40,52 @@ public class StrLookupTest  {
         final Map<String, Object> map = new HashMap<>();
         map.put("key", "value");
         map.put("number", 2);
-        assertEquals("value", StrLookup.mapLookup(map).lookup("key"));
-        assertEquals("2", StrLookup.mapLookup(map).lookup("number"));
-        assertNull(StrLookup.mapLookup(map).lookup(null));
-        assertNull(StrLookup.mapLookup(map).lookup(""));
-        assertNull(StrLookup.mapLookup(map).lookup("other"));
+        assertEquals("value", StrLookup.mapLookup(map).apply("key"));
+        assertEquals("2", StrLookup.mapLookup(map).apply("number"));
+        assertNull(StrLookup.mapLookup(map).apply(null));
+        assertNull(StrLookup.mapLookup(map).apply(""));
+        assertNull(StrLookup.mapLookup(map).apply("other"));
     }
 
     @Test
     public void testMapLookup_nullMap() {
         final Map<String, ?> map = null;
-        assertNull(StrLookup.mapLookup(map).lookup(null));
-        assertNull(StrLookup.mapLookup(map).lookup(""));
-        assertNull(StrLookup.mapLookup(map).lookup("any"));
+        assertNull(StrLookup.mapLookup(map).apply(null));
+        assertNull(StrLookup.mapLookup(map).apply(""));
+        assertNull(StrLookup.mapLookup(map).apply("any"));
     }
 
     @Test
     public void testNoneLookup() {
-        assertNull(StrLookup.noneLookup().lookup(null));
-        assertNull(StrLookup.noneLookup().lookup(""));
-        assertNull(StrLookup.noneLookup().lookup("any"));
+        assertNull(StrLookup.noneLookup().apply(null));
+        assertNull(StrLookup.noneLookup().apply(""));
+        assertNull(StrLookup.noneLookup().apply("any"));
     }
 
     @Test
     public void testResourceBundleLookup() {
         final ResourceBundle map = ResourceBundle.getBundle("org.apache.commons.text.example.testResourceBundleLookup");
-        assertEquals("value", StrLookup.resourceBundleLookup(map).lookup("key"));
+        assertEquals("value", StrLookup.resourceBundleLookup(map).apply("key"));
         assertEquals("2", StrLookup.resourceBundleLookup(map).lookup("number"));
-        assertNull(StrLookup.resourceBundleLookup(map).lookup(null));
-        assertNull(StrLookup.resourceBundleLookup(map).lookup(""));
-        assertNull(StrLookup.resourceBundleLookup(map).lookup("other"));
+        assertNull(StrLookup.resourceBundleLookup(map).apply(null));
+        assertNull(StrLookup.resourceBundleLookup(map).apply(""));
+        assertNull(StrLookup.resourceBundleLookup(map).apply("other"));
     }
 
     @Test
     public void testResourceBundleLookup_nullMap() {
         final ResourceBundle resourceBundle = null;
-        assertNull(StrLookup.resourceBundleLookup(resourceBundle).lookup(null));
-        assertNull(StrLookup.resourceBundleLookup(resourceBundle).lookup(""));
-        assertNull(StrLookup.resourceBundleLookup(resourceBundle).lookup("any"));
+        assertNull(StrLookup.resourceBundleLookup(resourceBundle).apply(null));
+        assertNull(StrLookup.resourceBundleLookup(resourceBundle).apply(""));
+        assertNull(StrLookup.resourceBundleLookup(resourceBundle).apply("any"));
     }
 
     @Test
     public void testSystemPropertiesLookup() {
-        assertEquals(System.getProperty("os.name"), StrLookup.systemPropertiesLookup().lookup("os.name"));
-        assertNull(StrLookup.systemPropertiesLookup().lookup(""));
-        assertNull(StrLookup.systemPropertiesLookup().lookup("other"));
-        assertThrows(NullPointerException.class, () -> StrLookup.systemPropertiesLookup().lookup(null));
+        assertEquals(System.getProperty("os.name"), StrLookup.systemPropertiesLookup().apply("os.name"));
+        assertNull(StrLookup.systemPropertiesLookup().apply(""));
+        assertNull(StrLookup.systemPropertiesLookup().apply("other"));
+        assertThrows(NullPointerException.class, () -> StrLookup.systemPropertiesLookup().apply(null));
     }
 
     /**
@@ -104,7 +104,7 @@ public class StrLookupTest  {
         newProps.setProperty(osName, newOsName);
         System.setProperties(newProps);
         try {
-            assertEquals(newOsName, sysLookup.lookup(osName), "Changed properties not detected");
+            assertEquals(newOsName, sysLookup.apply(osName), "Changed properties not detected");
         } finally {
             System.setProperties(oldProperties);
         }
@@ -123,7 +123,7 @@ public class StrLookupTest  {
         final StrLookup<String> sysLookup = StrLookup.systemPropertiesLookup();
         System.setProperty(osName, newOsName);
         try {
-            assertEquals(newOsName, sysLookup.lookup(osName), "Changed properties not detected");
+            assertEquals(newOsName, sysLookup.apply(osName), "Changed properties not detected");
         } finally {
             System.setProperty(osName, oldOs);
         }

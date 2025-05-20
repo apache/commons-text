@@ -27,7 +27,7 @@ public class SystemPropertyStringLookupTest {
 
     @Test
     public void testNull() {
-        Assertions.assertNull(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.lookup(null));
+        Assertions.assertNull(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.apply(null));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class SystemPropertyStringLookupTest {
     @Test
     public void testUserName() {
         final String key = "user.name";
-        Assertions.assertEquals(System.getProperty(key), StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.lookup(key));
+        Assertions.assertEquals(System.getProperty(key), StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.apply(key));
     }
 
 }

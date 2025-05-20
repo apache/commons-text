@@ -27,12 +27,12 @@ public class Base64DecoderStringLookupTest {
 
     @Test
     public void test() {
-        Assertions.assertEquals("HelloWorld!", StringLookupFactory.INSTANCE_BASE64_DECODER.lookup("SGVsbG9Xb3JsZCE="));
+        Assertions.assertEquals("HelloWorld!", StringLookupFactory.INSTANCE_BASE64_DECODER.apply("SGVsbG9Xb3JsZCE="));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(StringLookupFactory.INSTANCE_BASE64_DECODER.lookup(null));
+        Assertions.assertNull(StringLookupFactory.INSTANCE_BASE64_DECODER.apply(null));
     }
 
     @Test

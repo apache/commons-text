@@ -55,7 +55,7 @@ public class ConstantStringLookupBasicTest {
 
     @Test
     public void testNull() {
-        Assertions.assertNull(ConstantStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(ConstantStringLookup.INSTANCE.apply(null));
     }
 
     @Test
@@ -65,19 +65,19 @@ public class ConstantStringLookupBasicTest {
             protected Class<?> fetchClass(final String className) throws ClassNotFoundException {
                 return null;
             }
-        }.lookup(ConstantStringLookupBasicTest.class.getName() + ".STRING_FIXTURE"));
+        }.apply(ConstantStringLookupBasicTest.class.getName() + ".STRING_FIXTURE"));
     }
 
     @Test
     public void testNullValue() {
         Assertions.assertEquals(NULL_STRING_FIXTURE, ConstantStringLookup.INSTANCE
-            .lookup(ConstantStringLookupBasicTest.class.getName() + ".NULL_STRING_FIXTURE"));
+            .apply(ConstantStringLookupBasicTest.class.getName() + ".NULL_STRING_FIXTURE"));
     }
 
     @Test
     public void testOne() {
         Assertions.assertEquals(STRING_FIXTURE,
-            ConstantStringLookup.INSTANCE.lookup(ConstantStringLookupBasicTest.class.getName() + ".STRING_FIXTURE"));
+            ConstantStringLookup.INSTANCE.apply(ConstantStringLookupBasicTest.class.getName() + ".STRING_FIXTURE"));
     }
 
     @Test

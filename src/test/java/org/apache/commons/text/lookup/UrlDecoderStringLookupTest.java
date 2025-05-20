@@ -36,7 +36,7 @@ public class UrlDecoderStringLookupTest {
 
     @Test
     public void testAllPercent() {
-        Assertions.assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.lookup("Hello%20World%21"));
+        Assertions.assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.apply("Hello%20World%21"));
     }
 
     @Test
@@ -44,22 +44,22 @@ public class UrlDecoderStringLookupTest {
         final UrlDecoderStringLookup mockLookup = spy(UrlDecoderStringLookup.class);
         when(mockLookup.decode(DATA, StandardCharsets.UTF_8.displayName()))
             .thenThrow(UnsupportedEncodingException.class);
-        assertThrows(IllegalArgumentException.class, () -> mockLookup.lookup(DATA));
+        assertThrows(IllegalArgumentException.class, () -> mockLookup.apply(DATA));
     }
 
     @Test
     public void testExclamation() {
-        Assertions.assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.lookup("Hello%20World!"));
+        Assertions.assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.apply("Hello%20World!"));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(UrlDecoderStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(UrlDecoderStringLookup.INSTANCE.apply(null));
     }
 
     @Test
     public void testPlus() {
-        Assertions.assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.lookup("Hello+World!"));
+        Assertions.assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.apply("Hello+World!"));
     }
 
     @Test

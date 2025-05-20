@@ -32,28 +32,28 @@ public class DnsStringLookupTest {
     public void testAddressFromHostAddress() throws UnknownHostException {
         final InetAddress localHost = InetAddress.getLocalHost();
         Assertions.assertEquals(localHost.getHostAddress(),
-            DnsStringLookup.INSTANCE.lookup("address|" + localHost.getHostAddress()));
+            DnsStringLookup.INSTANCE.apply("address|" + localHost.getHostAddress()));
     }
 
     @Test
     public void testAddressFromHostName() throws UnknownHostException {
         final InetAddress localHost = InetAddress.getLocalHost();
         Assertions.assertEquals(localHost.getHostAddress(),
-            DnsStringLookup.INSTANCE.lookup("address|" + localHost.getHostName()));
+            DnsStringLookup.INSTANCE.apply("address|" + localHost.getHostName()));
     }
 
     @Test
     public void testCanonicalNameFromHostAddress() throws UnknownHostException {
         final InetAddress localHost = InetAddress.getLocalHost();
         Assertions.assertEquals(localHost.getCanonicalHostName(),
-            DnsStringLookup.INSTANCE.lookup("canonical-name|" + localHost.getHostAddress()));
+            DnsStringLookup.INSTANCE.apply("canonical-name|" + localHost.getHostAddress()));
     }
 
     @Test
     public void testCanonicalNameFromHostName() throws UnknownHostException {
         final InetAddress localHost = InetAddress.getLocalHost();
         Assertions.assertEquals(localHost.getCanonicalHostName(),
-            DnsStringLookup.INSTANCE.lookup("canonical-name|" + localHost.getHostName()));
+            DnsStringLookup.INSTANCE.apply("canonical-name|" + localHost.getHostName()));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class DnsStringLookupTest {
         final InetAddress[] localHostAll = InetAddress.getAllByName(address);
         boolean matched = false;
         for (final InetAddress localHost : localHostAll) {
-            if (localHost.getHostName().equals(DnsStringLookup.INSTANCE.lookup("name|" + address + ""))) {
+            if (localHost.getHostName().equals(DnsStringLookup.INSTANCE.apply("name|" + address + ""))) {
                 matched = true;
             }
         }
@@ -71,7 +71,7 @@ public class DnsStringLookupTest {
 
     @Test
     public void testNull() {
-        Assertions.assertNull(DnsStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(DnsStringLookup.INSTANCE.apply(null));
     }
 
     @Test
