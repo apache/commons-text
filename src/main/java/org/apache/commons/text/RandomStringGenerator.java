@@ -459,7 +459,7 @@ public final class RandomStringGenerator {
      */
     private int generateRandomNumber(final int minInclusive, final int maxInclusive) {
         if (random != null) {
-            return random.nextInt(maxInclusive - minInclusive + 1) + minInclusive;
+            return random.applyAsInt(maxInclusive - minInclusive + 1) + minInclusive;
         }
         return ThreadLocalRandom.current().nextInt(minInclusive, maxInclusive + 1);
     }
@@ -474,7 +474,7 @@ public final class RandomStringGenerator {
     private int generateRandomNumber(final List<Character> characterList) {
         final int listSize = characterList.size();
         if (random != null) {
-            return String.valueOf(characterList.get(random.nextInt(listSize))).codePointAt(0);
+            return String.valueOf(characterList.get(random.applyAsInt(listSize))).codePointAt(0);
         }
         return String.valueOf(characterList.get(ThreadLocalRandom.current().nextInt(0, listSize))).codePointAt(0);
     }
