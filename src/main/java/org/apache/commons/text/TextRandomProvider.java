@@ -34,7 +34,7 @@ import java.util.function.IntUnaryOperator;
  * {@code
  * UniformRandomProvider rng = RandomSource.create(...);
  * RandomStringGenerator gen = RandomStringGenerator.builder()
- *     .usingRandom(rng::applyAsInt)
+ *     .usingRandom(rng::nextInt)
  *     // additional builder calls as needed
  *     .build();
  * }
