@@ -181,8 +181,7 @@ public final class RandomStringGenerator {
          */
         @Override
         public RandomStringGenerator get() {
-            return new RandomStringGenerator(minimumCodePoint, maximumCodePoint, inclusivePredicates,
-                    random, characterList);
+            return new RandomStringGenerator(this);
         }
 
         /**
@@ -390,14 +389,12 @@ public final class RandomStringGenerator {
      *            source of randomness
      * @param characterList list of predefined set of characters.
      */
-    private RandomStringGenerator(final int minimumCodePoint, final int maximumCodePoint,
-                                  final Set<CharacterPredicate> inclusivePredicates, final IntUnaryOperator random,
-                                  final List<Character> characterList) {
-        this.minimumCodePoint = minimumCodePoint;
-        this.maximumCodePoint = maximumCodePoint;
-        this.inclusivePredicates = inclusivePredicates;
-        this.random = random;
-        this.characterList = characterList;
+    private RandomStringGenerator(final Builder builder) {
+        this.minimumCodePoint = builder.minimumCodePoint;
+        this.maximumCodePoint = builder.maximumCodePoint;
+        this.inclusivePredicates = builder.inclusivePredicates;
+        this.random = builder.random;
+        this.characterList = builder.characterList;
     }
 
     /**
