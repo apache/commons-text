@@ -19,6 +19,7 @@ package org.apache.commons.text.lookup;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
 /**
@@ -45,6 +46,9 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
     /** The map of String lookups keyed by prefix. */
     private final Map<String, StringLookup> stringLookupMap;
 
+    /** The handler to determine whether to use {@link #defaultStringLookup} for prefix without corresponding lookup in {@link #stringLookupMap}. */
+    private final BiPredicate<String, String> missingLookupHandler;
+
     /**
      * Constructs an instance using only lookups that work without initial properties and are stateless.
      * <p>
@@ -62,10 +66,11 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
      * @param defaultStringLookup the default string lookup.
      * @param addDefaultLookups whether the default lookups should be used.
      */
-    InterpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup,
+    InterpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup, BiPredicate<String, String> missingLookupHandler,
             final boolean addDefaultLookups) {
         this.defaultStringLookup = defaultStringLookup;
         this.stringLookupMap = stringLookupMap.entrySet().stream().collect(Collectors.toMap(e -> StringLookupFactory.toKey(e.getKey()), Entry::getValue));
+        this.missingLookupHandler = missingLookupHandler;
         if (addDefaultLookups) {
             StringLookupFactory.INSTANCE.addDefaultStringLookups(this.stringLookupMap);
         }
@@ -90,7 +95,7 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
      * @param defaultStringLookup the default lookup.
      */
     InterpolatorStringLookup(final StringLookup defaultStringLookup) {
-        this(Collections.emptyMap(), defaultStringLookup, true);
+        this(Collections.emptyMap(), defaultStringLookup, null, true);
     }
 
     /**
@@ -106,7 +111,10 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
      * Resolves the specified variable. This implementation will try to extract a variable prefix from the given
      * variable name (the first colon (':') is used as prefix separator). It then passes the name of the variable with
      * the prefix stripped to the lookup object registered for this prefix. If no prefix can be found or if the
-     * associated lookup object cannot resolve this variable, the default lookup object will be used.
+     * associated lookup object cannot resolve this variable, the default lookup object will be used. If the prefix
+     * can be found but no associated lookup can be found in {@link #stringLookupMap}, the {@link #missingLookupHandler}
+     * is used to determine whether to use the default lookup. if the {@link #missingLookupHandler} is null or returns
+     * {@code true}, the default lookup will be used.
      *
      * @param key the name of the variable whose value is to be looked up
      * @return The value of this variable or <strong>null</strong> if it cannot be resolved
@@ -125,6 +133,8 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
             String value = null;
             if (lookup != null) {
                 value = lookup.lookup(name);
+            } else if (missingLookupHandler != null && !missingLookupHandler.test(prefix, key)) {
+                return null;
             }
 
             if (value != null) {

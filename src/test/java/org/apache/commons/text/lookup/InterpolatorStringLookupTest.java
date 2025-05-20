@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,6 +95,42 @@ public class InterpolatorStringLookupTest {
         assertNull(value);
         value = lookup.lookup("ctx:" + TESTKEY);
         assertEquals(TESTVAL, value);
+    }
+
+    @Test
+    public void testLookupMissingReturnTrue() {
+        final Map<String, String> map = new HashMap<>();
+        map.put(TESTKEY, TESTVAL);
+        final StringLookup lookup = new InterpolatorStringLookup(Collections.emptyMap(), StringLookupFactory.INSTANCE.mapStringLookup(map),
+                (prefix, key) -> true, true);
+        String value = lookup.lookup(TESTKEY);
+        assertEquals(TESTVAL, value);
+        value = lookup.lookup("ctx:" + TESTKEY);
+        assertEquals(TESTVAL, value);
+        value = lookup.lookup("sys:" + TESTKEY);
+        assertEquals(TESTVAL, value);
+        value = lookup.lookup("BadKey");
+        assertNull(value);
+        value = lookup.lookup("ctx:" + TESTKEY);
+        assertEquals(TESTVAL, value);
+    }
+
+    @Test
+    public void testLookupMissingReturnFalse() {
+        final Map<String, String> map = new HashMap<>();
+        map.put(TESTKEY, TESTVAL);
+        final StringLookup lookup = new InterpolatorStringLookup(Collections.emptyMap(), StringLookupFactory.INSTANCE.mapStringLookup(map),
+                (prefix, key) -> false, true);
+        String value = lookup.lookup(TESTKEY);
+        assertEquals(TESTVAL, value);
+        value = lookup.lookup("ctx:" + TESTKEY);
+        assertNull(value);
+        value = lookup.lookup("sys:" + TESTKEY);
+        assertEquals(TESTVAL, value);
+        value = lookup.lookup("BadKey");
+        assertNull(value);
+        value = lookup.lookup("ctx:" + TESTKEY);
+        assertNull(value);
     }
 
     @Test
