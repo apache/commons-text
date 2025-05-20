@@ -38,7 +38,7 @@ import java.util.function.BiFunction;
  * Notice, these are two of the properties that contribute to {@code d} being a metric.
  * </p>
  *
- * @param <T> Input type
+ * @param <T> The left and right input type.
  * @param <R> The type of similarity score unit used by this score.
  * @since 1.13.0
  */
