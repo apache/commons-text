@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.IntUnaryOperator;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -118,7 +119,7 @@ public final class RandomStringGenerator {
         /**
          * The source of randomness.
          */
-        private TextRandomProvider random;
+        private IntUnaryOperator random;
 
         /**
          * The source of provided characters.
@@ -216,7 +217,42 @@ public final class RandomStringGenerator {
          * be used to provide the random number generation.
          *
          * <p>
-         * When using Java 8 or later, {@link TextRandomProvider} is a
+         * {@link TextRandomProvider} is a
+         * functional interface and need not be explicitly implemented:
+         * </p>
+         * <pre>
+         * {@code
+         *     UniformRandomProvider rng = RandomSource.create(...);
+         *     RandomStringGenerator gen = RandomStringGenerator.builder()
+         *         .usingRandom(rng::nextInt)
+         *         // additional builder calls as needed
+         *         .build();
+         * }
+         * </pre>
+         *
+         * <p>
+         * Passing {@code null} to this method will revert to the default source of
+         * randomness.
+         * </p>
+         *
+         * @param random
+         *            the source of randomness, may be {@code null}
+         * @return {@code this}, to allow method chaining
+         * @since 1.14.0
+         */
+        public Builder usingRandom(final IntUnaryOperator random) {
+            this.random = random;
+            return this;
+        }
+
+        /**
+         * Overrides the default source of randomness.  It is highly
+         * recommended that a random number generator library like
+         * <a href="https://commons.apache.org/proper/commons-rng/">Apache Commons RNG</a>
+         * be used to provide the random number generation.
+         *
+         * <p>
+         * {@link TextRandomProvider} is a
          * functional interface and need not be explicitly implemented:
          * </p>
          * <pre>
@@ -334,7 +370,7 @@ public final class RandomStringGenerator {
     /**
      * The source of randomness for this generator.
      */
-    private final TextRandomProvider random;
+    private final IntUnaryOperator random;
 
     /**
      * The source of provided characters.
@@ -355,7 +391,7 @@ public final class RandomStringGenerator {
      * @param characterList list of predefined set of characters.
      */
     private RandomStringGenerator(final int minimumCodePoint, final int maximumCodePoint,
-                                  final Set<CharacterPredicate> inclusivePredicates, final TextRandomProvider random,
+                                  final Set<CharacterPredicate> inclusivePredicates, final IntUnaryOperator random,
                                   final List<Character> characterList) {
         this.minimumCodePoint = minimumCodePoint;
         this.maximumCodePoint = maximumCodePoint;
