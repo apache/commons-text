@@ -62,7 +62,7 @@ public interface StringLookup extends UnaryOperator<String> {
      * @since 1.14.0
      */
     @Override
-    default String apply(String key) {
+    default String apply(final String key) {
         return lookup(key);
     }
 
