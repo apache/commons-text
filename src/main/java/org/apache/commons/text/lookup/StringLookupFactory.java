@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -1040,7 +1041,26 @@ public final class StringLookupFactory {
      */
     public StringLookup interpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup,
             final boolean addDefaultLookups) {
-        return new InterpolatorStringLookup(stringLookupMap, defaultStringLookup, addDefaultLookups);
+        return new InterpolatorStringLookup(stringLookupMap, defaultStringLookup, null, addDefaultLookups);
+    }
+
+    /**
+     * Returns a new InterpolatorStringLookup. If {@code addDefaultLookups} is {@code true}, the configured {@link #addDefaultStringLookups(Map) default
+     * lookups} are included in addition to the ones provided in {@code stringLookupMap}. (See the class documentation for details on how default lookups are
+     * configured.)
+     *
+     * @param stringLookupMap     the map of string lookups.
+     * @param defaultStringLookup the default string lookup; this lookup is used when a variable cannot be resolved using the lookups in {@code stringLookupMap}
+     *                            or the configured default lookups (if enabled)
+     * @param missingLookupHandler the handler determines whether to use {@code defaultStringLookup} when no corresponding lookup found for a prefix
+     *                             in {@code stringLookupMap}, if it is null or returns {@code true}, the {@code defaultStringLookup} will be used.
+     * @param addDefaultLookups   whether to use default lookups as described above.
+     * @return a new InterpolatorStringLookup.
+     * @since 1.13.2
+     */
+    public StringLookup interpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup,
+                                                 BiPredicate<String, String> missingLookupHandler, final boolean addDefaultLookups) {
+        return new InterpolatorStringLookup(stringLookupMap, defaultStringLookup, missingLookupHandler, addDefaultLookups);
     }
 
     /**
