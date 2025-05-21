@@ -20,10 +20,10 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>83</version>
+    <version>84</version>
   </parent>
   <artifactId>commons-text</artifactId>
-  <version>1.13.2-SNAPSHOT</version>
+  <version>1.14.0-SNAPSHOT</version>
   <name>Apache Commons Text</name>
   <description>Apache Commons Text is a set of utility functions and reusable components for processing
     and manipulating text in a Java environment.
@@ -41,8 +41,8 @@
     <commons.packageId>text</commons.packageId>
     <commons.module.name>org.apache.commons.text</commons.module.name>
 
-    <commons.release.version>1.13.1</commons.release.version>
-    <commons.release.next>1.13.2</commons.release.next>
+    <commons.release.version>1.14.0</commons.release.version>
+    <commons.release.next>1.14.1</commons.release.next>
     <commons.release.desc>(Java 8+)</commons.release.desc>
 
     <commons.jira.id>TEXT</commons.jira.id>
@@ -68,7 +68,7 @@
 
     <!-- Commons Release Plugin -->
     <!-- Previous version of the component (used for reporting binary compatibility check)-->
-    <commons.bc.version>1.13.0</commons.bc.version>
+    <commons.bc.version>1.13.1</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>

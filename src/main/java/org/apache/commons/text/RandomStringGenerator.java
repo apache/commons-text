@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.IntUnaryOperator;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -118,7 +119,7 @@ public final class RandomStringGenerator {
         /**
          * The source of randomness.
          */
-        private TextRandomProvider random;
+        private IntUnaryOperator random;
 
         /**
          * The source of provided characters.
@@ -180,8 +181,7 @@ public final class RandomStringGenerator {
          */
         @Override
         public RandomStringGenerator get() {
-            return new RandomStringGenerator(minimumCodePoint, maximumCodePoint, inclusivePredicates,
-                    random, characterList);
+            return new RandomStringGenerator(this);
         }
 
         /**
@@ -216,7 +216,42 @@ public final class RandomStringGenerator {
          * be used to provide the random number generation.
          *
          * <p>
-         * When using Java 8 or later, {@link TextRandomProvider} is a
+         * {@link TextRandomProvider} is a
+         * functional interface and need not be explicitly implemented:
+         * </p>
+         * <pre>
+         * {@code
+         *     UniformRandomProvider rng = RandomSource.create(...);
+         *     RandomStringGenerator gen = RandomStringGenerator.builder()
+         *         .usingRandom(rng::nextInt)
+         *         // additional builder calls as needed
+         *         .build();
+         * }
+         * </pre>
+         *
+         * <p>
+         * Passing {@code null} to this method will revert to the default source of
+         * randomness.
+         * </p>
+         *
+         * @param random
+         *            the source of randomness, may be {@code null}
+         * @return {@code this}, to allow method chaining
+         * @since 1.14.0
+         */
+        public Builder usingRandom(final IntUnaryOperator random) {
+            this.random = random;
+            return this;
+        }
+
+        /**
+         * Overrides the default source of randomness.  It is highly
+         * recommended that a random number generator library like
+         * <a href="https://commons.apache.org/proper/commons-rng/">Apache Commons RNG</a>
+         * be used to provide the random number generation.
+         *
+         * <p>
+         * {@link TextRandomProvider} is a
          * functional interface and need not be explicitly implemented:
          * </p>
          * <pre>
@@ -334,7 +369,7 @@ public final class RandomStringGenerator {
     /**
      * The source of randomness for this generator.
      */
-    private final TextRandomProvider random;
+    private final IntUnaryOperator random;
 
     /**
      * The source of provided characters.
@@ -354,14 +389,12 @@ public final class RandomStringGenerator {
      *            source of randomness
      * @param characterList list of predefined set of characters.
      */
-    private RandomStringGenerator(final int minimumCodePoint, final int maximumCodePoint,
-                                  final Set<CharacterPredicate> inclusivePredicates, final TextRandomProvider random,
-                                  final List<Character> characterList) {
-        this.minimumCodePoint = minimumCodePoint;
-        this.maximumCodePoint = maximumCodePoint;
-        this.inclusivePredicates = inclusivePredicates;
-        this.random = random;
-        this.characterList = characterList;
+    private RandomStringGenerator(final Builder builder) {
+        this.minimumCodePoint = builder.minimumCodePoint;
+        this.maximumCodePoint = builder.maximumCodePoint;
+        this.inclusivePredicates = builder.inclusivePredicates;
+        this.random = builder.random;
+        this.characterList = builder.characterList;
     }
 
     /**
@@ -459,7 +492,7 @@ public final class RandomStringGenerator {
      */
     private int generateRandomNumber(final int minInclusive, final int maxInclusive) {
         if (random != null) {
-            return random.nextInt(maxInclusive - minInclusive + 1) + minInclusive;
+            return random.applyAsInt(maxInclusive - minInclusive + 1) + minInclusive;
         }
         return ThreadLocalRandom.current().nextInt(minInclusive, maxInclusive + 1);
     }
@@ -474,7 +507,7 @@ public final class RandomStringGenerator {
     private int generateRandomNumber(final List<Character> characterList) {
         final int listSize = characterList.size();
         if (random != null) {
-            return String.valueOf(characterList.get(random.nextInt(listSize))).codePointAt(0);
+            return String.valueOf(characterList.get(random.applyAsInt(listSize))).codePointAt(0);
         }
         return String.valueOf(characterList.get(ThreadLocalRandom.current().nextInt(0, listSize))).codePointAt(0);
     }

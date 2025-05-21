@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,27 +30,27 @@ public class InetAddressStringLookupLocalHostTest {
 
     @Test
     public void testAddress() throws UnknownHostException {
-        Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(), InetAddressStringLookup.LOCAL_HOST.lookup("address"));
+        Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(), InetAddressStringLookup.LOCAL_HOST.apply("address"));
     }
 
     @Test
     public void testBadKey() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.LOCAL_HOST.lookup("FOO"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.LOCAL_HOST.apply("FOO"));
     }
 
     @Test
     public void testCanonicalName() throws UnknownHostException {
-        Assertions.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(), InetAddressStringLookup.LOCAL_HOST.lookup("canonical-name"));
+        Assertions.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(), InetAddressStringLookup.LOCAL_HOST.apply("canonical-name"));
     }
 
     @Test
     public void testName() throws UnknownHostException {
-        Assertions.assertEquals(InetAddress.getLocalHost().getHostName(), InetAddressStringLookup.LOCAL_HOST.lookup("name"));
+        Assertions.assertEquals(InetAddress.getLocalHost().getHostName(), InetAddressStringLookup.LOCAL_HOST.apply("name"));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(InetAddressStringLookup.LOCAL_HOST.lookup(null));
+        Assertions.assertNull(InetAddressStringLookup.LOCAL_HOST.apply(null));
     }
 
     @Test

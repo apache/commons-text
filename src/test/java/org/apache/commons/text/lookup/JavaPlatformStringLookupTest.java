@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,7 +31,7 @@ public class JavaPlatformStringLookupTest {
 
     @Test
     public void testBadKey() {
-        assertThrows(IllegalArgumentException.class, () -> JavaPlatformStringLookup.INSTANCE.lookup("BADKEY"));
+        assertThrows(IllegalArgumentException.class, () -> JavaPlatformStringLookup.INSTANCE.apply("BADKEY"));
     }
 
     @Test
@@ -41,7 +41,7 @@ public class JavaPlatformStringLookupTest {
 
     @Test
     public void testNull() {
-        Assertions.assertNull(JavaPlatformStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(JavaPlatformStringLookup.INSTANCE.apply(null));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class JavaPlatformStringLookupTest {
     @Test
     public void testVm() {
         final String key = "vm";
-        assertTrue(JavaPlatformStringLookup.INSTANCE.lookup(key).contains(System.getProperty("java.vm.name")));
+        assertTrue(JavaPlatformStringLookup.INSTANCE.apply(key).contains(System.getProperty("java.vm.name")));
     }
 
 }

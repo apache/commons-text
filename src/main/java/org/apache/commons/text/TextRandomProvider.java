@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text;
 
+import java.util.function.IntUnaryOperator;
+
 /**
  * TextRandomProvider implementations are used by {@link RandomStringGenerator}
  * as a source of randomness.  It is highly recommended that the
@@ -23,8 +25,10 @@ package org.apache.commons.text;
  * library be used to provide the random number generation.
  *
  * <p>
- * When using Java 8 or later, TextRandomProvider is a functional interface and
- * need not be explicitly implemented.  For example:
+ * {@code TextRandomProvider} is a functional interface and need not be explicitly implemented.
+ * </p>
+ * <p>
+ * For example:
  * </p>
  * <pre>
  * {@code
@@ -37,13 +41,27 @@ package org.apache.commons.text;
  * </pre>
  * @since 1.1
  */
-public interface TextRandomProvider {
+public interface TextRandomProvider extends IntUnaryOperator {
 
     /**
-     * Generates an int value between 0 (inclusive) and the specified value
-     * (exclusive).
-     * @param max  Bound on the random number to be returned. Must be positive.
-     * @return a random int value between 0 (inclusive) and n (exclusive).
+     * Generates an int value between 0 (inclusive) and the specified value (exclusive).
+     *
+     * @param max Bound on the random number to be returned. Must be positive.
+     * @return a random int value between 0 (inclusive) and max (exclusive).
+     * @since 1.14.0
      */
+    @Override
+    default int applyAsInt(final int max) {
+        return nextInt(max);
+    }
+
+    /**
+     * Generates an int value between 0 (inclusive) and the specified value (exclusive).
+     *
+     * @param max Bound on the random number to be returned. Must be positive.
+     * @return a random int value between 0 (inclusive) and max (exclusive).
+     * @deprecated Use {@link #applyAsInt(int)}.
+     */
+    @Deprecated
     int nextInt(int max);
 }

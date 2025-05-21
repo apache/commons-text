@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,7 +36,7 @@ public class UrlEncoderStringLookupTest {
 
     @Test
     public void test() {
-        Assertions.assertEquals(DATA, UrlEncoderStringLookup.INSTANCE.lookup("Hello World!"));
+        Assertions.assertEquals(DATA, UrlEncoderStringLookup.INSTANCE.apply("Hello World!"));
     }
 
     @Test
@@ -44,12 +44,12 @@ public class UrlEncoderStringLookupTest {
         final UrlEncoderStringLookup mockLookup = spy(UrlEncoderStringLookup.class);
         when(mockLookup.encode(DATA, StandardCharsets.UTF_8.displayName()))
             .thenThrow(UnsupportedEncodingException.class);
-        assertThrows(IllegalArgumentException.class, () -> mockLookup.lookup(DATA));
+        assertThrows(IllegalArgumentException.class, () -> mockLookup.apply(DATA));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(UrlEncoderStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(UrlEncoderStringLookup.INSTANCE.apply(null));
     }
 
     @Test

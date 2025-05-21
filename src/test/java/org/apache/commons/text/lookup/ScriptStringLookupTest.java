@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,27 +33,27 @@ public class ScriptStringLookupTest {
 
     @Test
     public void testBadEngineName() {
-        assertThrows(IllegalArgumentException.class, () -> ScriptStringLookup.INSTANCE.lookup("BAD_ENGINE_NAME:\"Hello World!\""));
+        assertThrows(IllegalArgumentException.class, () -> ScriptStringLookup.INSTANCE.apply("BAD_ENGINE_NAME:\"Hello World!\""));
     }
 
     @Test
     public void testBadScript() {
-        assertThrows(IllegalArgumentException.class, () -> ScriptStringLookup.INSTANCE.lookup(JS_NAME + ":X"));
+        assertThrows(IllegalArgumentException.class, () -> ScriptStringLookup.INSTANCE.apply(JS_NAME + ":X"));
     }
 
     @Test
     public void testNoScript() {
-        assertThrows(IllegalArgumentException.class, () -> ScriptStringLookup.INSTANCE.lookup("ENGINE_NAME:"));
+        assertThrows(IllegalArgumentException.class, () -> ScriptStringLookup.INSTANCE.apply("ENGINE_NAME:"));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(ScriptStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(ScriptStringLookup.INSTANCE.apply(null));
     }
 
     @Test
     public void testOne() {
-        Assertions.assertEquals("Hello World!", ScriptStringLookup.INSTANCE.lookup(JS_NAME + ":\"Hello World!\""));
+        Assertions.assertEquals("Hello World!", ScriptStringLookup.INSTANCE.apply(JS_NAME + ":\"Hello World!\""));
     }
 
     @Test
@@ -63,13 +63,13 @@ public class ScriptStringLookupTest {
 
     @Test
     public void testScriptMissingColon() {
-        assertThrows(IllegalArgumentException.class, () -> ScriptStringLookup.INSTANCE.lookup("JavaScript=\"test\""));
+        assertThrows(IllegalArgumentException.class, () -> ScriptStringLookup.INSTANCE.apply("JavaScript=\"test\""));
     }
 
     @Test
     public void testScriptUsingMultipleColons() {
         Assertions.assertEquals("It Works",
-            ScriptStringLookup.INSTANCE.lookup(JS_NAME + ":true ? \"It Works\" : \"It Does Not Work\" "));
+            ScriptStringLookup.INSTANCE.apply(JS_NAME + ":true ? \"It Works\" : \"It Does Not Work\" "));
     }
 
     @Test

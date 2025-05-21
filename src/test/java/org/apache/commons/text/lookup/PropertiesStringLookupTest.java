@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,8 +51,8 @@ public class PropertiesStringLookupTest {
 
     @Test
     public void testFenceOne() {
-        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(CURRENT_PATH).lookup(KEY_ROOT));
-        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(Paths.get("not a dir at all"), CURRENT_PATH).lookup(KEY_ROOT));
+        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(CURRENT_PATH).apply(KEY_ROOT));
+        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(Paths.get("not a dir at all"), CURRENT_PATH).apply(KEY_ROOT));
     }
 
     @Test
@@ -112,38 +112,38 @@ public class PropertiesStringLookupTest {
 
     @Test
     public void testMissingFile() {
-        assertThrows(IllegalArgumentException.class, () -> PropertiesStringLookup.INSTANCE.lookup("MissingFile"));
+        assertThrows(IllegalArgumentException.class, () -> PropertiesStringLookup.INSTANCE.apply("MissingFile"));
     }
 
     @Test
     public void testMissingFileWithKey() {
         assertThrows(IllegalArgumentException.class,
-                () -> PropertiesStringLookup.INSTANCE.lookup(PropertiesStringLookup.toPropertyKey("MissingFile", "AnyKey")));
+                () -> PropertiesStringLookup.INSTANCE.apply(PropertiesStringLookup.toPropertyKey("MissingFile", "AnyKey")));
     }
 
     @Test
     public void testMissingKey() {
-        assertThrows(IllegalArgumentException.class, () -> PropertiesStringLookup.INSTANCE.lookup(DOC_RELATIVE));
-        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup().lookup(DOC_RELATIVE));
-        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(NULL_PATH_ARRAY).lookup(DOC_RELATIVE));
-        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(CURRENT_PATH).lookup(DOC_RELATIVE));
+        assertThrows(IllegalArgumentException.class, () -> PropertiesStringLookup.INSTANCE.apply(DOC_RELATIVE));
+        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup().apply(DOC_RELATIVE));
+        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(NULL_PATH_ARRAY).apply(DOC_RELATIVE));
+        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(CURRENT_PATH).apply(DOC_RELATIVE));
     }
 
     @Test
     public void testNull() {
-        Assertions.assertNull(PropertiesStringLookup.INSTANCE.lookup(null));
-        Assertions.assertNull(new PropertiesStringLookup().lookup(null));
-        Assertions.assertNull(new PropertiesStringLookup(NULL_PATH_ARRAY).lookup(null));
-        Assertions.assertNull(new PropertiesStringLookup(CURRENT_PATH).lookup(null));
+        Assertions.assertNull(PropertiesStringLookup.INSTANCE.apply(null));
+        Assertions.assertNull(new PropertiesStringLookup().apply(null));
+        Assertions.assertNull(new PropertiesStringLookup(NULL_PATH_ARRAY).apply(null));
+        Assertions.assertNull(new PropertiesStringLookup(CURRENT_PATH).apply(null));
     }
 
     @Test
     public void testOne() {
-        assertEquals("Hello World!", PropertiesStringLookup.INSTANCE.lookup(KEY_RELATIVE));
-        assertEquals("Hello World!", new PropertiesStringLookup().lookup(KEY_RELATIVE));
-        assertEquals("Hello World!", new PropertiesStringLookup(NULL_PATH_ARRAY).lookup(KEY_RELATIVE));
-        assertEquals("Hello World!", new PropertiesStringLookup(CURRENT_PATH).lookup(KEY_RELATIVE));
-        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(CURRENT_PATH).lookup(KEY_ROOT));
+        assertEquals("Hello World!", PropertiesStringLookup.INSTANCE.apply(KEY_RELATIVE));
+        assertEquals("Hello World!", new PropertiesStringLookup().apply(KEY_RELATIVE));
+        assertEquals("Hello World!", new PropertiesStringLookup(NULL_PATH_ARRAY).apply(KEY_RELATIVE));
+        assertEquals("Hello World!", new PropertiesStringLookup(CURRENT_PATH).apply(KEY_RELATIVE));
+        assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(CURRENT_PATH).apply(KEY_ROOT));
     }
 
     @Test

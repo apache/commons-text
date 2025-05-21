@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,7 +27,7 @@ public class SystemPropertyStringLookupTest {
 
     @Test
     public void testNull() {
-        Assertions.assertNull(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.lookup(null));
+        Assertions.assertNull(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.apply(null));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class SystemPropertyStringLookupTest {
     @Test
     public void testUserName() {
         final String key = "user.name";
-        Assertions.assertEquals(System.getProperty(key), StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.lookup(key));
+        Assertions.assertEquals(System.getProperty(key), StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.apply(key));
     }
 
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.function.IntUnaryOperator;
 
 import org.apache.commons.text.RandomStringGenerator.Builder;
 import org.junit.jupiter.api.Test;
@@ -278,10 +280,19 @@ public class RandomStringGeneratorTest {
     }
 
     @Test
-    public void testUsingRandom() {
+    public void testUsingRandomTextRandomProvider() {
         final char testChar = 'a';
         final TextRandomProvider testRandom = n -> testChar;
+        final String str = RandomStringGenerator.builder().usingRandom(testRandom).build().generate(10);
+        for (final char c : str.toCharArray()) {
+            assertEquals(testChar, c);
+        }
+    }
 
+    @Test
+    public void testUsingRandomIntUnaryOperator() {
+        final char testChar = 'a';
+        final IntUnaryOperator testRandom = n -> testChar;
         final String str = RandomStringGenerator.builder().usingRandom(testRandom).build().generate(10);
         for (final char c : str.toCharArray()) {
             assertEquals(testChar, c);

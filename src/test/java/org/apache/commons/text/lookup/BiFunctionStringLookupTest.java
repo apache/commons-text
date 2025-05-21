@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -79,17 +79,17 @@ public class BiFunctionStringLookupTest {
 
     @Test
     public void testConcurrentHashMapNull() {
-        Assertions.assertNull(BiFunctionStringLookup.on(new ConcurrentHashMap<>()).lookup(null));
+        Assertions.assertNull(BiFunctionStringLookup.on(new ConcurrentHashMap<>()).apply(null));
     }
 
     @Test
     public void testHashMapNull() {
-        Assertions.assertNull(BiFunctionStringLookup.on(new HashMap<>()).lookup(null));
+        Assertions.assertNull(BiFunctionStringLookup.on(new HashMap<>()).apply(null));
     }
 
     @Test
     public void testNullBiFunction() {
-        Assertions.assertNull(BiFunctionStringLookup.on((BiFunction<String, Object, Object>) null).lookup(null));
+        Assertions.assertNull(BiFunctionStringLookup.on((BiFunction<String, Object, Object>) null).apply(null));
     }
 
     @Test
@@ -98,7 +98,7 @@ public class BiFunctionStringLookupTest {
         final String value = "value";
         final Map<String, String> map = new HashMap<>();
         map.put(key, value);
-        Assertions.assertEquals(value, FunctionStringLookup.on(map).lookup(key));
+        Assertions.assertEquals(value, FunctionStringLookup.on(map).apply(key));
     }
 
     @Test

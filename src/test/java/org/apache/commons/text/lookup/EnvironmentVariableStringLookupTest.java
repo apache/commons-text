@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,17 +28,17 @@ public class EnvironmentVariableStringLookupTest {
 
     @Test
     public void testNull() {
-        Assertions.assertNull(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.lookup(null));
+        Assertions.assertNull(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.apply(null));
     }
 
     @Test
     public void testOne() {
         if (SystemUtils.IS_OS_WINDOWS) {
             final String key = "PATH";
-            Assertions.assertEquals(System.getenv(key), StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.lookup(key));
+            Assertions.assertEquals(System.getenv(key), StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.apply(key));
         } else if (SystemUtils.IS_OS_LINUX) {
             final String key = "USER";
-            Assertions.assertEquals(System.getenv(key), StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.lookup(key));
+            Assertions.assertEquals(System.getenv(key), StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.apply(key));
         }
     }
 

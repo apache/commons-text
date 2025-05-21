@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,18 +56,18 @@ public class InterpolatorStringLookupTest {
     }
 
     private void assertLookupNotEmpty(final StringLookup lookup, final String key) {
-        final String value = lookup.lookup(key);
+        final String value = lookup.apply(key);
         assertNotNull(value);
         assertFalse(value.isEmpty());
         // System.out.println(key + " = " + value);
     }
 
     private void check(final StringLookup lookup) {
-        String value = lookup.lookup("sys:" + TESTKEY);
+        String value = lookup.apply("sys:" + TESTKEY);
         assertEquals(TESTVAL, value);
-        value = lookup.lookup("env:PATH");
+        value = lookup.apply("env:PATH");
         assertNotNull(value);
-        value = lookup.lookup("date:yyyy-MM-dd");
+        value = lookup.apply("date:yyyy-MM-dd");
         assertNotNull(value, "No Date");
         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         final String today = format.format(new Date());
@@ -85,15 +85,15 @@ public class InterpolatorStringLookupTest {
         final Map<String, String> map = new HashMap<>();
         map.put(TESTKEY, TESTVAL);
         final StringLookup lookup = new InterpolatorStringLookup(StringLookupFactory.INSTANCE.mapStringLookup(map));
-        String value = lookup.lookup(TESTKEY);
+        String value = lookup.apply(TESTKEY);
         assertEquals(TESTVAL, value);
-        value = lookup.lookup("ctx:" + TESTKEY);
+        value = lookup.apply("ctx:" + TESTKEY);
         assertEquals(TESTVAL, value);
-        value = lookup.lookup("sys:" + TESTKEY);
+        value = lookup.apply("sys:" + TESTKEY);
         assertEquals(TESTVAL, value);
-        value = lookup.lookup("BadKey");
+        value = lookup.apply("BadKey");
         assertNull(value);
-        value = lookup.lookup("ctx:" + TESTKEY);
+        value = lookup.apply("ctx:" + TESTKEY);
         assertEquals(TESTVAL, value);
     }
 
@@ -152,7 +152,7 @@ public class InterpolatorStringLookupTest {
 
     @Test
     public void testNull() {
-        Assertions.assertNull(InterpolatorStringLookup.INSTANCE.lookup(null));
+        Assertions.assertNull(InterpolatorStringLookup.INSTANCE.apply(null));
     }
 
     @Test
