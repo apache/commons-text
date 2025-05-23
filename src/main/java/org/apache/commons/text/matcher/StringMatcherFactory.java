@@ -82,6 +82,11 @@ public final class StringMatcherFactory {
     private static final AbstractStringMatcher.TrimMatcher TRIM_MATCHER = new AbstractStringMatcher.TrimMatcher();
 
     /**
+     * Matches Unicode upper case characters.
+     */
+    private static final AbstractStringMatcher.UppercaseMatcher UPPERCASE_MATCHER = new AbstractStringMatcher.UppercaseMatcher();
+
+    /**
      * No need to build instances for now.
      */
     private StringMatcherFactory() {
@@ -253,6 +258,15 @@ public final class StringMatcherFactory {
      */
     public StringMatcher trimMatcher() {
         return TRIM_MATCHER;
+    }
+
+    /**
+     * Matches Unicode uppercase characters.
+     *
+     * @return The upper case matcher
+     */
+    public StringMatcher uppercaseMatcher() {
+        return UPPERCASE_MATCHER;
     }
 
 }
