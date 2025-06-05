@@ -239,6 +239,9 @@ public class StringTokenizer implements ListIterator<String>, Cloneable {
     /** Whether to ignore empty tokens. */
     private boolean ignoreEmptyTokens = true;
 
+    /** Whether to omit delimiter matches from output. */
+    private boolean omitDelimiterMatches = true;
+
     /**
      * Constructs a tokenizer splitting on space, tab, newline and form feed as per StringTokenizer, but with no text to
      * tokenize.
@@ -751,8 +754,11 @@ public class StringTokenizer implements ListIterator<String>, Cloneable {
         // handle empty token
         final int delimLen = getDelimiterMatcher().isMatch(srcChars, start, start, len);
         if (delimLen > 0) {
-            addToken(tokenList, StringUtils.EMPTY);
-            return start + delimLen;
+            //empty token is not possible if we are including delimiters in token
+            if (omitDelimiterMatches) {
+                addToken(tokenList, StringUtils.EMPTY);
+                return start + delimLen;
+            }
         }
 
         // handle found token
@@ -826,7 +832,14 @@ public class StringTokenizer implements ListIterator<String>, Cloneable {
                 if (delimLen > 0) {
                     // return condition when end of token found
                     addToken(tokenList, workArea.substring(0, trimStart));
-                    return pos + delimLen;
+                    if (omitDelimiterMatches) {
+                        return pos + delimLen;
+                    } else {
+                        //increment position only if we found a new delimiter
+                        if (pos > start) {
+                            return pos;
+                        }
+                    }
                 }
 
                 // check for quote, and thus back into quoting mode
@@ -1018,6 +1031,17 @@ public class StringTokenizer implements ListIterator<String>, Cloneable {
      */
     public StringTokenizer setIgnoreEmptyTokens(final boolean ignoreEmptyTokens) {
         this.ignoreEmptyTokens = ignoreEmptyTokens;
+        return this;
+    }
+
+    /**
+     * Sets whether the tokenizer should omit the delimiter matches from the output tokens. Default is true.
+     *
+     * @param omitDelimiterMatches whether delimiter matches are omitted
+     * @return this, to enable chaining
+     */
+    public StringTokenizer setOmitDelimiterMatches(final boolean omitDelimiterMatches) {
+        this.omitDelimiterMatches = omitDelimiterMatches;
         return this;
     }
 
