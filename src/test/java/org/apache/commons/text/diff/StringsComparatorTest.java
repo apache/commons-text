@@ -115,7 +115,7 @@ public class StringsComparatorTest {
     }
 
     @Test
-    public void testExecution() {
+    void testExecution() {
         for (int i = 0; i < before.size(); ++i) {
             final ExecutionVisitor<Character> ev = new ExecutionVisitor<>();
             new StringsComparator(before.get(i), after.get(i)).getScript().visit(ev);
@@ -124,14 +124,14 @@ public class StringsComparatorTest {
     }
 
     @Test
-    public void testLength() {
+    void testLength() {
         for (int i = 0; i < before.size(); ++i) {
             final StringsComparator comparator =  new StringsComparator(before.get(i), after.get(i));
             assertEquals(length[i], comparator.getScript().getModifications());
         }
     }
     @Test
-    public void testLongestCommonSubsequence() {
+    void testLongestCommonSubsequence() {
         for (int i = 0; i < before.size(); ++i) {
             final StringsComparator comparator =  new StringsComparator(before.get(i), after.get(i));
             assertEquals(lcs[i], comparator.getScript().getLCSLength());

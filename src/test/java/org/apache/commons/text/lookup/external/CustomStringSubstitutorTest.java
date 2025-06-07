@@ -37,12 +37,12 @@ public class CustomStringSubstitutorTest {
     }
 
     @Test
-    public void testFencedFiles() throws IOException {
+    void testFencedFiles() throws IOException {
         FileStringLookupTest.testFence(createStringSubstitutor());
     }
 
     @Test
-    public void testFencedProperties() {
+    void testFencedProperties() {
         PropertiesStringLookupTest.testFence(createStringSubstitutor());
     }
 

@@ -27,12 +27,12 @@ import org.junit.jupiter.api.Test;
 public class EnvironmentVariableStringLookupTest {
 
     @Test
-    public void testNull() {
+    void testNull() {
         Assertions.assertNull(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.apply(null));
     }
 
     @Test
-    public void testOne() {
+    void testOne() {
         if (SystemUtils.IS_OS_WINDOWS) {
             final String key = "PATH";
             Assertions.assertEquals(System.getenv(key), StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.apply(key));
@@ -43,7 +43,7 @@ public class EnvironmentVariableStringLookupTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.toString().isEmpty());
     }

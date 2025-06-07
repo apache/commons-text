@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 public class NumericEntityEscaperTest  {
 
     @Test
-    public void testAbove() {
+    void testAbove() {
         final NumericEntityEscaper nee = NumericEntityEscaper.above('F');
 
         final String input = "ADFGZ";
@@ -36,7 +36,7 @@ public class NumericEntityEscaperTest  {
     }
 
     @Test
-    public void testBelow() {
+    void testBelow() {
         final NumericEntityEscaper nee = NumericEntityEscaper.below('F');
 
         final String input = "ADFGZ";
@@ -45,7 +45,7 @@ public class NumericEntityEscaperTest  {
     }
 
     @Test
-    public void testBetween() {
+    void testBetween() {
         final NumericEntityEscaper nee = NumericEntityEscaper.between('F', 'L');
         final String input = "ADFGZ";
         final String result = nee.translate(input);
@@ -54,7 +54,7 @@ public class NumericEntityEscaperTest  {
 
     /** See LANG-617 */
     @Test
-    public void testSupplementary() {
+    void testSupplementary() {
         final NumericEntityEscaper nee = new NumericEntityEscaper();
         final String input = "\uD803\uDC22";
         final String expected = "&#68642;";

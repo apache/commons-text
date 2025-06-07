@@ -34,22 +34,22 @@ import org.junit.jupiter.api.Test;
 public class UrlStringLookupTest {
 
     @Test
-    public void testBadCharsetName() {
+    void testBadCharsetName() {
         assertThrows(IllegalArgumentException.class, () -> UrlStringLookup.INSTANCE.apply("BAD_CHARSET_NAME:BAD_URL"));
     }
 
     @Test
-    public void testBadEncoding() {
+    void testBadEncoding() {
         assertThrows(IllegalArgumentException.class, () -> UrlStringLookup.INSTANCE.apply("FOO:https://www.google.com"));
     }
 
     @Test
-    public void testBadUrl() {
+    void testBadUrl() {
         assertThrows(IllegalArgumentException.class, () -> UrlStringLookup.INSTANCE.apply("UTF-8:BAD_URL"));
     }
 
     @Test
-    public void testFileScheme() throws Exception {
+    void testFileScheme() throws Exception {
         final Path path = Paths.get("src/test/resources/org/apache/commons/text/document.properties");
         final URI uri = path.toUri();
         // System.out.println(uri);
@@ -59,23 +59,23 @@ public class UrlStringLookupTest {
     }
 
     @Test
-    public void testHttpScheme() {
+    void testHttpScheme() {
         Assertions.assertNotNull(UrlStringLookup.INSTANCE.apply("UTF-8:https://www.apache.org"));
         Assertions.assertNotNull(UrlStringLookup.INSTANCE.apply("UTF-8:https://www.google.com"));
     }
 
     @Test
-    public void testMissingUrl() {
+    void testMissingUrl() {
         assertThrows(IllegalArgumentException.class, () -> UrlStringLookup.INSTANCE.apply("UTF-8"));
     }
 
     @Test
-    public void testNull() {
+    void testNull() {
         Assertions.assertNull(UrlStringLookup.INSTANCE.apply(null));
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(UrlStringLookup.INSTANCE.toString().isEmpty());
     }

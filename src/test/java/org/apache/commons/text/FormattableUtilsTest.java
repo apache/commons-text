@@ -48,7 +48,7 @@ public class FormattableUtilsTest {
     }
 
     @Test
-    public void testAlternatePadCharacter() {
+    void testAlternatePadCharacter() {
         final char pad = '_';
         assertEquals("foo", FormattableUtils.append("foo", createFormatter(), 0, -1, -1, pad).toString());
         assertEquals("fo", FormattableUtils.append("foo", createFormatter(), 0, -1, 2, pad).toString());
@@ -63,7 +63,7 @@ public class FormattableUtilsTest {
     }
 
     @Test
-    public void testAlternatePadCharAndEllipsis() {
+    void testAlternatePadCharAndEllipsis() {
         assertEquals("foo", FormattableUtils.append("foo", createFormatter(), 0, -1, -1, '_', "*").toString());
         assertEquals("f*", FormattableUtils.append("foo", createFormatter(), 0, -1, 2, '_', "*").toString());
         assertEquals("_foo", FormattableUtils.append("foo", createFormatter(), 0, 4, -1, '_', "*").toString());
@@ -88,12 +88,12 @@ public class FormattableUtilsTest {
     }
 
     @Test
-    public void testAppendWithNullFormatterAndIntsThrowsNullPointerException() {
+    void testAppendWithNullFormatterAndIntsThrowsNullPointerException() {
         assertThrowsExactly(NullPointerException.class, () -> FormattableUtils.append("", null, 0, 0, 0, '}'));
     }
 
     @Test
-    public void testDefaultAppend() {
+    void testDefaultAppend() {
         assertEquals("foo", FormattableUtils.append("foo", createFormatter(), 0, -1, -1).toString());
         assertEquals("fo", FormattableUtils.append("foo", createFormatter(), 0, -1, 2).toString());
         assertEquals(" foo", FormattableUtils.append("foo", createFormatter(), 0, 4, -1).toString());
@@ -107,7 +107,7 @@ public class FormattableUtilsTest {
     }
 
     @Test
-    public void testEllipsis() {
+    void testEllipsis() {
         assertEquals("foo", FormattableUtils.append("foo", createFormatter(), 0, -1, -1, "*").toString());
         assertEquals("f*", FormattableUtils.append("foo", createFormatter(), 0, -1, 2, "*").toString());
         assertEquals(" foo", FormattableUtils.append("foo", createFormatter(), 0, 4, -1, "*").toString());
@@ -132,12 +132,12 @@ public class FormattableUtilsTest {
     }
 
     @Test
-    public void testIllegalEllipsis() {
+    void testIllegalEllipsis() {
         assertThrowsExactly(IllegalArgumentException.class, () -> FormattableUtils.append("foo", createFormatter(), 0, -1, 1, "xx"));
     }
 
     @Test
-    public void testIllegalEllipsisWith7Args() {
+    void testIllegalEllipsisWith7Args() {
         final String ellipsis = "xxxx";
         final int precisionLessThanEllipsisLength = ellipsis.length() - 1;
         assertThrowsExactly(IllegalArgumentException.class,
@@ -145,12 +145,12 @@ public class FormattableUtilsTest {
     }
 
     @Test
-    public void testPublicConstructorExists() {
+    void testPublicConstructorExists() {
         new FormattableUtils();
     }
 
     @Test
-    public void testSimplestFormat() {
+    void testSimplestFormat() {
         final Formattable formattable = new SimplestFormattable("foo");
         assertEquals("foo", FormattableUtils.toString(formattable));
     }

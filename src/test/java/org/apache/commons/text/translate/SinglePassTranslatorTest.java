@@ -47,19 +47,19 @@ public class SinglePassTranslatorTest {
     }
 
     @Test
-    public void testCodePointsAreReturned() throws Exception {
+    void testCodePointsAreReturned() throws Exception {
         assertEquals(0, dummyTranslator.translate("", 0, out));
         assertEquals(3, dummyTranslator.translate("abc", 0, out));
         assertEquals(7, dummyTranslator.translate("abcdefg", 0, out));
     }
 
     @Test
-    public void testIndexIsValidated() {
+    void testIndexIsValidated() {
         assertThrows(IllegalArgumentException.class, () -> dummyTranslator.translate("abc", 1, out));
     }
 
     @Test
-    public void testTranslateThrowsIllegalArgumentException() {
+    void testTranslateThrowsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> dummyTranslator.translate("(,Fk", 647, null));
     }
 

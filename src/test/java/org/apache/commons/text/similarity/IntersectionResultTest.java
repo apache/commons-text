@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  */
 public class IntersectionResultTest {
     @Test
-    public void testEquals() {
+    void testEquals() {
         final IntersectionResult[] results = {
                 new IntersectionResult(0, 0, 0),
                 new IntersectionResult(10, 0, 0),
@@ -49,7 +49,7 @@ public class IntersectionResultTest {
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         final IntersectionResult[] results = {
                 new IntersectionResult(10, 0, 0),
                 new IntersectionResult(10, 10, 0),
@@ -66,7 +66,7 @@ public class IntersectionResultTest {
     }
 
     @Test
-    public void testNewIntersectionResult_WithIntersectionAboveSizeAorB() {
+    void testNewIntersectionResult_WithIntersectionAboveSizeAorB() {
         final int sizeA = 1;
         final int sizeB = 2;
         final int intersection = Math.max(sizeA, sizeB) + 1;
@@ -75,7 +75,7 @@ public class IntersectionResultTest {
     }
 
     @Test
-    public void testNewIntersectionResult_WithNegativeIntersection() {
+    void testNewIntersectionResult_WithNegativeIntersection() {
         final int sizeA = 0;
         final int sizeB = 0;
         final int intersection = -1;
@@ -83,7 +83,7 @@ public class IntersectionResultTest {
     }
 
     @Test
-    public void testNewIntersectionResult_WithNegativeSizeA() {
+    void testNewIntersectionResult_WithNegativeSizeA() {
         final int sizeA = -1;
         final int sizeB = 0;
         final int intersection = 0;
@@ -91,7 +91,7 @@ public class IntersectionResultTest {
     }
 
     @Test
-    public void testNewIntersectionResult_WithNegativeSizeB() {
+    void testNewIntersectionResult_WithNegativeSizeB() {
         final int sizeA = 0;
         final int sizeB = -1;
         final int intersection = 0;
@@ -99,7 +99,7 @@ public class IntersectionResultTest {
     }
 
     @Test
-    public void testNewIntersectionResult_WithZeros() {
+    void testNewIntersectionResult_WithZeros() {
         final int sizeA = 0;
         final int sizeB = 0;
         final int intersection = 0;
@@ -107,7 +107,7 @@ public class IntersectionResultTest {
     }
 
     @Test
-    public void testProperties() {
+    void testProperties() {
         final ThreadLocalRandom rand = ThreadLocalRandom.current();
         final int max = 1024;
         for (int i = 0; i < 5; i++) {
@@ -123,7 +123,7 @@ public class IntersectionResultTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         final ThreadLocalRandom rand = ThreadLocalRandom.current();
         final int max = 9;
         for (int i = 0; i < 5; i++) {

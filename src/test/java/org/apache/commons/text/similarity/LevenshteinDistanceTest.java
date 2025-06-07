@@ -32,23 +32,23 @@ public class LevenshteinDistanceTest {
     private static final LevenshteinDistance UNLIMITED_DISTANCE = LevenshteinDistance.getDefaultInstance();
 
     @Test
-    public void testApplyThrowsIllegalArgumentExceptionSimilarityInput() {
+    void testApplyThrowsIllegalArgumentExceptionSimilarityInput() {
         assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(0).apply((SimilarityInput<Object>) null, (SimilarityInput<Object>) null));
     }
 
     @Test
-    public void testApplyThrowsIllegalArgumentExceptionString() {
+    void testApplyThrowsIllegalArgumentExceptionString() {
         assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(0).apply((String) null, (String) null));
     }
 
     @Test
-    public void testConstructorWithNegativeThreshold() {
+    void testConstructorWithNegativeThreshold() {
         assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(-1));
     }
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
-    public void testGetLevenshteinDistance(final Class<?> cls) {
+    void testGetLevenshteinDistance(final Class<?> cls) {
         assertEquals(0, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "")));
         assertEquals(1, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "a")));
         assertEquals(7, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "aaapppp"), SimilarityInputTest.build(cls, "")));
@@ -63,31 +63,31 @@ public class LevenshteinDistanceTest {
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
-    public void testGetLevenshteinDistance_NullString(final Class<?> cls) {
+    void testGetLevenshteinDistance_NullString(final Class<?> cls) {
         assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "a"), SimilarityInputTest.build(cls, null)));
     }
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
-    public void testGetLevenshteinDistance_NullStringInt(final Class<?> cls) {
+    void testGetLevenshteinDistance_NullStringInt(final Class<?> cls) {
         assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, null), SimilarityInputTest.build(cls, "a")));
     }
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
-    public void testGetLevenshteinDistance_StringNull(final Class<?> cls) {
+    void testGetLevenshteinDistance_StringNull(final Class<?> cls) {
         assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, null), SimilarityInputTest.build(cls, "a")));
     }
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
-    public void testGetLevenshteinDistance_StringNullInt(final Class<?> cls) {
+    void testGetLevenshteinDistance_StringNullInt(final Class<?> cls) {
         assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "a"), SimilarityInputTest.build(cls, null)));
     }
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
-    public void testGetLevenshteinDistance_StringString(final Class<?> cls) {
+    void testGetLevenshteinDistance_StringString(final Class<?> cls) {
         assertEquals(0, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "")));
         assertEquals(1, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "a")));
         assertEquals(7, UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "aaapppp"), SimilarityInputTest.build(cls, "")));
@@ -102,7 +102,7 @@ public class LevenshteinDistanceTest {
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
-    public void testGetLevenshteinDistance_StringStringInt(final Class<?> cls) {
+    void testGetLevenshteinDistance_StringStringInt(final Class<?> cls) {
         // empty strings
         assertEquals(0, new LevenshteinDistance(0).apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "")));
         assertEquals(7, new LevenshteinDistance(8).apply(SimilarityInputTest.build(cls, "aaapppp"), SimilarityInputTest.build(cls, "")));
@@ -167,7 +167,7 @@ public class LevenshteinDistanceTest {
     }
 
     @Test
-    public void testGetThresholdDirectlyAfterObjectInstantiation() {
+    void testGetThresholdDirectlyAfterObjectInstantiation() {
         assertNull(LevenshteinDistance.getDefaultInstance().getThreshold());
     }
 

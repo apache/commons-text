@@ -97,7 +97,7 @@ public class ParameterizedLevenshteinDistanceTest {
 
     @ParameterizedTest
     @MethodSource("parameters")
-    public void test(final Integer threshold, final CharSequence left, final CharSequence right, final Integer distance) {
+    void test(final Integer threshold, final CharSequence left, final CharSequence right, final Integer distance) {
         assertEquals(distance, new LevenshteinDistance(threshold).apply(left, right));
     }
 

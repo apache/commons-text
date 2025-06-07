@@ -38,7 +38,7 @@ public class JaccardDistanceTest {
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputsEquals()")
-    public void testGettingJaccardDistance(final Class<?> cls) {
+    void testGettingJaccardDistance(final Class<?> cls) {
         // Expected Jaccard distance = 1.0 - (intersect / union)
         assertEquals(0.0, classBeingTested.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "")));
         assertEquals(1.0, classBeingTested.apply(SimilarityInputTest.build(cls, "left"), SimilarityInputTest.build(cls, "")));
@@ -58,7 +58,7 @@ public class JaccardDistanceTest {
     }
 
     @Test
-    public void testGettingJaccardDistanceCharSequence() {
+    void testGettingJaccardDistanceCharSequence() {
         // Expected Jaccard distance = 1.0 - (intersect / union)
         assertEquals(0.0, classBeingTested.apply("", ""));
         assertEquals(1.0, classBeingTested.apply("left", ""));
@@ -76,17 +76,17 @@ public class JaccardDistanceTest {
     }
 
     @Test
-    public void testGettingJaccardDistanceNullNull() {
+    void testGettingJaccardDistanceNullNull() {
         assertThrows(IllegalArgumentException.class, () -> classBeingTested.apply((String) null, null));
     }
 
     @Test
-    public void testGettingJaccardDistanceNullString() {
+    void testGettingJaccardDistanceNullString() {
         assertThrows(IllegalArgumentException.class, () -> classBeingTested.apply(null, "right"));
     }
 
     @Test
-    public void testGettingJaccardDistanceStringNull() {
+    void testGettingJaccardDistanceStringNull() {
         assertThrows(IllegalArgumentException.class, () -> classBeingTested.apply(" ", null));
     }
 }

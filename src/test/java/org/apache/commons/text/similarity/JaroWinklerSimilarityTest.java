@@ -80,7 +80,7 @@ public class JaroWinklerSimilarityTest {
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputsEquals()")
-    public void testGetJaroWinklerSimilarity(final Class<?> cls) {
+    void testGetJaroWinklerSimilarity(final Class<?> cls) {
         assertEquals(1d, similarity.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "")), 0.00001d);
         assertEquals(1d, similarity.apply(SimilarityInputTest.build(cls, "foo"), SimilarityInputTest.build(cls, "foo")), 0.00001d);
         assertEquals(0.94166d, similarity.apply(SimilarityInputTest.build(cls, "foo"), SimilarityInputTest.build(cls, "foo ")), 0.00001d);
@@ -102,22 +102,22 @@ public class JaroWinklerSimilarityTest {
     }
 
     @Test
-    public void testGetJaroWinklerSimilarity_NullNull() {
+    void testGetJaroWinklerSimilarity_NullNull() {
         assertThrows(IllegalArgumentException.class, () -> similarity.apply((String) null, null));
     }
 
     @Test
-    public void testGetJaroWinklerSimilarity_NullString() {
+    void testGetJaroWinklerSimilarity_NullString() {
         assertThrows(IllegalArgumentException.class, () -> similarity.apply(null, "clear"));
     }
 
     @Test
-    public void testGetJaroWinklerSimilarity_StringNull() {
+    void testGetJaroWinklerSimilarity_StringNull() {
         assertThrows(IllegalArgumentException.class, () -> similarity.apply(" ", null));
     }
 
     @Test
-    public void testGetJaroWinklerSimilarity_StringString() {
+    void testGetJaroWinklerSimilarity_StringString() {
         assertEquals(1d, similarity.apply(wrap(""), ""), 0.00001d);
         assertEquals(1d, similarity.apply(wrap("foo"), "foo"), 0.00001d);
         assertEquals(0.94166d, similarity.apply(wrap("foo"), "foo "), 0.00001d);

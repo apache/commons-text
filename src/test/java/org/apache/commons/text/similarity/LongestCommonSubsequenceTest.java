@@ -36,55 +36,55 @@ public class LongestCommonSubsequenceTest {
 
     @Test
     @SuppressWarnings("deprecation")
-    public void testGettingLogestCommonSubsequenceNullNull() {
+    void testGettingLogestCommonSubsequenceNullNull() {
         assertThrows(IllegalArgumentException.class, () -> subject.logestCommonSubsequence(null, null));
     }
 
     @Test
     @SuppressWarnings("deprecation")
-    public void testGettingLogestCommonSubsequenceNullString() {
+    void testGettingLogestCommonSubsequenceNullString() {
         assertThrows(IllegalArgumentException.class, () -> subject.logestCommonSubsequence(null, "right"));
     }
 
     @Test
     @SuppressWarnings("deprecation")
-    public void testGettingLogestCommonSubsequenceStringNull() {
+    void testGettingLogestCommonSubsequenceStringNull() {
         assertThrows(IllegalArgumentException.class, () -> subject.logestCommonSubsequence(" ", null));
     }
 
     @Test
-    public void testGettingLongestCommonSubsequenceApplyNullNull() {
+    void testGettingLongestCommonSubsequenceApplyNullNull() {
         assertThrows(IllegalArgumentException.class, () -> subject.apply(null, null));
     }
 
     @Test
-    public void testGettingLongestCommonSubsequenceApplyNullString() {
+    void testGettingLongestCommonSubsequenceApplyNullString() {
         assertThrows(IllegalArgumentException.class, () -> subject.apply(null, "right"));
     }
 
     @Test
-    public void testGettingLongestCommonSubsequenceApplyStringNull() {
+    void testGettingLongestCommonSubsequenceApplyStringNull() {
         assertThrows(IllegalArgumentException.class, () -> subject.apply(" ", null));
     }
 
     @Test
-    public void testGettingLongestCommonSubsequenceNullNull() {
+    void testGettingLongestCommonSubsequenceNullNull() {
         assertThrows(IllegalArgumentException.class, () -> subject.longestCommonSubsequence(null, null));
     }
 
     @Test
-    public void testGettingLongestCommonSubsequenceNullString() {
+    void testGettingLongestCommonSubsequenceNullString() {
         assertThrows(IllegalArgumentException.class, () -> subject.longestCommonSubsequence(null, "right"));
     }
 
     @Test
-    public void testGettingLongestCommonSubsequenceStringNull() {
+    void testGettingLongestCommonSubsequenceStringNull() {
         assertThrows(IllegalArgumentException.class, () -> subject.longestCommonSubsequence(" ", null));
     }
 
     @Test
     @Deprecated
-    public void testLogestCommonSubsequence() {
+    void testLogestCommonSubsequence() {
         assertEquals("", subject.logestCommonSubsequence("", ""));
         assertEquals("", subject.logestCommonSubsequence("left", ""));
         assertEquals("", subject.logestCommonSubsequence("", "right"));
@@ -101,7 +101,7 @@ public class LongestCommonSubsequenceTest {
     }
 
     @Test
-    public void testLongestCommonSubsequence() {
+    void testLongestCommonSubsequence() {
         assertEquals("", subject.longestCommonSubsequence("", ""));
         assertEquals("", subject.longestCommonSubsequence("left", ""));
         assertEquals("", subject.longestCommonSubsequence("", "right"));
@@ -118,7 +118,7 @@ public class LongestCommonSubsequenceTest {
     }
 
     @Test
-    public void testLongestCommonSubsequenceApply() {
+    void testLongestCommonSubsequenceApply() {
         assertEquals(0, subject.apply("", ""));
         assertEquals(0, subject.apply("left", ""));
         assertEquals(0, subject.apply("", "right"));

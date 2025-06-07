@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
 public class StrLookupTest  {
 
     @Test
-    public void testMapLookup() {
+    void testMapLookup() {
         final Map<String, Object> map = new HashMap<>();
         map.put("key", "value");
         map.put("number", 2);
@@ -48,7 +48,7 @@ public class StrLookupTest  {
     }
 
     @Test
-    public void testMapLookup_nullMap() {
+    void testMapLookup_nullMap() {
         final Map<String, ?> map = null;
         assertNull(StrLookup.mapLookup(map).apply(null));
         assertNull(StrLookup.mapLookup(map).apply(""));
@@ -56,14 +56,14 @@ public class StrLookupTest  {
     }
 
     @Test
-    public void testNoneLookup() {
+    void testNoneLookup() {
         assertNull(StrLookup.noneLookup().apply(null));
         assertNull(StrLookup.noneLookup().apply(""));
         assertNull(StrLookup.noneLookup().apply("any"));
     }
 
     @Test
-    public void testResourceBundleLookup() {
+    void testResourceBundleLookup() {
         final ResourceBundle map = ResourceBundle.getBundle("org.apache.commons.text.example.testResourceBundleLookup");
         assertEquals("value", StrLookup.resourceBundleLookup(map).apply("key"));
         assertEquals("2", StrLookup.resourceBundleLookup(map).lookup("number"));
@@ -73,7 +73,7 @@ public class StrLookupTest  {
     }
 
     @Test
-    public void testResourceBundleLookup_nullMap() {
+    void testResourceBundleLookup_nullMap() {
         final ResourceBundle resourceBundle = null;
         assertNull(StrLookup.resourceBundleLookup(resourceBundle).apply(null));
         assertNull(StrLookup.resourceBundleLookup(resourceBundle).apply(""));
@@ -81,7 +81,7 @@ public class StrLookupTest  {
     }
 
     @Test
-    public void testSystemPropertiesLookup() {
+    void testSystemPropertiesLookup() {
         assertEquals(System.getProperty("os.name"), StrLookup.systemPropertiesLookup().apply("os.name"));
         assertNull(StrLookup.systemPropertiesLookup().apply(""));
         assertNull(StrLookup.systemPropertiesLookup().apply("other"));
@@ -94,7 +94,7 @@ public class StrLookupTest  {
      * LANG-1055.
      */
     @Test
-    public void testSystemPropertiesLookupReplacedProperties() {
+    void testSystemPropertiesLookupReplacedProperties() {
         final Properties oldProperties = System.getProperties();
         final String osName = "os.name";
         final String newOsName = oldProperties.getProperty(osName) + "_changed";
@@ -115,7 +115,7 @@ public class StrLookupTest  {
      * properties. This test is related to LANG-1141.
      */
     @Test
-    public void testSystemPropertiesLookupUpdatedProperty() {
+    void testSystemPropertiesLookupUpdatedProperty() {
         final String osName = "os.name";
         final String oldOs = System.getProperty(osName);
         final String newOsName = oldOs + "_changed";

@@ -35,12 +35,12 @@ public class UrlDecoderStringLookupTest {
     private static final String DATA = "Hello World!";
 
     @Test
-    public void testAllPercent() {
+    void testAllPercent() {
         Assertions.assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.apply("Hello%20World%21"));
     }
 
     @Test
-    public void testExceptionGettingString() throws UnsupportedEncodingException {
+    void testExceptionGettingString() throws UnsupportedEncodingException {
         final UrlDecoderStringLookup mockLookup = spy(UrlDecoderStringLookup.class);
         when(mockLookup.decode(DATA, StandardCharsets.UTF_8.displayName()))
             .thenThrow(UnsupportedEncodingException.class);
@@ -48,22 +48,22 @@ public class UrlDecoderStringLookupTest {
     }
 
     @Test
-    public void testExclamation() {
+    void testExclamation() {
         Assertions.assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.apply("Hello%20World!"));
     }
 
     @Test
-    public void testNull() {
+    void testNull() {
         Assertions.assertNull(UrlDecoderStringLookup.INSTANCE.apply(null));
     }
 
     @Test
-    public void testPlus() {
+    void testPlus() {
         Assertions.assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.apply("Hello+World!"));
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(UrlDecoderStringLookup.INSTANCE.toString().isEmpty());
     }

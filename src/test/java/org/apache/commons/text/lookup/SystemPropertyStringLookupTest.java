@@ -26,18 +26,18 @@ import org.junit.jupiter.api.Test;
 public class SystemPropertyStringLookupTest {
 
     @Test
-    public void testNull() {
+    void testNull() {
         Assertions.assertNull(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.apply(null));
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.toString().isEmpty());
     }
 
     @Test
-    public void testUserName() {
+    void testUserName() {
         final String key = "user.name";
         Assertions.assertEquals(System.getProperty(key), StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.apply(key));
     }

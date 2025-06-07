@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 public class LookupTranslatorTest  {
 
     @Test
-    public void testBasicLookup() throws IOException {
+    void testBasicLookup() throws IOException {
         final Map<CharSequence, CharSequence> translatorMap = new HashMap<>();
         translatorMap.put("one", "two");
         final LookupTranslator lt = new LookupTranslator(translatorMap);
@@ -45,13 +45,13 @@ public class LookupTranslatorTest  {
     }
 
     @Test
-    public void testFailsToCreateLookupTranslatorThrowsInvalidParameterException() {
+    void testFailsToCreateLookupTranslatorThrowsInvalidParameterException() {
         assertThrowsExactly(InvalidParameterException.class, () -> new LookupTranslator(null));
     }
 
     // Tests: https://issues.apache.org/jira/browse/LANG-882
     @Test
-    public void testLang882() throws IOException {
+    void testLang882() throws IOException {
         final Map<CharSequence, CharSequence> translatorMap = new HashMap<>();
         translatorMap.put(new StringBuffer("one"), new StringBuffer("two"));
         final LookupTranslator lt = new LookupTranslator(translatorMap);
@@ -62,7 +62,7 @@ public class LookupTranslatorTest  {
     }
 
     @Test
-    public void testTranslateSupplementaryCharacter() {
+    void testTranslateSupplementaryCharacter() {
         /* Key: string with Mathematical double-struck capital A (U+1D538) */
         final String symbol = new StringBuilder().appendCodePoint(0x1D538).toString();
         /* Map U+1D538 to "A" */

@@ -36,7 +36,7 @@ public class ResourceBundleStringLookupTest {
     private static final String TEST_RESOURCE_BUNDLE = "org.apache.commons.text.example.testResourceBundleLookup";
 
     @Test
-    public void testAny() {
+    void testAny() {
         final String bundleName = TEST_RESOURCE_BUNDLE;
         final String bundleKey = KEY;
         Assertions.assertEquals(ResourceBundle.getBundle(bundleName).getString(bundleKey),
@@ -44,7 +44,7 @@ public class ResourceBundleStringLookupTest {
     }
 
     @Test
-    public void testBadKey() {
+    void testBadKey() {
         final String bundleName = TEST_RESOURCE_BUNDLE;
         final String bundleKey = "bad_key";
         assertNull(new ResourceBundleStringLookup(bundleName).apply(bundleKey));
@@ -52,42 +52,42 @@ public class ResourceBundleStringLookupTest {
     }
 
     @Test
-    public void testBadNames() {
+    void testBadNames() {
         assertNull(ResourceBundleStringLookup.INSTANCE
             .apply(AbstractStringLookup.toLookupKey("BAD_RESOURCE_BUNDLE_NAME", "KEY")));
     }
 
     @Test
-    public void testDoubleBundle() {
+    void testDoubleBundle() {
         assertThrows(IllegalArgumentException.class, () -> new ResourceBundleStringLookup(TEST_RESOURCE_BUNDLE)
             .apply(AbstractStringLookup.toLookupKey("OtherBundle", KEY)));
     }
 
     @Test
-    public void testExceptionGettingString() {
+    void testExceptionGettingString() {
         final ResourceBundleStringLookup mockLookup = spy(ResourceBundleStringLookup.class);
         when(mockLookup.getString(TEST_RESOURCE_BUNDLE, KEY)).thenThrow(ClassCastException.class);
         assertThrows(IllegalArgumentException.class, () -> mockLookup.apply(AbstractStringLookup.toLookupKey(TEST_RESOURCE_BUNDLE, KEY)));
     }
 
     @Test
-    public void testMissingKeyInSpec() {
+    void testMissingKeyInSpec() {
         assertThrows(IllegalArgumentException.class, () -> ResourceBundleStringLookup.INSTANCE.apply(TEST_RESOURCE_BUNDLE + ":"));
     }
 
     @Test
-    public void testNull() {
+    void testNull() {
         Assertions.assertNull(ResourceBundleStringLookup.INSTANCE.apply(null));
     }
 
     @Test
-    public void testOne() {
+    void testOne() {
         Assertions.assertEquals(ResourceBundle.getBundle(TEST_RESOURCE_BUNDLE).getString(KEY),
             new ResourceBundleStringLookup(TEST_RESOURCE_BUNDLE).apply(KEY));
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(ResourceBundleStringLookup.INSTANCE.toString().isEmpty());
     }

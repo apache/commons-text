@@ -29,7 +29,7 @@ public class LevenshteinDetailedDistanceTest {
     private static final LevenshteinDetailedDistance UNLIMITED_DISTANCE = LevenshteinDetailedDistance.getDefaultInstance();
 
     @Test
-    public void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDetailedDistanceTakingInteger() {
+    void testApplyThrowsIllegalArgumentExceptionAndCreatesLevenshteinDetailedDistanceTakingInteger() {
         assertThrows(IllegalArgumentException.class, () -> {
             final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
             final CharSequence charSequence = new TextStringBuilder();
@@ -38,24 +38,24 @@ public class LevenshteinDetailedDistanceTest {
     }
 
     @Test
-    public void testApplyWithNullSimilarityInput() {
+    void testApplyWithNullSimilarityInput() {
         assertThrows(IllegalArgumentException.class,
                 () -> new LevenshteinDetailedDistance(0).apply((SimilarityInput<Object>) null, (SimilarityInput<Object>) null));
     }
 
     @Test
-    public void testApplyWithNullString() {
+    void testApplyWithNullString() {
         assertThrows(IllegalArgumentException.class, () -> new LevenshteinDetailedDistance(0).apply((String) null, (String) null));
     }
 
     @Test
-    public void testConstructorWithNegativeThreshold() {
+    void testConstructorWithNegativeThreshold() {
         assertThrows(IllegalArgumentException.class, () -> new LevenshteinDetailedDistance(-1));
     }
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
-    public void testCreatesLevenshteinDetailedDistanceTakingInteger6(final Class<?> cls) {
+    void testCreatesLevenshteinDetailedDistanceTakingInteger6(final Class<?> cls) {
         final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
         final LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("", "Distance: 38, Insert: 0, Delete: 0, Substitute: 0");
         assertEquals(0, levenshteinResults.getSubstituteCount());
@@ -68,7 +68,7 @@ public class LevenshteinDetailedDistanceTest {
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
-    public void testEquals(final Class<?> cls) {
+    void testEquals(final Class<?> cls) {
         final LevenshteinDetailedDistance classBeingTested = LevenshteinDetailedDistance.getDefaultInstance();
         LevenshteinResults actualResult = classBeingTested.apply(SimilarityInputTest.build(cls, "hello"), SimilarityInputTest.build(cls, "hallo"));
         LevenshteinResults expectedResult = new LevenshteinResults(1, 0, 0, 1);
@@ -88,7 +88,7 @@ public class LevenshteinDetailedDistanceTest {
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
-    public void testGetDefaultInstanceOne(final Class<?> cls) {
+    void testGetDefaultInstanceOne(final Class<?> cls) {
         final LevenshteinDetailedDistance levenshteinDetailedDistance = LevenshteinDetailedDistance.getDefaultInstance();
         final LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply(
                 SimilarityInputTest.build(cls, "Distance: -2147483643, Insert: 0, Delete: 0, Substitute: 0"),
@@ -99,7 +99,7 @@ public class LevenshteinDetailedDistanceTest {
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
-    public void testGetDefaultInstanceTwo(final Class<?> cls) {
+    void testGetDefaultInstanceTwo(final Class<?> cls) {
         final LevenshteinDetailedDistance levenshteinDetailedDistance = LevenshteinDetailedDistance.getDefaultInstance();
         final LevenshteinResults levenshteinResults = levenshteinDetailedDistance.apply("Distance: 2147483647, Insert: 0, Delete: 0, Substitute: 0",
                 "Distance: 0, Insert: 2147483647, Delete: 0, Substitute: 0");
@@ -110,28 +110,28 @@ public class LevenshteinDetailedDistanceTest {
     }
 
     @Test
-    public void testGetLevenshteinDetailedDistance_NullString() {
+    void testGetLevenshteinDetailedDistance_NullString() {
         assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply("a", null));
     }
 
     @Test
-    public void testGetLevenshteinDetailedDistance_NullStringInt() {
+    void testGetLevenshteinDetailedDistance_NullStringInt() {
         assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply(null, "a"));
     }
 
     @Test
-    public void testGetLevenshteinDetailedDistance_StringNull() {
+    void testGetLevenshteinDetailedDistance_StringNull() {
         assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply(null, "a"));
     }
 
     @Test
-    public void testGetLevenshteinDetailedDistance_StringNullInt() {
+    void testGetLevenshteinDetailedDistance_StringNullInt() {
         assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply("a", null));
     }
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
-    public void testGetLevenshteinDetailedDistance_StringString(final Class<?> cls) {
+    void testGetLevenshteinDetailedDistance_StringString(final Class<?> cls) {
         LevenshteinResults result = UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, ""));
         assertEquals(0, result.getDistance());
         assertEquals(0, result.getInsertCount());
@@ -194,7 +194,7 @@ public class LevenshteinDetailedDistanceTest {
     }
 
     @Test
-    public void testGetLevenshteinDetailedDistance_StringStringInt() {
+    void testGetLevenshteinDetailedDistance_StringStringInt() {
 
         LevenshteinResults result = new LevenshteinDetailedDistance(0).apply("", "");
 
@@ -433,14 +433,14 @@ public class LevenshteinDetailedDistanceTest {
     }
 
     @Test
-    public void testGetThreshold() {
+    void testGetThreshold() {
         final LevenshteinDetailedDistance levenshteinDetailedDistance = new LevenshteinDetailedDistance(0);
 
         assertEquals(0, levenshteinDetailedDistance.getThreshold());
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         final LevenshteinDetailedDistance classBeingTested = LevenshteinDetailedDistance.getDefaultInstance();
         LevenshteinResults actualResult = classBeingTested.apply("aaapppp", "");
         LevenshteinResults expectedResult = new LevenshteinResults(7, 0, 7, 0);
@@ -456,7 +456,7 @@ public class LevenshteinDetailedDistanceTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         final LevenshteinDetailedDistance classBeingTested = LevenshteinDetailedDistance.getDefaultInstance();
         LevenshteinResults actualResult = classBeingTested.apply("fly", "ant");
         LevenshteinResults expectedResult = new LevenshteinResults(3, 0, 0, 3);

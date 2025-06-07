@@ -50,7 +50,7 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testAndMatcher_char() {
+    void testAndMatcher_char() {
         final StringMatcher matcher1 = StringMatcherFactory.INSTANCE.andMatcher(StringMatcherFactory.INSTANCE.charMatcher('c'),
                 StringMatcherFactory.INSTANCE.stringMatcher("de"));
         assertEquals(3, matcher1.size());
@@ -63,7 +63,7 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testCharMatcher_char() {
+    void testCharMatcher_char() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.charMatcher('c');
         assertEquals(1, matcher.size());
         //
@@ -83,7 +83,7 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testCharSetMatcher_charArray() {
+    void testCharSetMatcher_charArray() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.charSetMatcher("ace".toCharArray());
         assertEquals(1, matcher.size());
         //
@@ -107,7 +107,7 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testCharSetMatcher_String() {
+    void testCharSetMatcher_String() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.charSetMatcher("ace");
         assertEquals(1, matcher.size());
         //
@@ -131,7 +131,7 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testCommaMatcher() {
+    void testCommaMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.commaMatcher();
         assertEquals(1, matcher.size());
         assertSame(StringMatcherFactory.INSTANCE.commaMatcher(), matcher);
@@ -146,7 +146,7 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testDoubleQuoteMatcher() {
+    void testDoubleQuoteMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.doubleQuoteMatcher();
         assertEquals(1, matcher.size());
         assertSame(StringMatcherFactory.INSTANCE.doubleQuoteMatcher(), matcher);
@@ -159,7 +159,7 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testMatcherIndices() {
+    void testMatcherIndices() {
         // remember that the API contract is tight for the isMatch() method
         // all the onus is on the caller, so invalid inputs are not
         // the concern of StringMatcher, and are not bugs
@@ -171,7 +171,7 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testNoneMatcher() {
+    void testNoneMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.noneMatcher();
         assertEquals(0, matcher.size());
         assertSame(StringMatcherFactory.INSTANCE.noneMatcher(), matcher);
@@ -206,7 +206,7 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testQuoteMatcher() {
+    void testQuoteMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.quoteMatcher();
         assertEquals(1, matcher.size());
         assertSame(StringMatcherFactory.INSTANCE.quoteMatcher(), matcher);
@@ -221,7 +221,7 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testSingleQuoteMatcher() {
+    void testSingleQuoteMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.singleQuoteMatcher();
         assertEquals(1, matcher.size());
         assertSame(StringMatcherFactory.INSTANCE.singleQuoteMatcher(), matcher);
@@ -236,7 +236,7 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testSpaceMatcher() {
+    void testSpaceMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.spaceMatcher();
         assertEquals(1, matcher.size());
         assertSame(StringMatcherFactory.INSTANCE.spaceMatcher(), matcher);
@@ -251,7 +251,7 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testSplitMatcher() {
+    void testSplitMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.splitMatcher();
         assertEquals(1, matcher.size());
         assertSame(StringMatcherFactory.INSTANCE.splitMatcher(), matcher);
@@ -299,18 +299,18 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testStringMatcher_String_fromChars() {
+    void testStringMatcher_String_fromChars() {
         testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher('b', 'c'));
         testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher(new char[] { 'b', 'c' }));
     }
 
     @Test
-    public void testStringMatcher_String_fromString() {
+    void testStringMatcher_String_fromString() {
         testStringMatcher_String(StringMatcherFactory.INSTANCE.stringMatcher("bc"));
     }
 
     @Test
-    public void testTabMatcher() {
+    void testTabMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.tabMatcher();
         assertEquals(1, matcher.size());
         assertSame(StringMatcherFactory.INSTANCE.tabMatcher(), matcher);
@@ -325,7 +325,7 @@ public class StringMatcherOnCharArrayTest {
     }
 
     @Test
-    public void testTrimMatcher() {
+    void testTrimMatcher() {
         final StringMatcher matcher = StringMatcherFactory.INSTANCE.trimMatcher();
         assertEquals(1, matcher.size());
         assertSame(StringMatcherFactory.INSTANCE.trimMatcher(), matcher);

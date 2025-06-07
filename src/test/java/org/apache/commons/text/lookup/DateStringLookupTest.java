@@ -35,20 +35,20 @@ import org.junit.jupiter.api.Test;
 public class DateStringLookupTest {
 
     @Test
-    public void testBadFormat() {
+    void testBadFormat() {
         assertThrows(IllegalArgumentException.class,
             () -> DateStringLookup.INSTANCE.apply("this-is-a-bad-format-dontcha-know"));
     }
 
     @Test
-    public void testDefault() throws ParseException {
+    void testDefault() throws ParseException {
         final String formatted = DateStringLookup.INSTANCE.apply(null);
         DateFormat.getInstance().parse(formatted); // throws ParseException
 
     }
 
     @Test
-    public void testFormat() {
+    void testFormat() {
         final String format = "yyyy-MM-dd";
         final String value = DateStringLookup.INSTANCE.apply(format);
         // System.out.println(value);
@@ -60,7 +60,7 @@ public class DateStringLookupTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(DateStringLookup.INSTANCE.toString().isEmpty());
     }

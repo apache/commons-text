@@ -39,19 +39,19 @@ public class AbstractStringLookupTest {
 
     @SuppressWarnings("deprecation")
     @Test
-    public void testForwarding_substringAfter() {
+    void testForwarding_substringAfter() {
         assertEquals(StringUtils.substringAfterLast("abc", 'a'), new TestStringLookup().substringAfterLast("abc", 'a'));
     }
 
     @SuppressWarnings("deprecation")
     @Test
-    public void testForwarding_substringAfterChar() {
+    void testForwarding_substringAfterChar() {
         assertEquals(StringUtils.substringAfter("abc", 'a'), new TestStringLookup().substringAfter("abc", 'a'));
     }
 
     @SuppressWarnings("deprecation")
     @Test
-    public void testForwarding_substringAfterString() {
+    void testForwarding_substringAfterString() {
         assertEquals(StringUtils.substringAfter("abc", "a"), new TestStringLookup().substringAfter("abc", "a"));
     }
 }

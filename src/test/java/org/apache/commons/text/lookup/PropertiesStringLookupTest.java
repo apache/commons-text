@@ -50,19 +50,19 @@ public class PropertiesStringLookupTest {
     }
 
     @Test
-    public void testFenceOne() {
+    void testFenceOne() {
         assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(CURRENT_PATH).apply(KEY_ROOT));
         assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(Paths.get("not a dir at all"), CURRENT_PATH).apply(KEY_ROOT));
     }
 
     @Test
-    public void testInterpolator() {
+    void testInterpolator() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
         assertEquals("Hello World!", stringSubstitutor.replace("${properties:" + KEY_RELATIVE + "}"));
     }
 
     @Test
-    public void testInterpolatorNestedColon() {
+    void testInterpolatorNestedColon() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
         // Need to handle "C:" in the sys prop user.dir.
         final String replaced = stringSubstitutor.replace("$${properties:${sys:user.dir}/" + KEY_RELATIVE + "}");
@@ -71,7 +71,7 @@ public class PropertiesStringLookupTest {
     }
 
     @Test
-    public void testInterpolatorReplace() {
+    void testInterpolatorReplace() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
         assertEquals("Hello World!", stringSubstitutor.replace("${properties:" + KEY_RELATIVE + "}"));
         final InterpolatorStringLookup stringLookup = (InterpolatorStringLookup) stringSubstitutor.getStringLookup();
@@ -80,7 +80,7 @@ public class PropertiesStringLookupTest {
     }
 
     @Test
-    public void testInterpolatorReplaceProperties() {
+    void testInterpolatorReplaceProperties() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
         assertEquals("Hello World!", stringSubstitutor.replace("${properties:" + KEY_RELATIVE + "}"));
         final InterpolatorStringLookup stringLookup = (InterpolatorStringLookup) stringSubstitutor.getStringLookup();
@@ -90,7 +90,7 @@ public class PropertiesStringLookupTest {
     }
 
     @Test
-    public void testInterpolatorWithParameterizedKey() {
+    void testInterpolatorWithParameterizedKey() {
         final Map<String, String> map = new HashMap<>();
         map.put("KeyIsHere", KEY);
         final StringSubstitutor stringSubstitutor = new StringSubstitutor(StringLookupFactory.INSTANCE.interpolatorStringLookup(map));
@@ -100,7 +100,7 @@ public class PropertiesStringLookupTest {
     }
 
     @Test
-    public void testInterpolatorWithParameterizedKey2() {
+    void testInterpolatorWithParameterizedKey2() {
         final Map<String, String> map = new HashMap<>();
         map.put("KeyIsHere", KEY);
         final StringSubstitutor stringSubstitutor = new StringSubstitutor(StringLookupFactory.INSTANCE.interpolatorStringLookup(map));
@@ -111,18 +111,18 @@ public class PropertiesStringLookupTest {
     }
 
     @Test
-    public void testMissingFile() {
+    void testMissingFile() {
         assertThrows(IllegalArgumentException.class, () -> PropertiesStringLookup.INSTANCE.apply("MissingFile"));
     }
 
     @Test
-    public void testMissingFileWithKey() {
+    void testMissingFileWithKey() {
         assertThrows(IllegalArgumentException.class,
                 () -> PropertiesStringLookup.INSTANCE.apply(PropertiesStringLookup.toPropertyKey("MissingFile", "AnyKey")));
     }
 
     @Test
-    public void testMissingKey() {
+    void testMissingKey() {
         assertThrows(IllegalArgumentException.class, () -> PropertiesStringLookup.INSTANCE.apply(DOC_RELATIVE));
         assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup().apply(DOC_RELATIVE));
         assertThrows(IllegalArgumentException.class, () -> new PropertiesStringLookup(NULL_PATH_ARRAY).apply(DOC_RELATIVE));
@@ -130,7 +130,7 @@ public class PropertiesStringLookupTest {
     }
 
     @Test
-    public void testNull() {
+    void testNull() {
         Assertions.assertNull(PropertiesStringLookup.INSTANCE.apply(null));
         Assertions.assertNull(new PropertiesStringLookup().apply(null));
         Assertions.assertNull(new PropertiesStringLookup(NULL_PATH_ARRAY).apply(null));
@@ -138,7 +138,7 @@ public class PropertiesStringLookupTest {
     }
 
     @Test
-    public void testOne() {
+    void testOne() {
         assertEquals("Hello World!", PropertiesStringLookup.INSTANCE.apply(KEY_RELATIVE));
         assertEquals("Hello World!", new PropertiesStringLookup().apply(KEY_RELATIVE));
         assertEquals("Hello World!", new PropertiesStringLookup(NULL_PATH_ARRAY).apply(KEY_RELATIVE));
@@ -147,7 +147,7 @@ public class PropertiesStringLookupTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(PropertiesStringLookup.INSTANCE.toString().isEmpty());
         Assertions.assertFalse(new PropertiesStringLookup().toString().isEmpty());

@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 public class CsvTranslatorsTest {
 
     @Test
-    public void testCsvEscaperCommaTest() throws IOException {
+    void testCsvEscaperCommaTest() throws IOException {
         final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
         final Writer writer = new StringWriter();
         final String input = "hi,this,is,a,test";
@@ -38,7 +38,7 @@ public class CsvTranslatorsTest {
     }
 
     @Test
-    public void testCsvEscaperCRTest() throws IOException {
+    void testCsvEscaperCRTest() throws IOException {
         final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
         final Writer writer = new StringWriter();
         final String input = "hi,this,is,a,CR,test" + String.valueOf(CharUtils.CR);
@@ -48,7 +48,7 @@ public class CsvTranslatorsTest {
     }
 
     @Test
-    public void testCsvEscaperLFTest() throws IOException {
+    void testCsvEscaperLFTest() throws IOException {
         final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
         final Writer writer = new StringWriter();
         final String input = "hi,this,is,a,LF,test" + String.valueOf(CharUtils.LF);
@@ -58,7 +58,7 @@ public class CsvTranslatorsTest {
     }
 
     @Test
-    public void testCsvEscaperPlaneTextTest() throws IOException {
+    void testCsvEscaperPlaneTextTest() throws IOException {
         final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
         final Writer writer = new StringWriter();
         final String input = "hi this is just a plane text nothing to do with csv!";
@@ -68,7 +68,7 @@ public class CsvTranslatorsTest {
     }
 
     @Test
-    public void testCsvEscaperQuoteTest() throws IOException {
+    void testCsvEscaperQuoteTest() throws IOException {
         final CsvTranslators.CsvEscaper escaper = new CsvTranslators.CsvEscaper();
         final Writer writer = new StringWriter();
         final String input = "hi,this,is,a,\"quote,test";
@@ -78,7 +78,7 @@ public class CsvTranslatorsTest {
     }
 
     @Test
-    public void testCsvUnEscaperPlaneTextTest() throws IOException {
+    void testCsvUnEscaperPlaneTextTest() throws IOException {
         final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
         final Writer writer = new StringWriter();
         final String input = "hi,this,is,unescape,test";
@@ -88,7 +88,7 @@ public class CsvTranslatorsTest {
     }
 
     @Test
-    public void testCsvUnEscaperTest1() throws IOException {
+    void testCsvUnEscaperTest1() throws IOException {
         final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
         final Writer writer = new StringWriter();
         final String input = "\"hi,this,is,unescape,test\"";
@@ -98,7 +98,7 @@ public class CsvTranslatorsTest {
     }
 
     @Test
-    public void testCsvUnEscaperTest2() throws IOException {
+    void testCsvUnEscaperTest2() throws IOException {
         final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
         final Writer writer = new StringWriter();
         final String input = "\"hi,this,is,unescape,test";
@@ -108,7 +108,7 @@ public class CsvTranslatorsTest {
     }
 
     @Test
-    public void testCsvUnEscaperTest3() throws IOException {
+    void testCsvUnEscaperTest3() throws IOException {
         final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
         final Writer writer = new StringWriter();
         final String input = "hi,this,is,unescape,test\"";
@@ -118,7 +118,7 @@ public class CsvTranslatorsTest {
     }
 
     @Test
-    public void testCsvUnEscaperTest4() throws IOException {
+    void testCsvUnEscaperTest4() throws IOException {
         final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
         final Writer writer = new StringWriter();
         final String input = "\"hi,this,is,\"unescape,test\"";

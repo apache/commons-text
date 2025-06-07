@@ -28,32 +28,32 @@ import org.junit.jupiter.api.Test;
 public class InetAddressStringLookupLoopbackAddressTest {
 
     @Test
-    public void testAddress() {
+    void testAddress() {
         Assertions.assertEquals(InetAddress.getLoopbackAddress().getHostAddress(), InetAddressStringLookup.LOOPACK_ADDRESS.apply("address"));
     }
 
     @Test
-    public void testBadKey() {
+    void testBadKey() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.LOOPACK_ADDRESS.apply("FOO"));
     }
 
     @Test
-    public void testCanonicalName() {
+    void testCanonicalName() {
         Assertions.assertEquals(InetAddress.getLoopbackAddress().getCanonicalHostName(), InetAddressStringLookup.LOOPACK_ADDRESS.apply("canonical-name"));
     }
 
     @Test
-    public void testName() {
+    void testName() {
         Assertions.assertEquals(InetAddress.getLoopbackAddress().getHostName(), InetAddressStringLookup.LOOPACK_ADDRESS.apply("name"));
     }
 
     @Test
-    public void testNull() {
+    void testNull() {
         Assertions.assertNull(InetAddressStringLookup.LOOPACK_ADDRESS.apply(null));
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(InetAddressStringLookup.LOOPACK_ADDRESS.toString().isEmpty());
     }

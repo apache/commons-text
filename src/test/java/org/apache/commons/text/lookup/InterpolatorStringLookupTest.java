@@ -80,7 +80,7 @@ public class InterpolatorStringLookupTest {
     }
 
     @Test
-    public void testLookup() {
+    void testLookup() {
         final Map<String, String> map = new HashMap<>();
         map.put(TESTKEY, TESTVAL);
         final StringLookup lookup = new InterpolatorStringLookup(StringLookupFactory.INSTANCE.mapStringLookup(map));
@@ -97,29 +97,29 @@ public class InterpolatorStringLookupTest {
     }
 
     @Test
-    public void testLookupKeys() {
+    void testLookupKeys() {
         final InterpolatorStringLookup lookup = new InterpolatorStringLookup((Map<String, Object>) null);
         final Map<String, StringLookup> stringLookupMap = lookup.getStringLookupMap();
         StringLookupFactoryTest.assertDefaultKeys(stringLookupMap);
     }
 
     @Test
-    public void testLookupWithDefaultInterpolator() {
+    void testLookupWithDefaultInterpolator() {
         check(new InterpolatorStringLookup());
     }
 
     @Test
-    public void testLookupWithNullDefaultInterpolator() {
+    void testLookupWithNullDefaultInterpolator() {
         check(new InterpolatorStringLookup((StringLookup) null));
     }
 
     @Test
-    public void testNull() {
+    void testNull() {
         Assertions.assertNull(InterpolatorStringLookup.INSTANCE.apply(null));
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(new InterpolatorStringLookup().toString().isEmpty());
     }

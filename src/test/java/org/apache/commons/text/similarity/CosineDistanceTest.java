@@ -56,7 +56,7 @@ public class CosineDistanceTest {
      * Tests the cosine distance with several inputs.
      */
     @Test
-    public void testCosineDistance() {
+    void testCosineDistance() {
         assertEquals(Double.valueOf(0.5d), roundValue(cosineDistance.apply("the house", "da house")));
         assertEquals(Double.valueOf(0.0d), roundValue(cosineDistance.apply("AB", "AB")));
         assertEquals(Double.valueOf(1.0d), roundValue(cosineDistance.apply("AB", "BA")));

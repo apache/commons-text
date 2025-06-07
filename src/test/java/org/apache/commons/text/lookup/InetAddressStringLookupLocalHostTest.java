@@ -29,32 +29,32 @@ import org.junit.jupiter.api.Test;
 public class InetAddressStringLookupLocalHostTest {
 
     @Test
-    public void testAddress() throws UnknownHostException {
+    void testAddress() throws UnknownHostException {
         Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(), InetAddressStringLookup.LOCAL_HOST.apply("address"));
     }
 
     @Test
-    public void testBadKey() {
+    void testBadKey() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.LOCAL_HOST.apply("FOO"));
     }
 
     @Test
-    public void testCanonicalName() throws UnknownHostException {
+    void testCanonicalName() throws UnknownHostException {
         Assertions.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(), InetAddressStringLookup.LOCAL_HOST.apply("canonical-name"));
     }
 
     @Test
-    public void testName() throws UnknownHostException {
+    void testName() throws UnknownHostException {
         Assertions.assertEquals(InetAddress.getLocalHost().getHostName(), InetAddressStringLookup.LOCAL_HOST.apply("name"));
     }
 
     @Test
-    public void testNull() {
+    void testNull() {
         Assertions.assertNull(InetAddressStringLookup.LOCAL_HOST.apply(null));
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(InetAddressStringLookup.LOCAL_HOST.toString().isEmpty());
     }

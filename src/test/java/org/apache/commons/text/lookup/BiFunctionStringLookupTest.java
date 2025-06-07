@@ -48,7 +48,7 @@ public class BiFunctionStringLookupTest {
     };
 
     @Test
-    public void testBiFunctionForNestedMap() {
+    void testBiFunctionForNestedMap() {
         // Build map
         final String subSubKey = "subsubkeyMap";
         final String subSubValue = "subsubvalue";
@@ -78,22 +78,22 @@ public class BiFunctionStringLookupTest {
     }
 
     @Test
-    public void testConcurrentHashMapNull() {
+    void testConcurrentHashMapNull() {
         Assertions.assertNull(BiFunctionStringLookup.on(new ConcurrentHashMap<>()).apply(null));
     }
 
     @Test
-    public void testHashMapNull() {
+    void testHashMapNull() {
         Assertions.assertNull(BiFunctionStringLookup.on(new HashMap<>()).apply(null));
     }
 
     @Test
-    public void testNullBiFunction() {
+    void testNullBiFunction() {
         Assertions.assertNull(BiFunctionStringLookup.on((BiFunction<String, Object, Object>) null).apply(null));
     }
 
     @Test
-    public void testOne() {
+    void testOne() {
         final String key = "key";
         final String value = "value";
         final Map<String, String> map = new HashMap<>();
@@ -102,7 +102,7 @@ public class BiFunctionStringLookupTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(BiFunctionStringLookup.on(new HashMap<>()).toString().isEmpty());
     }

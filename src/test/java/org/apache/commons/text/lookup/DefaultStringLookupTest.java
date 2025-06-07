@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 public class DefaultStringLookupTest {
 
     @Test
-    public void testEnumValues() {
+    void testEnumValues() {
         final Map<String, StringLookup> stringLookupMap = new HashMap<>();
         StringLookupFactory.INSTANCE.addDefaultStringLookups(stringLookupMap);
         // Loop through all enums
@@ -39,7 +39,7 @@ public class DefaultStringLookupTest {
     }
 
     @Test
-    public void testIndividualEnums() {
+    void testIndividualEnums() {
         assertSame(DefaultStringLookup.BASE64_DECODER.getStringLookup(),
             StringLookupFactory.INSTANCE.base64DecoderStringLookup());
         assertSame(DefaultStringLookup.BASE64_ENCODER.getStringLookup(),

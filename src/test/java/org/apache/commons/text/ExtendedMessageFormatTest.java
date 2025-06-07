@@ -133,7 +133,7 @@ public class ExtendedMessageFormatTest {
 //     *
 //     * NOTE: FAILING - currently sub-formats not supported
 //     */
-//    public void testExtendedWithChoiceFormat() {
+//    void testExtendedWithChoiceFormat() {
 //        String pattern = "Choice: {0,choice,1.0#{1,lower}|2.0#{1,upper}}";
 //        ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, registry);
 //        assertPatterns(null, pattern, emf.toPattern());
@@ -150,7 +150,7 @@ public class ExtendedMessageFormatTest {
 //     *
 //     * NOTE: FAILING - currently sub-formats not supported
 //     */
-//    public void testExtendedAndBuiltInWithChoiceFormat() {
+//    void testExtendedAndBuiltInWithChoiceFormat() {
 //        String pattern = "Choice: {0,choice,1.0#{0} {1,lower} {2,number}|2.0#{0} {1,upper} {2,number,currency}}";
 //        Object[] lowArgs  = new Object[] {Integer.valueOf(1), "Low",  Double.valueOf("1234.56")};
 //        Object[] highArgs = new Object[] {Integer.valueOf(2), "High", Double.valueOf("9876.54")};
@@ -235,7 +235,7 @@ public class ExtendedMessageFormatTest {
      * Test the built in choice format.
      */
     @Test
-    public void testBuiltInChoiceFormat() {
+    void testBuiltInChoiceFormat() {
         final Object[] values = new Number[] { 1, Double.valueOf("2.2"), Double.valueOf("1234.5") };
         String choicePattern;
         final Locale[] availableLocales = NumberFormat.getAvailableLocales();
@@ -255,7 +255,7 @@ public class ExtendedMessageFormatTest {
      * Test the built in date/time formats
      */
     @Test
-    public void testBuiltInDateTimeFormat() {
+    void testBuiltInDateTimeFormat() {
         final Calendar cal = Calendar.getInstance();
         cal.set(2007, Calendar.JANUARY, 23, 18, 33, 5);
         final Object[] args = { cal.getTime() };
@@ -279,7 +279,7 @@ public class ExtendedMessageFormatTest {
      * Test the built in number formats.
      */
     @Test
-    public void testBuiltInNumberFormat() {
+    void testBuiltInNumberFormat() {
         final Object[] args = { Double.valueOf("6543.21") };
         final Locale[] availableLocales = NumberFormat.getAvailableLocales();
         checkBuiltInFormat("1: {0,number}", args, availableLocales);
@@ -293,7 +293,7 @@ public class ExtendedMessageFormatTest {
      * Test Bug TEXT-106 - Exception while using ExtendedMessageFormat and choice format element with quote just before brace end
      */
     @Test
-    public void testChoiceQuoteJustBeforeBraceEnd_TEXT_106() {
+    void testChoiceQuoteJustBeforeBraceEnd_TEXT_106() {
         final String pattern2 = "Choice format element with quote just before brace end ''{0,choice,0#0|0<'1'}''";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern2, registry);
         assertEquals("Choice format element with quote just before brace end '0'", emf.format(new Object[] { 0 }));
@@ -301,7 +301,7 @@ public class ExtendedMessageFormatTest {
     }
 
     @Test
-    public void testCreatesExtendedMessageFormatTakingString() {
+    void testCreatesExtendedMessageFormatTakingString() {
         final ExtendedMessageFormat extendedMessageFormat = new ExtendedMessageFormat("Unterminated format element at position ");
         final Map<String, FormatFactory> map = new HashMap<>();
         final ExtendedMessageFormat extendedMessageFormatTwo = new ExtendedMessageFormat("Unterminated format element at position ", map);
@@ -314,7 +314,7 @@ public class ExtendedMessageFormatTest {
      * Test Bug LANG-917 - IndexOutOfBoundsException and/or infinite loop when using a choice pattern
      */
     @Test
-    public void testEmbeddedPatternInChoice() {
+    void testEmbeddedPatternInChoice() {
         final String pattern = "Hi {0,lower}, got {1,choice,0#none|1#one|1<{1,number}}, {2,upper}!";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, registry);
         assertEquals("Hi there, got 3, GREAT!", emf.format(new Object[] { "there", 3, "great" }));
@@ -324,7 +324,7 @@ public class ExtendedMessageFormatTest {
      * Test equals() and hashCode().
      */
     @Test
-    public void testEqualsHashcode() {
+    void testEqualsHashcode() {
         final Map<String, ? extends FormatFactory> fmtRegistry = Collections.singletonMap("testfmt", LowerCaseFormat.FACTORY);
         final Map<String, ? extends FormatFactory> otherRegistry = Collections.singletonMap("testfmt", UpperCaseFormat.FACTORY);
 
@@ -369,7 +369,7 @@ public class ExtendedMessageFormatTest {
      * Test Bug LANG-948 - Exception while using ExtendedMessageFormat and escaping braces
      */
     @Test
-    public void testEscapedBraces_LANG_948() {
+    void testEscapedBraces_LANG_948() {
         // message without placeholder because braces are escaped by quotes
         final String pattern = "Message without placeholders '{}'";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, registry);
@@ -385,7 +385,7 @@ public class ExtendedMessageFormatTest {
      * Test Bug LANG-477 - out of memory error with escaped quote
      */
     @Test
-    public void testEscapedQuote_LANG_477() {
+    void testEscapedQuote_LANG_477() {
         final String pattern = "it''s a {0,lower} 'test'!";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, registry);
         assertEquals("it's a dummy test!", emf.format(new Object[] { "DUMMY" }));
@@ -395,7 +395,7 @@ public class ExtendedMessageFormatTest {
      * Test extended and built in formats.
      */
     @Test
-    public void testExtendedAndBuiltInFormats() {
+    void testExtendedAndBuiltInFormats() {
         final Calendar cal = Calendar.getInstance();
         cal.set(2007, Calendar.JANUARY, 23, 18, 33, 5);
         final Object[] args = { "John Doe", cal.getTime(), Double.valueOf("12345.67") };
@@ -438,7 +438,7 @@ public class ExtendedMessageFormatTest {
      * Test extended formats.
      */
     @Test
-    public void testExtendedFormats() {
+    void testExtendedFormats() {
         final String pattern = "Lower: {0,lower} Upper: {1,upper}";
         final ExtendedMessageFormat emf = new ExtendedMessageFormat(pattern, registry);
         assertEquals(pattern, emf.toPattern(), "TOPATTERN");
@@ -450,32 +450,32 @@ public class ExtendedMessageFormatTest {
     }
 
     @Test
-    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFive() {
+    void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFive() {
         assertThrowsExactly(IllegalArgumentException.class, () -> new ExtendedMessageFormat("j/[_D9{0,\"&'+0o", new HashMap<>()));
     }
 
     @Test
-    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFour() {
+    void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionFour() {
         assertThrowsExactly(IllegalArgumentException.class, () -> new ExtendedMessageFormat("RD,nXhM{}{", new HashMap<>()));
     }
 
     @Test
-    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionOne() {
+    void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionOne() {
         assertThrowsExactly(IllegalArgumentException.class, () -> new ExtendedMessageFormat("agdXdkR;T1{9 ^,LzXf?", new HashMap<>()));
     }
 
     @Test
-    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionThree() {
+    void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionThree() {
         assertThrowsExactly(IllegalArgumentException.class, () -> new ExtendedMessageFormat("9jLh_D9{ ", new HashMap<>()));
     }
 
     @Test
-    public void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionTwo() {
+    void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionTwo() {
         assertThrowsExactly(IllegalArgumentException.class, () -> new ExtendedMessageFormat("a5XdkR;T1{9 ,LzXf?", new HashMap<>()));
     }
 
     @Test
-    public void testOverriddenBuiltinFormat() {
+    void testOverriddenBuiltinFormat() {
         final Calendar cal = Calendar.getInstance();
         cal.set(2007, Calendar.JANUARY, 23);
         final Object[] args = { cal.getTime() };
@@ -501,23 +501,23 @@ public class ExtendedMessageFormatTest {
     }
 
     @Test
-    public void testSetFormatByArgumentIndexIsUnsupported() {
+    void testSetFormatByArgumentIndexIsUnsupported() {
         assertThrowsExactly(UnsupportedOperationException.class, () -> new ExtendedMessageFormat("").setFormatByArgumentIndex(0, new LowerCaseFormat()));
     }
 
     @Test
-    public void testSetFormatIsUnsupported() {
+    void testSetFormatIsUnsupported() {
         assertThrowsExactly(UnsupportedOperationException.class, () -> new ExtendedMessageFormat("").setFormat(0, new LowerCaseFormat()));
     }
 
     @Test
-    public void testSetFormatsByArgumentIndex() {
+    void testSetFormatsByArgumentIndex() {
         assertThrowsExactly(UnsupportedOperationException.class,
                 () -> new ExtendedMessageFormat("").setFormatsByArgumentIndex(new Format[] { new LowerCaseFormat(), new UpperCaseFormat() }));
     }
 
     @Test
-    public void testSetFormatsIsUnsupported() {
+    void testSetFormatsIsUnsupported() {
         assertThrowsExactly(UnsupportedOperationException.class,
                 () -> new ExtendedMessageFormat("").setFormats(new Format[] { new LowerCaseFormat(), new UpperCaseFormat() }));
     }

@@ -26,13 +26,13 @@ import org.junit.jupiter.api.Test;
 public class NullStringLookupTest {
 
     @Test
-    public void test() {
+    void test() {
         Assertions.assertNull(StringLookupFactory.INSTANCE_NULL.apply("EverythingIsNull"));
         Assertions.assertNull(StringLookupFactory.INSTANCE_NULL.apply(null));
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(StringLookupFactory.INSTANCE_NULL.toString().isEmpty());
     }

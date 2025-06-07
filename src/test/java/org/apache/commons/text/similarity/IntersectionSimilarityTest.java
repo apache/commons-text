@@ -120,29 +120,29 @@ public class IntersectionSimilarityTest {
     }
 
     @Test
-    public void testApplyNullNull() {
+    void testApplyNullNull() {
         assertThrows(IllegalArgumentException.class, () -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, null));
     }
 
     @Test
-    public void testApplyNullString() {
+    void testApplyNullString() {
         assertThrows(IllegalArgumentException.class,
                 () -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply(null, "right"));
     }
 
     @Test
-    public void testApplyStringNull() {
+    void testApplyStringNull() {
         assertThrows(IllegalArgumentException.class,
                 () -> new IntersectionSimilarity<>(cs -> new HashSet<>(Collections.singletonList(cs))).apply("left", null));
     }
 
     @Test
-    public void testConstructorWithNullConverterThrows() {
+    void testConstructorWithNullConverterThrows() {
         assertThrows(IllegalArgumentException.class, () -> new IntersectionSimilarity<>(null));
     }
 
     @Test
-    public void testF1ScoreUsingListWordBigrams() {
+    void testF1ScoreUsingListWordBigrams() {
         // Example of a word letter pairs algorithm by Simon White:
         // http://www.catalysoft.com/articles/StrikeAMatch.html
         // This splits into words using whitespace and then computes uppercase
@@ -209,7 +209,7 @@ public class IntersectionSimilarityTest {
     }
 
     @Test
-    public void testIntersectionUsingListBigrams() {
+    void testIntersectionUsingListBigrams() {
         // Compute using pairs of characters (bigrams).
         // This can be done using a 32-bit int to store two 16-bit characters.
         // This test uses a list and so duplicates should be matched.
@@ -234,7 +234,7 @@ public class IntersectionSimilarityTest {
     }
 
     @Test
-    public void testIntersectionUsingListCharacter() {
+    void testIntersectionUsingListCharacter() {
         // Compute using single characters.
         // This test uses a list and so duplicates should be matched.
         final IntersectionSimilarity<Character> similarity = new IntersectionSimilarity<>(IntersectionSimilarityTest::toCharacterList);
@@ -258,7 +258,7 @@ public class IntersectionSimilarityTest {
     }
 
     @Test
-    public void testIntersectionUsingSetBigrams() {
+    void testIntersectionUsingSetBigrams() {
         // Compute using pairs of characters (bigrams).
         // This can be done using a 32-bit int to store two 16-bit characters.
         // This test uses a set and so should not allow duplicates.
@@ -283,7 +283,7 @@ public class IntersectionSimilarityTest {
     }
 
     @Test
-    public void testIntersectionUsingSetCharacter() {
+    void testIntersectionUsingSetCharacter() {
         // Compute using single characters.
         // This test uses a set and so should not allow duplicates.
         final IntersectionSimilarity<Character> similarity = new IntersectionSimilarity<>(IntersectionSimilarityTest::toCharacterSet);
@@ -307,7 +307,7 @@ public class IntersectionSimilarityTest {
     }
 
     @Test
-    public void testIntersectionUsingSetCharacterListCharacter() {
+    void testIntersectionUsingSetCharacterListCharacter() {
         // Compute using a custom converter that returns a Set and a List.
         // This is an edge-case test.
         final HashMap<CharSequence, Collection<Character>> converter = new HashMap<>();

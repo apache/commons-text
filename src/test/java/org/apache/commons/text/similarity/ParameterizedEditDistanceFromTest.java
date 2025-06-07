@@ -54,7 +54,7 @@ public class ParameterizedEditDistanceFromTest<R> {
 
     @ParameterizedTest
     @MethodSource("parameters")
-    public void test(final EditDistance<R> editDistance, final CharSequence left, final CharSequence right, final R distance) {
+    void test(final EditDistance<R> editDistance, final CharSequence left, final CharSequence right, final R distance) {
         final EditDistanceFrom<R> editDistanceFrom = new EditDistanceFrom<>(editDistance, left);
         assertEquals(distance, editDistanceFrom.apply(right));
     }

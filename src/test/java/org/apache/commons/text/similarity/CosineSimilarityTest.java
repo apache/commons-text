@@ -28,18 +28,18 @@ import org.junit.jupiter.api.Test;
 public class CosineSimilarityTest {
 
     @Test
-    public void testCosineSimilarityReturningDoubleWhereByteValueIsZero() {
+    void testCosineSimilarityReturningDoubleWhereByteValueIsZero() {
         final Map<CharSequence, Integer> hashMap = new HashMap<>();
         assertEquals(0.0, CosineSimilarity.INSTANCE.cosineSimilarity(hashMap, hashMap), 0.01);
     }
 
     @Test
-    public void testCosineSimilarityThrowsIllegalArgumentException() {
+    void testCosineSimilarityThrowsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> CosineSimilarity.INSTANCE.cosineSimilarity(new HashMap<>(), null));
     }
 
     @Test
-    public void testCosineSimilarityWithNonEmptyMap() {
+    void testCosineSimilarityWithNonEmptyMap() {
         final Map<CharSequence, Integer> hashMap = new HashMap<>();
         final Integer integer = -397;
         hashMap.put("3J/$3.L", integer);
@@ -48,7 +48,7 @@ public class CosineSimilarityTest {
     }
 
     @Test
-    public void testCosineSimilarityWithNull() {
+    void testCosineSimilarityWithNull() {
         assertThrows(IllegalArgumentException.class, () -> CosineSimilarity.INSTANCE.cosineSimilarity(null, null));
     }
 

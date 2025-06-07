@@ -134,7 +134,7 @@ public class LongestCommonSubsequencePerformance {
     }
 
     @Benchmark
-    public void testLCS(final InputData data) {
+    void testLCS(final InputData data) {
         final LongestCommonSubsequence lcs = new LongestCommonSubsequence();
         for (final Pair<CharSequence, CharSequence> input : data.inputs) {
             lcs.longestCommonSubsequence(input.getLeft(), input.getRight());
@@ -142,7 +142,7 @@ public class LongestCommonSubsequencePerformance {
     }
 
     @Benchmark
-    public void testLCSBaseline(final InputData data) {
+    void testLCSBaseline(final InputData data) {
         final BaselineLongestCommonSubsequence lcs = new BaselineLongestCommonSubsequence();
         for (final Pair<CharSequence, CharSequence> input : data.inputs) {
             lcs.longestCommonSubsequence(input.getLeft(), input.getRight());
@@ -150,7 +150,7 @@ public class LongestCommonSubsequencePerformance {
     }
 
     @Benchmark
-    public void testLCSLen(final InputData data) {
+    void testLCSLen(final InputData data) {
         final LongestCommonSubsequence lcs = new LongestCommonSubsequence();
         for (final Pair<CharSequence, CharSequence> input : data.inputs) {
             lcs.apply(input.getLeft(), input.getRight());
@@ -158,7 +158,7 @@ public class LongestCommonSubsequencePerformance {
     }
 
     @Benchmark
-    public void testLCSLenBaseline(final InputData data) {
+    void testLCSLenBaseline(final InputData data) {
         final BaselineLongestCommonSubsequence lcs = new BaselineLongestCommonSubsequence();
         for (final Pair<CharSequence, CharSequence> input : data.inputs) {
             lcs.apply(input.getLeft(), input.getRight());

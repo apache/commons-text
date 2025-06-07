@@ -105,13 +105,13 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testBuilder() {
+    void testBuilder() {
         final String result = StringEscapeUtils.builder(StringEscapeUtils.ESCAPE_XML10).escape("<").append(">").toString();
         assertEquals("&lt;>", result);
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertNotNull(new StringEscapeUtils());
         final Constructor<?>[] cons = StringEscapeUtils.class.getDeclaredConstructors();
         assertEquals(1, cons.length);
@@ -122,13 +122,13 @@ public class StringEscapeUtilsTest {
 
     // HTML and XML
     @Test
-    public void testDeleteCharacter() {
+    void testDeleteCharacter() {
         final String deleteString = "Delete: \u007F";
         assertEquals("Delete: \\u007F", StringEscapeUtils.escapeJson(deleteString));
     }
 
     @Test
-    public void testEscapeCsvString() {
+    void testEscapeCsvString() {
         assertEquals("foo.bar", StringEscapeUtils.escapeCsv("foo.bar"));
         assertEquals("\"foo,bar\"", StringEscapeUtils.escapeCsv("foo,bar"));
         assertEquals("\"foo\nbar\"", StringEscapeUtils.escapeCsv("foo\nbar"));
@@ -140,7 +140,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testEscapeCsvWriter() throws IOException {
+    void testEscapeCsvWriter() throws IOException {
         checkCsvEscapeWriter("foo.bar", "foo.bar");
         checkCsvEscapeWriter("\"foo,bar\"", "foo,bar");
         checkCsvEscapeWriter("\"foo\nbar\"", "foo\nbar");
@@ -152,7 +152,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testEscapeEcmaScript() {
+    void testEscapeEcmaScript() {
         assertNull(StringEscapeUtils.escapeEcmaScript(null));
         try {
             StringEscapeUtils.ESCAPE_ECMASCRIPT.translate(null, null);
@@ -180,7 +180,7 @@ public class StringEscapeUtilsTest {
      * Tests https://issues.apache.org/jira/browse/LANG-339
      */
     @Test
-    public void testEscapeHiragana() {
+    void testEscapeHiragana() {
         // Some random Japanese Unicode characters
         final String original = "\u304B\u304C\u3068";
         final String escaped = StringEscapeUtils.escapeHtml4(original);
@@ -192,7 +192,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testEscapeHtml3() {
+    void testEscapeHtml3() {
         for (final String[] element : HTML_ESCAPES) {
             final String message = element[0];
             final String expected = element[1];
@@ -210,7 +210,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testEscapeHtml4() {
+    void testEscapeHtml4() {
         for (final String[] element : HTML_ESCAPES) {
             final String message = element[0];
             final String expected = element[1];
@@ -231,7 +231,7 @@ public class StringEscapeUtilsTest {
      * Tests // https://issues.apache.org/jira/browse/LANG-480
      */
     @Test
-    public void testEscapeHtmlHighUnicode() {
+    void testEscapeHtmlHighUnicode() {
         // this is the utf8 representation of the character:
         // COUNTING ROD UNIT DIGIT THREE
         // in Unicode
@@ -252,14 +252,14 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testEscapeHtmlThree() {
+    void testEscapeHtmlThree() {
         assertNull(StringEscapeUtils.escapeHtml3(null));
         assertEquals("a", StringEscapeUtils.escapeHtml3("a"));
         assertEquals("&lt;b&gt;a", StringEscapeUtils.escapeHtml3("<b>a"));
     }
 
     @Test
-    public void testEscapeHtmlVersions() {
+    void testEscapeHtmlVersions() {
         assertEquals("&Beta;", StringEscapeUtils.escapeHtml4("\u0392"));
         assertEquals("\u0392", StringEscapeUtils.unescapeHtml4("&Beta;"));
 
@@ -267,7 +267,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testEscapeJava() throws IOException {
+    void testEscapeJava() throws IOException {
         assertNull(StringEscapeUtils.escapeJava(null));
         try {
             StringEscapeUtils.ESCAPE_JAVA.translate(null, null);
@@ -307,7 +307,7 @@ public class StringEscapeUtilsTest {
      * Tests https://issues.apache.org/jira/browse/LANG-421
      */
     @Test
-    public void testEscapeJavaWithSlash() {
+    void testEscapeJavaWithSlash() {
         final String input = "String with a slash (/) in it";
 
         final String actual = StringEscapeUtils.escapeJava(input);
@@ -319,7 +319,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testEscapeJson() {
+    void testEscapeJson() {
         assertNull(StringEscapeUtils.escapeJson(null));
         try {
             StringEscapeUtils.ESCAPE_JSON.translate(null, null);
@@ -347,7 +347,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testEscapeXml10() {
+    void testEscapeXml10() {
         assertEquals("a&lt;b&gt;c&quot;d&apos;e&amp;f", StringEscapeUtils.escapeXml10("a<b>c\"d'e&f"));
         assertEquals("a\tb\rc\nd", StringEscapeUtils.escapeXml10("a\tb\rc\nd"), "XML 1.0 should not escape \t \n \r");
         assertEquals("ab", StringEscapeUtils.escapeXml10("a\u0000\u0001\u0008\u000b\u000c\u000e\u001fb"),
@@ -359,7 +359,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testEscapeXml11() {
+    void testEscapeXml11() {
         assertEquals("a&lt;b&gt;c&quot;d&apos;e&amp;f", StringEscapeUtils.escapeXml11("a<b>c\"d'e&f"));
         assertEquals("a\tb\rc\nd", StringEscapeUtils.escapeXml11("a\tb\rc\nd"), "XML 1.1 should not escape \t \n \r");
         assertEquals("ab", StringEscapeUtils.escapeXml11("a\u0000b"), "XML 1.1 should omit #x0");
@@ -372,7 +372,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testEscapeXSI() {
+    void testEscapeXSI() {
         assertNull(null, escapeXSI(null));
         assertEquals("He\\ didn\\'t\\ say,\\ \\\"Stop!\\\"", escapeXSI("He didn't say, \"Stop!\""));
         assertEquals("\\\\", escapeXSI("\\"));
@@ -380,7 +380,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testLang313() {
+    void testLang313() {
         assertEquals("& &", StringEscapeUtils.unescapeHtml4("& &amp;"));
     }
 
@@ -390,7 +390,7 @@ public class StringEscapeUtilsTest {
      * @throws IOException if an I/O error occurs
      */
     @Test
-    public void testLang708() throws IOException {
+    void testLang708() throws IOException {
         final byte[] inputBytes = Files.readAllBytes(Paths.get("src/test/resources/org/apache/commons/text/stringEscapeUtilsTestData.txt"));
         final String input = new String(inputBytes, StandardCharsets.UTF_8);
         final String escaped = StringEscapeUtils.escapeEcmaScript(input);
@@ -404,7 +404,7 @@ public class StringEscapeUtilsTest {
      * Tests https://issues.apache.org/jira/browse/LANG-911
      */
     @Test
-    public void testLang911() {
+    void testLang911() {
         final String bellsTest = "\ud83d\udc80\ud83d\udd14";
         final String value = StringEscapeUtils.escapeJava(bellsTest);
         final String valueTest = StringEscapeUtils.unescapeJava(value);
@@ -414,7 +414,7 @@ public class StringEscapeUtilsTest {
     // Tests issue #38569
     // https://issues.apache.org/bugzilla/show_bug.cgi?id=38569
     @Test
-    public void testStandaloneAmphersand() {
+    void testStandaloneAmphersand() {
         assertEquals("<P&O>", StringEscapeUtils.unescapeHtml4("&lt;P&O&gt;"));
         assertEquals("test & <", StringEscapeUtils.unescapeHtml4("test & &lt;"));
         assertEquals("<P&O>", StringEscapeUtils.unescapeXml("&lt;P&O&gt;"));
@@ -422,7 +422,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testUnescapeCsvString() {
+    void testUnescapeCsvString() {
         assertEquals("foo.bar", StringEscapeUtils.unescapeCsv("foo.bar"));
         assertEquals("foo,bar", StringEscapeUtils.unescapeCsv("\"foo,bar\""));
         assertEquals("foo\nbar", StringEscapeUtils.unescapeCsv("\"foo\nbar\""));
@@ -436,7 +436,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testUnescapeCsvWriter() throws IOException {
+    void testUnescapeCsvWriter() throws IOException {
         checkCsvUnescapeWriter("foo.bar", "foo.bar");
         checkCsvUnescapeWriter("foo,bar", "\"foo,bar\"");
         checkCsvUnescapeWriter("foo\nbar", "\"foo\nbar\"");
@@ -450,7 +450,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testUnescapeEcmaScript() {
+    void testUnescapeEcmaScript() {
         assertNull(StringEscapeUtils.unescapeEcmaScript(null));
         assertEquals("8lvc1u+6B#-I", StringEscapeUtils.unescapeEcmaScript("8lvc1u+6B#-I"));
         assertEquals("<script src=\"build/main.bundle.js\"></script>", StringEscapeUtils.unescapeEcmaScript("<script src=\"build/main.bundle.js\"></script>"));
@@ -459,7 +459,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testUnescapeHexCharsHtml() {
+    void testUnescapeHexCharsHtml() {
         // Simple easy to grok test
         assertEquals("\u0080\u009F", StringEscapeUtils.unescapeHtml4("&#x80;&#x9F;"), "hex number unescape");
         assertEquals("\u0080\u009F", StringEscapeUtils.unescapeHtml4("&#X80;&#X9F;"), "hex number unescape");
@@ -474,7 +474,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testUnescapeHtml3() {
+    void testUnescapeHtml3() {
         for (final String[] element : HTML_ESCAPES) {
             final String message = element[0];
             final String expected = element[2];
@@ -502,7 +502,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testUnescapeHtml4() {
+    void testUnescapeHtml4() {
         for (final String[] element : HTML_ESCAPES) {
             final String message = element[0];
             final String expected = element[2];
@@ -530,7 +530,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testUnescapeJava() throws IOException {
+    void testUnescapeJava() throws IOException {
         assertNull(StringEscapeUtils.unescapeJava(null));
         try {
             StringEscapeUtils.UNESCAPE_JAVA.translate(null, null);
@@ -563,7 +563,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testUnescapeJson() {
+    void testUnescapeJson() {
         final String jsonString = "{\"age\":100,\"name\":\"kyong.com\n\",\"messages\":[\"msg 1\",\"msg 2\",\"msg 3\"]}";
 
         assertEquals("", StringEscapeUtils.unescapeJson(""));
@@ -573,7 +573,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test // TEXT-120
-    public void testUnescapeJsonDoubleQuoteAndForwardSlash() {
+    void testUnescapeJsonDoubleQuoteAndForwardSlash() {
         final String escapedJsonString = "double quote: \\\" and a forward slash: \\/";
         final String jsonString = "double quote: \" and a forward slash: /";
 
@@ -581,7 +581,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testUnescapeUnknownEntity() {
+    void testUnescapeUnknownEntity() {
         assertEquals("&zzzz;", StringEscapeUtils.unescapeHtml4("&zzzz;"));
     }
 
@@ -591,7 +591,7 @@ public class StringEscapeUtilsTest {
      * @see <a href="https://issues.apache.org/jira/browse/LANG-729">LANG-729</a>
      */
     @Test
-    public void testUnescapeXmlSupplementaryCharacters() {
+    void testUnescapeXmlSupplementaryCharacters() {
         assertEquals("\uD84C\uDFB4", StringEscapeUtils.unescapeXml("&#144308;"), "Supplementary character must be represented using a single escape");
 
         assertEquals("a b c \uD84C\uDFB4", StringEscapeUtils.unescapeXml("a b c &#144308;"),
@@ -599,7 +599,7 @@ public class StringEscapeUtilsTest {
     }
 
     @Test
-    public void testUnscapeXSI() {
+    void testUnscapeXSI() {
         assertNull(null, unescapeXSI(null));
         assertEquals("\"", unescapeXSI("\\\""));
         assertEquals("He didn't say, \"Stop!\"", unescapeXSI("He\\ didn\\'t\\ say,\\ \\\"Stop!\\\""));

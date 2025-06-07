@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 public class BiStringLookupTest {
 
     @Test
-    public void testDefaultMethod() {
+    void testDefaultMethod() {
         Assertions.assertEquals("a", ((BiStringLookup<Object>) key -> key).lookup("a", "b"));
     }
 

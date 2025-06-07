@@ -38,7 +38,7 @@ public class HammingDistanceTest {
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputsEquals()")
-    public void testHammingDistance(final Class<?> cls) {
+    void testHammingDistance(final Class<?> cls) {
         assertEquals(0, distance.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "")));
         assertEquals(0, distance.apply(SimilarityInputTest.build(cls, "pappa"), SimilarityInputTest.build(cls, "pappa")));
         assertEquals(1, distance.apply(SimilarityInputTest.build(cls, "papaa"), SimilarityInputTest.build(cls, "pappa")));
@@ -50,17 +50,17 @@ public class HammingDistanceTest {
     }
 
     @Test
-    public void testHammingDistance_nullLeftValue() {
+    void testHammingDistance_nullLeftValue() {
         assertThrows(IllegalArgumentException.class, () -> distance.apply(null, ""));
     }
 
     @Test
-    public void testHammingDistance_nullRightValue() {
+    void testHammingDistance_nullRightValue() {
         assertThrows(IllegalArgumentException.class, () -> distance.apply("", null));
     }
 
     @Test
-    public void testHammingDistanceCharSequence() {
+    void testHammingDistanceCharSequence() {
         assertEquals(0, distance.apply("", ""));
         assertEquals(0, distance.apply("pappa", "pappa"));
         assertEquals(1, distance.apply("papaa", "pappa"));

@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
 public class SimilarityScoreFromTest {
 
     @Test
-    public void testApply() {
+    void testApply() {
         final LongestCommonSubsequence longestCommonSubsequence = new LongestCommonSubsequence();
         final SimilarityScoreFrom<Integer> similarityScoreFrom = new SimilarityScoreFrom<>(longestCommonSubsequence, "asdf");
         assertEquals(1, similarityScoreFrom.apply("s"));
     }
 
     @Test
-    public void testFailsToCreateSimilarityScoreFromThrowsIllegalArgumentException() {
+    void testFailsToCreateSimilarityScoreFromThrowsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> new SimilarityScoreFrom<>(null, ""));
     }
 

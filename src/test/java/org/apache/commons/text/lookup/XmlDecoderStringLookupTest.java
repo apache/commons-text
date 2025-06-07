@@ -28,17 +28,17 @@ public class XmlDecoderStringLookupTest {
     private static final String DATA = "<element>";
 
     @Test
-    public void testDecode() {
+    void testDecode() {
         Assertions.assertEquals(DATA, XmlDecoderStringLookup.INSTANCE.apply("&lt;element&gt;"));
     }
 
     @Test
-    public void testNull() {
+    void testNull() {
         Assertions.assertNull(XmlDecoderStringLookup.INSTANCE.apply(null));
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(XmlDecoderStringLookup.INSTANCE.toString().isEmpty());
     }

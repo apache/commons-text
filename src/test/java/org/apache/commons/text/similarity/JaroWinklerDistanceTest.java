@@ -38,7 +38,7 @@ public class JaroWinklerDistanceTest {
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputsEquals()")
-    public void testGetJaroWinklerDistance(final Class<?> cls) {
+    void testGetJaroWinklerDistance(final Class<?> cls) {
         assertEquals(0.07501d, distance.apply(SimilarityInputTest.build(cls, "frog"), SimilarityInputTest.build(cls, "fog")), 0.00001d);
         assertEquals(1.0d, distance.apply(SimilarityInputTest.build(cls, "fly"), SimilarityInputTest.build(cls, "ant")), 0.00000000000000000001d);
         assertEquals(0.55834d, distance.apply(SimilarityInputTest.build(cls, "elephant"), SimilarityInputTest.build(cls, "hippo")), 0.00001d);
@@ -61,22 +61,22 @@ public class JaroWinklerDistanceTest {
     }
 
     @Test
-    public void testGetJaroWinklerDistance_NullNull() {
+    void testGetJaroWinklerDistance_NullNull() {
         assertThrows(IllegalArgumentException.class, () -> distance.apply((String) null, null));
     }
 
     @Test
-    public void testGetJaroWinklerDistance_NullString() {
+    void testGetJaroWinklerDistance_NullString() {
         assertThrows(IllegalArgumentException.class, () -> distance.apply(null, "clear"));
     }
 
     @Test
-    public void testGetJaroWinklerDistance_StringNull() {
+    void testGetJaroWinklerDistance_StringNull() {
         assertThrows(IllegalArgumentException.class, () -> distance.apply(" ", null));
     }
 
     @Test
-    public void testGetJaroWinklerDistance_StringString() {
+    void testGetJaroWinklerDistance_StringString() {
         assertEquals(0.07501d, distance.apply("frog", "fog"), 0.00001d);
         assertEquals(1.0d, distance.apply("fly", "ant"), 0.00000000000000000001d);
         assertEquals(0.55834d, distance.apply("elephant", "hippo"), 0.00001d);

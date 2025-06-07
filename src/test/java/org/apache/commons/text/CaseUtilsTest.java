@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 public class CaseUtilsTest {
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertNotNull(new CaseUtils());
         final Constructor<?>[] cons = CaseUtils.class.getDeclaredConstructors();
         assertEquals(1, cons.length);
@@ -43,7 +43,7 @@ public class CaseUtilsTest {
     }
 
     @Test
-    public void testToCamelCase() {
+    void testToCamelCase() {
         assertNull(CaseUtils.toCamelCase(null, false, null));
         assertEquals("", CaseUtils.toCamelCase("", true, null));
         assertEquals("", CaseUtils.toCamelCase("  ", false, null));

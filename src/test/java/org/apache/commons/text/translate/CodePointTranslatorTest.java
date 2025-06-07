@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 public class CodePointTranslatorTest {
 
     @Test
-    public void testAboveReturningNonNull() throws IOException {
+    void testAboveReturningNonNull() throws IOException {
         final NumericEntityEscaper numericEntityEscaper = NumericEntityEscaper.above(0);
         final UnicodeEscaper unicodeEscaper = new UnicodeEscaper();
         final String string = unicodeEscaper.toUtf16Escape(0);

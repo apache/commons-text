@@ -56,40 +56,40 @@ public class FileStringLookupTest {
     }
 
     @Test
-    public void testDefaultInstanceBadCharsetName() {
+    void testDefaultInstanceBadCharsetName() {
         assertThrows(IllegalArgumentException.class,
                 () -> FileStringLookup.INSTANCE.apply("BAD_CHARSET_NAME:src/test/resources/org/apache/commons/text/document.properties"));
     }
 
     @Test
-    public void testDefaultInstanceBadDocumentPath() {
+    void testDefaultInstanceBadDocumentPath() {
         assertThrows(IllegalArgumentException.class, () -> FileStringLookup.INSTANCE.apply("BAD_CHARSET_NAME:src/test/resources/DOCUMENT_NOT_FOUND.TXT"));
     }
 
     @Test
-    public void testDefaultInstanceMissingFilePart() {
+    void testDefaultInstanceMissingFilePart() {
         assertThrows(IllegalArgumentException.class, () -> FileStringLookup.INSTANCE.apply(StandardCharsets.UTF_8.name()));
     }
 
     @Test
-    public void testDefaultInstanceNull() {
+    void testDefaultInstanceNull() {
         Assertions.assertNull(FileStringLookup.INSTANCE.apply(null));
     }
 
     @Test
-    public void testDefaultInstanceOne() throws Exception {
+    void testDefaultInstanceOne() throws Exception {
         final String expectedString = readDocumentFixtureString();
         Assertions.assertEquals(expectedString, FileStringLookup.INSTANCE.apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
     }
 
     @Test
-    public void testDefaultInstanceToString() {
+    void testDefaultInstanceToString() {
         // does not blow up and gives some kind of string.
         Assertions.assertFalse(FileStringLookup.INSTANCE.toString().isEmpty());
     }
 
     @Test
-    public void testFenceBadDirOne() throws Exception {
+    void testFenceBadDirOne() throws Exception {
         final FileStringLookup fileStringLookup = new FileStringLookup(Paths.get("dir does not exist at all"));
         assertThrows(IllegalArgumentException.class, () -> fileStringLookup.apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
         assertThrows(IllegalArgumentException.class, () -> fileStringLookup.apply("UTF-8:/src/test/resources/org/apache/commons/text/document.properties"));
@@ -97,41 +97,41 @@ public class FileStringLookupTest {
     }
 
     @Test
-    public void testFenceBadDirPlusGoodOne() throws Exception {
+    void testFenceBadDirPlusGoodOne() throws Exception {
         final String expectedString = readDocumentFixtureString();
         final FileStringLookup fileStringLookup = new FileStringLookup(Paths.get("dir does not exist at all"), CURRENT_PATH);
         testFence(expectedString, fileStringLookup);
     }
 
     @Test
-    public void testFenceCurrentDirOne() throws Exception {
+    void testFenceCurrentDirOne() throws Exception {
         final String expectedString = readDocumentFixtureString();
         final FileStringLookup fileStringLookup = new FileStringLookup(CURRENT_PATH);
         testFence(expectedString, fileStringLookup);
     }
 
     @Test
-    public void testFenceCurrentDirPlusOne() throws Exception {
+    void testFenceCurrentDirPlusOne() throws Exception {
         final String expectedString = readDocumentFixtureString();
         final FileStringLookup fileStringLookup = new FileStringLookup(Paths.get("target"), CURRENT_PATH);
         testFence(expectedString, fileStringLookup);
     }
 
     @Test
-    public void testFenceEmptyOne() throws Exception {
+    void testFenceEmptyOne() throws Exception {
         final String expectedString = readDocumentFixtureString();
         Assertions.assertEquals(expectedString, new FileStringLookup().apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
     }
 
     @Test
-    public void testFenceNullOne() throws Exception {
+    void testFenceNullOne() throws Exception {
         final String expectedString = readDocumentFixtureString();
         Assertions.assertEquals(expectedString,
                 new FileStringLookup((Path[]) null).apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
     }
 
     @Test
-    public void testInterpolatorReplace() throws IOException {
+    void testInterpolatorReplace() throws IOException {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
         assertEquals(readDocumentFixtureString(), stringSubstitutor.replace("${file:UTF-8:" + DOCUEMENT_PATH + "}"));
         final InterpolatorStringLookup stringLookup = (InterpolatorStringLookup) stringSubstitutor.getStringLookup();

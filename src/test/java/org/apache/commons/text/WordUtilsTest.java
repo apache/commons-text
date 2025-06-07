@@ -40,12 +40,12 @@ public class WordUtilsTest {
             .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
 
     @Test
-    public void testAbbreviateForLowerThanMinusOneValues() {
+    void testAbbreviateForLowerThanMinusOneValues() {
         assertThrows(IllegalArgumentException.class, () -> WordUtils.abbreviate("01 23 45 67 89", 9, -10, null));
     }
 
     @Test
-    public void testAbbreviateForLowerValue() {
+    void testAbbreviateForLowerValue() {
         assertEquals("012", WordUtils.abbreviate("012 3456789", 0, 5, null));
         assertEquals("01234", WordUtils.abbreviate("01234 56789", 5, 10, null));
         assertEquals("01 23 45 67", WordUtils.abbreviate("01 23 45 67 89", 9, -1, null));
@@ -54,7 +54,7 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testAbbreviateForLowerValueAndAppendedString() {
+    void testAbbreviateForLowerValueAndAppendedString() {
         assertEquals("012", WordUtils.abbreviate("012 3456789", 0, 5, null));
         assertEquals("01234-", WordUtils.abbreviate("01234 56789", 5, 10, "-"));
         assertEquals("01 23 45 67abc", WordUtils.abbreviate("01 23 45 67 89", 9, -1, "abc"));
@@ -62,7 +62,7 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testAbbreviateForNullAndEmptyString() {
+    void testAbbreviateForNullAndEmptyString() {
         assertNull(WordUtils.abbreviate(null, 1, -1, ""));
         assertEquals(StringUtils.EMPTY, WordUtils.abbreviate("", 1, -1, ""));
         assertEquals("", WordUtils.abbreviate("0123456790", 0, 0, ""));
@@ -70,26 +70,26 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testAbbreviateForUpperLimit() {
+    void testAbbreviateForUpperLimit() {
         assertEquals("01234", WordUtils.abbreviate("0123456789", 0, 5, ""));
         assertEquals("012", WordUtils.abbreviate("012 3456789", 2, 5, ""));
         assertEquals("0123456789", WordUtils.abbreviate("0123456789", 0, -1, ""));
     }
 
     @Test
-    public void testAbbreviateForUpperLimitAndAppendedString() {
+    void testAbbreviateForUpperLimitAndAppendedString() {
         assertEquals("01234-", WordUtils.abbreviate("0123456789", 0, 5, "-"));
         assertEquals("012", WordUtils.abbreviate("012 3456789", 2, 5, null));
         assertEquals("0123456789", WordUtils.abbreviate("0123456789", 0, -1, ""));
     }
 
     @Test
-    public void testAbbreviateUpperLessThanLowerValues() {
+    void testAbbreviateUpperLessThanLowerValues() {
         assertThrows(IllegalArgumentException.class, () -> WordUtils.abbreviate("0123456789", 5, 2, ""));
     }
 
     @Test
-    public void testCapitalize_String() {
+    void testCapitalize_String() {
         assertNull(WordUtils.capitalize(null));
         assertEquals("", WordUtils.capitalize(""));
         assertEquals("  ", WordUtils.capitalize("  "));
@@ -103,7 +103,7 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testCapitalizeFully_String() {
+    void testCapitalizeFully_String() {
         assertNull(WordUtils.capitalizeFully(null));
         assertEquals("", WordUtils.capitalizeFully(""));
         assertEquals("  ", WordUtils.capitalizeFully("  "));
@@ -123,12 +123,12 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testCapitalizeFully_Text88() {
+    void testCapitalizeFully_Text88() {
         assertEquals("I am fine now", WordUtils.capitalizeFully("i am fine now", new char[] {}));
     }
 
     @Test
-    public void testCapitalizeFullyWithDelimiters_String() {
+    void testCapitalizeFullyWithDelimiters_String() {
         assertNull(WordUtils.capitalizeFully(null, null));
         assertEquals("", WordUtils.capitalizeFully("", ArrayUtils.EMPTY_CHAR_ARRAY));
         assertEquals("  ", WordUtils.capitalizeFully("  ", ArrayUtils.EMPTY_CHAR_ARRAY));
@@ -148,7 +148,7 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testCapitalizeWithDelimiters_String() {
+    void testCapitalizeWithDelimiters_String() {
         assertNull(WordUtils.capitalize(null, null));
         assertEquals("", WordUtils.capitalize("", ArrayUtils.EMPTY_CHAR_ARRAY));
         assertEquals("  ", WordUtils.capitalize("  ", ArrayUtils.EMPTY_CHAR_ARRAY));
@@ -166,7 +166,7 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertNotNull(new WordUtils());
         final Constructor<?>[] cons = WordUtils.class.getDeclaredConstructors();
         assertEquals(1, cons.length);
@@ -176,7 +176,7 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testContainsAllWords_StringString() {
+    void testContainsAllWords_StringString() {
         assertFalse(WordUtils.containsAllWords(null, (String) null));
         assertFalse(WordUtils.containsAllWords(null, ""));
         assertFalse(WordUtils.containsAllWords(null, "ab"));
@@ -200,12 +200,12 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testContainsAllWordsWithNull() {
+    void testContainsAllWordsWithNull() {
         assertFalse(WordUtils.containsAllWords("M", (CharSequence) null));
     }
 
     @Test
-    public void testInitials_String() {
+    void testInitials_String() {
         assertNull(WordUtils.initials(null));
         assertEquals("", WordUtils.initials(""));
         assertEquals("", WordUtils.initials("  "));
@@ -220,7 +220,7 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testInitials_String_charArray() {
+    void testInitials_String_charArray() {
         char[] array = null;
         assertNull(WordUtils.initials(null, array));
         assertEquals("", WordUtils.initials("", array));
@@ -304,7 +304,7 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testInitialsSurrogatePairs() {
+    void testInitialsSurrogatePairs() {
         // Tests with space as default delimiter
         assertEquals("\uD800\uDF00\uD800\uDF02", WordUtils.initials("\uD800\uDF00\uD800\uDF01 \uD800\uDF02\uD800\uDF03"));
         assertEquals("\uD800\uDF00\uD800\uDF02", WordUtils.initials("\uD800\uDF00\uD800\uDF01 \uD800\uDF02\uD800\uDF03", null));
@@ -322,21 +322,21 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testLANG1292() {
+    void testLANG1292() {
         // Prior to fix, this was throwing StringIndexOutOfBoundsException
         WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa " + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa " + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 70);
     }
 
     @Test
-    public void testLANG673() {
+    void testLANG673() {
         assertEquals("01", WordUtils.abbreviate("01 23 45 67 89", 0, 40, ""));
         assertEquals("01 23 45 67", WordUtils.abbreviate("01 23 45 67 89", 10, 40, ""));
         assertEquals("01 23 45 67 89", WordUtils.abbreviate("01 23 45 67 89", 40, 40, ""));
     }
 
     @Test
-    public void testSwapCase_String() {
+    void testSwapCase_String() {
         assertNull(WordUtils.swapCase(null));
         assertEquals("", WordUtils.swapCase(""));
         assertEquals("  ", WordUtils.swapCase("  "));
@@ -354,14 +354,14 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testText123() throws Exception {
+    void testText123() throws Exception {
         // Prior to fix, this was throwing StringIndexOutOfBoundsException
         WordUtils.wrap("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa " + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 Integer.MAX_VALUE);
     }
 
     @Test
-    public void testUncapitalize_String() {
+    void testUncapitalize_String() {
         assertNull(WordUtils.uncapitalize(null));
         assertEquals("", WordUtils.uncapitalize(""));
         assertEquals("  ", WordUtils.uncapitalize("  "));
@@ -379,12 +379,12 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testUnCapitalize_Text88() {
+    void testUnCapitalize_Text88() {
         assertEquals("i am fine now", WordUtils.uncapitalize("I am fine now", new char[] {}));
     }
 
     @Test
-    public void testUncapitalizeWithDelimiters_String() {
+    void testUncapitalizeWithDelimiters_String() {
         assertNull(WordUtils.uncapitalize(null, null));
         assertEquals("", WordUtils.uncapitalize("", ArrayUtils.EMPTY_CHAR_ARRAY));
         assertEquals("  ", WordUtils.uncapitalize("  ", ArrayUtils.EMPTY_CHAR_ARRAY));
@@ -402,7 +402,7 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testWrap_StringInt() {
+    void testWrap_StringInt() {
         assertNull(WordUtils.wrap(null, 20));
         assertNull(WordUtils.wrap(null, -1));
 
@@ -433,7 +433,7 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testWrap_StringIntStringBoolean() {
+    void testWrap_StringIntStringBoolean() {
         assertNull(WordUtils.wrap(null, 20, "\n", false));
         assertNull(WordUtils.wrap(null, 20, "\n", true));
         assertNull(WordUtils.wrap(null, 20, null, true));
@@ -509,7 +509,7 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testWrap_StringIntStringBooleanString() {
+    void testWrap_StringIntStringBooleanString() {
 
         // no changes test
         String input = "flammable/inflammable";
@@ -535,22 +535,22 @@ public class WordUtilsTest {
     }
 
     @Test
-    public void testWrapAtMiddleTwice() {
+    void testWrapAtMiddleTwice() {
         assertEquals("abcdef\n\nabcdef", WordUtils.wrap("abcdefggabcdef", 2, "\n", false, "(?=g)"));
     }
 
     @Test
-    public void testWrapAtStartAndEnd() {
+    void testWrapAtStartAndEnd() {
         assertEquals("\nabcdefabcdef\n", WordUtils.wrap("nabcdefabcdefn", 2, "\n", false, "(?=n)"));
     }
 
     @Test
-    public void testWrapWithMultipleRegexMatchOfLength0() {
+    void testWrapWithMultipleRegexMatchOfLength0() {
         assertEquals("abc\ndefabc\ndef", WordUtils.wrap("abcdefabcdef", 2, "\n", false, "(?=d)"));
     }
 
     @Test
-    public void testWrapWithRegexMatchOfLength0() {
+    void testWrapWithRegexMatchOfLength0() {
         assertEquals("abc\ndef", WordUtils.wrap("abcdef", 2, "\n", false, "(?=d)"));
     }
 

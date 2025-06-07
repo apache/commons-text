@@ -34,7 +34,7 @@ public class StringSubstitutorGetSetTest {
      * Tests get set.
      */
     @Test
-    public void testGetSetPrefix() {
+    void testGetSetPrefix() {
         final StringSubstitutor sub = new StringSubstitutor();
         assertTrue(sub.getVariablePrefixMatcher() instanceof AbstractStringMatcher.CharArrayMatcher);
         sub.setVariablePrefix('<');
@@ -56,7 +56,7 @@ public class StringSubstitutorGetSetTest {
      * Tests get set.
      */
     @Test
-    public void testGetSetSuffix() {
+    void testGetSetSuffix() {
         final StringSubstitutor sub = new StringSubstitutor();
         assertTrue(sub.getVariableSuffixMatcher() instanceof AbstractStringMatcher.CharMatcher);
         sub.setVariableSuffix('<');
@@ -78,7 +78,7 @@ public class StringSubstitutorGetSetTest {
      * Tests get set.
      */
     @Test
-    public void testGetSetValueDelimiter() {
+    void testGetSetValueDelimiter() {
         final StringSubstitutor sub = new StringSubstitutor();
         assertTrue(sub.getValueDelimiterMatcher() instanceof AbstractStringMatcher.CharArrayMatcher);
         sub.setValueDelimiter(':');

@@ -81,7 +81,7 @@ public class ReplacementsFinderTest {
 
     @ParameterizedTest
     @MethodSource("parameters")
-    public void testReplacementsHandler(final String left, final String right, final int skipped,
+    void testReplacementsHandler(final String left, final String right, final int skipped,
         final Character[] from, final Character[] to) {
         final StringsComparator sc = new StringsComparator(left, right);
         final ReplacementsFinder<Character> replacementFinder = new ReplacementsFinder<>(handler);

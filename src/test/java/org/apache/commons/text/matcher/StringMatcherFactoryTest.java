@@ -37,7 +37,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_andMatcher() {
+    void test_andMatcher() {
         assertNotNull(StringMatcherFactory.INSTANCE.andMatcher(StringMatcherFactory.INSTANCE.charMatcher('1'),
             StringMatcherFactory.INSTANCE.stringMatcher("2")));
         assertNotNull(StringMatcherFactory.INSTANCE.andMatcher(null, StringMatcherFactory.INSTANCE.stringMatcher("2")));
@@ -51,7 +51,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_charMatcher() {
+    void test_charMatcher() {
         final StringMatcher charMatcher = StringMatcherFactory.INSTANCE.charMatcher('1');
         assertNotNull(charMatcher);
         assertNotNull(charMatcher.toString());
@@ -59,7 +59,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_charSetMatcher_char() {
+    void test_charSetMatcher_char() {
         final StringMatcher charSetMatcher = StringMatcherFactory.INSTANCE.charSetMatcher('1');
         assertNotNull(charSetMatcher);
         assertNotNull(charSetMatcher.toString());
@@ -67,7 +67,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_charSetMatcher_String() {
+    void test_charSetMatcher_String() {
         final StringMatcher charSetMatcher = StringMatcherFactory.INSTANCE.charSetMatcher("1");
         assertNotNull(charSetMatcher);
         assertNotNull(charSetMatcher.toString());
@@ -75,7 +75,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_commaMatcher() {
+    void test_commaMatcher() {
         final StringMatcher commaMatcher = StringMatcherFactory.INSTANCE.commaMatcher();
         assertNotNull(commaMatcher);
         assertNotNull(commaMatcher.toString());
@@ -83,7 +83,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_doubleQuoteMatcher() {
+    void test_doubleQuoteMatcher() {
         final StringMatcher doubleQuoteMatcher = StringMatcherFactory.INSTANCE.doubleQuoteMatcher();
         assertNotNull(doubleQuoteMatcher);
         assertNotNull(doubleQuoteMatcher.toString());
@@ -91,7 +91,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_noneMatcher() {
+    void test_noneMatcher() {
         final StringMatcher noneMatcher = StringMatcherFactory.INSTANCE.noneMatcher();
         assertNotNull(noneMatcher);
         assertNotNull(noneMatcher.toString());
@@ -99,7 +99,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_quoteMatcher() {
+    void test_quoteMatcher() {
         final StringMatcher quoteMatcher = StringMatcherFactory.INSTANCE.quoteMatcher();
         assertNotNull(quoteMatcher);
         assertNotNull(quoteMatcher.toString());
@@ -107,7 +107,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_singleQuoteMatcher() {
+    void test_singleQuoteMatcher() {
         final StringMatcher singleQuoteMatcher = StringMatcherFactory.INSTANCE.singleQuoteMatcher();
         assertNotNull(singleQuoteMatcher);
         assertNotNull(singleQuoteMatcher.toString());
@@ -115,7 +115,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_spaceMatcher() {
+    void test_spaceMatcher() {
         final StringMatcher spaceMatcher = StringMatcherFactory.INSTANCE.spaceMatcher();
         assertNotNull(spaceMatcher);
         assertNotNull(spaceMatcher.toString());
@@ -123,7 +123,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_splitMatcher() {
+    void test_splitMatcher() {
         final StringMatcher splitMatcher = StringMatcherFactory.INSTANCE.splitMatcher();
         assertNotNull(splitMatcher);
         assertNotNull(splitMatcher.toString());
@@ -131,7 +131,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_stringMatcher() {
+    void test_stringMatcher() {
         StringMatcher stringMatcher = StringMatcherFactory.INSTANCE.stringMatcher("1");
         assertNotNull(stringMatcher);
         assertNotNull(stringMatcher.toString());
@@ -144,7 +144,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_stringMatcherChars() {
+    void test_stringMatcherChars() {
         StringMatcher stringMatcher = StringMatcherFactory.INSTANCE.stringMatcher('1', '2');
         assertNotNull(stringMatcher);
         assertNotNull(stringMatcher.toString());
@@ -162,7 +162,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_tabMatcher() {
+    void test_tabMatcher() {
         final StringMatcher charMatcher = StringMatcherFactory.INSTANCE.charMatcher('1');
         assertNotNull(charMatcher);
         assertNotNull(charMatcher.toString());
@@ -170,7 +170,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void test_trimMatcher() {
+    void test_trimMatcher() {
         final StringMatcher charMatcher = StringMatcherFactory.INSTANCE.charMatcher('1');
         assertNotNull(charMatcher);
         assertNotNull(charMatcher.toString());
@@ -178,7 +178,7 @@ public class StringMatcherFactoryTest {
     }
 
     @Test
-    public void testDefaultMethods() {
+    void testDefaultMethods() {
         final StringMatcherDefaults stringMatcher = new StringMatcherDefaults();
         assertEquals(0, stringMatcher.size());
         assertEquals(2, stringMatcher.isMatch("1", 0));
