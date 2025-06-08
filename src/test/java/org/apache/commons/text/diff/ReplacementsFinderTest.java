@@ -32,7 +32,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * Tests for the ReplacementsFinder.
  */
-public class ReplacementsFinderTest {
+class ReplacementsFinderTest {
 
     // Helper ReplacementsHandler implementation for testing
     private static final class SimpleHandler implements ReplacementsHandler<Character> {

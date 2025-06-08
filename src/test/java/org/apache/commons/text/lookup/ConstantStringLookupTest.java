@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  * This class was adapted from Apache Commons Configuration.
  * </p>
  */
-public class ConstantStringLookupTest {
+class ConstantStringLookupTest {
 
     /** A public field that can be read by the lookup. */
     public static final String FIELD = "Field that can be read";

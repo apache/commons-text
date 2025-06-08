@@ -50,7 +50,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link TextStringBuilder}.
  */
-public class TextStringBuilderTest {
+class TextStringBuilderTest {
 
     private static final class MockReadable implements Readable {
 

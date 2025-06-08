@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link StringMatcherFactory}.
  */
-public class StringMatcherFactoryTest {
+class StringMatcherFactoryTest {
 
     private static final class StringMatcherDefaults implements StringMatcher {
 

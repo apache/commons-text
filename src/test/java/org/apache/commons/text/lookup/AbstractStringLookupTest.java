@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests forwarding methods provided by {@link AbstractStringLookup}.
  */
-public class AbstractStringLookupTest {
+class AbstractStringLookupTest {
 
     private static final class TestStringLookup extends AbstractStringLookup {
 

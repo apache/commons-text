@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit test for {@link SinglePassTranslator}.
  */
-public class SinglePassTranslatorTest {
+class SinglePassTranslatorTest {
 
     private final SinglePassTranslator dummyTranslator = new SinglePassTranslator() {
 

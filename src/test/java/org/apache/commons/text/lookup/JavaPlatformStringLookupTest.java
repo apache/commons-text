@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link JavaPlatformStringLookup}.
  */
-public class JavaPlatformStringLookupTest {
+class JavaPlatformStringLookupTest {
 
     @Test
     void testBadKey() {

@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link ScriptStringLookup}.
  */
-public class ScriptStringLookupTest {
+class ScriptStringLookupTest {
 
     private static final String JS_NAME = "JavaScript";
 

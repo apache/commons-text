@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link NumericEntityEscaper}.
  */
-public class NumericEntityEscaperTest  {
+class NumericEntityEscaperTest  {
 
     @Test
     void testAbove() {

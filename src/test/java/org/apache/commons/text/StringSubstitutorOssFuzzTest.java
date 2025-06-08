@@ -26,7 +26,7 @@ import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
-public class StringSubstitutorOssFuzzTest {
+class StringSubstitutorOssFuzzTest {
 
     private String readAllString(final String testCase) throws IOException {
         final byte[] allBytes = Files.readAllBytes(Paths.get("src/test/resources/org/apache/commons/text/oss-fuzz/" + testCase));

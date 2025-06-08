@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link AlphabetConverter}.
  */
-public class AlphabetConverterTest {
+class AlphabetConverterTest {
 
     private static final Character[] LOWER_CASE_ENGLISH = { ' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
             't', 'u', 'v', 'w', 'x', 'y', 'z' };

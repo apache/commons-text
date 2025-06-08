@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link CosineSimilarity}.
  */
-public class CosineDistanceTest {
+class CosineDistanceTest {
 
     /**
      * Cosine distance under test.

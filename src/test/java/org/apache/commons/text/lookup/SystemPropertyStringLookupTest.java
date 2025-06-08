@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link StringLookupFactory#INSTANCE_SYSTEM_PROPERTIES}.
  */
-public class SystemPropertyStringLookupTest {
+class SystemPropertyStringLookupTest {
 
     @Test
     void testNull() {

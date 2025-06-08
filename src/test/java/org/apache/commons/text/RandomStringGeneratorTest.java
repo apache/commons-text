@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for {@link RandomStringGenerator}
  */
-public class RandomStringGeneratorTest {
+class RandomStringGeneratorTest {
 
     private static final CharacterPredicate A_FILTER = codePoint -> codePoint == 'a';
 

@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link UnicodeEscaper}.
  */
-public class UnicodeEscaperTest {
+class UnicodeEscaperTest {
 
     @Test
     void testAbove() {

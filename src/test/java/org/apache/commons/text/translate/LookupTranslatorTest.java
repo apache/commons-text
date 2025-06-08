@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link LookupTranslator}.
  */
-public class LookupTranslatorTest  {
+class LookupTranslatorTest  {
 
     @Test
     void testBasicLookup() throws IOException {

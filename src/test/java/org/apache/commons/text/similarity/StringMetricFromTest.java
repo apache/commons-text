@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link EditDistanceFrom}.
  */
-public class StringMetricFromTest {
+class StringMetricFromTest {
 
     @Test
     void testEquivalence() {

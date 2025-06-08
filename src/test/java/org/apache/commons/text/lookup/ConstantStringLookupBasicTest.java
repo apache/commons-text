@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link ConstantStringLookup}.
  */
-public class ConstantStringLookupBasicTest {
+class ConstantStringLookupBasicTest {
 
     /**
      * Test fixture.

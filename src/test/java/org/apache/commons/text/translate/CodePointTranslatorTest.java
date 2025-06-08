@@ -24,7 +24,7 @@ import java.io.PipedWriter;
 
 import org.junit.jupiter.api.Test;
 
-public class CodePointTranslatorTest {
+class CodePointTranslatorTest {
 
     @Test
     void testAboveReturningNonNull() throws IOException {

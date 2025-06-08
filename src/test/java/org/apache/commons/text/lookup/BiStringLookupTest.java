@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link BiStringLookup}.
  */
-public class BiStringLookupTest {
+class BiStringLookupTest {
 
     @Test
     void testDefaultMethod() {

@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link StringSubstitutorReader}.
  */
-public class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
+class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
 
     private StringSubstitutorReader createReader(final StringSubstitutor substitutor, final String template) {
         return new StringSubstitutorReader(new StringReader(template), substitutor);

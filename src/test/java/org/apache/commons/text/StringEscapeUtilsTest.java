@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Test;
  * This code has been adapted from Apache Commons Lang 3.5.
  * </p>
  */
-public class StringEscapeUtilsTest {
+class StringEscapeUtilsTest {
     private static final String FOO = "foo";
 
     private static final String[][] HTML_ESCAPES = {

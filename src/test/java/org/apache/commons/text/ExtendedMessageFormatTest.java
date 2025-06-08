@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link ExtendedMessageFormat}.
  */
-public class ExtendedMessageFormatTest {
+class ExtendedMessageFormatTest {
 
     /**
      * {@link Format} implementation which converts to lower case.

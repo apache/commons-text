@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link LongestCommonSubsequence}.
  */
-public class LongestCommonSubsequenceTest {
+class LongestCommonSubsequenceTest {
 
     private static LongestCommonSubsequence subject;
 

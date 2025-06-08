@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link UrlDecoderStringLookup}.
  */
-public class UrlDecoderStringLookupTest {
+class UrlDecoderStringLookupTest {
 
     private static final String DATA = "Hello World!";
 

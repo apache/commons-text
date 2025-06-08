@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link DnsStringLookup}.
  */
-public class DnsStringLookupTest {
+class DnsStringLookupTest {
 
     @Test
     void testAddressFromHostAddress() throws UnknownHostException {

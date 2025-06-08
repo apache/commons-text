@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link OctalUnescaper}.
  */
-public class OctalUnescaperTest {
+class OctalUnescaperTest {
 
     @Test
     void testBetween() {

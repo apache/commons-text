@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link CaseUtils} class.
  */
-public class CaseUtilsTest {
+class CaseUtilsTest {
 
     @Test
     void testConstructor() {

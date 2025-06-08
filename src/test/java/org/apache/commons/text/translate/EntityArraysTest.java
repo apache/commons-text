@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link EntityArrays}.
  */
-public class EntityArraysTest {
+class EntityArraysTest {
 
     @Test
     void testAposMap() {

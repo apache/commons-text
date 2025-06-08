@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link TextStringBuilder}.
  */
-public class TextStringBuilderAppendInsertTest {
+class TextStringBuilderAppendInsertTest {
 
     /** The system line separator. */
     private static final String SEP = System.lineSeparator();

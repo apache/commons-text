@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * Tests {@link LevenshteinDistance}.
  */
-public class LevenshteinDistanceTest {
+class LevenshteinDistanceTest {
 
     private static final LevenshteinDistance UNLIMITED_DISTANCE = LevenshteinDistance.getDefaultInstance();
 

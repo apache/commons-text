@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link StringLookupFactory#INSTANCE_NULL}.
  */
-public class NullStringLookupTest {
+class NullStringLookupTest {
 
     @Test
     void test() {

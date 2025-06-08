@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link NumericEntityUnescaper}.
  */
-public class NumericEntityUnescaperTest  {
+class NumericEntityUnescaperTest  {
 
     @Test
     void testCreatesNumericEntityUnescaperOne() {

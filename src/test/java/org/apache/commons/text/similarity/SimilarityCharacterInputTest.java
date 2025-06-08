@@ -26,7 +26,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * Tests {@link SimilarityCharacterInput}.
  */
-public class SimilarityCharacterInputTest {
+class SimilarityCharacterInputTest {
 
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputsEquals()")

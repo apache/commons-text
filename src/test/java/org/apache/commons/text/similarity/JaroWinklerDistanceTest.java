@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * Tests {@link JaroWinklerDistance}.
  */
-public class JaroWinklerDistanceTest {
+class JaroWinklerDistanceTest {
 
     private static JaroWinklerDistance distance;
 

@@ -30,7 +30,7 @@ import org.apache.commons.text.lookup.StringLookupFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class StringSubstitutorWithInterpolatorStringLookupTest {
+class StringSubstitutorWithInterpolatorStringLookupTest {
 
     private static StringLookup createInterpolatorWithLookups(final DefaultStringLookup... lookups) {
         final Map<String, StringLookup> lookupMap = new HashMap<>();

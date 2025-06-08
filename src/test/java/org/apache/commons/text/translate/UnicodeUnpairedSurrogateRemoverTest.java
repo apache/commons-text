@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link UnicodeUnpairedSurrogateRemover}.
  */
-public class UnicodeUnpairedSurrogateRemoverTest {
+class UnicodeUnpairedSurrogateRemoverTest {
     final UnicodeUnpairedSurrogateRemover subject = new UnicodeUnpairedSurrogateRemover();
     final CharArrayWriter writer = new CharArrayWriter(); // nothing is ever written to it
 

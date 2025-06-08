@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests building a fenced {@link StringSubstitutor} to exclude the use of package-private elements.
  */
-public class CustomStringSubstitutorTest {
+class CustomStringSubstitutorTest {
 
     private StringSubstitutor createStringSubstitutor() {
         final StringLookupFactory factory = StringLookupFactory.builder().setFences(Paths.get("")).get();

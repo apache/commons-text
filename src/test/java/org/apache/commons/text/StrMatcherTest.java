@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  * @deprecated This class will be removed in 2.0.
  */
 @Deprecated
-public class StrMatcherTest  {
+class StrMatcherTest  {
 
     private static final char[] BUFFER1 = "0,1\t2 3\n\r\f\u0000'\"".toCharArray();
 

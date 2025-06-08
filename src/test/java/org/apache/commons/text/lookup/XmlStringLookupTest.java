@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link XmlStringLookup}.
  */
-public class XmlStringLookupTest {
+class XmlStringLookupTest {
 
     private static final Path CURRENT_PATH = Paths.get(StringUtils.EMPTY); // NOT "."
     private static final Path ABSENT_PATH = Paths.get("does not exist at all");

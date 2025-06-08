@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for {@link CharacterPredicates}.
  */
-public class CharacterPredicatesTest {
+class CharacterPredicatesTest {
 
     @Test
     void testArabicNumerals() {

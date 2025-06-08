@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link XmlEncoderStringLookup}.
  */
-public class XmlEncoderStringLookupTest {
+class XmlEncoderStringLookupTest {
 
     private static final String DATA = "&lt;element&gt;";
 

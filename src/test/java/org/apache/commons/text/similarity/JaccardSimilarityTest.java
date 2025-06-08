@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * Tests {@link JaccardSimilarity}.
  */
-public class JaccardSimilarityTest {
+class JaccardSimilarityTest {
 
     private static JaccardSimilarity classBeingTested;
 

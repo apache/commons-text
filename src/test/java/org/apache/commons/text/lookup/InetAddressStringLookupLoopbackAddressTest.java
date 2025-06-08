@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link InetAddressStringLookup#LOOPACK_ADDRESS}.
  */
-public class InetAddressStringLookupLoopbackAddressTest {
+class InetAddressStringLookupLoopbackAddressTest {
 
     @Test
     void testAddress() {

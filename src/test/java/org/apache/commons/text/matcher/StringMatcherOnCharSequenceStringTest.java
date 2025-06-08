@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link StringMatcher}.
  */
-public class StringMatcherOnCharSequenceStringTest {
+class StringMatcherOnCharSequenceStringTest {
 
     private static final String INPUT1 = "0,1\t2 3\n\r\f\u0000'\"";
 

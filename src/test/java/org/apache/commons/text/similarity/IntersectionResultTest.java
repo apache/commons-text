@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link IntersectionResult}.
  */
-public class IntersectionResultTest {
+class IntersectionResultTest {
     @Test
     void testEquals() {
         final IntersectionResult[] results = {

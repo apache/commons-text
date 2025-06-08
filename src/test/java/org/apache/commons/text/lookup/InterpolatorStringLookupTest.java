@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link InterpolatorStringLookup}.
  */
-public class InterpolatorStringLookupTest {
+class InterpolatorStringLookupTest {
 
     private static final String TESTKEY = "TestKey";
 

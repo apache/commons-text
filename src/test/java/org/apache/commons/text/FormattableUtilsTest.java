@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit tests {@link FormattableUtils}.
  */
-public class FormattableUtilsTest {
+class FormattableUtilsTest {
 
     static class SimplestFormattable implements Formattable {
         private final String text;

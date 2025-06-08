@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * Tests {@link JaroWinklerSimilarity}.
  */
-public class JaroWinklerSimilarityTest {
+class JaroWinklerSimilarityTest {
 
     private static JaroWinklerSimilarity similarity;
 

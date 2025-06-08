@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link StringLookupFactory}.
  */
-public class StringLookupFactoryTest {
+class StringLookupFactoryTest {
 
     public static void assertDefaultKeys(final Map<String, StringLookup> stringLookupMap) {
         // included

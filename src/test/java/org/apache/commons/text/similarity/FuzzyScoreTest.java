@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link FuzzyScore}.
  */
-public class FuzzyScoreTest {
+class FuzzyScoreTest {
 
     private static final FuzzyScore ENGLISH_SCORE = new FuzzyScore(Locale.ENGLISH);
 

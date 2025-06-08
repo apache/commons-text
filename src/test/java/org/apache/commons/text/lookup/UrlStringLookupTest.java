@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link UrlStringLookup}.
  */
-public class UrlStringLookupTest {
+class UrlStringLookupTest {
 
     @Test
     void testBadCharsetName() {

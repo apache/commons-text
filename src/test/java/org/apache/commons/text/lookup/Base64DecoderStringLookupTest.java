@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link StringLookupFactory#INSTANCE_BASE64_DECODER}.
  */
-public class Base64DecoderStringLookupTest {
+class Base64DecoderStringLookupTest {
 
     @Test
     void test() {

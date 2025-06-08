@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link XmlDecoderStringLookup}.
  */
-public class XmlDecoderStringLookupTest {
+class XmlDecoderStringLookupTest {
 
     private static final String DATA = "<element>";
 

@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link DefaultStringLookup}.
  */
-public class DefaultStringLookupTest {
+class DefaultStringLookupTest {
 
     @Test
     void testEnumValues() {

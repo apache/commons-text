@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link CompositeFormat}.
  */
-public class CompositeFormatTest {
+class CompositeFormatTest {
 
     /**
      * Ensures that the parse/format separation is correctly maintained.

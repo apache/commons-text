@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * Tests {@link JaccardDistance}.
  */
-public class JaccardDistanceTest {
+class JaccardDistanceTest {
 
     private static JaccardDistance classBeingTested;
 

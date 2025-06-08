@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link DateStringLookup}.
  */
-public class DateStringLookupTest {
+class DateStringLookupTest {
 
     @Test
     void testBadFormat() {

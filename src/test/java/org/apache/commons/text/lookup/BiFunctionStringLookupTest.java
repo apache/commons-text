@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link FunctionStringLookup}.
  */
-public class BiFunctionStringLookupTest {
+class BiFunctionStringLookupTest {
 
     private static final String SEPARATOR = ".";
 

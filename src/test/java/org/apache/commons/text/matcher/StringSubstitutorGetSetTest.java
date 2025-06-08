@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test class for {@link StringSubstitutor}.
  */
-public class StringSubstitutorGetSetTest {
+class StringSubstitutorGetSetTest {
 
     /**
      * Tests get set.

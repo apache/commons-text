@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * Tests {@link HammingDistance}.
  */
-public class HammingDistanceTest {
+class HammingDistanceTest {
 
     private static HammingDistance distance;
 

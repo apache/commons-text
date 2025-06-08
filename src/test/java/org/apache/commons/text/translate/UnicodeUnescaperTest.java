@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link UnicodeEscaper}.
  */
-public class UnicodeUnescaperTest {
+class UnicodeUnescaperTest {
 
     @Test
     void testLessThanFour() {

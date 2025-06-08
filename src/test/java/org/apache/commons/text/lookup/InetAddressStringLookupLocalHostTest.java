@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link InetAddressStringLookup#LOCAL_HOST}.
  */
-public class InetAddressStringLookupLocalHostTest {
+class InetAddressStringLookupLocalHostTest {
 
     @Test
     void testAddress() throws UnknownHostException {

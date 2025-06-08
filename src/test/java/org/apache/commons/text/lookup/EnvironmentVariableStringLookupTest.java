@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link StringLookupFactory#INSTANCE_ENVIRONMENT_VARIABLES}.
  */
-public class EnvironmentVariableStringLookupTest {
+class EnvironmentVariableStringLookupTest {
 
     @Test
     void testNull() {

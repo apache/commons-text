@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link WordUtils}.
  */
-public class WordUtilsTest {
+class WordUtilsTest {
 
     private static final String WHITESPACE = IntStream.rangeClosed(Character.MIN_CODE_POINT, Character.MAX_CODE_POINT).filter(Character::isWhitespace)
             .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();

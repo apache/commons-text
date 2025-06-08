@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link ResourceBundleStringLookup}.
  */
-public class ResourceBundleStringLookupTest {
+class ResourceBundleStringLookupTest {
 
     private static final String KEY = "key";
     private static final String TEST_RESOURCE_BUNDLE = "org.apache.commons.text.example.testResourceBundleLookup";

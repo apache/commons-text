@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link AggregateTranslator}.
  */
-public class AggregateTranslatorTest {
+class AggregateTranslatorTest {
 
     @Test
     void testNonNull() throws IOException {

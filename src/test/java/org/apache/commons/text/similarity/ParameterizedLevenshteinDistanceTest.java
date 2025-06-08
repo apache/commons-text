@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * Tests {@link LevenshteinDistance}.
  */
-public class ParameterizedLevenshteinDistanceTest {
+class ParameterizedLevenshteinDistanceTest {
 
     public static Stream<Arguments> parameters() {
         // @formatter:off

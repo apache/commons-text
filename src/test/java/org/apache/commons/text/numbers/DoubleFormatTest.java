@@ -30,7 +30,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class DoubleFormatTest {
+class DoubleFormatTest {
 
     private static void assertLocalizedFormatsAreEqual(final double d, final DecimalFormat df,
             final DoubleFunction<String> fmt, final Locale loc) {

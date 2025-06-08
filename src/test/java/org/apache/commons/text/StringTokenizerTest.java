@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit test for {@link StringTokenizer}.
  */
-public class StringTokenizerTest {
+class StringTokenizerTest {
 
     private static final String CSV_SIMPLE_FIXTURE = "A,b,c";
 

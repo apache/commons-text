@@ -25,7 +25,7 @@ import java.io.Writer;
 import org.apache.commons.lang3.CharUtils;
 import org.junit.jupiter.api.Test;
 
-public class CsvTranslatorsTest {
+class CsvTranslatorsTest {
 
     @Test
     void testCsvEscaperCommaTest() throws IOException {

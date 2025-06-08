@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link JavaUnicodeEscaper}.
  */
-public class JavaUnicodeEscaperTest {
+class JavaUnicodeEscaperTest {
 
     @Test
     void testAbove() {

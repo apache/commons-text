@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link FunctionStringLookup}.
  */
-public class FunctionStringLookupTest {
+class FunctionStringLookupTest {
 
     @Test
     void testConcurrentHashMapNull() {
