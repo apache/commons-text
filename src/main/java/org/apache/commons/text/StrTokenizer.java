@@ -87,28 +87,26 @@ import org.apache.commons.lang3.StringUtils;
 public class StrTokenizer implements ListIterator<String>, Cloneable {
 
     /** Comma separated values tokenizer internal variable. */
-    private static final StrTokenizer CSV_TOKENIZER_PROTOTYPE;
+    // @formatter:off
+    private static final StrTokenizer CSV_TOKENIZER_PROTOTYPE = new StrTokenizer()
+            .setDelimiterMatcher(StrMatcher.commaMatcher())
+            .setQuoteMatcher(StrMatcher.doubleQuoteMatcher())
+            .setIgnoredMatcher(StrMatcher.noneMatcher())
+            .setTrimmerMatcher(StrMatcher.trimMatcher())
+            .setEmptyTokenAsNull(false)
+            .setIgnoreEmptyTokens(false);
+    // @formatter:on
 
     /** Tab separated values tokenizer internal variable. */
-    private static final StrTokenizer TSV_TOKENIZER_PROTOTYPE;
-
-    static {
-        CSV_TOKENIZER_PROTOTYPE = new StrTokenizer();
-        CSV_TOKENIZER_PROTOTYPE.setDelimiterMatcher(StrMatcher.commaMatcher());
-        CSV_TOKENIZER_PROTOTYPE.setQuoteMatcher(StrMatcher.doubleQuoteMatcher());
-        CSV_TOKENIZER_PROTOTYPE.setIgnoredMatcher(StrMatcher.noneMatcher());
-        CSV_TOKENIZER_PROTOTYPE.setTrimmerMatcher(StrMatcher.trimMatcher());
-        CSV_TOKENIZER_PROTOTYPE.setEmptyTokenAsNull(false);
-        CSV_TOKENIZER_PROTOTYPE.setIgnoreEmptyTokens(false);
-
-        TSV_TOKENIZER_PROTOTYPE = new StrTokenizer();
-        TSV_TOKENIZER_PROTOTYPE.setDelimiterMatcher(StrMatcher.tabMatcher());
-        TSV_TOKENIZER_PROTOTYPE.setQuoteMatcher(StrMatcher.doubleQuoteMatcher());
-        TSV_TOKENIZER_PROTOTYPE.setIgnoredMatcher(StrMatcher.noneMatcher());
-        TSV_TOKENIZER_PROTOTYPE.setTrimmerMatcher(StrMatcher.trimMatcher());
-        TSV_TOKENIZER_PROTOTYPE.setEmptyTokenAsNull(false);
-        TSV_TOKENIZER_PROTOTYPE.setIgnoreEmptyTokens(false);
-    }
+    // @formatter:off
+    private static final StrTokenizer TSV_TOKENIZER_PROTOTYPE = new StrTokenizer()
+            .setDelimiterMatcher(StrMatcher.tabMatcher())
+            .setQuoteMatcher(StrMatcher.doubleQuoteMatcher())
+            .setIgnoredMatcher(StrMatcher.noneMatcher())
+            .setTrimmerMatcher(StrMatcher.trimMatcher())
+            .setEmptyTokenAsNull(false)
+            .setIgnoreEmptyTokens(false);
+    // @formatter:on
 
     /**
      * Returns a clone of {@code CSV_TOKENIZER_PROTOTYPE}.
