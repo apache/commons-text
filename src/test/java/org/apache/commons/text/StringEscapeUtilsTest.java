@@ -456,6 +456,7 @@ class StringEscapeUtilsTest {
         assertEquals("<script src=\"build/main.bundle.js\"></script>", StringEscapeUtils.unescapeEcmaScript("<script src=\"build/main.bundle.js\"></script>"));
         assertEquals("<script src=\"build/main.bundle.js\"></script>>",
                 StringEscapeUtils.unescapeEcmaScript("<script src=\"build/main.bundle.js\"></script>>"));
+        assertEquals("a=b", StringEscapeUtils.unescapeEcmaScript("a\\x3Db"));
     }
 
     @Test
