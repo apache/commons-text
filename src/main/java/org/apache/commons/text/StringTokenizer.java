@@ -94,28 +94,26 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
 public class StringTokenizer implements ListIterator<String>, Cloneable {
 
     /** Comma separated values tokenizer internal variable. */
-    private static final StringTokenizer CSV_TOKENIZER_PROTOTYPE;
+    // @formatter:off
+    private static final StringTokenizer CSV_TOKENIZER_PROTOTYPE = new StringTokenizer()
+            .setDelimiterMatcher(StringMatcherFactory.INSTANCE.commaMatcher())
+            .setQuoteMatcher(StringMatcherFactory.INSTANCE.doubleQuoteMatcher())
+            .setIgnoredMatcher(StringMatcherFactory.INSTANCE.noneMatcher())
+            .setTrimmerMatcher(StringMatcherFactory.INSTANCE.trimMatcher())
+            .setEmptyTokenAsNull(false)
+            .setIgnoreEmptyTokens(false);
+    // @formatter:on
 
     /** Tab separated values tokenizer internal variable. */
-    private static final StringTokenizer TSV_TOKENIZER_PROTOTYPE;
-
-    static {
-        CSV_TOKENIZER_PROTOTYPE = new StringTokenizer();
-        CSV_TOKENIZER_PROTOTYPE.setDelimiterMatcher(StringMatcherFactory.INSTANCE.commaMatcher());
-        CSV_TOKENIZER_PROTOTYPE.setQuoteMatcher(StringMatcherFactory.INSTANCE.doubleQuoteMatcher());
-        CSV_TOKENIZER_PROTOTYPE.setIgnoredMatcher(StringMatcherFactory.INSTANCE.noneMatcher());
-        CSV_TOKENIZER_PROTOTYPE.setTrimmerMatcher(StringMatcherFactory.INSTANCE.trimMatcher());
-        CSV_TOKENIZER_PROTOTYPE.setEmptyTokenAsNull(false);
-        CSV_TOKENIZER_PROTOTYPE.setIgnoreEmptyTokens(false);
-
-        TSV_TOKENIZER_PROTOTYPE = new StringTokenizer();
-        TSV_TOKENIZER_PROTOTYPE.setDelimiterMatcher(StringMatcherFactory.INSTANCE.tabMatcher());
-        TSV_TOKENIZER_PROTOTYPE.setQuoteMatcher(StringMatcherFactory.INSTANCE.doubleQuoteMatcher());
-        TSV_TOKENIZER_PROTOTYPE.setIgnoredMatcher(StringMatcherFactory.INSTANCE.noneMatcher());
-        TSV_TOKENIZER_PROTOTYPE.setTrimmerMatcher(StringMatcherFactory.INSTANCE.trimMatcher());
-        TSV_TOKENIZER_PROTOTYPE.setEmptyTokenAsNull(false);
-        TSV_TOKENIZER_PROTOTYPE.setIgnoreEmptyTokens(false);
-    }
+    // @formatter:off
+    private static final StringTokenizer TSV_TOKENIZER_PROTOTYPE = new StringTokenizer()
+            .setDelimiterMatcher(StringMatcherFactory.INSTANCE.tabMatcher())
+            .setQuoteMatcher(StringMatcherFactory.INSTANCE.doubleQuoteMatcher())
+            .setIgnoredMatcher(StringMatcherFactory.INSTANCE.noneMatcher())
+            .setTrimmerMatcher(StringMatcherFactory.INSTANCE.trimMatcher())
+            .setEmptyTokenAsNull(false)
+            .setIgnoreEmptyTokens(false);
+    // @formatter:on
 
     /**
      * Returns a clone of {@code CSV_TOKENIZER_PROTOTYPE}.
