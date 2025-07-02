@@ -76,11 +76,6 @@ public class ExtendedMessageFormat extends MessageFormat {
     private static final long serialVersionUID = -2362048321261811743L;
 
     /**
-     * Our initial seed value for calculating hashes.
-     */
-    private static final int HASH_SEED = 31;
-
-    /**
      * The empty string.
      */
     private static final String DUMMY_PATTERN = StringUtils.EMPTY;
@@ -292,31 +287,19 @@ public class ExtendedMessageFormat extends MessageFormat {
         return coll.stream().anyMatch(Objects::nonNull);
     }
 
-    /**
-     * Tests if this extended message format is equal to another object.
-     *
-     * @param obj the object to compare to
-     * @return true if this object equals the other, otherwise false
-     */
     @Override
     public boolean equals(final Object obj) {
-        if (obj == this) {
+        if (this == obj) {
             return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!Objects.equals(getClass(), obj.getClass())) {
-          return false;
-        }
-        final ExtendedMessageFormat rhs = (ExtendedMessageFormat) obj;
-        if (!Objects.equals(toPattern, rhs.toPattern)) {
-            return false;
         }
         if (!super.equals(obj)) {
             return false;
         }
-        return Objects.equals(registry, rhs.registry);
+        if (!(obj instanceof ExtendedMessageFormat)) {
+            return false;
+        }
+        final ExtendedMessageFormat other = (ExtendedMessageFormat) obj;
+        return Objects.equals(registry, other.registry) && Objects.equals(toPattern, other.toPattern);
     }
 
     /**
@@ -352,14 +335,11 @@ public class ExtendedMessageFormat extends MessageFormat {
         appendQuotedString(pattern, pos, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = HASH_SEED * result + Objects.hashCode(registry);
-        return HASH_SEED * result + Objects.hashCode(toPattern);
+        final int prime = 31;
+        final int result = super.hashCode();
+        return prime * result + Objects.hash(registry, toPattern);
     }
 
     /**
