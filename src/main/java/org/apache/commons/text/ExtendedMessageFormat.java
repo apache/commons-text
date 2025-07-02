@@ -78,7 +78,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * The empty string.
      */
-    private static final String DUMMY_PATTERN = StringUtils.EMPTY;
+    private static final String EMPTY_PATTERN = StringUtils.EMPTY;
 
     /**
      * A comma.
@@ -142,7 +142,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     public ExtendedMessageFormat(final String pattern,
                                  final Locale locale,
                                  final Map<String, ? extends FormatFactory> registry) {
-        super(DUMMY_PATTERN);
+        super(EMPTY_PATTERN);
         setLocale(locale);
         this.registry = registry != null
                 ? Collections.unmodifiableMap(new HashMap<>(registry))
