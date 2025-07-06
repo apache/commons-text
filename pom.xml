@@ -36,28 +36,22 @@
     <project.build.outputTimestamp>2025-04-10T21:38:03Z</project.build.outputTimestamp>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-
     <commons.componentid>text</commons.componentid>
     <commons.packageId>text</commons.packageId>
     <commons.module.name>org.apache.commons.text</commons.module.name>
-
     <commons.release.version>1.14.0</commons.release.version>
     <commons.release.next>1.14.1</commons.release.next>
     <commons.release.desc>(Java 8+)</commons.release.desc>
-
     <commons.jira.id>TEXT</commons.jira.id>
     <commons.jira.pid>12318221</commons.jira.pid>
-
     <commons.site.path>text</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
-
     <commons.lang3.version>3.17.0</commons.lang3.version>
     <commons.bytebuddy.version>1.17.6</commons.bytebuddy.version>
     <commons.rng.version>1.6</commons.rng.version>
     <japicmp.skip>false</japicmp.skip>
     <jmh.version>1.37</jmh.version>
-
     <!-- Apache Felix maven-bundle-plugin -->
     <commons.osgi.import>
     org.apache.commons.lang3;version="${commons.lang3.version}",
@@ -65,7 +59,6 @@
     org.apache.commons.lang3.time;version="${commons.lang3.version}",
     *
     </commons.osgi.import>
-
     <!-- Commons Release Plugin -->
     <!-- Previous version of the component (used for reporting binary compatibility check)-->
     <commons.bc.version>1.13.1</commons.bc.version>
@@ -139,7 +132,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
   <build>
     <defaultGoal>clean verify apache-rat:check japicmp:cmp checkstyle:check spotbugs:check javadoc:javadoc</defaultGoal>
     <pluginManagement>
@@ -242,7 +234,6 @@
       </plugin>
     </plugins>
   </build>
-
   <reporting>
     <plugins>
       <plugin>
@@ -336,9 +327,7 @@
       </plugin>
     </plugins>
   </reporting>
-
   <inceptionYear>2014</inceptionYear>
-
   <developers>
     <developer>
       <id>kinow</id>
@@ -376,7 +365,6 @@
       <email>djones@apache.org</email>
     </developer>
   </developers>
-
   <contributors>
     <contributor>
       <name>Don Jeba</name>
@@ -421,18 +409,15 @@
       <url>https://ali-ghanbari.github.io/</url>
     </contributor>
   </contributors>
-
   <scm>
     <connection>scm:git:https://gitbox.apache.org/repos/asf/commons-text</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-text</developerConnection>
     <url>https://gitbox.apache.org/repos/asf?p=commons-text.git</url>
   </scm>
-
   <issueManagement>
     <system>jira</system>
     <url>https://issues.apache.org/jira/browse/TEXT</url>
   </issueManagement>
-
   <distributionManagement>
     <site>
       <id>apache.website</id>
@@ -440,7 +425,6 @@
       <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text/</url>
     </site>
   </distributionManagement>
-
   <profiles>
     <profile>
 	    <!-- Java 8-10 -->
