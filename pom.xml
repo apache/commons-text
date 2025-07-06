@@ -425,6 +425,10 @@
       <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text/</url>
     </site>
   </distributionManagement>
+  <ciManagement>
+    <system>GitHub</system>
+    <url>https://github.com/apache/commons-text/actions</url>
+  </ciManagement>
   <profiles>
     <profile>
 	    <!-- Java 8-10 -->
