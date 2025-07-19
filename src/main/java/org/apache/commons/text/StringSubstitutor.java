@@ -636,7 +636,7 @@ public class StringSubstitutor {
     }
 
     /**
-     * Creates a new instance based on the given 
+     * Creates a new instance based on the given.
      *
      * @param other The StringSubstitutor used as the source.
      * @since 1.9
