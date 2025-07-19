@@ -434,8 +434,7 @@ public class StringSubstitutor {
         if (valueProperties == null) {
             return source.toString();
         }
-        return StringSubstitutor.replace(source,
-                valueProperties.stringPropertyNames().stream().collect(Collectors.toMap(Function.identity(), valueProperties::getProperty)));
+        return replace(source, valueProperties.stringPropertyNames().stream().collect(Collectors.toMap(Function.identity(), valueProperties::getProperty)));
     }
 
     /**
@@ -637,7 +636,7 @@ public class StringSubstitutor {
     }
 
     /**
-     * Creates a new instance based on the given StringSubstitutor.
+     * Creates a new instance based on the given 
      *
      * @param other The StringSubstitutor used as the source.
      * @since 1.9
