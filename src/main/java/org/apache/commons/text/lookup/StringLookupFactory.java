@@ -345,8 +345,8 @@ public final class StringLookupFactory {
          * @param props initialization properties
          */
         DefaultStringLookupsHolder(final Properties props) {
-            final Map<String, StringLookup> lookups = props.containsKey(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY)
-                    ? parseStringLookups(props.getProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY))
+            final Map<String, StringLookup> lookups = props.containsKey(DEFAULT_STRING_LOOKUPS_PROPERTY)
+                    ? parseStringLookups(props.getProperty(DEFAULT_STRING_LOOKUPS_PROPERTY))
                     : createDefaultStringLookups();
             defaultStringLookups = Collections.unmodifiableMap(lookups);
         }
