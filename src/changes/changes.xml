@@ -47,6 +47,7 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
   <release version="1.14.0" date="YYYY-MM-DD" description="Release 1.14.0. Requires Java 8 or above.">
     <!-- FIX -->
+    <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix all PMD UnnecessaryFullyQualifiedName in StringLookupFactory.</action>
     <!-- ADD -->
     <action type="add" dev="ggregory" due-to="Gary Gregory">Interface StringLookup now extends UnaryOperator&lt;String&gt;.</action>
     <action type="add" dev="ggregory" due-to="Gary Gregory">Interface TextRandomProvider extends IntUnaryOperator.</action>

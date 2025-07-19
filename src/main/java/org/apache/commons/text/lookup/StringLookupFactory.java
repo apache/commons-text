@@ -691,7 +691,7 @@ public final class StringLookupFactory {
      * @since 1.5
      */
     public StringLookup base64DecoderStringLookup() {
-        return StringLookupFactory.INSTANCE_BASE64_DECODER;
+        return INSTANCE_BASE64_DECODER;
     }
 
     /**
@@ -718,7 +718,7 @@ public final class StringLookupFactory {
      * @since 1.6
      */
     public StringLookup base64EncoderStringLookup() {
-        return StringLookupFactory.INSTANCE_BASE64_ENCODER;
+        return INSTANCE_BASE64_ENCODER;
     }
 
     /**
@@ -747,7 +747,7 @@ public final class StringLookupFactory {
      */
     @Deprecated
     public StringLookup base64StringLookup() {
-        return StringLookupFactory.INSTANCE_BASE64_DECODER;
+        return INSTANCE_BASE64_DECODER;
     }
 
     /**
@@ -889,7 +889,7 @@ public final class StringLookupFactory {
      * @return The EnvironmentVariableStringLookup singleton instance.
      */
     public StringLookup environmentVariableStringLookup() {
-        return StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES;
+        return INSTANCE_ENVIRONMENT_VARIABLES;
     }
 
     /**
@@ -1185,7 +1185,7 @@ public final class StringLookupFactory {
      * @return The NullStringLookup singleton instance.
      */
     public StringLookup nullStringLookup() {
-        return StringLookupFactory.INSTANCE_NULL;
+        return INSTANCE_NULL;
     }
 
     /**
@@ -1426,7 +1426,7 @@ public final class StringLookupFactory {
      * @return The SystemPropertyStringLookup singleton instance.
      */
     public StringLookup systemPropertyStringLookup() {
-        return StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES;
+        return INSTANCE_SYSTEM_PROPERTIES;
     }
 
     /**
