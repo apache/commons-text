@@ -635,8 +635,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends an object to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param obj the object to append
-     * @return this, to enable chaining
+     * @param obj the object to append.
+     * @return this, to enable chaining.
      */
     public TextStringBuilder append(final Object obj) {
         if (obj == null) {
@@ -2128,14 +2128,15 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             return StringUtils.INDEX_NOT_FOUND;
         }
         final char[] thisBuf = buffer;
-        final int len = size - strLen + 1;
-        outer: for (int i = startIndex; i < len; i++) {
-            for (int j = 0; j < strLen; j++) {
-                if (str.charAt(j) != thisBuf[i + j]) {
-                    continue outer;
-                }
+        final int searchLen = size - strLen + 1;
+        for (int i = startIndex; i < searchLen; i++) {
+            boolean found = true;
+            for (int j = 0; j < strLen && found; j++) {
+                found = str.charAt(j) == thisBuf[i + j];
             }
-            return i;
+            if (found) {
+                return i;
+            }
         }
         return StringUtils.INDEX_NOT_FOUND;
     }
@@ -2457,22 +2458,23 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             return StringUtils.INDEX_NOT_FOUND;
         }
         final int strLen = str.length();
-        if (strLen > 0 && strLen <= size) {
-            if (strLen == 1) {
-                return lastIndexOf(str.charAt(0), startIndex);
+        if (strLen == 0) {
+            return startIndex;
+        }
+        if (strLen > size) {
+            return StringUtils.INDEX_NOT_FOUND;
+        }
+        if (strLen == 1) {
+            return lastIndexOf(str.charAt(0), startIndex);
+        }
+        for (int i = startIndex - strLen + 1; i >= 0; i--) {
+            boolean found = true;
+            for (int j = 0; j < strLen && found; j++) {
+                found = str.charAt(j) == buffer[i + j];
             }
-
-            outer: for (int i = startIndex - strLen + 1; i >= 0; i--) {
-                for (int j = 0; j < strLen; j++) {
-                    if (str.charAt(j) != buffer[i + j]) {
-                        continue outer;
-                    }
-                }
+            if (found) {
                 return i;
             }
-
-        } else if (strLen == 0) {
-            return startIndex;
         }
         return StringUtils.INDEX_NOT_FOUND;
     }

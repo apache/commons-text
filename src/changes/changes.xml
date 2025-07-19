@@ -54,6 +54,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD UnnecessaryFullyQualifiedName in StringSubstitutor.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD UnnecessaryFullyQualifiedName in StrSubstitutor.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD UnnecessaryFullyQualifiedName in AlphabetConverter.</action>
+    <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD AvoidBranchingStatementAsLastInLoop in TextStringBuilder.</action>
     <!-- ADD -->
     <action type="add" dev="ggregory" due-to="Gary Gregory">Interface StringLookup now extends UnaryOperator&lt;String&gt;.</action>
     <action type="add" dev="ggregory" due-to="Gary Gregory">Interface TextRandomProvider extends IntUnaryOperator.</action>
