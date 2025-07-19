@@ -242,7 +242,7 @@ public final class AlphabetConverter {
             final Character[] original,
             final Character[] encoding,
             final Character[] doNotEncode) {
-        return AlphabetConverter.createConverter(
+        return createConverter(
                 convertCharsToIntegers(original),
                 convertCharsToIntegers(encoding),
                 convertCharsToIntegers(doNotEncode));
