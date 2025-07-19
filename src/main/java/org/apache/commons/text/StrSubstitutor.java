@@ -191,8 +191,7 @@ public class StrSubstitutor {
         if (valueProperties == null) {
             return source.toString();
         }
-        return StrSubstitutor.replace(source,
-                valueProperties.stringPropertyNames().stream().collect(Collectors.toMap(Function.identity(), valueProperties::getProperty)));
+        return replace(source, valueProperties.stringPropertyNames().stream().collect(Collectors.toMap(Function.identity(), valueProperties::getProperty)));
     }
 
     /**
