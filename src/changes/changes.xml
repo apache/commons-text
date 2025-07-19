@@ -45,7 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Apache Commons Text Changes</title>
   </properties>
   <body>
-  <release version="1.14.0" date="YYYY-MM-DD" description="Release 1.13.2. Requires Java 8 or above.">
+  <release version="1.14.0" date="YYYY-MM-DD" description="Release 1.14.0. Requires Java 8 or above.">
     <!-- FIX -->
     <!-- ADD -->
     <action type="add" dev="ggregory" due-to="Gary Gregory">Interface StringLookup now extends UnaryOperator&lt;String&gt;.</action>
