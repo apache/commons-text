@@ -53,7 +53,7 @@ final class PropertiesStringLookup extends AbstractPathFencedLookup {
      * Creates a lookup key for a given file and key.
      */
     static String toPropertyKey(final String file, final String key) {
-        return AbstractStringLookup.toLookupKey(file, SEPARATOR, key);
+        return toLookupKey(file, SEPARATOR, key);
     }
 
     /**
