@@ -1946,9 +1946,9 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * @return The first index of the string, or -1 if not found
      */
     public int indexOf(final String str, int startIndex) {
-        startIndex = Math.max(startIndex, 0);
+        startIndex = Math.max(0, startIndex);
         if (str == null || startIndex >= size) {
-            return -1;
+            return StringUtils.INDEX_NOT_FOUND;
         }
         final int strLen = str.length();
         if (strLen == 1) {
@@ -1958,19 +1958,20 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
             return startIndex;
         }
         if (strLen > size) {
-            return -1;
+            return StringUtils.INDEX_NOT_FOUND;
         }
         final char[] thisBuf = buffer;
-        final int len = size - strLen + 1;
-        outer: for (int i = startIndex; i < len; i++) {
-            for (int j = 0; j < strLen; j++) {
-                if (str.charAt(j) != thisBuf[i + j]) {
-                    continue outer;
-                }
+        final int searchLen = size - strLen + 1;
+        for (int i = startIndex; i < searchLen; i++) {
+            boolean found = true;
+            for (int j = 0; j < strLen && found; j++) {
+                found = str.charAt(j) == thisBuf[i + j];
             }
-            return i;
+            if (found) {
+                return i;
+            }
         }
-        return -1;
+        return StringUtils.INDEX_NOT_FOUND;
     }
 
     /**
@@ -2282,27 +2283,28 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     public int lastIndexOf(final String str, int startIndex) {
         startIndex = startIndex >= size ? size - 1 : startIndex;
         if (str == null || startIndex < 0) {
-            return -1;
+            return StringUtils.INDEX_NOT_FOUND;
         }
         final int strLen = str.length();
-        if (strLen > 0 && strLen <= size) {
-            if (strLen == 1) {
-                return lastIndexOf(str.charAt(0), startIndex);
-            }
-
-            outer: for (int i = startIndex - strLen + 1; i >= 0; i--) {
-                for (int j = 0; j < strLen; j++) {
-                    if (str.charAt(j) != buffer[i + j]) {
-                        continue outer;
-                    }
-                }
-                return i;
-            }
-
-        } else if (strLen == 0) {
+        if (strLen == 0) {
             return startIndex;
         }
-        return -1;
+        if (strLen > size) {
+            return StringUtils.INDEX_NOT_FOUND;
+        }
+        if (strLen == 1) {
+            return lastIndexOf(str.charAt(0), startIndex);
+        }
+        for (int i = startIndex - strLen + 1; i >= 0; i--) {
+            boolean found = true;
+            for (int j = 0; j < strLen && found; j++) {
+                found = str.charAt(j) == buffer[i + j];
+            }
+            if (found) {
+                return i;
+            }
+        }
+        return StringUtils.INDEX_NOT_FOUND;
     }
 
     /**
