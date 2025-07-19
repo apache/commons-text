@@ -280,9 +280,9 @@ class RandomStringGeneratorTest {
     }
 
     @Test
-    void testUsingRandomTextRandomProvider() {
+    void testUsingRandomIntUnaryOperator() {
         final char testChar = 'a';
-        final TextRandomProvider testRandom = n -> testChar;
+        final IntUnaryOperator testRandom = n -> testChar;
         final String str = RandomStringGenerator.builder().usingRandom(testRandom).build().generate(10);
         for (final char c : str.toCharArray()) {
             assertEquals(testChar, c);
@@ -290,9 +290,9 @@ class RandomStringGeneratorTest {
     }
 
     @Test
-    void testUsingRandomIntUnaryOperator() {
+    void testUsingRandomTextRandomProvider() {
         final char testChar = 'a';
-        final IntUnaryOperator testRandom = n -> testChar;
+        final TextRandomProvider testRandom = n -> testChar;
         final String str = RandomStringGenerator.builder().usingRandom(testRandom).build().generate(10);
         for (final char c : str.toCharArray()) {
             assertEquals(testChar, c);
