@@ -48,7 +48,7 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
      *
      * @param left  first input sequence.
      * @param right second input sequence.
-     * @return index.
+     * @return The Jaccard Similarity of two set character sequence passed as input.
      * @throws IllegalArgumentException if either String input {@code null}.
      */
     @Override
@@ -63,7 +63,7 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
      * @param <E>   The type of similarity score unit.
      * @param left  first input sequence.
      * @param right second input sequence.
-     * @return index.
+     * @return The Jaccard Similarity of two set character sequence passed as input.
      * @since 1.13.0
      */
     public <E> Double apply(final SimilarityInput<E> left, final SimilarityInput<E> right) {
