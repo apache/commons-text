@@ -65,7 +65,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      *
      * @param left first input sequence.
      * @param right second input sequence.
-     * @return last row of the dynamic-programming (DP) table for calculating the LCS of {@code left} and {@code right}
+     * @return last row of the dynamic-programming (DP) table for calculating the LCS of {@code left} and {@code right}.
      * @since 1.10.0
      */
     private static int[] algorithmB(final CharSequence left, final CharSequence right) {
@@ -104,7 +104,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      *
      * @param left first input sequence.
      * @param right second input sequence.
-     * @return the LCS of {@code left} and {@code right}
+     * @return the LCS of {@code left} and {@code right}.
      * @since 1.10.0
      */
     private static String algorithmC(final CharSequence left, final CharSequence right) {
@@ -144,7 +144,9 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
         return out.toString();
     }
 
-    // An auxiliary method for CharSequence reversal
+    /*
+     *  A method for CharSequence reversal.
+     */
     private static String reverse(final CharSequence s) {
         return new StringBuilder(s).reverse().toString();
     }
@@ -170,10 +172,10 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * An evaluation using JMH revealed that this method is almost two times faster than its previous version.
      * </p>
      *
-     * @param left first character sequence
-     * @param right second character sequence
-     * @return length of the longest common subsequence of {@code left} and {@code right}
-     * @throws IllegalArgumentException if either String input {@code null}
+     * @param left first character sequence.
+     * @param right second character sequence.
+     * @return length of the longest common subsequence of {@code left} and {@code right}.
+     * @throws IllegalArgumentException if either String input {@code null}.
      */
     @Override
     public Integer apply(final CharSequence left, final CharSequence right) {
@@ -211,10 +213,10 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * elements.
      * </p>
      *
-     * @param left first character sequence
-     * @param right second character sequence
-     * @return the longest common subsequence found
-     * @throws IllegalArgumentException if either String input {@code null}
+     * @param left first character sequence.
+     * @param right second character sequence.
+     * @return the longest common subsequence found.
+     * @throws IllegalArgumentException if either String input {@code null}.
      * @deprecated Deprecated as of 1.2 due to a typo in the method name.
      * Use {@link #longestCommonSubsequence(CharSequence, CharSequence)} instead.
      * This method will be removed in 2.0.
@@ -247,10 +249,10 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * elements.
      * </p>
      *
-     * @param left first character sequence
-     * @param right second character sequence
-     * @return the longest common subsequence found
-     * @throws IllegalArgumentException if either String input {@code null}
+     * @param left first character sequence.
+     * @param right second character sequence.
+     * @return the longest common subsequence found.
+     * @throws IllegalArgumentException if either String input {@code null}.
      * @since 1.2
      */
     public CharSequence longestCommonSubsequence(final CharSequence left, final CharSequence right) {
@@ -279,9 +281,9 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * dynamic programming portion of the algorithm, and is the reason for the runtime complexity being
      * O(m*n), where m=left.length() and n=right.length().
      *
-     * @param left first character sequence
-     * @param right second character sequence
-     * @return lcsLengthArray
+     * @param left first character sequence.
+     * @param right second character sequence.
+     * @return longest common substring length array.
      * @deprecated Deprecated as of 1.10. A more efficient implementation for calculating LCS is now available.
      * Use {@link #longestCommonSubsequence(CharSequence, CharSequence)} instead to directly calculate the LCS.
      * This method will be removed in 2.0.
