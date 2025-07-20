@@ -31,8 +31,8 @@ import java.util.Arrays;
  * </p>
  *
  * @since 1.0
- * @see <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein Distance</a> on Wikipedia
- * @see <a href="https://xlinux.nist.gov/dads/HTML/Levenshtein.html">Levenshtein Distance</a> on NIST
+ * @see <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein Distance on Wikipedia</a>
+ * @see <a href="https://xlinux.nist.gov/dads/HTML/Levenshtein.html">Levenshtein Distance on NIST</a>
  */
 public class LevenshteinDistance implements EditDistance<Integer> {
 
