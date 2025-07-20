@@ -392,7 +392,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     /**
      * Gets the distance threshold.
      *
-     * @return The distance threshold
+     * @return The distance threshold.
      */
     public Integer getThreshold() {
         return threshold;
