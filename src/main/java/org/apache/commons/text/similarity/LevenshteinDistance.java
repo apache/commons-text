@@ -34,7 +34,7 @@ import java.util.Arrays;
 public class LevenshteinDistance implements EditDistance<Integer> {
 
     /**
-     * Singleton instance.
+     * The singleton instance.
      */
     private static final LevenshteinDistance INSTANCE = new LevenshteinDistance();
 
@@ -48,7 +48,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     }
 
     /**
-     * Find the Levenshtein distance between two CharSequences if it's less than or equal to a given threshold.
+     * Finds the Levenshtein distance between two CharSequences if it's less than or equal to a given threshold.
      *
      * <p>
      * This implementation follows from Algorithms on Strings, Trees and Sequences by Dan Gusfield and Chas Emerick's implementation of the Levenshtein distance
@@ -288,7 +288,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     private final Integer threshold;
 
     /**
-     * This returns the default instance that uses a version of the algorithm that does not use a threshold parameter.
+     * Constructs a default instance that uses a version of the algorithm that does not use a threshold parameter.
      *
      * @see LevenshteinDistance#getDefaultInstance()
      * @deprecated Use {@link #getDefaultInstance()}.
@@ -299,8 +299,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     }
 
     /**
-     * If the threshold is not null, distance calculations will be limited to a maximum length. If the threshold is null, the unlimited version of the algorithm
-     * will be used.
+     * Constructs a new instance. If the threshold is not null, distance calculations will be limited to a maximum length. If the threshold is null, the
+     * unlimited version of the algorithm will be used.
      *
      * @param threshold If this is null then distances calculations will not be limited. This may not be negative.
      */
