@@ -19,7 +19,8 @@ package org.apache.commons.text.similarity;
 import java.util.Arrays;
 
 /**
- * An algorithm for measuring the difference between two character sequences.
+ * An algorithm for measuring the difference between two character sequences using the <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein
+ * Distance</a>.
  *
  * <p>
  * This is the number of changes needed to change one sequence into another, where each change is a single character modification (deletion, insertion or
@@ -30,6 +31,8 @@ import java.util.Arrays;
  * </p>
  *
  * @since 1.0
+ * @see <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein Distance</a> on Wikipedia
+ * @see <a href="https://xlinux.nist.gov/dads/HTML/Levenshtein.html">Levenshtein Distance</a> on NIST
  */
 public class LevenshteinDistance implements EditDistance<Integer> {
 
