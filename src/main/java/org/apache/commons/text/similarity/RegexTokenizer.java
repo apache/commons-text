@@ -40,7 +40,7 @@ final class RegexTokenizer implements CharSequenceTokenizer<CharSequence> {
     private static final Pattern PATTERN = Pattern.compile("(\\w)+");
 
     /**
-     * Singleton instance.
+     * The singleton instance.
      */
     static final RegexTokenizer INSTANCE = new RegexTokenizer();
 

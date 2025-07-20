@@ -32,7 +32,7 @@ import java.util.Set;
 public class JaccardSimilarity implements SimilarityScore<Double> {
 
     /**
-     * Singleton instance.
+     * The singleton instance.
      */
     static final JaccardSimilarity INSTANCE = new JaccardSimilarity();
 

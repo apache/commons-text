@@ -34,7 +34,7 @@ import java.util.Set;
 public class CosineSimilarity {
 
     /**
-     * Singleton instance.
+     * The singleton instance.
      */
     static final CosineSimilarity INSTANCE = new CosineSimilarity();
 

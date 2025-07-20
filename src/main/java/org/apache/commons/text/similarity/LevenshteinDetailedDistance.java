@@ -32,7 +32,7 @@ import java.util.Arrays;
 public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResults> {
 
     /**
-     * Singleton instance.
+     * The singleton instance.
      */
     private static final LevenshteinDetailedDistance INSTANCE = new LevenshteinDetailedDistance();
 

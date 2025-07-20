@@ -52,7 +52,7 @@ package org.apache.commons.text.similarity;
 public class LongestCommonSubsequence implements SimilarityScore<Integer> {
 
     /**
-     * Singleton instance.
+     * The singleton instance.
      */
     static final LongestCommonSubsequence INSTANCE = new LongestCommonSubsequence();
 
