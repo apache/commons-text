@@ -23,7 +23,7 @@
     <version>85</version>
   </parent>
   <artifactId>commons-text</artifactId>
-  <version>1.14.0-SNAPSHOT</version>
+  <version>1.14.0</version>
   <name>Apache Commons Text</name>
   <description>Apache Commons Text is a set of utility functions and reusable components for processing
     and manipulating text in a Java environment.
@@ -33,7 +33,7 @@
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
-    <project.build.outputTimestamp>2025-04-10T21:38:03Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-07-20T13:34:14Z</project.build.outputTimestamp>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <commons.componentid>text</commons.componentid>
