@@ -40,7 +40,7 @@ public class JaccardDistance implements EditDistance<Double> {
      *
      * @param left  first input sequence.
      * @param right second input sequence.
-     * @return index
+     * @return The Jaccard distance.
      * @throws IllegalArgumentException if either String input {@code null}.
      */
     @Override
@@ -54,7 +54,7 @@ public class JaccardDistance implements EditDistance<Double> {
      * @param <E>   The type of similarity score unit.
      * @param left  first input sequence.
      * @param right second input sequence.
-     * @return index
+     * @return index.
      * @throws IllegalArgumentException if either String input {@code null}.
      */
     public <E> Double apply(final SimilarityInput<E> left, final SimilarityInput<E> right) {
