@@ -80,8 +80,8 @@ public class EditDistanceFrom<R> {
      * Compares "left" field against the "right" parameter
      * using the "edit distance" implementation.
      *
-     * @param right the second CharSequence
-     * @return The similarity score between two CharSequences
+     * @param right the second CharSequence.
+     * @return The similarity score between two CharSequences.
      */
     public R apply(final CharSequence right) {
         return editDistance.apply(left, right);
@@ -90,7 +90,7 @@ public class EditDistanceFrom<R> {
     /**
      * Gets the edit distance.
      *
-     * @return The edit distance
+     * @return The edit distance.
      */
     public EditDistance<R> getEditDistance() {
         return editDistance;
@@ -99,7 +99,7 @@ public class EditDistanceFrom<R> {
     /**
      * Gets the left parameter.
      *
-     * @return The left parameter
+     * @return The left parameter.
      */
     public CharSequence getLeft() {
         return left;
