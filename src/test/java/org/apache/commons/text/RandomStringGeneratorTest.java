@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.text;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,7 +34,6 @@ import org.junit.jupiter.api.Test;
 class RandomStringGeneratorTest {
 
     private static final CharacterPredicate A_FILTER = codePoint -> codePoint == 'a';
-
     private static final CharacterPredicate B_FILTER = codePoint -> codePoint == 'b';
 
     private static int codePointLength(final String s) {
@@ -109,10 +109,8 @@ class RandomStringGeneratorTest {
     @Test
     void testMultipleFilters() {
         final String str = RandomStringGenerator.builder().withinRange('a', 'd').filteredBy(A_FILTER, B_FILTER).build().generate(5000);
-
         boolean aFound = false;
         boolean bFound = false;
-
         for (final char c : str.toCharArray()) {
             if (c == 'a') {
                 aFound = true;
@@ -122,7 +120,6 @@ class RandomStringGeneratorTest {
                 fail("Invalid character");
             }
         }
-
         assertTrue(aFound && bFound);
     }
 
@@ -130,24 +127,19 @@ class RandomStringGeneratorTest {
     void testNoLoneSurrogates() {
         final int length = 5000;
         final String str = RandomStringGenerator.builder().build().generate(length);
-
         char lastChar = str.charAt(0);
         for (int i = 1; i < str.length(); i++) {
             final char c = str.charAt(i);
-
             if (Character.isLowSurrogate(c)) {
                 assertTrue(Character.isHighSurrogate(lastChar));
             }
-
             if (Character.isHighSurrogate(lastChar)) {
                 assertTrue(Character.isLowSurrogate(c));
             }
-
             if (Character.isHighSurrogate(c)) {
                 // test this isn't the last character in the string
                 assertTrue(i + 1 < str.length());
             }
-
             lastChar = c;
         }
     }
@@ -155,12 +147,10 @@ class RandomStringGeneratorTest {
     @Test
     void testNoPrivateCharacters() {
         final int startOfPrivateBMPChars = 0xE000;
-
         // Request a string in an area of the Basic Multilingual Plane that is
         // largely occupied by private characters
         final String str = RandomStringGenerator.builder().withinRange(startOfPrivateBMPChars, Character.MIN_SUPPLEMENTARY_CODE_POINT - 1).build()
                 .generate(5000);
-
         int i = 0;
         do {
             final int codePoint = str.codePointAt(i);
@@ -172,9 +162,7 @@ class RandomStringGeneratorTest {
     @Test
     void testRemoveFilters() {
         final RandomStringGenerator.Builder builder = RandomStringGenerator.builder().withinRange('a', 'z').filteredBy(A_FILTER);
-
         builder.filteredBy();
-
         final String str = builder.build().generate(100);
         for (final char c : str.toCharArray()) {
             if (c != 'a') {
@@ -182,7 +170,6 @@ class RandomStringGeneratorTest {
                 return;
             }
         }
-
         fail("Filter appears to have remained in place");
     }
 
@@ -191,9 +178,7 @@ class RandomStringGeneratorTest {
         final String str = "abc";
         final char[] charArray = str.toCharArray();
         final RandomStringGenerator generator = RandomStringGenerator.builder().selectFrom(charArray).build();
-
         final String randomText = generator.generate(5);
-
         for (final char c : randomText.toCharArray()) {
             assertTrue(str.indexOf(c) != -1);
         }
@@ -311,14 +296,11 @@ class RandomStringGeneratorTest {
                 .build();
         // @formatter:on
         final String str = generator.generate(length);
-
         int minimumCodePoint = 0, maximumCodePoint = 0;
-
         for (final char[] pair : pairs) {
             minimumCodePoint = Math.min(minimumCodePoint, pair[0]);
             maximumCodePoint = Math.max(maximumCodePoint, pair[1]);
         }
-
         int i = 0;
         do {
             final int codePoint = str.codePointAt(i);
@@ -334,7 +316,6 @@ class RandomStringGeneratorTest {
         final int maximumCodePoint = 'z';
         final RandomStringGenerator generator = RandomStringGenerator.builder().withinRange(minimumCodePoint, maximumCodePoint).build();
         final String str = generator.generate(length);
-
         int i = 0;
         do {
             final int codePoint = str.codePointAt(i);
