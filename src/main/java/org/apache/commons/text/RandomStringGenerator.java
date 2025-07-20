@@ -125,7 +125,12 @@ public final class RandomStringGenerator {
         /**
          * The source of provided characters.
          */
-        private List<Character> characterList;
+        private Set<Character> characterSet = new HashSet<>();
+
+        /**
+         * Whether calls accumulates the source of provided characters. The default is {@code false}.
+         */
+        private boolean accumulate;
 
         /**
          * Creates a new instance.
@@ -155,7 +160,7 @@ public final class RandomStringGenerator {
          * </p>
          *
          * @param predicates the predicates, may be {@code null} or empty.
-         * @return {@code this}, to allow method chaining.
+         * @return {@code this} instance.
          */
         public Builder filteredBy(final CharacterPredicate... predicates) {
             if (ArrayUtils.isEmpty(predicates)) {
@@ -182,6 +187,12 @@ public final class RandomStringGenerator {
             return new RandomStringGenerator(this);
         }
 
+        private void initCharList() {
+            if (!accumulate) {
+                characterSet = new HashSet<>();
+            }
+        }
+
         /**
          * Limits the characters in the generated string to those who match at supplied list of Character.
          *
@@ -191,16 +202,40 @@ public final class RandomStringGenerator {
          * </p>
          *
          * @param chars set of predefined Characters for random string generation the Character can be, may be {@code null} or empty
-         * @return {@code this}, to allow method chaining.
+         * @return {@code this} instance.
          * @since 1.2
          */
         public Builder selectFrom(final char... chars) {
-            characterList = new ArrayList<>();
+            initCharList();
             if (chars != null) {
                 for (final char c : chars) {
-                    characterList.add(c);
+                    characterSet.add(c);
                 }
             }
+            return this;
+        }
+
+        /**
+         * Sets whether calls accumulates the source of provided characters. The default is {@code false}.
+         *
+         * <pre>
+         * {@code
+         *     RandomStringGenerator gen = RandomStringGenerator.builder()
+         *         .setAccumulate(true)
+         *         .withinRange(new char[][] { { 'a', 'z' }, { 'A', 'Z' }, { '0', '9' } })
+         *         .selectFrom('!', '"', '#', '$', '&', '\'', '(', ')', ',', '.', ':', ';', '?', '@', '[',
+         *                     '\\', ']', '^', '_', '`', '{', '|', '}', '~') // punctuation
+         *         // additional builder calls as needed
+         *         .build();
+         * }
+         * </pre>
+         *
+         * @param accumulate whether calls accumulates the source of provided characters. The default is {@code false}.
+         * @return {@code this} instance.
+         * @since 1.14.0
+         */
+        public Builder setAccumulate(final boolean accumulate) {
+            this.accumulate = accumulate;
             return this;
         }
 
@@ -227,7 +262,7 @@ public final class RandomStringGenerator {
          * </p>
          *
          * @param random the source of randomness, may be {@code null}.
-         * @return {@code this}, to allow method chaining.
+         * @return {@code this} instance.
          * @since 1.14.0
          */
         public Builder usingRandom(final IntUnaryOperator random) {
@@ -258,7 +293,7 @@ public final class RandomStringGenerator {
          * </p>
          *
          * @param random the source of randomness, may be {@code null}.
-         * @return {@code this}, to allow method chaining.
+         * @return {@code this} instance.
          */
         public Builder usingRandom(final TextRandomProvider random) {
             this.random = random;
@@ -272,7 +307,6 @@ public final class RandomStringGenerator {
          *
          * <pre>
          * {@code
-         *
          * char[][] pairs = { { '0', '9' } };
          * char[][] pairs = { { 'a', 'z' } };
          * char[][] pairs = { { 'a', 'z' }, { '0', '9' } };
@@ -280,10 +314,10 @@ public final class RandomStringGenerator {
          * </pre>
          *
          * @param pairs array of characters array, expected is to pass min, max pairs through this arg.
-         * @return {@code this}, to allow method chaining.
+         * @return {@code this} instance.
          */
         public Builder withinRange(final char[]... pairs) {
-            characterList = new ArrayList<>();
+            initCharList();
             if (pairs != null) {
                 for (final char[] pair : pairs) {
                     Validate.isTrue(pair.length == 2, "Each pair must contain minimum and maximum code point");
@@ -292,19 +326,20 @@ public final class RandomStringGenerator {
                     Validate.isTrue(minimumCodePoint <= maximumCodePoint, "Minimum code point %d is larger than maximum code point %d", minimumCodePoint,
                             maximumCodePoint);
                     for (int index = minimumCodePoint; index <= maximumCodePoint; index++) {
-                        characterList.add((char) index);
+                        characterSet.add((char) index);
                     }
                 }
             }
             return this;
         }
 
+
         /**
          * Sets the minimum and maximum code points allowed in the generated string.
          *
          * @param minimumCodePoint the smallest code point allowed (inclusive).
          * @param maximumCodePoint the largest code point allowed (inclusive).
-         * @return {@code this}, to allow method chaining.
+         * @return {@code this} instance.
          * @throws IllegalArgumentException if {@code maximumCodePoint >} {@link Character#MAX_CODE_POINT}.
          * @throws IllegalArgumentException if {@code minimumCodePoint < 0}.
          * @throws IllegalArgumentException if {@code minimumCodePoint > maximumCodePoint}.
@@ -362,14 +397,14 @@ public final class RandomStringGenerator {
      * @param maximumCodePoint    largest allowed code point (inclusive).
      * @param inclusivePredicates filters for code points.
      * @param random              source of randomness.
-     * @param characterList       list of predefined set of characters.
+     * @param characterSet       list of predefined set of characters.
      */
     private RandomStringGenerator(final Builder builder) {
         this.minimumCodePoint = builder.minimumCodePoint;
         this.maximumCodePoint = builder.maximumCodePoint;
         this.inclusivePredicates = builder.inclusivePredicates;
         this.random = builder.random;
-        this.characterList = builder.characterList;
+        this.characterList = new ArrayList<>(builder.characterSet);
     }
 
     /**

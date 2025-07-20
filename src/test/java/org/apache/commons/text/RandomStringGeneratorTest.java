@@ -23,13 +23,17 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.Arrays;
 import java.util.function.IntUnaryOperator;
 
+import org.apache.commons.lang3.ArraySorter;
 import org.apache.commons.text.RandomStringGenerator.Builder;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for {@link RandomStringGenerator}
+ * Tests for {@link RandomStringGenerator}.
  */
 class RandomStringGeneratorTest {
 
@@ -160,6 +164,25 @@ class RandomStringGeneratorTest {
     }
 
     @Test
+    void testPasswordExample() {
+        final char[] punctuation = ArraySorter
+                .sort(new char[] { '!', '"', '#', '$', '&', '\'', '(', ')', ',', '.', ':', ';', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~' });
+        // @formatter:off
+        final RandomStringGenerator generator = RandomStringGenerator.builder()
+                .setAccumulate(true)
+                .withinRange('a', 'z')
+                .withinRange('A', 'Z')
+                .withinRange('0', '9')
+                .selectFrom(punctuation)
+                .get();
+        // @formatter:on
+        final String randomText = generator.generate(10);
+        for (final char c : randomText.toCharArray()) {
+            assertTrue(Character.isLetter(c) || Character.isDigit(c) || Arrays.binarySearch(punctuation, c) >= 0);
+        }
+    }
+
+    @Test
     void testRemoveFilters() {
         final RandomStringGenerator.Builder builder = RandomStringGenerator.builder().withinRange('a', 'z').filteredBy(A_FILTER);
         builder.filteredBy();
@@ -194,22 +217,45 @@ class RandomStringGeneratorTest {
         }
     }
 
-    @Test
-    void testSelectFromCharVarargs2() {
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void testSelectFromCharVarargs2(final boolean accumulate) {
         final String str = "abcde";
         // @formatter:off
         final RandomStringGenerator generator = RandomStringGenerator.builder()
+                .setAccumulate(accumulate)
                 .selectFrom()
                 .selectFrom(null)
                 .selectFrom('a', 'b')
                 .selectFrom('a', 'b', 'c')
                 .selectFrom('a', 'b', 'c', 'd')
-                .selectFrom('a', 'b', 'c', 'd', 'e') // only this last call matters
+                .selectFrom('a', 'b', 'c', 'd', 'e') // only this last call matters when accumulate is false
                 .build();
         // @formatter:on
         final String randomText = generator.generate(10);
         for (final char c : randomText.toCharArray()) {
             assertTrue(str.indexOf(c) != -1);
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void testSelectFromCharVarargs3(final boolean accumulate) {
+        final String str = "abcde";
+        // @formatter:off
+        final RandomStringGenerator generator = RandomStringGenerator.builder()
+                .setAccumulate(accumulate)
+                .selectFrom('a', 'b', 'c', 'd', 'e')
+                .selectFrom('a', 'b', 'c', 'd')
+                .selectFrom('a', 'b', 'c')
+                .selectFrom('a', 'b')
+                .selectFrom(null)
+                .selectFrom()
+                .get();
+        // @formatter:on
+        final String randomText = generator.generate(10);
+        for (final char c : randomText.toCharArray()) {
+            assertEquals(accumulate, str.indexOf(c) != -1);
         }
     }
 
