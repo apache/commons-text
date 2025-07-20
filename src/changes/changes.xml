@@ -45,7 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Apache Commons Text Changes</title>
   </properties>
   <body>
-  <release version="1.14.0" date="YYYY-MM-DD" description="Release 1.14.0. Requires Java 8 or above.">
+  <release version="1.14.0" date="2025-07-20" description="Release 1.14.0. Requires Java 8 or above.">
     <!-- FIX -->
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD UnnecessaryFullyQualifiedName in StringLookupFactory.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD UnnecessaryFullyQualifiedName in DefaultStringLookupsHolder.</action>
