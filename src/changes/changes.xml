@@ -56,6 +56,8 @@ The <action> type attribute can be add,update,fix,remove.
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD UnnecessaryFullyQualifiedName in AlphabetConverter.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD AvoidBranchingStatementAsLastInLoop in TextStringBuilder.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix PMD AvoidBranchingStatementAsLastInLoop in StrBuilder.</action>
+    <action type="fix" dev="ggregory" due-to="Gary Gregory">org.apache.commons.text.translate.LookupTranslator.LookupTranslator(Map CharSequence>) now throws NullPointerException instead of java.security.InvalidParameterException.</action>
+    
     <!-- ADD -->
     <action type="add" dev="ggregory" due-to="Gary Gregory">Interface StringLookup now extends UnaryOperator&lt;String&gt;.</action>
     <action type="add" dev="ggregory" due-to="Gary Gregory">Interface TextRandomProvider extends IntUnaryOperator.</action>

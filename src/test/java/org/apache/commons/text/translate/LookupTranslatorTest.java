@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +45,7 @@ class LookupTranslatorTest  {
 
     @Test
     void testFailsToCreateLookupTranslatorThrowsInvalidParameterException() {
-        assertThrowsExactly(InvalidParameterException.class, () -> new LookupTranslator(null));
+        assertThrowsExactly(NullPointerException.class, () -> new LookupTranslator(null));
     }
 
     // Tests: https://issues.apache.org/jira/browse/LANG-882
