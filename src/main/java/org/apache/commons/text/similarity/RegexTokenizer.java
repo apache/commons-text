@@ -47,7 +47,7 @@ final class RegexTokenizer implements CharSequenceTokenizer<CharSequence> {
     /**
      * {@inheritDoc}
      *
-     * @throws IllegalArgumentException if the input text is blank
+     * @throws IllegalArgumentException if the input text is blank.
      */
     @Override
     public CharSequence[] apply(final CharSequence text) {
