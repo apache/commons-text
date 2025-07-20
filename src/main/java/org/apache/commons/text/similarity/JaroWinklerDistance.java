@@ -81,7 +81,7 @@ public class JaroWinklerDistance implements EditDistance<Double> {
      * @param left the first input, must not be null.
      * @param right the second input, must not be null.
      * @return result distance.
-     * @throws IllegalArgumentException if either CharSequence input is {@code null}
+     * @throws IllegalArgumentException if either CharSequence input is {@code null}.
      */
     @Override
     public Double apply(final CharSequence left, final CharSequence right) {

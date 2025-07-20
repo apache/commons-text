@@ -82,7 +82,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
         /**
          * Adds a new element to the bag, incrementing its count in the underlying map.
          *
-         * @param object the object to add
+         * @param object the object to add.
          */
         private void add(final T object) {
             map.computeIfAbsent(object, k -> new BagCount()).count++;
@@ -91,7 +91,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
         /**
          * Returns a Set view of the mappings contained in this bag.
          *
-         * @return The Set view
+         * @return The Set view.
          */
         private Set<Entry<T, BagCount>> entrySet() {
             return map.entrySet();
@@ -101,8 +101,8 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
          * Returns the number of occurrence of the given element in this bag by
          * looking up its count in the underlying map.
          *
-         * @param object the object to search for
-         * @return The number of occurrences of the object, zero if not found
+         * @param object the object to search for.
+         * @return The number of occurrences of the object, zero if not found.
          */
         private int getCount(final Object object) {
             return map.getOrDefault(object, BagCount.ZERO).count;
@@ -111,7 +111,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
         /**
          * Gets the number of unique elements in the bag.
          *
-         * @return The unique element size
+         * @return The unique element size.
          */
         private int uniqueElementSize() {
             return map.size();
@@ -122,10 +122,10 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
      * Computes the intersection between two sets. This is the count of all the elements
      * that are within both sets.
      *
-     * @param <T> the type of the elements in the set
-     * @param setA the set A
-     * @param setB the set B
-     * @return The intersection
+     * @param <T> the type of the elements in the set.
+     * @param setA the set A.
+     * @param setB the set B.
+     * @return The intersection of A and B.
      */
     private static <T> int getIntersection(final Set<T> setA, final Set<T> setB) {
         int intersection = 0;
@@ -149,8 +149,8 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
      * that will include duplicates in the intersect and union.
      * </p>
      *
-     * @param converter the converter used to create the elements from the characters
-     * @throws IllegalArgumentException if the converter is null
+     * @param converter the converter used to create the elements from the characters.
+     * @throws IllegalArgumentException if the converter is null.
      */
     public IntersectionSimilarity(final Function<CharSequence, Collection<T>> converter) {
         if (converter == null) {
@@ -162,10 +162,10 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
     /**
      * Calculates the intersection of two character sequences passed as input.
      *
-     * @param left first character sequence
-     * @param right second character sequence
-     * @return The intersection result
-     * @throws IllegalArgumentException if either input sequence is {@code null}
+     * @param left first character sequence.
+     * @param right second character sequence.
+     * @return The intersection result.
+     * @throws IllegalArgumentException if either input sequence is {@code null}.
      */
     @Override
     public IntersectionResult apply(final CharSequence left, final CharSequence right) {
@@ -210,9 +210,9 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
      * Computes the intersection between two bags. This is the sum of the minimum
      * count of each element that is within both sets.
      *
-     * @param bagA the bag A
-     * @param bagB the bag B
-     * @return The intersection
+     * @param bagA the bag A.
+     * @param bagB the bag B.
+     * @return The intersection of A and B.
      */
     private int getIntersection(final TinyBag bagA, final TinyBag bagB) {
         int intersection = 0;
@@ -229,8 +229,8 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
      * Converts the collection to a bag. The bag will contain the count of each element
      * in the collection.
      *
-     * @param objects the objects
-     * @return The bag
+     * @param objects the objects.
+     * @return The bag.
      */
     private TinyBag toBag(final Collection<T> objects) {
         final TinyBag bag = new TinyBag(objects.size());

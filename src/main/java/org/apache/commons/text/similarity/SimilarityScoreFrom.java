@@ -81,8 +81,8 @@ public class SimilarityScoreFrom<R> {
      * This compares "left" field against the "right" parameter
      * using the "similarity score" implementation.
      *
-     * @param right the second CharSequence
-     * @return The similarity score between two CharSequences
+     * @param right the second CharSequence.
+     * @return The similarity score between two CharSequences.
      */
     public R apply(final CharSequence right) {
         return similarityScore.apply(left, right);
@@ -91,7 +91,7 @@ public class SimilarityScoreFrom<R> {
     /**
      * Gets the left parameter.
      *
-     * @return The left parameter
+     * @return The left parameter.
      */
     public CharSequence getLeft() {
         return left;
@@ -100,7 +100,7 @@ public class SimilarityScoreFrom<R> {
     /**
      * Gets the edit distance.
      *
-     * @return The edit distance
+     * @return The edit distance.
      */
     public SimilarityScore<R> getSimilarityScore() {
         return similarityScore;

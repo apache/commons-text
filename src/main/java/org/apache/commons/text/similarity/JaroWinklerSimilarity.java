@@ -39,7 +39,7 @@ import java.util.Objects;
 public class JaroWinklerSimilarity implements SimilarityScore<Double> {
 
     /**
-     * Singleton instance.
+     * The singleton instance.
      */
     static final JaroWinklerSimilarity INSTANCE = new JaroWinklerSimilarity();
 

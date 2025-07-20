@@ -34,7 +34,7 @@ import java.util.Set;
 public class CosineSimilarity {
 
     /**
-     * Singleton instance.
+     * The singleton instance.
      */
     static final CosineSimilarity INSTANCE = new CosineSimilarity();
 
@@ -48,9 +48,9 @@ public class CosineSimilarity {
     /**
      * Calculates the cosine similarity for two given vectors.
      *
-     * @param leftVector left vector
-     * @param rightVector right vector
-     * @return cosine similarity between the two vectors
+     * @param leftVector left vector.
+     * @param rightVector right vector.
+     * @return cosine similarity between the two vectors.
      */
     public Double cosineSimilarity(final Map<CharSequence, Integer> leftVector,
                                    final Map<CharSequence, Integer> rightVector) {
@@ -83,10 +83,10 @@ public class CosineSimilarity {
      * that if a vector is longer than other, then a smaller part of it will be used to compute
      * the dot product.
      *
-     * @param leftVector left vector
-     * @param rightVector right vector
-     * @param intersection common elements
-     * @return The dot product
+     * @param leftVector left vector.
+     * @param rightVector right vector.
+     * @param intersection common elements.
+     * @return The dot product.
      */
     private double dot(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector,
             final Set<CharSequence> intersection) {
@@ -100,9 +100,9 @@ public class CosineSimilarity {
     /**
      * Returns a set with keys common to the two given maps.
      *
-     * @param leftVector left vector map
-     * @param rightVector right vector map
-     * @return common strings
+     * @param leftVector left vector map.
+     * @param rightVector right vector map.
+     * @return common strings.
      */
     private Set<CharSequence> getIntersection(final Map<CharSequence, Integer> leftVector,
             final Map<CharSequence, Integer> rightVector) {

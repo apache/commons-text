@@ -40,14 +40,14 @@ final class RegexTokenizer implements CharSequenceTokenizer<CharSequence> {
     private static final Pattern PATTERN = Pattern.compile("(\\w)+");
 
     /**
-     * Singleton instance.
+     * The singleton instance.
      */
     static final RegexTokenizer INSTANCE = new RegexTokenizer();
 
     /**
      * {@inheritDoc}
      *
-     * @throws IllegalArgumentException if the input text is blank
+     * @throws IllegalArgumentException if the input text is blank.
      */
     @Override
     public CharSequence[] apply(final CharSequence text) {

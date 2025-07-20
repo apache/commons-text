@@ -54,9 +54,9 @@ public class LevenshteinResults {
      * Constructs the results for a detailed Levenshtein distance.
      *
      * @param distance distance between two character sequences.
-     * @param insertCount insert character count
-     * @param deleteCount delete character count
-     * @param substituteCount substitute character count
+     * @param insertCount insert character count.
+     * @param deleteCount delete character count.
+     * @param substituteCount substitute character count.
      */
     public LevenshteinResults(final Integer distance, final Integer insertCount, final Integer deleteCount,
             final Integer substituteCount) {
@@ -83,7 +83,7 @@ public class LevenshteinResults {
     /**
      * Gets the number of character deletion needed to change one character sequence to other.
      *
-     * @return delete character count
+     * @return delete character count.
      */
     public Integer getDeleteCount() {
         return deleteCount;
@@ -92,7 +92,7 @@ public class LevenshteinResults {
     /**
      * Gets the distance between two character sequences.
      *
-     * @return distance between two character sequence
+     * @return distance between two character sequence.
      */
     public Integer getDistance() {
         return distance;
@@ -101,7 +101,7 @@ public class LevenshteinResults {
     /**
      * Gets the number of insertion needed to change one character sequence into another.
      *
-     * @return insert character count
+     * @return insert character count.
      */
     public Integer getInsertCount() {
         return insertCount;
@@ -110,7 +110,7 @@ public class LevenshteinResults {
     /**
      * Gets the number of character substitution needed to change one character sequence into another.
      *
-     * @return substitute character count
+     * @return substitute character count.
      */
     public Integer getSubstituteCount() {
         return substituteCount;

@@ -31,8 +31,8 @@ import java.util.Arrays;
  * </p>
  *
  * @since 1.0
- * @see <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein Distance</a> on Wikipedia
- * @see <a href="https://xlinux.nist.gov/dads/HTML/Levenshtein.html">Levenshtein Distance</a> on NIST
+ * @see <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein Distance on Wikipedia</a>
+ * @see <a href="https://xlinux.nist.gov/dads/HTML/Levenshtein.html">Levenshtein Distance on NIST</a>
  */
 public class LevenshteinDistance implements EditDistance<Integer> {
 
@@ -44,7 +44,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     /**
      * Gets the default instance.
      *
-     * @return The default instance
+     * @return The default instance.
      */
     public static LevenshteinDistance getDefaultInstance() {
         return INSTANCE;
@@ -72,9 +72,9 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * limitedCompare("hippo", "elephant", 6) = -1
      * </pre>
      *
-     * @param left      the first SimilarityInput, must not be null
-     * @param right     the second SimilarityInput, must not be null
-     * @param threshold the target threshold, must not be negative
+     * @param left      the first SimilarityInput, must not be null.
+     * @param right     the second SimilarityInput, must not be null.
+     * @param threshold the target threshold, must not be negative.
      * @return result distance, or -1
      */
     private static <E> int limitedCompare(SimilarityInput<E> left, SimilarityInput<E> right, final int threshold) { // NOPMD
@@ -229,10 +229,10 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * unlimitedCompare("hello", "hallo")    = 1
      * </pre>
      *
-     * @param left  the first CharSequence, must not be null
-     * @param right the second CharSequence, must not be null
-     * @return result distance, or -1
-     * @throws IllegalArgumentException if either CharSequence input is {@code null}
+     * @param left  the first CharSequence, must not be null.
+     * @param right the second CharSequence, must not be null.
+     * @return result distance, or -1.
+     * @throws IllegalArgumentException if either CharSequence input is {@code null}.
      */
     private static <E> int unlimitedCompare(SimilarityInput<E> left, SimilarityInput<E> right) {
         if (left == null || right == null) {
@@ -347,10 +347,10 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * distance.apply("hello", "hallo")    = 1
      * </pre>
      *
-     * @param left  the first input, must not be null
-     * @param right the second input, must not be null
-     * @return result distance, or -1
-     * @throws IllegalArgumentException if either String input {@code null}
+     * @param left  the first input, must not be null.
+     * @param right the second input, must not be null.
+     * @return result distance, or -1.
+     * @throws IllegalArgumentException if either String input {@code null}.
      */
     @Override
     public Integer apply(final CharSequence left, final CharSequence right) {
