@@ -285,9 +285,9 @@ public final class RandomStringGenerator {
          * For example:
          * <pre>
          * {@code
-         *     char [][] pairs = {{'0','9'}};
-         *     char [][] pairs = {{'a','z'}};
-         *     char [][] pairs = {{'a','z'},{'0','9'}};
+         *     char[][] pairs = {{'0','9'}};
+         *     char[][] pairs = {{'a','z'}};
+         *     char[][] pairs = {{'a','z'},{'0','9'}};
          * }
          * </pre>
          *
