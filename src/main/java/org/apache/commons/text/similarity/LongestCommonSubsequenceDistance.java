@@ -44,15 +44,14 @@ public class LongestCommonSubsequenceDistance implements EditDistance<Integer> {
     }
 
     /**
-     * Calculates an edit distance between two {@code CharSequence}'s {@code left} and
-     * {@code right} as: {@code left.length() + right.length() - 2 * LCS(left, right)}, where
-     * {@code LCS} is given in {@link LongestCommonSubsequence#apply(CharSequence, CharSequence)}.
+     * Calculates an edit distance between two {@code CharSequence}'s {@code left} and {@code right} as:
+     * {@code left.length() + right.length() - 2 * LCS(left, right)}, where {@code LCS} is given in
+     * {@link LongestCommonSubsequence#apply(CharSequence, CharSequence)}.
      *
-     * @param left first character sequence
-     * @param right second character sequence
-     * @return distance
-     * @throws IllegalArgumentException
-     *             if either String input {@code null}
+     * @param left  first character sequence.
+     * @param right second character sequence.
+     * @return distance.
+     * @throws IllegalArgumentException if either String input {@code null}.
      */
     @Override
     public Integer apply(final CharSequence left, final CharSequence right) {
