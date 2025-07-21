@@ -556,7 +556,7 @@ public class StringSubstitutorTest {
         values.put("species", "1");
         assertEqualsCharSeq("The fox jumps over the lazy dog.", replace(sub, "The ${animal.${species}} jumps over the ${target}."));
         assertEqualsCharSeq("The fox jumps over the lazy dog.",
-                replace(sub, "The ${unknown.animal.${unknown.species:-1}:-fox} " + "jumps over the ${unknow.target:-lazy dog}."));
+                replace(sub, "The ${unknown.animal.${unknown.species:-1}:-fox} jumps over the ${unknow.target:-lazy dog}."));
     }
 
     /**
@@ -1031,7 +1031,7 @@ public class StringSubstitutorTest {
         buf.append(", your home directory is ");
         buf.append(SystemProperties.getUserHome()).append('.');
         assertEqualsCharSeq(buf.toString(),
-                StringSubstitutor.replaceSystemProperties("Hi ${user.name}, you are " + "working with ${os.name}, your home " + "directory is ${user.home}."));
+                StringSubstitutor.replaceSystemProperties("Hi ${user.name}, you are " + "working with ${os.name}, your home directory is ${user.home}."));
     }
 
     /**

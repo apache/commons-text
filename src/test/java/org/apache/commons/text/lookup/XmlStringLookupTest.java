@@ -57,7 +57,7 @@ class XmlStringLookupTest {
 
     @Test
     void testMissingXPath() {
-        assertThrows(IllegalArgumentException.class, () -> XmlStringLookup.INSTANCE.apply(DOC_RELATIVE + ":" + "!JUNK!"));
+        assertThrows(IllegalArgumentException.class, () -> XmlStringLookup.INSTANCE.apply(DOC_RELATIVE + ":!JUNK!"));
     }
 
     @Test

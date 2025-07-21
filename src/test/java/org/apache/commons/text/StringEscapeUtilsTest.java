@@ -299,7 +299,7 @@ class StringEscapeUtilsTest {
         assertEscapeJava("\\uABCD", "\uabcd", "Should use capitalized Unicode hex");
 
         assertEscapeJava("He didn't say, \\\"stop!\\\"", "He didn't say, \"stop!\"");
-        assertEscapeJava("This space is non-breaking:" + "\\u00A0", "This space is non-breaking:\u00a0", "non-breaking space");
+        assertEscapeJava("This space is non-breaking:\\u00A0", "This space is non-breaking:\u00a0", "non-breaking space");
         assertEscapeJava("\\uABCD\\u1234\\u012C", "\uABCD\u1234\u012C");
     }
 
