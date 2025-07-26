@@ -18,3 +18,4 @@ site-content
 .project
 .externalToolBuilders
 /.checkstyle
+/.DS_Store
