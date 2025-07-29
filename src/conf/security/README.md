@@ -23,8 +23,8 @@ The Apache Commons Text project publishes multiple [CycloneDX](https://cyclonedx
 
 Beginning with version `6.6.0`, Apache Commons Text publishes SBOMs in both **XML** and **JSON** formats to Maven Central. These documents describe all components and dependencies of the library, following standard Maven coordinates:
 
-* **Group ID:** `org.apache.bcel`
-* **Artifact ID:** `bcel`
+* **Group ID:** `org.apache.commons`
+* **Artifact ID:** `commons-text`
 * **Classifier:** `cyclonedx`
 * **Type:** `xml` or `json`
 
@@ -38,7 +38,7 @@ Each SBOM lists the library’s required and optional dependencies, helping cons
 
 An experimental [VEX](https://cyclonedx.org/capabilities/vex/) document is also published:
 
-👉 [`https://raw.githubusercontent.com/apache/commons-bcel/refs/heads/master/src/cyclonedx/VEX.cyclonedx.xml`](VEX.cyclonedx.xml)
+👉 [`https://raw.githubusercontent.com/apache/commons-text/refs/heads/master/src/conf/security/VEX.cyclonedx.xml`](VEX.cyclonedx.xml)
 
 This document provides information about the **exploitability of known vulnerabilities** in the **dependencies** of Apache Commons Text.
 
