@@ -48,6 +48,7 @@ The <action> type attribute can be add,update,fix,remove.
   <release version="1.14.1" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
       <!-- ADD -->
+      <action type="add" dev="ggregory" due-to="Piotr P. Karwasz, Gary Gregory">Add experimental CycloneDX VEX file #683.</action>
       <!-- UPDATE -->
   </release>
   <release version="1.14.0" date="2025-07-20" description="Release 1.14.0. Requires Java 8 or above.">
