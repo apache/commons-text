@@ -64,6 +64,10 @@
           </source>
         </reference>
       </references>
+      <recommendation>
+Check if untrusted user input is passed to the `StringSubstitutor` or `StringLookup` classes,
+and if so, upgrade to Apache Commons Lang 3.18.0 or later.
+      </recommendation>
       <analysis>
         <state>exploitable</state>
         <responses>

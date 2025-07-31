@@ -121,6 +121,13 @@ def to_openvex_statement(vuln: ET.Element, product: dict) -> dict:
     if detail:
         statement['status_notes'] = detail
 
+    remediation = _find_stripped_text(vuln, 'b:recommendation')
+    if remediation:
+        statement['action_statement'] = remediation
+    else:
+        if statement['status'] == 'affected':
+            raise ValueError("Affected vulnerabilities must have a <recommendation> element")
+
     _add_optional_date(analysis, 'b:firstIssued', statement, 'timestamp')
     _add_optional_date(analysis, 'b:lastUpdated', statement, 'last_updated')
 
