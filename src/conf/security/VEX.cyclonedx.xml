@@ -19,12 +19,13 @@
   To update this document:
     1. Increment the `version` attribute in the <bom> element.
     2. Update the `timestamp` in the <metadata> section.
+    3. Regenerate the `openvex.json` file using the `generate-openvex.sh` script.
 -->
 <bom xmlns="http://cyclonedx.org/schema/bom/1.6"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://cyclonedx.org/schema/bom/1.6 https://cyclonedx.org/schema/bom-1.6.xsd"
-     serialNumber="urn:uuid:f70dec29-fc7d-41f2-8c60-97e9075e0e73"
-     version="1">
+     serialNumber="urn:uuid:9d64577b-0376-4ee7-b154-5ec26a1803f4"
+     version="2">
 
   <metadata>
     <timestamp>2025-07-29T12:26:42Z</timestamp>
@@ -51,6 +52,10 @@
   <vulnerabilities>
     <vulnerability>
       <id>CVE-2025-48924</id>
+      <source>
+        <name>NVD</name>
+        <url>https://nvd.nist.gov/vuln/detail/CVE-2025-48924</url>
+      </source>
       <references>
         <reference>
           <id>GHSA-j288-q9x7-2f5v</id>
@@ -59,20 +64,24 @@
           </source>
         </reference>
       </references>
+      <recommendation>
+Check if untrusted user input is passed to the `StringSubstitutor` or `StringLookup` classes,
+and if so, upgrade to Apache Commons Lang 3.18.0 or later.
+      </recommendation>
       <analysis>
         <state>exploitable</state>
         <responses>
           <response>update</response>
         </responses>
         <detail>
-          CVE-2025-48924 is exploitable in Apache Commons Text versions 1.5 and later, but only when all the following conditions are met:
+CVE-2025-48924 is exploitable in Apache Commons Text versions 1.5 and later, but only when all the following conditions are met:
 
-          * The consuming project includes a vulnerable version of Commons Text on the classpath.
-            As of version `1.14.1`, Commons Text no longer references a vulnerable version of the `commons-lang3` library in its POM file.
-          * Unvalidated or unsanitized user input is passed to the `StringSubstitutor` or `StringLookup` classes.
-          * An interpolator lookup created via `StringLookupFactory.interpolatorLookup()` is used.
+* The consuming project includes a vulnerable version of Commons Text on the classpath.
+  As of version `1.14.1`, Commons Text no longer references a vulnerable version of the `commons-lang3` library in its POM file.
+* Unvalidated or unsanitized user input is passed to the `StringSubstitutor` or `StringLookup` classes.
+* An interpolator lookup created via `StringLookupFactory.interpolatorLookup()` is used.
 
-          If these conditions are satisfied, an attacker may cause an infinite loop by submitting a specially crafted input such as `${const:...}`.
+If these conditions are satisfied, an attacker may cause an infinite loop by submitting a specially crafted input such as `${const:...}`.
         </detail>
         <firstIssued>2025-07-29T12:26:42Z</firstIssued>
         <lastUpdated>2025-07-29T12:26:42Z</lastUpdated>

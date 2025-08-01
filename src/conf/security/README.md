@@ -40,6 +40,10 @@ An experimental [VEX](https://cyclonedx.org/capabilities/vex/) document is also 
 
 👉 [`https://raw.githubusercontent.com/apache/commons-text/refs/heads/master/src/conf/security/VEX.cyclonedx.xml`](VEX.cyclonedx.xml)
 
+It is also available in [OpenVEX format](https://github.com/openvex/spec) at:
+
+👉 [`https://raw.githubusercontent.com/apache/commons-text/refs/heads/master/src/conf/security/openvex.json`](openvex.json)
+
 This document provides information about the **exploitability of known vulnerabilities** in the **dependencies** of Apache Commons Text.
 
 ### When is a dependency vulnerability exploitable?
@@ -59,3 +63,13 @@ Because Apache Commons libraries (including Text) do **not** bundle their depend
 * The `analysis` field in the VEX file uses **Markdown** formatting.
 
 For more information about CycloneDX, SBOMs, or VEX, visit [cyclonedx.org](https://cyclonedx.org/).
+
+## Contributing
+
+To add or update a VEX entry:
+
+* Edit the CycloneDX VEX document:
+  1. Increase the `version` attribute in the `<bom>` element.
+  2. Update the `timestamp` in the `<metadata>` section.
+  3. Make your changes to the vulnerability information.
+* Regenerate the `openvex.json` file by running the `generate-openvex.sh` script.
