@@ -23,11 +23,11 @@
 <bom xmlns="http://cyclonedx.org/schema/bom/1.6"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://cyclonedx.org/schema/bom/1.6 https://cyclonedx.org/schema/bom-1.6.xsd"
-     serialNumber="urn:uuid:f70dec29-fc7d-41f2-8c60-97e9075e0e73"
-     version="1">
+     serialNumber="urn:uuid:9d64577b-0376-4ee7-b154-5ec26a1803f4"
+     version="2">
 
   <metadata>
-    <timestamp>2025-07-29T12:26:42Z</timestamp>
+    <timestamp>2025-08-04T11:45:36Z</timestamp>
     <component type="library" bom-ref="main_component">
       <group>org.apache.commons</group>
       <name>commons-text</name>
