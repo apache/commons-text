@@ -67,7 +67,7 @@
         <detail>
           CVE-2025-48924 is exploitable in Apache Commons Text versions 1.5 and later, but only when all the following conditions are met:
 
-          * The consuming project includes a vulnerable version of Commons Text on the classpath.
+          * The consuming project includes a vulnerable version of Commons Lang on the classpath.
             As of version `1.14.1`, Commons Text no longer references a vulnerable version of the `commons-lang3` library in its POM file.
           * Unvalidated or unsanitized user input is passed to the `StringSubstitutor` or `StringLookup` classes.
           * An interpolator lookup created via `StringLookupFactory.interpolatorLookup()` is used.
