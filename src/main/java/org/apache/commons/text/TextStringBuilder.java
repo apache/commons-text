@@ -3019,7 +3019,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Sets the text to be appended when {@link #appendNewLine() new line} is called.
      *
      * @param newLine the new line text, {@code null} means use the system default from {@link System#lineSeparator()}.
-     * @return this instance.
+     * @return {@code this} instance.
      */
     public TextStringBuilder setNewLineText(final String newLine) {
         this.newLine = newLine;

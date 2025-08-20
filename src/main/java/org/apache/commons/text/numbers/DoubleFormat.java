@@ -424,7 +424,7 @@ public enum DoubleFormat {
          *
          * @param signedZero if {@code true}, the zero string may be returned with a preceding minus sign; if {@code false}, the zero string will only be
          *                   returned in its positive form
-         * @return this instance
+         * @return {@code this} instance
          */
         public Builder allowSignedZero(final boolean signedZero) {
             this.signedZero = signedZero;
@@ -437,7 +437,7 @@ public enum DoubleFormat {
          * ENGINEERING}, and {@link DoubleFormat#MIXED MIXED}. The default value is {@code false}.
          *
          * @param alwaysIncludeExponent if {@code true}, exponents will always be included in formatted output even if the exponent value is zero
-         * @return this instance
+         * @return {@code this} instance
          */
         public Builder alwaysIncludeExponent(final boolean alwaysIncludeExponent) {
             this.alwaysIncludeExponent = alwaysIncludeExponent;
@@ -460,7 +460,7 @@ public enum DoubleFormat {
          * default value is {@code '.'}.
          *
          * @param decimalSeparator decimal separator character
-         * @return this instance
+         * @return {@code this} instance
          */
         public Builder decimalSeparator(final char decimalSeparator) {
             this.decimalSeparator = decimalSeparator;
@@ -471,7 +471,7 @@ public enum DoubleFormat {
          * Sets the string containing the digit characters 0-9, in that order. The default value is the string {@code "0123456789"}.
          *
          * @param digits string containing the digit characters 0-9
-         * @return this instance
+         * @return {@code this} instance
          * @throws NullPointerException     if the argument is {@code null}
          * @throws IllegalArgumentException if the argument does not have a length of exactly 10
          */
@@ -490,7 +490,7 @@ public enum DoubleFormat {
          * {@code "1.2E6"}.
          *
          * @param exponentSeparator exponent separator string
-         * @return this instance
+         * @return {@code this} instance
          * @throws NullPointerException if the argument is {@code null}
          */
         public Builder exponentSeparator(final String exponentSeparator) {
@@ -513,7 +513,7 @@ public enum DoubleFormat {
          * consecutive characters.
          *
          * @param symbols format symbols
-         * @return this instance
+         * @return {@code this} instance
          * @throws NullPointerException if the argument is {@code null}
          */
         public Builder formatSymbols(final DecimalFormatSymbols symbols) {
@@ -537,7 +537,7 @@ public enum DoubleFormat {
          * Sets the character used to separate groups of thousands. Default value is {@code ','}.
          *
          * @param groupingSeparator character used to separate groups of thousands
-         * @return this instance
+         * @return {@code this} instance
          * @see #groupThousands(boolean)
          */
         public Builder groupingSeparator(final char groupingSeparator) {
@@ -551,7 +551,7 @@ public enum DoubleFormat {
          * value is {@code false}.
          *
          * @param groupThousands if {@code true}, thousands will be grouped
-         * @return this instance
+         * @return {@code this} instance
          * @see #groupingSeparator(char)
          */
         public Builder groupThousands(final boolean groupThousands) {
@@ -566,7 +566,7 @@ public enum DoubleFormat {
          *
          * @param fractionPlaceholder if {@code true}, a zero character is placed in the fraction position when no fractional value is present; if
          *                            {@code false}, fractional digits are only included when needed
-         * @return this instance
+         * @return {@code this} instance
          */
         public Builder includeFractionPlaceholder(final boolean fractionPlaceholder) {
             this.fractionPlaceholder = fractionPlaceholder;
@@ -577,7 +577,7 @@ public enum DoubleFormat {
          * Sets the string used to represent infinity. For negative infinity, this string is prefixed with the {@link #minusSign(char) minus sign}.
          *
          * @param infinity string used to represent infinity
-         * @return this instance
+         * @return {@code this} instance
          * @throws NullPointerException if the argument is {@code null}
          */
         public Builder infinity(final String infinity) {
@@ -590,7 +590,7 @@ public enum DoubleFormat {
          * {@code 0}.
          *
          * @param maxPrecision maximum precision
-         * @return this instance
+         * @return {@code this} instance
          */
         public Builder maxPrecision(final int maxPrecision) {
             this.maxPrecision = maxPrecision;
@@ -604,7 +604,7 @@ public enum DoubleFormat {
          * {@code 0.001} is formatted, then the result is the zero string.
          *
          * @param minDecimalExponent minimum decimal exponent
-         * @return this instance
+         * @return {@code this} instance
          */
         public Builder minDecimalExponent(final int minDecimalExponent) {
             this.minDecimalExponent = minDecimalExponent;
@@ -615,7 +615,7 @@ public enum DoubleFormat {
          * Sets the character used as the minus sign.
          *
          * @param minusSign character to use as the minus sign
-         * @return this instance
+         * @return {@code this} instance
          */
         public Builder minusSign(final char minusSign) {
             this.minusSign = minusSign;
@@ -626,7 +626,7 @@ public enum DoubleFormat {
          * Sets the string used to represent {@link Double#NaN}.
          *
          * @param nan string used to represent {@link Double#NaN}
-         * @return this instance
+         * @return {@code this} instance
          * @throws NullPointerException if the argument is {@code null}
          */
         public Builder nan(final String nan) {
@@ -649,7 +649,7 @@ public enum DoubleFormat {
          *
          * @param plainFormatMaxDecimalExponent maximum decimal exponent for values formatted as plain strings when using the {@link DoubleFormat#MIXED MIXED}
          *                                      format type.
-         * @return this instance
+         * @return {@code this} instance
          * @see #plainFormatMinDecimalExponent(int)
          */
         public Builder plainFormatMaxDecimalExponent(final int plainFormatMaxDecimalExponent) {
@@ -672,7 +672,7 @@ public enum DoubleFormat {
          *
          * @param plainFormatMinDecimalExponent maximum decimal exponent for values formatted as plain strings when using the {@link DoubleFormat#MIXED MIXED}
          *                                      format type.
-         * @return this instance
+         * @return {@code this} instance
          * @see #plainFormatMinDecimalExponent(int)
          */
         public Builder plainFormatMinDecimalExponent(final int plainFormatMinDecimalExponent) {
