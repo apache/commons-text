@@ -135,18 +135,14 @@ public class ExtendedMessageFormat extends MessageFormat {
      * Constructs a new ExtendedMessageFormat.
      *
      * @param pattern  the pattern to use, not null
-     * @param locale  the locale to use, not null
-     * @param registry  the registry of format factories, may be null
+     * @param locale   the locale to use, not null
+     * @param registry the registry of format factories, may be null
      * @throws IllegalArgumentException in case of a bad pattern.
      */
-    public ExtendedMessageFormat(final String pattern,
-                                 final Locale locale,
-                                 final Map<String, ? extends FormatFactory> registry) {
+    public ExtendedMessageFormat(final String pattern, final Locale locale, final Map<String, ? extends FormatFactory> registry) {
         super(EMPTY_PATTERN);
         setLocale(locale);
-        this.registry = registry != null
-                ? Collections.unmodifiableMap(new HashMap<>(registry))
-                : null;
+        this.registry = registry != null ? Collections.unmodifiableMap(new HashMap<>(registry)) : null;
         applyPattern(pattern);
     }
 
@@ -154,33 +150,27 @@ public class ExtendedMessageFormat extends MessageFormat {
      * Constructs a new ExtendedMessageFormat for the default locale.
      *
      * @param pattern  the pattern to use, not null
-     * @param registry  the registry of format factories, may be null
+     * @param registry the registry of format factories, may be null
      * @throws IllegalArgumentException in case of a bad pattern.
      */
-    public ExtendedMessageFormat(final String pattern,
-                                 final Map<String, ? extends FormatFactory> registry) {
+    public ExtendedMessageFormat(final String pattern, final Map<String, ? extends FormatFactory> registry) {
         this(pattern, Locale.getDefault(Category.FORMAT), registry);
     }
 
     /**
-     * Consumes a quoted string, adding it to {@code appendTo} if
-     * specified.
+     * Consumes a quoted string, adding it to {@code appendTo} if specified.
      *
-     * @param pattern pattern to parse
-     * @param pos current parse position
+     * @param pattern  pattern to parse
+     * @param pos      current parse position
      * @param appendTo optional StringBuilder to append
      */
-    private void appendQuotedString(final String pattern, final ParsePosition pos,
-            final StringBuilder appendTo) {
-        assert pattern.toCharArray()[pos.getIndex()] == QUOTE
-                : "Quoted string must start with quote character";
-
+    private void appendQuotedString(final String pattern, final ParsePosition pos, final StringBuilder appendTo) {
+        assert pattern.toCharArray()[pos.getIndex()] == QUOTE : "Quoted string must start with quote character";
         // handle quote character at the beginning of the string
         if (appendTo != null) {
             appendTo.append(QUOTE);
         }
         next(pos);
-
         final int start = pos.getIndex();
         final char[] c = pattern.toCharArray();
         for (int i = pos.getIndex(); i < pattern.length(); i++) {
@@ -195,8 +185,7 @@ public class ExtendedMessageFormat extends MessageFormat {
                 next(pos);
             }
         }
-        throw new IllegalArgumentException(
-                "Unterminated quoted string at position " + start);
+        throw new IllegalArgumentException("Unterminated quoted string at position " + start);
     }
 
     /**
@@ -214,7 +203,6 @@ public class ExtendedMessageFormat extends MessageFormat {
         final ArrayList<Format> foundFormats = new ArrayList<>();
         final ArrayList<String> foundDescriptions = new ArrayList<>();
         final StringBuilder stripCustom = new StringBuilder(pattern.length());
-
         final ParsePosition pos = new ParsePosition(0);
         final char[] c = pattern.toCharArray();
         int fmtCount = 0;
@@ -233,8 +221,7 @@ public class ExtendedMessageFormat extends MessageFormat {
                 Format format = null;
                 String formatDescription = null;
                 if (c[pos.getIndex()] == START_FMT) {
-                    formatDescription = parseFormatDescription(pattern,
-                            next(pos));
+                    formatDescription = parseFormatDescription(pattern, next(pos));
                     format = getFormat(formatDescription);
                     if (format == null) {
                         stripCustom.append(START_FMT).append(formatDescription);
@@ -249,8 +236,7 @@ public class ExtendedMessageFormat extends MessageFormat {
                     throw new IllegalArgumentException("The validated expression is false");
                 }
                 if (c[pos.getIndex()] != END_FE) {
-                    throw new IllegalArgumentException(
-                            "Unreadable format element at position " + start);
+                    throw new IllegalArgumentException("Unreadable format element at position " + start);
                 }
                 //$FALL-THROUGH$
             default:

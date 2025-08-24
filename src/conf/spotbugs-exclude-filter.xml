@@ -19,38 +19,39 @@
     xmlns="https://github.com/spotbugs/filter/3.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://github.com/spotbugs/filter/3.0.0 https://raw.githubusercontent.com/spotbugs/spotbugs/3.1.0/spotbugs/etc/findbugsfilter.xsd">
-
   <Match>
     <Class name="org.apache.commons.text.ExtendedMessageFormat" />
     <Bug code="UR" />
   </Match>
-
+  <Match>
+    <Class name="org.apache.commons.text.ExtendedMessageFormat" />
+    <!-- False positives -->
+    <!--  [lines 225-227] SF_SWITCH_FALLTHROUGH -->
+    <!--  [lines 424-426] SF_SWITCH_FALLTHROUGH -->
+    <Bug pattern="SF_SWITCH_FALLTHROUGH" />
+  </Match>
   <Match>
     <!-- False positives in regard to Locale property exposing inner implementation
     details of class. However, Locale is not mutable and therefore safe in this context. -->
     <Class name="org.apache.commons.text.similarity.FuzzyScore" />
     <Bug code="EI,EI2" />
   </Match>
-
   <Match>
     <Class name="org.apache.commons.text.StrTokenizer" />
     <Method name="clone" />
     <Bug code="CN" />
   </Match>
-
   <Match>
     <Class name="org.apache.commons.text.StringTokenizer" />
     <Method name="clone" />
     <Bug code="CN" />
   </Match>
-
   <!-- BiFunctionStringLookup#lookup catches NPE to return null -->
   <Match>
     <Class name="org.apache.commons.text.lookup.BiFunctionStringLookup" />
     <Method name="lookup" />
     <Bug pattern="DCN_NULLPOINTER_EXCEPTION" />
   </Match>
-
   <!-- FunctionStringLookup#lookup catches NPE to return null -->
   <Match>
     <Class name="org.apache.commons.text.lookup.FunctionStringLookup" />
