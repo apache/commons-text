@@ -51,6 +51,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="add" dev="ggregory" due-to="Piotr P. Karwasz, Gary Gregory">Add experimental CycloneDX VEX file #683.</action>
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.bytebuddy.version from 1.17.6 to 1.17.7 #696.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 85 to 87.</action>
   </release>
   <release version="1.14.0" date="2025-07-20" description="Release 1.14.0. Requires Java 8 or above.">
     <!-- FIX -->
