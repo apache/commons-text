@@ -72,7 +72,7 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
      */
     XmlStringLookup(final Map<String, Boolean> xPathFactoryFeatures, final Path... fences) {
         super(fences);
-        this.xPathFactoryFeatures = Objects.requireNonNull(xPathFactoryFeatures, "xPathFfactoryFeatures");
+        this.xPathFactoryFeatures = Objects.requireNonNull(xPathFactoryFeatures, "xPathFactoryFeatures");
     }
 
     /**
