@@ -391,7 +391,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${base64Decoder:SGVsbG9Xb3JsZCE=} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "SGVsbG9Xb3JsZCE="} to {@code "HelloWorld!"}.
+     * The examples above convert {@code "SGVsbG9Xb3JsZCE="} to {@code "HelloWorld!"}.
      * </p>
      */
     static final FunctionStringLookup<String> INSTANCE_BASE64_DECODER = FunctionStringLookup
@@ -414,7 +414,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${base64Encoder:HelloWorld!} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "HelloWorld!"} to {@code "SGVsbG9Xb3JsZCE="}.
+     * The examples above convert {@code "HelloWorld!"} to {@code "SGVsbG9Xb3JsZCE="}.
      * </p>
      * Defines the singleton for this class.
      */
@@ -438,7 +438,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${env:USER} ..."));
      * </pre>
      * <p>
-     * The above examples convert (on Linux) {@code "USER"} to the current user name. On Windows 10, you would use {@code "USERNAME"} to the same effect.
+     * The examples above convert (on Linux) {@code "USER"} to the current user name. On Windows 10, you would use {@code "USERNAME"} to the same effect.
      * </p>
      */
     static final FunctionStringLookup<String> INSTANCE_ENVIRONMENT_VARIABLES = FunctionStringLookup.on(System::getenv);
@@ -684,7 +684,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${base64Decoder:SGVsbG9Xb3JsZCE=} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "SGVsbG9Xb3JsZCE="} to {@code "HelloWorld!"}.
+     * The examples above convert {@code "SGVsbG9Xb3JsZCE="} to {@code "HelloWorld!"}.
      * </p>
      *
      * @return The Base64DecoderStringLookup singleton instance.
@@ -711,7 +711,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${base64Encoder:HelloWorld!} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code } to {@code "SGVsbG9Xb3JsZCE="}.
+     * The examples above convert {@code } to {@code "SGVsbG9Xb3JsZCE="}.
      * </p>
      *
      * @return The Base64EncoderStringLookup singleton instance.
@@ -738,7 +738,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${base64Decoder:SGVsbG9Xb3JsZCE=} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "SGVsbG9Xb3JsZCE="} to {@code "HelloWorld!"}.
+     * The examples above convert {@code "SGVsbG9Xb3JsZCE="} to {@code "HelloWorld!"}.
      * </p>
      *
      * @return The Base64DecoderStringLookup singleton instance.
@@ -790,7 +790,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${const:java.awt.event.KeyEvent.VK_ESCAPE} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code java.awt.event.KeyEvent.VK_ESCAPE} to {@code "27"}.
+     * The examples above convert {@code java.awt.event.KeyEvent.VK_ESCAPE} to {@code "27"}.
      * </p>
      *
      * @return The ConstantStringLookup singleton instance.
@@ -818,7 +818,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${date:yyyy-MM-dd} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "yyyy-MM-dd"} to todays's date, for example, {@code "2019-08-04"}.
+     * The examples above convert {@code "yyyy-MM-dd"} to todays's date, for example, {@code "2019-08-04"}.
      * </p>
      *
      * @return The DateStringLookup singleton instance.
@@ -856,7 +856,7 @@ public final class StringLookupFactory {
      * new StringSubstitutor(variableResolver).replace("... ${dns:address|apache.org} ...");
      * </pre>
      * <p>
-     * The above examples convert {@code "address|apache.org"} to the IP address of {@code apache.org}.
+     * The examples above convert {@code "address|apache.org"} to the IP address of {@code apache.org}.
      * </p>
      *
      * @return the DnsStringLookup singleton instance.
@@ -883,7 +883,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${env:USER} ..."));
      * </pre>
      * <p>
-     * The above examples convert (on Linux) {@code "USER"} to the current user name. On Windows 10, you would use {@code "USERNAME"} to the same effect.
+     * The examples above convert (on Linux) {@code "USER"} to the current user name. On Windows 10, you would use {@code "USERNAME"} to the same effect.
      * </p>
      *
      * @return The EnvironmentVariableStringLookup singleton instance.
@@ -946,7 +946,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${file:UTF-8:com/domain/document.txt} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "UTF-8:com/domain/document.txt"} to the contents of the file.
+     * The examples above convert {@code "UTF-8:com/domain/document.txt"} to the contents of the file.
      * </p>
      *
      * @return a file StringLookup instance.
@@ -1017,7 +1017,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${sys:os.name}, ${env:USER} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "${sys:os.name}, ${env:USER}"} to the OS name and Linux user name.
+     * The examples above convert {@code "${sys:os.name}, ${env:USER}"} to the OS name and Linux user name.
      * </p>
      *
      * @return the default {@link InterpolatorStringLookup}.
@@ -1095,7 +1095,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${java:version} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "version"} to the current VM version, for example, {@code "Java version 1.8.0_181"}.
+     * The examples above convert {@code "version"} to the current VM version, for example, {@code "Java version 1.8.0_181"}.
      * </p>
      *
      * @return The JavaPlatformStringLookup singleton instance.
@@ -1127,7 +1127,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${localhost:canonical-name} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "canonical-name"} to the current host name, for example, {@code "EXAMPLE.apache.org"}.
+     * The examples above convert {@code "canonical-name"} to the current host name, for example, {@code "EXAMPLE.apache.org"}.
      * </p>
      *
      * @return The InetAddressStringLookup singleton instance.
@@ -1159,7 +1159,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${loopbackAddress:canonical-name} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "canonical-name"} to the current host name, for example, {@code "EXAMPLE.apache.org"}.
+     * The examples above convert {@code "canonical-name"} to the current host name, for example, {@code "EXAMPLE.apache.org"}.
      * </p>
      *
      * @return The InetAddressStringLookup singleton instance.
@@ -1195,13 +1195,13 @@ public final class StringLookupFactory {
      * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <p>
-     * We looks up a value for the key in the format "DocumentPath::MyKey".
+     * We looks up a value for the key in the format {@code "DocumentPath::MyKey"}.
      * </p>
      * <p>
      * Note the use of "::" instead of ":" to allow for "C:" drive letters in paths.
      * </p>
      * <p>
-     * For example: "com/domain/document.properties::MyKey".
+     * For example: {@code "com/domain/document.properties::MyKey"}.
      * </p>
      * <em>Using a fenced StringLookup</em>
      * <p>
@@ -1251,8 +1251,8 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${properties:com/domain/document.properties::MyKey} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "com/domain/document.properties::MyKey"} to the key value in the properties file at the path
-     * "com/domain/document.properties".
+     * The examples above convert {@code "com/domain/document.properties::MyKey"} to the key value in the properties file at the path
+     * {@code "com/domain/document.properties"}.
      * </p>
      *
      * @return a Properties StringLookup instance.
@@ -1326,7 +1326,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${resourceBundle:com.domain.messages:MyKey} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "com.domain.messages:MyKey"} to the key value in the resource bundle at {@code "com.domain.messages"}.
+     * The examples above convert {@code "com.domain.messages:MyKey"} to the key value in the resource bundle at {@code "com.domain.messages"}.
      * </p>
      *
      * @return The ResourceBundleStringLookup singleton instance.
@@ -1392,7 +1392,7 @@ public final class StringLookupFactory {
      * String value = new StringSubstitutor(variableResolver).replace("${script:javascript:3 + 4}");
      * </pre>
      * <p>
-     * The above examples convert {@code "javascript:3 + 4"} to {@code "7"}.
+     * The examples above convert {@code "javascript:3 + 4"} to {@code "7"}.
      * </p>
      *
      * @return The ScriptStringLookup singleton instance.
@@ -1420,7 +1420,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${sys:os.name} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "os.name"} to the operating system name.
+     * The examples above convert {@code "os.name"} to the operating system name.
      * </p>
      *
      * @return The SystemPropertyStringLookup singleton instance.
@@ -1452,7 +1452,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${urlDecoder:Hello%20World%21} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "Hello%20World%21"} to {@code "Hello World!"}.
+     * The examples above convert {@code "Hello%20World%21"} to {@code "Hello World!"}.
      * </p>
      *
      * @return The UrlStringLookup singleton instance.
@@ -1485,7 +1485,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${urlEncoder:Hello World!} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "Hello World!"} to {@code "Hello%20World%21"}.
+     * The examples above convert {@code "Hello World!"} to {@code "Hello%20World%21"}.
      * </p>
      *
      * @return The UrlStringLookup singleton instance.
@@ -1528,7 +1528,7 @@ public final class StringLookupFactory {
      * String value = new StringSubstitutor(variableResolver).replace("${url:UTF-8:https://www.apache.org}");
      * </pre>
      * <p>
-     * The above examples convert {@code "UTF-8:https://www.apache.org"} to the contents of that page.
+     * The examples above convert {@code "UTF-8:https://www.apache.org"} to the contents of that page.
      * </p>
      *
      * @return The UrlStringLookup singleton instance.
@@ -1561,7 +1561,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${xmlDecoder:&amp;lt;element&amp;gt;} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "&lt;element&gt;"} to {@code "<element>"}.
+     * The examples above convert {@code "&lt;element&gt;"} to {@code "<element>"}.
      * </p>
      *
      * @return The XmlDecoderStringLookup singleton instance.
@@ -1594,7 +1594,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${xmlEncoder:&lt;element&gt;} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "<element>"} to {@code "&lt;element&gt;"}.
+     * The examples above convert {@code "<element>"} to {@code "&lt;element&gt;"}.
      * </p>
      *
      * @return The XmlEncoderStringLookup singleton instance.
@@ -1631,7 +1631,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${xml:com/domain/document.xml:/path/to/node} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML document.
+     * The examples above convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML document.
      * </p>
      *
      * @return An XML StringLookup instance.
@@ -1648,10 +1648,10 @@ public final class StringLookupFactory {
      * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <p>
-     * We look up the value for the key in the format "DocumentPath:XPath".
+     * We look up the value for the key in the format {@code "DocumentPath:XPath"}.
      * </p>
      * <p>
-     * For example: "com/domain/document.xml:/path/to/node".
+     * For example: {@code "com/domain/document.xml:/path/to/node"}.
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
@@ -1668,7 +1668,7 @@ public final class StringLookupFactory {
      * StringSubstitutor.createInterpolator().replace("... ${xml:com/domain/document.xml:/path/to/node} ..."));
      * </pre>
      * <p>
-     * The above examples convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML document.
+     * The examples above convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML document.
      * </p>
      *
      * @param xPathFactoryFeatures XPathFactory features to set.
@@ -1687,10 +1687,10 @@ public final class StringLookupFactory {
      * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <p>
-     * We look up the value for the key in the format "DocumentPath:XPath".
+     * We look up the value for the key in the format {@code "DocumentPath:XPath"}.
      * </p>
      * <p>
-     * For example: "com/domain/document.xml:/path/to/node".
+     * For example: {@code "com/domain/document.xml:/path/to/node"}.
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory} fenced by the current directory ({@code Paths.get("")}):
@@ -1713,7 +1713,7 @@ public final class StringLookupFactory {
      * StringLookupFactory.INSTANCE.xmlStringLookup(Paths.get("")).lookup("../com/domain/document.xml:/path/to/node");
      * </pre>
      * <p>
-     * The above examples convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML document.
+     * The examples above convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML document.
      * </p>
      * <p>
      * {@link StringSubstitutor} methods like {@link StringSubstitutor#replace(String)} will throw a {@link IllegalArgumentException} when a file doesn't
