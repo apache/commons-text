@@ -43,6 +43,11 @@ import org.apache.commons.text.StringSubstitutor;
  * <p>
  * The above examples convert {@code "yyyy-MM-dd"} to today's date, for example, {@code "2019-08-04"}.
  * </p>
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
+ *
+ * @see StringLookupFactory
  */
 final class DateStringLookup extends AbstractStringLookup {
 

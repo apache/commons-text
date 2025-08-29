@@ -26,6 +26,11 @@ import java.util.stream.Collectors;
  * <p>
  * Uses the {@link StringLookupFactory default lookups}.
  * </p>
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
+ *
+ * @see StringLookupFactory
  */
 final class InterpolatorStringLookup extends AbstractStringLookup {
 

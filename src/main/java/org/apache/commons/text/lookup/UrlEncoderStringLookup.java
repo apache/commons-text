@@ -24,6 +24,11 @@ import java.nio.charset.StandardCharsets;
 /**
  * Encodes URL Strings using the UTF-8 encoding.
  *
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
+ *
+ * @see StringLookupFactory
  * @see URLEncoder
  * @since 1.5
  */

@@ -28,7 +28,11 @@ import java.util.ResourceBundle;
  * <p>
  * For example: "com.domain.messages:MyKey".
  * </p>
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
  *
+ * @see StringLookupFactory
  * @see ResourceBundle
  * @since 1.3
  */

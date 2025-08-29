@@ -53,7 +53,11 @@ import org.apache.commons.text.StringSubstitutor;
  * <p>
  * The above examples convert {@code "address|apache.org"} to {@code "95.216.24.32} (or {@code "40.79.78.1"}).
  * </p>
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
  *
+ * @see StringLookupFactory
  * @since 1.8
  */
 final class DnsStringLookup extends AbstractStringLookup {

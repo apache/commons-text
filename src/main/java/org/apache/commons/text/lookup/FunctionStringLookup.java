@@ -22,8 +22,12 @@ import java.util.function.Function;
 
 /**
  * A function-based lookup where the request for a lookup is answered by applying that function with a key.
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
  *
  * @param <V> A function's input type
+ * @see StringLookupFactory
  * @since 1.9
  */
 final class FunctionStringLookup<V> extends AbstractStringLookup {

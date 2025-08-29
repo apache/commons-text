@@ -39,7 +39,11 @@ import org.apache.commons.text.StringSubstitutor;
  * <pre>
  * StringSubstitutor.createInterpolator().replace("${script:javascript:3 + 4}"));
  * </pre>
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
  *
+ * @see StringLookupFactory
  * @since 1.5
  */
 final class ScriptStringLookup extends AbstractStringLookup {
