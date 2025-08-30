@@ -114,10 +114,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         /** {@inheritDoc} */
         @Override
         public int read() {
-            if (!ready()) {
-                return -1;
-            }
-            return charAt(pos++);
+            return ready() ? charAt(pos++) : -1;
         }
 
         /** {@inheritDoc} */
@@ -181,10 +178,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         @Override
         public String getContent() {
             final String str = super.getContent();
-            if (str == null) {
-                return TextStringBuilder.this.toString();
-            }
-            return str;
+            return str != null ? str : TextStringBuilder.this.toString();
         }
 
         /** {@inheritDoc} */
@@ -1175,11 +1169,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @see #setNewLineText(String)
      */
     public TextStringBuilder appendNewLine() {
-        if (newLine == null) {
-            append(System.lineSeparator());
-            return this;
-        }
-        return append(newLine);
+        return append(newLine == null ? System.lineSeparator() : newLine);
     }
 
     /**
@@ -1229,10 +1219,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder appendSeparator(final char separator) {
-        if (isNotEmpty()) {
-            append(separator);
-        }
-        return this;
+        return isEmpty() ? this : append(separator);
     }
 
     /**
@@ -1246,12 +1233,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder appendSeparator(final char standard, final char defaultIfEmpty) {
-        if (isEmpty()) {
-            append(defaultIfEmpty);
-        } else {
-            append(standard);
-        }
-        return this;
+        return append(isEmpty() ? defaultIfEmpty : standard);
     }
 
     /**
@@ -1277,10 +1259,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder appendSeparator(final char separator, final int loopIndex) {
-        if (loopIndex > 0) {
-            append(separator);
-        }
-        return this;
+        return loopIndex > 0 ? append(separator) : this;
     }
 
     /**
@@ -1331,10 +1310,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder appendSeparator(final String separator, final int loopIndex) {
-        if (separator != null && loopIndex > 0) {
-            append(separator);
-        }
-        return this;
+        return separator != null && loopIndex > 0 ? append(separator) : this;
     }
 
     /**
@@ -1366,10 +1342,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder appendSeparator(final String standard, final String defaultIfEmpty) {
         final String str = isEmpty() ? defaultIfEmpty : standard;
-        if (str != null) {
-            append(str);
-        }
-        return this;
+        return str != null ? append(str) : this;
     }
 
     /**
@@ -1454,8 +1427,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             final String sep = Objects.toString(separator, StringUtils.EMPTY);
             append(array[0]);
             for (int i = 1; i < array.length; i++) {
-                append(sep);
-                append(array[i]);
+                append(sep).append(array[i]);
             }
         }
         return this;
@@ -2925,7 +2897,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         if (size == 0) {
             return this;
         }
-
         final int half = size / 2;
         final char[] buf = buffer;
         for (int leftIdx = 0, rightIdx = size - 1; leftIdx < half; leftIdx++, rightIdx--) {
@@ -2966,9 +2937,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @since 1.9
      */
     public TextStringBuilder set(final CharSequence str) {
-        clear();
-        append(str);
-        return this;
+        return clear().append(str);
     }
 
     /**
