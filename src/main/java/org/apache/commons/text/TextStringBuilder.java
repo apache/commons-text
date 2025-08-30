@@ -1185,13 +1185,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends the text representing {@code null} to this string builder.
      *
-     * @return this, to enable chaining
+     * @return this, to enable chaining.
      */
     public TextStringBuilder appendNull() {
-        if (nullText == null) {
-            return this;
-        }
-        return append(nullText);
+        return nullText != null ? append(nullText) : this;
     }
 
     /**
