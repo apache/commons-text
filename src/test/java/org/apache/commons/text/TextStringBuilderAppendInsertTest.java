@@ -1134,6 +1134,72 @@ class TextStringBuilderAppendInsertTest {
     }
 
     @Test
+    void testInsertAtEnd() {
+        final TextStringBuilder sb = new TextStringBuilder();
+        assertEquals("", sb.toString());
+
+        sb.insert(0, "Hello");
+        assertEquals("Hello", sb.toString());
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, "World"));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(6, "World"));
+
+        sb.insert(5, true);
+        assertEquals("Hellotrue", sb.toString());
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(10, false));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-20, false));
+
+        sb.insert(9, 'A');
+        assertEquals("HellotrueA", sb.toString());
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(11, 'B'));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-2, 'B'));
+
+        sb.insert(10, new char[] { 'B' , 'C' });
+        assertEquals("HellotrueABC", sb.toString());
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(13, new char[] { 'D', 'E' }));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, new char[] { 'D', 'E' }));
+
+        sb.insert(12, new char[] { 'D', 'E', 'F' }, 1, 1);
+        assertEquals("HellotrueABCE", sb.toString());
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(14, new char[] { 'G', 'H', 'I' }, 1, 2));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, new char[] { 'G', 'H', 'I' }, 1, 1));
+
+        sb.insert(13, 1.2d);
+        assertEquals("HellotrueABCE1.2", sb.toString());
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(17, 1.3d));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, 1.3d));
+
+        sb.insert(16, 1f);
+        assertEquals("HellotrueABCE1.21.0", sb.toString());
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(20, 1.3f));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-3,  1.3f));
+
+        sb.insert(19, 23);
+        assertEquals("HellotrueABCE1.21.023", sb.toString());
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(22, 20));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-5, -5));
+
+        sb.insert(21, 99L);
+        assertEquals("HellotrueABCE1.21.02399", sb.toString());
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(24, 22L));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-1, -1L));
+
+        sb.insert(23, FOO);
+        assertEquals("HellotrueABCE1.21.02399foo", sb.toString());
+
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(27, FOO));
+        assertThrows(IndexOutOfBoundsException.class, () -> sb.insert(-3, FOO));
+    }
+
+    @Test
     void testInsertWithNullText() {
         final TextStringBuilder sb = new TextStringBuilder();
         sb.setNullText("null");
