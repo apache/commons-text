@@ -2190,7 +2190,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public TextStringBuilder insert(final int index, final boolean value) {
-        validateIndex(index);
+        validateIndex(index, true);
         if (value) {
             ensureCapacityInternal(size + TRUE_STRING_SIZE);
             System.arraycopy(buffer, index, buffer, index + TRUE_STRING_SIZE, size - index);
@@ -2212,7 +2212,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public TextStringBuilder insert(final int index, final char value) {
-        validateIndex(index);
+        validateIndex(index, true);
         ensureCapacityInternal(size + 1);
         System.arraycopy(buffer, index, buffer, index + 1, size - index);
         buffer[index] = value;
@@ -2229,7 +2229,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public TextStringBuilder insert(final int index, final char[] chars) {
-        validateIndex(index);
+        validateIndex(index, true);
         if (chars == null) {
             return insert(index, nullText);
         }
@@ -2254,7 +2254,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException if any index is invalid
      */
     public TextStringBuilder insert(final int index, final char[] chars, final int offset, final int length) {
-        validateIndex(index);
+        validateIndex(index, true);
         if (chars == null) {
             return insert(index, nullText);
         }
@@ -2346,7 +2346,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public TextStringBuilder insert(final int index, String str) {
-        validateIndex(index);
+        validateIndex(index, true);
         if (str == null) {
             str = nullText;
         }
@@ -3215,6 +3215,18 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     protected void validateIndex(final int index) {
         if (index < 0 || index >= size) {
+            throw new StringIndexOutOfBoundsException(index);
+        }
+    }
+
+    /**
+     * Validates that an index is in the range {@code 0 <= index <= size} or {@code 0 <= index < size}.
+     * @param index the index to test.
+     * @param includeEndInValidRange whether to include the end in the valid range.
+     * @throws IndexOutOfBoundsException Thrown when index is not in the chosen range.
+     */
+    protected void validateIndex(final int index, final boolean includeEndInValidRange) {
+        if (index < 0 || (includeEndInValidRange ? (index > size) : (index >= size))) {
             throw new StringIndexOutOfBoundsException(index);
         }
     }
