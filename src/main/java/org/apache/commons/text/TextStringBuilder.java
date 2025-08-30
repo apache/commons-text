@@ -2322,16 +2322,13 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Inserts the string representation of an object into this builder. Inserting null will use the stored null text
      * value.
      *
-     * @param index the index to add at, must be valid
-     * @param obj the object to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param index the index to add at, must be valid.
+     * @param obj the object to insert.
+     * @return this, to enable chaining.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public TextStringBuilder insert(final int index, final Object obj) {
-        if (obj == null) {
-            return insert(index, nullText);
-        }
-        return insert(index, obj.toString());
+        return insert(index, Objects.toString(obj, nullText));
     }
 
     /**
