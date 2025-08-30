@@ -73,4 +73,10 @@
     <Class name="org.apache.commons.text.similarity.LevenshteinDistance" />
     <Bug pattern="SING_SINGLETON_HAS_NONPRIVATE_CONSTRUCTOR" />
   </Match>
+  <!-- RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT false positive: Exceptions can be thrown -->
+  <Match>
+    <Class name="org.apache.commons.text.TextStringBuilder" />
+    <Method name="insert" />
+    <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT" />
+  </Match>
 </FindBugsFilter>

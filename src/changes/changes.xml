@@ -48,6 +48,7 @@ The <action> type attribute can be add,update,fix,remove.
   <release version="1.14.1" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix exception message typo in XmlStringLookup.XmlStringLookup(Map, Path...).</action>
+      <action type="fix" dev="ggregory" due-to="Sumit Bera, Alex Herbert, Gary Gregory" issue="TEXT-236">Inserting at end of a TextStringBuilder throws a StringIndexOutOfBoundsException.</action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Piotr P. Karwasz, Gary Gregory">Add experimental CycloneDX VEX file #683.</action>
       <!-- UPDATE -->
