@@ -43,6 +43,33 @@ class CaseUtilsTest {
     }
 
     @Test
+    void testDefaultToCamelCase() {
+        assertNull(CaseUtils.toCamelCase(null));
+        assertNull(CaseUtils.toCamelCase(null, null));
+        assertEquals("", CaseUtils.toCamelCase("  ", null));
+        assertEquals("aBC@def", CaseUtils.toCamelCase("a  b  c  @def", null));
+
+        final char[] chars = { '-', '+', ' ', '@' };
+        assertEquals("toCamelCase", CaseUtils.toCamelCase("   to-CAMEL-cASE", chars));
+
+        assertEquals("toCamelCase", CaseUtils.toCamelCase("To.Camel.Case", '.'));
+        assertEquals("toCamelCase", CaseUtils.toCamelCase("To.Camel-Case", '-', '.'));
+        assertEquals("toCamelCase", CaseUtils.toCamelCase(" to @ Camel case", '-', '@'));
+
+        assertEquals("toCamelCase", CaseUtils.toCamelCase("TO CAMEL CASE", null));
+        assertEquals("toCamelCase", CaseUtils.toCamelCase("TO CAMEL CASE", null));
+        assertEquals("tocamelcase", CaseUtils.toCamelCase("tocamelcase", null));
+        assertEquals("tocamelcase", CaseUtils.toCamelCase("Tocamelcase", null));
+
+        assertEquals("tocamelcase", CaseUtils.toCamelCase("tocamelcase", false));
+
+        assertEquals("helloWorld", CaseUtils.toCamelCase("hello world"));
+        assertEquals("javaUtils", CaseUtils.toCamelCase("java-utils", '-'));
+        assertEquals("convertThisString", CaseUtils.toCamelCase("convert this string"));
+        assertEquals("helloWorld", CaseUtils.toCamelCase("hello_world", '_'));
+    }
+
+    @Test
     void testToCamelCase() {
         assertNull(CaseUtils.toCamelCase(null, false, null));
         assertEquals("", CaseUtils.toCamelCase("", true, null));

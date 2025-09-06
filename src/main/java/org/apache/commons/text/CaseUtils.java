@@ -40,6 +40,39 @@ public class CaseUtils {
      *
      * <p>The delimiters represent a set of characters understood to separate words.
      * The first non-delimiter character after a delimiter will be capitalized. The first String
+     * character will be capitalized.</p>
+     *
+     * <p>A {@code null} input String returns {@code null}.</p>
+     *
+     * <p>A input string with only delimiter characters returns {@code ""}.</p>
+     *
+     * Capitalization uses the Unicode title case, normally equivalent to
+     * upper case and cannot perform locale-sensitive mappings.
+     *
+     * <pre>
+     * CaseUtils.toCamelCase(null)                                   = null
+     * CaseUtils.toCamelCase("", '*')                                = ""
+     * CaseUtils.toCamelCase("*", null)                              = *
+     * CaseUtils.toCamelCase("To.Camel.Case", new char[]{'.'})       = "toCamelCase"
+     * CaseUtils.toCamelCase(" @to @ Camel case", new char[]{'@'})   = "toCamelCase"
+     * CaseUtils.toCamelCase(" @", new char[]{'@'})                  = ""
+     * </pre>
+     *
+     * @param str        the String to be converted to camelCase, may be null
+     * @param delimiters set of characters to determine capitalization, null and/or empty array means whitespace
+     * @return camelCase of String, {@code null} if null String input
+     */
+    public static String toCamelCase(String str, final char... delimiters) {
+        return toCamelCase(str, false, delimiters);
+    }
+
+    /**
+     * Converts all the delimiter separated words in a String into camelCase,
+     * that is each word is made up of a title case character and then a series of
+     * lowercase characters.
+     *
+     * <p>The delimiters represent a set of characters understood to separate words.
+     * The first non-delimiter character after a delimiter will be capitalized. The first String
      * character may or may not be capitalized and it's determined by the user input for capitalizeFirstLetter
      * variable.</p>
      *
