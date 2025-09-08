@@ -40,7 +40,7 @@ public class CaseUtils {
      *
      * <p>The delimiters represent a set of characters understood to separate words.
      * The first non-delimiter character after a delimiter will be capitalized. The first String
-     * character will be capitalized.</p>
+     * character will not be capitalized.</p>
      *
      * <p>A {@code null} input String returns {@code null}.</p>
      *
