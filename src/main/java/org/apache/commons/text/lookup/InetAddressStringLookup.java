@@ -35,7 +35,11 @@ import org.apache.commons.lang3.function.FailableSupplier;
  * <li><strong>canonical-name</strong>: for the local canonical host name, for example {@code EXAMPLE.apache.org}.</li>
  * <li><strong>address</strong>: for the local host address, for example {@code 192.168.56.1}.</li>
  * </ul>
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
  *
+ * @see StringLookupFactory
  * @since 1.3
  */
 final class InetAddressStringLookup extends AbstractStringLookup {

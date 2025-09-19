@@ -33,6 +33,11 @@ import org.apache.commons.lang3.StringUtils;
  * For example: "UTF-8:https://www.apache.org".
  * </p>
  *
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
+ *
+ * @see StringLookupFactory
  * @since 1.5
  */
 final class UrlStringLookup extends AbstractStringLookup {

@@ -35,7 +35,11 @@ import org.apache.commons.lang3.StringUtils;
  * <p>
  * For example: "com/domain/document.properties:key".
  * </p>
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
  *
+ * @see StringLookupFactory
  * @see Properties
  * @since 1.5
  */

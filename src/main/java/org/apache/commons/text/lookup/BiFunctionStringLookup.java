@@ -22,9 +22,13 @@ import java.util.function.BiFunction;
 
 /**
  * A function-based lookup where the request for a lookup is answered by applying that function with a key.
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
  *
  * @param <R> A function's return type
  * @param <P> A function's second input type
+ * @see StringLookupFactory
  * @since 1.9
  */
 final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {

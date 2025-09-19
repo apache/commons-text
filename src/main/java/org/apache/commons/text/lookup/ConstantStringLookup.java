@@ -58,7 +58,11 @@ import org.apache.commons.text.StringSubstitutor;
  * <p>
  * This class was adapted from Apache Commons Configuration.
  * </p>
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
  *
+ * @see StringLookupFactory
  * @since 1.5
  */
 class ConstantStringLookup extends AbstractStringLookup {

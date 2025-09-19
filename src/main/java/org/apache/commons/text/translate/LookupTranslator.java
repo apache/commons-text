@@ -43,7 +43,7 @@ public class LookupTranslator extends CharSequenceTranslator {
     /**
      * Constructs the lookup table to be used in translation.
      *
-     * Note that, as of Lang 3.1 (the origin of this code), the key to the lookup table is converted to a java.lang.String. This is because we need the key to
+     * Note that, as of Lang 3.1 (the origin of this code), the key to the lookup table is converted to a {@link String}. This is because we need the key to
      * support hashCode and equals(Object), allowing it to be the key for a HashMap. See LANG-882.
      *
      * @param lookupMap Map&lt;CharSequence, CharSequence&gt; table of translator mappings, may not be null.

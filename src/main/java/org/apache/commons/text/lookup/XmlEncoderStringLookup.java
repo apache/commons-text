@@ -22,6 +22,11 @@ import org.apache.commons.text.StringEscapeUtils;
 /**
  * Encodes strings according to the XML 1.0 specification.
  *
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
+ *
+ * @see StringLookupFactory
  * @see StringEscapeUtils#escapeXml10(String)
  * @since 1.11.0
  */

@@ -53,7 +53,11 @@ import org.apache.commons.text.StringSubstitutor;
  * The above examples convert {@code "version"} to the current VM version, for example,
  * {@code "Java version 1.8.0_181"}.
  * </p>
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
  *
+ * @see StringLookupFactory
  * @since 1.3
  */
 final class JavaPlatformStringLookup extends AbstractStringLookup {

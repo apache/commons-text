@@ -45,7 +45,11 @@ import org.apache.commons.text.StringSubstitutor;
  * <p>
  * The above example converts {@code "UTF-8:SomePath"} to the UTF-8 contents of the file at {@code SomePath}.
  * </p>
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
  *
+ * @see StringLookupFactory
  * @since 1.5
  */
 final class FileStringLookup extends AbstractPathFencedLookup {

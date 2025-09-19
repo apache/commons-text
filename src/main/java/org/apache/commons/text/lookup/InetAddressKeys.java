@@ -21,7 +21,11 @@ import java.net.InetAddress;
 
 /**
  * Constants for referring to {@link InetAddress} APIs.
+ * <p>
+ * Public access is through {@link StringLookupFactory}.
+ * </p>
  *
+ * @see StringLookupFactory
  * @since 1.8
  */
 final class InetAddressKeys {

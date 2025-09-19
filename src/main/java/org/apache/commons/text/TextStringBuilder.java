@@ -114,10 +114,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         /** {@inheritDoc} */
         @Override
         public int read() {
-            if (!ready()) {
-                return -1;
-            }
-            return charAt(pos++);
+            return ready() ? charAt(pos++) : -1;
         }
 
         /** {@inheritDoc} */
@@ -181,10 +178,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         @Override
         public String getContent() {
             final String str = super.getContent();
-            if (str == null) {
-                return TextStringBuilder.this.toString();
-            }
-            return str;
+            return str != null ? str : TextStringBuilder.this.toString();
         }
 
         /** {@inheritDoc} */
@@ -1175,23 +1169,16 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @see #setNewLineText(String)
      */
     public TextStringBuilder appendNewLine() {
-        if (newLine == null) {
-            append(System.lineSeparator());
-            return this;
-        }
-        return append(newLine);
+        return append(newLine == null ? System.lineSeparator() : newLine);
     }
 
     /**
      * Appends the text representing {@code null} to this string builder.
      *
-     * @return this, to enable chaining
+     * @return this, to enable chaining.
      */
     public TextStringBuilder appendNull() {
-        if (nullText == null) {
-            return this;
-        }
-        return append(nullText);
+        return nullText != null ? append(nullText) : this;
     }
 
     /**
@@ -1232,10 +1219,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder appendSeparator(final char separator) {
-        if (isNotEmpty()) {
-            append(separator);
-        }
-        return this;
+        return isEmpty() ? this : append(separator);
     }
 
     /**
@@ -1249,12 +1233,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder appendSeparator(final char standard, final char defaultIfEmpty) {
-        if (isEmpty()) {
-            append(defaultIfEmpty);
-        } else {
-            append(standard);
-        }
-        return this;
+        return append(isEmpty() ? defaultIfEmpty : standard);
     }
 
     /**
@@ -1280,10 +1259,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder appendSeparator(final char separator, final int loopIndex) {
-        if (loopIndex > 0) {
-            append(separator);
-        }
-        return this;
+        return loopIndex > 0 ? append(separator) : this;
     }
 
     /**
@@ -1334,10 +1310,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @return this, to enable chaining
      */
     public TextStringBuilder appendSeparator(final String separator, final int loopIndex) {
-        if (separator != null && loopIndex > 0) {
-            append(separator);
-        }
-        return this;
+        return separator != null && loopIndex > 0 ? append(separator) : this;
     }
 
     /**
@@ -1369,10 +1342,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder appendSeparator(final String standard, final String defaultIfEmpty) {
         final String str = isEmpty() ? defaultIfEmpty : standard;
-        if (str != null) {
-            append(str);
-        }
-        return this;
+        return str != null ? append(str) : this;
     }
 
     /**
@@ -1457,8 +1427,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             final String sep = Objects.toString(separator, StringUtils.EMPTY);
             append(array[0]);
             for (int i = 1; i < array.length; i++) {
-                append(sep);
-                append(array[i]);
+                append(sep).append(array[i]);
             }
         }
         return this;
@@ -2190,7 +2159,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public TextStringBuilder insert(final int index, final boolean value) {
-        validateIndex(index);
+        validateRange(index, size);
         if (value) {
             ensureCapacityInternal(size + TRUE_STRING_SIZE);
             System.arraycopy(buffer, index, buffer, index + TRUE_STRING_SIZE, size - index);
@@ -2212,7 +2181,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public TextStringBuilder insert(final int index, final char value) {
-        validateIndex(index);
+        validateRange(index, size);
         ensureCapacityInternal(size + 1);
         System.arraycopy(buffer, index, buffer, index + 1, size - index);
         buffer[index] = value;
@@ -2229,7 +2198,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public TextStringBuilder insert(final int index, final char[] chars) {
-        validateIndex(index);
+        validateRange(index, size);
         if (chars == null) {
             return insert(index, nullText);
         }
@@ -2254,7 +2223,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException if any index is invalid
      */
     public TextStringBuilder insert(final int index, final char[] chars, final int offset, final int length) {
-        validateIndex(index);
+        validateRange(index, size);
         if (chars == null) {
             return insert(index, nullText);
         }
@@ -2325,16 +2294,13 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Inserts the string representation of an object into this builder. Inserting null will use the stored null text
      * value.
      *
-     * @param index the index to add at, must be valid
-     * @param obj the object to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param index the index to add at, must be valid.
+     * @param obj the object to insert.
+     * @return this, to enable chaining.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public TextStringBuilder insert(final int index, final Object obj) {
-        if (obj == null) {
-            return insert(index, nullText);
-        }
-        return insert(index, obj.toString());
+        return insert(index, Objects.toString(obj, nullText));
     }
 
     /**
@@ -2346,7 +2312,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public TextStringBuilder insert(final int index, String str) {
-        validateIndex(index);
+        validateRange(index, size);
         if (str == null) {
             str = nullText;
         }
@@ -2931,7 +2897,6 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         if (size == 0) {
             return this;
         }
-
         final int half = size / 2;
         final char[] buf = buffer;
         for (int leftIdx = 0, rightIdx = size - 1; leftIdx < half; leftIdx++, rightIdx--) {
@@ -2972,9 +2937,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @since 1.9
      */
     public TextStringBuilder set(final CharSequence str) {
-        clear();
-        append(str);
-        return this;
+        return clear().append(str);
     }
 
     /**
@@ -3019,7 +2982,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Sets the text to be appended when {@link #appendNewLine() new line} is called.
      *
      * @param newLine the new line text, {@code null} means use the system default from {@link System#lineSeparator()}.
-     * @return this instance.
+     * @return {@code this} instance.
      */
     public TextStringBuilder setNewLineText(final String newLine) {
         this.newLine = newLine;
@@ -3208,10 +3171,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Validates that an index is in the range {@code 0 <= index <= size}.
+     * Validates that an index is in the range {@code 0 <= index < size}.
      *
      * @param index the index to test.
-     * @throws IndexOutOfBoundsException Thrown when the index is not the range {@code 0 <= index <= size}.
+     * @throws IndexOutOfBoundsException Thrown when the index is not the range {@code 0 <= index < size}.
      */
     protected void validateIndex(final int index) {
         if (index < 0 || index >= size) {
