@@ -31,21 +31,7 @@ package org.apache.commons.text.similarity;
 public class DamerauLevenshteinDistance implements EditDistance<Integer> {
 
     /**
-     * The singleton instance.
-     */
-    private static final DamerauLevenshteinDistance INSTANCE = new DamerauLevenshteinDistance();
-
-    /**
-     * Gets the default instance.
-     *
-     * @return The default instance.
-     */
-    public static DamerauLevenshteinDistance getDefaultInstance() {
-        return INSTANCE;
-    }
-
-    /**
-     * Utility function to ensure distance is valid according to threshold
+     * Utility function to ensure distance is valid according to threshold.
      *
      * @param distance  The distance value
      * @param threshold The threshold value
@@ -273,11 +259,7 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
 
     /**
      * Constructs a default instance that uses a version of the algorithm that does not use a threshold parameter.
-     *
-     * @see DamerauLevenshteinDistance#getDefaultInstance()
-     * @deprecated Use {@link #getDefaultInstance()}.
      */
-    @Deprecated
     public DamerauLevenshteinDistance() {
         this(null);
     }

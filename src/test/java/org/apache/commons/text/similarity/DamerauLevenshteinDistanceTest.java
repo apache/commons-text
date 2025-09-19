@@ -16,39 +16,46 @@
  */
 package org.apache.commons.text.similarity;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 public class DamerauLevenshteinDistanceTest {
+
+    private static DamerauLevenshteinDistance defaultInstance;
+
+    @BeforeAll
+    static void createInstance() {
+        defaultInstance = new DamerauLevenshteinDistance();
+    }
 
     @Test
     void testGetThresholdDirectlyAfterObjectInstantiation() {
-        assertNull(LevenshteinDistance.getDefaultInstance().getThreshold());
+        assertNull(defaultInstance.getThreshold());
     }
 
     @Test
     void testGetThresholdIsCorrect() {
-        LevenshteinDistance distance = new LevenshteinDistance(10);
+        DamerauLevenshteinDistance distance = new DamerauLevenshteinDistance(10);
 
         assertEquals(10, distance.getThreshold());
     }
 
     @Test
     void testNullInputsThrowUnlimited() {
-        DamerauLevenshteinDistance instance = DamerauLevenshteinDistance.getDefaultInstance();
-
-        assertThrows(IllegalArgumentException.class, () -> instance.apply(null, "test"));
-        assertThrows(IllegalArgumentException.class, () -> instance.apply("test", null));
-        assertThrows(IllegalArgumentException.class, () -> instance.apply(null, SimilarityInput.input("test")));
-        assertThrows(IllegalArgumentException.class, () -> instance.apply(SimilarityInput.input("test"), null));
+        assertThrows(IllegalArgumentException.class, () -> defaultInstance.apply(null, "test"));
+        assertThrows(IllegalArgumentException.class, () -> defaultInstance.apply("test", null));
+        assertThrows(IllegalArgumentException.class, () -> defaultInstance.apply(null, SimilarityInput.input("test")));
+        assertThrows(IllegalArgumentException.class, () -> defaultInstance.apply(SimilarityInput.input("test"), null));
     }
 
     @Test
@@ -69,10 +76,8 @@ public class DamerauLevenshteinDistanceTest {
     @ParameterizedTest(name = "DamerauLevenshteinDistance.unlimitedCompare(\"{0}\", \"{1}\") should return {2}")
     @MethodSource("unlimitedDamerauLevenshteinDistanceTestCases")
     void testCalculateDamerauLevenshteinDistance(String left, String right, int expectedDistance) {
-        DamerauLevenshteinDistance instance = DamerauLevenshteinDistance.getDefaultInstance();
-
-        int leftRightDistance = instance.apply(left, right);
-        int rightLeftDistance = instance.apply(right, left);
+        int leftRightDistance = defaultInstance.apply(left, right);
+        int rightLeftDistance = defaultInstance.apply(right, left);
 
         assertEquals(expectedDistance, leftRightDistance);
         assertEquals(expectedDistance, rightLeftDistance);
@@ -81,13 +86,11 @@ public class DamerauLevenshteinDistanceTest {
     @ParameterizedTest(name = "DamerauLevenshteinDistance.unlimitedCompare(\"{0}\", \"{1}\") should return {2} ({3})")
     @MethodSource("unlimitedDamerauLevenshteinDistanceTestCases_SimilarityInput")
     void testCalculateDamerauLevenshteinDistance_SimilarityInput(String left, String right, int expectedDistance, final Class<?> cls) {
-        DamerauLevenshteinDistance instance = DamerauLevenshteinDistance.getDefaultInstance();
-
         SimilarityInput<Object> leftInput = SimilarityInputTest.build(cls, left);
         SimilarityInput<Object> rightInput = SimilarityInputTest.build(cls, right);
 
-        int leftRightDistance = instance.apply(leftInput, rightInput);
-        int rightLeftDistance = instance.apply(rightInput, leftInput);
+        int leftRightDistance = defaultInstance.apply(leftInput, rightInput);
+        int rightLeftDistance = defaultInstance.apply(rightInput, leftInput);
 
         assertEquals(expectedDistance, leftRightDistance);
         assertEquals(expectedDistance, rightLeftDistance);
