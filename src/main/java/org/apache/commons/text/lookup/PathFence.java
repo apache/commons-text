@@ -26,7 +26,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
- * A Path fence guards Path resolution.
+ * A Path fence guards against using paths outside of a "fence" of made of root paths.
  *
  * Keep package-private.
  */
@@ -41,9 +41,14 @@ final class PathFence {
         private static final Path[] EMPTY = {};
 
         /**
-         * A fence is made of Paths guarding Path resolution.
+         * A fence is made of root Paths.
          */
-        private Path[] paths = EMPTY;
+        private Path[] roots = EMPTY;
+
+        @Override
+        public PathFence get() {
+            return new PathFence(this);
+        }
 
         /**
          * Sets the paths that delineate this fence.
@@ -51,14 +56,9 @@ final class PathFence {
          * @param paths the paths that delineate this fence.
          * @return {@code this} instance.
          */
-        Builder setPaths(final Path... paths) {
-            this.paths = paths != null ? paths.clone() : EMPTY;
+        Builder setRoots(final Path... paths) {
+            this.roots = paths != null ? paths.clone() : EMPTY;
             return this;
-        }
-
-        @Override
-        public PathFence get() {
-            return new PathFence(this);
         }
     }
 
@@ -74,7 +74,7 @@ final class PathFence {
     /**
      * A fence is made of Paths guarding Path resolution.
      */
-    private final List<Path> paths;
+    private final List<Path> roots;
 
     /**
      * Constructs a new instance.
@@ -82,7 +82,7 @@ final class PathFence {
      * @param builder A builder.
      */
     private PathFence(final Builder builder) {
-        this.paths = Arrays.stream(builder.paths).map(Path::toAbsolutePath).collect(Collectors.toList());
+        this.roots = Arrays.stream(builder.roots).map(Path::toAbsolutePath).collect(Collectors.toList());
     }
 
     /**
@@ -92,17 +92,17 @@ final class PathFence {
      * @return a fenced Path.
      * @throws IllegalArgumentException if the file name is not without our fence.
      */
-    Path getPath(final String fileName) {
+    Path apply(final String fileName) {
         final Path path = Paths.get(fileName);
-        if (paths.isEmpty()) {
+        if (roots.isEmpty()) {
             return path;
         }
         final Path pathAbs = path.normalize().toAbsolutePath();
-        final Optional<Path> first = paths.stream().filter(pathAbs::startsWith).findFirst();
+        final Optional<Path> first = roots.stream().filter(pathAbs::startsWith).findFirst();
         if (first.isPresent()) {
             return path;
         }
-        throw new IllegalArgumentException(String.format("[%s] -> [%s] not in the fence %s", fileName, pathAbs, paths));
+        throw new IllegalArgumentException(String.format("[%s] -> [%s] not in the fence %s", fileName, pathAbs, roots));
     }
 
 }

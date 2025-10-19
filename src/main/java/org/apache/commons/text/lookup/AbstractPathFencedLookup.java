@@ -35,7 +35,7 @@ abstract class AbstractPathFencedLookup extends AbstractStringLookup {
      * @param paths The fences guarding Path resolution.
      */
     AbstractPathFencedLookup(final Path... paths) {
-        this.fence = PathFence.builder().setPaths(paths).get();
+        this.fence = PathFence.builder().setRoots(paths).get();
     }
 
     /**
@@ -46,6 +46,6 @@ abstract class AbstractPathFencedLookup extends AbstractStringLookup {
      * @throws IllegalArgumentException if the file name is not without our fence.
      */
     protected Path getPath(final String fileName) {
-        return fence.getPath(fileName);
+        return fence.apply(fileName);
     }
 }
