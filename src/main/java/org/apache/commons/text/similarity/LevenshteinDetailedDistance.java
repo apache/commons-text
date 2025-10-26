@@ -168,7 +168,8 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
          * of the cost table. It is also possible to use this to compute the unbounded Levenshtein distance by starting the threshold at 1 and doubling each
          * time until the distance is found; this is O(dm), where d is the distance.
          *
-         * One subtlety comes from needing to ignore entries on the border of our stripe eg. p[] = |#|#|#|* d[] = *|#|#|#| We must ignore the entry to the left
+         * One subtlety comes from needing to ignore entries on the border of our stripe, for example,
+         * p[] = |#|#|#|* d[] = *|#|#|#| We must ignore the entry to the left
          * of the leftmost member We must ignore the entry above the rightmost member
          *
          * Another subtlety comes from our stripe running off the matrix if the strings aren't of the same size. Since string s is always swapped to be the
