@@ -115,7 +115,7 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
             minCost = Integer.MAX_VALUE;
 
             for (rightIndex = 1; rightIndex <= rightLength; rightIndex++) {
-                cost = (left.at(leftIndex - 1) == right.at(rightIndex - 1)) ? 0 : 1;
+                cost = left.at(leftIndex - 1) == right.at(rightIndex - 1) ? 0 : 1;
 
                 // Select cheapest operation
                 curr[rightIndex] = Math.min(
@@ -220,7 +220,7 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
             curr[0] = leftIndex;
 
             for (rightIndex = 1; rightIndex <= rightLength; rightIndex++) {
-                cost = (left.at(leftIndex - 1) == right.at(rightIndex - 1)) ? 0 : 1;
+                cost = left.at(leftIndex - 1) == right.at(rightIndex - 1) ? 0 : 1;
 
                 // Select cheapest operation
                 curr[rightIndex] = Math.min(
