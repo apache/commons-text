@@ -132,7 +132,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      *
      * <p>
      * This implementation follows from Algorithms on Strings, Trees and Sequences by Dan Gusfield and Chas Emerick's implementation of the Levenshtein distance
-     * algorithm from <a href="http://www.merriampark.com/ld.htm" >http://www.merriampark.com/ld.htm</a>
+     * algorithm from <a href="https://www.merriampark.com/ld.htm" >http://www.merriampark.com/ld.htm</a>
      * </p>
      *
      * <pre>
@@ -274,14 +274,14 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      *
      * <p>
      * The previous implementation of the Levenshtein distance algorithm was from
-     * <a href="http://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a>
+     * <a href="https://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a>
      * </p>
      *
      * <p>
      * Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError which can occur when my Java implementation is used with very large
      * strings.<br>
      * This implementation of the Levenshtein distance algorithm is from
-     * <a href="http://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a>
+     * <a href="https://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a>
      * </p>
      *
      * <pre>
@@ -417,14 +417,14 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      *
      * <p>
      * The previous implementation of the Levenshtein distance algorithm was from
-     * <a href="http://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a>
+     * <a href="https://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a>
      * </p>
      *
      * <p>
      * Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError which can occur when my Java implementation is used with very large
      * strings.<br>
      * This implementation of the Levenshtein distance algorithm is from
-     * <a href="http://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a>
+     * <a href="https://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a>
      * </p>
      *
      * <pre>
@@ -460,14 +460,14 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
      *
      * <p>
      * The previous implementation of the Levenshtein distance algorithm was from
-     * <a href="http://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a>
+     * <a href="https://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a>
      * </p>
      *
      * <p>
      * Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError which can occur when my Java implementation is used with very large
      * strings.<br>
      * This implementation of the Levenshtein distance algorithm is from
-     * <a href="http://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a>
+     * <a href="https://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a>
      * </p>
      *
      * <pre>

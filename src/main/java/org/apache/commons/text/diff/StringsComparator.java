@@ -35,7 +35,7 @@ package org.apache.commons.text.diff;
  * <p>
  * This class implements the comparison algorithm, which is the very efficient
  * algorithm from Eugene W. Myers
- * <a href="http://www.cis.upenn.edu/~bcpierce/courses/dd/papers/diff.ps">
+ * <a href="https://www.cis.upenn.edu/~bcpierce/courses/dd/papers/diff.ps">
  * An O(ND) Difference Algorithm and Its Variations</a>. This algorithm produces
  * the shortest possible {@link EditScript edit script} containing all the
  * {@link EditCommand commands} needed to transform the first sequence into
@@ -220,7 +220,7 @@ public class StringsComparator {
      * The snake is found using the MYERS Algorithm (this algorithms has
      * also been implemented in the GNU diff program). This algorithm is
      * explained in Eugene Myers article:
-     * <a href="http://www.cs.arizona.edu/people/gene/PAPERS/diff.ps">
+     * <a href="https://www.cs.arizona.edu/people/gene/PAPERS/diff.ps">
      * An O(ND) Difference Algorithm and Its Variations</a>.
      * </p>
      *

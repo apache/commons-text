@@ -88,10 +88,10 @@ limitations under the License.
         </pre>
       </p>
       <p>
-        For details see <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">StringSubstitutor</a>.
+        For details see <a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">StringSubstitutor</a>.
       </p>
       <p>
-        Use a <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/io/StringSubstitutorReader.html">StringSubstitutorReader</a>
+        Use a <a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/io/StringSubstitutorReader.html">StringSubstitutorReader</a>
         to avoid reading a whole file into memory as a <code>String</code> to perform string substitution, for example, when a Servlet filters a file to a client.
       </p>
       <p>
@@ -99,13 +99,13 @@ limitations under the License.
       </p>
       <ul>
         <li>Commons Text &gt;= 1.8: 
-          <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">org.apache.commons.text.StringSubstitutor.createInterpolator()</a></li>
+          <a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">org.apache.commons.text.StringSubstitutor.createInterpolator()</a></li>
         <li>Commons Text &lt; 1.8: 
-          <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">new StringSubstitutor(StringLookupFactory.INSTANCE.interpolatorStringLookup())</a></li>
+          <a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">new StringSubstitutor(StringLookupFactory.INSTANCE.interpolatorStringLookup())</a></li>
       </ul>
       <p>
         The available substitutions are defined in 
-        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html">org.apache.commons.text.lookup.StringLookupFactory</a>.
+        <a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html">org.apache.commons.text.lookup.StringLookupFactory</a>.
       </p>
       </subsection>
 
@@ -180,11 +180,11 @@ limitations under the License.
 
     <section name="Package org.apache.commons.text.lookup">
       <p>Provides algorithms for looking up strings used by a 
-        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">StringSubstitutor</a>.
+        <a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html">StringSubstitutor</a>.
         Standard lookups are defined in
-        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html">StringLookupFactory</a>
+        <a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html">StringLookupFactory</a>
         and the associated
-        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/DefaultStringLookup.html">DefaultStringLookup</a>
+        <a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/DefaultStringLookup.html">DefaultStringLookup</a>
         enum.
         </p>
       <p>
@@ -192,7 +192,7 @@ limitations under the License.
         construct a complex string.
       </p>
       <p><strong>NOTE:</strong> The list of lookups available by default changed in version 1.10.0. See the documentation for
-        <a href="http://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html">StringLookupFactory</a>
+        <a href="https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/lookup/StringLookupFactory.html">StringLookupFactory</a>
         for details and instructions on how to reproduce the previous behavior.
       </p>
       <source>

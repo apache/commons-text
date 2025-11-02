@@ -150,7 +150,7 @@ public class EntityArrays {
 
     /**
      * A Map&lt;CharSequence, CharSequence&gt; to escape additional
-     * <a href="http://www.w3.org/TR/REC-html40/sgml/entities.html">character entity
+     * <a href="https://www.w3.org/TR/REC-html40/sgml/entities.html">character entity
      * references</a>. Note that this must be used with {@link #ISO8859_1_ESCAPE} to get the full list of
      * HTML 4.0 character entities.
      */
