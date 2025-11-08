@@ -414,7 +414,6 @@
     <url>https://gitbox.apache.org/repos/asf?p=commons-text.git</url>
   </scm>
   <issueManagement>
-    <system>jira</system>
     <url>https://issues.apache.org/jira/browse/TEXT</url>
   </issueManagement>
   <distributionManagement>
