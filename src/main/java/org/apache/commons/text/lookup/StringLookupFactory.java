@@ -364,6 +364,9 @@ public final class StringLookupFactory {
     /**
      * Name of the system property used to determine the string lookups added by the {@link #addDefaultStringLookups(Map)} method. Use of this property is only
      * required in cases where the set of default lookups must be modified. (See the {@link StringLookupFactory class documentation} for details.)
+     * <p>
+     * The format of the property string is a comma-separated list of names from the {@link DefaultStringLookup} enum.
+     * </p>
      *
      * @since 1.10.0
      */
