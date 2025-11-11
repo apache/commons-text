@@ -363,7 +363,7 @@ public final class StringLookupFactory {
 
     /**
      * Name of the system property used to determine the string lookups added by the {@link #addDefaultStringLookups(Map)} method. Use of this property is only
-     * required in cases where the set of default lookups must be modified. (See the class documentation for details.)
+     * required in cases where the set of default lookups must be modified. (See the {@link StringLookupFactory class documentation} for details.)
      *
      * @since 1.10.0
      */
@@ -657,6 +657,9 @@ public final class StringLookupFactory {
      * Adds the default string lookups for this class to {@code stringLookupMap}. The default string lookups are a set of built-in lookups added for convenience
      * during string interpolation. The defaults may be configured using the {@value #DEFAULT_STRING_LOOKUPS_PROPERTY} system property. See the class
      * documentation for details and a list of lookups.
+     * <p>
+     * The format of the property string is a comma-separated list of names from the {@link DefaultStringLookup} enum.
+     * </p>
      *
      * @param stringLookupMap the map of string lookups to edit.
      * @since 1.5
