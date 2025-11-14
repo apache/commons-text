@@ -136,4 +136,14 @@ class JaroWinklerSimilarityTest {
         assertEquals(0.911111d, similarity.apply(wrap("John Horn"), "John Hopkins"), 0.00001d);
     }
 
+        @Test
+    void testApply_NullSimilarityInput() {
+        assertThrows(IllegalArgumentException.class, () -> similarity.apply(null, new SimilarityCharacterInput("a")));
+    }
+
+    @Test
+    void testApply_SimilarityInputNull() {
+        assertThrows(IllegalArgumentException.class, () -> similarity.apply(new SimilarityCharacterInput("a"), null));
+    }
+    
 }

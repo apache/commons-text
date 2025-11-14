@@ -1078,4 +1078,11 @@ public class StringSubstitutorTest {
         assertEqualsCharSeq("value $${escaped}", replace(sub, org));
     }
 
+    @Test
+    void testDetectsCyclicSubstitution() {
+        final Map<String, String> map = new HashMap<>();
+        map.put("name", "<name>");
+        assertThrows(IllegalStateException.class, () -> StringSubstitutor.replace("Hi <name>!", map, "<", ">"));
+    }
+
 }
