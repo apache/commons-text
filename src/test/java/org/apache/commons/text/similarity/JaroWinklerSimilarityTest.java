@@ -145,5 +145,5 @@ class JaroWinklerSimilarityTest {
     void testApply_SimilarityInputNull() {
         assertThrows(IllegalArgumentException.class, () -> similarity.apply(new SimilarityCharacterInput("a"), null));
     }
-    
+
 }
