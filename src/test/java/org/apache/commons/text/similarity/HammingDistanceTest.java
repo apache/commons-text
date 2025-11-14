@@ -36,18 +36,33 @@ class HammingDistanceTest {
         distance = new HammingDistance();
     }
 
-    @ParameterizedTest
-    @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputsEquals()")
-    void testHammingDistance(final Class<?> cls) {
-        assertEquals(0, distance.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "")));
-        assertEquals(0, distance.apply(SimilarityInputTest.build(cls, "pappa"), SimilarityInputTest.build(cls, "pappa")));
-        assertEquals(1, distance.apply(SimilarityInputTest.build(cls, "papaa"), SimilarityInputTest.build(cls, "pappa")));
-        assertEquals(3, distance.apply(SimilarityInputTest.build(cls, "karolin"), SimilarityInputTest.build(cls, "kathrin")));
-        assertEquals(3, distance.apply(SimilarityInputTest.build(cls, "karolin"), SimilarityInputTest.build(cls, "kerstin")));
-        assertEquals(2, distance.apply(SimilarityInputTest.build(cls, "1011101"), SimilarityInputTest.build(cls, "1001001")));
-        assertEquals(3, distance.apply(SimilarityInputTest.build(cls, "2173896"), SimilarityInputTest.build(cls, "2233796")));
-        assertEquals(2, distance.apply(SimilarityInputTest.build(cls, "ATCG"), SimilarityInputTest.build(cls, "ACCC")));
+    @Test
+    void testApply_DifferentSimilarityInputLength() {
+        assertThrows(IllegalArgumentException.class, () -> distance.apply(new SimilarityCharacterInput("a"), new SimilarityCharacterInput("ab")));
     }
+
+    @Test
+   void testApply_NullSimilarityInput() {
+	assertThrows(IllegalArgumentException.class, () -> distance.apply(null, new SimilarityCharacterInput("a")));
+   }
+
+    @Test
+    void testApply_SimilarityInputNull() {
+        assertThrows(IllegalArgumentException.class, () -> distance.apply(new SimilarityCharacterInput("a"), null));
+    }
+
+        @ParameterizedTest
+		@MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputsEquals()")
+		void testHammingDistance(final Class<?> cls) {
+		    assertEquals(0, distance.apply(SimilarityInputTest.build(cls, ""), SimilarityInputTest.build(cls, "")));
+		    assertEquals(0, distance.apply(SimilarityInputTest.build(cls, "pappa"), SimilarityInputTest.build(cls, "pappa")));
+		    assertEquals(1, distance.apply(SimilarityInputTest.build(cls, "papaa"), SimilarityInputTest.build(cls, "pappa")));
+		    assertEquals(3, distance.apply(SimilarityInputTest.build(cls, "karolin"), SimilarityInputTest.build(cls, "kathrin")));
+		    assertEquals(3, distance.apply(SimilarityInputTest.build(cls, "karolin"), SimilarityInputTest.build(cls, "kerstin")));
+		    assertEquals(2, distance.apply(SimilarityInputTest.build(cls, "1011101"), SimilarityInputTest.build(cls, "1001001")));
+		    assertEquals(3, distance.apply(SimilarityInputTest.build(cls, "2173896"), SimilarityInputTest.build(cls, "2233796")));
+		    assertEquals(2, distance.apply(SimilarityInputTest.build(cls, "ATCG"), SimilarityInputTest.build(cls, "ACCC")));
+		}
 
     @Test
     void testHammingDistance_nullLeftValue() {
@@ -57,21 +72,6 @@ class HammingDistanceTest {
     @Test
     void testHammingDistance_nullRightValue() {
         assertThrows(IllegalArgumentException.class, () -> distance.apply("", null));
-    }
-
-        @Test
-    void testApply_NullSimilarityInput() {
-        assertThrows(IllegalArgumentException.class, () -> distance.apply(null, new SimilarityCharacterInput("a")));
-    }
-
-    @Test
-    void testApply_SimilarityInputNull() {
-        assertThrows(IllegalArgumentException.class, () -> distance.apply(new SimilarityCharacterInput("a"), null));
-    }
-
-    @Test
-    void testApply_DifferentSimilarityInputLength() {
-        assertThrows(IllegalArgumentException.class, () -> distance.apply(new SimilarityCharacterInput("a"), new SimilarityCharacterInput("ab")));
     }
 
     @Test

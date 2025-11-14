@@ -36,6 +36,16 @@ class JaroWinklerDistanceTest {
         distance = new JaroWinklerDistance();
     }
 
+    @Test
+    void testApply_NullSimilarityInput() {
+        assertThrows(IllegalArgumentException.class, () -> distance.apply(null, new SimilarityCharacterInput("a")));
+    }
+
+    @Test
+    void testApply_SimilarityInputNull() {
+        assertThrows(IllegalArgumentException.class, () -> distance.apply(new SimilarityCharacterInput("a"), null));
+    }
+
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputsEquals()")
     void testGetJaroWinklerDistance(final Class<?> cls) {
@@ -93,16 +103,6 @@ class JaroWinklerDistanceTest {
         assertEquals(1 - 0.90666d, distance.apply("foo", "foo  "), 0.00001d);
         assertEquals(1 - 0.86666d, distance.apply("foo", " foo "), 0.00001d);
         assertEquals(1 - 0.51111d, distance.apply("foo", "  foo"), 0.00001d);
-    }
-
-    @Test
-    void testApply_NullSimilarityInput() {
-        assertThrows(IllegalArgumentException.class, () -> distance.apply(null, new SimilarityCharacterInput("a")));
-    }
-
-    @Test
-    void testApply_SimilarityInputNull() {
-        assertThrows(IllegalArgumentException.class, () -> distance.apply(new SimilarityCharacterInput("a"), null));
     }
 
 }
