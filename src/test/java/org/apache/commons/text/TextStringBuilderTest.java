@@ -246,7 +246,7 @@ class TextStringBuilderTest {
     @Test
     void testAppendToStringBuffer() throws Exception {
         final TextStringBuilder sb = new TextStringBuilder("1234567890");
-        final StringBuilder buffer = new StringBuilder("Test ");
+        final StringBuffer buffer = new StringBuffer("Test ");
 
         sb.appendTo(buffer);
 
