@@ -20,7 +20,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>91</version>
+    <version>92</version>
   </parent>
   <artifactId>commons-text</artifactId>
   <version>1.15.0-SNAPSHOT</version>
@@ -47,8 +47,8 @@
     <commons.site.path>text</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-text</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
-    <commons.lang3.version>3.19.0</commons.lang3.version>
-    <commons.bytebuddy.version>1.17.8</commons.bytebuddy.version>
+    <commons.lang3.version>3.20.0</commons.lang3.version>
+    <commons.bytebuddy.version>1.18.1</commons.bytebuddy.version>
     <commons.rng.version>1.6</commons.rng.version>
     <japicmp.skip>false</japicmp.skip>
     <jmh.version>1.37</jmh.version>

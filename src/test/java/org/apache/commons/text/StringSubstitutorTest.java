@@ -228,6 +228,13 @@ public class StringSubstitutorTest {
         assertTrue(target.getVariableSuffixMatcher().toString().endsWith("['s']"), target.getValueDelimiterMatcher().toString());
     }
 
+    @Test
+    void testDetectsCyclicSubstitution() {
+        final Map<String, String> map = new HashMap<>();
+        map.put("name", "<name>");
+        assertThrows(IllegalStateException.class, () -> StringSubstitutor.replace("Hi <name>!", map, "<", ">"));
+    }
+
     /**
      * Tests get set.
      */

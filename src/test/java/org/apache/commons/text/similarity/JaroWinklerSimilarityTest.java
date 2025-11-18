@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.text.similarity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -78,6 +79,16 @@ class JaroWinklerSimilarityTest {
         };
     }
 
+    @Test
+    void testApply_NullSimilarityInput() {
+        assertThrows(IllegalArgumentException.class, () -> similarity.apply(null, new SimilarityCharacterInput("a")));
+    }
+
+    @Test
+    void testApply_SimilarityInputNull() {
+        assertThrows(IllegalArgumentException.class, () -> similarity.apply(new SimilarityCharacterInput("a"), null));
+    }
+
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputsEquals()")
     void testGetJaroWinklerSimilarity(final Class<?> cls) {
@@ -135,5 +146,4 @@ class JaroWinklerSimilarityTest {
         assertEquals(0.941666d, similarity.apply(wrap("aaabcd"), "aaacdb"), 0.00001d);
         assertEquals(0.911111d, similarity.apply(wrap("John Horn"), "John Hopkins"), 0.00001d);
     }
-
 }

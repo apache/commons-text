@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.text.similarity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,6 +35,21 @@ class HammingDistanceTest {
     @BeforeAll
     public static void setUp() {
         distance = new HammingDistance();
+    }
+
+    @Test
+    void testApply_DifferentSimilarityInputLength() {
+        assertThrows(IllegalArgumentException.class, () -> distance.apply(new SimilarityCharacterInput("a"), new SimilarityCharacterInput("ab")));
+    }
+
+    @Test
+    void testApply_NullSimilarityInput() {
+        assertThrows(IllegalArgumentException.class, () -> distance.apply(null, new SimilarityCharacterInput("a")));
+    }
+
+    @Test
+    void testApply_SimilarityInputNull() {
+        assertThrows(IllegalArgumentException.class, () -> distance.apply(new SimilarityCharacterInput("a"), null));
     }
 
     @ParameterizedTest
@@ -70,5 +86,4 @@ class HammingDistanceTest {
         assertEquals(3, distance.apply("2173896", "2233796"));
         assertEquals(2, distance.apply("ATCG", "ACCC"));
     }
-
 }
