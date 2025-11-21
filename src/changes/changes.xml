@@ -49,7 +49,7 @@ The <action> type attribute can be add,update,fix,remove.
     <!-- FIX -->
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix exception message typo in XmlStringLookup.XmlStringLookup(Map, Path...).</action>
     <action type="fix" dev="ggregory" due-to="Pierre Post, Sumit Bera, Alex Herbert, Gary Gregory" issue="TEXT-236">Inserting at the end of a TextStringBuilder throws a StringIndexOutOfBoundsException.</action>
-    <action type="fix" dev="ggregory" due-to="GMichael Hausegger">Fix TextStringBuilderTest.testAppendToCharBuffer() to use proper argument type #724.</action>
+    <action type="fix" dev="ggregory" due-to="Michael Hausegger">Fix TextStringBuilderTest.testAppendToCharBuffer() to use proper argument type #724.</action>
     <!-- ADD -->
     <action type="add" dev="ggregory" due-to="Piotr P. Karwasz, Gary Gregory">Add experimental CycloneDX VEX file #683.</action>
     <action type="add" dev="ggregory" due-to="LorgeN, Gary Gregory" issue="TEXT-235">Add Damerau-Levenshtein distance #687.</action>
