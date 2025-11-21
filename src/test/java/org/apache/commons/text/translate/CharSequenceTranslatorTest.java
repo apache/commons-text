@@ -35,16 +35,11 @@ class CharSequenceTranslatorTest {
         CharSequenceTranslator charSequenceTranslatorOne = new TestCharSequenceTranslator();
         CharSequenceTranslator charSequenceTranslatorTwo = new TestCharSequenceTranslator();
         CharSequenceTranslator charSequenceTranslatorThree = new TestCharSequenceTranslator();
-
         CharSequenceTranslator aggregatedTranslator = charSequenceTranslatorOne.with(charSequenceTranslatorTwo, charSequenceTranslatorThree);
-
         aggregatedTranslator.translate("", 0, null);
-
         assertTrue(aggregatedTranslator instanceof AggregateTranslator);
         assertEquals(3, translateInvocationCounter);
-
     }
-
 
     private final class TestCharSequenceTranslator extends CharSequenceTranslator {
         @Override
