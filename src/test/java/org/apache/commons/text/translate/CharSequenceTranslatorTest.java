@@ -16,8 +16,8 @@
  */
  package org.apache.commons.text.translate;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -27,20 +27,6 @@ import org.junit.jupiter.api.Test;
 
 class CharSequenceTranslatorTest {
 
-    //Used to count translate invocations
-    private int translateInvocationCounter;
-
-    @Test
-    void testWith() throws IOException {
-        CharSequenceTranslator charSequenceTranslatorOne = new TestCharSequenceTranslator();
-        CharSequenceTranslator charSequenceTranslatorTwo = new TestCharSequenceTranslator();
-        CharSequenceTranslator charSequenceTranslatorThree = new TestCharSequenceTranslator();
-        CharSequenceTranslator aggregatedTranslator = charSequenceTranslatorOne.with(charSequenceTranslatorTwo, charSequenceTranslatorThree);
-        aggregatedTranslator.translate("", 0, null);
-        assertTrue(aggregatedTranslator instanceof AggregateTranslator);
-        assertEquals(3, translateInvocationCounter);
-    }
-
     private final class TestCharSequenceTranslator extends CharSequenceTranslator {
         @Override
         public int translate(final CharSequence input, final int index, final Writer writer) {
@@ -48,6 +34,20 @@ class CharSequenceTranslatorTest {
             return 0;
         }
 
+    }
+
+    //Used to count translate invocations
+    private int translateInvocationCounter;
+
+    @Test
+    void testWith() throws IOException {
+        final CharSequenceTranslator charSequenceTranslatorOne = new TestCharSequenceTranslator();
+        final CharSequenceTranslator charSequenceTranslatorTwo = new TestCharSequenceTranslator();
+        final CharSequenceTranslator charSequenceTranslatorThree = new TestCharSequenceTranslator();
+        final CharSequenceTranslator aggregatedTranslator = charSequenceTranslatorOne.with(charSequenceTranslatorTwo, charSequenceTranslatorThree);
+        aggregatedTranslator.translate("", 0, null);
+        assertTrue(aggregatedTranslator instanceof AggregateTranslator);
+        assertEquals(3, translateInvocationCounter);
     }
 
 }
