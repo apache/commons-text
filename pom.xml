@@ -139,14 +139,14 @@
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
           <configuration>
-            <excludes>
-              <exclude>site-content/**</exclude>
-              <exclude>src/site/resources/download_text.cgi</exclude>
-              <exclude>src/site/resources/release-notes/RELEASE-NOTES-*.txt</exclude>
-              <exclude>src/test/resources/org/apache/commons/text/stringEscapeUtilsTestData.txt</exclude>
-              <exclude>src/test/resources/org/apache/commons/text/lcs-perf-analysis-inputs.csv</exclude>
-              <exclude>src/test/resources/org/apache/commons/text/oss-fuzz/**</exclude>
-            </excludes>
+            <inputExcludes>
+              <inputExclude>site-content/**</inputExclude>
+              <inputExclude>src/site/resources/download_text.cgi</inputExclude>
+              <inputExclude>src/site/resources/release-notes/RELEASE-NOTES-*.txt</inputExclude>
+              <inputExclude>src/test/resources/org/apache/commons/text/stringEscapeUtilsTestData.txt</inputExclude>
+              <inputExclude>src/test/resources/org/apache/commons/text/lcs-perf-analysis-inputs.csv</inputExclude>
+              <inputExclude>src/test/resources/org/apache/commons/text/oss-fuzz/**</inputExclude>
+            </inputExcludes>
           </configuration>
         </plugin><!-- override skip property of parent pom -->
         <plugin>
