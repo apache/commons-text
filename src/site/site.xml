@@ -15,13 +15,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<project name="Commons Text">
-    <bannerRight>
-        <name>Commons Text</name>
-        <src>/images/logo.png</src>
-        <href>/index.html</href>
-    </bannerRight>
-
+<site xmlns="http://maven.apache.org/SITE/2.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SITE/2.0.0 https://maven.apache.org/xsd/site-2.0.0.xsd"
+  name="Apache Commons Exec">
+  <bannerRight name="Commons Exec" href="/index.html">
+    <image src="/images/logo.png"/>
+  </bannerRight>
     <body>
         <menu name="Commons Text">
             <item name="Overview"             href="/index.html"/>
@@ -43,4 +43,4 @@
 
     </body>
 
-</project>
+</site>
