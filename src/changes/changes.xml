@@ -56,6 +56,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action type="add" dev="ggregory" due-to="LorgeN, Gary Gregory" issue="TEXT-235">Add Damerau-Levenshtein distance #687.</action>
     <action type="add" dev="ggregory" due-to="Michael Hausegger, Gary Gregory">Add unit tests to increase coverage #719.</action>
     <action type="add" dev="ggregory" due-to="Michael Hausegger, Gary Gregory">Add new test for CharSequenceTranslator#with() #725.</action>
+    <action type="fix" dev="ggregory" due-to="Michael Hausegger">Add test assertions for SimilarityCharacterInput#equals() class #727.</action>
     <!-- UPDATE -->
     <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 85 to 93 #704, #723, #726.</action>
     <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.bytebuddy.version from 1.17.6 to 1.18.1 #696, #722.</action>
