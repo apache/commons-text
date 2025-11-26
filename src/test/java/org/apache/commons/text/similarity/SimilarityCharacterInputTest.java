@@ -42,6 +42,8 @@ class SimilarityCharacterInputTest {
         assertNotEquals(similarityInput1, similarityInput4);
         assertNotEquals(similarityInput2, similarityInput4);
         assertNotEquals(similarityInput3, similarityInput4);
+        assertNotEquals(similarityInput1, null);
+        assertNotEquals(similarityInput1, new Object());
     }
 
     @ParameterizedTest
