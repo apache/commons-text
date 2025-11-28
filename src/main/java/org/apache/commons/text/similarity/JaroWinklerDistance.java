@@ -55,9 +55,9 @@ public class JaroWinklerDistance implements EditDistance<Double> {
      * Computes the Jaro Winkler Distance between two character sequences.
      *
      * <pre>
-     * distance.apply(null, null)          = IllegalArgumentException
-     * distance.apply("foo", null)         = IllegalArgumentException
-     * distance.apply(null, "foo")         = IllegalArgumentException
+     * distance.apply(null, null)          = Throws {@link IllegalArgumentException}
+     * distance.apply("foo", null)         = Throws {@link IllegalArgumentException}
+     * distance.apply(null, "foo")         = Throws {@link IllegalArgumentException}
      * distance.apply("", "")              = 0.0
      * distance.apply("foo", "foo")        = 0.0
      * distance.apply("foo", "foo ")       = 0.06
@@ -92,9 +92,9 @@ public class JaroWinklerDistance implements EditDistance<Double> {
      * Computes the Jaro Winkler Distance between two character sequences.
      *
      * <pre>
-     * distance.apply(null, null)          = IllegalArgumentException
-     * distance.apply("foo", null)         = IllegalArgumentException
-     * distance.apply(null, "foo")         = IllegalArgumentException
+     * distance.apply(null, null)          = Throws {@link IllegalArgumentException}
+     * distance.apply("foo", null)         = Throws {@link IllegalArgumentException}
+     * distance.apply(null, "foo")         = Throws {@link IllegalArgumentException}
      * distance.apply("", "")              = 0.0
      * distance.apply("foo", "foo")        = 0.0
      * distance.apply("foo", "foo ")       = 0.06

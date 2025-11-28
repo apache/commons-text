@@ -59,9 +59,9 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * </p>
      *
      * <pre>
-     * limitedCompare(null, *, *)             = IllegalArgumentException
-     * limitedCompare(*, null, *)             = IllegalArgumentException
-     * limitedCompare(*, *, -1)               = IllegalArgumentException
+     * limitedCompare(null, *, *)             = Throws {@link IllegalArgumentException}
+     * limitedCompare(*, null, *)             = Throws {@link IllegalArgumentException}
+     * limitedCompare(*, *, -1)               = Throws {@link IllegalArgumentException}
      * limitedCompare("","", 0)               = 0
      * limitedCompare("aaapppp", "", 8)       = 7
      * limitedCompare("aaapppp", "", 7)       = 7
@@ -217,8 +217,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * </p>
      *
      * <pre>
-     * unlimitedCompare(null, *)             = IllegalArgumentException
-     * unlimitedCompare(*, null)             = IllegalArgumentException
+     * unlimitedCompare(null, *)             = Throws {@link IllegalArgumentException}
+     * unlimitedCompare(*, null)             = Throws {@link IllegalArgumentException}
      * unlimitedCompare("","")               = 0
      * unlimitedCompare("","a")              = 1
      * unlimitedCompare("aaapppp", "")       = 7
@@ -335,8 +335,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * </p>
      *
      * <pre>
-     * distance.apply(null, *)             = IllegalArgumentException
-     * distance.apply(*, null)             = IllegalArgumentException
+     * distance.apply(null, *)             = Throws {@link IllegalArgumentException}
+     * distance.apply(*, null)             = Throws {@link IllegalArgumentException}
      * distance.apply("","")               = 0
      * distance.apply("","a")              = 1
      * distance.apply("aaapppp", "")       = 7
@@ -366,8 +366,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * </p>
      *
      * <pre>
-     * distance.apply(null, *)             = IllegalArgumentException
-     * distance.apply(*, null)             = IllegalArgumentException
+     * distance.apply(null, *)             = Throws {@link IllegalArgumentException}
+     * distance.apply(*, null)             = Throws {@link IllegalArgumentException}
      * distance.apply("","")               = 0
      * distance.apply("","a")              = 1
      * distance.apply("aaapppp", "")       = 7

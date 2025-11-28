@@ -73,8 +73,8 @@ public class WordUtils {
      * WordUtils.abbreviate("Now is the time for all good men", 20, -1, ""));      = "Now is the time for all"
      * WordUtils.abbreviate("Now is the time for all good men", 50, -1, ""));      = "Now is the time for all good men"
      * WordUtils.abbreviate("Now is the time for all good men", 1000, -1, ""));    = "Now is the time for all good men"
-     * WordUtils.abbreviate("Now is the time for all good men", 9, -10, null));    = IllegalArgumentException
-     * WordUtils.abbreviate("Now is the time for all good men", 10, 5, null));     = IllegalArgumentException
+     * WordUtils.abbreviate("Now is the time for all good men", 9, -10, null));    = Throws {@link IllegalArgumentException}
+     * WordUtils.abbreviate("Now is the time for all good men", 10, 5, null));     = Throws {@link IllegalArgumentException}
      * </pre>
      */
     public static String abbreviate(final String str, int lower, int upper, final String appendToEnd) {

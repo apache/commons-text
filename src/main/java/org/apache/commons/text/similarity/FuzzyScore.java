@@ -57,9 +57,9 @@ public class FuzzyScore {
      * Find the Fuzzy Score which indicates the similarity score between two Strings.
      *
      * <pre>
-     * score.fuzzyScore(null, null)                          = IllegalArgumentException
-     * score.fuzzyScore("not null", null)                    = IllegalArgumentException
-     * score.fuzzyScore(null, "not null")                    = IllegalArgumentException
+     * score.fuzzyScore(null, null)                          = Throws {@link IllegalArgumentException}
+     * score.fuzzyScore("not null", null)                    = Throws {@link IllegalArgumentException}
+     * score.fuzzyScore(null, "not null")                    = Throws {@link IllegalArgumentException}
      * score.fuzzyScore("", "")                              = 0
      * score.fuzzyScore("Workshop", "b")                     = 0
      * score.fuzzyScore("Room", "o")                         = 1

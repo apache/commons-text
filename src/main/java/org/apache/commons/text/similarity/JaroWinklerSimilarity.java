@@ -130,9 +130,9 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
      * Computes the Jaro Winkler Similarity between two character sequences.
      *
      * <pre>
-     * sim.apply(null, null)          = IllegalArgumentException
-     * sim.apply("foo", null)         = IllegalArgumentException
-     * sim.apply(null, "foo")         = IllegalArgumentException
+     * sim.apply(null, null)          = Throws {@link IllegalArgumentException}
+     * sim.apply("foo", null)         = Throws {@link IllegalArgumentException}
+     * sim.apply(null, "foo")         = Throws {@link IllegalArgumentException}
      * sim.apply("", "")              = 1.0
      * sim.apply("foo", "foo")        = 1.0
      * sim.apply("foo", "foo ")       = 0.94
@@ -167,9 +167,9 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
      * Computes the Jaro Winkler Similarity between two character sequences.
      *
      * <pre>
-     * sim.apply(null, null)          = IllegalArgumentException
-     * sim.apply("foo", null)         = IllegalArgumentException
-     * sim.apply(null, "foo")         = IllegalArgumentException
+     * sim.apply(null, null)          = Throws {@link IllegalArgumentException}
+     * sim.apply("foo", null)         = Throws {@link IllegalArgumentException}
+     * sim.apply(null, "foo")         = Throws {@link IllegalArgumentException}
      * sim.apply("", "")              = 1.0
      * sim.apply("foo", "foo")        = 1.0
      * sim.apply("foo", "foo ")       = 0.94
