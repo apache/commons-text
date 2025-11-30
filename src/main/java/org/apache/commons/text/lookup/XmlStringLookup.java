@@ -26,18 +26,25 @@ import java.util.Map.Entry;
 import java.util.Objects;
 
 import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang3.StringUtils;
-import org.xml.sax.InputSource;
+import org.w3c.dom.Document;
 
 /**
- * Looks up keys from an XML document.
+ * Looks up values in an XML document in the format {@code "[secure=(true|false):]DocumentPath:XPath"}.
  * <p>
- * Looks up the value for a given key in the format "Document:XPath".
+ * For example:
  * </p>
+ * <ul>
+ * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
+ * <li>{@code "secure=false:com/domain/document.xml:/path/to/node"}</li>
+ * <li>{@code "secure=true:com/domain/document.xml:/path/to/node"}</li>
+ * </ul>
  * <p>
- * For example: "com/domain/document.xml:/path/to/node".
+ * Secure processing is enabled by default. The secure boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}. The secure
+ * value in the key overrides instance settings given in the constructor.
  * </p>
  *
  * @since 1.5
@@ -45,19 +52,34 @@ import org.xml.sax.InputSource;
 final class XmlStringLookup extends AbstractPathFencedLookup {
 
     /**
-     * Defines default XPath factory features.
+     * Minimum number of key parts.
      */
-    static final Map<String, Boolean> DEFAULT_FEATURES;
-
-    static {
-        DEFAULT_FEATURES = new HashMap<>(1);
-        DEFAULT_FEATURES.put(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-    }
+    private static final int KEY_PARTS_MIN = 2;
 
     /**
-     * Defines the singleton for this class.
+     * Minimum number of key parts.
      */
-    static final XmlStringLookup INSTANCE = new XmlStringLookup(DEFAULT_FEATURES, (Path[]) null);
+    private static final int KEY_PARTS_MAX = 3;
+
+    /**
+     * Defines default XPath factory features.
+     */
+    static final Map<String, Boolean> DEFAULT_XPATH_FEATURES;
+
+    /**
+     * Defines default XML factory features.
+     */
+    static final Map<String, Boolean> DEFAULT_XML_FEATURES;
+    static {
+        DEFAULT_XPATH_FEATURES = new HashMap<>(1);
+        DEFAULT_XPATH_FEATURES.put(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+        DEFAULT_XML_FEATURES = new HashMap<>(1);
+        DEFAULT_XML_FEATURES.put(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+    }
+    /**
+     * Defines the singleton for this class with secure processing enabled.
+     */
+    static final XmlStringLookup INSTANCE = new XmlStringLookup(DEFAULT_XML_FEATURES, DEFAULT_XPATH_FEATURES, (Path[]) null);
 
     /**
      * Defines XPath factory features.
@@ -65,23 +87,40 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
     private final Map<String, Boolean> xPathFactoryFeatures;
 
     /**
-     * No need to build instances for now.
+     * Defines XML factory features.
+     */
+    private final Map<String, Boolean> xmlFactoryFeatures;
+
+    /**
+     * Constructs a new instance.
      *
-     * @param xPathFactoryFeatures XPathFactory features to set.
+     * @param xmlFactoryFeatures   The {@link DocumentBuilderFactory} features to set.
+     * @param xPathFactoryFeatures The {@link XPathFactory} features to set.
+     * @see DocumentBuilderFactory#setFeature(String, boolean)
      * @see XPathFactory#setFeature(String, boolean)
      */
-    XmlStringLookup(final Map<String, Boolean> xPathFactoryFeatures, final Path... fences) {
+    XmlStringLookup(final Map<String, Boolean> xmlFactoryFeatures, final Map<String, Boolean> xPathFactoryFeatures, final Path... fences) {
         super(fences);
+        this.xmlFactoryFeatures = Objects.requireNonNull(xmlFactoryFeatures, "xmlFactoryFeatures");
         this.xPathFactoryFeatures = Objects.requireNonNull(xPathFactoryFeatures, "xPathFfactoryFeatures");
     }
 
     /**
-     * Looks up the value for the key in the format "DocumentPath:XPath".
+     * Looks up a value for the key in the format {@code "[secure=(true|false):]DocumentPath:XPath"}.
      * <p>
-     * For example: "com/domain/document.xml:/path/to/node".
+     * For example:
+     * </p>
+     * <ul>
+     * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
+     * <li>{@code "secure=false:com/domain/document.xml:/path/to/node"}</li>
+     * <li>{@code "secure=true:com/domain/document.xml:/path/to/node"}</li>
+     * </ul>
+     * <p>
+     * Secure processing is enabled by default. The secure boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}. The secure
+     * value in the key overrides instance settings given in the constructor.
      * </p>
      *
-     * @param key the key to be looked up, may be null
+     * @param key the key to be looked up, may be null.
      * @return The value associated with the key.
      */
     @Override
@@ -91,22 +130,42 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
         }
         final String[] keys = key.split(SPLIT_STR);
         final int keyLen = keys.length;
-        if (keyLen != 2) {
-            throw IllegalArgumentExceptions.format("Bad XML key format [%s]; expected format is DocumentPath:XPath.",
-                    key);
+        if (keyLen != KEY_PARTS_MIN && keyLen != KEY_PARTS_MAX) {
+            throw IllegalArgumentExceptions.format("Bad XML key format '%s'; the expected format is [secure=(true|false):]DocumentPath:XPath.", key);
         }
-        final String documentPath = keys[0];
-        final String xpath = StringUtils.substringAfter(key, SPLIT_CH);
-        try (InputStream inputStream = Files.newInputStream(getPath(documentPath))) {
-            final XPathFactory factory = XPathFactory.newInstance();
-            for (final Entry<String, Boolean> p : xPathFactoryFeatures.entrySet()) {
-                factory.setFeature(p.getKey(), p.getValue());
+        final boolean isKeySecure = keyLen == KEY_PARTS_MAX;
+        final Boolean secure = isKeySecure ? parseSecureKey(keys, key) : null;
+        final String documentPath = isKeySecure ? keys[1] : keys[0];
+        final String xpath = StringUtils.substringAfterLast(key, SPLIT_CH);
+        final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        try {
+            for (final Entry<String, Boolean> p : xmlFactoryFeatures.entrySet()) {
+                dbFactory.setFeature(p.getKey(), p.getValue());
             }
-            return factory.newXPath().evaluate(xpath, new InputSource(inputStream));
+            if (secure != null) {
+                dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, secure.booleanValue());
+            }
+            try (InputStream inputStream = Files.newInputStream(getPath(documentPath))) {
+                final Document doc = dbFactory.newDocumentBuilder().parse(inputStream);
+                final XPathFactory factory = XPathFactory.newInstance();
+                for (final Entry<String, Boolean> p : xPathFactoryFeatures.entrySet()) {
+                    factory.setFeature(p.getKey(), p.getValue());
+                }
+                if (secure != null) {
+                    factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, secure.booleanValue());
+                }
+                return factory.newXPath().evaluate(xpath, doc);
+            }
         } catch (final Exception e) {
-            throw IllegalArgumentExceptions.format(e, "Error looking up XML document [%s] and XPath [%s].",
-                    documentPath, xpath);
+            throw new IllegalArgumentException(e);
         }
     }
 
+    private Boolean parseSecureKey(final String[] args, final String key) {
+        final String[] secParts = args[0].split("=");
+        if (secParts.length != 2 && !Objects.equals(secParts[0], "secure")) {
+            throw IllegalArgumentExceptions.format("Bad XML key format '%s'; the expected format is [secure=(true|false):]DocumentPath:XPath.", key);
+        }
+        return Boolean.valueOf(secParts[1]);
+    }
 }
