@@ -19,7 +19,7 @@ package org.apache.commons.text.diff;
 import java.util.List;
 
 /**
- * This interface is devoted to handle synchronized replacement sequences.
+ * Handles synchronized replacement sequences.
  *
  * @param <T> object type
  * @see ReplacementsFinder

@@ -53,8 +53,7 @@ package org.apache.commons.text.diff;
 public class StringsComparator {
 
     /**
-     * This class is a simple placeholder to hold the end part of a path
-     * under construction in a {@link StringsComparator StringsComparator}.
+     * Holds the end part of a path under construction in a {@link StringsComparator StringsComparator}.
      */
     private static final class Snake {
 

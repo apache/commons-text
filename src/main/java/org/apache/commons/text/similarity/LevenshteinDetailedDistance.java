@@ -380,9 +380,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
     private final Integer threshold;
 
     /**
-     * <p>
-     * This returns the default instance that uses a version of the algorithm that does not use a threshold parameter.
-     * </p>
+     * Constructs a new instance that uses a version of the algorithm that does not use a threshold parameter.
      *
      * @see LevenshteinDetailedDistance#getDefaultInstance()
      * @deprecated Use {@link #getDefaultInstance()}.
@@ -393,8 +391,10 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
     }
 
     /**
+     * Constructs a new instance for a threshold.
+     * <p>
      * If the threshold is not null, distance calculations will be limited to a maximum length.
-     *
+     * </p>
      * <p>
      * If the threshold is null, the unlimited version of the algorithm will be used.
      * </p>

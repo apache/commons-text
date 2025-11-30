@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class gathers all the {@link EditCommand commands} needed to transform
+ * Gathers all the {@link EditCommand commands} needed to transform
  * one objects sequence into another objects sequence.
  * <p>
  * An edit script is the most general view of the differences between two

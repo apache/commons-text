@@ -19,7 +19,7 @@ package org.apache.commons.text.similarity;
 import org.apache.commons.lang3.Validate;
 
 /**
- * This stores a {@link SimilarityScore} implementation and a {@link CharSequence} "left" string.
+ * Stores a {@link SimilarityScore} implementation and a {@link CharSequence} "left" string.
  * The {@link #apply(CharSequence right)} method accepts the "right" string and invokes the
  * comparison function for the pair of strings.
  *
@@ -63,7 +63,7 @@ public class SimilarityScoreFrom<R> {
     private final CharSequence left;
 
     /**
-     * This accepts the similarity score implementation and the "left" string.
+     * Constructs a new instance for a similarity score implementation and the "left" string.
      *
      * @param similarityScore This may not be null.
      * @param left This may be null here,
@@ -78,7 +78,7 @@ public class SimilarityScoreFrom<R> {
     }
 
     /**
-     * This compares "left" field against the "right" parameter
+     * Compares "left" field against the "right" parameter
      * using the "similarity score" implementation.
      *
      * @param right the second CharSequence.

@@ -41,7 +41,7 @@ public class FuzzyScore {
     private final Locale locale;
 
     /**
-     * This returns a {@link Locale}-specific {@link FuzzyScore}.
+     * Constructs a new instance for a {@link Locale}-specific {@link FuzzyScore}.
      *
      * @param locale The string matching logic is case insensitive. A {@link Locale} is necessary to normalize both Strings to lower case.
      * @throws IllegalArgumentException This is thrown if the {@link Locale} parameter is {@code null}.

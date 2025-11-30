@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 
 /**
- * This class holds inner classes for escaping/unescaping Comma Separated Values.
+ * Holds inner classes for escaping/unescaping Comma Separated Values.
  * <p>
  * In general the use a high level API like <a href="https://commons.apache.org/proper/commons-csv/">Apache Commons
  * CSV</a> should be preferred over these low level classes.
