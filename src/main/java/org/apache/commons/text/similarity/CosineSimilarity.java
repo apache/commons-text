@@ -52,14 +52,11 @@ public class CosineSimilarity {
      * @param rightVector right vector.
      * @return cosine similarity between the two vectors.
      */
-    public Double cosineSimilarity(final Map<CharSequence, Integer> leftVector,
-                                   final Map<CharSequence, Integer> rightVector) {
+    public Double cosineSimilarity(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector) {
         if (leftVector == null || rightVector == null) {
             throw new IllegalArgumentException("Vectors must not be null");
         }
-
         final Set<CharSequence> intersection = getIntersection(leftVector, rightVector);
-
         final double dotProduct = dot(leftVector, rightVector, intersection);
         double d1 = 0.0d;
         for (final Integer value : leftVector.values()) {
@@ -88,8 +85,7 @@ public class CosineSimilarity {
      * @param intersection common elements.
      * @return The dot product.
      */
-    private double dot(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector,
-            final Set<CharSequence> intersection) {
+    private double dot(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector, final Set<CharSequence> intersection) {
         long dotProduct = 0;
         for (final CharSequence key : intersection) {
             dotProduct += leftVector.get(key) * (long) rightVector.get(key);
@@ -104,11 +100,9 @@ public class CosineSimilarity {
      * @param rightVector right vector map.
      * @return common strings.
      */
-    private Set<CharSequence> getIntersection(final Map<CharSequence, Integer> leftVector,
-            final Map<CharSequence, Integer> rightVector) {
+    private Set<CharSequence> getIntersection(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector) {
         final Set<CharSequence> intersection = new HashSet<>(leftVector.keySet());
         intersection.retainAll(rightVector.keySet());
         return intersection;
     }
-
 }
