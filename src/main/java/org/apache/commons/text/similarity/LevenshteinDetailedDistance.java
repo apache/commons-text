@@ -159,9 +159,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         if (left == null || right == null) {
             throw new IllegalArgumentException("CharSequences must not be null");
         }
-        if (threshold < 0) {
-            throw new IllegalArgumentException("Threshold must not be negative");
-        }
+
         /*
          * This implementation only computes the distance if it's less than or equal to the threshold value, returning -1 if it's greater. The advantage is
          * performance: unbounded distance is O(nm), but a bound of k allows us to reduce it to O(km) time by only computing a diagonal stripe of width 2k + 1
