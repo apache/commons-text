@@ -54,10 +54,6 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
             throw new IllegalArgumentException("Left/right inputs must not be null");
         }
 
-        if (threshold < 0) {
-            throw new IllegalArgumentException("Threshold can not be negative");
-        }
-
         // Implementation based on https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance#Optimal_string_alignment_distance
 
         int leftLength = left.length();

@@ -81,9 +81,6 @@ public class LevenshteinDistance implements EditDistance<Integer> {
         if (left == null || right == null) {
             throw new IllegalArgumentException("CharSequences must not be null");
         }
-        if (threshold < 0) {
-            throw new IllegalArgumentException("Threshold must not be negative");
-        }
 
         /*
          * This implementation only computes the distance if it's less than or equal to the threshold value, returning -1 if it's greater. The advantage is
