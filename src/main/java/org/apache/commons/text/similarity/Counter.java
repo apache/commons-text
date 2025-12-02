@@ -47,7 +47,7 @@ final class Counter {
     }
 
     /**
-     * Hidden constructor.
+     * No instance needed.
      */
     private Counter() {
     }

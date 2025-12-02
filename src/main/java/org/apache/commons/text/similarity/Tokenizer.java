@@ -20,7 +20,7 @@ package org.apache.commons.text.similarity;
 import java.util.function.Function;
 
 /**
- * A tokenizer. Can produce arrays of tokens from a given type.
+ * Produces arrays of tokens for a given type.
  *
  * @param <T> The type to tokenize.
  * @param <R> The return array element type.

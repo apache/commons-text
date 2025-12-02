@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class handles sequences of replacements resulting from a comparison.
+ * Handles sequences of replacements resulting from a comparison.
  * <p>
  * The comparison of two objects sequences leads to the identification of common
  * parts and parts which only belong to the first or to the second sequence. The

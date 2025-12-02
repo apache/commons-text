@@ -17,8 +17,7 @@
 package org.apache.commons.text.diff;
 
 /**
- * This interface should be implemented by user object to walk
- * through {@link EditScript EditScript} objects.
+ * Walks through {@link EditScript EditScript} objects.
  * <p>
  * Users should implement this interface in order to walk through
  * the {@link EditScript EditScript} object created by the comparison

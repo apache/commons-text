@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.Validate;
 
 /**
@@ -97,7 +98,7 @@ public class WordUtils {
         }
 
         final StringBuilder result = new StringBuilder();
-        final int index = StringUtils.indexOf(str, " ", lower);
+        final int index = Strings.CS.indexOf(str, " ", lower);
         if (index == -1) {
             result.append(str, 0, upper);
             // only if abbreviation has occurred do we append the appendToEnd value
