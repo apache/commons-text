@@ -18,6 +18,7 @@ package org.apache.commons.text.similarity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -103,6 +104,11 @@ class JaroWinklerDistanceTest {
         assertEquals(1 - 0.90666d, distance.apply("foo", "foo  "), 0.00001d);
         assertEquals(1 - 0.86666d, distance.apply("foo", " foo "), 0.00001d);
         assertEquals(1 - 0.51111d, distance.apply("foo", "  foo"), 0.00001d);
+    }
+
+    @Test
+    void testMatches() {
+        assertArrayEquals(new int[]{2, 0, 2}, distance.matches("ab", "aba"));
     }
 
 }

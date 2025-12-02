@@ -14,44 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.text.similarity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class SimilarityScoreFromTest {
+class EditDistanceFromTest {
 
-    private LongestCommonSubsequence longestCommonSubsequence;
-    private SimilarityScoreFrom<Integer> similarityScoreFrom;
+    private LongestCommonSubsequenceDistance longestCommonSubsequenceDistance;
+    private EditDistanceFrom<Integer> editDistanceFrom;
 
     @BeforeEach
     void doBeforeEachTest() {
-        longestCommonSubsequence = new LongestCommonSubsequence();
-        similarityScoreFrom = new SimilarityScoreFrom<>(longestCommonSubsequence, "asdf");
-    }
-
-    @Test
-    void testApply() {
-        assertEquals(1, similarityScoreFrom.apply("s"));
+        longestCommonSubsequenceDistance = new LongestCommonSubsequenceDistance();
+        editDistanceFrom = new EditDistanceFrom<>(longestCommonSubsequenceDistance, "asdf");
     }
 
     @Test
     void testGetLeft() {
-        assertEquals("asdf", similarityScoreFrom.getLeft());
+        assertEquals("asdf", editDistanceFrom.getLeft());
     }
 
     @Test
     void testGetSimilarityScore() {
-        assertEquals(longestCommonSubsequence, similarityScoreFrom.getSimilarityScore());
-    }
-
-    @Test
-    void testFailsToCreateSimilarityScoreFromThrowsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> new SimilarityScoreFrom<>(null, ""));
+        assertEquals(longestCommonSubsequenceDistance, editDistanceFrom.getEditDistance());
     }
 
 }
