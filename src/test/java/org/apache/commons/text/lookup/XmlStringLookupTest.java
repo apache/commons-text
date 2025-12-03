@@ -77,6 +77,21 @@ class XmlStringLookupTest {
     }
 
     @Test
+    void testInterpolatorExternalDtdOff() {
+        final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
+        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:" + DOC_DIR
+                + "document-external-dtd.xml:/document/content}"));
+    }
+
+    @Test
+    @SetSystemProperty(key = "XmlStringLookup.secure", value = "false")
+    void testInterpolatorExternalDtdOn() {
+        final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
+        assertEquals("This is an external entity.",
+                stringSubstitutor.replace("${xml:" + DOC_DIR + "document-external-dtd.xml:/document/content}").trim());
+    }
+
+    @Test
     void testInterpolatorExternalEntityOff() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
         assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-entity-ref.xml:/document/content}"));
