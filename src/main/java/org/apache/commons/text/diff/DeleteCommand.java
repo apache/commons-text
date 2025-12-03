@@ -36,7 +36,7 @@ public class DeleteCommand<T> extends EditCommand<T> {
     /**
      * Constructs a new instance of {@link DeleteCommand}.
      *
-     * @param object  the object of the first sequence that should be deleted
+     * @param object  the object of the first sequence that should be deleted.
      */
     public DeleteCommand(final T object) {
         super(object);
@@ -46,7 +46,7 @@ public class DeleteCommand<T> extends EditCommand<T> {
      * Accepts a visitor. When a {@code DeleteCommand} accepts a visitor, it calls
      * its {@link CommandVisitor#visitDeleteCommand visitDeleteCommand} method.
      *
-     * @param visitor  the visitor to be accepted
+     * @param visitor  the visitor to be accepted.
      */
     @Override
     public void accept(final CommandVisitor<T> visitor) {

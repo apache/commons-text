@@ -124,11 +124,11 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns the number of matching characters, {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change
-         * @param start the starting position for the match, valid for buffer
-         * @param bufferStart unused
-         * @param bufferEnd the end index of the active buffer, valid for buffer
-         * @return The number of matching characters, zero for no match
+         * @param buffer the text content to match against, do not change.
+         * @param start the starting position for the match, valid for buffer.
+         * @param bufferStart unused.
+         * @param bufferEnd the end index of the active buffer, valid for buffer.
+         * @return The number of matching characters, zero for no match.
          */
         @Override
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
@@ -148,11 +148,11 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns the number of matching characters, {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change
-         * @param start the starting position for the match, valid for buffer
-         * @param bufferStart unused
-         * @param bufferEnd the end index of the active buffer, valid for buffer
-         * @return The number of matching characters, zero for no match
+         * @param buffer the text content to match against, do not change.
+         * @param start the starting position for the match, valid for buffer.
+         * @param bufferStart unused.
+         * @param bufferEnd the end index of the active buffer, valid for buffer.
+         * @return The number of matching characters, zero for no match.
          */
         @Override
         public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
@@ -209,11 +209,11 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change
-         * @param start the starting position for the match, valid for buffer
-         * @param bufferStart unused
-         * @param bufferEnd unused
-         * @return The number of matching characters, zero for no match
+         * @param buffer the text content to match against, do not change.
+         * @param start the starting position for the match, valid for buffer.
+         * @param bufferStart unused.
+         * @param bufferEnd unused.
+         * @return The number of matching characters, zero for no match.
          */
         @Override
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
@@ -223,11 +223,11 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change
-         * @param start the starting position for the match, valid for buffer
-         * @param bufferStart unused
-         * @param bufferEnd unused
-         * @return The number of matching characters, zero for no match
+         * @param buffer the text content to match against, do not change.
+         * @param start the starting position for the match, valid for buffer.
+         * @param bufferStart unused.
+         * @param bufferEnd unused.
+         * @return The number of matching characters, zero for no match.
          */
         @Override
         public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
@@ -264,7 +264,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Constructs a matcher from a character array.
          *
-         * @param chars the characters to match, must not be null
+         * @param chars the characters to match, must not be null.
          */
         CharSetMatcher(final char[] chars) {
             this.chars = chars.clone();
@@ -274,11 +274,11 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change
-         * @param start the starting position for the match, valid for buffer
-         * @param bufferStart unused
-         * @param bufferEnd unused
-         * @return The number of matching characters, zero for no match
+         * @param buffer the text content to match against, do not change.
+         * @param start the starting position for the match, valid for buffer.
+         * @param bufferStart unused.
+         * @param bufferEnd unused.
+         * @return The number of matching characters, zero for no match.
          */
         @Override
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
@@ -288,11 +288,11 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change
-         * @param start the starting position for the match, valid for buffer
-         * @param bufferStart unused
-         * @param bufferEnd unused
-         * @return The number of matching characters, zero for no match
+         * @param buffer the text content to match against, do not change.
+         * @param start the starting position for the match, valid for buffer.
+         * @param bufferStart unused.
+         * @param bufferEnd unused.
+         * @return The number of matching characters, zero for no match.
          */
         @Override
         public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
@@ -333,11 +333,11 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Always returns {@code 0}.
          *
-         * @param buffer unused
-         * @param start unused
-         * @param bufferStart unused
-         * @param bufferEnd unused
-         * @return The number of matching characters, zero for no match
+         * @param buffer unused.
+         * @param start unused.
+         * @param bufferStart unused.
+         * @param bufferEnd unused.
+         * @return The number of matching characters, zero for no match.
          */
         @Override
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
@@ -347,11 +347,11 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Always returns {@code 0}.
          *
-         * @param buffer unused
-         * @param start unused
-         * @param bufferStart unused
-         * @param bufferEnd unused
-         * @return The number of matching characters, zero for no match
+         * @param buffer unused.
+         * @param start unused.
+         * @param bufferStart unused.
+         * @param bufferEnd unused.
+         * @return The number of matching characters, zero for no match.
          */
         @Override
         public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {
@@ -392,11 +392,11 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change
-         * @param start the starting position for the match, valid for buffer
-         * @param bufferStart unused
-         * @param bufferEnd unused
-         * @return The number of matching characters, zero for no match
+         * @param buffer the text content to match against, do not change.
+         * @param start the starting position for the match, valid for buffer.
+         * @param bufferStart unused.
+         * @param bufferEnd unused.
+         * @return The number of matching characters, zero for no match.
          */
         @Override
         public int isMatch(final char[] buffer, final int start, final int bufferStart, final int bufferEnd) {
@@ -406,11 +406,11 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change
-         * @param start the starting position for the match, valid for buffer
-         * @param bufferStart unused
-         * @param bufferEnd unused
-         * @return The number of matching characters, zero for no match
+         * @param buffer the text content to match against, do not change.
+         * @param start the starting position for the match, valid for buffer.
+         * @param bufferStart unused.
+         * @param bufferEnd unused.
+         * @return The number of matching characters, zero for no match.
          */
         @Override
         public int isMatch(final CharSequence buffer, final int start, final int bufferStart, final int bufferEnd) {

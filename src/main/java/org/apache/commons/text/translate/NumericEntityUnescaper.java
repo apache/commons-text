@@ -63,16 +63,25 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
     /**
      * Creates a UnicodeUnescaper.
      *
-     * The constructor takes a list of options, only one type of which is currently
-     * available (whether to allow, error or ignore the semicolon on the end of a
+     * The constructor takes a list of options, only one type of which is currently available (whether to allow, error or ignore the semicolon on the end of a
      * numeric entity to being missing).
-     *
+     * <p>
      * For example, to support numeric entities without a ';':
-     *    new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.semiColonOptional)
-     * and to throw an IllegalArgumentException when they're missing:
-     *    new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.errorIfNoSemiColon)
+     * </p>
      *
+     * <pre>
+     * new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.semiColonOptional)
+     * </pre>
+     * <p>
+     * and to throw an IllegalArgumentException when they're missing:
+     * </p>
+     *
+     * <pre>
+     * new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.errorIfNoSemiColon)
+     * </pre>
+     * <p>
      * Note that the default behavior is to ignore them.
+     * </p>
      *
      * @param options to apply to this unescaper
      */
@@ -83,8 +92,8 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
     /**
      * Tests whether the passed in option is currently set.
      *
-     * @param option to check state of
-     * @return whether the option is set
+     * @param option to check state of.
+     * @return whether the option is set.
      */
     public boolean isSet(final OPTION option) {
         return options.contains(option);

@@ -66,9 +66,9 @@ final class DateStringLookup extends AbstractStringLookup {
     /**
      * Formats the given {@code date} long with the given {@code format}.
      *
-     * @param dateMillis the date to format
+     * @param dateMillis the date to format.
      * @param format the format string for {@link SimpleDateFormat}.
-     * @return The formatted date
+     * @return The formatted date.
      */
     private String formatDate(final long dateMillis, final String format) {
         FastDateFormat dateFormat = null;

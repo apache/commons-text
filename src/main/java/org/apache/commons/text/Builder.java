@@ -80,7 +80,7 @@ import java.util.function.Supplier;
  * @param <T> the type of object that the builder will construct or compute.
  * @since 1.0
  * @see Supplier
- * @deprecated Use :@link Supplier}.
+ * @deprecated Use {@link Supplier}.
  */
 @Deprecated
 public interface Builder<T> extends Supplier<T> {

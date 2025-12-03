@@ -113,7 +113,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Constructs a new ExtendedMessageFormat for the default locale.
      *
-     * @param pattern  the pattern to use, not null
+     * @param pattern  the pattern to use, not null.
      * @throws IllegalArgumentException in case of a bad pattern.
      */
     public ExtendedMessageFormat(final String pattern) {
@@ -123,8 +123,8 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Constructs a new ExtendedMessageFormat.
      *
-     * @param pattern  the pattern to use, not null
-     * @param locale  the locale to use, not null
+     * @param pattern  the pattern to use, not null.
+     * @param locale  the locale to use, not null.
      * @throws IllegalArgumentException in case of a bad pattern.
      */
     public ExtendedMessageFormat(final String pattern, final Locale locale) {
@@ -134,9 +134,9 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Constructs a new ExtendedMessageFormat.
      *
-     * @param pattern  the pattern to use, not null
-     * @param locale   the locale to use, not null
-     * @param registry the registry of format factories, may be null
+     * @param pattern  the pattern to use, not null.
+     * @param locale   the locale to use, not null.
+     * @param registry the registry of format factories, may be null.
      * @throws IllegalArgumentException in case of a bad pattern.
      */
     public ExtendedMessageFormat(final String pattern, final Locale locale, final Map<String, ? extends FormatFactory> registry) {
@@ -149,8 +149,8 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Constructs a new ExtendedMessageFormat for the default locale.
      *
-     * @param pattern  the pattern to use, not null
-     * @param registry the registry of format factories, may be null
+     * @param pattern  the pattern to use, not null.
+     * @param registry the registry of format factories, may be null.
      * @throws IllegalArgumentException in case of a bad pattern.
      */
     public ExtendedMessageFormat(final String pattern, final Map<String, ? extends FormatFactory> registry) {
@@ -160,9 +160,9 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Consumes a quoted string, adding it to {@code appendTo} if specified.
      *
-     * @param pattern  pattern to parse
-     * @param pos      current parse position
-     * @param appendTo optional StringBuilder to append
+     * @param pattern  pattern to parse.
+     * @param pos      current parse position.
+     * @param appendTo optional StringBuilder to append.
      */
     private void appendQuotedString(final String pattern, final ParsePosition pos, final StringBuilder appendTo) {
         assert pattern.toCharArray()[pos.getIndex()] == QUOTE : "Quoted string must start with quote character";
@@ -191,7 +191,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Applies the specified pattern.
      *
-     * @param pattern String
+     * @param pattern String.
      */
     @Override
     public final void applyPattern(final String pattern) {
@@ -263,7 +263,8 @@ public class ExtendedMessageFormat extends MessageFormat {
 
     /**
      * Tests whether the specified Collection contains non-null elements.
-     * @param coll to check
+     *
+     * @param coll to check.
      * @return {@code true} if some Object was found, {@code false} otherwise.
      */
     private boolean containsElements(final Collection<?> coll) {
@@ -291,8 +292,8 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Gets a custom format from a format description.
      *
-     * @param desc String
-     * @return Format
+     * @param desc String.
+     * @return Format.
      */
     private Format getFormat(final String desc) {
         if (registry != null) {
@@ -314,8 +315,8 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Consumes quoted string only.
      *
-     * @param pattern pattern to parse
-     * @param pos current parse position
+     * @param pattern pattern to parse.
+     * @param pos current parse position.
      */
     private void getQuotedString(final String pattern, final ParsePosition pos) {
         appendQuotedString(pattern, pos, null);
@@ -331,9 +332,9 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Inserts formats back into the pattern for toPattern() support.
      *
-     * @param pattern source
-     * @param customPatterns The custom patterns to re-insert, if any
-     * @return full pattern
+     * @param pattern source.
+     * @param customPatterns The custom patterns to re-insert, if any.
+     * @return full pattern.
      */
     private String insertFormats(final String pattern, final ArrayList<String> customPatterns) {
         if (!containsElements(customPatterns)) {
@@ -375,8 +376,8 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Advances parse position by 1.
      *
-     * @param pos ParsePosition
-     * @return {@code pos}
+     * @param pos ParsePosition.
+     * @return {@code pos}.
      */
     private ParsePosition next(final ParsePosition pos) {
         pos.setIndex(pos.getIndex() + 1);
@@ -386,9 +387,9 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Parses the format component of a format element.
      *
-     * @param pattern string to parse
-     * @param pos current parse position
-     * @return Format description String
+     * @param pattern string to parse.
+     * @param pos current parse position.
+     * @return Format description String.
      */
     private String parseFormatDescription(final String pattern, final ParsePosition pos) {
         final int start = pos.getIndex();
@@ -423,9 +424,9 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Reads the argument index from the current format element.
      *
-     * @param pattern pattern to parse
-     * @param pos current parse position
-     * @return argument index
+     * @param pattern pattern to parse.
+     * @param pos current parse position.
+     * @return argument index.
      */
     private int readArgumentIndex(final String pattern, final ParsePosition pos) {
         final int start = pos.getIndex();
@@ -465,8 +466,8 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Consumes whitespace from the current parse position.
      *
-     * @param pattern String to read
-     * @param pos current position
+     * @param pattern String to read.
+     * @param pos current position.
      */
     private void seekNonWs(final String pattern, final ParsePosition pos) {
         int len = 0;
@@ -478,12 +479,11 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Throws UnsupportedOperationException - see class Javadoc for details.
+     * Throws UnsupportedOperationException, see class Javadoc for details.
      *
-     * @param formatElementIndex format element index
-     * @param newFormat the new format
-     * @throws UnsupportedOperationException always thrown since this isn't
-     *                                       supported by ExtendMessageFormat
+     * @param formatElementIndex format element index.
+     * @param newFormat          the new format.
+     * @throws UnsupportedOperationException always thrown since this isn't supported by {@link ExtendedMessageFormat}.
      */
     @Override
     public void setFormat(final int formatElementIndex, final Format newFormat) {
@@ -491,12 +491,11 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * Throws UnsupportedOperationException - see class Javadoc for details.
+     * Throws UnsupportedOperationException, see class Javadoc for details.
      *
-     * @param argumentIndex argument index
-     * @param newFormat the new format
-     * @throws UnsupportedOperationException always thrown since this isn't
-     *                                       supported by ExtendMessageFormat
+     * @param argumentIndex argument index.
+     * @param newFormat     the new format.
+     * @throws UnsupportedOperationException always thrown since this isn't supported by {@link ExtendedMessageFormat}.
      */
     @Override
     public void setFormatByArgumentIndex(final int argumentIndex,
@@ -507,9 +506,8 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Throws UnsupportedOperationException - see class Javadoc for details.
      *
-     * @param newFormats new formats
-     * @throws UnsupportedOperationException always thrown since this isn't
-     *                                       supported by ExtendMessageFormat
+     * @param newFormats new formats.
+     * @throws UnsupportedOperationException always thrown since this isn't supported by {@link ExtendedMessageFormat}.
      */
     @Override
     public void setFormats(final Format[] newFormats) {
@@ -520,8 +518,7 @@ public class ExtendedMessageFormat extends MessageFormat {
      * Throws UnsupportedOperationException - see class Javadoc for details.
      *
      * @param newFormats new formats
-     * @throws UnsupportedOperationException always thrown since this isn't
-     *                                       supported by ExtendMessageFormat
+     * @throws UnsupportedOperationException always thrown since this isn't supported by {@link ExtendedMessageFormat}
      */
     @Override
     public void setFormatsByArgumentIndex(final Format[] newFormats) {

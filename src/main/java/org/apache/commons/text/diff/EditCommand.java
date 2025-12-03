@@ -58,8 +58,7 @@ public abstract class EditCommand<T> {
     /**
      * Constructs a new instance of EditCommand.
      *
-     * @param object  reference to the object associated with this command, this
-     *   refers to an element of one of the sequences being compared
+     * @param object reference to the object associated with this command, this refers to an element of one of the sequences being compared.
      */
     protected EditCommand(final T object) {
         this.object = object;
@@ -68,18 +67,17 @@ public abstract class EditCommand<T> {
     /**
      * Accepts a visitor.
      * <p>
-     * This method is invoked for each commands belonging to
-     * an {@link EditScript EditScript}, in order to implement the visitor design pattern
+     * This method is invoked for each commands belonging to an {@link EditScript EditScript}, in order to implement the visitor design pattern
      * </p>
      *
-     * @param visitor  the visitor to be accepted
+     * @param visitor the visitor to be accepted.
      */
     public abstract void accept(CommandVisitor<T> visitor);
 
     /**
      * Gets the object associated with this command.
      *
-     * @return The object on which the command is applied
+     * @return The object on which the command is applied.
      */
     protected T getObject() {
         return object;

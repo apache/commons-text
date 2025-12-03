@@ -201,7 +201,7 @@ public final class RandomStringGenerator {
          * will replace the previously stored Character.
          * </p>
          *
-         * @param chars set of predefined Characters for random string generation the Character can be, may be {@code null} or empty
+         * @param chars set of predefined Characters for random string generation the Character can be, may be {@code null} or empty.
          * @return {@code this} instance.
          * @since 1.2
          */

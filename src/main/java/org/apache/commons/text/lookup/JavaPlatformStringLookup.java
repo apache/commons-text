@@ -156,7 +156,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
     /**
      * Gets the given system property.
      *
-     * @param prefix the prefix to use for the result string
+     * @param prefix the prefix to use for the result string.
      * @param name a system property name.
      * @return The prefix + a system property value.
      */
@@ -192,7 +192,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      * <li><strong>locale</strong>: "default locale: en_US, platform encoding: iso-8859-1"</li>
      * </ul>
      *
-     * @param key the key to be looked up, may be null
+     * @param key the key to be looked up, may be null.
      * @return The value of the environment variable.
      */
     @Override

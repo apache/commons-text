@@ -145,7 +145,7 @@ public class StringSubstitutorReader extends FilterReader {
      * Reads a single character.
      *
      * @return a character as an {@code int} or {@code -1} for end-of-stream.
-     * @throws IOException If an I/O error occurs
+     * @throws IOException If an I/O error occurs.
      */
     @Override
     public int read() throws IOException {
@@ -168,7 +168,7 @@ public class StringSubstitutorReader extends FilterReader {
      * @param targetIndexIn Index in the target at which to start storing characters.
      * @param targetLengthIn Maximum number of characters to read.
      * @return The number of characters read, or -1 on end of stream.
-     * @throws IOException If an I/O error occurs
+     * @throws IOException If an I/O error occurs.
      */
     @Override
     public int read(final char[] target, final int targetIndexIn, final int targetLengthIn) throws IOException {

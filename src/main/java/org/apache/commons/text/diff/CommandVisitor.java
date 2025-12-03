@@ -125,21 +125,21 @@ public interface CommandVisitor<T> {
     /**
      * Method called when a delete command is encountered.
      *
-     * @param object object to delete (this object comes from the first sequence)
+     * @param object object to delete (this object comes from the first sequence).
      */
     void visitDeleteCommand(T object);
 
     /**
      * Method called when an insert command is encountered.
      *
-     * @param object object to insert (this object comes from the second sequence)
+     * @param object object to insert (this object comes from the second sequence).
      */
     void visitInsertCommand(T object);
 
     /**
      * Method called when a keep command is encountered.
      *
-     * @param object object to keep (this object comes from the first sequence)
+     * @param object object to keep (this object comes from the first sequence).
      */
     void visitKeepCommand(T object);
 

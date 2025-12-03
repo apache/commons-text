@@ -66,20 +66,16 @@ public class SimilarityScoreFrom<R> {
      * Constructs a new instance for a similarity score implementation and the "left" string.
      *
      * @param similarityScore This may not be null.
-     * @param left This may be null here,
-     *             but the SimilarityScore#compare(CharSequence left, CharSequence right)
-     *             implementation may not accept nulls.
+     * @param left            This may be null here, but the SimilarityScore#compare(CharSequence left, CharSequence right) implementation may not accept nulls.
      */
     public SimilarityScoreFrom(final SimilarityScore<R> similarityScore, final CharSequence left) {
         Validate.isTrue(similarityScore != null, "The edit distance may not be null.");
-
         this.similarityScore = similarityScore;
         this.left = left;
     }
 
     /**
-     * Compares "left" field against the "right" parameter
-     * using the "similarity score" implementation.
+     * Compares "left" field against the "right" parameter using the "similarity score" implementation.
      *
      * @param right the second CharSequence.
      * @return The similarity score between two CharSequences.

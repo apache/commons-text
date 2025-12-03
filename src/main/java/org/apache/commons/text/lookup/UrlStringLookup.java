@@ -60,7 +60,7 @@ final class UrlStringLookup extends AbstractStringLookup {
      * For example: "UTF-8:https://www.apache.org".
      * </p>
      *
-     * @param key the key to be looked up, may be null
+     * @param key the key to be looked up, may be null.
      * @return The value associated with the key.
      */
     @Override
