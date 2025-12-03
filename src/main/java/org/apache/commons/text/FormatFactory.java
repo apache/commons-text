@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.text;
 
 import java.text.Format;
@@ -30,13 +31,11 @@ public interface FormatFactory {
     /**
      * Gets or creates a format instance.
      *
-     * @param name The format type name
-     * @param arguments Arguments used to create the format instance. This allows the
-     *                  {@code FormatFactory} to implement the "format style"
-     *                  concept from {@link java.text.MessageFormat}.
-     * @param locale The locale, may be null
-     * @return The format instance
+     * @param name      The format type name.
+     * @param arguments Arguments used to create the format instance. This allows the {@code FormatFactory} to implement the "format style" concept from
+     *                  {@link java.text.MessageFormat}.
+     * @param locale    The locale, may be null.
+     * @return The format instance.
      */
     Format getFormat(String name, String arguments, Locale locale);
-
 }

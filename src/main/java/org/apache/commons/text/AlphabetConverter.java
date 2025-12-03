@@ -82,8 +82,8 @@ public final class AlphabetConverter {
     /**
      * Creates new String that contains just the given code point.
      *
-     * @param i code point
-     * @return a new string with the new code point
+     * @param i code point.
+     * @return a new string with the new code point.
      * @see "http://www.oracle.com/us/technologies/java/supplementary-142654.html"
      */
     private static String codePointToString(final int i) {
@@ -96,8 +96,8 @@ public final class AlphabetConverter {
     /**
      * Converts characters to integers.
      *
-     * @param chars array of characters
-     * @return an equivalent array of integers
+     * @param chars array of characters.
+     * @return an equivalent array of integers.
      */
     private static Integer[] convertCharsToIntegers(final Character[] chars) {
         if (ArrayUtils.isEmpty(chars)) {
@@ -109,22 +109,19 @@ public final class AlphabetConverter {
     }
 
     /**
-     * Creates an alphabet converter, for converting from the original alphabet,
-     * to the encoded alphabet, while leaving
-     * the characters in <em>doNotEncode</em> as they are (if possible).
+     * Creates an alphabet converter, for converting from the original alphabet, to the encoded alphabet, while leaving the characters in <em>doNotEncode</em>
+     * as they are (if possible).
      *
-     * <p>Duplicate letters in either original or encoding will be ignored.</p>
+     * <p>
+     * Duplicate letters in either original or encoding will be ignored.
+     * </p>
      *
-     * @param original an array of ints representing the original alphabet in
-     *                 code points
-     * @param encoding an array of ints representing the alphabet to be used for
-     *                 encoding, in code points
-     * @param doNotEncode an array of ints representing the chars to be encoded
-     *                    using the original alphabet - every char
-     *                    here must appear in both the previous params
-     * @return The AlphabetConverter
-     * @throws IllegalArgumentException if an AlphabetConverter cannot be
-     *                                   constructed
+     * @param original    an array of ints representing the original alphabet in code points.
+     * @param encoding    an array of ints representing the alphabet to be used for encoding, in code points.
+     * @param doNotEncode an array of ints representing the chars to be encoded using the original alphabet - every char here must appear in both the previous
+     *                    params.
+     * @return The AlphabetConverter.
+     * @throws IllegalArgumentException if an AlphabetConverter cannot be constructed.
      */
     public static AlphabetConverter createConverter(
             final Integer[] original,
@@ -251,8 +248,8 @@ public final class AlphabetConverter {
     /**
      * Creates a new converter from a map.
      *
-     * @param originalToEncoded a map returned from getOriginalToEncoded()
-     * @return The reconstructed AlphabetConverter
+     * @param originalToEncoded a map returned from getOriginalToEncoded().
+     * @return The reconstructed AlphabetConverter.
      * @see AlphabetConverter#getOriginalToEncoded()
      */
     public static AlphabetConverter createConverterFromMap(final Map<Integer, String> originalToEncoded) {
@@ -290,9 +287,9 @@ public final class AlphabetConverter {
     /**
      * Hidden constructor for alphabet converter. Used by static helper methods.
      *
-     * @param originalToEncoded original string to be encoded
-     * @param encodedToOriginal encoding alphabet
-     * @param encodedLetterLength length of the encoded letter
+     * @param originalToEncoded original string to be encoded.
+     * @param encodedToOriginal encoding alphabet.
+     * @param encodedLetterLength length of the encoded letter.
      */
     private AlphabetConverter(final Map<Integer, String> originalToEncoded,
                               final Map<String, String> encodedToOriginal,
@@ -306,11 +303,11 @@ public final class AlphabetConverter {
     /**
      * Recursive method used when creating encoder/decoder.
      *
-     * @param level at which point it should add a single encoding
-     * @param currentEncoding current encoding
-     * @param encoding letters encoding
-     * @param originals original values
-     * @param doNotEncodeMap map of values that should not be encoded
+     * @param level at which point it should add a single encoding.
+     * @param currentEncoding current encoding.
+     * @param encoding letters encoding.
+     * @param originals original values.
+     * @param doNotEncodeMap map of values that should not be encoded.
      */
     private void addSingleEncoding(final int level,
                                    final String currentEncoding,
@@ -363,11 +360,9 @@ public final class AlphabetConverter {
     /**
      * Decodes a given string.
      *
-     * @param encoded a string that has been encoded using this
-     *                AlphabetConverter
-     * @return The decoded string, {@code null} if the given string is null
-     * @throws UnsupportedEncodingException if unexpected characters that
-     *                                      cannot be handled are encountered
+     * @param encoded a string that has been encoded using this AlphabetConverter.
+     * @return The decoded string, {@code null} if the given string is null.
+     * @throws UnsupportedEncodingException if unexpected characters that cannot be handled are encountered.
      */
     public String decode(final String encoded)
             throws UnsupportedEncodingException {
@@ -409,10 +404,9 @@ public final class AlphabetConverter {
     /**
      * Encodes a given string.
      *
-     * @param original the string to be encoded
-     * @return The encoded string, {@code null} if the given string is null
-     * @throws UnsupportedEncodingException if chars that are not supported are
-     *                                      encountered
+     * @param original the string to be encoded.
+     * @return The encoded string, {@code null} if the given string is null.
+     * @throws UnsupportedEncodingException if chars that are not supported are encountered.
      */
     public String encode(final String original)
             throws UnsupportedEncodingException {
@@ -462,22 +456,18 @@ public final class AlphabetConverter {
     }
 
     /**
-     * Gets the length of characters in the encoded alphabet that are necessary
-     * for each character in the original
-     * alphabet.
+     * Gets the length of characters in the encoded alphabet that are necessary for each character in the original alphabet.
      *
-     * @return The length of the encoded char
+     * @return The length of the encoded char.
      */
     public int getEncodedCharLength() {
         return encodedLetterLength;
     }
 
     /**
-     * Gets the mapping from integer code point of source language to encoded
-     * string. Use to reconstruct converter from
-     * serialized map.
+     * Gets the mapping from integer code point of source language to encoded string. Use to reconstruct converter from serialized map.
      *
-     * @return The original map
+     * @return The original map.
      */
     public Map<Integer, String> getOriginalToEncoded() {
         return Collections.unmodifiableMap(originalToEncoded);

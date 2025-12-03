@@ -369,9 +369,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Constructs an instance from a reference to a character array.
      *
      * @param initialBuffer a reference to a character array, must not be null.
-     * @param length The length of the subarray to be used; must be non-negative and no larger than
-     *        {@code initialBuffer.length}. The new builder's size will be set to {@code length}.
-     * @throws NullPointerException If {@code initialBuffer} is null.
+     * @param length        The length of the subarray to be used; must be non-negative and no larger than {@code initialBuffer.length}. The new builder's size
+     *                      will be set to {@code length}.
+     * @throws NullPointerException     If {@code initialBuffer} is null.
      * @throws IllegalArgumentException if {@code length} is bad.
      */
     private TextStringBuilder(final char[] initialBuffer, final int length) {
@@ -385,7 +385,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Constructs an instance from a character sequence, allocating 32 extra characters for growth.
      *
-     * @param seq the string to copy, null treated as blank string
+     * @param seq the string to copy, null treated as blank string.
      * @since 1.9
      */
     public TextStringBuilder(final CharSequence seq) {
@@ -398,7 +398,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Constructs an instance with the specified initial capacity.
      *
-     * @param initialCapacity the initial capacity, zero or less will be converted to 32
+     * @param initialCapacity the initial capacity, zero or less will be converted to 32.
      */
     public TextStringBuilder(final int initialCapacity) {
         buffer = new char[initialCapacity <= 0 ? CAPACITY : initialCapacity];
@@ -407,7 +407,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Constructs an instance from a string, allocating 32 extra characters for growth.
      *
-     * @param str the string to copy, null treated as blank string
+     * @param str the string to copy, null treated as blank string.
      */
     public TextStringBuilder(final String str) {
         this(StringUtils.length(str) + CAPACITY);
@@ -419,8 +419,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a boolean value to the string builder.
      *
-     * @param value the value to append
-     * @return this, to enable chaining
+     * @param value the value to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final boolean value) {
         if (value) {
@@ -436,8 +436,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a char value to the string builder.
      *
-     * @param ch the value to append
-     * @return this, to enable chaining
+     * @param ch the value to append.
+     * @return {@code this} instance.
      */
     @Override
     public TextStringBuilder append(final char ch) {
@@ -450,8 +450,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a char array to the string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param chars the char array to append
-     * @return this, to enable chaining
+     * @param chars the char array to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final char[] chars) {
         if (chars == null) {
@@ -470,14 +470,13 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a char array to the string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param chars the char array to append
-     * @param startIndex the start index, inclusive, must be valid
-     * @param length the length to append, must be valid
-     * @return this, to enable chaining
-     * @throws StringIndexOutOfBoundsException if {@code startIndex} is not in the
-     *  range {@code 0 <= startIndex <= chars.length}
-     * @throws StringIndexOutOfBoundsException if {@code length < 0}
-     * @throws StringIndexOutOfBoundsException if {@code startIndex + length > chars.length}
+     * @param chars      the char array to append.
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param length     the length to append, must be valid.
+     * @return {@code this} instance.
+     * @throws StringIndexOutOfBoundsException if {@code startIndex} is not in the range {@code 0 <= startIndex <= chars.length}.
+     * @throws StringIndexOutOfBoundsException if {@code length < 0}.
+     * @throws StringIndexOutOfBoundsException if {@code startIndex + length > chars.length}.
      */
     public TextStringBuilder append(final char[] chars, final int startIndex, final int length) {
         if (chars == null) {
@@ -501,8 +500,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends the contents of a char buffer to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param str the char buffer to append
-     * @return this, to enable chaining
+     * @param str the char buffer to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final CharBuffer str) {
         return append(str, 0, StringUtils.length(str));
@@ -511,10 +510,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends the contents of a char buffer to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param buf the char buffer to append
-     * @param startIndex the start index, inclusive, must be valid
-     * @param length the length to append, must be valid
-     * @return this, to enable chaining
+     * @param buf the char buffer to append.
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param length the length to append, must be valid.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final CharBuffer buf, final int startIndex, final int length) {
         if (buf == null) {
@@ -541,8 +540,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a CharSequence to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param seq the CharSequence to append
-     * @return this, to enable chaining
+     * @param seq the CharSequence to append.
+     * @return {@code this} instance.
      */
     @Override
     public TextStringBuilder append(final CharSequence seq) {
@@ -567,10 +566,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends part of a CharSequence to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param seq the CharSequence to append
-     * @param startIndex the start index, inclusive, must be valid
-     * @param endIndex the end index, exclusive, must be valid
-     * @return this, to enable chaining
+     * @param seq the CharSequence to append.
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param endIndex the end index, exclusive, must be valid.
+     * @return {@code this} instance.
      */
     @Override
     public TextStringBuilder append(final CharSequence seq, final int startIndex, final int endIndex) {
@@ -589,8 +588,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a double value to the string builder using {@code String.valueOf}.
      *
-     * @param value the value to append
-     * @return this, to enable chaining
+     * @param value the value to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final double value) {
         return append(String.valueOf(value));
@@ -599,8 +598,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a float value to the string builder using {@code String.valueOf}.
      *
-     * @param value the value to append
-     * @return this, to enable chaining
+     * @param value the value to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final float value) {
         return append(String.valueOf(value));
@@ -609,8 +608,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends an int value to the string builder using {@code String.valueOf}.
      *
-     * @param value the value to append
-     * @return this, to enable chaining
+     * @param value the value to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final int value) {
         return append(String.valueOf(value));
@@ -619,8 +618,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a long value to the string builder using {@code String.valueOf}.
      *
-     * @param value the value to append
-     * @return this, to enable chaining
+     * @param value the value to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final long value) {
         return append(String.valueOf(value));
@@ -630,7 +629,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends an object to this string builder. Appending null will call {@link #appendNull()}.
      *
      * @param obj the object to append.
-     * @return this, to enable chaining.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final Object obj) {
         if (obj == null) {
@@ -645,8 +644,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a string to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param str the string to append
-     * @return this, to enable chaining
+     * @param str the string to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final String str) {
         return append(str, 0, StringUtils.length(str));
@@ -655,14 +654,13 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends part of a string to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param str the string to append
-     * @param startIndex the start index, inclusive, must be valid
-     * @param length the length to append, must be valid
-     * @return this, to enable chaining
-     * @throws StringIndexOutOfBoundsException if {@code startIndex} is not in the
-     *  range {@code 0 <= startIndex <= str.length()}
-     * @throws StringIndexOutOfBoundsException if {@code length < 0}
-     * @throws StringIndexOutOfBoundsException if {@code startIndex + length > str.length()}
+     * @param str        the string to append.
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param length     the length to append, must be valid.
+     * @return {@code this} instance.
+     * @throws StringIndexOutOfBoundsException if {@code startIndex} is not in the range {@code 0 <= startIndex <= str.length()}.
+     * @throws StringIndexOutOfBoundsException if {@code length < 0}.
+     * @throws StringIndexOutOfBoundsException if {@code startIndex + length > str.length()}.
      */
     public TextStringBuilder append(final String str, final int startIndex, final int length) {
         if (str == null) {
@@ -686,9 +684,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Calls {@link String#format(String, Object...)} and appends the result.
      *
-     * @param format the format string
-     * @param objs the objects to use in the format string
-     * @return {@code this} to enable chaining
+     * @param format the format string.
+     * @param objs   the objects to use in the format string.
+     * @return {@code this} to enable chaining.
      * @see String#format(String, Object...)
      */
     public TextStringBuilder append(final String format, final Object... objs) {
@@ -698,8 +696,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a string buffer to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param str the string buffer to append
-     * @return this, to enable chaining
+     * @param str the string buffer to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final StringBuffer str) {
         return append(str, 0, StringUtils.length(str));
@@ -708,10 +706,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends part of a string buffer to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param str the string to append
-     * @param startIndex the start index, inclusive, must be valid
-     * @param length the length to append, must be valid
-     * @return this, to enable chaining
+     * @param str        the string to append.
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param length     the length to append, must be valid.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final StringBuffer str, final int startIndex, final int length) {
         if (str == null) {
@@ -735,8 +733,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a StringBuilder to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param str the StringBuilder to append
-     * @return this, to enable chaining
+     * @param str the StringBuilder to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final StringBuilder str) {
         return append(str, 0, StringUtils.length(str));
@@ -745,10 +743,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends part of a StringBuilder to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param str the StringBuilder to append
-     * @param startIndex the start index, inclusive, must be valid
-     * @param length the length to append, must be valid
-     * @return this, to enable chaining
+     * @param str the StringBuilder to append.
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param length the length to append, must be valid.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final StringBuilder str, final int startIndex, final int length) {
         if (str == null) {
@@ -772,8 +770,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends another string builder to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param str the string builder to append
-     * @return this, to enable chaining
+     * @param str the string builder to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final TextStringBuilder str) {
         return append(str, 0, StringUtils.length(str));
@@ -782,10 +780,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends part of a string builder to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param str the string to append
-     * @param startIndex the start index, inclusive, must be valid
-     * @param length the length to append, must be valid
-     * @return this, to enable chaining
+     * @param str the string to append.
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param length the length to append, must be valid.
+     * @return {@code this} instance.
      */
     public TextStringBuilder append(final TextStringBuilder str, final int startIndex, final int length) {
         if (str == null) {
@@ -807,11 +805,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Appends each item in an iterable to the builder without any separators. Appending a null iterable will have no
-     * effect. Each object is appended using {@link #append(Object)}.
+     * Appends each item in an iterable to the builder without any separators. Appending a null iterable will have no effect. Each object is appended using
+     * {@link #append(Object)}.
      *
-     * @param iterable the iterable to append
-     * @return this, to enable chaining
+     * @param iterable the iterable to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendAll(final Iterable<?> iterable) {
         if (iterable != null) {
@@ -821,11 +819,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Appends each item in an iterator to the builder without any separators. Appending a null iterator will have no
-     * effect. Each object is appended using {@link #append(Object)}.
+     * Appends each item in an iterator to the builder without any separators. Appending a null iterator will have no effect. Each object is appended using
+     * {@link #append(Object)}.
      *
-     * @param it the iterator to append
-     * @return this, to enable chaining
+     * @param it the iterator to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendAll(final Iterator<?> it) {
         if (it != null) {
@@ -835,12 +833,12 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Appends each item in an array to the builder without any separators. Appending a null array will have no effect.
-     * Each object is appended using {@link #append(Object)}.
+     * Appends each item in an array to the builder without any separators. Appending a null array will have no effect. Each object is appended using
+     * {@link #append(Object)}.
      *
-     * @param <T> the element type
-     * @param array the array to append
-     * @return this, to enable chaining
+     * @param <T>   the element type.
+     * @param array the array to append.
+     * @return {@code this} instance.
      */
     public <T> TextStringBuilder appendAll(@SuppressWarnings("unchecked") final T... array) {
         /*
@@ -867,27 +865,26 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Appends an object to the builder padding on the left to a fixed width. The {@code String.valueOf} of the
-     * {@code int} value is used. If the formatted value is larger than the length, the left hand side is lost.
+     * Appends an object to the builder padding on the left to a fixed width. The {@code String.valueOf} of the {@code int} value is used. If the formatted
+     * value is larger than the length, the left hand side is lost.
      *
-     * @param value the value to append
-     * @param width the fixed field width, zero or negative has no effect
-     * @param padChar the pad character to use
-     * @return this, to enable chaining
+     * @param value   the value to append.
+     * @param width   the fixed field width, zero or negative has no effect.
+     * @param padChar the pad character to use.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendFixedWidthPadLeft(final int value, final int width, final char padChar) {
         return appendFixedWidthPadLeft(String.valueOf(value), width, padChar);
     }
 
     /**
-     * Appends an object to the builder padding on the left to a fixed width. The {@code toString} of the object is
-     * used. If the object is larger than the length, the left hand side is lost. If the object is null, the null text
-     * value is used.
+     * Appends an object to the builder padding on the left to a fixed width. The {@code toString} of the object is used. If the object is larger than the
+     * length, the left hand side is lost. If the object is null, the null text value is used.
      *
-     * @param obj the object to append, null uses null text
-     * @param width the fixed field width, zero or negative has no effect
-     * @param padChar the pad character to use
-     * @return this, to enable chaining
+     * @param obj     the object to append, null uses null text.
+     * @param width   the fixed field width, zero or negative has no effect.
+     * @param padChar the pad character to use.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendFixedWidthPadLeft(final Object obj, final int width, final char padChar) {
         if (width > 0) {
@@ -911,27 +908,26 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Appends an object to the builder padding on the right to a fixed length. The {@code String.valueOf} of the
-     * {@code int} value is used. If the object is larger than the length, the right hand side is lost.
+     * Appends an object to the builder padding on the right to a fixed length. The {@code String.valueOf} of the {@code int} value is used. If the object is
+     * larger than the length, the right hand side is lost.
      *
-     * @param value the value to append
-     * @param width the fixed field width, zero or negative has no effect
-     * @param padChar the pad character to use
-     * @return this, to enable chaining
+     * @param value   the value to append.
+     * @param width   the fixed field width, zero or negative has no effect.
+     * @param padChar the pad character to use.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendFixedWidthPadRight(final int value, final int width, final char padChar) {
         return appendFixedWidthPadRight(String.valueOf(value), width, padChar);
     }
 
     /**
-     * Appends an object to the builder padding on the right to a fixed length. The {@code toString} of the object is
-     * used. If the object is larger than the length, the right hand side is lost. If the object is null, null text
-     * value is used.
+     * Appends an object to the builder padding on the right to a fixed length. The {@code toString} of the object is used. If the object is larger than the
+     * length, the right hand side is lost. If the object is null, null text value is used.
      *
-     * @param obj the object to append, null uses null text
-     * @param width the fixed field width, zero or negative has no effect
-     * @param padChar the pad character to use
-     * @return this, to enable chaining
+     * @param obj     the object to append, null uses null text.
+     * @param width   the fixed field width, zero or negative has no effect.
+     * @param padChar the pad character to use.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendFixedWidthPadRight(final Object obj, final int width, final char padChar) {
         if (width > 0) {
@@ -956,8 +952,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a boolean value followed by a new line to the string builder.
      *
-     * @param value the value to append
-     * @return this, to enable chaining
+     * @param value the value to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final boolean value) {
         return append(value).appendNewLine();
@@ -966,8 +962,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a char value followed by a new line to the string builder.
      *
-     * @param ch the value to append
-     * @return this, to enable chaining
+     * @param ch the value to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final char ch) {
         return append(ch).appendNewLine();
@@ -977,8 +973,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends a char array followed by a new line to the string builder. Appending null will call
      * {@link #appendNull()}.
      *
-     * @param chars the char array to append
-     * @return this, to enable chaining
+     * @param chars the char array to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final char[] chars) {
         return append(chars).appendNewLine();
@@ -988,10 +984,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends a char array followed by a new line to the string builder. Appending null will call
      * {@link #appendNull()}.
      *
-     * @param chars the char array to append
-     * @param startIndex the start index, inclusive, must be valid
-     * @param length the length to append, must be valid
-     * @return this, to enable chaining
+     * @param chars the char array to append.
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param length the length to append, must be valid.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final char[] chars, final int startIndex, final int length) {
         return append(chars, startIndex, length).appendNewLine();
@@ -1000,8 +996,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a double value followed by a new line to the string builder using {@code String.valueOf}.
      *
-     * @param value the value to append
-     * @return this, to enable chaining
+     * @param value the value to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final double value) {
         return append(value).appendNewLine();
@@ -1010,8 +1006,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a float value followed by a new line to the string builder using {@code String.valueOf}.
      *
-     * @param value the value to append
-     * @return this, to enable chaining
+     * @param value the value to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final float value) {
         return append(value).appendNewLine();
@@ -1020,8 +1016,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends an int value followed by a new line to the string builder using {@code String.valueOf}.
      *
-     * @param value the value to append
-     * @return this, to enable chaining
+     * @param value the value to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final int value) {
         return append(value).appendNewLine();
@@ -1030,8 +1026,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a long value followed by a new line to the string builder using {@code String.valueOf}.
      *
-     * @param value the value to append
-     * @return this, to enable chaining
+     * @param value the value to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final long value) {
         return append(value).appendNewLine();
@@ -1040,8 +1036,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends an object followed by a new line to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param obj the object to append
-     * @return this, to enable chaining
+     * @param obj the object to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final Object obj) {
         return append(obj).appendNewLine();
@@ -1050,8 +1046,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends a string followed by a new line to this string builder. Appending null will call {@link #appendNull()}.
      *
-     * @param str the string to append
-     * @return this, to enable chaining
+     * @param str the string to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final String str) {
         return append(str).appendNewLine();
@@ -1061,10 +1057,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends part of a string followed by a new line to this string builder. Appending null will call
      * {@link #appendNull()}.
      *
-     * @param str the string to append
-     * @param startIndex the start index, inclusive, must be valid
-     * @param length the length to append, must be valid
-     * @return this, to enable chaining
+     * @param str the string to append.
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param length the length to append, must be valid.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final String str, final int startIndex, final int length) {
         return append(str, startIndex, length).appendNewLine();
@@ -1073,9 +1069,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Calls {@link String#format(String, Object...)} and appends the result.
      *
-     * @param format the format string
-     * @param objs the objects to use in the format string
-     * @return {@code this} to enable chaining
+     * @param format the format string.
+     * @param objs the objects to use in the format string.
+     * @return {@code this} to enable chaining.
      * @see String#format(String, Object...)
      */
     public TextStringBuilder appendln(final String format, final Object... objs) {
@@ -1086,8 +1082,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends a string buffer followed by a new line to this string builder. Appending null will call
      * {@link #appendNull()}.
      *
-     * @param str the string buffer to append
-     * @return this, to enable chaining
+     * @param str the string buffer to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final StringBuffer str) {
         return append(str).appendNewLine();
@@ -1097,10 +1093,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends part of a string buffer followed by a new line to this string builder. Appending null will call
      * {@link #appendNull()}.
      *
-     * @param str the string to append
-     * @param startIndex the start index, inclusive, must be valid
-     * @param length the length to append, must be valid
-     * @return this, to enable chaining
+     * @param str the string to append.
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param length the length to append, must be valid.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final StringBuffer str, final int startIndex, final int length) {
         return append(str, startIndex, length).appendNewLine();
@@ -1110,8 +1106,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends a string builder followed by a new line to this string builder. Appending null will call
      * {@link #appendNull()}.
      *
-     * @param str the string builder to append
-     * @return this, to enable chaining
+     * @param str the string builder to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final StringBuilder str) {
         return append(str).appendNewLine();
@@ -1121,10 +1117,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends part of a string builder followed by a new line to this string builder. Appending null will call
      * {@link #appendNull()}.
      *
-     * @param str the string builder to append
-     * @param startIndex the start index, inclusive, must be valid
-     * @param length the length to append, must be valid
-     * @return this, to enable chaining
+     * @param str the string builder to append.
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param length the length to append, must be valid.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final StringBuilder str, final int startIndex, final int length) {
         return append(str, startIndex, length).appendNewLine();
@@ -1134,8 +1130,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends another string builder followed by a new line to this string builder. Appending null will call
      * {@link #appendNull()}.
      *
-     * @param str the string builder to append
-     * @return this, to enable chaining
+     * @param str the string builder to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final TextStringBuilder str) {
         return append(str).appendNewLine();
@@ -1145,10 +1141,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends part of a string builder followed by a new line to this string builder. Appending null will call
      * {@link #appendNull()}.
      *
-     * @param str the string to append
-     * @param startIndex the start index, inclusive, must be valid
-     * @param length the length to append, must be valid
-     * @return this, to enable chaining
+     * @param str the string to append.
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param length the length to append, must be valid.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendln(final TextStringBuilder str, final int startIndex, final int length) {
         return append(str, startIndex, length).appendNewLine();
@@ -1164,7 +1160,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * endings even when on Windows.
      * </p>
      *
-     * @return this
+     * @return {@code this} instance.
      * @see #getNewLineText()
      * @see #setNewLineText(String)
      */
@@ -1175,7 +1171,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends the text representing {@code null} to this string builder.
      *
-     * @return this, to enable chaining.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendNull() {
         return nullText != null ? append(nullText) : this;
@@ -1184,9 +1180,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Appends the pad character to the builder the specified number of times.
      *
-     * @param length the length to append, negative means no append
-     * @param padChar the character to append
-     * @return this, to enable chaining
+     * @param length the length to append, negative means no append.
+     * @param padChar the character to append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendPadding(final int length, final char padChar) {
         if (length >= 0) {
@@ -1215,22 +1211,23 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Note that for this simple example, you should use {@link #appendWithSeparators(Iterable, String)}.
      * </p>
      *
-     * @param separator the separator to use
-     * @return this, to enable chaining
+     * @param separator the separator to use.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendSeparator(final char separator) {
         return isEmpty() ? this : append(separator);
     }
 
     /**
-     * Appends one of both separators to the builder If the builder is currently empty it will append the
-     * defaultIfEmpty-separator Otherwise it will append the standard-separator
-     *
+     * Appends one of both separators to the builder If the builder is currently empty it will append the defaultIfEmpty-separator Otherwise it will append the
+     * standard-separator
+     * <p>
      * The separator is appended using {@link #append(char)}.
+     * </p>
      *
-     * @param standard the separator if builder is not empty
-     * @param defaultIfEmpty the separator if builder is empty
-     * @return this, to enable chaining
+     * @param standard       the separator if builder is not empty.
+     * @param defaultIfEmpty the separator if builder is empty.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendSeparator(final char standard, final char defaultIfEmpty) {
         return append(isEmpty() ? defaultIfEmpty : standard);
@@ -1254,9 +1251,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Note that for this simple example, you should use {@link #appendWithSeparators(Iterable, String)}.
      * </p>
      *
-     * @param separator the separator to use
-     * @param loopIndex the loop index
-     * @return this, to enable chaining
+     * @param separator the separator to use.
+     * @param loopIndex the loop index.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendSeparator(final char separator, final int loopIndex) {
         return loopIndex > 0 ? append(separator) : this;
@@ -1280,8 +1277,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Note that for this simple example, you should use {@link #appendWithSeparators(Iterable, String)}.
      * </p>
      *
-     * @param separator the separator to use, null means no separator
-     * @return this, to enable chaining
+     * @param separator the separator to use, null means no separator.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendSeparator(final String separator) {
         return appendSeparator(separator, null);
@@ -1305,9 +1302,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Note that for this simple example, you should use {@link #appendWithSeparators(Iterable, String)}.
      * </p>
      *
-     * @param separator the separator to use, null means no separator
-     * @param loopIndex the loop index
-     * @return this, to enable chaining
+     * @param separator the separator to use, null means no separator.
+     * @param loopIndex the loop index.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendSeparator(final String separator, final int loopIndex) {
         return separator != null && loopIndex > 0 ? append(separator) : this;
@@ -1336,9 +1333,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * selectClause.append(whereClause)
      * </pre>
      *
-     * @param standard the separator if builder is not empty, null means no separator
-     * @param defaultIfEmpty the separator if builder is empty, null means no separator
-     * @return this, to enable chaining
+     * @param standard the separator if builder is not empty, null means no separator.
+     * @param defaultIfEmpty the separator if builder is empty, null means no separator.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendSeparator(final String standard, final String defaultIfEmpty) {
         final String str = isEmpty() ? defaultIfEmpty : standard;
@@ -1351,7 +1348,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * This method tries to avoid doing any extra copies of contents.
      * </p>
      *
-     * @param appendable the appendable to append data to
+     * @param appendable the appendable to append data to.
      * @throws IOException if an I/O error occurs.
      * @see #readFrom(Readable)
      */
@@ -1382,9 +1379,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends an iterable placing separators between each value, but not before the first or after the last. Appending
      * a null iterable will have no effect. Each object is appended using {@link #append(Object)}.
      *
-     * @param iterable the iterable to append
-     * @param separator the separator to use, null means no separator
-     * @return this, to enable chaining
+     * @param iterable the iterable to append.
+     * @param separator the separator to use, null means no separator.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendWithSeparators(final Iterable<?> iterable, final String separator) {
         if (iterable != null) {
@@ -1397,9 +1394,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends an iterator placing separators between each value, but not before the first or after the last. Appending
      * a null iterator will have no effect. Each object is appended using {@link #append(Object)}.
      *
-     * @param it the iterator to append
-     * @param separator the separator to use, null means no separator
-     * @return this, to enable chaining
+     * @param it the iterator to append.
+     * @param separator the separator to use, null means no separator.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendWithSeparators(final Iterator<?> it, final String separator) {
         if (it != null) {
@@ -1418,9 +1415,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Appends an array placing separators between each value, but not before the first or after the last. Appending a
      * null array will have no effect. Each object is appended using {@link #append(Object)}.
      *
-     * @param array the array to append
-     * @param separator the separator to use, null means no separator
-     * @return this, to enable chaining
+     * @param array the array to append.
+     * @param separator the separator to use, null means no separator.
+     * @return {@code this} instance.
      */
     public TextStringBuilder appendWithSeparators(final Object[] array, final String separator) {
         if (array != null && array.length > 0) {
@@ -1450,7 +1447,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * The returned reader supports marking, and ignores the flush method.
      * </p>
      *
-     * @return a reader that reads from this builder
+     * @return a reader that reads from this builder.
      */
     public Reader asReader() {
         return new TextStringBuilderReader();
@@ -1489,7 +1486,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * break the link with the builder.
      * </p>
      *
-     * @return a tokenizer that is linked to this builder
+     * @return a tokenizer that is linked to this builder.
      */
     public StringTokenizer asTokenizer() {
         return new TextStringBuilderTokenizer();
@@ -1513,7 +1510,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * The returned writer ignores the close and flush methods.
      * </p>
      *
-     * @return a writer that populates this builder
+     * @return a writer that populates this builder.
      */
     public Writer asWriter() {
         return new TextStringBuilderWriter();
@@ -1522,7 +1519,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Converts this instance to a String.
      *
-     * @return This instance as a String
+     * @return This instance as a String.
      * @see #toString()
      * @deprecated Use {@link #get()}.
      */
@@ -1535,7 +1532,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Gets the current size of the internal character array buffer.
      *
-     * @return The capacity
+     * @return The capacity.
      */
     public int capacity() {
         return buffer.length;
@@ -1544,11 +1541,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Gets the character at the specified index.
      *
+     * @param index the index to retrieve, must be valid.
+     * @return The character at the index.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      * @see #setCharAt(int, char)
      * @see #deleteCharAt(int)
-     * @param index the index to retrieve, must be valid
-     * @return The character at the index
-     * @throws IndexOutOfBoundsException if the index is invalid
      */
     @Override
     public char charAt(final int index) {
@@ -1567,7 +1564,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Collections.
      * </p>
      *
-     * @return this, to enable chaining
+     * @return {@code this} instance.
      */
     public TextStringBuilder clear() {
         size = 0;
@@ -1577,8 +1574,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Tests if the string builder contains the specified char.
      *
-     * @param ch the character to find
-     * @return true if the builder contains the character
+     * @param ch the character to find.
+     * @return true if the builder contains the character.
      */
     public boolean contains(final char ch) {
         final char[] thisBuf = buffer;
@@ -1593,8 +1590,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Tests if the string builder contains the specified string.
      *
-     * @param str the string to find
-     * @return true if the builder contains the string
+     * @param str the string to find.
+     * @return true if the builder contains the string.
      */
     public boolean contains(final String str) {
         return indexOf(str, 0) >= 0;
@@ -1607,8 +1604,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * the character 'a' followed by a number.
      * </p>
      *
-     * @param matcher the matcher to use, null returns -1
-     * @return true if the matcher finds a match in the builder
+     * @param matcher the matcher to use, null returns -1.
+     * @return true if the matcher finds a match in the builder.
      */
     public boolean contains(final StringMatcher matcher) {
         return indexOf(matcher, 0) >= 0;
@@ -1617,10 +1614,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Deletes the characters between the two specified indices.
      *
-     * @param startIndex the start index, inclusive, must be valid
-     * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public TextStringBuilder delete(final int startIndex, final int endIndex) {
         final int actualEndIndex = validateRange(startIndex, endIndex);
@@ -1634,8 +1631,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Deletes the character wherever it occurs in the builder.
      *
-     * @param ch the character to delete
-     * @return this, to enable chaining
+     * @param ch the character to delete.
+     * @return {@code this} instance.
      */
     public TextStringBuilder deleteAll(final char ch) {
         for (int i = 0; i < size; i++) {
@@ -1657,8 +1654,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Deletes the string wherever it occurs in the builder.
      *
-     * @param str the string to delete, null causes no action
-     * @return this, to enable chaining
+     * @param str the string to delete, null causes no action.
+     * @return {@code this} instance.
      */
     public TextStringBuilder deleteAll(final String str) {
         final int len = str == null ? 0 : str.length();
@@ -1679,8 +1676,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * occurrences where the character 'a' is followed by a number.
      * </p>
      *
-     * @param matcher the matcher to use to find the deletion, null causes no action
-     * @return this, to enable chaining
+     * @param matcher the matcher to use to find the deletion, null causes no action.
+     * @return {@code this} instance.
      */
     public TextStringBuilder deleteAll(final StringMatcher matcher) {
         return replace(matcher, null, 0, size, -1);
@@ -1689,11 +1686,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Deletes the character at the specified index.
      *
+     * @param index the index to delete.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      * @see #charAt(int)
      * @see #setCharAt(int, char)
-     * @param index the index to delete
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the index is invalid
      */
     public TextStringBuilder deleteCharAt(final int index) {
         validateIndex(index);
@@ -1704,8 +1701,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Deletes the character wherever it occurs in the builder.
      *
-     * @param ch the character to delete
-     * @return this, to enable chaining
+     * @param ch the character to delete.
+     * @return {@code this} instance.
      */
     public TextStringBuilder deleteFirst(final char ch) {
         for (int i = 0; i < size; i++) {
@@ -1720,8 +1717,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Deletes the string wherever it occurs in the builder.
      *
-     * @param str the string to delete, null causes no action
-     * @return this, to enable chaining
+     * @param str the string to delete, null causes no action.
+     * @return {@code this} instance.
      */
     public TextStringBuilder deleteFirst(final String str) {
         final int len = str == null ? 0 : str.length();
@@ -1741,8 +1738,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * the character 'a' is followed by a number.
      * </p>
      *
-     * @param matcher the matcher to use to find the deletion, null causes no action
-     * @return this, to enable chaining
+     * @param matcher the matcher to use to find the deletion, null causes no action.
+     * @return {@code this} instance.
      */
     public TextStringBuilder deleteFirst(final StringMatcher matcher) {
         return replace(matcher, null, 0, size, 1);
@@ -1751,10 +1748,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Internal method to delete a range without validation.
      *
-     * @param startIndex the start index, must be valid
-     * @param endIndex the end index (exclusive), must be valid
-     * @param len the length, must be valid
-     * @throws IndexOutOfBoundsException if any index is invalid
+     * @param startIndex the start index, must be valid.
+     * @param endIndex the end index (exclusive), must be valid.
+     * @param len the length, must be valid.
+     * @throws IndexOutOfBoundsException if any index is invalid.
      */
     private void deleteImpl(final int startIndex, final int endIndex, final int len) {
         System.arraycopy(buffer, endIndex, buffer, startIndex, size - endIndex);
@@ -1764,12 +1761,12 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Gets the character at the specified index before deleting it.
      *
-     * @see #charAt(int)
-     * @see #deleteCharAt(int)
      * @param index the index to retrieve, must be valid
      * @return The character at the index
      * @throws IndexOutOfBoundsException if the index is invalid
      * @since 1.9
+     * @see #charAt(int)
+     * @see #deleteCharAt(int)
      */
     public char drainChar(final int index) {
         validateIndex(index);
@@ -1806,8 +1803,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Note that this method handles null input quietly, unlike String.
      * </p>
      *
-     * @param str the string to search for, null returns false
-     * @return true if the builder ends with the string
+     * @param str the string to search for, null returns false.
+     * @return true if the builder ends with the string.
      */
     public boolean endsWith(final String str) {
         if (str == null) {
@@ -1838,9 +1835,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * The method ignores a negative {@code capacity} argument.
      * </p>
      *
-     * @param capacity the capacity to ensure
-     * @return this, to enable chaining
-     * @throws OutOfMemoryError if the capacity cannot be allocated
+     * @param capacity the capacity to ensure.
+     * @return {@code this} instance.
+     * @throws OutOfMemoryError if the capacity cannot be allocated.
      */
     public TextStringBuilder ensureCapacity(final int capacity) {
         if (capacity > 0) {
@@ -1858,8 +1855,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * for an array, or cannot be allocated.
      * </p>
      *
-     * @param capacity the capacity to ensure
-     * @throws OutOfMemoryError if the capacity cannot be allocated
+     * @param capacity the capacity to ensure.
+     * @throws OutOfMemoryError if the capacity cannot be allocated.
      */
     private void ensureCapacityInternal(final int capacity) {
         // Check for overflow of the current buffer.
@@ -1873,8 +1870,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Tests the contents of this builder against another to see if they contain the same character content.
      *
-     * @param obj the object to check, null returns false
-     * @return true if the builders contain the same characters in the same order
+     * @param obj the object to check, null returns false.
+     * @return true if the builders contain the same characters in the same order.
      */
     @Override
     public boolean equals(final Object obj) {
@@ -1884,8 +1881,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Tests the contents of this builder against another to see if they contain the same character content.
      *
-     * @param other the object to check, null returns false
-     * @return true if the builders contain the same characters in the same order
+     * @param other the object to check, null returns false.
+     * @return true if the builders contain the same characters in the same order.
      */
     public boolean equals(final TextStringBuilder other) {
         if (this == other) {
@@ -1913,8 +1910,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Tests the contents of this builder against another to see if they contain the same character content ignoring
      * case.
      *
-     * @param other the object to check, null returns false
-     * @return true if the builders contain the same characters in the same order
+     * @param other the object to check, null returns false.
+     * @return true if the builders contain the same characters in the same order.
      */
     public boolean equalsIgnoreCase(final TextStringBuilder other) {
         if (this == other) {
@@ -1938,7 +1935,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Converts this instance to a String.
      *
-     * @return This instance as a String
+     * @return This instance as a String.
      * @see #toString()
      * @since 1.12.0
      */
@@ -1957,8 +1954,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Copies this character array into the specified array.
      *
-     * @param target the target array, null will cause an array to be created
-     * @return The input array, unless that was null or too small
+     * @param target the target array, null will cause an array to be created.
+     * @return The input array, unless that was null or too small.
      */
     public char[] getChars(char[] target) {
         final int len = length();
@@ -2004,7 +2001,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Gets the text to be appended when null is added.
      *
-     * @return The null text, null means no append
+     * @return The null text, null means no append.
      */
     public String getNullText() {
         return nullText;
@@ -2013,7 +2010,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Gets a suitable hash code for this builder.
      *
-     * @return a hash code
+     * @return a hash code.
      */
     @Override
     public int hashCode() {
@@ -2029,8 +2026,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Searches the string builder to find the first reference to the specified char.
      *
-     * @param ch the character to find
-     * @return The first index of the character, or -1 if not found
+     * @param ch the character to find.
+     * @return The first index of the character, or -1 if not found.
      */
     public int indexOf(final char ch) {
         return indexOf(ch, 0);
@@ -2039,9 +2036,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Searches the string builder to find the first reference to the specified char.
      *
-     * @param ch the character to find
-     * @param startIndex the index to start at, invalid index rounded to edge
-     * @return The first index of the character, or -1 if not found
+     * @param ch the character to find.
+     * @param startIndex the index to start at, invalid index rounded to edge.
+     * @return The first index of the character, or -1 if not found.
      */
     public int indexOf(final char ch, int startIndex) {
         startIndex = Math.max(0, startIndex);
@@ -2063,8 +2060,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Note that a null input string will return -1, whereas the JDK throws an exception.
      * </p>
      *
-     * @param str the string to find, null returns -1
-     * @return The first index of the string, or -1 if not found
+     * @param str the string to find, null returns -1.
+     * @return The first index of the string, or -1 if not found.
      */
     public int indexOf(final String str) {
         return indexOf(str, 0);
@@ -2077,9 +2074,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Note that a null input string will return -1, whereas the JDK throws an exception.
      * </p>
      *
-     * @param str the string to find, null returns -1
-     * @param startIndex the index to start at, invalid index rounded to edge
-     * @return The first index of the string, or -1 if not found
+     * @param str the string to find, null returns -1.
+     * @param startIndex the index to start at, invalid index rounded to edge.
+     * @return The first index of the string, or -1 if not found.
      */
     public int indexOf(final String str, int startIndex) {
         startIndex = Math.max(0, startIndex);
@@ -2117,8 +2114,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * character 'a' followed by a number.
      * </p>
      *
-     * @param matcher the matcher to use, null returns -1
-     * @return The first index matched, or -1 if not found
+     * @param matcher the matcher to use, null returns -1.
+     * @return The first index matched, or -1 if not found.
      */
     public int indexOf(final StringMatcher matcher) {
         return indexOf(matcher, 0);
@@ -2131,9 +2128,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * character 'a' followed by a number.
      * </p>
      *
-     * @param matcher the matcher to use, null returns -1
-     * @param startIndex the index to start at, invalid index rounded to edge
-     * @return The first index matched, or -1 if not found
+     * @param matcher the matcher to use, null returns -1.
+     * @param startIndex the index to start at, invalid index rounded to edge.
+     * @return The first index matched, or -1 if not found.
      */
     public int indexOf(final StringMatcher matcher, int startIndex) {
         startIndex = Math.max(0, startIndex);
@@ -2153,10 +2150,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inserts the value into this builder.
      *
-     * @param index the index to add at, must be valid
-     * @param value the value to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param index the index to add at, must be valid.
+     * @param value the value to insert.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public TextStringBuilder insert(final int index, final boolean value) {
         validateRange(index, size);
@@ -2175,10 +2172,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inserts the value into this builder.
      *
-     * @param index the index to add at, must be valid
-     * @param value the value to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param index the index to add at, must be valid.
+     * @param value the value to insert.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public TextStringBuilder insert(final int index, final char value) {
         validateRange(index, size);
@@ -2192,10 +2189,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inserts the character array into this builder. Inserting null will use the stored null text value.
      *
-     * @param index the index to add at, must be valid
-     * @param chars the char array to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param index the index to add at, must be valid.
+     * @param chars the char array to insert.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public TextStringBuilder insert(final int index, final char[] chars) {
         validateRange(index, size);
@@ -2215,12 +2212,12 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inserts part of the character array into this builder. Inserting null will use the stored null text value.
      *
-     * @param index the index to add at, must be valid
-     * @param chars the char array to insert
-     * @param offset the offset into the character array to start at, must be valid
-     * @param length the length of the character array part to copy, must be positive
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if any index is invalid
+     * @param index the index to add at, must be valid.
+     * @param chars the char array to insert.
+     * @param offset the offset into the character array to start at, must be valid.
+     * @param length the length of the character array part to copy, must be positive.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if any index is invalid.
      */
     public TextStringBuilder insert(final int index, final char[] chars, final int offset, final int length) {
         validateRange(index, size);
@@ -2245,10 +2242,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inserts the value into this builder.
      *
-     * @param index the index to add at, must be valid
-     * @param value the value to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param index the index to add at, must be valid.
+     * @param value the value to insert.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public TextStringBuilder insert(final int index, final double value) {
         return insert(index, String.valueOf(value));
@@ -2257,10 +2254,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inserts the value into this builder.
      *
-     * @param index the index to add at, must be valid
-     * @param value the value to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param index the index to add at, must be valid.
+     * @param value the value to insert.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public TextStringBuilder insert(final int index, final float value) {
         return insert(index, String.valueOf(value));
@@ -2269,10 +2266,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inserts the value into this builder.
      *
-     * @param index the index to add at, must be valid
-     * @param value the value to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param index the index to add at, must be valid.
+     * @param value the value to insert.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public TextStringBuilder insert(final int index, final int value) {
         return insert(index, String.valueOf(value));
@@ -2281,10 +2278,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inserts the value into this builder.
      *
-     * @param index the index to add at, must be valid
-     * @param value the value to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param index the index to add at, must be valid.
+     * @param value the value to insert.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public TextStringBuilder insert(final int index, final long value) {
         return insert(index, String.valueOf(value));
@@ -2296,7 +2293,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      *
      * @param index the index to add at, must be valid.
      * @param obj the object to insert.
-     * @return this, to enable chaining.
+     * @return {@code this} instance.
      * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public TextStringBuilder insert(final int index, final Object obj) {
@@ -2306,10 +2303,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Inserts the string into this builder. Inserting null will use the stored null text value.
      *
-     * @param index the index to add at, must be valid
-     * @param str the string to insert
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param index the index to add at, must be valid.
+     * @param str the string to insert.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public TextStringBuilder insert(final int index, String str) {
         validateRange(index, size);
@@ -2367,8 +2364,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Searches the string builder to find the last reference to the specified char.
      *
-     * @param ch the character to find
-     * @return The last index of the character, or -1 if not found
+     * @param ch the character to find.
+     * @return The last index of the character, or -1 if not found.
      */
     public int lastIndexOf(final char ch) {
         return lastIndexOf(ch, size - 1);
@@ -2377,9 +2374,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Searches the string builder to find the last reference to the specified char.
      *
-     * @param ch the character to find
-     * @param startIndex the index to start at, invalid index rounded to edge
-     * @return The last index of the character, or -1 if not found
+     * @param ch the character to find.
+     * @param startIndex the index to start at, invalid index rounded to edge.
+     * @return The last index of the character, or -1 if not found.
      */
     public int lastIndexOf(final char ch, int startIndex) {
         startIndex = startIndex >= size ? size - 1 : startIndex;
@@ -2400,8 +2397,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Note that a null input string will return -1, whereas the JDK throws an exception.
      * </p>
      *
-     * @param str the string to find, null returns -1
-     * @return The last index of the string, or -1 if not found
+     * @param str the string to find, null returns -1.
+     * @return The last index of the string, or -1 if not found.
      */
     public int lastIndexOf(final String str) {
         return lastIndexOf(str, size - 1);
@@ -2414,9 +2411,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Note that a null input string will return -1, whereas the JDK throws an exception.
      * </p>
      *
-     * @param str the string to find, null returns -1
-     * @param startIndex the index to start at, invalid index rounded to edge
-     * @return The last index of the string, or -1 if not found
+     * @param str the string to find, null returns -1.
+     * @param startIndex the index to start at, invalid index rounded to edge.
+     * @return The last index of the string, or -1 if not found.
      */
     public int lastIndexOf(final String str, int startIndex) {
         startIndex = startIndex >= size ? size - 1 : startIndex;
@@ -2452,8 +2449,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * character 'a' followed by a number.
      * </p>
      *
-     * @param matcher the matcher to use, null returns -1
-     * @return The last index matched, or -1 if not found
+     * @param matcher the matcher to use, null returns -1.
+     * @return The last index matched, or -1 if not found.
      */
     public int lastIndexOf(final StringMatcher matcher) {
         return lastIndexOf(matcher, size);
@@ -2466,9 +2463,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * character 'a' followed by a number.
      * </p>
      *
-     * @param matcher the matcher to use, null returns -1
-     * @param startIndex the index to start at, invalid index rounded to edge
-     * @return The last index matched, or -1 if not found
+     * @param matcher the matcher to use, null returns -1.
+     * @param startIndex the index to start at, invalid index rounded to edge.
+     * @return The last index matched, or -1 if not found.
      */
     public int lastIndexOf(final StringMatcher matcher, int startIndex) {
         startIndex = startIndex >= size ? size - 1 : startIndex;
@@ -2492,8 +2489,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * available, the whole builder is returned. Thus the returned string may be shorter than the length requested.
      * </p>
      *
-     * @param length the number of characters to extract, negative returns empty string
-     * @return The new string
+     * @param length the number of characters to extract, negative returns empty string.
+     * @return The new string.
      */
     public String leftString(final int length) {
         if (length <= 0) {
@@ -2524,9 +2521,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * much as possible is returned. Thus the returned string may be shorter than the length requested.
      * </p>
      *
-     * @param index the index to start at, negative means zero
-     * @param length the number of characters to extract, negative returns empty string
-     * @return The new string
+     * @param index the index to start at, negative means zero.
+     * @param length the number of characters to extract, negative returns empty string.
+     * @return The new string.
      */
     public String midString(int index, final int length) {
         if (index < 0) {
@@ -2544,7 +2541,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Minimizes the capacity to the actual length of the string.
      *
-     * @return this, to enable chaining
+     * @return {@code this} instance.
      */
     public TextStringBuilder minimizeCapacity() {
         if (buffer.length > size) {
@@ -2575,8 +2572,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * If possible, reads all chars from the provided {@link Readable} directly into underlying character buffer without
      * making extra copies.
      *
-     * @param readable object to read from
-     * @return The number of characters read
+     * @param readable object to read from.
+     * @return The number of characters read.
      * @throws IOException if an I/O error occurs.
      * @see #appendTo(Appendable)
      */
@@ -2626,13 +2623,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * If possible, reads {@code count} chars from the provided {@link Reader} directly into underlying character buffer
-     * without making extra copies.
+     * If possible, reads {@code count} chars from the provided {@link Reader} directly into underlying character buffer without making extra copies.
      *
      * @param reader Reader to read.
-     * @param count The maximum characters to read, a value &lt;= 0 returns 0.
-     * @return The number of characters read. If less than {@code count}, then we've reached the end-of-stream, or -1 if
-     *         we reached the end of stream.
+     * @param count  The maximum characters to read, a value &lt;= 0 returns 0.
+     * @return The number of characters read. If less than {@code count}, then we've reached the end-of-stream, or -1 if we reached the end of stream.
      * @throws IOException if an I/O error occurs.
      * @see #appendTo(Appendable)
      * @since 1.9
@@ -2659,7 +2654,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Reallocates the buffer to the new length.
      *
-     * @param newLength the length of the copy to be returned
+     * @param newLength the length of the copy to be returned.
      */
     private void reallocate(final int newLength) {
         this.buffer = Arrays.copyOf(buffer, newLength);
@@ -2667,14 +2662,13 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     }
 
     /**
-     * Replaces a portion of the string builder with another string. The length of the inserted string does not have to
-     * match the removed length.
+     * Replaces a portion of the string builder with another string. The length of the inserted string does not have to match the removed length.
      *
-     * @param startIndex the start index, inclusive, must be valid
-     * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string
-     * @param replaceStr the string to replace with, null means delete range
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param endIndex   the end index, exclusive, must be valid except that if too large it is treated as end of string.
+     * @param replaceStr the string to replace with, null means delete range.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public TextStringBuilder replace(final int startIndex, int endIndex, final String replaceStr) {
         endIndex = validateRange(startIndex, endIndex);
@@ -2686,17 +2680,17 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Advanced search and replaces within the builder using a matcher.
      * <p>
-     * Matchers can be used to perform advanced behavior. For example you could write a matcher to delete all
-     * occurrences where the character 'a' is followed by a number.
+     * Matchers can be used to perform advanced behavior. For example you could write a matcher to delete all occurrences where the character 'a' is followed by
+     * a number.
      * </p>
      *
-     * @param matcher the matcher to use to find the deletion, null causes no action
-     * @param replaceStr the string to replace the match with, null is a delete
-     * @param startIndex the start index, inclusive, must be valid
-     * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string
-     * @param replaceCount the number of times to replace, -1 for replace all
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if start index is invalid
+     * @param matcher      the matcher to use to find the deletion, null causes no action.
+     * @param replaceStr   the string to replace the match with, null is a delete.
+     * @param startIndex   the start index, inclusive, must be valid.
+     * @param endIndex     the end index, exclusive, must be valid except that if too large it is treated as end of string.
+     * @param replaceCount the number of times to replace, -1 for replace all.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if start index is invalid.
      */
     public TextStringBuilder replace(final StringMatcher matcher, final String replaceStr, final int startIndex,
         int endIndex, final int replaceCount) {
@@ -2707,9 +2701,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Replaces the search character with the replace character throughout the builder.
      *
-     * @param search the search character
-     * @param replace the replace character
-     * @return this, to enable chaining
+     * @param search the search character.
+     * @param replace the replace character.
+     * @return {@code this} instance.
      */
     public TextStringBuilder replaceAll(final char search, final char replace) {
         if (search != replace) {
@@ -2725,9 +2719,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Replaces the search string with the replace string throughout the builder.
      *
-     * @param searchStr the search string, null causes no action to occur
-     * @param replaceStr the replace string, null is equivalent to an empty string
-     * @return this, to enable chaining
+     * @param searchStr the search string, null causes no action to occur.
+     * @param replaceStr the replace string, null is equivalent to an empty string.
+     * @return {@code this} instance.
      */
     public TextStringBuilder replaceAll(final String searchStr, final String replaceStr) {
         final int searchLen = searchStr == null ? 0 : searchStr.length();
@@ -2749,9 +2743,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * occurrences where the character 'a' is followed by a number.
      * </p>
      *
-     * @param matcher the matcher to use to find the deletion, null causes no action
-     * @param replaceStr the replace string, null is equivalent to an empty string
-     * @return this, to enable chaining
+     * @param matcher the matcher to use to find the deletion, null causes no action.
+     * @param replaceStr the replace string, null is equivalent to an empty string.
+     * @return {@code this} instance.
      */
     public TextStringBuilder replaceAll(final StringMatcher matcher, final String replaceStr) {
         return replace(matcher, replaceStr, 0, size, -1);
@@ -2760,9 +2754,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Replaces the first instance of the search character with the replace character in the builder.
      *
-     * @param search the search character
-     * @param replace the replace character
-     * @return this, to enable chaining
+     * @param search the search character.
+     * @param replace the replace character.
+     * @return {@code this} instance.
      */
     public TextStringBuilder replaceFirst(final char search, final char replace) {
         if (search != replace) {
@@ -2779,9 +2773,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Replaces the first instance of the search string with the replace string.
      *
-     * @param searchStr the search string, null causes no action to occur
-     * @param replaceStr the replace string, null is equivalent to an empty string
-     * @return this, to enable chaining
+     * @param searchStr the search string, null causes no action to occur.
+     * @param replaceStr the replace string, null is equivalent to an empty string.
+     * @return {@code this} instance.
      */
     public TextStringBuilder replaceFirst(final String searchStr, final String replaceStr) {
         final int searchLen = searchStr == null ? 0 : searchStr.length();
@@ -2802,9 +2796,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * the character 'a' is followed by a number.
      * </p>
      *
-     * @param matcher the matcher to use to find the deletion, null causes no action
-     * @param replaceStr the replace string, null is equivalent to an empty string
-     * @return this, to enable chaining
+     * @param matcher the matcher to use to find the deletion, null causes no action.
+     * @param replaceStr the replace string, null is equivalent to an empty string.
+     * @return {@code this} instance.
      */
     public TextStringBuilder replaceFirst(final StringMatcher matcher, final String replaceStr) {
         return replace(matcher, replaceStr, 0, size, 1);
@@ -2813,12 +2807,12 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Internal method to delete a range without validation.
      *
-     * @param startIndex the start index, must be valid
-     * @param endIndex the end index (exclusive), must be valid
-     * @param removeLen the length to remove (endIndex - startIndex), must be valid
-     * @param insertStr the string to replace with, null means delete range
-     * @param insertLen the length of the insert string, must be valid
-     * @throws IndexOutOfBoundsException if any index is invalid
+     * @param startIndex the start index, must be valid.
+     * @param endIndex the end index (exclusive), must be valid.
+     * @param removeLen the length to remove (endIndex - startIndex), must be valid.
+     * @param insertStr the string to replace with, null means delete range.
+     * @param insertLen the length of the insert string, must be valid.
+     * @throws IndexOutOfBoundsException if any index is invalid.
      */
     private void replaceImpl(final int startIndex, final int endIndex, final int removeLen, final String insertStr,
         final int insertLen) {
@@ -2840,13 +2834,13 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * occurrences where the character 'a' is followed by a number.
      * </p>
      *
-     * @param matcher the matcher to use to find the deletion, null causes no action
-     * @param replaceStr the string to replace the match with, null is a delete
-     * @param from the start index, must be valid
-     * @param to the end index (exclusive), must be valid
-     * @param replaceCount the number of times to replace, -1 for replace all
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if any index is invalid
+     * @param matcher the matcher to use to find the deletion, null causes no action.
+     * @param replaceStr the string to replace the match with, null is a delete.
+     * @param from the start index, must be valid.
+     * @param to the end index (exclusive), must be valid.
+     * @param replaceCount the number of times to replace, -1 for replace all.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if any index is invalid.
      */
     private TextStringBuilder replaceImpl(final StringMatcher matcher, final String replaceStr, final int from, int to,
         int replaceCount) {
@@ -2872,8 +2866,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Resizes the buffer to at least the size specified.
      *
-     * @param minCapacity the minimum required capacity
-     * @throws OutOfMemoryError if the {@code minCapacity} is negative
+     * @param minCapacity the minimum required capacity.
+     * @throws OutOfMemoryError if the {@code minCapacity} is negative.
      */
     private void resizeBuffer(final int minCapacity) {
         // Overflow-conscious code treats the min and new capacity as unsigned.
@@ -2891,7 +2885,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Reverses the string builder placing each character in the opposite index.
      *
-     * @return this, to enable chaining
+     * @return {@code this} instance.
      */
     public TextStringBuilder reverse() {
         if (size == 0) {
@@ -2914,8 +2908,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * available, the whole builder is returned. Thus the returned string may be shorter than the length requested.
      * </p>
      *
-     * @param length the number of characters to extract, negative returns empty string
-     * @return The new string
+     * @param length the number of characters to extract, negative returns empty string.
+     * @return The new string.
      */
     public String rightString(final int length) {
         if (length <= 0) {
@@ -2930,11 +2924,11 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Clears and sets this builder to the given value.
      *
+     * @param str the new value.
+     * @return {@code this} instance.
+     * @since 1.9
      * @see #charAt(int)
      * @see #deleteCharAt(int)
-     * @param str the new value.
-     * @return this, to enable chaining
-     * @since 1.9
      */
     public TextStringBuilder set(final CharSequence str) {
         return clear().append(str);
@@ -2943,12 +2937,12 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Sets the character at the specified index.
      *
-     * @see #charAt(int)
-     * @see #deleteCharAt(int)
      * @param index the index to set
      * @param ch the new character
-     * @return this, to enable chaining
+     * @return {@code this} instance.
      * @throws IndexOutOfBoundsException if the index is invalid
+     * @see #charAt(int)
+     * @see #deleteCharAt(int)
      */
     public TextStringBuilder setCharAt(final int index, final char ch) {
         validateIndex(index);
@@ -2959,9 +2953,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Updates the length of the builder by either dropping the last characters or adding filler of Unicode zero.
      *
-     * @param length the length to set to, must be zero or positive
-     * @return this, to enable chaining
-     * @throws IndexOutOfBoundsException if the length is negative
+     * @param length the length to set to, must be zero or positive.
+     * @return {@code this} instance.
+     * @throws IndexOutOfBoundsException if the length is negative.
      */
     public TextStringBuilder setLength(final int length) {
         if (length < 0) {
@@ -2992,8 +2986,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Sets the text to be appended when null is added.
      *
-     * @param nullText the null text, null means no append
-     * @return this, to enable chaining
+     * @param nullText the null text, null means no append.
+     * @return {@code this} instance.
      */
     public TextStringBuilder setNullText(String nullText) {
         if (nullText != null && nullText.isEmpty()) {
@@ -3009,7 +3003,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * This method is the same as {@link #length()} and is provided to match the API of Collections.
      * </p>
      *
-     * @return The length
+     * @return The length.
      */
     public int size() {
         return size;
@@ -3021,8 +3015,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Note that this method handles null input quietly, unlike String.
      * </p>
      *
-     * @param str the string to search for, null returns false
-     * @return true if the builder starts with the string
+     * @param str the string to search for, null returns false.
+     * @return true if the builder starts with the string.
      */
     public boolean startsWith(final String str) {
         if (str == null) {
@@ -3063,9 +3057,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Extracts a portion of this string builder as a string.
      *
-     * @param start the start index, inclusive, must be valid
-     * @return The new string
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param start the start index, inclusive, must be valid.
+     * @return The new string.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public String substring(final int start) {
         return substring(start, size);
@@ -3078,10 +3072,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * builder, and continues without error, unlike StringBuffer or String.
      * </p>
      *
-     * @param startIndex the start index, inclusive, must be valid
-     * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string
-     * @return The new string
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string.
+     * @return The new string.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      */
     public String substring(final int startIndex, int endIndex) {
         endIndex = validateRange(startIndex, endIndex);
@@ -3091,7 +3085,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Copies the builder's character array into a new character array.
      *
-     * @return a new array that represents the contents of the builder
+     * @return a new array that represents the contents of the builder.
      */
     public char[] toCharArray() {
         return size == 0 ? ArrayUtils.EMPTY_CHAR_ARRAY : Arrays.copyOf(buffer, size);
@@ -3100,11 +3094,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Copies part of the builder's character array into a new character array.
      *
-     * @param startIndex the start index, inclusive, must be valid
-     * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string
-     * @return a new array that holds part of the contents of the builder
-     * @throws IndexOutOfBoundsException if startIndex is invalid, or if endIndex is invalid (but endIndex greater than
-     *         size is valid)
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param endIndex   the end index, exclusive, must be valid except that if too large it is treated as end of string.
+     * @return a new array that holds part of the contents of the builder.
+     * @throws IndexOutOfBoundsException if startIndex is invalid, or if endIndex is invalid (but endIndex greater than size is valid).
      */
     public char[] toCharArray(final int startIndex, int endIndex) {
         endIndex = validateRange(startIndex, endIndex);
@@ -3118,7 +3111,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * Note that unlike StringBuffer, the string version returned is independent of the string builder.
      * </p>
      *
-     * @return The builder as a String
+     * @return The builder as a String.
      */
     @Override
     public String toString() {
@@ -3128,7 +3121,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Gets a StringBuffer version of the string builder, creating a new instance each time the method is called.
      *
-     * @return The builder as a StringBuffer
+     * @return The builder as a StringBuffer.
      */
     public StringBuffer toStringBuffer() {
         return new StringBuffer(size).append(buffer, 0, size);
@@ -3137,7 +3130,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Gets a StringBuilder version of the string builder, creating a new instance each time the method is called.
      *
-     * @return The builder as a StringBuilder
+     * @return The builder as a StringBuilder.
      */
     public StringBuilder toStringBuilder() {
         return new StringBuilder(size).append(buffer, 0, size);
@@ -3146,7 +3139,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Trims the builder by removing characters less than or equal to a space from the beginning and end.
      *
-     * @return this, to enable chaining
+     * @return {@code this} instance.
      */
     public TextStringBuilder trim() {
         if (size == 0) {
@@ -3185,10 +3178,10 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     /**
      * Validates parameters defining a range of the builder.
      *
-     * @param startIndex the start index, inclusive, must be valid
-     * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string
+     * @param startIndex the start index, inclusive, must be valid.
+     * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string.
      * @return A valid end index.
-     * @throws StringIndexOutOfBoundsException if the index is invalid
+     * @throws StringIndexOutOfBoundsException if the index is invalid.
      */
     protected int validateRange(final int startIndex, int endIndex) {
         if (startIndex < 0) {

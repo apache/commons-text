@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.text;
 
 /**
- * A predicate for selecting code points. Implementations of this interface must
- * be thread safe.
+ * A predicate for selecting code points. Implementations of this interface must be thread safe.
  *
  * @since 1.0
  */
@@ -27,10 +27,8 @@ public interface CharacterPredicate {
     /**
      * Tests the code point with this predicate.
      *
-     * @param codePoint
-     *            the code point to test
-     * @return {@code true} if the code point matches the predicate,
-     *         {@code false} otherwise
+     * @param codePoint the code point to test.
+     * @return {@code true} if the code point matches the predicate, {@code false} otherwise.
      * @since 1.0
      */
     boolean test(int codePoint);

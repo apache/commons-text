@@ -47,8 +47,8 @@ public class CompositeFormat extends Format {
      * Constructs a format that points its parseObject method to one implementation
      * and its format method to another.
      *
-     * @param parser implementation
-     * @param formatter implementation
+     * @param parser implementation.
+     * @param formatter implementation.
      */
     public CompositeFormat(final Format parser, final Format formatter) {
         this.parser = parser;
@@ -58,10 +58,10 @@ public class CompositeFormat extends Format {
     /**
      * Formats the input.
      *
-     * @param obj the object to format
-     * @param toAppendTo the {@link StringBuffer} to append to
-     * @param pos the FieldPosition to use (or ignore).
-     * @return {@code toAppendTo}
+     * @param obj        the object to format.
+     * @param toAppendTo the {@link StringBuffer} to append to.
+     * @param pos        the FieldPosition to use (or ignore).
+     * @return {@code toAppendTo}.
      * @see Format#format(Object, StringBuffer, FieldPosition)
      */
     @Override // Therefore has to use StringBuffer
@@ -91,11 +91,9 @@ public class CompositeFormat extends Format {
     /**
      * Parses the input.
      *
-     * @param source the String source
-     * @param pos the ParsePosition containing the position to parse from, will
-     *            be updated according to parsing success (index) or failure
-     *            (error index)
-     * @return The parsed Object
+     * @param source the String source.
+     * @param pos    the ParsePosition containing the position to parse from, will be updated according to parsing success (index) or failure (error index).
+     * @return The parsed Object.
      * @see Format#parseObject(String, ParsePosition)
      */
     @Override
@@ -106,9 +104,9 @@ public class CompositeFormat extends Format {
     /**
      * Parses and then reformats a String.
      *
-     * @param input String to reformat
-     * @return A reformatted String
-     * @throws ParseException thrown by parseObject(String) call
+     * @param input String to reformat.
+     * @return A reformatted String.
+     * @throws ParseException thrown by parseObject(String) call.
      */
     public String reformat(final String input) throws ParseException {
         return format(parseObject(input));
