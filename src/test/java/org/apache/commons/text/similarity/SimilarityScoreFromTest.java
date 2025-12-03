@@ -40,6 +40,11 @@ class SimilarityScoreFromTest {
     }
 
     @Test
+    void testFailsToCreateSimilarityScoreFromThrowsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new SimilarityScoreFrom<>(null, ""));
+    }
+
+    @Test
     void testGetLeft() {
         assertEquals("asdf", similarityScoreFrom.getLeft());
     }
@@ -47,11 +52,6 @@ class SimilarityScoreFromTest {
     @Test
     void testGetSimilarityScore() {
         assertEquals(longestCommonSubsequence, similarityScoreFrom.getSimilarityScore());
-    }
-
-    @Test
-    void testFailsToCreateSimilarityScoreFromThrowsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> new SimilarityScoreFrom<>(null, ""));
     }
 
 }

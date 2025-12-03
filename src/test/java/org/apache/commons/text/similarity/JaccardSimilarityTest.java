@@ -81,22 +81,22 @@ class JaccardSimilarityTest {
     }
 
     @Test
-    void testGettingJaccardSimilarityNullString() {
-        assertThrows(IllegalArgumentException.class, () -> classBeingTested.apply(null, "right"));
-    }
-
-    @Test
-    void testGettingJaccardSimilarityStringNull() {
-        assertThrows(IllegalArgumentException.class, () -> classBeingTested.apply(" ", null));
-    }
-
-    @Test
     void testGettingJaccardSimilarityNullSimilarityInput() {
         assertThrows(IllegalArgumentException.class, () -> classBeingTested.apply(null, new SimilarityCharacterInput("asdf")));
     }
 
     @Test
+    void testGettingJaccardSimilarityNullString() {
+        assertThrows(IllegalArgumentException.class, () -> classBeingTested.apply(null, "right"));
+    }
+
+    @Test
     void testGettingJaccardSimilaritySimilarityInputNull() {
         assertThrows(IllegalArgumentException.class, () -> classBeingTested.apply(new SimilarityCharacterInput("asdf"), null));
+    }
+
+    @Test
+    void testGettingJaccardSimilarityStringNull() {
+        assertThrows(IllegalArgumentException.class, () -> classBeingTested.apply(" ", null));
     }
 }
