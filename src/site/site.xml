@@ -17,30 +17,38 @@
 -->
 <site xmlns="http://maven.apache.org/SITE/2.0.0" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/SITE/2.0.0 https://maven.apache.org/xsd/site-2.0.0.xsd"
-  name="Apache Commons Exec">
-  <bannerRight name="Commons Exec" href="/index.html">
+  xsi:schemaLocation="http://maven.apache.org/SITE/2.0.0 http://maven.apache.org/xsd/site-2.0.0.xsd"
+  name="Apache Commons Text">
+  <bannerRight name="Commons Text" href="/index.html">
     <image src="/images/logo.png"/>
   </bannerRight>
-    <body>
-        <menu name="Commons Text">
-            <item name="Overview"             href="/index.html"/>
-            <item name="Download"             href="/download_text.cgi"/>
-            <item name="User Guide"           href="/apidocs/index.html" />
-            <item name="Release History"      href="/changes.html"/>
-            <item name="Javadoc"              href="/apidocs/index.html"/>
-            <item name="Javadoc Archive"      href="https://javadoc.io/doc/org.apache.commons/commons-text"/>
-            <item name="Security"             href="/security.html"/>
-        </menu>
-
-        <menu name="Development">
-            <item name="Mailing Lists"        href="/mail-lists.html"/>
-            <item name="Issue Tracking"       href="/issue-tracking.html"/>
-            <item name="Proposal"             href="/proposal.html"/>
-            <item name="Developer Guide"      href="/developerguide.html"/>
-            <item name="Source Repository"    href="/scm.html"/>
-        </menu>
-
-    </body>
-
+  <body>
+    <menu name="Commons Text">
+      <!-- Start: For all components. -->
+      <item name="About" href="index.html" />
+      <item name="Asking Questions" href="/mail-lists.html" />
+      <item name="Release History" href="/changes.html" />
+      <item name="Issue Tracking" href="/issue-management.html" />
+      <item name="Dependency Management" href="/dependency-info.html" />
+      <item name="Sources" href="/scm.html" />
+      <item name="Security" href="security.html" />
+      <item name="License" href="https://www.apache.org/licenses/LICENSE-2.0" />
+      <item name="Code of Conduct" href="https://www.apache.org/foundation/policies/conduct.html" />
+      <item name="Download" href="https://commons.apache.org/proper/commons-bcel/download_bcel.cgi" />
+      <item name="Javadoc">
+        <item name="Javadoc Current" href="apidocs/index.html" />
+        <item name="Javadoc Archive" href="https://javadoc.io/doc/org.apache.commons/commons-text/" />
+      </item>
+      <!-- End: For all components. -->
+    </menu>
+    <!-- Specific to this component: -->
+    <menu name="Development">
+      <item name="User Guide"           href="/apidocs/index.html" />
+      <item name="Mailing Lists"        href="/mail-lists.html"/>
+      <item name="Issue Tracking"       href="/issue-tracking.html"/>
+      <item name="Proposal"             href="/proposal.html"/>
+      <item name="Developer Guide"      href="/developerguide.html"/>
+      <item name="Source Repository"    href="/scm.html"/>
+    </menu>
+  </body>
 </site>
