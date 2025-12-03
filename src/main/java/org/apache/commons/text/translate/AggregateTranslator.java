@@ -39,7 +39,7 @@ public class AggregateTranslator extends CharSequenceTranslator {
     /**
      * Specify the translators to be used at creation time.
      *
-     * @param translators CharSequenceTranslator array to aggregate
+     * @param translators CharSequenceTranslator array to aggregate.
      */
     public AggregateTranslator(final CharSequenceTranslator... translators) {
         if (translators != null) {
