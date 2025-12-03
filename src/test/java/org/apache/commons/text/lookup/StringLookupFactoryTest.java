@@ -282,4 +282,17 @@ class StringLookupFactoryTest {
         XmlStringLookupTest.assertLookup(stringLookupFactory.xmlStringLookup(features));
         XmlStringLookupTest.assertLookup(stringLookupFactory.xmlStringLookup(new HashMap<>()));
     }
+
+    @Test
+    void testXmlStringLookupExternalEntityOff() {
+        assertThrows(IllegalArgumentException.class,
+                () -> StringLookupFactory.INSTANCE.xmlStringLookup().apply(XmlStringLookupTest.DOC_DIR + "document-entity-ref.xml:/document/content"));
+    }
+
+    @Test
+    void testXmlStringLookupExternalEntityOn() {
+        final String key = XmlStringLookupTest.DOC_DIR + "document-entity-ref.xml:/document/content";
+        assertEquals(XmlStringLookupTest.DATA, StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP).apply(key).trim());
+    }
+
 }

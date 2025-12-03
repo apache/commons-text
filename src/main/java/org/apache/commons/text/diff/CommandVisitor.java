@@ -17,8 +17,7 @@
 package org.apache.commons.text.diff;
 
 /**
- * This interface should be implemented by user object to walk
- * through {@link EditScript EditScript} objects.
+ * Walks through {@link EditScript EditScript} objects.
  * <p>
  * Users should implement this interface in order to walk through
  * the {@link EditScript EditScript} object created by the comparison
@@ -126,21 +125,21 @@ public interface CommandVisitor<T> {
     /**
      * Method called when a delete command is encountered.
      *
-     * @param object object to delete (this object comes from the first sequence)
+     * @param object object to delete (this object comes from the first sequence).
      */
     void visitDeleteCommand(T object);
 
     /**
      * Method called when an insert command is encountered.
      *
-     * @param object object to insert (this object comes from the second sequence)
+     * @param object object to insert (this object comes from the second sequence).
      */
     void visitInsertCommand(T object);
 
     /**
      * Method called when a keep command is encountered.
      *
-     * @param object object to keep (this object comes from the first sequence)
+     * @param object object to keep (this object comes from the first sequence).
      */
     void visitKeepCommand(T object);
 

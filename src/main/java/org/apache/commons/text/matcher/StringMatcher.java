@@ -53,9 +53,9 @@ public interface StringMatcher {
      * characters that matched.
      * </p>
      *
-     * @param buffer the text content to match against, do not change
-     * @param pos the starting position for the match, valid for buffer
-     * @return The number of matching characters, zero for no match
+     * @param buffer the text content to match against, do not change.
+     * @param pos the starting position for the match, valid for buffer.
+     * @return The number of matching characters, zero for no match.
      * @since 1.9
      */
     default int isMatch(final char[] buffer, final int pos) {
@@ -106,9 +106,9 @@ public interface StringMatcher {
      * characters that matched.
      * </p>
      *
-     * @param buffer the text content to match against, do not change
-     * @param pos the starting position for the match, valid for buffer
-     * @return The number of matching characters, zero for no match
+     * @param buffer the text content to match against, do not change.
+     * @param pos the starting position for the match, valid for buffer.
+     * @return The number of matching characters, zero for no match.
      * @since 1.9
      */
     default int isMatch(final CharSequence buffer, final int pos) {

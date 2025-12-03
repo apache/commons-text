@@ -26,9 +26,10 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Provides utilities for working with the {@code Formattable} interface.
  *
- * <p>The {@link Formattable} interface provides basic control over formatting
- * when using a {@code Formatter}. It is primarily concerned with numeric precision
- * and padding, and is not designed to allow generalized alternate formats.</p>
+ * <p>
+ * The {@link Formattable} interface provides basic control over formatting when using a {@code Formatter}. It is primarily concerned with numeric precision and
+ * padding, and is not designed to allow generalized alternate formats.
+ * </p>
  *
  * @since 1.0
  */
@@ -40,16 +41,15 @@ public class FormattableUtils {
     private static final String SIMPLEST_FORMAT = "%s";
 
     /**
-     * Handles the common {@code Formattable} operations of truncate-pad-append,
-     * with no ellipsis on precision overflow, and padding width underflow with
+     * Handles the common {@code Formattable} operations of truncate-pad-append, with no ellipsis on precision overflow, and padding width underflow with
      * spaces.
      *
-     * @param seq  the string to handle, not null
-     * @param formatter  the destination formatter, not null
-     * @param flags  the flags for formatting, see {@code Formattable}
-     * @param width  the width of the output, see {@code Formattable}
-     * @param precision  the precision of the output, see {@code Formattable}
-     * @return The {@code formatter} instance, not null
+     * @param seq       the string to handle, not null.
+     * @param formatter the destination formatter, not null.
+     * @param flags     the flags for formatting, see {@code Formattable}.
+     * @param width     the width of the output, see {@code Formattable}.
+     * @param precision the precision of the output, see {@code Formattable}.
+     * @return The {@code formatter} instance, not null.
      */
     public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
             final int precision) {
@@ -57,16 +57,15 @@ public class FormattableUtils {
     }
 
     /**
-     * Handles the common {@link Formattable} operations of truncate-pad-append,
-     * with no ellipsis on precision overflow.
+     * Handles the common {@link Formattable} operations of truncate-pad-append, with no ellipsis on precision overflow.
      *
-     * @param seq  the string to handle, not null
-     * @param formatter  the destination formatter, not null
-     * @param flags  the flags for formatting, see {@code Formattable}
-     * @param width  the width of the output, see {@code Formattable}
-     * @param precision  the precision of the output, see {@code Formattable}
-     * @param padChar  the pad character to use
-     * @return The {@code formatter} instance, not null
+     * @param seq       the string to handle, not null.
+     * @param formatter the destination formatter, not null.
+     * @param flags     the flags for formatting, see {@code Formattable}.
+     * @param width     the width of the output, see {@code Formattable}.
+     * @param precision the precision of the output, see {@code Formattable}.
+     * @param padChar   the pad character to use.
+     * @return The {@code formatter} instance, not null.
      */
     public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
             final int precision, final char padChar) {
@@ -76,17 +75,15 @@ public class FormattableUtils {
     /**
      * Handles the common {@link Formattable} operations of truncate-pad-append.
      *
-     * @param seq  the string to handle, not null
-     * @param formatter  the destination formatter, not null
-     * @param flags  the flags for formatting, see {@code Formattable}
-     * @param width  the width of the output, see {@code Formattable}
-     * @param precision  the precision of the output, see {@code Formattable}
-     * @param padChar  the pad character to use
-     * @param truncateEllipsis  the ellipsis to use when precision dictates truncation, null or
-     *  empty causes a hard truncation
-     * @return The {@code formatter} instance, not null
-     * @throws IllegalArgumentException if {@code ellipsis.length() > precision},
-     *  given that {@code ellipsis} is not null and {@code precision >= 0}
+     * @param seq              the string to handle, not null.
+     * @param formatter        the destination formatter, not null.
+     * @param flags            the flags for formatting, see {@code Formattable}.
+     * @param width            the width of the output, see {@code Formattable}.
+     * @param precision        the precision of the output, see {@code Formattable}.
+     * @param padChar          the pad character to use.
+     * @param truncateEllipsis the ellipsis to use when precision dictates truncation, null or empty causes a hard truncation.
+     * @return The {@code formatter} instance, not null.
+     * @throws IllegalArgumentException if {@code ellipsis.length() > precision}, given that {@code ellipsis} is not null and {@code precision >= 0}.
      */
     public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
             final int precision, final char padChar, final CharSequence truncateEllipsis) {
@@ -115,43 +112,38 @@ public class FormattableUtils {
     }
 
     /**
-     * Handles the common {@link Formattable} operations of truncate-pad-append,
-     * padding width underflow with spaces.
+     * Handles the common {@link Formattable} operations of truncate-pad-append, padding width underflow with spaces.
      *
-     * @param seq  the string to handle, not null
-     * @param formatter  the destination formatter, not null
-     * @param flags  the flags for formatting, see {@code Formattable}
-     * @param width  the width of the output, see {@code Formattable}
-     * @param precision  the precision of the output, see {@code Formattable}
-     * @param ellipsis  the ellipsis to use when precision dictates truncation, null or
-     *  empty causes a hard truncation
+     * @param seq       the string to handle, not null.
+     * @param formatter the destination formatter, not null.
+     * @param flags     the flags for formatting, see {@code Formattable}.
+     * @param width     the width of the output, see {@code Formattable}.
+     * @param precision the precision of the output, see {@code Formattable}.
+     * @param ellipsis  the ellipsis to use when precision dictates truncation, null or empty causes a hard truncation..
      * @return The {@code formatter} instance, not null
-     * @throws IllegalArgumentException if {@code ellipsis.length() > precision},
-     *  given that {@code ellipsis} is not null and {@code precision >= 0}
+     * @throws IllegalArgumentException if {@code ellipsis.length() > precision}, given that {@code ellipsis} is not null and {@code precision >= 0}.
      */
-    public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width,
-            final int precision, final CharSequence ellipsis) {
+    public static Formatter append(final CharSequence seq, final Formatter formatter, final int flags, final int width, final int precision,
+            final CharSequence ellipsis) {
         return append(seq, formatter, flags, width, precision, ' ', ellipsis);
     }
 
     /**
-     * Gets the default formatted representation of the specified
-     * {@code Formattable}.
+     * Gets the default formatted representation of the specified {@code Formattable}.
      *
-     * @param formattable  the instance to convert to a string, not null
-     * @return The resulting string, not null
+     * @param formattable the instance to convert to a string, not null.
+     * @return The resulting string, not null.
      */
     public static String toString(final Formattable formattable) {
         return String.format(SIMPLEST_FORMAT, formattable);
     }
 
     /**
-     * {@code FormattableUtils} instances should NOT be constructed in
-     * standard programming. Instead, the methods of the class should be invoked
-     * statically.
+     * {@code FormattableUtils} instances should NOT be constructed in standard programming. Instead, the methods of the class should be invoked statically.
      *
-     * <p>This constructor is public to permit tools that require a JavaBean
-     * instance to operate.</p>
+     * <p>
+     * This constructor is public to permit tools that require a JavaBean instance to operate.
+     * </p>
      */
     public FormattableUtils() {
     }

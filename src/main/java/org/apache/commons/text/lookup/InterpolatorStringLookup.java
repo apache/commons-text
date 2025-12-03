@@ -113,8 +113,8 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
      * the prefix stripped to the lookup object registered for this prefix. If no prefix can be found or if the
      * associated lookup object cannot resolve this variable, the default lookup object will be used.
      *
-     * @param key the name of the variable whose value is to be looked up
-     * @return The value of this variable or <strong>null</strong> if it cannot be resolved
+     * @param key the name of the variable whose value is to be looked up.
+     * @return The value of this variable or <strong>null</strong> if it cannot be resolved.
      */
     @Override
     public String lookup(String key) {

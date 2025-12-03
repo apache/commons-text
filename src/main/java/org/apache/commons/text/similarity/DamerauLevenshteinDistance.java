@@ -33,9 +33,9 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
     /**
      * Utility function to ensure distance is valid according to threshold.
      *
-     * @param distance  The distance value
-     * @param threshold The threshold value
-     * @return The distance value, or {@code -1} if distance is greater than threshold
+     * @param distance  The distance value.
+     * @param threshold The threshold value.
+     * @return The distance value, or {@code -1} if distance is greater than threshold.
      */
     private static int clampDistance(final int distance, final int threshold) {
         return distance > threshold ? -1 : distance;
@@ -47,15 +47,11 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
      * @param left      the first SimilarityInput, must not be null.
      * @param right     the second SimilarityInput, must not be null.
      * @param threshold the target threshold, must not be negative.
-     * @return result distance, or -1 if distance exceeds threshold
+     * @return result distance, or -1 if distance exceeds threshold.
      */
     private static <E> int limitedCompare(SimilarityInput<E> left, SimilarityInput<E> right, final int threshold) {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Left/right inputs must not be null");
-        }
-
-        if (threshold < 0) {
-            throw new IllegalArgumentException("Threshold can not be negative");
         }
 
         // Implementation based on https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance#Optimal_string_alignment_distance

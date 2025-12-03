@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class gathers all the {@link EditCommand commands} needed to transform
+ * Gathers all the {@link EditCommand commands} needed to transform
  * one objects sequence into another objects sequence.
  * <p>
  * An edit script is the most general view of the differences between two
@@ -67,7 +67,7 @@ public class EditScript<T> {
     /**
      * Appends a delete command to the script.
      *
-     * @param command  command to add
+     * @param command  command to add.
      */
     public void append(final DeleteCommand<T> command) {
         commands.add(command);
@@ -77,7 +77,7 @@ public class EditScript<T> {
     /**
      * Appends an insert command to the script.
      *
-     * @param command  command to add
+     * @param command  command to add.
      */
     public void append(final InsertCommand<T> command) {
         commands.add(command);
@@ -87,7 +87,7 @@ public class EditScript<T> {
     /**
      * Appends a keep command to the script.
      *
-     * @param command  command to add
+     * @param command  command to add.
      */
     public void append(final KeepCommand<T> command) {
         commands.add(command);
@@ -99,7 +99,7 @@ public class EditScript<T> {
      * longest common subsequence is the number of {@link KeepCommand keep
      * commands} in the script.
      *
-     * @return length of the Longest Common Subsequence
+     * @return length of the Longest Common Subsequence.
      */
     public int getLCSLength() {
         return lcsLength;
@@ -110,7 +110,7 @@ public class EditScript<T> {
      * modification is the number of {@link DeleteCommand delete} and
      * {@link InsertCommand insert} commands in the script.
      *
-     * @return number of effective modifications
+     * @return number of effective modifications.
      */
     public int getModifications() {
         return modifications;
@@ -123,7 +123,7 @@ public class EditScript<T> {
      * commands in order and call the appropriate method as each command is
      * encountered.
      *
-     * @param visitor  the visitor that will visit all commands in turn
+     * @param visitor  the visitor that will visit all commands in turn.
      */
     public void visit(final CommandVisitor<T> visitor) {
         commands.forEach(command -> command.accept(visitor));

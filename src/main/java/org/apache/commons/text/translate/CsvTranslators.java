@@ -21,9 +21,10 @@ import java.io.Writer;
 
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /**
- * This class holds inner classes for escaping/unescaping Comma Separated Values.
+ * Holds inner classes for escaping/unescaping Comma Separated Values.
  * <p>
  * In general the use a high level API like <a href="https://commons.apache.org/proper/commons-csv/">Apache Commons
  * CSV</a> should be preferred over these low level classes.
@@ -53,7 +54,7 @@ public final class CsvTranslators {
             } else {
                 // input needs quoting
                 writer.write(CSV_QUOTE);
-                writer.write(StringUtils.replace(inputString, CSV_QUOTE_STR, CSV_ESCAPED_QUOTE_STR));
+                writer.write(Strings.CS.replace(inputString, CSV_QUOTE_STR, CSV_ESCAPED_QUOTE_STR));
                 writer.write(CSV_QUOTE);
             }
         }
@@ -83,7 +84,7 @@ public final class CsvTranslators {
 
             if (StringUtils.containsAny(quoteless, CSV_SEARCH_CHARS)) {
                 // deal with escaped quotes; ie) ""
-                writer.write(StringUtils.replace(quoteless, CSV_ESCAPED_QUOTE_STR, CSV_QUOTE_STR));
+                writer.write(Strings.CS.replace(quoteless, CSV_ESCAPED_QUOTE_STR, CSV_QUOTE_STR));
             } else {
                 writer.write(quoteless);
             }

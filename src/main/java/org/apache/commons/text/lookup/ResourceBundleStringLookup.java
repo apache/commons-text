@@ -79,7 +79,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
      *
      * For example: "com.domain.messages:MyKey".
      *
-     * @param key the key to be looked up, may be null
+     * @param key the key to be looked up, may be null.
      * @return The value associated with the key.
      * @see ResourceBundle
      * @see ResourceBundle#getBundle(String)

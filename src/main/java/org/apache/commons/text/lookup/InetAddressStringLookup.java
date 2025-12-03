@@ -55,7 +55,7 @@ final class InetAddressStringLookup extends AbstractStringLookup {
     static final InetAddressStringLookup LOOPACK_ADDRESS = new InetAddressStringLookup(InetAddress::getLoopbackAddress);
 
     /**
-     * Supplies the InetAddress.
+     * Supplies the {@link InetAddress}.
      */
     private final FailableSupplier<InetAddress, UnknownHostException> inetAddressSupplier;
 

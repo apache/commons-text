@@ -30,6 +30,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.text.StringSubstitutor;
@@ -277,8 +278,8 @@ public final class StringLookupFactory {
          * Adds the key and string lookup from {@code lookup} to {@code map}, also adding any additional key aliases if needed. Keys are normalized using the
          * {@link #toKey(String)} method.
          *
-         * @param lookup lookup to add
-         * @param map    map to add to
+         * @param lookup lookup to add.
+         * @param map    map to add to.
          */
         private static void addLookup(final DefaultStringLookup lookup, final Map<String, StringLookup> map) {
             map.put(toKey(lookup.getKey()), lookup.getStringLookup());
@@ -291,7 +292,7 @@ public final class StringLookupFactory {
         /**
          * Creates the lookup map used when the user has requested no customization.
          *
-         * @return default lookup map
+         * @return default lookup map.
          */
         private static Map<String, StringLookup> createDefaultStringLookups() {
             final Map<String, StringLookup> lookupMap = new HashMap<>();
@@ -319,8 +320,8 @@ public final class StringLookupFactory {
          * Constructs a lookup map by parsing the given string. The string is expected to contain comma or space-separated names of values from the
          * {@link DefaultStringLookup} enum. If the given string is null or empty, an empty map is returned.
          *
-         * @param str string to parse; may be null or empty
-         * @return lookup map parsed from the given string
+         * @param str string to parse; may be null or empty.
+         * @return lookup map parsed from the given string.
          */
         private static Map<String, StringLookup> parseStringLookups(final String str) {
             final Map<String, StringLookup> lookupMap = new HashMap<>();
@@ -342,7 +343,7 @@ public final class StringLookupFactory {
         /**
          * Constructs a new instance initialized with the given properties.
          *
-         * @param props initialization properties
+         * @param props initialization properties.
          */
         DefaultStringLookupsHolder(final Properties props) {
             final Map<String, StringLookup> lookups = props.containsKey(DEFAULT_STRING_LOOKUPS_PROPERTY)
@@ -354,7 +355,7 @@ public final class StringLookupFactory {
         /**
          * Gets the default string lookups map.
          *
-         * @return default string lookups map
+         * @return default string lookups map.
          */
         Map<String, StringLookup> getDefaultStringLookups() {
             return defaultStringLookups;
@@ -1617,10 +1618,19 @@ public final class StringLookupFactory {
      * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <p>
-     * We look up the value for the key in the format "DocumentPath:XPath".
+     * We looks up values in an XML document in the format {@code "[secure=(true|false):]DocumentPath:XPath"}.
      * </p>
      * <p>
-     * For example: "com/domain/document.xml:/path/to/node".
+     * For example:
+     * </p>
+     * <ul>
+     * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
+     * <li>{@code "secure=false:com/domain/document.xml:/path/to/node"}</li>
+     * <li>{@code "secure=true:com/domain/document.xml:/path/to/node"}</li>
+     * </ul>
+     * <p>
+     * Secure processing is enabled by default. The secure boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}. The secure
+     * value in the key overrides instance settings given in the constructor.
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
@@ -1644,7 +1654,7 @@ public final class StringLookupFactory {
      * @since 1.5
      */
     public StringLookup xmlStringLookup() {
-        return fences != null ? xmlStringLookup(XmlStringLookup.DEFAULT_FEATURES, fences) : XmlStringLookup.INSTANCE;
+        return fences != null ? xmlStringLookup(XmlStringLookup.DEFAULT_XPATH_FEATURES, fences) : XmlStringLookup.INSTANCE;
     }
 
     /**
@@ -1654,10 +1664,19 @@ public final class StringLookupFactory {
      * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <p>
-     * We look up the value for the key in the format {@code "DocumentPath:XPath"}.
+     * We looks up values in an XML document in the format {@code "[secure=(true|false):]DocumentPath:XPath"}.
      * </p>
      * <p>
-     * For example: {@code "com/domain/document.xml:/path/to/node"}.
+     * For example:
+     * </p>
+     * <ul>
+     * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
+     * <li>{@code "secure=false:com/domain/document.xml:/path/to/node"}</li>
+     * <li>{@code "secure=true:com/domain/document.xml:/path/to/node"}</li>
+     * </ul>
+     * <p>
+     * Secure processing is enabled by default. The secure boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}. The secure
+     * value in the key overrides instance settings given in the constructor.
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
@@ -1677,13 +1696,14 @@ public final class StringLookupFactory {
      * The examples above convert {@code "com/domain/document.xml:/path/to/node"} to the value of the XPath in the XML document.
      * </p>
      *
-     * @param xPathFactoryFeatures XPathFactory features to set.
+     * @param factoryFeatures DocumentBuilderFactory and XPathFactory features to set.
      * @return An XML StringLookup instance.
+     * @see DocumentBuilderFactory#setFeature(String, boolean)
      * @see XPathFactory#setFeature(String, boolean)
      * @since 1.11.0
      */
-    public StringLookup xmlStringLookup(final Map<String, Boolean> xPathFactoryFeatures) {
-        return xmlStringLookup(xPathFactoryFeatures, fences);
+    public StringLookup xmlStringLookup(final Map<String, Boolean> factoryFeatures) {
+        return xmlStringLookup(factoryFeatures, fences);
     }
 
     /**
@@ -1693,10 +1713,19 @@ public final class StringLookupFactory {
      * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <p>
-     * We look up the value for the key in the format {@code "DocumentPath:XPath"}.
+     * We looks up values in an XML document in the format {@code "[secure=(true|false):]DocumentPath:XPath"}.
      * </p>
      * <p>
-     * For example: {@code "com/domain/document.xml:/path/to/node"}.
+     * For example:
+     * </p>
+     * <ul>
+     * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
+     * <li>{@code "secure=false:com/domain/document.xml:/path/to/node"}</li>
+     * <li>{@code "secure=true:com/domain/document.xml:/path/to/node"}</li>
+     * </ul>
+     * <p>
+     * Secure processing is enabled by default. The secure boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}. The secure
+     * value in the key overrides instance settings given in the constructor.
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory} fenced by the current directory ({@code Paths.get("")}):
@@ -1711,10 +1740,8 @@ public final class StringLookupFactory {
      *
      * <pre>
      * StringLookupFactory.INSTANCE.xmlStringLookup(Paths.get("")).lookup("com/domain/document.xml:/path/to/node");
-     *
      * // throws IllegalArgumentException
      * StringLookupFactory.INSTANCE.xmlStringLookup(Paths.get("")).lookup("/rootdir/foo/document.xml:/path/to/node");
-     *
      * // throws IllegalArgumentException
      * StringLookupFactory.INSTANCE.xmlStringLookup(Paths.get("")).lookup("../com/domain/document.xml:/path/to/node");
      * </pre>
@@ -1726,12 +1753,14 @@ public final class StringLookupFactory {
      * resolves in a fence.
      * </p>
      *
-     * @param xPathFactoryFeatures XPathFactory features to set.
-     * @param fences               The fences guarding Path resolution.
+     * @param factoryFeatures DocumentBuilderFactory and XPathFactory features to set.
+     * @param fences          The fences guarding Path resolution.
      * @return An XML StringLookup instance.
+     * @see DocumentBuilderFactory#setFeature(String, boolean)
+     * @see XPathFactory#setFeature(String, boolean)
      * @since 1.12.0
      */
-    public StringLookup xmlStringLookup(final Map<String, Boolean> xPathFactoryFeatures, final Path... fences) {
-        return new XmlStringLookup(xPathFactoryFeatures, fences);
+    public StringLookup xmlStringLookup(final Map<String, Boolean> factoryFeatures, final Path... fences) {
+        return new XmlStringLookup(factoryFeatures, factoryFeatures, fences);
     }
 }

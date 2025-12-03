@@ -53,8 +53,7 @@ package org.apache.commons.text.diff;
 public class StringsComparator {
 
     /**
-     * This class is a simple placeholder to hold the end part of a path
-     * under construction in a {@link StringsComparator StringsComparator}.
+     * Holds the end part of a path under construction in a {@link StringsComparator StringsComparator}.
      */
     private static final class Snake {
 
@@ -70,9 +69,9 @@ public class StringsComparator {
         /**
          * Constructs a new instance of Snake with specified indices.
          *
-         * @param start  start index of the snake
-         * @param end  end index of the snake
-         * @param diag  diagonal number
+         * @param start  start index of the snake.
+         * @param end  end index of the snake.
+         * @param diag  diagonal number.
          */
         Snake(final int start, final int end, final int diag) {
             this.start = start;
@@ -83,7 +82,7 @@ public class StringsComparator {
         /**
          * Gets the diagonal number of the snake.
          *
-         * @return diagonal number of the snake
+         * @return diagonal number of the snake.
          */
         public int getDiag() {
             return diag;
@@ -92,7 +91,7 @@ public class StringsComparator {
         /**
          * Gets the end index of the snake.
          *
-         * @return end index of the snake
+         * @return end index of the snake.
          */
         public int getEnd() {
             return end;
@@ -101,7 +100,7 @@ public class StringsComparator {
         /**
          * Gets the start index of the snake.
          *
-         * @return start index of the snake
+         * @return start index of the snake.
          */
         public int getStart() {
             return start;
@@ -128,15 +127,13 @@ public class StringsComparator {
     /**
      * Constructs a new instance of StringsComparator.
      * <p>
-     * It is <em>guaranteed</em> that the comparisons will always be done as
-     * {@code o1.equals(o2)} where {@code o1} belongs to the first
-     * sequence and {@code o2} belongs to the second sequence. This can be
-     * important if subclassing is used for some elements in the first sequence
-     * and the {@code equals} method is specialized.
+     * It is <em>guaranteed</em> that the comparisons will always be done as {@code o1.equals(o2)} where {@code o1} belongs to the first sequence and {@code o2}
+     * belongs to the second sequence. This can be important if subclassing is used for some elements in the first sequence and the {@code equals} method is
+     * specialized.
      * </p>
      *
-     * @param left first character sequence to be compared
-     * @param right second character sequence to be compared
+     * @param left  first character sequence to be compared.
+     * @param right second character sequence to be compared.
      */
     public StringsComparator(final String left, final String right) {
         this.left = left;
@@ -150,11 +147,11 @@ public class StringsComparator {
     /**
      * Builds an edit script.
      *
-     * @param start1  the begin of the first sequence to be compared
-     * @param end1  the end of the first sequence to be compared
-     * @param start2  the begin of the second sequence to be compared
-     * @param end2  the end of the second sequence to be compared
-     * @param script the edited script
+     * @param start1 the begin of the first sequence to be compared.
+     * @param end1   the end of the first sequence to be compared.
+     * @param start2 the begin of the second sequence to be compared.
+     * @param end2   the end of the second sequence to be compared.
+     * @param script the edited script.
      */
     private void buildScript(final int start1, final int end1, final int start2, final int end2,
             final EditScript<Character> script) {
@@ -197,11 +194,11 @@ public class StringsComparator {
     /**
      * Builds a snake.
      *
-     * @param start  the value of the start of the snake
-     * @param diag  the value of the diagonal of the snake
-     * @param end1  the value of the end of the first sequence to be compared
-     * @param end2  the value of the end of the second sequence to be compared
-     * @return The snake built
+     * @param start the value of the start of the snake.
+     * @param diag  the value of the diagonal of the snake.
+     * @param end1  the value of the end of the first sequence to be compared.
+     * @param end2  the value of the end of the second sequence to be compared.
+     * @return The snake built.
      */
     private Snake buildSnake(final int start, final int diag, final int end1, final int end2) {
         int end = start;
@@ -214,21 +211,17 @@ public class StringsComparator {
     }
 
     /**
-     * Gets the middle snake corresponding to two subsequences of the
-     * main sequences.
+     * Gets the middle snake corresponding to two subsequences of the main sequences.
      * <p>
-     * The snake is found using the MYERS Algorithm (this algorithms has
-     * also been implemented in the GNU diff program). This algorithm is
-     * explained in Eugene Myers article:
-     * <a href="https://www.cs.arizona.edu/people/gene/PAPERS/diff.ps">
-     * An O(ND) Difference Algorithm and Its Variations</a>.
+     * The snake is found using the MYERS Algorithm (this algorithms has also been implemented in the GNU diff program). This algorithm is explained in Eugene
+     * Myers article: <a href="https://www.cs.arizona.edu/people/gene/PAPERS/diff.ps"> An O(ND) Difference Algorithm and Its Variations</a>.
      * </p>
      *
-     * @param start1  the begin of the first sequence to be compared
-     * @param end1  the end of the first sequence to be compared
-     * @param start2  the begin of the second sequence to be compared
-     * @param end2  the end of the second sequence to be compared
-     * @return The middle snake
+     * @param start1 the begin of the first sequence to be compared.
+     * @param end1   the end of the first sequence to be compared.
+     * @param start2 the begin of the second sequence to be compared.
+     * @param end2   the end of the second sequence to be compared.
+     * @return The middle snake.
      */
     private Snake getMiddleSnake(final int start1, final int end1, final int start2, final int end2) {
         // Myers Algorithm
@@ -302,16 +295,12 @@ public class StringsComparator {
     /**
      * Gets the {@link EditScript} object.
      * <p>
-     * It is guaranteed that the objects embedded in the {@link InsertCommand
-     * insert commands} come from the second sequence and that the objects
-     * embedded in either the {@link DeleteCommand delete commands} or
-     * {@link KeepCommand keep commands} come from the first sequence. This can
-     * be important if subclassing is used for some elements in the first
-     * sequence and the {@code equals} method is specialized.
+     * It is guaranteed that the objects embedded in the {@link InsertCommand insert commands} come from the second sequence and that the objects embedded in
+     * either the {@link DeleteCommand delete commands} or {@link KeepCommand keep commands} come from the first sequence. This can be important if subclassing
+     * is used for some elements in the first sequence and the {@code equals} method is specialized.
      * </p>
      *
-     * @return The edit script resulting from the comparison of the two
-     *         sequences
+     * @return The edit script resulting from the comparison of the two sequences.
      */
     public EditScript<Character> getScript() {
         final EditScript<Character> script = new EditScript<>();

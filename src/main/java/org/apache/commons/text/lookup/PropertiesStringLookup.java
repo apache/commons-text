@@ -78,7 +78,7 @@ final class PropertiesStringLookup extends AbstractPathFencedLookup {
      * Note the use of "::" instead of ":" to allow for "C:" drive letters in paths.
      * </p>
      *
-     * @param key the key to be looked up, may be null
+     * @param key the key to be looked up, may be null.
      * @return The value associated with the key.
      */
     @Override

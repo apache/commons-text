@@ -37,7 +37,7 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
 
     /**
      * {@inheritDoc}
-     * @throws IllegalArgumentException if {@code index != 0}
+     * @throws IllegalArgumentException if {@code index != 0}.
      */
     @Override
     public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
@@ -54,9 +54,9 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
     /**
      * Translates whole set of code points passed in input.
      *
-     * @param input CharSequence that is being translated
-     * @param writer Writer to translate the text to
-     * @throws IOException if and only if the Writer produces an IOException
+     * @param input CharSequence that is being translated.
+     * @param writer Writer to translate the text to.
+     * @throws IOException if and only if the Writer produces an IOException.
      */
     abstract void translateWhole(CharSequence input, Writer writer) throws IOException;
 }

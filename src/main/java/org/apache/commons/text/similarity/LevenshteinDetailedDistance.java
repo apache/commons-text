@@ -159,9 +159,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         if (left == null || right == null) {
             throw new IllegalArgumentException("CharSequences must not be null");
         }
-        if (threshold < 0) {
-            throw new IllegalArgumentException("Threshold must not be negative");
-        }
+
         /*
          * This implementation only computes the distance if it's less than or equal to the threshold value, returning -1 if it's greater. The advantage is
          * performance: unbounded distance is O(nm), but a bound of k allows us to reduce it to O(km) time by only computing a diagonal stripe of width 2k + 1
@@ -380,9 +378,7 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
     private final Integer threshold;
 
     /**
-     * <p>
-     * This returns the default instance that uses a version of the algorithm that does not use a threshold parameter.
-     * </p>
+     * Constructs a new instance that uses a version of the algorithm that does not use a threshold parameter.
      *
      * @see LevenshteinDetailedDistance#getDefaultInstance()
      * @deprecated Use {@link #getDefaultInstance()}.
@@ -393,8 +389,10 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
     }
 
     /**
+     * Constructs a new instance for a threshold.
+     * <p>
      * If the threshold is not null, distance calculations will be limited to a maximum length.
-     *
+     * </p>
      * <p>
      * If the threshold is null, the unlimited version of the algorithm will be used.
      * </p>
