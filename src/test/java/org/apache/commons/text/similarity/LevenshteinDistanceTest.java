@@ -34,6 +34,10 @@ class LevenshteinDistanceTest {
     @Test
     void testApplyThrowsIllegalArgumentExceptionSimilarityInput() {
         assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(0).apply((SimilarityInput<Object>) null, (SimilarityInput<Object>) null));
+        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(0).apply(new SimilarityCharacterInput("asdf"),
+                (SimilarityCharacterInput) null));
+        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(0).apply((SimilarityCharacterInput) null,
+                new SimilarityCharacterInput("asdf")));
     }
 
     @Test
@@ -83,6 +87,12 @@ class LevenshteinDistanceTest {
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
     void testGetLevenshteinDistance_StringNullInt(final Class<?> cls) {
         assertThrows(IllegalArgumentException.class, () -> UNLIMITED_DISTANCE.apply(SimilarityInputTest.build(cls, "a"), SimilarityInputTest.build(cls, null)));
+    }
+
+    @Test
+    void testGetLevenshteinDistance_EmptyStringString() {
+        assertEquals(-1, new LevenshteinDistance(0).apply(new SimilarityCharacterInput(""),
+                new SimilarityCharacterInput("asdf")));
     }
 
     @ParameterizedTest
