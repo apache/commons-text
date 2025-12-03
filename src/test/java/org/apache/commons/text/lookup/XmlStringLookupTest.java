@@ -100,6 +100,14 @@ class XmlStringLookupTest {
     }
 
     @Test
+    void testInterpolatorSecureOnBla() {
+        final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
+        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:" + DOC_DIR + "bla.xml:/document/content}"));
+        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:secure=true:" + DOC_DIR + "bla.xml:/document/content}"));
+        // Using secure=false allows the BLA to occur.
+    }
+
+    @Test
     void testMissingXPath() {
         assertThrows(IllegalArgumentException.class, () -> XmlStringLookup.INSTANCE.apply(DOC_RELATIVE + ":!JUNK!"));
     }
