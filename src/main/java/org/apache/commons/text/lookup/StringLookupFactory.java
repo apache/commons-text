@@ -1618,19 +1618,17 @@ public final class StringLookupFactory {
      * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <p>
-     * We looks up values in an XML document in the format {@code "[secure=(true|false):]DocumentPath:XPath"}.
+     * We looks up values in an XML document in the format {@code "DocumentPath:XPath"}.
      * </p>
      * <p>
      * For example:
      * </p>
      * <ul>
      * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
-     * <li>{@code "secure=false:com/domain/document.xml:/path/to/node"}</li>
-     * <li>{@code "secure=true:com/domain/document.xml:/path/to/node"}</li>
      * </ul>
      * <p>
-     * Secure processing is enabled by default. The secure boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}. The secure
-     * value in the key overrides instance settings given in the constructor.
+     * Secure processing is enabled by default and can be overridden with the system property {@code "XmlStringLookup.secure"} set to {@code false}. The secure
+     * boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}.
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
@@ -1664,19 +1662,17 @@ public final class StringLookupFactory {
      * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <p>
-     * We looks up values in an XML document in the format {@code "[secure=(true|false):]DocumentPath:XPath"}.
+     * We looks up values in an XML document in the format {@code "]DocumentPath:XPath"}.
      * </p>
      * <p>
      * For example:
      * </p>
      * <ul>
      * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
-     * <li>{@code "secure=false:com/domain/document.xml:/path/to/node"}</li>
-     * <li>{@code "secure=true:com/domain/document.xml:/path/to/node"}</li>
      * </ul>
      * <p>
-     * Secure processing is enabled by default. The secure boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}. The secure
-     * value in the key overrides instance settings given in the constructor.
+     * Secure processing is enabled by default and can be overridden with the system property {@code "XmlStringLookup.secure"} set to {@code false}. The secure
+     * boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}.
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
@@ -1713,19 +1709,17 @@ public final class StringLookupFactory {
      * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <p>
-     * We looks up values in an XML document in the format {@code "[secure=(true|false):]DocumentPath:XPath"}.
+     * We looks up values in an XML document in the format {@code "DocumentPath:XPath"}.
      * </p>
      * <p>
      * For example:
      * </p>
      * <ul>
      * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
-     * <li>{@code "secure=false:com/domain/document.xml:/path/to/node"}</li>
-     * <li>{@code "secure=true:com/domain/document.xml:/path/to/node"}</li>
      * </ul>
      * <p>
-     * Secure processing is enabled by default. The secure boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}. The secure
-     * value in the key overrides instance settings given in the constructor.
+     * Secure processing is enabled by default and can be overridden with the system property {@code "XmlStringLookup.secure"} set to {@code false}. The secure
+     * boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}.
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory} fenced by the current directory ({@code Paths.get("")}):

@@ -32,6 +32,7 @@ import java.util.Set;
 import javax.xml.XMLConstants;
 
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.SetSystemProperty;
 
 /**
  * Tests {@link StringLookupFactory}.
@@ -272,6 +273,7 @@ class StringLookupFactoryTest {
     }
 
     @Test
+    @SetSystemProperty(key = "XmlStringLookup.secure", value = "false")
     void testXmlStringLookupExternalEntityOn() {
         final String key = XmlStringLookupTest.DOC_DIR + "document-entity-ref.xml:/document/content";
         assertEquals(XmlStringLookupTest.DATA, StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP).apply(key).trim());

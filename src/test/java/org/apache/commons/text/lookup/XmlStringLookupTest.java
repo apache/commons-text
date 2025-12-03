@@ -35,6 +35,7 @@ import javax.xml.XMLConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.SetSystemProperty;
 
 /**
  * Tests {@link XmlStringLookup}.
@@ -68,6 +69,7 @@ class XmlStringLookupTest {
     }
 
     @Test
+    @SetSystemProperty(key = "XmlStringLookup.secure", value = "false")
     void testExternalEntityOn() {
         final String key = DOC_DIR + "document-entity-ref.xml:/document/content";
         assertEquals(DATA, new XmlStringLookup(EMPTY_MAP, EMPTY_MAP).apply(key).trim());
@@ -81,9 +83,10 @@ class XmlStringLookupTest {
     }
 
     @Test
+    @SetSystemProperty(key = "XmlStringLookup.secure", value = "false")
     void testInterpolatorExternalEntityOffOverride() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
-        assertEquals(DATA, stringSubstitutor.replace("${xml:secure=false:" + DOC_DIR + "document-entity-ref.xml:/document/content}").trim());
+        assertEquals(DATA, stringSubstitutor.replace("${xml:" + DOC_DIR + "document-entity-ref.xml:/document/content}").trim());
     }
 
     @Test
@@ -93,18 +96,18 @@ class XmlStringLookupTest {
     }
 
     @Test
+    @SetSystemProperty(key = "XmlStringLookup.secure", value = "true")
     void testInterpolatorExternalEntityOnOverride() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
         assertThrows(IllegalArgumentException.class,
-                () -> stringSubstitutor.replace("${xml:secure=true:" + DOC_DIR + "document-entity-ref.xml:/document/content}"));
+                () -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-entity-ref.xml:/document/content}"));
     }
 
     @Test
     void testInterpolatorSecureOnBla() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
         assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:" + DOC_DIR + "bla.xml:/document/content}"));
-        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:secure=true:" + DOC_DIR + "bla.xml:/document/content}"));
-        // Using secure=false allows the BLA to occur.
+        // Using XmlStringLookup.secure=false allows the BLA to occur.
     }
 
     @Test

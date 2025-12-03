@@ -93,6 +93,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.junit-pioneer</groupId>
+      <artifactId>junit-pioneer</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <!-- Java 21 support, revisit for Mockito 5 -->
       <groupId>net.bytebuddy</groupId>
       <artifactId>byte-buddy</artifactId>
