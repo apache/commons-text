@@ -72,19 +72,19 @@ public class ReplacementsFinder<T> implements CommandVisitor<T> {
     /**
      * Constructs a new instance of {@link ReplacementsFinder}.
      *
-     * @param handler  handler to call when synchronized sequences are found
+     * @param handler handler to call when synchronized sequences are found
      */
     public ReplacementsFinder(final ReplacementsHandler<T> handler) {
         pendingInsertions = new ArrayList<>();
-        pendingDeletions  = new ArrayList<>();
-        skipped           = 0;
-        this.handler      = handler;
+        pendingDeletions = new ArrayList<>();
+        skipped = 0;
+        this.handler = handler;
     }
 
     /**
      * Add an object to the pending deletions set.
      *
-     * @param object  object to delete
+     * @param object object to delete.
      */
     @Override
     public void visitDeleteCommand(final T object) {
@@ -94,7 +94,7 @@ public class ReplacementsFinder<T> implements CommandVisitor<T> {
     /**
      * Add an object to the pending insertions set.
      *
-     * @param object  object to insert
+     * @param object object to insert.
      */
     @Override
     public void visitInsertCommand(final T object) {
@@ -104,11 +104,10 @@ public class ReplacementsFinder<T> implements CommandVisitor<T> {
     /**
      * Handle a synchronization object.
      * <p>
-     * When a synchronization object is identified, the pending insertions and
-     * pending deletions sets are provided to the user handler as subsequences.
+     * When a synchronization object is identified, the pending insertions and pending deletions sets are provided to the user handler as subsequences.
      * </p>
      *
-     * @param object  synchronization object detected
+     * @param object synchronization object detected.
      */
     @Override
     public void visitKeepCommand(final T object) {
