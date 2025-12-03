@@ -45,7 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Apache Commons Text Changes</title>
   </properties>
   <body>
-  <release version="1.15.0" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
+  <release version="1.15.0" date="YYYY-MM-DD" description="Release 1.15.0. This is a feature and maintenance release. Java 8 or later is required.">
     <!-- FIX -->
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix exception message typo in XmlStringLookup.XmlStringLookup(Map, Path...).</action>
     <action type="fix" dev="ggregory" due-to="Pierre Post, Sumit Bera, Alex Herbert, Gary Gregory" issue="TEXT-236">Inserting at the end of a TextStringBuilder throws a StringIndexOutOfBoundsException.</action>
