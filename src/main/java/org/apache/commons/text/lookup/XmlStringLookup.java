@@ -130,7 +130,7 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
         if (keyLen != KEY_PARTS_LEN) {
             throw IllegalArgumentExceptions.format("Bad XML key format '%s'; the expected format is 'DocumentPath:XPath'.", key);
         }
-        final Boolean secure = isSecure();
+        final boolean secure = isSecure();
         final String documentPath = keys[0];
         final String xpath = StringUtils.substringAfterLast(key, SPLIT_CH);
         final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -138,19 +138,15 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
             for (final Entry<String, Boolean> p : xmlFactoryFeatures.entrySet()) {
                 dbFactory.setFeature(p.getKey(), p.getValue());
             }
-            if (secure != null) {
-                dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, secure.booleanValue());
-            }
+            dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, secure);
             try (InputStream inputStream = Files.newInputStream(getPath(documentPath))) {
                 final Document doc = dbFactory.newDocumentBuilder().parse(inputStream);
-                final XPathFactory factory = XPathFactory.newInstance();
+                final XPathFactory xpFactory = XPathFactory.newInstance();
                 for (final Entry<String, Boolean> p : xPathFactoryFeatures.entrySet()) {
-                    factory.setFeature(p.getKey(), p.getValue());
+                    xpFactory.setFeature(p.getKey(), p.getValue());
                 }
-                if (secure != null) {
-                    factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, secure.booleanValue());
-                }
-                return factory.newXPath().evaluate(xpath, doc);
+                xpFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, secure);
+                return xpFactory.newXPath().evaluate(xpath, doc);
             }
         } catch (final Exception e) {
             throw new IllegalArgumentException(e);
