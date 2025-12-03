@@ -278,8 +278,8 @@ public final class StringLookupFactory {
          * Adds the key and string lookup from {@code lookup} to {@code map}, also adding any additional key aliases if needed. Keys are normalized using the
          * {@link #toKey(String)} method.
          *
-         * @param lookup lookup to add
-         * @param map    map to add to
+         * @param lookup lookup to add.
+         * @param map    map to add to.
          */
         private static void addLookup(final DefaultStringLookup lookup, final Map<String, StringLookup> map) {
             map.put(toKey(lookup.getKey()), lookup.getStringLookup());
@@ -292,7 +292,7 @@ public final class StringLookupFactory {
         /**
          * Creates the lookup map used when the user has requested no customization.
          *
-         * @return default lookup map
+         * @return default lookup map.
          */
         private static Map<String, StringLookup> createDefaultStringLookups() {
             final Map<String, StringLookup> lookupMap = new HashMap<>();
@@ -320,8 +320,8 @@ public final class StringLookupFactory {
          * Constructs a lookup map by parsing the given string. The string is expected to contain comma or space-separated names of values from the
          * {@link DefaultStringLookup} enum. If the given string is null or empty, an empty map is returned.
          *
-         * @param str string to parse; may be null or empty
-         * @return lookup map parsed from the given string
+         * @param str string to parse; may be null or empty.
+         * @return lookup map parsed from the given string.
          */
         private static Map<String, StringLookup> parseStringLookups(final String str) {
             final Map<String, StringLookup> lookupMap = new HashMap<>();
@@ -343,7 +343,7 @@ public final class StringLookupFactory {
         /**
          * Constructs a new instance initialized with the given properties.
          *
-         * @param props initialization properties
+         * @param props initialization properties.
          */
         DefaultStringLookupsHolder(final Properties props) {
             final Map<String, StringLookup> lookups = props.containsKey(DEFAULT_STRING_LOOKUPS_PROPERTY)
@@ -355,7 +355,7 @@ public final class StringLookupFactory {
         /**
          * Gets the default string lookups map.
          *
-         * @return default string lookups map
+         * @return default string lookups map.
          */
         Map<String, StringLookup> getDefaultStringLookups() {
             return defaultStringLookups;

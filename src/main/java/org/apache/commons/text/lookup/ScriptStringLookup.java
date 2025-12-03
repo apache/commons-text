@@ -66,7 +66,7 @@ final class ScriptStringLookup extends AbstractStringLookup {
      * For example: {@code "javascript:3 + 4"}.
      * </p>
      *
-     * @param key the engine:script to execute, may be null
+     * @param key the engine:script to execute, may be null.
      * @return The value returned by the execution.
      */
     @Override
