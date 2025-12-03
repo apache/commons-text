@@ -45,6 +45,10 @@ class LevenshteinDetailedDistanceTest {
                 () -> new LevenshteinDetailedDistance(0).apply(new SimilarityCharacterInput("asdf"), (SimilarityCharacterInput) null));
         assertThrows(IllegalArgumentException.class,
                 () -> new LevenshteinDetailedDistance(0).apply((SimilarityCharacterInput) null, new SimilarityCharacterInput("asdf")));
+        assertThrows(IllegalArgumentException.class,
+                () -> new LevenshteinDetailedDistance(null).apply(new SimilarityCharacterInput("asdf"), (SimilarityCharacterInput) null));
+        assertThrows(IllegalArgumentException.class,
+                () -> new LevenshteinDetailedDistance(null).apply((SimilarityCharacterInput) null, new SimilarityCharacterInput("asdf")));
     }
 
     @Test

@@ -18,6 +18,7 @@ package org.apache.commons.text.similarity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -133,4 +134,10 @@ class LongestCommonSubsequenceTest {
         assertEquals(4, subject.apply("leettteft", "ritttght"));
         assertEquals(15, subject.apply("the same string", "the same string"));
     }
+
+    @Test
+    void testLongestCommonSubstringLengthArray() {
+        assertArrayEquals(new int[][]{ {0, 0, 0, 0}, {0, 1, 1, 1}, {0, 1, 2, 2}}, subject.longestCommonSubstringLengthArray("ab", "abc"));
+    }
+
 }
