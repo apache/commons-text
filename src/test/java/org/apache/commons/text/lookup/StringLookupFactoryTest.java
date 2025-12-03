@@ -63,23 +63,17 @@ class StringLookupFactoryTest {
 
     private static void assertMappedLookups(final Map<String, StringLookup> lookupMap, final String... keys) {
         final Set<String> remainingKeys = new HashSet<>(lookupMap.keySet());
-
         for (final String key : keys) {
             final String normalizedKey = StringLookupFactory.toKey(key);
             assertNotNull(normalizedKey, () -> "Expected map to contain string lookup for key " + key);
-
             remainingKeys.remove(normalizedKey);
         }
-
         assertTrue(remainingKeys.isEmpty(), () -> "Unexpected keys in lookup map: " + remainingKeys);
     }
 
     private static void checkDefaultStringLookupsHolder(final Properties props, final String... keys) {
-        final StringLookupFactory.DefaultStringLookupsHolder holder =
-                new StringLookupFactory.DefaultStringLookupsHolder(props);
-
+        final StringLookupFactory.DefaultStringLookupsHolder holder = new StringLookupFactory.DefaultStringLookupsHolder(props);
         final Map<String, StringLookup> lookupMap = holder.getDefaultStringLookups();
-
         assertMappedLookups(lookupMap, keys);
     }
 
@@ -90,7 +84,6 @@ class StringLookupFactoryTest {
     public static void main(final String[] args) {
         final Map<String, StringLookup> lookupMap = new HashMap<>();
         StringLookupFactory.INSTANCE.addDefaultStringLookups(lookupMap);
-
         System.out.println("Default string lookups");
         for (final String key : lookupMap.keySet()) {
             System.out.println("- " + key);
@@ -139,11 +132,9 @@ class StringLookupFactoryTest {
     @Test
     void testDefaultStringLookupsHolder_allLookups() {
         final Properties props = new Properties();
-        props.setProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY,
-                "BASE64_DECODER BASE64_ENCODER const, date, dns, environment "
-                + "file ,java, local_host properties, resource_bundle,script,system_properties "
-                + "url url_decoder  , url_encoder, xml");
-
+        props.setProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY, "BASE64_DECODER BASE64_ENCODER const, date, dns, environment "
+                + "file ,java, local_host properties, resource_bundle,script,system_properties url url_decoder  , url_encoder, xml");
+        // @formatter:off
         checkDefaultStringLookupsHolder(props,
                 "base64",
                 StringLookupFactory.KEY_BASE64_DECODER,
@@ -165,23 +156,20 @@ class StringLookupFactoryTest {
                 StringLookupFactory.KEY_DNS,
                 StringLookupFactory.KEY_URL,
                 StringLookupFactory.KEY_SCRIPT);
+        // @formatter:on
     }
 
     @Test
     void testDefaultStringLookupsHolder_givenSingleLookup() {
         final Properties props = new Properties();
         props.setProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY, "base64_encoder");
-
-        checkDefaultStringLookupsHolder(props,
-                "base64",
-                StringLookupFactory.KEY_BASE64_ENCODER);
+        checkDefaultStringLookupsHolder(props, "base64", StringLookupFactory.KEY_BASE64_ENCODER);
     }
 
     @Test
     void testDefaultStringLookupsHolder_givenSingleLookup_weirdString() {
         final Properties props = new Properties();
         props.setProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY, " \n \t  ,, DnS , , ");
-
         checkDefaultStringLookupsHolder(props, StringLookupFactory.KEY_DNS);
     }
 
@@ -189,9 +177,7 @@ class StringLookupFactoryTest {
     void testDefaultStringLookupsHolder_invalidLookupsDefinition() {
         final Properties props = new Properties();
         props.setProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY, "base64_encoder nope");
-
-        final Exception exc = assertThrows(IllegalArgumentException.class,
-                () -> new StringLookupFactory.DefaultStringLookupsHolder(props));
+        final Exception exc = assertThrows(IllegalArgumentException.class, () -> new StringLookupFactory.DefaultStringLookupsHolder(props));
         assertEquals("Invalid default string lookups definition: base64_encoder nope", exc.getMessage());
     }
 
@@ -199,17 +185,15 @@ class StringLookupFactoryTest {
     void testDefaultStringLookupsHolder_lookupsPropertyEmptyAndBlank() {
         final Properties propsWithNull = new Properties();
         propsWithNull.setProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY, "");
-
         checkDefaultStringLookupsHolder(propsWithNull);
-
         final Properties propsWithBlank = new Properties();
         propsWithBlank.setProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY, " ");
-
         checkDefaultStringLookupsHolder(propsWithBlank);
     }
 
     @Test
     void testDefaultStringLookupsHolder_lookupsPropertyNotPresent() {
+        // @formatter:off
         checkDefaultStringLookupsHolder(new Properties(),
                 "base64",
                 StringLookupFactory.KEY_BASE64_DECODER,
@@ -229,17 +213,19 @@ class StringLookupFactoryTest {
                 StringLookupFactory.KEY_XML,
                 StringLookupFactory.KEY_XML_DECODER,
                 StringLookupFactory.KEY_XML_ENCODER);
+        // @formatter:on
     }
 
     @Test
     void testDefaultStringLookupsHolder_multipleLookups() {
         final Properties props = new Properties();
         props.setProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY, "dns, url script ");
-
+        // @formatter:off
         checkDefaultStringLookupsHolder(props,
                 StringLookupFactory.KEY_DNS,
                 StringLookupFactory.KEY_URL,
                 StringLookupFactory.KEY_SCRIPT);
+        // @formatter:on
     }
 
     /**
@@ -248,15 +234,12 @@ class StringLookupFactoryTest {
     @Test
     void testSingletons() {
         final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
-        assertSame(StringLookupFactory.INSTANCE_BASE64_DECODER,
-            stringLookupFactory.base64DecoderStringLookup());
-        assertSame(StringLookupFactory.INSTANCE_BASE64_ENCODER,
-            stringLookupFactory.base64EncoderStringLookup());
+        assertSame(StringLookupFactory.INSTANCE_BASE64_DECODER, stringLookupFactory.base64DecoderStringLookup());
+        assertSame(StringLookupFactory.INSTANCE_BASE64_ENCODER, stringLookupFactory.base64EncoderStringLookup());
         assertSame(ConstantStringLookup.INSTANCE, stringLookupFactory.constantStringLookup());
         assertSame(DateStringLookup.INSTANCE, stringLookupFactory.dateStringLookup());
         assertSame(DnsStringLookup.INSTANCE, stringLookupFactory.dnsStringLookup());
-        assertSame(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES,
-            stringLookupFactory.environmentVariableStringLookup());
+        assertSame(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES, stringLookupFactory.environmentVariableStringLookup());
         assertSame(InterpolatorStringLookup.INSTANCE, stringLookupFactory.interpolatorStringLookup());
         assertSame(JavaPlatformStringLookup.INSTANCE, stringLookupFactory.javaPlatformStringLookup());
         assertSame(InetAddressStringLookup.LOCAL_HOST, stringLookupFactory.localHostStringLookup());
@@ -264,8 +247,7 @@ class StringLookupFactoryTest {
         assertSame(StringLookupFactory.INSTANCE_NULL, stringLookupFactory.nullStringLookup());
         assertSame(ResourceBundleStringLookup.INSTANCE, stringLookupFactory.resourceBundleStringLookup());
         assertSame(ScriptStringLookup.INSTANCE, stringLookupFactory.scriptStringLookup());
-        assertSame(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES,
-            stringLookupFactory.systemPropertyStringLookup());
+        assertSame(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES, stringLookupFactory.systemPropertyStringLookup());
         assertSame(UrlDecoderStringLookup.INSTANCE, stringLookupFactory.urlDecoderStringLookup());
         assertSame(UrlEncoderStringLookup.INSTANCE, stringLookupFactory.urlEncoderStringLookup());
         assertSame(UrlStringLookup.INSTANCE, stringLookupFactory.urlStringLookup());
