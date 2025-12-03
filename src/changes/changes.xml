@@ -53,6 +53,7 @@ The <action> type attribute can be add,update,fix,remove.
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix Apache RAT plugin console warnings.</action>
     <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix site XML to use version 2.0.0 XML schema.</action>
     <action type="fix" dev="ggregory" due-to="Michael Hausegger">Removed unreachable threshold verification code in src/main/java/org/apache/commons/text/similarity #730.</action>
+    <action type="fix" dev="ggregory" due-to="김민재, Gary Gregory">Enable secure processing for the XML parser in XmlStringLookup #729.</action>
     <!-- ADD -->
     <action type="add" dev="ggregory" due-to="Piotr P. Karwasz, Gary Gregory">Add experimental CycloneDX VEX file #683.</action>
     <action type="add" dev="ggregory" due-to="LorgeN, Gary Gregory" issue="TEXT-235">Add Damerau-Levenshtein distance #687.</action>
