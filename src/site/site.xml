@@ -26,7 +26,7 @@
         <menu name="Commons Text">
             <item name="Overview"             href="/index.html"/>
             <item name="Download"             href="/download_text.cgi"/>
-            <item name="User Guide"           href="/userguide.html" />
+            <item name="User Guide"           href="/apidocs/index.html" />
             <item name="Release History"      href="/changes.html"/>
             <item name="Javadoc"              href="/apidocs/index.html"/>
             <item name="Javadoc Archive"      href="https://javadoc.io/doc/org.apache.commons/commons-text"/>
