@@ -95,7 +95,6 @@ class LevenshteinDistanceTest {
                 new SimilarityCharacterInput("asdf")));
     }
 
-
     @ParameterizedTest
     @MethodSource("org.apache.commons.text.similarity.SimilarityInputTest#similarityInputs()")
     void testGetLevenshteinDistance_StringString(final Class<?> cls) {
