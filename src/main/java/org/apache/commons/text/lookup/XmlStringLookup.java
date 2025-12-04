@@ -30,7 +30,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemProperties;
 import org.w3c.dom.Document;
 
 /**
@@ -42,8 +41,7 @@ import org.w3c.dom.Document;
  * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
  * </ul>
  * <p>
- * Secure processing is enabled by default and can be overridden with the system property {@code "XmlStringLookup.secure"} set to {@code false}. The secure
- * boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}.
+ * Secure processing is enabled by default and can be overridden with {@link StringLookupFactory#xmlStringLookup(Map, Path...)}.
  * </p>
  *
  * @since 1.5
@@ -72,13 +70,12 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
     }
 
     /**
-     * Defines the singleton for this class with secure processing enabled.
+     * Defines the singleton for this class with secure processing enabled by default.
+     * <p>
+     * Secure processing is enabled by default and can be overridden with {@link StringLookupFactory#xmlStringLookup(Map, Path...)}.
+     * </p>
      */
     static final XmlStringLookup INSTANCE = new XmlStringLookup(DEFAULT_XML_FEATURES, DEFAULT_XPATH_FEATURES, (Path[]) null);
-
-    private static boolean isSecure() {
-        return SystemProperties.getBoolean(XmlStringLookup.class, "secure", () -> true);
-    }
 
     /**
      * Defines XPath factory features.
@@ -113,8 +110,7 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
      * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
      * </ul>
      * <p>
-     * Secure processing is enabled by default. The secure boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}. The secure
-     * value in the key overrides instance settings given in the constructor.
+     * Secure processing is enabled by default and can be overridden with {@link StringLookupFactory#xmlStringLookup(Map, Path...)}.
      * </p>
      *
      * @param key the key to be looked up, may be null.
@@ -130,7 +126,6 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
         if (keyLen != KEY_PARTS_LEN) {
             throw IllegalArgumentExceptions.format("Bad XML key format '%s'; the expected format is 'DocumentPath:XPath'.", key);
         }
-        final boolean secure = isSecure();
         final String documentPath = keys[0];
         final String xpath = StringUtils.substringAfterLast(key, SPLIT_CH);
         final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -138,14 +133,12 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
             for (final Entry<String, Boolean> p : xmlFactoryFeatures.entrySet()) {
                 dbFactory.setFeature(p.getKey(), p.getValue());
             }
-            dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, secure);
             try (InputStream inputStream = Files.newInputStream(getPath(documentPath))) {
                 final Document doc = dbFactory.newDocumentBuilder().parse(inputStream);
                 final XPathFactory xpFactory = XPathFactory.newInstance();
                 for (final Entry<String, Boolean> p : xPathFactoryFeatures.entrySet()) {
                     xpFactory.setFeature(p.getKey(), p.getValue());
                 }
-                xpFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, secure);
                 return xpFactory.newXPath().evaluate(xpath, doc);
             }
         } catch (final Exception e) {
