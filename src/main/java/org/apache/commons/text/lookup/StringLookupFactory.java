@@ -1718,15 +1718,14 @@ public final class StringLookupFactory {
      * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
      * </ul>
      * <p>
-     * Secure processing is enabled by default and can be overridden with the system property {@code "XmlStringLookup.secure"} set to {@code false}. The secure
-     * boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}.
+     * Secure processing is enabled by default and can be overridden with this constructor.
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory} fenced by the current directory ({@code Paths.get("")}):
      * </p>
      *
      * <pre>
-     * StringLookupFactory.INSTANCE.xmlStringLookup(map, Pathe.get("")).lookup("com/domain/document.xml:/path/to/node");
+     * StringLookupFactory.INSTANCE.xmlStringLookup(map, Path.get("")).lookup("com/domain/document.xml:/path/to/node");
      * </pre>
      * <p>
      * To use a {@link StringLookup} fenced by the current directory, use:
