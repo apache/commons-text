@@ -35,6 +35,7 @@ import javax.xml.XMLConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.SetSystemProperty;
 
 /**
  * Tests {@link XmlStringLookup}.
@@ -77,14 +78,27 @@ class XmlStringLookupTest {
     @Test
     void testInterpolatorExternalDtdOff() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
-        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:" + DOC_DIR
-                + "document-external-dtd.xml:/document/content}"));
+        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-external-dtd.xml:/document/content}"));
+    }
+
+    @Test
+    @SetSystemProperty(key = "javax.xml.accessExternalDTD", value = "file")
+    void testInterpolatorExternalDtdOn() {
+        final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
+        assertEquals("This is an external entity.", stringSubstitutor.replace("${xml:" + DOC_DIR + "document-external-dtd.xml:/document/content}").trim());
     }
 
     @Test
     void testInterpolatorExternalEntityOff() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
         assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-entity-ref.xml:/document/content}"));
+    }
+
+    @Test
+    @SetSystemProperty(key = "javax.xml.accessExternalDTD", value = "file")
+    void testInterpolatorExternalEntityOffOverride() {
+        final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
+        assertEquals(DATA, stringSubstitutor.replace("${xml:" + DOC_DIR + "document-entity-ref.xml:/document/content}").trim());
     }
 
     @Test
@@ -96,8 +110,7 @@ class XmlStringLookupTest {
     @Test
     void testInterpolatorExternalEntityOnOverride() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
-        assertThrows(IllegalArgumentException.class,
-                () -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-entity-ref.xml:/document/content}"));
+        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-entity-ref.xml:/document/content}"));
     }
 
     @Test
