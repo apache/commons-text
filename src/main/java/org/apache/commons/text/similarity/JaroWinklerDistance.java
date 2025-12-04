@@ -36,7 +36,8 @@ public class JaroWinklerDistance implements EditDistance<Double> {
      * @param first  the first string to be matched.
      * @param second the second string to be matched.
      * @return array containing: matches, half transpositions, and prefix
-     * @deprecated Deprecated as of 1.7. This method will be removed in 2.0, and moved to a Jaro Winkler similarity class. TODO see TEXT-104.
+     * @deprecated Deprecated as of 1.7, use {@link JaroWinklerSimilarity#matches(CharSequence, CharSequence)}. This method will be removed in 2.0. TODO see
+     *             TEXT-104.
      */
     @Deprecated
     protected static int[] matches(final CharSequence first, final CharSequence second) {

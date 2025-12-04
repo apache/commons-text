@@ -108,7 +108,13 @@ class JaroWinklerDistanceTest {
 
     @Test
     void testMatches() {
-        assertArrayEquals(new int[]{2, 0, 2}, distance.matches("ab", "aba"));
+        assertArrayEquals(new int[]{2, 0, 2}, JaroWinklerSimilarity.matches("ab", "aba"));
+    }
+
+    @SuppressWarnings("deprecation")
+    @Test
+    void testMatchesDeprecated() {
+        assertArrayEquals(new int[]{2, 0, 2}, JaroWinklerDistance.matches("ab", "aba"));
     }
 
 }
