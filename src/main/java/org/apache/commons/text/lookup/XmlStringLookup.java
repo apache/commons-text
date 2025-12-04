@@ -138,14 +138,14 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
             for (final Entry<String, Boolean> p : xmlFactoryFeatures.entrySet()) {
                 dbFactory.setFeature(p.getKey(), p.getValue());
             }
-            //dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, secure);
+            dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, secure);
             try (InputStream inputStream = Files.newInputStream(getPath(documentPath))) {
                 final Document doc = dbFactory.newDocumentBuilder().parse(inputStream);
                 final XPathFactory xpFactory = XPathFactory.newInstance();
                 for (final Entry<String, Boolean> p : xPathFactoryFeatures.entrySet()) {
                     xpFactory.setFeature(p.getKey(), p.getValue());
                 }
-                //xpFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, secure);
+                xpFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, secure);
                 return xpFactory.newXPath().evaluate(xpath, doc);
             }
         } catch (final Exception e) {
