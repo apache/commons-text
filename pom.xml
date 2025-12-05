@@ -135,6 +135,12 @@
       <version>${jmh.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-csv</artifactId>
+      <version>1.14.1</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <defaultGoal>clean verify apache-rat:check japicmp:cmp checkstyle:check pmd:check spotbugs:check javadoc:javadoc</defaultGoal>
@@ -149,7 +155,6 @@
               <inputExclude>src/site/resources/download_text.cgi</inputExclude>
               <inputExclude>src/site/resources/release-notes/RELEASE-NOTES-*.txt</inputExclude>
               <inputExclude>src/test/resources/org/apache/commons/text/stringEscapeUtilsTestData.txt</inputExclude>
-              <inputExclude>src/test/resources/org/apache/commons/text/lcs-perf-analysis-inputs.csv</inputExclude>
               <inputExclude>src/test/resources/org/apache/commons/text/oss-fuzz/**</inputExclude>
             </inputExcludes>
           </configuration>

@@ -16,16 +16,14 @@
  */
 package org.apache.commons.text.jmh;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.similarity.LongestCommonSubsequence;
@@ -114,22 +112,21 @@ public class LongestCommonSubsequencePerformance {
         final List<Pair<CharSequence, CharSequence>> inputs = new ArrayList<>();
 
         @Setup(Level.Trial)
-        public void setup() {
+        public void setup() throws IOException {
             final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            try (InputStream is = classLoader.getResourceAsStream("org/apache/commons/text/lcs-perf-analysis-inputs.csv");
-                 InputStreamReader isr = new InputStreamReader(Objects.requireNonNull(is));
-                 BufferedReader br = new BufferedReader(isr)) {
-                String line;
-                while ((line = br.readLine()) != null && !line.trim().isEmpty()) {
-                    line = line.trim();
-                    final int indexOfComma = line.indexOf(',');
-                    final String inputA = line.substring(0, indexOfComma);
-                    final String inputB = line.substring(1 + indexOfComma);
-                    this.inputs.add(ImmutablePair.of(inputA, inputB));
-                }
-            } catch (final IOException exception) {
-                throw new UncheckedIOException(exception.getMessage(), exception);
-            }
+            CSVFormat.DEFAULT.builder().setCommentMarker('#').setTrim(true).get()
+                    .parse(new InputStreamReader(
+                            Objects.requireNonNull(classLoader.getResourceAsStream("org/apache/commons/text/lcs-perf-analysis-inputs.csv"))))
+                    .forEach(record -> {
+                        final String line = record.get(0);
+                        final int indexOfComma = line.indexOf(',');
+                        if (indexOfComma < 0) {
+                            throw new IllegalStateException("Invalid input line: " + line);
+                        }
+                        final String inputA = line.substring(0, indexOfComma);
+                        final String inputB = line.substring(1 + indexOfComma);
+                        this.inputs.add(ImmutablePair.of(inputA, inputB));
+                    });
         }
     }
 
