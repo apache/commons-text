@@ -17,9 +17,11 @@
  package org.apache.commons.text.translate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.io.Writer;
 
 import org.junit.jupiter.api.Test;
@@ -46,8 +48,20 @@ class CharSequenceTranslatorTest {
         final CharSequenceTranslator charSequenceTranslatorThree = new TestCharSequenceTranslator();
         final CharSequenceTranslator aggregatedTranslator = charSequenceTranslatorOne.with(charSequenceTranslatorTwo, charSequenceTranslatorThree);
         aggregatedTranslator.translate("", 0, null);
-        assertTrue(aggregatedTranslator instanceof AggregateTranslator);
+        assertInstanceOf(AggregateTranslator.class, aggregatedTranslator);
         assertEquals(3, translateInvocationCounter);
     }
 
+    @Test
+    void testIOException() {
+        final CharSequenceTranslator translator = new CharSequenceTranslator() {
+            @Override
+            public int translate(CharSequence input, int index, Writer writer) throws IOException {
+                throw new IOException("Test exception");
+            }
+        };
+
+        assertThrows(UncheckedIOException.class,
+                () -> translator.translate("."));
+    }
 }

@@ -19,7 +19,6 @@ package org.apache.commons.text.translate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
@@ -34,7 +33,7 @@ class SinglePassTranslatorTest {
     private final SinglePassTranslator dummyTranslator = new SinglePassTranslator() {
 
         @Override
-        void translateWhole(final CharSequence input, final Writer writer) throws IOException {
+        void translateWhole(final CharSequence input, final Writer writer) {
             // noop
         }
     };
@@ -63,4 +62,15 @@ class SinglePassTranslatorTest {
         assertThrows(IllegalArgumentException.class, () -> dummyTranslator.translate("(,Fk", 647, null));
     }
 
+    @Test
+    void testTranslateThrowsIllegalArgumentExceptionWithNonAnonymousClass() {
+        assertThrows(IllegalArgumentException.class, () -> new TestTranslator().translate("(,Fk", 647, null));
+    }
+
+    private static final class TestTranslator extends SinglePassTranslator {
+        @Override
+        void translateWhole(final CharSequence input, final Writer writer) {
+            // noop
+        }
+    }
 }

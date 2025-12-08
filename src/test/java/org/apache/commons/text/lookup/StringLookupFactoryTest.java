@@ -257,6 +257,16 @@ class StringLookupFactoryTest {
         assertSame(XmlEncoderStringLookup.INSTANCE, stringLookupFactory.xmlEncoderStringLookup());
     }
 
+    /**
+     * Tests that we return the singleton.
+     */
+    @Deprecated
+    @Test
+    void testDeprecatedSingletons() {
+        final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
+        assertSame(StringLookupFactory.INSTANCE_BASE64_DECODER, stringLookupFactory.base64StringLookup());
+    }
+
     @Test
     void testXmlStringLookup() {
         final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
@@ -279,4 +289,9 @@ class StringLookupFactoryTest {
         assertEquals(XmlStringLookupTest.DATA, StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP).apply(key).trim());
     }
 
+    @Test
+    void testClear() {
+        // this will clear out the global cache in ConstantStringLookup
+        StringLookupFactory.clear();
+    }
 }

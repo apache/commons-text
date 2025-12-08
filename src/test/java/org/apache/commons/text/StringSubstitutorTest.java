@@ -193,7 +193,7 @@ public class StringSubstitutorTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    public void tearDown() {
         values = null;
     }
 
@@ -1085,4 +1085,11 @@ public class StringSubstitutorTest {
         assertEqualsCharSeq("value $${escaped}", replace(sub, org));
     }
 
+    @Test
+    void testToString() {
+        final StringSubstitutor s = new StringSubstitutor(null, "prefix", "suffix");
+        String str = s.toString();
+        assertTrue(str.contains("\"prefix\""),
+                "Had: " + str);
+    }
 }

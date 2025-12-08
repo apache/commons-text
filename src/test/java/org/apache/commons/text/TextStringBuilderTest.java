@@ -551,6 +551,13 @@ class TextStringBuilderTest {
     }
 
     @Test
+    void testConstructorCharSequenceNull() {
+        final TextStringBuilder sb = new TextStringBuilder((CharSequence) null);
+        assertEquals(TextStringBuilder.CAPACITY, sb.capacity());
+        assertEquals(0, sb.toCharArray().length);
+    }
+
+    @Test
     void testConstructorDefault() {
         final TextStringBuilder sb = new TextStringBuilder();
         assertEquals(TextStringBuilder.CAPACITY, sb.capacity());
