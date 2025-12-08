@@ -25,6 +25,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -42,9 +43,16 @@ class DateStringLookupTest {
 
     @Test
     void testDefault() throws ParseException {
-        final String formatted = DateStringLookup.INSTANCE.apply(null);
-        DateFormat.getInstance().parse(formatted); // throws ParseException
+        Locale prev = Locale.getDefault();
+        try {
+            // ensure that date-parser uses English/American presets
+            Locale.setDefault(Locale.US);
 
+            final String formatted = DateStringLookup.INSTANCE.apply(null);
+            DateFormat.getInstance().parse(formatted); // throws ParseException
+        } finally {
+            Locale.setDefault(prev);
+        }
     }
 
     @Test
