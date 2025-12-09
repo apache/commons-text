@@ -2190,7 +2190,7 @@ class TextStringBuilderTest {
         // End index greater than length()
         assertThrows(IndexOutOfBoundsException.class, () -> sb.subSequence(2, sb.length() + 1));
 
-        // Start index greater then end index
+        // Start index greater than end index
         assertThrows(IndexOutOfBoundsException.class, () -> sb.subSequence(3, 2));
 
         // Normal cases
