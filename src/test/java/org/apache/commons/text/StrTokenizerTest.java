@@ -37,7 +37,6 @@ import org.junit.jupiter.api.Test;
  *
  * @deprecated This class will be removed in 2.0.
  */
-@Deprecated
 class StrTokenizerTest {
 
     private static final String CSV_SIMPLE_FIXTURE = "A,b,c";

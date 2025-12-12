@@ -84,7 +84,6 @@ class LongestCommonSubsequenceTest {
     }
 
     @Test
-    @Deprecated
     void testLogestCommonSubsequence() {
         assertEquals("", subject.logestCommonSubsequence("", ""));
         assertEquals("", subject.logestCommonSubsequence("left", ""));

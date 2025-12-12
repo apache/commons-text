@@ -39,7 +39,6 @@ import org.junit.jupiter.api.Test;
  *
  * @deprecated This class will be removed in 2.0.
  */
-@Deprecated
 class StrSubstitutorTest {
 
     private Map<String, String> values;
