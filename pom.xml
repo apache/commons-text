@@ -72,13 +72,14 @@
       commons.releaseManagerKey
     -->
     <!-- JaCoCo: Don't make code coverage worse than: -->
+    <!-- The order of properties below is the same as console output -->
     <commons.jacoco.haltOnFailure>true</commons.jacoco.haltOnFailure>
     <commons.jacoco.classRatio>1.00</commons.jacoco.classRatio>
-    <commons.jacoco.instructionRatio>0.97</commons.jacoco.instructionRatio>
-    <commons.jacoco.methodRatio>0.98</commons.jacoco.methodRatio>
+    <commons.jacoco.instructionRatio>0.99</commons.jacoco.instructionRatio>
+    <commons.jacoco.methodRatio>0.99</commons.jacoco.methodRatio>
     <commons.jacoco.branchRatio>0.95</commons.jacoco.branchRatio>
-    <commons.jacoco.complexityRatio>0.94</commons.jacoco.complexityRatio>
-    <commons.jacoco.lineRatio>0.98</commons.jacoco.lineRatio>    
+    <commons.jacoco.lineRatio>0.99</commons.jacoco.lineRatio>    
+    <commons.jacoco.complexityRatio>0.97</commons.jacoco.complexityRatio>
   </properties>
   <dependencies>
     <dependency>
