@@ -17,10 +17,14 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,33 +34,33 @@ class InetAddressStringLookupLocalHostTest {
 
     @Test
     void testAddress() throws UnknownHostException {
-        Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(), InetAddressStringLookup.LOCAL_HOST.apply("address"));
+        assertEquals(InetAddress.getLocalHost().getHostAddress(), InetAddressStringLookup.LOCAL_HOST.apply("address"));
     }
 
     @Test
     void testBadKey() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.LOCAL_HOST.apply("FOO"));
+        assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.LOCAL_HOST.apply("FOO"));
     }
 
     @Test
     void testCanonicalName() throws UnknownHostException {
-        Assertions.assertEquals(InetAddress.getLocalHost().getCanonicalHostName(), InetAddressStringLookup.LOCAL_HOST.apply("canonical-name"));
+        assertEquals(InetAddress.getLocalHost().getCanonicalHostName(), InetAddressStringLookup.LOCAL_HOST.apply("canonical-name"));
     }
 
     @Test
     void testName() throws UnknownHostException {
-        Assertions.assertEquals(InetAddress.getLocalHost().getHostName(), InetAddressStringLookup.LOCAL_HOST.apply("name"));
+        assertEquals(InetAddress.getLocalHost().getHostName(), InetAddressStringLookup.LOCAL_HOST.apply("name"));
     }
 
     @Test
     void testNull() {
-        Assertions.assertNull(InetAddressStringLookup.LOCAL_HOST.apply(null));
+        assertNull(InetAddressStringLookup.LOCAL_HOST.apply(null));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(InetAddressStringLookup.LOCAL_HOST.toString().isEmpty());
+        assertFalse(InetAddressStringLookup.LOCAL_HOST.toString().isEmpty());
     }
 
 }

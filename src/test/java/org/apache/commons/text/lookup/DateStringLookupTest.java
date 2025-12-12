@@ -18,6 +18,7 @@
 package org.apache.commons.text.lookup;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -26,7 +27,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -62,7 +62,7 @@ class DateStringLookupTest {
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(DateStringLookup.INSTANCE.toString().isEmpty());
+        assertFalse(DateStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

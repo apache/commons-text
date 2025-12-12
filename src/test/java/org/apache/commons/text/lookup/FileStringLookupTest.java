@@ -18,6 +18,8 @@
 package org.apache.commons.text.lookup;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
@@ -28,7 +30,6 @@ import java.nio.file.Paths;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -44,7 +45,7 @@ public class FileStringLookupTest {
     }
 
     public static void testFence(final String expectedString, final FileStringLookup fileStringLookup) {
-        Assertions.assertEquals(expectedString, fileStringLookup.apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
+        assertEquals(expectedString, fileStringLookup.apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
         assertThrows(IllegalArgumentException.class, () -> fileStringLookup.apply("UTF-8:/src/test/resources/org/apache/commons/text/document.properties"));
         assertThrows(IllegalArgumentException.class, () -> fileStringLookup.apply("UTF-8:../src/test/resources/org/apache/commons/text/document.properties"));
     }
@@ -73,19 +74,19 @@ public class FileStringLookupTest {
 
     @Test
     void testDefaultInstanceNull() {
-        Assertions.assertNull(FileStringLookup.INSTANCE.apply(null));
+        assertNull(FileStringLookup.INSTANCE.apply(null));
     }
 
     @Test
     void testDefaultInstanceOne() throws Exception {
         final String expectedString = readDocumentFixtureString();
-        Assertions.assertEquals(expectedString, FileStringLookup.INSTANCE.apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
+        assertEquals(expectedString, FileStringLookup.INSTANCE.apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
     }
 
     @Test
     void testDefaultInstanceToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(FileStringLookup.INSTANCE.toString().isEmpty());
+        assertFalse(FileStringLookup.INSTANCE.toString().isEmpty());
     }
 
     @Test
@@ -120,13 +121,13 @@ public class FileStringLookupTest {
     @Test
     void testFenceEmptyOne() throws Exception {
         final String expectedString = readDocumentFixtureString();
-        Assertions.assertEquals(expectedString, new FileStringLookup().apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
+        assertEquals(expectedString, new FileStringLookup().apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
     }
 
     @Test
     void testFenceNullOne() throws Exception {
         final String expectedString = readDocumentFixtureString();
-        Assertions.assertEquals(expectedString,
+        assertEquals(expectedString,
                 new FileStringLookup((Path[]) null).apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
     }
 

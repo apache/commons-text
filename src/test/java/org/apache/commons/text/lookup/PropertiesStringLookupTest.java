@@ -18,6 +18,8 @@
 package org.apache.commons.text.lookup;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.nio.file.Path;
@@ -27,7 +29,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -131,10 +132,10 @@ public class PropertiesStringLookupTest {
 
     @Test
     void testNull() {
-        Assertions.assertNull(PropertiesStringLookup.INSTANCE.apply(null));
-        Assertions.assertNull(new PropertiesStringLookup().apply(null));
-        Assertions.assertNull(new PropertiesStringLookup(NULL_PATH_ARRAY).apply(null));
-        Assertions.assertNull(new PropertiesStringLookup(CURRENT_PATH).apply(null));
+        assertNull(PropertiesStringLookup.INSTANCE.apply(null));
+        assertNull(new PropertiesStringLookup().apply(null));
+        assertNull(new PropertiesStringLookup(NULL_PATH_ARRAY).apply(null));
+        assertNull(new PropertiesStringLookup(CURRENT_PATH).apply(null));
     }
 
     @Test
@@ -149,10 +150,10 @@ public class PropertiesStringLookupTest {
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(PropertiesStringLookup.INSTANCE.toString().isEmpty());
-        Assertions.assertFalse(new PropertiesStringLookup().toString().isEmpty());
-        Assertions.assertFalse(new PropertiesStringLookup(NULL_PATH_ARRAY).toString().isEmpty());
-        Assertions.assertFalse(new PropertiesStringLookup(CURRENT_PATH).toString().isEmpty());
+        assertFalse(PropertiesStringLookup.INSTANCE.toString().isEmpty());
+        assertFalse(new PropertiesStringLookup().toString().isEmpty());
+        assertFalse(new PropertiesStringLookup(NULL_PATH_ARRAY).toString().isEmpty());
+        assertFalse(new PropertiesStringLookup(CURRENT_PATH).toString().isEmpty());
     }
 
 }

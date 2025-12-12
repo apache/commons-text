@@ -17,6 +17,8 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.spy;
@@ -24,7 +26,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.ResourceBundle;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -39,7 +40,7 @@ class ResourceBundleStringLookupTest {
     void testAny() {
         final String bundleName = TEST_RESOURCE_BUNDLE;
         final String bundleKey = KEY;
-        Assertions.assertEquals(ResourceBundle.getBundle(bundleName).getString(bundleKey),
+        assertEquals(ResourceBundle.getBundle(bundleName).getString(bundleKey),
             ResourceBundleStringLookup.INSTANCE.apply(AbstractStringLookup.toLookupKey(bundleName, bundleKey)));
     }
 
@@ -77,19 +78,19 @@ class ResourceBundleStringLookupTest {
 
     @Test
     void testNull() {
-        Assertions.assertNull(ResourceBundleStringLookup.INSTANCE.apply(null));
+        assertNull(ResourceBundleStringLookup.INSTANCE.apply(null));
     }
 
     @Test
     void testOne() {
-        Assertions.assertEquals(ResourceBundle.getBundle(TEST_RESOURCE_BUNDLE).getString(KEY),
+        assertEquals(ResourceBundle.getBundle(TEST_RESOURCE_BUNDLE).getString(KEY),
             new ResourceBundleStringLookup(TEST_RESOURCE_BUNDLE).apply(KEY));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(ResourceBundleStringLookup.INSTANCE.toString().isEmpty());
+        assertFalse(ResourceBundleStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

@@ -17,7 +17,10 @@
 
 package org.apache.commons.text.lookup;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,19 +30,19 @@ class SystemPropertyStringLookupTest {
 
     @Test
     void testNull() {
-        Assertions.assertNull(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.apply(null));
+        assertNull(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.apply(null));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.toString().isEmpty());
+        assertFalse(StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.toString().isEmpty());
     }
 
     @Test
     void testUserName() {
         final String key = "user.name";
-        Assertions.assertEquals(System.getProperty(key), StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.apply(key));
+        assertEquals(System.getProperty(key), StringLookupFactory.INSTANCE_SYSTEM_PROPERTIES.apply(key));
     }
 
 }

@@ -17,9 +17,13 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.InetAddress;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,33 +33,33 @@ class InetAddressStringLookupLoopbackAddressTest {
 
     @Test
     void testAddress() {
-        Assertions.assertEquals(InetAddress.getLoopbackAddress().getHostAddress(), InetAddressStringLookup.LOOPACK_ADDRESS.apply("address"));
+        assertEquals(InetAddress.getLoopbackAddress().getHostAddress(), InetAddressStringLookup.LOOPACK_ADDRESS.apply("address"));
     }
 
     @Test
     void testBadKey() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.LOOPACK_ADDRESS.apply("FOO"));
+        assertThrows(IllegalArgumentException.class, () -> InetAddressStringLookup.LOOPACK_ADDRESS.apply("FOO"));
     }
 
     @Test
     void testCanonicalName() {
-        Assertions.assertEquals(InetAddress.getLoopbackAddress().getCanonicalHostName(), InetAddressStringLookup.LOOPACK_ADDRESS.apply("canonical-name"));
+        assertEquals(InetAddress.getLoopbackAddress().getCanonicalHostName(), InetAddressStringLookup.LOOPACK_ADDRESS.apply("canonical-name"));
     }
 
     @Test
     void testName() {
-        Assertions.assertEquals(InetAddress.getLoopbackAddress().getHostName(), InetAddressStringLookup.LOOPACK_ADDRESS.apply("name"));
+        assertEquals(InetAddress.getLoopbackAddress().getHostName(), InetAddressStringLookup.LOOPACK_ADDRESS.apply("name"));
     }
 
     @Test
     void testNull() {
-        Assertions.assertNull(InetAddressStringLookup.LOOPACK_ADDRESS.apply(null));
+        assertNull(InetAddressStringLookup.LOOPACK_ADDRESS.apply(null));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(InetAddressStringLookup.LOOPACK_ADDRESS.toString().isEmpty());
+        assertFalse(InetAddressStringLookup.LOOPACK_ADDRESS.toString().isEmpty());
     }
 
 }

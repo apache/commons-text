@@ -17,7 +17,8 @@
 
 package org.apache.commons.text.lookup;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,7 +28,7 @@ class BiStringLookupTest {
 
     @Test
     void testDefaultMethod() {
-        Assertions.assertEquals("a", ((BiStringLookup<Object>) key -> key).lookup("a", "b"));
+        assertEquals("a", ((BiStringLookup<Object>) key -> key).lookup("a", "b"));
     }
 
 }

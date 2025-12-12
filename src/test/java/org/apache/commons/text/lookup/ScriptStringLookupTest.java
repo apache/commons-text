@@ -17,11 +17,14 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import javax.script.ScriptEngineManager;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -48,17 +51,17 @@ class ScriptStringLookupTest {
 
     @Test
     void testNull() {
-        Assertions.assertNull(ScriptStringLookup.INSTANCE.apply(null));
+        assertNull(ScriptStringLookup.INSTANCE.apply(null));
     }
 
     @Test
     void testOne() {
-        Assertions.assertEquals("Hello World!", ScriptStringLookup.INSTANCE.apply(JS_NAME + ":\"Hello World!\""));
+        assertEquals("Hello World!", ScriptStringLookup.INSTANCE.apply(JS_NAME + ":\"Hello World!\""));
     }
 
     @Test
     void testSanityCheck() {
-        Assertions.assertNotNull(new ScriptEngineManager().getEngineByName(JS_NAME), JS_NAME);
+        assertNotNull(new ScriptEngineManager().getEngineByName(JS_NAME), JS_NAME);
     }
 
     @Test
@@ -68,14 +71,14 @@ class ScriptStringLookupTest {
 
     @Test
     void testScriptUsingMultipleColons() {
-        Assertions.assertEquals("It Works",
+        assertEquals("It Works",
             ScriptStringLookup.INSTANCE.apply(JS_NAME + ":true ? \"It Works\" : \"It Does Not Work\" "));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(ScriptStringLookup.INSTANCE.toString().isEmpty());
+        assertFalse(ScriptStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

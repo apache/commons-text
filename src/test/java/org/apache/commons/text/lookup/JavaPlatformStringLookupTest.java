@@ -17,11 +17,12 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -41,13 +42,13 @@ class JavaPlatformStringLookupTest {
 
     @Test
     void testNull() {
-        Assertions.assertNull(JavaPlatformStringLookup.INSTANCE.apply(null));
+        assertNull(JavaPlatformStringLookup.INSTANCE.apply(null));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(JavaPlatformStringLookup.INSTANCE.toString().isEmpty());
+        assertFalse(JavaPlatformStringLookup.INSTANCE.toString().isEmpty());
     }
 
     @Test

@@ -17,8 +17,11 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.apache.commons.lang3.SystemUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,24 +31,24 @@ class EnvironmentVariableStringLookupTest {
 
     @Test
     void testNull() {
-        Assertions.assertNull(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.apply(null));
+        assertNull(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.apply(null));
     }
 
     @Test
     void testOne() {
         if (SystemUtils.IS_OS_WINDOWS) {
             final String key = "PATH";
-            Assertions.assertEquals(System.getenv(key), StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.apply(key));
+            assertEquals(System.getenv(key), StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.apply(key));
         } else if (SystemUtils.IS_OS_LINUX) {
             final String key = "USER";
-            Assertions.assertEquals(System.getenv(key), StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.apply(key));
+            assertEquals(System.getenv(key), StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.apply(key));
         }
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.toString().isEmpty());
+        assertFalse(StringLookupFactory.INSTANCE_ENVIRONMENT_VARIABLES.toString().isEmpty());
     }
 
 }

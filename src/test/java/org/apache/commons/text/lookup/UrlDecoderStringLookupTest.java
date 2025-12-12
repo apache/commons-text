@@ -17,6 +17,9 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -24,7 +27,6 @@ import static org.mockito.Mockito.when;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -36,7 +38,7 @@ class UrlDecoderStringLookupTest {
 
     @Test
     void testAllPercent() {
-        Assertions.assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.apply("Hello%20World%21"));
+        assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.apply("Hello%20World%21"));
     }
 
     @Test
@@ -49,23 +51,23 @@ class UrlDecoderStringLookupTest {
 
     @Test
     void testExclamation() {
-        Assertions.assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.apply("Hello%20World!"));
+        assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.apply("Hello%20World!"));
     }
 
     @Test
     void testNull() {
-        Assertions.assertNull(UrlDecoderStringLookup.INSTANCE.apply(null));
+        assertNull(UrlDecoderStringLookup.INSTANCE.apply(null));
     }
 
     @Test
     void testPlus() {
-        Assertions.assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.apply("Hello+World!"));
+        assertEquals(DATA, UrlDecoderStringLookup.INSTANCE.apply("Hello+World!"));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(UrlDecoderStringLookup.INSTANCE.toString().isEmpty());
+        assertFalse(UrlDecoderStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

@@ -17,13 +17,16 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -71,25 +74,25 @@ class BiFunctionStringLookupTest {
         // Use map
         final BiStringLookup<Map<String, Object>> stringLookup = StringLookupFactory.INSTANCE
             .biFunctionStringLookup(nestedMapBiFunction);
-        Assertions.assertEquals(rootValue2, stringLookup.lookup(rootKey2, rootMap));
-        Assertions.assertEquals(subValue, stringLookup.lookup(rootKey + SEPARATOR + subKey, rootMap));
-        Assertions.assertEquals(subSubValue,
+        assertEquals(rootValue2, stringLookup.lookup(rootKey2, rootMap));
+        assertEquals(subValue, stringLookup.lookup(rootKey + SEPARATOR + subKey, rootMap));
+        assertEquals(subSubValue,
             stringLookup.lookup(rootKey + SEPARATOR + subKeyMap + SEPARATOR + subSubKey, rootMap));
     }
 
     @Test
     void testConcurrentHashMapNull() {
-        Assertions.assertNull(BiFunctionStringLookup.on(new ConcurrentHashMap<>()).apply(null));
+        assertNull(BiFunctionStringLookup.on(new ConcurrentHashMap<>()).apply(null));
     }
 
     @Test
     void testHashMapNull() {
-        Assertions.assertNull(BiFunctionStringLookup.on(new HashMap<>()).apply(null));
+        assertNull(BiFunctionStringLookup.on(new HashMap<>()).apply(null));
     }
 
     @Test
     void testNullBiFunction() {
-        Assertions.assertNull(BiFunctionStringLookup.on((BiFunction<String, Object, Object>) null).apply(null));
+        assertNull(BiFunctionStringLookup.on((BiFunction<String, Object, Object>) null).apply(null));
     }
 
     @Test
@@ -98,13 +101,13 @@ class BiFunctionStringLookupTest {
         final String value = "value";
         final Map<String, String> map = new HashMap<>();
         map.put(key, value);
-        Assertions.assertEquals(value, FunctionStringLookup.on(map).apply(key));
+        assertEquals(value, FunctionStringLookup.on(map).apply(key));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(BiFunctionStringLookup.on(new HashMap<>()).toString().isEmpty());
+        assertFalse(BiFunctionStringLookup.on(new HashMap<>()).toString().isEmpty());
     }
 
 }

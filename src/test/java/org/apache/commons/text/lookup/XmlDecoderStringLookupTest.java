@@ -17,7 +17,10 @@
 
 package org.apache.commons.text.lookup;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,18 +32,18 @@ class XmlDecoderStringLookupTest {
 
     @Test
     void testDecode() {
-        Assertions.assertEquals(DATA, XmlDecoderStringLookup.INSTANCE.apply("&lt;element&gt;"));
+        assertEquals(DATA, XmlDecoderStringLookup.INSTANCE.apply("&lt;element&gt;"));
     }
 
     @Test
     void testNull() {
-        Assertions.assertNull(XmlDecoderStringLookup.INSTANCE.apply(null));
+        assertNull(XmlDecoderStringLookup.INSTANCE.apply(null));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(XmlDecoderStringLookup.INSTANCE.toString().isEmpty());
+        assertFalse(XmlDecoderStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

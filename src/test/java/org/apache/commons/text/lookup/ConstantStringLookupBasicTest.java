@@ -17,8 +17,11 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -55,12 +58,12 @@ class ConstantStringLookupBasicTest {
 
     @Test
     void testNull() {
-        Assertions.assertNull(ConstantStringLookup.INSTANCE.apply(null));
+        assertNull(ConstantStringLookup.INSTANCE.apply(null));
     }
 
     @Test
     void testNullClassFetch() {
-        Assertions.assertNull(new ConstantStringLookup() {
+        assertNull(new ConstantStringLookup() {
             @Override
             protected Class<?> fetchClass(final String className) throws ClassNotFoundException {
                 return null;
@@ -70,20 +73,20 @@ class ConstantStringLookupBasicTest {
 
     @Test
     void testNullValue() {
-        Assertions.assertEquals(NULL_STRING_FIXTURE, ConstantStringLookup.INSTANCE
+        assertEquals(NULL_STRING_FIXTURE, ConstantStringLookup.INSTANCE
             .apply(ConstantStringLookupBasicTest.class.getName() + ".NULL_STRING_FIXTURE"));
     }
 
     @Test
     void testOne() {
-        Assertions.assertEquals(STRING_FIXTURE,
+        assertEquals(STRING_FIXTURE,
             ConstantStringLookup.INSTANCE.apply(ConstantStringLookupBasicTest.class.getName() + ".STRING_FIXTURE"));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(ConstantStringLookup.INSTANCE.toString().isEmpty());
+        assertFalse(ConstantStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -115,12 +114,12 @@ class InterpolatorStringLookupTest {
 
     @Test
     void testNull() {
-        Assertions.assertNull(InterpolatorStringLookup.INSTANCE.apply(null));
+        assertNull(InterpolatorStringLookup.INSTANCE.apply(null));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(new InterpolatorStringLookup().toString().isEmpty());
+        assertFalse(new InterpolatorStringLookup().toString().isEmpty());
     }
 }

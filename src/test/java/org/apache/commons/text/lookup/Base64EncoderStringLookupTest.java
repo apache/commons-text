@@ -17,7 +17,10 @@
 
 package org.apache.commons.text.lookup;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,18 +30,18 @@ class Base64EncoderStringLookupTest {
 
     @Test
     void test() {
-        Assertions.assertEquals("SGVsbG9Xb3JsZCE=", StringLookupFactory.INSTANCE_BASE64_ENCODER.apply("HelloWorld!"));
+        assertEquals("SGVsbG9Xb3JsZCE=", StringLookupFactory.INSTANCE_BASE64_ENCODER.apply("HelloWorld!"));
     }
 
     @Test
     void testNull() {
-        Assertions.assertNull(StringLookupFactory.INSTANCE_BASE64_ENCODER.apply(null));
+        assertNull(StringLookupFactory.INSTANCE_BASE64_ENCODER.apply(null));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(StringLookupFactory.INSTANCE_BASE64_ENCODER.toString().isEmpty());
+        assertFalse(StringLookupFactory.INSTANCE_BASE64_ENCODER.toString().isEmpty());
     }
 
 }

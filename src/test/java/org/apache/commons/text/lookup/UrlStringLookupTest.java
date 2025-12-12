@@ -17,6 +17,10 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.net.URI;
@@ -25,7 +29,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -55,13 +58,13 @@ class UrlStringLookupTest {
         // System.out.println(uri);
         final byte[] expectedBytes = Files.readAllBytes(path);
         final String expectedString = new String(expectedBytes, StandardCharsets.UTF_8);
-        Assertions.assertEquals(expectedString, UrlStringLookup.INSTANCE.apply("UTF-8:" + uri.toString()));
+        assertEquals(expectedString, UrlStringLookup.INSTANCE.apply("UTF-8:" + uri.toString()));
     }
 
     @Test
     void testHttpScheme() {
-        Assertions.assertNotNull(UrlStringLookup.INSTANCE.apply("UTF-8:https://www.apache.org"));
-        Assertions.assertNotNull(UrlStringLookup.INSTANCE.apply("UTF-8:https://www.google.com"));
+        assertNotNull(UrlStringLookup.INSTANCE.apply("UTF-8:https://www.apache.org"));
+        assertNotNull(UrlStringLookup.INSTANCE.apply("UTF-8:https://www.google.com"));
     }
 
     @Test
@@ -71,13 +74,13 @@ class UrlStringLookupTest {
 
     @Test
     void testNull() {
-        Assertions.assertNull(UrlStringLookup.INSTANCE.apply(null));
+        assertNull(UrlStringLookup.INSTANCE.apply(null));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(UrlStringLookup.INSTANCE.toString().isEmpty());
+        assertFalse(UrlStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

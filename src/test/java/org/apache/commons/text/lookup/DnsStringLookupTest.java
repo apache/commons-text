@@ -17,10 +17,14 @@
 
 package org.apache.commons.text.lookup;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -31,28 +35,28 @@ class DnsStringLookupTest {
     @Test
     void testAddressFromHostAddress() throws UnknownHostException {
         final InetAddress localHost = InetAddress.getLocalHost();
-        Assertions.assertEquals(localHost.getHostAddress(),
+        assertEquals(localHost.getHostAddress(),
             DnsStringLookup.INSTANCE.apply("address|" + localHost.getHostAddress()));
     }
 
     @Test
     void testAddressFromHostName() throws UnknownHostException {
         final InetAddress localHost = InetAddress.getLocalHost();
-        Assertions.assertEquals(localHost.getHostAddress(),
+        assertEquals(localHost.getHostAddress(),
             DnsStringLookup.INSTANCE.apply("address|" + localHost.getHostName()));
     }
 
     @Test
     void testCanonicalNameFromHostAddress() throws UnknownHostException {
         final InetAddress localHost = InetAddress.getLocalHost();
-        Assertions.assertEquals(localHost.getCanonicalHostName(),
+        assertEquals(localHost.getCanonicalHostName(),
             DnsStringLookup.INSTANCE.apply("canonical-name|" + localHost.getHostAddress()));
     }
 
     @Test
     void testCanonicalNameFromHostName() throws UnknownHostException {
         final InetAddress localHost = InetAddress.getLocalHost();
-        Assertions.assertEquals(localHost.getCanonicalHostName(),
+        assertEquals(localHost.getCanonicalHostName(),
             DnsStringLookup.INSTANCE.apply("canonical-name|" + localHost.getHostName()));
     }
 
@@ -66,18 +70,18 @@ class DnsStringLookupTest {
                 matched = true;
             }
         }
-        Assertions.assertTrue(matched);
+        assertTrue(matched);
     }
 
     @Test
     void testNull() {
-        Assertions.assertNull(DnsStringLookup.INSTANCE.apply(null));
+        assertNull(DnsStringLookup.INSTANCE.apply(null));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(DnsStringLookup.INSTANCE.toString().isEmpty());
+        assertFalse(DnsStringLookup.INSTANCE.toString().isEmpty());
     }
 
 }

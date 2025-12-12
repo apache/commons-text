@@ -17,7 +17,9 @@
 
 package org.apache.commons.text.lookup;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,14 +29,14 @@ class NullStringLookupTest {
 
     @Test
     void test() {
-        Assertions.assertNull(StringLookupFactory.INSTANCE_NULL.apply("EverythingIsNull"));
-        Assertions.assertNull(StringLookupFactory.INSTANCE_NULL.apply(null));
+        assertNull(StringLookupFactory.INSTANCE_NULL.apply("EverythingIsNull"));
+        assertNull(StringLookupFactory.INSTANCE_NULL.apply(null));
     }
 
     @Test
     void testToString() {
         // does not blow up and gives some kind of string.
-        Assertions.assertFalse(StringLookupFactory.INSTANCE_NULL.toString().isEmpty());
+        assertFalse(StringLookupFactory.INSTANCE_NULL.toString().isEmpty());
     }
 
 }
