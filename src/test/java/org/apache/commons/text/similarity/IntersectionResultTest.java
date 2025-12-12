@@ -46,10 +46,8 @@ class IntersectionResultTest {
                 Assertions.assertEquals(results[i].equals(results[j]), i == j);
             }
 
-            Assertions.assertFalse(results[i].equals(null),
-                    "Should not be Equal to null");
-            Assertions.assertNotEquals("Test", results[i],
-                    "Should not be Equal to a different type of object");
+            Assertions.assertFalse(results[i].equals(null), "Should not be Equal to null");
+            Assertions.assertNotEquals("Test", results[i], "Should not be Equal to a different type of object");
         }
     }
 

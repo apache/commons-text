@@ -86,16 +86,14 @@ class OctalUnescaperTest {
     @Test
     void testInvalid() {
         final OctalUnescaper oue = new OctalUnescaper();
-
-        String input = "\\4a";
-        String result = oue.translate(input);
+        final String input = "\\4a";
+        final String result = oue.translate(input);
         assertEquals("\4a", result, "Failed to unescape octal characters via the between method");
     }
 
     @Test
     void testHighLowSurrogate() {
         final OctalUnescaper oue = new OctalUnescaper();
-
         String input = "\\377\uD800and";
         String result = oue.translate(input);
         assertEquals("\377\uD800and", result, "Failed to unescape octal characters via the between method");
