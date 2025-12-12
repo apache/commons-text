@@ -75,7 +75,6 @@ class LevenshteinResultsTest {
     void testEqualsWithDifferentObject() {
         final Integer integer = -647;
         final LevenshteinResults levenshteinResults = new LevenshteinResults(integer, null, null, integer);
-        //noinspection EqualsBetweenInconvertibleTypes
         assertFalse(levenshteinResults.equals("Test"));
     }
 

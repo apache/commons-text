@@ -323,7 +323,6 @@ class WordUtilsTest {
                 new char[] { '\uD800', '\uDF14', '\uD800', '\uDF18' }));
     }
 
-    @Deprecated
     @Test
     void testIsDelimiter() {
         assertFalse(WordUtils.isDelimiter('.', null));
@@ -336,7 +335,6 @@ class WordUtilsTest {
         assertTrue(WordUtils.isDelimiter('.', new char[] { '.', '_', 'a', '.' }));
     }
 
-    @Deprecated
     @Test
     void testIsDelimiterCodePoint() {
         assertFalse(WordUtils.isDelimiter((int) '.', null));

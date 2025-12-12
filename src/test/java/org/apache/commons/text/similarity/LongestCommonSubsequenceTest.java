@@ -140,7 +140,6 @@ class LongestCommonSubsequenceTest {
     }
 
     @Test
-    @Deprecated
     void testLongestCommonSubstringLengthArray() {
         assertArrayEquals(new int[][]{ {0, 0, 0, 0}, {0, 1, 1, 1}, {0, 1, 2, 2}}, subject.longestCommonSubstringLengthArray("ab", "abc"));
     }

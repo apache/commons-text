@@ -46,12 +46,8 @@ class IntersectionResultTest {
                 Assertions.assertEquals(results[i].equals(results[j]), i == j);
             }
 
-            // IntelliJ would like to optimize this, but it would make
-            // the test useless as assertNotEquals() handles null itself
-            //noinspection ConstantValue,SimplifiableAssertion
             Assertions.assertFalse(results[i].equals(null),
                     "Should not be Equal to null");
-            //noinspection AssertBetweenInconvertibleTypes
             Assertions.assertNotEquals("Test", results[i],
                     "Should not be Equal to a different type of object");
         }

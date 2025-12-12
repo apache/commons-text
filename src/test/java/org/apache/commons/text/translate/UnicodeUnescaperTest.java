@@ -52,8 +52,6 @@ class UnicodeUnescaperTest {
 
     @Test
     void testTooShort() {
-        final UnicodeUnescaper escaper = new UnicodeUnescaper();
-        final String input = "\\u";
-        assertThrows(IllegalArgumentException.class, () -> escaper.translate(input));
+        assertThrows(IllegalArgumentException.class, () -> new UnicodeUnescaper().translate("\\u"));
     }
 }

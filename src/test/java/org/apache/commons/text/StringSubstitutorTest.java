@@ -1089,7 +1089,6 @@ public class StringSubstitutorTest {
     void testToString() {
         final StringSubstitutor s = new StringSubstitutor(null, "prefix", "suffix");
         String str = s.toString();
-        assertTrue(str.contains("\"prefix\""),
-                "Had: " + str);
+        assertTrue(str.contains("\"prefix\""), "Had: " + str);
     }
 }

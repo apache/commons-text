@@ -260,11 +260,9 @@ class StringLookupFactoryTest {
     /**
      * Tests that we return the singleton.
      */
-    @Deprecated
     @Test
     void testDeprecatedSingletons() {
-        final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
-        assertSame(StringLookupFactory.INSTANCE_BASE64_DECODER, stringLookupFactory.base64StringLookup());
+        assertSame(StringLookupFactory.INSTANCE_BASE64_DECODER, StringLookupFactory.INSTANCE.base64StringLookup());
     }
 
     @Test
