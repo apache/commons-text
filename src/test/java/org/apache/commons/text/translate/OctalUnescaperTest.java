@@ -38,6 +38,10 @@ class OctalUnescaperTest {
         result = oue.translate(input);
         assertEquals("\377", result, "Failed to unescape octal characters via the between method");
 
+        input = "\\777";
+        result = oue.translate(input);
+        assertEquals("\777", result, "Failed to unescape octal characters via the between method");
+
         input = "\\377 and";
         result = oue.translate(input);
         assertEquals("\377 and", result, "Failed to unescape octal characters via the between method");
@@ -79,4 +83,31 @@ class OctalUnescaperTest {
         assertEquals("\\999", result, "Failed to ignore an out of range octal character via the between method");
     }
 
+    @Test
+    void testInvalid() {
+        final OctalUnescaper oue = new OctalUnescaper();
+        final String input = "\\4a";
+        final String result = oue.translate(input);
+        assertEquals("\4a", result, "Failed to unescape octal characters via the between method");
+    }
+
+    @Test
+    void testHighLowSurrogate() {
+        final OctalUnescaper oue = new OctalUnescaper();
+        String input = "\\377\uD800and";
+        String result = oue.translate(input);
+        assertEquals("\377\uD800and", result, "Failed to unescape octal characters via the between method");
+
+        input = "\\377\uD83D\uDE80and";
+        result = oue.translate(input);
+        assertEquals("\377\uD83D\uDE80and", result, "Failed to unescape octal characters via the between method");
+
+        input = "\\377\uD83D\uDC00and";
+        result = oue.translate(input);
+        assertEquals("\377\uD83D\uDC00and", result, "Failed to unescape octal characters via the between method");
+
+        input = "\\377\uD83D";
+        result = oue.translate(input);
+        assertEquals("\377\uD83D", result, "Failed to unescape octal characters via the between method");
+    }
 }

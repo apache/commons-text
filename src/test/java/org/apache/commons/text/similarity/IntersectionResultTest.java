@@ -36,7 +36,7 @@ class IntersectionResultTest {
         };
 
         // Test a different instance with same values
-        Assertions.assertEquals(results[0], new IntersectionResult(0, 0, 0));
+        Assertions.assertEquals(new IntersectionResult(0, 0, 0), results[0]);
 
         final Object something = new Object();
         for (int i = 0; i < results.length; i++) {
@@ -45,6 +45,9 @@ class IntersectionResultTest {
             for (int j = 0; j < results.length; j++) {
                 Assertions.assertEquals(results[i].equals(results[j]), i == j);
             }
+
+            Assertions.assertFalse(results[i].equals(null), "Should not be Equal to null");
+            Assertions.assertNotEquals("Test", results[i], "Should not be Equal to a different type of object");
         }
     }
 

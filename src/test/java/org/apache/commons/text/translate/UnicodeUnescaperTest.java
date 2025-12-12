@@ -49,4 +49,9 @@ class UnicodeUnescaperTest {
         final String result = escaper.translate(input);
         assertEquals("G", result, "Failed to unescape Unicode characters with many 'u' characters");
     }
+
+    @Test
+    void testTooShort() {
+        assertThrows(IllegalArgumentException.class, () -> new UnicodeUnescaper().translate("\\u"));
+    }
 }

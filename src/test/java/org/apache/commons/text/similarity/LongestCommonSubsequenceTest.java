@@ -89,6 +89,8 @@ class LongestCommonSubsequenceTest {
         assertEquals("", subject.logestCommonSubsequence("", ""));
         assertEquals("", subject.logestCommonSubsequence("left", ""));
         assertEquals("", subject.logestCommonSubsequence("", "right"));
+        assertEquals("", subject.logestCommonSubsequence("l", "a"));
+        assertEquals("", subject.logestCommonSubsequence("left", "a"));
         assertEquals("fog", subject.logestCommonSubsequence("frog", "fog"));
         assertEquals("", subject.logestCommonSubsequence("fly", "ant"));
         assertEquals("h", subject.logestCommonSubsequence("elephant", "hippo"));
@@ -106,6 +108,8 @@ class LongestCommonSubsequenceTest {
         assertEquals("", subject.longestCommonSubsequence("", ""));
         assertEquals("", subject.longestCommonSubsequence("left", ""));
         assertEquals("", subject.longestCommonSubsequence("", "right"));
+        assertEquals("", subject.longestCommonSubsequence("l", "a"));
+        assertEquals("", subject.longestCommonSubsequence("left", "a"));
         assertEquals("fog", subject.longestCommonSubsequence("frog", "fog"));
         assertEquals("", subject.longestCommonSubsequence("fly", "ant"));
         assertEquals("h", subject.longestCommonSubsequence("elephant", "hippo"));

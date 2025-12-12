@@ -177,14 +177,16 @@ class WordUtilsTest {
 
     @Test
     void testContainsAllWords_StringString() {
-        assertFalse(WordUtils.containsAllWords(null, (String) null));
+        assertFalse(WordUtils.containsAllWords(null));
         assertFalse(WordUtils.containsAllWords(null, ""));
         assertFalse(WordUtils.containsAllWords(null, "ab"));
 
+        assertFalse(WordUtils.containsAllWords(""));
         assertFalse(WordUtils.containsAllWords("", (String) null));
         assertFalse(WordUtils.containsAllWords("", ""));
         assertFalse(WordUtils.containsAllWords("", "ab"));
 
+        assertFalse(WordUtils.containsAllWords("foo"));
         assertFalse(WordUtils.containsAllWords("foo", (String) null));
         assertFalse(WordUtils.containsAllWords("bar", ""));
         assertFalse(WordUtils.containsAllWords("zzabyycdxx", "by"));
@@ -319,6 +321,30 @@ class WordUtilsTest {
                 WordUtils.initials("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", new char[] { '\uD800', '\uDF14' }));
         assertEquals("\uD800\uDF00\uD800\uDF02", WordUtils.initials("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF18\uD800\uDF02\uD800\uDF03",
                 new char[] { '\uD800', '\uDF14', '\uD800', '\uDF18' }));
+    }
+
+    @Test
+    void testIsDelimiter() {
+        assertFalse(WordUtils.isDelimiter('.', null));
+        assertTrue(WordUtils.isDelimiter(' ', null));
+
+        assertFalse(WordUtils.isDelimiter(' ', new char[] { '.' }));
+        assertTrue(WordUtils.isDelimiter('.', new char[] { '.' }));
+
+        assertFalse(WordUtils.isDelimiter(' ', new char[] { '.', '_', 'a' }));
+        assertTrue(WordUtils.isDelimiter('.', new char[] { '.', '_', 'a', '.' }));
+    }
+
+    @Test
+    void testIsDelimiterCodePoint() {
+        assertFalse(WordUtils.isDelimiter((int) '.', null));
+        assertTrue(WordUtils.isDelimiter((int) ' ', null));
+
+        assertFalse(WordUtils.isDelimiter((int) ' ', new char[] { '.' }));
+        assertTrue(WordUtils.isDelimiter((int) '.', new char[] { '.' }));
+
+        assertFalse(WordUtils.isDelimiter((int) ' ', new char[] { '.', '_', 'a' }));
+        assertTrue(WordUtils.isDelimiter((int) '.', new char[] { '.', '_', 'a', '.' }));
     }
 
     @Test
