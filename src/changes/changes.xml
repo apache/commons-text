@@ -320,7 +320,6 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] maven-pmd-plugin 3.12.0 -> 3.13.0.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[build] org.mockito 3.3.3 -> 3.4.4.</action>
   </release>
-
   <release version="1.8" date="2019-08-30" description="Release 1.8. Requires Java 8 or above.">
     <action issue="TEXT-167" type="fix" dev="ggregory" due-to="Larry West">commons-text web page missing "RELEASE-NOTES-1.7.txt"</action>
     <action issue="TEXT-168" type="fix" dev="ggregory" due-to="luksan47">(doc) Fixed wrong value for Jaro-Winkler example #117</action>
@@ -330,7 +329,6 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">Expand Javadoc for StringSubstitutor and friends.</action>
     <action                  type="update" dev="ggregory" due-to="Gary Gregory">[site] checkstyle.version 8.21 -> 8.23.</action>
   </release>
-
   <release version="1.7" date="2019-06-30" description="Release 1.7. Requires Java 8 or above.">
     <action issue="TEXT-111" type="fix" dev="kinow" due-to="@CAPS50">WordUtils.wrap must calculate offset increment from wrapOn pattern length</action>
     <action issue="TEXT-104" type="update" dev="kinow" due-to="Sascha Szott">Jaro Winkler Distance refers to similarity</action>
@@ -348,14 +346,12 @@ The <action> type attribute can be add,update,fix,remove.
     <action                  type="update" dev="ggregory">Update tests from org.assertj:assertj-core 3.12.1 to 3.12.2.</action>
     <action                  type="update" dev="ggregory">Update site from com.puppycrawl.tools:checkstyle 8.18 to 8.21.</action>
   </release>
-
   <release version="1.6" date="2018-10-12" description="Release 1.6. Requires Java 8 or above.">
     <action issue="TEXT-144" type="update" dev="ggregory">Add the resource string bundle string lookup to the default set of lookups</action>
     <action issue="TEXT-145" type="update" dev="ggregory">Add StringLookupFactory methods for the URL encoder and decoder string lookups</action>
     <action issue="TEXT-146" type="update" dev="ggregory">org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup() should reuse a singleton instance</action>
     <action issue="TEXT-147" type="update" dev="ggregory">Add a Base64 encoder string lookup.</action>
   </release>
-
   <release version="1.5" date="2018-09-29" description="Release 1.5. Requires Java 8 or above.">
     <action issue="TEXT-139" type="fix" dev="chtompki" due-to="Nick Wong">Improve JaccardSimilarity computational cost</action>
     <action issue="TEXT-118" type="fix" dev="chtompki" due-to="Nandor Kollar">JSON escaping incorrect for the delete control character</action>
@@ -372,7 +368,6 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-142" type="add" dev="ggregory">Add URL encoder and decoder string lookups.</action>
     <action issue="TEXT-143" type="add" dev="ggregory">Add constant string lookup like the one in Apache Commons Configuration.</action>
   </release>
-
   <release version="1.4" date="2018-06-12" description="Release 1.4. Requires Java 8 or above.">
     <action issue="TEXT-120" type="fix" dev="pschumacher">StringEscapeUtils#unescapeJson does not unescape double quotes and forward slash</action>
     <action issue="TEXT-119" type="fix" dev="pschumacher">Remove mention of SQL escaping from user guide</action>
@@ -380,7 +375,6 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-122" type="update" dev="ggregory">Allow full customization with new API org.apache.commons.text.lookup.StringLookupFactory.interpolatorStringLookup(Map&lt;String, StringLookup>, StringLookup, boolean).</action>
     <action issue="TEXT-123" type="fix" dev="ggregory" due-to="Takanobu Asanuma">WordUtils.wrap throws StringIndexOutOfBoundsException when wrapLength is Integer.MAX_VALUE.</action>
   </release>
-
   <release version="1.3" date="2018-03-16" description="Release 1.3. Requires Java 7.">
     <action issue="TEXT-110" type="add" dev="pschumacher">Add Automatic-Module-Name MANIFEST entry for Java 9 compatibility</action>
     <action issue="TEXT-70" type="fix" dev="pschumacher">Build failure with java 9-ea+159</action>
@@ -391,7 +385,6 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-117" type="add" dev="ggregory">Add a local host string lookup: LocalHostStringLookup</action>
     <action issue="TEXT-80" type="fix" dev="ggregory">StrLookup API confusing</action>
   </release>
-
   <release version="1.2" date="2017-12-12" description="Release 1.2. Requires Java 7.">
     <action issue="TEXT-107" type="update" dev="chtompki">Upversion commons-lang to 3.7</action>
     <action issue="TEXT-106" type="fix" dev="kinow" due-to="Benoit Moreau">Exception thrown in ExtendedMessageFormat using quotes with custom registry</action>
@@ -412,7 +405,6 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-102" type="add" dev="ggregory">Add StrLookup.resourceBundleLookup(ResourceBundle)</action>
     <action issue="TEXT-105" type="fix" dev="pschumacher" due-to="Abrasha">Typo in LongestCommonSubsequence#logestCommonSubsequence</action>
   </release>
-
   <release version="1.1" date="2017-05-23" description="Release 1.1. Requires Java 7.">
     <action issue="TEXT-39" type="update" dev="chtompki" due-to="Amey Jadiye">WordUtils should use toXxxxCase(int) rather than toXxxxCase(char)</action>
     <action issue="TEXT-41" type="add" dev="chtompki" due-to="Amey Jadiye">WordUtils.abbreviate support</action>
@@ -422,7 +414,6 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-76" type="fix" dev="kinow">Correct round issue in Jaro Winkler implementation</action>
     <action issue="TEXT-72" type="fix" dev="chtompki">Similar to LANG-1025, clirr fails site build.</action>
   </release>
-
   <release version="1.0" date="2017-03-04" description="Requires Java 7.
 
    Incompatible changes
@@ -439,7 +430,6 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-65" type="fix" dev="chtompki">Fixing the 200 checkstyle errors present in 1.0-beta-1</action>
     <action issue="TEXT-63" type="fix" dev="sebb">Mutable fields should be private</action>
   </release>
-
   <release version="1.0-beta-1" date="2017-01-30" description="First release (beta) of Commons Text. Requires Java 7.">
     <action issue="TEXT-62" type="fix" dev="chtompki">Incorporate suggestions from RC2 into 1.0 release</action>
     <action issue="TEXT-61" type="update" dev="chtompki" due-to="Lee Adcock">Naming packages org.apache.commons.text.beta</action>
@@ -483,6 +473,5 @@ The <action> type attribute can be add,update,fix,remove.
     <action issue="TEXT-1" type="add" dev="kinow">Add Hamming distance</action>
     <action issue="TEXT-9" type="add" dev="kinow" due-to="britter">Incorporate String algorithms from Commons Lang</action>
   </release>
-
   </body>
 </document>
