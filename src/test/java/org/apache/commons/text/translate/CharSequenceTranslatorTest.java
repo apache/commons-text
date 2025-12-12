@@ -45,7 +45,7 @@ class CharSequenceTranslatorTest {
     void testIOException() {
         final CharSequenceTranslator translator = new CharSequenceTranslator() {
             @Override
-            public int translate(CharSequence input, int index, Writer writer) throws IOException {
+            public int translate(final CharSequence input, final int index, final Writer writer) throws IOException {
                 throw new IOException("Test exception");
             }
         };
