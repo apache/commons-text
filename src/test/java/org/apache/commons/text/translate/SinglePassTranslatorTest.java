@@ -30,6 +30,13 @@ import org.junit.jupiter.api.Test;
  */
 class SinglePassTranslatorTest {
 
+    private static final class TestTranslator extends SinglePassTranslator {
+        @Override
+        void translateWhole(final CharSequence input, final Writer writer) {
+            // noop
+        }
+    }
+
     private final SinglePassTranslator dummyTranslator = new SinglePassTranslator() {
 
         @Override
@@ -65,12 +72,5 @@ class SinglePassTranslatorTest {
     @Test
     void testTranslateThrowsIllegalArgumentExceptionWithNonAnonymousClass() {
         assertThrows(IllegalArgumentException.class, () -> new TestTranslator().translate("(,Fk", 647, null));
-    }
-
-    private static final class TestTranslator extends SinglePassTranslator {
-        @Override
-        void translateWhole(final CharSequence input, final Writer writer) {
-            // noop
-        }
     }
 }

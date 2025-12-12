@@ -32,15 +32,6 @@ class LevenshteinResultsTest {
     }
 
     @Test
-    void testEqualsReturningFalse() {
-        final Integer integerOne = 1662;
-        final Integer integerTwo = 1164;
-        final LevenshteinResults levenshteinResults = new LevenshteinResults(integerOne, integerOne, integerOne, integerOne);
-        final LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(integerOne, integerOne, integerTwo, integerTwo);
-        assertFalse(levenshteinResults.equals(levenshteinResultsTwo));
-    }
-
-    @Test
     void testEqualsDifferentDistance() {
         final Integer integerOne = 1662;
         final Integer integerTwo = 1164;
@@ -50,10 +41,26 @@ class LevenshteinResultsTest {
     }
 
     @Test
+    void testEqualsReturningFalse() {
+        final Integer integerOne = 1662;
+        final Integer integerTwo = 1164;
+        final LevenshteinResults levenshteinResults = new LevenshteinResults(integerOne, integerOne, integerOne, integerOne);
+        final LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(integerOne, integerOne, integerTwo, integerTwo);
+        assertFalse(levenshteinResults.equals(levenshteinResultsTwo));
+    }
+
+    @Test
     void testEqualsSameObject() {
         final Integer integer = 1662;
         final LevenshteinResults levenshteinResults = new LevenshteinResults(integer, integer, integer, null);
         assertTrue(levenshteinResults.equals(levenshteinResults));
+    }
+
+    @Test
+    void testEqualsWithDifferentObject() {
+        final Integer integer = -647;
+        final LevenshteinResults levenshteinResults = new LevenshteinResults(integer, null, null, integer);
+        assertFalse(levenshteinResults.equals("Test"));
     }
 
     @Test
@@ -69,13 +76,6 @@ class LevenshteinResultsTest {
         final Integer integer = -647;
         final LevenshteinResults levenshteinResults = new LevenshteinResults(integer, null, null, integer);
         assertFalse(levenshteinResults.equals(null));
-    }
-
-    @Test
-    void testEqualsWithDifferentObject() {
-        final Integer integer = -647;
-        final LevenshteinResults levenshteinResults = new LevenshteinResults(integer, null, null, integer);
-        assertFalse(levenshteinResults.equals("Test"));
     }
 
 }

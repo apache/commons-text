@@ -103,6 +103,12 @@ class StringLookupFactoryTest {
         StringLookupFactory.INSTANCE.addDefaultStringLookups(null);
     }
 
+    @Test
+    void testClear() {
+        // this will clear out the global cache in ConstantStringLookup
+        StringLookupFactory.clear();
+    }
+
     /**
      * Tests that we return the singleton.
      */
@@ -233,6 +239,14 @@ class StringLookupFactoryTest {
      * Tests that we return the singleton.
      */
     @Test
+    void testDeprecatedSingletons() {
+        assertSame(StringLookupFactory.INSTANCE_BASE64_DECODER, StringLookupFactory.INSTANCE.base64StringLookup());
+    }
+
+    /**
+     * Tests that we return the singleton.
+     */
+    @Test
     void testSingletons() {
         final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
         assertSame(StringLookupFactory.INSTANCE_BASE64_DECODER, stringLookupFactory.base64DecoderStringLookup());
@@ -257,14 +271,6 @@ class StringLookupFactoryTest {
         assertSame(XmlEncoderStringLookup.INSTANCE, stringLookupFactory.xmlEncoderStringLookup());
     }
 
-    /**
-     * Tests that we return the singleton.
-     */
-    @Test
-    void testDeprecatedSingletons() {
-        assertSame(StringLookupFactory.INSTANCE_BASE64_DECODER, StringLookupFactory.INSTANCE.base64StringLookup());
-    }
-
     @Test
     void testXmlStringLookup() {
         final StringLookupFactory stringLookupFactory = StringLookupFactory.INSTANCE;
@@ -285,11 +291,5 @@ class StringLookupFactoryTest {
     void testXmlStringLookupExternalEntityOn() {
         final String key = XmlStringLookupTest.DOC_DIR + "document-entity-ref.xml:/document/content";
         assertEquals(XmlStringLookupTest.DATA, StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP).apply(key).trim());
-    }
-
-    @Test
-    void testClear() {
-        // this will clear out the global cache in ConstantStringLookup
-        StringLookupFactory.clear();
     }
 }

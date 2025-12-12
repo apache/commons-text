@@ -42,17 +42,6 @@ class CharSequenceTranslatorTest {
     private int translateInvocationCounter;
 
     @Test
-    void testWith() throws IOException {
-        final CharSequenceTranslator charSequenceTranslatorOne = new TestCharSequenceTranslator();
-        final CharSequenceTranslator charSequenceTranslatorTwo = new TestCharSequenceTranslator();
-        final CharSequenceTranslator charSequenceTranslatorThree = new TestCharSequenceTranslator();
-        final CharSequenceTranslator aggregatedTranslator = charSequenceTranslatorOne.with(charSequenceTranslatorTwo, charSequenceTranslatorThree);
-        aggregatedTranslator.translate("", 0, null);
-        assertInstanceOf(AggregateTranslator.class, aggregatedTranslator);
-        assertEquals(3, translateInvocationCounter);
-    }
-
-    @Test
     void testIOException() {
         final CharSequenceTranslator translator = new CharSequenceTranslator() {
             @Override
@@ -63,5 +52,16 @@ class CharSequenceTranslatorTest {
 
         assertThrows(UncheckedIOException.class,
                 () -> translator.translate("."));
+    }
+
+    @Test
+    void testWith() throws IOException {
+        final CharSequenceTranslator charSequenceTranslatorOne = new TestCharSequenceTranslator();
+        final CharSequenceTranslator charSequenceTranslatorTwo = new TestCharSequenceTranslator();
+        final CharSequenceTranslator charSequenceTranslatorThree = new TestCharSequenceTranslator();
+        final CharSequenceTranslator aggregatedTranslator = charSequenceTranslatorOne.with(charSequenceTranslatorTwo, charSequenceTranslatorThree);
+        aggregatedTranslator.translate("", 0, null);
+        assertInstanceOf(AggregateTranslator.class, aggregatedTranslator);
+        assertEquals(3, translateInvocationCounter);
     }
 }
