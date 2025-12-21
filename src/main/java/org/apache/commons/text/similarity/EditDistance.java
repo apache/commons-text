@@ -27,10 +27,10 @@ package org.apache.commons.text.similarity;
  * the set {@code S}:
  * </p>
  * <ul>
- *     <li>{@code d(x,y) &gt;= 0}, non-negativity or separation axiom</li>
- *     <li>{@code d(x,y) == 0}, if and only if, {@code x == y}</li>
- *     <li>{@code d(x,y) == d(y,x)}, symmetry, and</li>
- *     <li>{@code d(x,z) &lt;=  d(x,y) + d(y,z)}, the triangle inequality</li>
+ *     <li>{@code d(x, y) >= 0}, non-negativity or separation axiom</li>
+ *     <li>{@code d(x, y) == 0}, if and only if, {@code x == y}</li>
+ *     <li>{@code d(x, y) == d(y, x)}, symmetry, and</li>
+ *     <li>{@code d(x, z) <=  d(x, y) + d(y, z)}, the triangle inequality</li>
  * </ul>
  *
  *

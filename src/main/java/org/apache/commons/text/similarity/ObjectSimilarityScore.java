@@ -30,8 +30,8 @@ import java.util.function.BiFunction;
  * A similarity score is the function {@code d: [X * X] -&gt; [0, INFINITY)} with the following properties:
  * </p>
  * <ul>
- * <li>{@code d(x,y) &gt;= 0}, non-negativity or separation axiom</li>
- * <li>{@code d(x,y) == d(y,x)}, symmetry.</li>
+ * <li>{@code d(x, y) &gt;= 0}, non-negativity or separation axiom</li>
+ * <li>{@code d(x, y) == d(y, x)}, symmetry.</li>
  * </ul>
  *
  * <p>

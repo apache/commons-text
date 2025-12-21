@@ -27,8 +27,8 @@ package org.apache.commons.text.similarity;
  * following properties:
  * </p>
  * <ul>
- *     <li>{@code d(x,y) &gt;= 0}, non-negativity or separation axiom</li>
- *     <li>{@code d(x,y) == d(y,x)}, symmetry.</li>
+ *     <li>{@code d(x, y) &gt;= 0}, non-negativity or separation axiom</li>
+ *     <li>{@code d(x, y) == d(y, x)}, symmetry.</li>
  * </ul>
  * <p>
  * Notice, these are two of the properties that contribute to {@code d} being a metric.
