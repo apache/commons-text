@@ -37,6 +37,7 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
 
     /**
      * {@inheritDoc}
+     *
      * @throws IllegalArgumentException if {@code index != 0}.
      */
     @Override

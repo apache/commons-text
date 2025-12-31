@@ -389,6 +389,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
 
     /**
      * Unsupported ListIterator operation.
+     *
      * @param obj this parameter ignored.
      * @throws UnsupportedOperationException always.
      */

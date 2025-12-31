@@ -39,6 +39,7 @@ import java.util.function.IntUnaryOperator;
  *     .build();
  * }
  * </pre>
+ *
  * @since 1.1
  */
 public interface TextRandomProvider extends IntUnaryOperator {
