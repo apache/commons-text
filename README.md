@@ -81,20 +81,18 @@ The required Java version is found in the `pom.xml` as the `maven.compiler.sourc
 
 From a command shell, run `mvn` without arguments to invoke the default Maven goal to run all tests and checks.
 
-Contributing
-------------
+## Contributing
 
-We accept Pull Requests via GitHub. The [developer mailing list](https://commons.apache.org/mail-lists.html) is the main channel of communication for contributors.
-There are some guidelines which will make applying PRs easier for us:
-+ No tabs! Please use spaces for indentation.
-+ Respect the existing code style for each file.
-+ Create minimal diffs - disable on save actions like reformat source code or organize imports. If you feel the source code should be reformatted create a separate PR for this change.
-+ Provide JUnit tests for your changes and make sure your changes don't break any existing tests by running `mvn`.
-+ Before you push a PR, run `mvn` (without arguments). This runs the default goal which contains all build checks.
-+ To see the code coverage report, regardless of coverage failures, run `mvn clean site -Dcommons.jacoco.haltOnFailure=false -Pjacoco`
+We accept pull requests via GitHub. The developer mailing list is the main channel of communication for contributors. The following guidelines will make reviewing and applying pull requests easier:
 
-If you plan to contribute on a regular basis, please consider filing a [contributor license agreement](https://www.apache.org/licenses/#clas).
-You can learn more about contributing via GitHub in our [contribution guidelines](CONTRIBUTING.md).
+- Do not use tabs. Please use spaces for indentation.
+- Respect the existing code style for each file.
+- Create minimal diffs. Disable on-save actions such as source reformatting or import organization. If you believe the source code should be reformatted, create a separate pull request for that change.
+- Provide JUnit tests for your changes, and ensure that your changes do not break any existing tests by running `mvn`.
+- Before submitting a pull request, run `mvn` (without arguments). This executes the default goal, which includes all build checks.
+- To generate the code coverage report regardless of coverage failures, run:
+  `mvn clean site -Dcommons.jacoco.haltOnFailure=false -Pjacoco`
+- If you plan to contribute regularly, please consider filing a Contributor License Agreement (CLA). You can learn more about contributing via GitHub in our contribution guidelines.
 
 License
 -------
