@@ -59,6 +59,7 @@ public final class CsvTranslators {
             }
         }
     }
+
     /**
      * Translator for unescaping escaped Comma Separated Value entries.
      */
@@ -90,10 +91,13 @@ public final class CsvTranslators {
             }
         }
     }
+
     /** Comma character. */
     private static final char CSV_DELIMITER = ',';
+
     /** Quote character. */
     private static final char CSV_QUOTE = '"';
+
     /** Quote character converted to string. */
     private static final String CSV_QUOTE_STR = String.valueOf(CSV_QUOTE);
 

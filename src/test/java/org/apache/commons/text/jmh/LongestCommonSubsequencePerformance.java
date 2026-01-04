@@ -49,6 +49,7 @@ import org.openjdk.jmh.annotations.Warmup;
 @Measurement(iterations = 5, time = 1)
 @Fork(value = 1, jvmArgs = {"-server", "-Xms512M", "-Xmx512M"})
 public class LongestCommonSubsequencePerformance {
+
     /**
      * Older implementation of LongestCommonSubsequence.
      * Code is copied from Apache Commons Text version 1.10.0-SNAPSHOT

@@ -106,14 +106,17 @@ public class StringsComparator {
             return start;
         }
     }
+
     /**
      * First character sequence.
      */
     private final String left;
+
     /**
      * Second character sequence.
      */
     private final String right;
+
     /**
      * Temporary array.
      */

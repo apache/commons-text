@@ -35,6 +35,7 @@ public class UnicodeEscaper extends CodePointTranslator {
     public static UnicodeEscaper above(final int codePoint) {
         return outsideOf(0, codePoint);
     }
+
     /**
      * Constructs a {@code UnicodeEscaper} below the specified value (exclusive).
      *
@@ -44,6 +45,7 @@ public class UnicodeEscaper extends CodePointTranslator {
     public static UnicodeEscaper below(final int codePoint) {
         return outsideOf(codePoint, Integer.MAX_VALUE);
     }
+
     /**
      * Constructs a {@code UnicodeEscaper} between the specified values (inclusive).
      *

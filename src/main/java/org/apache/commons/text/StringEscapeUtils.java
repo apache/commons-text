@@ -122,6 +122,7 @@ public class StringEscapeUtils {
             return sb.toString();
         }
     }
+
     /**
      * Translator object for unescaping backslash escaped entries.
      */
@@ -323,6 +324,7 @@ public class StringEscapeUtils {
                     new LookupTranslator(EntityArrays.ISO8859_1_ESCAPE),
                     new LookupTranslator(EntityArrays.HTML40_EXTENDED_ESCAPE)
             );
+
     /**
      * Translator object for escaping individual Comma Separated Values.
      *

@@ -66,14 +66,19 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      * Defines the singleton for this class.
      */
     static final JavaPlatformStringLookup INSTANCE = new JavaPlatformStringLookup();
+
     /** {@code hardware} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_HARDWARE = "hardware";
+
     /** {@code locale} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_LOCALE = "locale";
+
     /** {@code os} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_OS = "os";
+
     /** {@code runtime} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_RUNTIME = "runtime";
+
     /** {@code version} key for driving {@link JavaPlatformStringLookup#lookup(String)}. */
     private static final String KEY_VERSION = "version";
 
