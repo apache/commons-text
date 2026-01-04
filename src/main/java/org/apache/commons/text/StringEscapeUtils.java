@@ -562,7 +562,6 @@ public class StringEscapeUtils {
         return ESCAPE_HTML3.translate(input);
     }
 
-    // HTML and XML
     /**
      * Escapes the characters in a {@code String} using HTML entities.
      *
@@ -591,7 +590,6 @@ public class StringEscapeUtils {
         return ESCAPE_HTML4.translate(input);
     }
 
-    // Java and JavaScript
     /**
      * Escapes the characters in a {@code String} using Java String rules.
      *

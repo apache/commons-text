@@ -671,7 +671,6 @@ public class StringSubstitutor {
         throw new IllegalStateException(buf.toString());
     }
 
-    // Escape
     /**
      * Returns the escape character.
      *
