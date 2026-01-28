@@ -483,7 +483,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             return appendNull();
         }
         if (startIndex < 0 || startIndex > chars.length) {
-            throw new StringIndexOutOfBoundsException("Invalid startIndex: " + length);
+            throw new StringIndexOutOfBoundsException("Invalid startIndex: " + startIndex);
         }
         if (length < 0 || startIndex + length > chars.length) {
             throw new StringIndexOutOfBoundsException("Invalid length: " + length);

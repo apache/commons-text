@@ -2017,4 +2017,21 @@ class StrBuilderTest {
         assertEquals("a b c", sb.trim().toString());
     }
 
+    @Test
+    void testErrorMessageShowsCorrectVariable() {
+        final StrBuilder sb = new StrBuilder("Hello");
+        final char[] chars = {'a', 'b', 'c'};
+
+        StringIndexOutOfBoundsException ex = assertThrows(
+                StringIndexOutOfBoundsException.class,
+                () -> sb.append(chars, 1, 4)
+        );
+        assertTrue(ex.getMessage().contains("length: 4"));
+
+        ex = assertThrows(
+                StringIndexOutOfBoundsException.class,
+                () -> sb.append(chars, 7, 3)
+        );
+        assertTrue(ex.getMessage().contains("startIndex: 7"));
+    }
 }
