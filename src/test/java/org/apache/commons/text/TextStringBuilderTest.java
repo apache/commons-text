@@ -990,6 +990,16 @@ class TextStringBuilderTest {
     }
 
     @Test
+    void testErrorMessageShowsCorrectVariable() {
+        final TextStringBuilder sb = new TextStringBuilder("Hello");
+        final char[] chars = { 'a', 'b', 'c' };
+        StringIndexOutOfBoundsException ex = assertThrows(StringIndexOutOfBoundsException.class, () -> sb.append(chars, 1, 4));
+        assertTrue(ex.getMessage().contains("length: 4"));
+        ex = assertThrows(StringIndexOutOfBoundsException.class, () -> sb.append(chars, 7, 3));
+        assertTrue(ex.getMessage().contains("startIndex: 7"));
+    }
+
+    @Test
     void testGetChars() {
         final TextStringBuilder sb = new TextStringBuilder();
 
@@ -2391,23 +2401,5 @@ class TextStringBuilderTest {
         assertThrows(NullPointerException.class, () -> TextStringBuilder.wrap(null, 0));
         assertThrows(IllegalArgumentException.class, () -> TextStringBuilder.wrap("abc".toCharArray(), -1));
         assertThrows(IllegalArgumentException.class, () -> TextStringBuilder.wrap(ArrayUtils.EMPTY_CHAR_ARRAY, 1));
-    }
-
-    @Test
-    void testErrorMessageShowsCorrectVariable() {
-        final TextStringBuilder sb = new TextStringBuilder("Hello");
-        final char[] chars = {'a', 'b', 'c'};
-
-        StringIndexOutOfBoundsException ex = assertThrows(
-                StringIndexOutOfBoundsException.class,
-                () -> sb.append(chars, 1, 4)
-        );
-        assertTrue(ex.getMessage().contains("length: 4"));
-
-        ex = assertThrows(
-                StringIndexOutOfBoundsException.class,
-                () -> sb.append(chars, 7, 3)
-        );
-        assertTrue(ex.getMessage().contains("startIndex: 7"));
     }
 }

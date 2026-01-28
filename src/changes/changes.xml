@@ -46,6 +46,7 @@ The <action> type attribute can be add,update,fix,remove.
     <release version="1.15.1" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
       <action type="fix" dev="ggregory" due-to="Dominik Stadler, Gary Gregory">Improve test coverage #732.</action>
+      <action type="fix" dev="ggregory" issue="TEXT-239" due-to="Dominik Stadler, Gary Gregory">TextStringBuilder.append(char[], int, int) uses wrong variable in exception message #735.</action>
       <!-- ADD -->
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 93 to 96.</action>
