@@ -2395,8 +2395,8 @@ class TextStringBuilderTest {
 
     @Test
     void testErrorMessageShowsCorrectVariable() {
-        TextStringBuilder sb = new TextStringBuilder("Hello");
-        char[] chars = {'a', 'b', 'c'};
+        final TextStringBuilder sb = new TextStringBuilder("Hello");
+        final char[] chars = {'a', 'b', 'c'};
 
         StringIndexOutOfBoundsException ex = assertThrows(
                 StringIndexOutOfBoundsException.class,

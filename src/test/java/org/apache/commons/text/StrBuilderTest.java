@@ -2019,8 +2019,8 @@ class StrBuilderTest {
 
     @Test
     void testErrorMessageShowsCorrectVariable() {
-        StrBuilder sb = new StrBuilder("Hello");
-        char[] chars = {'a', 'b', 'c'};
+        final StrBuilder sb = new StrBuilder("Hello");
+        final char[] chars = {'a', 'b', 'c'};
 
         StringIndexOutOfBoundsException ex = assertThrows(
                 StringIndexOutOfBoundsException.class,
