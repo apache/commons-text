@@ -326,7 +326,9 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      *
      * <p>
      * Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError which can occur when my Java implementation is used with very large
-     * strings.<br>
+     * strings.
+     * </p>
+     * <p>
      * This implementation of the Levenshtein distance algorithm is from
      * <a href="https://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a>
      * </p>
