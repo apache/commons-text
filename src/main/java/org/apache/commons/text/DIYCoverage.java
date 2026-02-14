@@ -19,35 +19,52 @@ package org.apache.commons.text;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * DIY tool for tracking branch coverage during the lab assignment.
+ * This class provides a simple mechanism to mark which code branches
+ * are executed during test runs.
+ */
 public class DIYCoverage {
-    // We use a Map to store which branches were hit.
-    // Key = "MethodName_BranchID", Value = true (hit)
-    private static final Map<String, Boolean> coverageMap = new TreeMap<>();
+
+    /** * The map used to store coverage data where the key is the branch ID 
+     * and the value indicates if it was hit.
+     */
+    private static final Map<String, Boolean> COVERAGE_MAP = new TreeMap<>();
 
     /**
-     * Call this method inside every 'if', 'else' or 'case' block.
-     * @param branchId A unique name for the branch, e.g., "read_branch_1"
+     * Default constructor required for Javadoc completeness.
      */
-    public static void mark(String branchId) {
-        coverageMap.put(branchId, true);
+    public DIYCoverage() {
+        // No-op
     }
 
     /**
-     * Call this at the end of your test to see the results.
+     * Marks a specific branch as having been executed.
+     * * @param branchId A unique string identifier for the branch, e.g., "read_if_block_1".
+     */
+    public static void mark(final String branchId) {
+        COVERAGE_MAP.put(branchId, true);
+    }
+
+    /**
+     * Prints a formatted report of all branches that were hit to the standard output.
+     * This should be called at the end of a test suite.
      */
     public static void printReport() {
-        System.out.println("\n-------- DIY COVERAGE REPORT ----------");
-        System.out.println("Total Branches Hit: " + coverageMap.size());
+        System.out.println("\n========== DIY COVERAGE REPORT ==========");
+        System.out.println("Total Branches Hit: " + COVERAGE_MAP.size());
         System.out.println("-----------------------------------------");
-        for (String branch : coverageMap.keySet()) {
+        for (final String branch : COVERAGE_MAP.keySet()) {
             System.out.println("[HIT] " + branch);
         }
+        System.out.println("=========================================\n");
     }
 
     /**
-     * Clear the map between tests if needed.
+     * Clears all recorded coverage data from the map.
+     * Useful for resetting state between independent tests.
      */
     public static void clear() {
-        coverageMap.clear();
+        COVERAGE_MAP.clear();
     }
 }
