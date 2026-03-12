@@ -55,7 +55,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      *
      * <p>
      * This implementation follows from Algorithms on Strings, Trees and Sequences by Dan Gusfield and Chas Emerick's implementation of the Levenshtein distance
-     * algorithm from <a href="https://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a>
+     * algorithm.
      * </p>
      *
      * <pre>
@@ -204,12 +204,6 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * </p>
      *
      * <p>
-     * The previous implementation of the Levenshtein distance algorithm was from
-     * <a href="https://web.archive.org/web/20120526085419/http://www.merriampark.com/ldjava.htm">
-     * https://web.archive.org/web/20120526085419/http://www.merriampark.com/ldjava.htm</a>
-     * </p>
-     *
-     * <p>
      * This implementation only need one single-dimensional arrays of length s.length() + 1
      * </p>
      *
@@ -320,17 +314,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * </p>
      *
      * <p>
-     * The previous implementation of the Levenshtein distance algorithm was from
-     * <a href="https://www.merriampark.com/ld.htm">http://www.merriampark.com/ld.htm</a>
-     * </p>
-     *
-     * <p>
      * Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError which can occur when my Java implementation is used with very large
      * strings.
-     * </p>
-     * <p>
-     * This implementation of the Levenshtein distance algorithm is from
-     * <a href="https://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a>
      * </p>
      *
      * <pre>
