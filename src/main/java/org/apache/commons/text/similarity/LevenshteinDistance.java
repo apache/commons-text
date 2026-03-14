@@ -26,6 +26,12 @@ import java.util.Arrays;
  * This is the number of changes needed to change one sequence into another, where each change is a single character modification (deletion, insertion or
  * substitution).
  * </p>
+ *
+ * <p>
+ * This implementation supports configurable costs for insertion, deletion, and substitution operations. By default, all costs are set to 1 for
+ * backward compatibility.
+ * </p>
+ *
  * <p>
  * This code has been adapted from Apache Commons Lang 3.3.
  * </p>
@@ -37,7 +43,22 @@ import java.util.Arrays;
 public class LevenshteinDistance implements EditDistance<Integer> {
 
     /**
-     * The singleton instance.
+     * Default cost for an insertion operation.
+     */
+    private static final int DEFAULT_INSERT_COST = 1;
+
+    /**
+     * Default cost for a deletion operation.
+     */
+    private static final int DEFAULT_DELETE_COST = 1;
+
+    /**
+     * Default cost for a substitution (replace) operation.
+     */
+    private static final int DEFAULT_REPLACE_COST = 1;
+
+    /**
+     * The singleton instance (uses default costs and no threshold).
      */
     private static final LevenshteinDistance INSTANCE = new LevenshteinDistance();
 
@@ -51,78 +72,83 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     }
 
     /**
-     * Finds the Levenshtein distance between two CharSequences if it's less than or equal to a given threshold.
+     * Finds the Levenshtein distance between two CharSequences if it's less than or equal to a given
+     * threshold, using configurable costs for insert, delete, and replace operations.
      *
      * <p>
-     * This implementation follows from Algorithms on Strings, Trees and Sequences by Dan Gusfield and Chas Emerick's implementation of the Levenshtein distance
-     * algorithm.
+     * This implementation follows from Algorithms on Strings, Trees and Sequences by Dan Gusfield and
+     * Chas Emerick's implementation of the Levenshtein distance algorithm.
+     * </p>
+     *
+     * <p>
+     * Note: The stripe-width optimisation used in the default (all-costs-1) case relies on the
+     * assumption that each operation costs exactly 1. When custom costs are supplied the stripe
+     * cannot be reliably bounded to {@code 2*threshold+1}, so the full O(nm) DP table is used
+     * instead, returning -1 only when the final distance exceeds the threshold.
      * </p>
      *
      * <pre>
-     * limitedCompare(null, *, *)             = Throws {@link IllegalArgumentException}
-     * limitedCompare(*, null, *)             = Throws {@link IllegalArgumentException}
-     * limitedCompare(*, *, -1)               = Throws {@link IllegalArgumentException}
-     * limitedCompare("","", 0)               = 0
-     * limitedCompare("aaapppp", "", 8)       = 7
-     * limitedCompare("aaapppp", "", 7)       = 7
-     * limitedCompare("aaapppp", "", 6))      = -1
-     * limitedCompare("elephant", "hippo", 7) = 7
-     * limitedCompare("elephant", "hippo", 6) = -1
-     * limitedCompare("hippo", "elephant", 7) = 7
-     * limitedCompare("hippo", "elephant", 6) = -1
+     * limitedCompare(null, *, *, *, *, *)             = Throws {@link IllegalArgumentException}
+     * limitedCompare(*, null, *, *, *, *)             = Throws {@link IllegalArgumentException}
+     * limitedCompare(*, *, -1, *, *, *)               = Throws {@link IllegalArgumentException}
+     * limitedCompare("","", 0, 1, 1, 1)               = 0
+     * limitedCompare("aaapppp", "", 8, 1, 1, 1)       = 7
+     * limitedCompare("aaapppp", "", 7, 1, 1, 1)       = 7
+     * limitedCompare("aaapppp", "", 6, 1, 1, 1))      = -1
+     * limitedCompare("elephant", "hippo", 7, 1, 1, 1) = 7
+     * limitedCompare("elephant", "hippo", 6, 1, 1, 1) = -1
+     * limitedCompare("hippo", "elephant", 7, 1, 1, 1) = 7
+     * limitedCompare("hippo", "elephant", 6, 1, 1, 1) = -1
      * </pre>
      *
-     * @param left      the first SimilarityInput, must not be null.
-     * @param right     the second SimilarityInput, must not be null.
-     * @param threshold the target threshold, must not be negative.
-     * @return result distance, or -1
+     * @param left        the first SimilarityInput, must not be null.
+     * @param right       the second SimilarityInput, must not be null.
+     * @param threshold   the target threshold, must not be negative.
+     * @param insertCost  the cost of an insertion operation, must not be negative.
+     * @param deleteCost  the cost of a deletion operation, must not be negative.
+     * @param replaceCost the cost of a substitution operation, must not be negative.
+     * @return result distance, or -1 if the distance exceeds the threshold.
      */
-    private static <E> int limitedCompare(SimilarityInput<E> left, SimilarityInput<E> right, final int threshold) { // NOPMD
+    private static <E> int limitedCompare(SimilarityInput<E> left, SimilarityInput<E> right, // NOPMD
+                                          final int threshold, final int insertCost, final int deleteCost, final int replaceCost) {
         if (left == null || right == null) {
             throw new IllegalArgumentException("CharSequences must not be null");
         }
-
-        /*
-         * This implementation only computes the distance if it's less than or equal to the threshold value, returning -1 if it's greater. The advantage is
-         * performance: unbounded distance is O(nm), but a bound of k allows us to reduce it to O(km) time by only computing a diagonal stripe of width 2k + 1
-         * of the cost table. It is also possible to use this to compute the unbounded Levenshtein distance by starting the threshold at 1 and doubling each
-         * time until the distance is found; this is O(dm), where d is the distance.
-         *
-         * One subtlety comes from needing to ignore entries on the border of our stripe, for example,
-         * p[] = |#|#|#|* d[] = *|#|#|#| We must ignore the entry to the left
-         * of the leftmost member We must ignore the entry above the rightmost member
-         *
-         * Another subtlety comes from our stripe running off the matrix if the strings aren't of the same size. Since string s is always swapped to be the
-         * shorter of the two, the stripe will always run off to the upper right instead of the lower left of the matrix.
-         *
-         * As a concrete example, suppose s is of length 5, t is of length 7, and our threshold is 1. In this case we're going to walk a stripe of length 3. The
-         * matrix would look like so:
-         *
-         * <pre> 1 2 3 4 5 1 |#|#| | | | 2 |#|#|#| | | 3 | |#|#|#| | 4 | | |#|#|#| 5 | | | |#|#| 6 | | | | |#| 7 | | | | | | </pre>
-         *
-         * Note how the stripe leads off the table as there is no possible way to turn a string of length 5 into one of length 7 in edit distance of 1.
-         *
-         * Additionally, this implementation decreases memory usage by using two single-dimensional arrays and swapping them back and forth instead of
-         * allocating an entire n by m matrix. This requires a few minor changes, such as immediately returning when it's detected that the stripe has run off
-         * the matrix and initially filling the arrays with large values so that entries we don't compute are ignored.
-         *
-         * See Algorithms on Strings, Trees and Sequences by Dan Gusfield for some discussion.
-         */
+        if (threshold < 0) {
+            throw new IllegalArgumentException("Threshold must not be negative");
+        }
 
         int n = left.length(); // length of left
         int m = right.length(); // length of right
 
-        // if one string is empty, the edit distance is necessarily the length
-        // of the other
+        // If one string is empty, the edit distance is the cost of inserting/deleting
+        // all characters of the other string.
         if (n == 0) {
-            return m <= threshold ? m : -1;
+            final int dist = m * insertCost;
+            return dist <= threshold ? dist : -1;
         }
         if (m == 0) {
-            return n <= threshold ? n : -1;
+            final int dist = n * deleteCost;
+            return dist <= threshold ? dist : -1;
         }
 
+        // When all costs equal 1, use the classic diagonal-stripe optimisation.
+        // For asymmetric costs the stripe width is not reliably bounded, so fall
+        // back to the full O(nm) table and threshold-check only at the end.
+        if (insertCost == 1 && deleteCost == 1 && replaceCost == 1) {
+            return limitedCompareUniformCost(left, right, threshold, n, m);
+        }
+        return limitedCompareCustomCost(left, right, threshold, insertCost, deleteCost, replaceCost, n, m);
+    }
+
+    /**
+     * Classic stripe-optimised O(km) limited compare for uniform unit costs.
+     * This preserves the original algorithm exactly.
+     */
+    private static <E> int limitedCompareUniformCost(SimilarityInput<E> left, SimilarityInput<E> right,
+                                                     final int threshold, int n, int m) {
+
         if (n > m) {
-            // swap the two strings to consume less memory
             final SimilarityInput<E> tmp = left;
             left = right;
             right = tmp;
@@ -130,66 +156,50 @@ public class LevenshteinDistance implements EditDistance<Integer> {
             m = right.length();
         }
 
-        // the edit distance cannot be less than the length difference
         if (m - n > threshold) {
             return -1;
         }
 
-        int[] p = new int[n + 1]; // 'previous' cost array, horizontally
-        int[] d = new int[n + 1]; // cost array, horizontally
-        int[] tempD; // placeholder to assist in swapping p and d
+        int[] p = new int[n + 1];
+        int[] d = new int[n + 1];
+        int[] tempD;
 
-        // fill in starting table values
         final int boundary = Math.min(n, threshold) + 1;
         for (int i = 0; i < boundary; i++) {
             p[i] = i;
         }
-        // these fills ensure that the value above the rightmost entry of our
-        // stripe will be ignored in following loop iterations
         Arrays.fill(p, boundary, p.length, Integer.MAX_VALUE);
         Arrays.fill(d, Integer.MAX_VALUE);
 
-        // iterates through t
         for (int j = 1; j <= m; j++) {
-            final E rightJ = right.at(j - 1); // jth character of right
+            final E rightJ = right.at(j - 1);
             d[0] = j;
 
-            // compute stripe indices, constrain to array size
             final int min = Math.max(1, j - threshold);
             final int max = j > Integer.MAX_VALUE - threshold ? n : Math.min(n, j + threshold);
 
-            // ignore entry left of leftmost
             if (min > 1) {
                 d[min - 1] = Integer.MAX_VALUE;
             }
 
             int lowerBound = Integer.MAX_VALUE;
-            // iterates through [min, max] in s
             for (int i = min; i <= max; i++) {
                 if (left.at(i - 1).equals(rightJ)) {
-                    // diagonally left and up
                     d[i] = p[i - 1];
                 } else {
-                    // 1 + minimum of cell to the left, to the top, diagonally
-                    // left and up
                     d[i] = 1 + Math.min(Math.min(d[i - 1], p[i]), p[i - 1]);
                 }
                 lowerBound = Math.min(lowerBound, d[i]);
             }
-            // if the lower bound is greater than the threshold, then exit early
             if (lowerBound > threshold) {
                 return -1;
             }
 
-            // copy current distance counts to 'previous row' distance counts
             tempD = p;
             p = d;
             d = tempD;
         }
 
-        // if p[n] is greater than the threshold, there's no guarantee on it
-        // being the correct
-        // distance
         if (p[n] <= threshold) {
             return p[n];
         }
@@ -197,93 +207,186 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     }
 
     /**
-     * Finds the Levenshtein distance between two Strings.
+     * Full O(nm) limited compare for custom (non-uniform) operation costs.
+     * Uses two rolling arrays to keep memory at O(min(n,m)).
+     *
+     * <p>
+     * When {@code deleteCost != insertCost} swapping the strings would change the
+     * semantics (delete on the original becomes insert on the swapped copy), so
+     * we always keep left as-is and pay the correct directional cost.
+     * </p>
+     */
+    private static <E> int limitedCompareCustomCost(final SimilarityInput<E> left, final SimilarityInput<E> right,
+                                                    final int threshold, final int insertCost, final int deleteCost, final int replaceCost,
+                                                    final int n, final int m) {
+
+        // p[i] = cost to convert left[0..i-1] to right[0..j-1] (previous row)
+        int[] p = new int[n + 1];
+        int[] d = new int[n + 1];
+
+        // Base case: convert left[0..i-1] to empty string via i deletions.
+        for (int i = 0; i <= n; i++) {
+            p[i] = i * deleteCost;
+        }
+
+        for (int j = 1; j <= m; j++) {
+            final E rightJ = right.at(j - 1);
+            // Base case: convert empty string to right[0..j-1] via j insertions.
+            d[0] = j * insertCost;
+
+            for (int i = 1; i <= n; i++) {
+                if (left.at(i - 1).equals(rightJ)) {
+                    // Characters match ? no operation needed (cost 0).
+                    d[i] = p[i - 1];
+                } else {
+                    // Minimum of: delete left[i-1], insert right[j-1], or replace.
+                    d[i] = Math.min(
+                            Math.min(d[i - 1] + insertCost,  // insert right[j-1]
+                                    p[i]     + deleteCost), // delete left[i-1]
+                            p[i - 1]           + replaceCost // replace
+                    );
+                }
+            }
+
+            // Swap rows.
+            final int[] tempD = p;
+            p = d;
+            d = tempD;
+        }
+
+        if (p[n] <= threshold) {
+            return p[n];
+        }
+        return -1;
+    }
+
+    /**
+     * Finds the Levenshtein distance between two Strings using configurable
+     * insert, delete, and replace costs.
      *
      * <p>
      * A higher score indicates a greater distance.
      * </p>
      *
-     * <p>
-     * This implementation only need one single-dimensional arrays of length s.length() + 1
-     * </p>
-     *
      * <pre>
-     * unlimitedCompare(null, *)             = Throws {@link IllegalArgumentException}
-     * unlimitedCompare(*, null)             = Throws {@link IllegalArgumentException}
-     * unlimitedCompare("","")               = 0
-     * unlimitedCompare("","a")              = 1
-     * unlimitedCompare("aaapppp", "")       = 7
-     * unlimitedCompare("frog", "fog")       = 1
-     * unlimitedCompare("fly", "ant")        = 3
-     * unlimitedCompare("elephant", "hippo") = 7
-     * unlimitedCompare("hippo", "elephant") = 7
-     * unlimitedCompare("hippo", "zzzzzzzz") = 8
-     * unlimitedCompare("hello", "hallo")    = 1
+     * unlimitedCompare(null, *, *, *, *)             = Throws {@link IllegalArgumentException}
+     * unlimitedCompare(*, null, *, *, *)             = Throws {@link IllegalArgumentException}
+     * unlimitedCompare("","", 1, 1, 1)               = 0
+     * unlimitedCompare("","a", 1, 1, 1)              = 1
+     * unlimitedCompare("aaapppp", "", 1, 1, 1)       = 7
+     * unlimitedCompare("frog", "fog", 1, 1, 1)       = 1
+     * unlimitedCompare("fly", "ant", 1, 1, 1)        = 3
+     * unlimitedCompare("elephant", "hippo", 1, 1, 1) = 7
+     * unlimitedCompare("hippo", "elephant", 1, 1, 1) = 7
+     * unlimitedCompare("hippo", "zzzzzzzz", 1, 1, 1) = 8
+     * unlimitedCompare("hello", "hallo", 1, 1, 1)    = 1
      * </pre>
      *
-     * @param left  the first CharSequence, must not be null.
-     * @param right the second CharSequence, must not be null.
-     * @return result distance, or -1.
+     * @param left        the first CharSequence, must not be null.
+     * @param right       the second CharSequence, must not be null.
+     * @param insertCost  the cost of an insertion operation, must not be negative.
+     * @param deleteCost  the cost of a deletion operation, must not be negative.
+     * @param replaceCost the cost of a substitution operation, must not be negative.
+     * @return result distance.
      * @throws IllegalArgumentException if either CharSequence input is {@code null}.
      */
-    private static <E> int unlimitedCompare(SimilarityInput<E> left, SimilarityInput<E> right) {
+    private static <E> int unlimitedCompare(SimilarityInput<E> left, SimilarityInput<E> right,
+                                            final int insertCost, final int deleteCost, final int replaceCost) {
         if (left == null || right == null) {
             throw new IllegalArgumentException("CharSequences must not be null");
         }
-        /*
-         * This implementation use two variable to record the previous cost counts, So this implementation use less memory than previous impl.
-         */
+
         int n = left.length(); // length of left
         int m = right.length(); // length of right
 
         if (n == 0) {
-            return m;
+            return m * insertCost;
         }
         if (m == 0) {
-            return n;
+            return n * deleteCost;
         }
-        if (n > m) {
-            // swap the input strings to consume less memory
+
+        // When costs are symmetric (insert == delete) we can safely swap the
+        // shorter string into 'left' to minimise the working array size.
+        // When insert != delete, swapping reverses the semantics of those two
+        // operations, so we must keep the original orientation.
+        final boolean canSwap = insertCost == deleteCost;
+        if (canSwap && n > m) {
             final SimilarityInput<E> tmp = left;
             left = right;
             right = tmp;
             n = m;
             m = right.length();
         }
+
+        // Single rolling array of length n+1.
         final int[] p = new int[n + 1];
-        // indexes into strings left and right
-        int i; // iterates through left
-        int j; // iterates through right
+
+        // Base case: converting left[0..i-1] ? "" costs i deletions.
+        for (int i = 0; i <= n; i++) {
+            p[i] = i * deleteCost;
+        }
+
         int upperLeft;
         int upper;
-        E rightJ; // jth character of right
-        int cost; // cost
-        for (i = 0; i <= n; i++) {
-            p[i] = i;
-        }
-        for (j = 1; j <= m; j++) {
-            upperLeft = p[0];
-            rightJ = right.at(j - 1);
-            p[0] = j;
 
-            for (i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+            upperLeft = p[0];
+            final E rightJ = right.at(j - 1);
+            // Base case: converting "" ? right[0..j-1] costs j insertions.
+            p[0] = j * insertCost;
+
+            for (int i = 1; i <= n; i++) {
                 upper = p[i];
-                cost = left.at(i - 1).equals(rightJ) ? 0 : 1;
-                // minimum of cell to the left+1, to the top+1, diagonally left and up +cost
-                p[i] = Math.min(Math.min(p[i - 1] + 1, p[i] + 1), upperLeft + cost);
+                if (left.at(i - 1).equals(rightJ)) {
+                    // Characters match ? carry diagonal (no cost).
+                    p[i] = upperLeft;
+                } else {
+                    // Minimum of insert, delete, or replace.
+                    p[i] = Math.min(
+                            Math.min(p[i - 1] + insertCost,  // insert right[j-1]
+                                    p[i]     + deleteCost), // delete left[i-1]
+                            upperLeft          + replaceCost  // replace
+                    );
+                }
                 upperLeft = upper;
             }
         }
         return p[n];
     }
 
+    // -------------------------------------------------------------------------
+    // Instance state
+    // -------------------------------------------------------------------------
+
     /**
-     * Threshold.
+     * Threshold (nullable). When non-null, {@link #limitedCompare} is used
+     * instead of {@link #unlimitedCompare}.
      */
     private final Integer threshold;
 
     /**
-     * Constructs a default instance that uses a version of the algorithm that does not use a threshold parameter.
+     * Cost of inserting a character into the left sequence.
+     */
+    private final int insertCost;
+
+    /**
+     * Cost of deleting a character from the left sequence.
+     */
+    private final int deleteCost;
+
+    /**
+     * Cost of substituting one character for another.
+     */
+    private final int replaceCost;
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Constructs a default instance that uses a version of the algorithm that does not use a
+     * threshold parameter, with all operation costs set to 1.
      *
      * @see LevenshteinDistance#getDefaultInstance()
      * @deprecated Use {@link #getDefaultInstance()}.
@@ -294,17 +397,65 @@ public class LevenshteinDistance implements EditDistance<Integer> {
     }
 
     /**
-     * Constructs a new instance. If the threshold is not null, distance calculations will be limited to a maximum length. If the threshold is null, the
-     * unlimited version of the algorithm will be used.
+     * Constructs a new instance with the given threshold and all operation costs set to 1.
      *
-     * @param threshold If this is null then distances calculations will not be limited. This may not be negative.
+     * <p>
+     * If the threshold is not null, distance calculations will be limited to a maximum length. If
+     * the threshold is null, the unlimited version of the algorithm will be used.
+     * </p>
+     *
+     * @param threshold If this is null then distances calculations will not be limited.
+     *                  This may not be negative.
      */
     public LevenshteinDistance(final Integer threshold) {
+        this(threshold, DEFAULT_INSERT_COST, DEFAULT_DELETE_COST, DEFAULT_REPLACE_COST);
+    }
+
+    /**
+     * Constructs a new instance with the given threshold and custom operation costs.
+     *
+     * <p>
+     * If the threshold is not null, distance calculations will be limited to a maximum value.
+     * If the threshold is null, the unlimited version of the algorithm will be used.
+     * </p>
+     *
+     * <p>
+     * All cost parameters must be non-negative integers. Passing 0 for a cost makes that
+     * operation free; passing values greater than 1 makes it more expensive relative to
+     * the other operations.
+     * </p>
+     *
+     * @param threshold   If this is null then distance calculations will not be limited.
+     *                    This may not be negative.
+     * @param insertCost  the cost of inserting a character, must not be negative.
+     * @param deleteCost  the cost of deleting a character, must not be negative.
+     * @param replaceCost the cost of replacing (substituting) a character, must not be negative.
+     * @throws IllegalArgumentException if threshold is negative, or any cost is negative.
+     * @since 1.13.0
+     */
+    public LevenshteinDistance(final Integer threshold, final int insertCost, final int deleteCost,
+                               final int replaceCost) {
         if (threshold != null && threshold < 0) {
             throw new IllegalArgumentException("Threshold must not be negative");
         }
-        this.threshold = threshold;
+        if (insertCost < 0) {
+            throw new IllegalArgumentException("Insert cost must not be negative");
+        }
+        if (deleteCost < 0) {
+            throw new IllegalArgumentException("Delete cost must not be negative");
+        }
+        if (replaceCost < 0) {
+            throw new IllegalArgumentException("Replace cost must not be negative");
+        }
+        this.threshold    = threshold;
+        this.insertCost   = insertCost;
+        this.deleteCost   = deleteCost;
+        this.replaceCost  = replaceCost;
     }
+
+    // -------------------------------------------------------------------------
+    // Public API
+    // -------------------------------------------------------------------------
 
     /**
      * Computes the Levenshtein distance between two Strings.
@@ -313,29 +464,23 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * A higher score indicates a greater distance.
      * </p>
      *
-     * <p>
-     * Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError which can occur when my Java implementation is used with very large
-     * strings.
-     * </p>
-     *
      * <pre>
      * distance.apply(null, *)             = Throws {@link IllegalArgumentException}
      * distance.apply(*, null)             = Throws {@link IllegalArgumentException}
      * distance.apply("","")               = 0
-     * distance.apply("","a")              = 1
-     * distance.apply("aaapppp", "")       = 7
-     * distance.apply("frog", "fog")       = 1
-     * distance.apply("fly", "ant")        = 3
-     * distance.apply("elephant", "hippo") = 7
-     * distance.apply("hippo", "elephant") = 7
-     * distance.apply("hippo", "zzzzzzzz") = 8
-     * distance.apply("hello", "hallo")    = 1
+     * distance.apply("","a")              = insertCost
+     * distance.apply("aaapppp", "")       = 7 * deleteCost
+     * distance.apply("frog", "fog")       = 1 * deleteCost (one deletion)
+     * distance.apply("fly", "ant")        = replaceCost + replaceCost + replaceCost
+     * distance.apply("elephant", "hippo") = 7  (with default costs)
+     * distance.apply("hippo", "elephant") = 7  (with default costs)
+     * distance.apply("hello", "hallo")    = 1  (with default costs)
      * </pre>
      *
      * @param left  the first input, must not be null.
      * @param right the second input, must not be null.
-     * @return result distance, or -1.
-     * @throws IllegalArgumentException if either String input {@code null}.
+     * @return result distance, or -1 if a threshold is set and the distance exceeds it.
+     * @throws IllegalArgumentException if either String input is {@code null}.
      */
     @Override
     public Integer apply(final CharSequence left, final CharSequence right) {
@@ -349,41 +494,60 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * A higher score indicates a greater distance.
      * </p>
      *
-     * <pre>
-     * distance.apply(null, *)             = Throws {@link IllegalArgumentException}
-     * distance.apply(*, null)             = Throws {@link IllegalArgumentException}
-     * distance.apply("","")               = 0
-     * distance.apply("","a")              = 1
-     * distance.apply("aaapppp", "")       = 7
-     * distance.apply("frog", "fog")       = 1
-     * distance.apply("fly", "ant")        = 3
-     * distance.apply("elephant", "hippo") = 7
-     * distance.apply("hippo", "elephant") = 7
-     * distance.apply("hippo", "zzzzzzzz") = 8
-     * distance.apply("hello", "hallo")    = 1
-     * </pre>
-     *
      * @param <E>   The type of similarity score unit.
      * @param left  the first input, must not be null.
      * @param right the second input, must not be null.
-     * @return result distance, or -1.
-     * @throws IllegalArgumentException if either String input {@code null}.
+     * @return result distance, or -1 if a threshold is set and the distance exceeds it.
+     * @throws IllegalArgumentException if either input is {@code null}.
      * @since 1.13.0
      */
     public <E> Integer apply(final SimilarityInput<E> left, final SimilarityInput<E> right) {
         if (threshold != null) {
-            return limitedCompare(left, right, threshold);
+            return limitedCompare(left, right, threshold, insertCost, deleteCost, replaceCost);
         }
-        return unlimitedCompare(left, right);
+        return unlimitedCompare(left, right, insertCost, deleteCost, replaceCost);
     }
+
+    // -------------------------------------------------------------------------
+    // Accessors
+    // -------------------------------------------------------------------------
 
     /**
      * Gets the distance threshold.
      *
-     * @return The distance threshold.
+     * @return The distance threshold, or {@code null} if no threshold is set.
      */
     public Integer getThreshold() {
         return threshold;
     }
 
+    /**
+     * Gets the cost of an insertion operation.
+     *
+     * @return The insertion cost.
+     * @since 1.13.0
+     */
+    public int getInsertCost() {
+        return insertCost;
+    }
+
+    /**
+     * Gets the cost of a deletion operation.
+     *
+     * @return The deletion cost.
+     * @since 1.13.0
+     */
+    public int getDeleteCost() {
+        return deleteCost;
+    }
+
+    /**
+     * Gets the cost of a substitution (replace) operation.
+     *
+     * @return The replacement cost.
+     * @since 1.13.0
+     */
+    public int getReplaceCost() {
+        return replaceCost;
+    }
 }
