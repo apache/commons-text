@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -179,6 +179,60 @@ class LevenshteinDistanceTest {
     @Test
     void testGetThresholdDirectlyAfterObjectInstantiation() {
         assertNull(LevenshteinDistance.getDefaultInstance().getThreshold());
+    }
+
+    // -------------------------------------------------------------------------
+    // New Weighted Levenshtein Distance Tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    void testConstructorWithNegativeCosts() {
+        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(null, -1, 1, 1));
+        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(null, 1, -1, 1));
+        assertThrows(IllegalArgumentException.class, () -> new LevenshteinDistance(null, 1, 1, -1));
+    }
+
+    @Test
+    void testGetLevenshteinDistance_WeightedUnlimited() {
+        // Substitution is very expensive (10) vs Insert/Delete (1 each)
+        final LevenshteinDistance dist = new LevenshteinDistance(null, 1, 1, 10);
+        // 'a' -> 'b' should choose delete 'a' (1) and insert 'b' (1) = distance 2,
+        // instead of replace (10).
+        assertEquals(2, dist.apply("a", "b"));
+
+        // All operations are free (0)
+        final LevenshteinDistance freeDist = new LevenshteinDistance(null, 0, 0, 0);
+        assertEquals(0, freeDist.apply("abc", "def"));
+
+        // Asymmetric costs: Insert=10, Delete=1, Replace=100
+        final LevenshteinDistance asymmetric = new LevenshteinDistance(null, 10, 1, 100);
+        assertEquals(1, asymmetric.apply("a", "")); // Delete 'a' = 1
+        assertEquals(10, asymmetric.apply("", "a")); // Insert 'a' = 10
+    }
+
+    @Test
+    void testGetLevenshteinDistance_WeightedThreshold() {
+        // Distance is 2 (via delete/insert), threshold is 5 -> result 2
+        final LevenshteinDistance weighted = new LevenshteinDistance(5, 1, 1, 10);
+        assertEquals(2, weighted.apply("a", "b"));
+
+        // Distance is 2, threshold is 1 -> result -1
+        final LevenshteinDistance strict = new LevenshteinDistance(1, 1, 1, 10);
+        assertEquals(-1, strict.apply("a", "b"));
+
+        // Empty strings with weighted threshold
+        assertEquals(0, new LevenshteinDistance(5, 2, 2, 2).apply("", ""));
+        assertEquals(4, new LevenshteinDistance(5, 2, 2, 2).apply("aa", ""));
+        assertEquals(-1, new LevenshteinDistance(1, 2, 2, 2).apply("aa", ""));
+    }
+
+    @Test
+    void testWeightedAccessors() {
+        final LevenshteinDistance dist = new LevenshteinDistance(10, 2, 3, 4);
+        assertEquals(10, dist.getThreshold());
+        assertEquals(2, dist.getInsertCost());
+        assertEquals(3, dist.getDeleteCost());
+        assertEquals(4, dist.getReplaceCost());
     }
 
 }
