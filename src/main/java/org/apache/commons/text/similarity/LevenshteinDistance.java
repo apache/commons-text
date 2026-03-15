@@ -38,10 +38,10 @@ import java.util.Arrays;
  *
  * <pre>
  * LevenshteinDistance dist = LevenshteinDistance.builder()
- *     .threshold(10)
- *     .insertCost(1)
- *     .deleteCost(2)
- *     .replaceCost(3)
+ *     .setThreshold(10)
+ *     .setInsertCost(1)
+ *     .setDeleteCost(2)
+ *     .setReplaceCost(3)
  *     .build();
  * </pre>
  *
@@ -64,14 +64,14 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      *
      * <pre>
      * LevenshteinDistance dist = LevenshteinDistance.builder()
-     *     .threshold(5)
-     *     .insertCost(1)
-     *     .deleteCost(1)
-     *     .replaceCost(2)
+     *     .setThreshold(5)
+     *     .setInsertCost(1)
+     *     .setDeleteCost(1)
+     *     .setReplaceCost(2)
      *     .build();
      * </pre>
      *
-     * @since 1.13.0
+     * @since 1.16.0
      */
     public static final class Builder {
 
@@ -115,7 +115,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
          * @param deleteCost the cost of deleting a character; must not be negative.
          * @return {@code this} builder.
          */
-        public Builder deleteCost(final int deleteCost) {
+        public Builder setDeleteCost(final int deleteCost) {
             this.deleteCost = deleteCost;
             return this;
         }
@@ -126,7 +126,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
          * @param insertCost the cost of inserting a character; must not be negative.
          * @return {@code this} builder.
          */
-        public Builder insertCost(final int insertCost) {
+        public Builder setInsertCost(final int insertCost) {
             this.insertCost = insertCost;
             return this;
         }
@@ -137,7 +137,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
          * @param replaceCost the cost of replacing a character; must not be negative.
          * @return {@code this} builder.
          */
-        public Builder replaceCost(final int replaceCost) {
+        public Builder setReplaceCost(final int replaceCost) {
             this.replaceCost = replaceCost;
             return this;
         }
@@ -154,7 +154,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
          *                  for no limit.
          * @return {@code this} builder.
          */
-        public Builder threshold(final Integer threshold) {
+        public Builder setThreshold(final Integer threshold) {
             this.threshold = threshold;
             return this;
         }
@@ -169,7 +169,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * Returns a new {@link Builder} for constructing {@link LevenshteinDistance} instances.
      *
      * @return a new {@link Builder}.
-     * @since 1.13.0
+     * @since 1.16.0
      */
     public static Builder builder() {
         return new Builder();
@@ -511,7 +511,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      */
     @Deprecated
     public LevenshteinDistance(final Integer threshold) {
-        this(builder().threshold(threshold));
+        this(builder().setThreshold(threshold));
     }
 
     /**
@@ -581,7 +581,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * @param right the second input, must not be null.
      * @return result distance, or {@code -1} if a threshold is set and the distance exceeds it.
      * @throws IllegalArgumentException if either input is {@code null}.
-     * @since 1.13.0
+     * @since 1.16.0
      */
     public <E> Integer apply(final SimilarityInput<E> left, final SimilarityInput<E> right) {
         if (threshold != null) {
@@ -594,7 +594,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * Gets the cost of a deletion operation.
      *
      * @return the deletion cost.
-     * @since 1.13.0
+     * @since 1.16.0
      */
     public int getDeleteCost() {
         return deleteCost;
@@ -604,7 +604,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * Gets the cost of an insertion operation.
      *
      * @return the insertion cost.
-     * @since 1.13.0
+     * @since 1.16.0
      */
     public int getInsertCost() {
         return insertCost;
@@ -614,7 +614,7 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * Gets the cost of a substitution (replace) operation.
      *
      * @return the replacement cost.
-     * @since 1.13.0
+     * @since 1.16.0
      */
     public int getReplaceCost() {
         return replaceCost;
