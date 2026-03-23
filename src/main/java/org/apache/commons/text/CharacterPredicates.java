@@ -17,8 +17,7 @@
 package org.apache.commons.text;
 
 /**
- * Commonly used implementations of {@link CharacterPredicate}. Per the interface
- * requirements, all implementations are thread safe.
+ * Enumerates commonly used implementations of {@link CharacterPredicate}. Per the interface requirements, all implementations are thread safe.
  *
  * @since 1.0
  */

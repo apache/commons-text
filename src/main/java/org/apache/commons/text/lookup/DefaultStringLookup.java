@@ -17,7 +17,7 @@
 package org.apache.commons.text.lookup;
 
 /**
- * An enumeration defining {@link StringLookup} objects available through {@link StringLookupFactory}.
+ * Enumerates {@link StringLookup} objects available through {@link StringLookupFactory}.
  * <p>
  * This enum was adapted and expanded from Apache Commons Configuration 2.4.
  * </p>

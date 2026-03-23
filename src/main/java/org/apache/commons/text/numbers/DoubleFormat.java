@@ -23,7 +23,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * Enum containing standard double format types with methods to produce
+ * Enumerates standard double format types with methods to produce
  * configured formatter instances. This type is intended to provide a
  * quick and convenient way to create lightweight, thread-safe double format functions
  * for common format types using a builder pattern. Output can be localized by
