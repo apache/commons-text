@@ -16,10 +16,15 @@
  */
 package org.apache.commons.text.similarity;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -36,18 +41,18 @@ class IntersectionResultTest {
         };
 
         // Test a different instance with same values
-        Assertions.assertEquals(new IntersectionResult(0, 0, 0), results[0]);
+        assertEquals(new IntersectionResult(0, 0, 0), results[0]);
 
         final Object something = new Object();
         for (int i = 0; i < results.length; i++) {
-            Assertions.assertNotEquals(results[i], something);
-            Assertions.assertNotEquals(null, results[i]);
+            assertNotEquals(results[i], something);
+            assertNotEquals(null, results[i]);
             for (int j = 0; j < results.length; j++) {
-                Assertions.assertEquals(results[i].equals(results[j]), i == j);
+                assertEquals(results[i].equals(results[j]), i == j);
             }
 
-            Assertions.assertFalse(results[i].equals(null), "Should not be Equal to null");
-            Assertions.assertNotEquals("Test", results[i], "Should not be Equal to a different type of object");
+            assertFalse(results[i].equals(null), "Should not be Equal to null");
+            assertNotEquals("Test", results[i], "Should not be Equal to a different type of object");
         }
     }
 
@@ -64,7 +69,7 @@ class IntersectionResultTest {
             map.put(results[i], i + offset);
         }
         for (int i = 0; i < results.length; i++) {
-            Assertions.assertEquals(i + offset, map.get(results[i]));
+            assertEquals(i + offset, map.get(results[i]));
         }
     }
 
@@ -73,8 +78,8 @@ class IntersectionResultTest {
         final int sizeA = 1;
         final int sizeB = 2;
         final int intersection = Math.max(sizeA, sizeB) + 1;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeB, sizeA, intersection));
+        assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
+        assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeB, sizeA, intersection));
     }
 
     @Test
@@ -82,7 +87,7 @@ class IntersectionResultTest {
         final int sizeA = 0;
         final int sizeB = 0;
         final int intersection = -1;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
+        assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
     }
 
     @Test
@@ -90,7 +95,7 @@ class IntersectionResultTest {
         final int sizeA = -1;
         final int sizeB = 0;
         final int intersection = 0;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
+        assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
     }
 
     @Test
@@ -98,7 +103,7 @@ class IntersectionResultTest {
         final int sizeA = 0;
         final int sizeB = -1;
         final int intersection = 0;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
+        assertThrows(IllegalArgumentException.class, () -> new IntersectionResult(sizeA, sizeB, intersection));
     }
 
     @Test
@@ -119,9 +124,9 @@ class IntersectionResultTest {
             final int sizeB = rand.nextInt(max) + 1;
             final int intersection = rand.nextInt(Math.min(sizeA, sizeB));
             final IntersectionResult result = new IntersectionResult(sizeA, sizeB, intersection);
-            Assertions.assertEquals(sizeA, result.getSizeA());
-            Assertions.assertEquals(sizeB, result.getSizeB());
-            Assertions.assertEquals(intersection, result.getIntersection());
+            assertEquals(sizeA, result.getSizeA());
+            assertEquals(sizeB, result.getSizeB());
+            assertEquals(intersection, result.getIntersection());
         }
     }
 
@@ -138,9 +143,9 @@ class IntersectionResultTest {
             final String string = result.toString();
             // Not perfect as this will match substrings too. The chance of error
             // is limited by restricting the numbers to a max of 10.
-            Assertions.assertTrue(string.contains(String.valueOf(sizeA)));
-            Assertions.assertTrue(string.contains(String.valueOf(sizeB)));
-            Assertions.assertTrue(string.contains(String.valueOf(intersection)));
+            assertTrue(string.contains(String.valueOf(sizeA)));
+            assertTrue(string.contains(String.valueOf(sizeB)));
+            assertTrue(string.contains(String.valueOf(intersection)));
         }
     }
 }

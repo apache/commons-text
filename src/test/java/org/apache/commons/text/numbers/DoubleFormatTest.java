@@ -16,6 +16,9 @@
  */
 package org.apache.commons.text.numbers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
@@ -24,7 +27,6 @@ import java.util.function.DoubleFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -42,7 +44,7 @@ class DoubleFormatTest {
         final String fmtStr = trimFormatChars(fmt.apply(d));
 
         try {
-            Assertions.assertEquals(dfStr, fmtStr,
+            assertEquals(dfStr, fmtStr,
                 () -> "Unexpected output for locale [" + loc.toLanguageTag() + "] and double value " + d);
         } catch (final AssertionError e) {
             // Note:
@@ -74,7 +76,7 @@ class DoubleFormatTest {
     }
 
     private static void checkFormat(final DoubleFunction<String> fmt, final double d, final String str) {
-        Assertions.assertEquals(str, fmt.apply(d));
+        assertEquals(str, fmt.apply(d));
     }
 
     /**
@@ -86,7 +88,7 @@ class DoubleFormatTest {
     private static void checkFormatAccuracy(final DoubleFunction<String> fmt, final double d) {
         final String str = fmt.apply(d);
         final double parsed = Double.parseDouble(str);
-        Assertions.assertEquals(d, parsed, () -> "Formatted double string [" + str + "] did not match input value");
+        assertEquals(d, parsed, () -> "Formatted double string [" + str + "] did not match input value");
     }
 
     /**
@@ -217,14 +219,14 @@ class DoubleFormatTest {
         final DoubleFormat.Builder builder = DoubleFormat.PLAIN.builder();
 
         // act/assert
-        Assertions.assertThrows(NullPointerException.class, () -> builder.digits(null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> builder.digits("a"));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> builder.digits("0123456789a"));
+        assertThrows(NullPointerException.class, () -> builder.digits(null));
+        assertThrows(IllegalArgumentException.class, () -> builder.digits("a"));
+        assertThrows(IllegalArgumentException.class, () -> builder.digits("0123456789a"));
 
-        Assertions.assertThrows(NullPointerException.class, () -> builder.exponentSeparator(null));
-        Assertions.assertThrows(NullPointerException.class, () -> builder.infinity(null));
-        Assertions.assertThrows(NullPointerException.class, () -> builder.nan(null));
-        Assertions.assertThrows(NullPointerException.class, () -> builder.formatSymbols(null));
+        assertThrows(NullPointerException.class, () -> builder.exponentSeparator(null));
+        assertThrows(NullPointerException.class, () -> builder.infinity(null));
+        assertThrows(NullPointerException.class, () -> builder.nan(null));
+        assertThrows(NullPointerException.class, () -> builder.formatSymbols(null));
     }
 
     @Test
@@ -363,7 +365,7 @@ class DoubleFormatTest {
     void testMaximumPrecision(final DoubleFunction<String> fmt, final double value) {
         final String s = fmt.apply(value);
         final double d = Double.parseDouble(s);
-        Assertions.assertEquals(value, d, () -> value + " formatted as " + s);
+        assertEquals(value, d, () -> value + " formatted as " + s);
     }
 
     @Test

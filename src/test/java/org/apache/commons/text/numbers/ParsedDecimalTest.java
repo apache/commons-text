@@ -16,6 +16,11 @@
  */
 package org.apache.commons.text.numbers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -23,7 +28,6 @@ import java.util.function.BiFunction;
 
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -149,17 +153,17 @@ class ParsedDecimalTest {
 
     private static void assertSimpleDecimal(final ParsedDecimal parsed, final boolean negative, final String digits,
             final int exponent) {
-        Assertions.assertEquals(negative, parsed.negative);
-        Assertions.assertEquals(digits, digitString(parsed));
-        Assertions.assertEquals(exponent, parsed.getExponent());
-        Assertions.assertEquals(digits.length(), parsed.digitCount);
-        Assertions.assertEquals(exponent, parsed.getScientificExponent() - digits.length() + 1);
+        assertEquals(negative, parsed.negative);
+        assertEquals(digits, digitString(parsed));
+        assertEquals(exponent, parsed.getExponent());
+        assertEquals(digits.length(), parsed.digitCount);
+        assertEquals(exponent, parsed.getScientificExponent() - digits.length() + 1);
     }
 
     private static void assertThrowsWithMessage(final Executable fn, final Class<? extends Throwable> type,
             final String msg) {
-        final Throwable exc = Assertions.assertThrows(type, fn);
-        Assertions.assertEquals(msg, exc.getMessage());
+        final Throwable exc = assertThrows(type, fn);
+        assertEquals(msg, exc.getMessage());
     }
 
     private static void checkFrom(final double d, final String digits, final int exponent) {
@@ -175,10 +179,10 @@ class ParsedDecimalTest {
 
         // check the exponent value to make sure it is a multiple of 3
         final String pos = ParsedDecimal.from(d).toEngineeringString(opts);
-        Assertions.assertEquals(0, parseExponent(pos, opts) % 3);
+        assertEquals(0, parseExponent(pos, opts) % 3);
 
         final String neg = ParsedDecimal.from(-d).toEngineeringString(opts);
-        Assertions.assertEquals(0, parseExponent(neg, opts) % 3);
+        assertEquals(0, parseExponent(neg, opts) % 3);
     }
 
     private static void checkToPlainString(final double d, final String expected,
@@ -198,7 +202,7 @@ class ParsedDecimalTest {
         final ParsedDecimal pos = ParsedDecimal.from(d);
         final String actual = fn.apply(pos, opts);
 
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     private static double createRandomDouble(final UniformRandomProvider rng) {
@@ -302,17 +306,17 @@ class ParsedDecimalTest {
     @Test
     void testIsZero() {
         // act/assert
-        Assertions.assertTrue(ParsedDecimal.from(0.0).isZero());
-        Assertions.assertTrue(ParsedDecimal.from(-0.0).isZero());
+        assertTrue(ParsedDecimal.from(0.0).isZero());
+        assertTrue(ParsedDecimal.from(-0.0).isZero());
 
-        Assertions.assertFalse(ParsedDecimal.from(1.0).isZero());
-        Assertions.assertFalse(ParsedDecimal.from(-1.0).isZero());
+        assertFalse(ParsedDecimal.from(1.0).isZero());
+        assertFalse(ParsedDecimal.from(-1.0).isZero());
 
-        Assertions.assertFalse(ParsedDecimal.from(Double.MIN_NORMAL).isZero());
-        Assertions.assertFalse(ParsedDecimal.from(-Double.MIN_NORMAL).isZero());
+        assertFalse(ParsedDecimal.from(Double.MIN_NORMAL).isZero());
+        assertFalse(ParsedDecimal.from(-Double.MIN_NORMAL).isZero());
 
-        Assertions.assertFalse(ParsedDecimal.from(Double.MAX_VALUE).isZero());
-        Assertions.assertFalse(ParsedDecimal.from(-Double.MIN_VALUE).isZero());
+        assertFalse(ParsedDecimal.from(Double.MAX_VALUE).isZero());
+        assertFalse(ParsedDecimal.from(-Double.MIN_VALUE).isZero());
     }
 
     @Test
@@ -387,7 +391,7 @@ class ParsedDecimalTest {
             dec.maxPrecision(precision);
 
             // assert
-            Assertions.assertEquals(new BigDecimal(Double.toString(d), ctx).doubleValue(),
+            assertEquals(new BigDecimal(Double.toString(d), ctx).doubleValue(),
                     Double.parseDouble(dec.toScientificString(opts)));
         }
     }
@@ -492,14 +496,14 @@ class ParsedDecimalTest {
             d = createRandomDouble(rand);
 
             // act/assert
-            Assertions.assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toScientificString(stdOpts)));
-            Assertions.assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toScientificString(altOpts)));
+            assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toScientificString(stdOpts)));
+            assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toScientificString(altOpts)));
 
-            Assertions.assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toEngineeringString(stdOpts)));
-            Assertions.assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toEngineeringString(altOpts)));
+            assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toEngineeringString(stdOpts)));
+            assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toEngineeringString(altOpts)));
 
-            Assertions.assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toPlainString(stdOpts)));
-            Assertions.assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toPlainString(altOpts)));
+            assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toPlainString(stdOpts)));
+            assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toPlainString(altOpts)));
         }
     }
 
@@ -515,18 +519,18 @@ class ParsedDecimalTest {
         altOpts.setExponentSeparator("e");
         altOpts.setIncludeFractionPlaceholder(false);
 
-        Assertions.assertEquals(10.0, Double.parseDouble(ParsedDecimal.from(10.0).toScientificString(stdOpts)));
+        assertEquals(10.0, Double.parseDouble(ParsedDecimal.from(10.0).toScientificString(stdOpts)));
 
         for (double d = min; d <= max; d += delta) {
             // act/assert
-            Assertions.assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toScientificString(stdOpts)));
-            Assertions.assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toScientificString(altOpts)));
+            assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toScientificString(stdOpts)));
+            assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toScientificString(altOpts)));
 
-            Assertions.assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toEngineeringString(stdOpts)));
-            Assertions.assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toEngineeringString(altOpts)));
+            assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toEngineeringString(stdOpts)));
+            assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toEngineeringString(altOpts)));
 
-            Assertions.assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toPlainString(stdOpts)));
-            Assertions.assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toPlainString(altOpts)));
+            assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toPlainString(stdOpts)));
+            assertEquals(d, Double.parseDouble(ParsedDecimal.from(d).toPlainString(altOpts)));
         }
     }
 
@@ -537,23 +541,23 @@ class ParsedDecimalTest {
         opts.setDigitsFromString("abcdefghij");
 
         // act/assert
-        Assertions.assertEquals("b.a", ParsedDecimal.from(1.0).toPlainString(opts));
-        Assertions.assertEquals("-a.abcd", ParsedDecimal.from(-0.0123).toPlainString(opts));
-        Assertions.assertEquals("bc.de", ParsedDecimal.from(12.34).toPlainString(opts));
-        Assertions.assertEquals("baaaa.a", ParsedDecimal.from(10000).toPlainString(opts));
-        Assertions.assertEquals("jihgfedcba.a", ParsedDecimal.from(9876543210d).toPlainString(opts));
+        assertEquals("b.a", ParsedDecimal.from(1.0).toPlainString(opts));
+        assertEquals("-a.abcd", ParsedDecimal.from(-0.0123).toPlainString(opts));
+        assertEquals("bc.de", ParsedDecimal.from(12.34).toPlainString(opts));
+        assertEquals("baaaa.a", ParsedDecimal.from(10000).toPlainString(opts));
+        assertEquals("jihgfedcba.a", ParsedDecimal.from(9876543210d).toPlainString(opts));
 
-        Assertions.assertEquals("b.a", ParsedDecimal.from(1.0).toScientificString(opts));
-        Assertions.assertEquals("-b.cdE-c", ParsedDecimal.from(-0.0123).toScientificString(opts));
-        Assertions.assertEquals("b.cdeEb", ParsedDecimal.from(12.34).toScientificString(opts));
-        Assertions.assertEquals("b.aEe", ParsedDecimal.from(10000).toScientificString(opts));
-        Assertions.assertEquals("j.ihgfedcbEj", ParsedDecimal.from(9876543210d).toScientificString(opts));
+        assertEquals("b.a", ParsedDecimal.from(1.0).toScientificString(opts));
+        assertEquals("-b.cdE-c", ParsedDecimal.from(-0.0123).toScientificString(opts));
+        assertEquals("b.cdeEb", ParsedDecimal.from(12.34).toScientificString(opts));
+        assertEquals("b.aEe", ParsedDecimal.from(10000).toScientificString(opts));
+        assertEquals("j.ihgfedcbEj", ParsedDecimal.from(9876543210d).toScientificString(opts));
 
-        Assertions.assertEquals("b.a", ParsedDecimal.from(1.0).toEngineeringString(opts));
-        Assertions.assertEquals("-bc.dE-d", ParsedDecimal.from(-0.0123).toEngineeringString(opts));
-        Assertions.assertEquals("bc.de", ParsedDecimal.from(12.34).toEngineeringString(opts));
-        Assertions.assertEquals("ba.aEd", ParsedDecimal.from(10000).toEngineeringString(opts));
-        Assertions.assertEquals("j.ihgfedcbEj", ParsedDecimal.from(9876543210d).toEngineeringString(opts));
+        assertEquals("b.a", ParsedDecimal.from(1.0).toEngineeringString(opts));
+        assertEquals("-bc.dE-d", ParsedDecimal.from(-0.0123).toEngineeringString(opts));
+        assertEquals("bc.de", ParsedDecimal.from(12.34).toEngineeringString(opts));
+        assertEquals("ba.aEd", ParsedDecimal.from(10000).toEngineeringString(opts));
+        assertEquals("j.ihgfedcbEj", ParsedDecimal.from(9876543210d).toEngineeringString(opts));
     }
 
     @Test
