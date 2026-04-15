@@ -286,31 +286,31 @@ class StrBuilderTest {
             char[] array = new char[3];
             try {
                 reader.read(array, -1, 0);
-                fail("Exception expected!");
+                fail("Exception expected.");
             } catch (final IndexOutOfBoundsException ex) {
                 // expected
             }
             try {
                 reader.read(array, 0, -1);
-                fail("Exception expected!");
+                fail("Exception expected.");
             } catch (final IndexOutOfBoundsException ex) {
                 // expected
             }
             try {
                 reader.read(array, 100, 1);
-                fail("Exception expected!");
+                fail("Exception expected.");
             } catch (final IndexOutOfBoundsException ex) {
                 // expected
             }
             try {
                 reader.read(array, 0, 100);
-                fail("Exception expected!");
+                fail("Exception expected.");
             } catch (final IndexOutOfBoundsException ex) {
                 // expected
             }
             try {
                 reader.read(array, Integer.MAX_VALUE, Integer.MAX_VALUE);
-                fail("Exception expected!");
+                fail("Exception expected.");
             } catch (final IndexOutOfBoundsException ex) {
                 // expected
             }
@@ -1545,7 +1545,7 @@ class StrBuilderTest {
         sb = new StrBuilder("aaxaaaayaa");
         try {
             sb.replace(StrMatcher.stringMatcher("aa"), "-", 2, 1, -1);
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IndexOutOfBoundsException ex) {
             // expected
         }
@@ -1645,7 +1645,7 @@ class StrBuilderTest {
         sb = new StrBuilder("aaxaaaayaa");
         try {
             sb.replace(StrMatcher.stringMatcher("aa"), "-", 11, sb.length(), -1);
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IndexOutOfBoundsException ex) {
             // expected
         }
@@ -1654,7 +1654,7 @@ class StrBuilderTest {
         sb = new StrBuilder("aaxaaaayaa");
         try {
             sb.replace(StrMatcher.stringMatcher("aa"), "-", -1, sb.length(), -1);
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IndexOutOfBoundsException ex) {
             // expected
         }

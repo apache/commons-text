@@ -156,17 +156,17 @@ class StringEscapeUtilsTest {
         assertNull(StringEscapeUtils.escapeEcmaScript(null));
         try {
             StringEscapeUtils.ESCAPE_ECMASCRIPT.translate(null, null);
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IOException ex) {
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IllegalArgumentException ex) {
             // expected
         }
         try {
             StringEscapeUtils.ESCAPE_ECMASCRIPT.translate("", null);
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IOException ex) {
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IllegalArgumentException ex) {
             // expected
         }
@@ -271,17 +271,17 @@ class StringEscapeUtilsTest {
         assertNull(StringEscapeUtils.escapeJava(null));
         try {
             StringEscapeUtils.ESCAPE_JAVA.translate(null, null);
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IOException ex) {
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IllegalArgumentException ex) {
             // expected
         }
         try {
             StringEscapeUtils.ESCAPE_JAVA.translate("", null);
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IOException ex) {
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IllegalArgumentException ex) {
             // expected
         }
@@ -323,17 +323,17 @@ class StringEscapeUtilsTest {
         assertNull(StringEscapeUtils.escapeJson(null));
         try {
             StringEscapeUtils.ESCAPE_JSON.translate(null, null);
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IOException ex) {
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IllegalArgumentException ex) {
             // expected
         }
         try {
             StringEscapeUtils.ESCAPE_JSON.translate("", null);
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IOException ex) {
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IllegalArgumentException ex) {
             // expected
         }
@@ -534,17 +534,17 @@ class StringEscapeUtilsTest {
         assertNull(StringEscapeUtils.unescapeJava(null));
         try {
             StringEscapeUtils.UNESCAPE_JAVA.translate(null, null);
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IOException ex) {
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IllegalArgumentException ex) {
             // expected
         }
         try {
             StringEscapeUtils.UNESCAPE_JAVA.translate("", null);
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IOException ex) {
-            fail("Exception expected!");
+            fail("Exception expected.");
         } catch (final IllegalArgumentException ex) {
             // expected
         }
