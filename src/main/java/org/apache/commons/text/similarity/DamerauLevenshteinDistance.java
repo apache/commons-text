@@ -41,6 +41,32 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
         return distance > threshold ? -1 : distance;
     }
 
+    private static <E> int calculateCost(final SimilarityInput<E> left, final SimilarityInput<E> right,
+                                         final int leftIndex, final int rightIndex,
+                                         final int[] curr, final int[] prev, final int[] prevPrev) {
+        final int cost = left.at(leftIndex - 1) == right.at(rightIndex - 1) ? 0 : 1;
+
+        // Select cheapest operation
+        int value = Math.min(
+                Math.min(
+                        prev[rightIndex] + 1, // Delete current character
+                        curr[rightIndex - 1] + 1 // Insert current character
+                ),
+                prev[rightIndex - 1] + cost // Replace (or no cost if same character)
+        );
+
+        // Check if adjacent characters are the same -> transpose if cheaper
+        if (leftIndex > 1
+                && rightIndex > 1
+                && left.at(leftIndex - 1) == right.at(rightIndex - 2)
+                && left.at(leftIndex - 2) == right.at(rightIndex - 1)) {
+            // Use cost here, to properly handle two subsequent equal letters
+            value = Math.min(value, prevPrev[rightIndex - 2] + cost);
+        }
+
+        return value;
+    }
+
     /**
      * Finds the Damerau-Levenshtein distance between two CharSequences if it's less than or equal to a given threshold.
      *
@@ -89,7 +115,7 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
         int[] prevPrev = new int[rightLength + 1];
         int[] temp; // Temp variable use to shuffle arrays at the end of each iteration
 
-        int rightIndex, leftIndex, cost, minCost;
+        int rightIndex, leftIndex, minCost;
 
         // Changing empty sequence to [0..i] requires i insertions
         for (rightIndex = 0; rightIndex <= rightLength; rightIndex++) {
@@ -111,25 +137,7 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
             minCost = Integer.MAX_VALUE;
 
             for (rightIndex = 1; rightIndex <= rightLength; rightIndex++) {
-                cost = left.at(leftIndex - 1) == right.at(rightIndex - 1) ? 0 : 1;
-
-                // Select cheapest operation
-                curr[rightIndex] = Math.min(
-                        Math.min(
-                                prev[rightIndex] + 1, // Delete current character
-                                curr[rightIndex - 1] + 1 // Insert current character
-                        ),
-                        prev[rightIndex - 1] + cost // Replace (or no cost if same character)
-                );
-
-                // Check if adjacent characters are the same -> transpose if cheaper
-                if (leftIndex > 1
-                        && rightIndex > 1
-                        && left.at(leftIndex - 1) == right.at(rightIndex - 2)
-                        && left.at(leftIndex - 2) == right.at(rightIndex - 1)) {
-                    // Use cost here, to properly handle two subsequent equal letters
-                    curr[rightIndex] = Math.min(curr[rightIndex], prevPrev[rightIndex - 2] + cost);
-                }
+                curr[rightIndex] = calculateCost(left, right, leftIndex, rightIndex, curr, prev, prevPrev);
 
                 minCost = Math.min(curr[rightIndex], minCost);
             }
@@ -196,7 +204,7 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
         int[] prevPrev = new int[rightLength + 1];
         int[] temp; // Temp variable use to shuffle arrays at the end of each iteration
 
-        int rightIndex, leftIndex, cost;
+        int rightIndex, leftIndex;
 
         // Changing empty sequence to [0..i] requires i insertions
         for (rightIndex = 0; rightIndex <= rightLength; rightIndex++) {
@@ -216,25 +224,7 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
             curr[0] = leftIndex;
 
             for (rightIndex = 1; rightIndex <= rightLength; rightIndex++) {
-                cost = left.at(leftIndex - 1) == right.at(rightIndex - 1) ? 0 : 1;
-
-                // Select cheapest operation
-                curr[rightIndex] = Math.min(
-                        Math.min(
-                                prev[rightIndex] + 1, // Delete current character
-                                curr[rightIndex - 1] + 1 // Insert current character
-                        ),
-                        prev[rightIndex - 1] + cost // Replace (or no cost if same character)
-                );
-
-                // Check if adjacent characters are the same -> transpose if cheaper
-                if (leftIndex > 1
-                        && rightIndex > 1
-                        && left.at(leftIndex - 1) == right.at(rightIndex - 2)
-                        && left.at(leftIndex - 2) == right.at(rightIndex - 1)) {
-                    // Use cost here, to properly handle two subsequent equal letters
-                    curr[rightIndex] = Math.min(curr[rightIndex], prevPrev[rightIndex - 2] + cost);
-                }
+                curr[rightIndex] = calculateCost(left, right, leftIndex, rightIndex, curr, prev, prevPrev);
             }
 
             // Rotate arrays for next iteration
