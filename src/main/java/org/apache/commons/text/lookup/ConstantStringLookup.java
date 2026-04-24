@@ -106,7 +106,7 @@ class ConstantStringLookup extends AbstractStringLookup {
      * the field.
      *
      * @param key the name of the variable to be resolved.
-     * @return The value of this variable or <strong>null</strong> if it cannot be resolved.
+     * @return The value of this variable or {@code null} if it cannot be resolved.
      */
     @Override
     public synchronized String lookup(final String key) {

@@ -1137,7 +1137,7 @@ public class StringSubstitutor {
      * @param buf the buffer where the substitution is occurring, not null.
      * @param startPos the start position of the variable including the prefix, valid.
      * @param endPos the end position of the variable including the suffix, valid.
-     * @return The variable's value or <strong>null</strong> if the variable is unknown.
+     * @return The variable's value or {@code null} if the variable is unknown.
      */
     protected String resolveVariable(final String variableName, final TextStringBuilder buf, final int startPos,
         final int endPos) {
