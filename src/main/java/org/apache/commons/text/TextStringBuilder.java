@@ -651,6 +651,15 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         return append(str, 0, StringUtils.length(str));
     }
 
+    private void validateRange(final int startIndex, final int length, final int strLength) {
+        if (startIndex < 0 || startIndex > strLength) {
+            throw new StringIndexOutOfBoundsException("startIndex must be valid");
+        }
+        if (length < 0 || startIndex + length > strLength) {
+            throw new StringIndexOutOfBoundsException("length must be valid");
+        }
+    }
+
     /**
      * Appends part of a string to this string builder. Appending null will call {@link #appendNull()}.
      *
@@ -666,12 +675,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         if (str == null) {
             return appendNull();
         }
-        if (startIndex < 0 || startIndex > str.length()) {
-            throw new StringIndexOutOfBoundsException("startIndex must be valid");
-        }
-        if (length < 0 || startIndex + length > str.length()) {
-            throw new StringIndexOutOfBoundsException("length must be valid");
-        }
+        validateRange(startIndex, length, str.length());
         if (length > 0) {
             final int len = length();
             ensureCapacityInternal(len + length);
@@ -715,12 +719,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         if (str == null) {
             return appendNull();
         }
-        if (startIndex < 0 || startIndex > str.length()) {
-            throw new StringIndexOutOfBoundsException("startIndex must be valid");
-        }
-        if (length < 0 || startIndex + length > str.length()) {
-            throw new StringIndexOutOfBoundsException("length must be valid");
-        }
+        validateRange(startIndex, length, str.length());
         if (length > 0) {
             final int len = length();
             ensureCapacityInternal(len + length);
@@ -752,12 +751,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         if (str == null) {
             return appendNull();
         }
-        if (startIndex < 0 || startIndex > str.length()) {
-            throw new StringIndexOutOfBoundsException("startIndex must be valid");
-        }
-        if (length < 0 || startIndex + length > str.length()) {
-            throw new StringIndexOutOfBoundsException("length must be valid");
-        }
+        validateRange(startIndex, length, str.length());
         if (length > 0) {
             final int len = length();
             ensureCapacityInternal(len + length);
@@ -789,12 +783,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         if (str == null) {
             return appendNull();
         }
-        if (startIndex < 0 || startIndex > str.length()) {
-            throw new StringIndexOutOfBoundsException("startIndex must be valid");
-        }
-        if (length < 0 || startIndex + length > str.length()) {
-            throw new StringIndexOutOfBoundsException("length must be valid");
-        }
+        validateRange(startIndex, length, str.length());
         if (length > 0) {
             final int len = length();
             ensureCapacityInternal(len + length);
