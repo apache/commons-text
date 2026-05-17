@@ -48,6 +48,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Dominik Stadler, Gary Gregory">Improve test coverage #732.</action>
       <action type="fix" dev="ggregory" issue="TEXT-239" due-to="Dominik Stadler, Gary Gregory">TextStringBuilder.append(char[], int, int) uses wrong variable in exception message #735.</action>
       <action type="fix" dev="ggregory" due-to="Omkhar Arasaratnam, Gary Gregory">StrBuilder.readFrom(Readable) exposes stale internal buffer to Readable parameter (#741).</action>
+      <action type="fix" dev="ggregory" due-to="Omkhar Arasaratnam, Gary Gregory">StrBuilder.deleteImpl(int, int, int) doesn't clear its unused bytes (#742).</action>
       <!-- ADD -->
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 93 to 99.</action>
