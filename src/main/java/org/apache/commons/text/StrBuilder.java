@@ -1698,6 +1698,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     private void deleteImpl(final int startIndex, final int endIndex, final int len) {
         System.arraycopy(buffer, endIndex, buffer, startIndex, size - endIndex);
         size -= len;
+        Arrays.fill(buffer, size, size + len, '0');
     }
 
     /**
