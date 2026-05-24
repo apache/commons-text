@@ -1820,6 +1820,15 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     }
 
     /**
+     * Gets the internal buffer for testing.
+     *
+     * @return the internal buffer.
+     */
+    char[] getBuffer() {
+        return buffer;
+    }
+
+    /**
      * Copies the character array into the specified array.
      *
      * @param destination the destination array, null will cause an array to be created.
@@ -2608,6 +2617,9 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
         if (insertLen != removeLen) {
             ensureCapacity(newSize);
             System.arraycopy(buffer, endIndex, buffer, startIndex + insertLen, size - endIndex);
+            if (size > newSize) {
+                Arrays.fill(buffer, newSize, size, CharUtils.NUL);
+            }
             size = newSize;
         }
         if (insertLen > 0) {
@@ -2720,12 +2732,12 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
             throw new StringIndexOutOfBoundsException(length);
         }
         if (length < size) {
-            size = length;
+            Arrays.fill(buffer, length, size, CharUtils.NUL);
         } else if (length > size) {
             ensureCapacity(length);
             Arrays.fill(buffer, size, length, CharUtils.NUL);
-            size = length;
         }
+        size = length;
         return this;
     }
 
