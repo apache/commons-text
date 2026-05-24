@@ -1484,9 +1484,9 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     /**
      * Gets the character at the specified index.
      *
-     * @param index the index to retrieve, must be valid
-     * @return The character at the index
-     * @throws IndexOutOfBoundsException if the index is invalid
+     * @param index the index to retrieve, must be valid.
+     * @return The character at the index.
+     * @throws IndexOutOfBoundsException if the index is invalid.
      * @see #setCharAt(int, char)
      * @see #deleteCharAt(int)
      */
