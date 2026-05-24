@@ -50,6 +50,8 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Omkhar Arasaratnam, Gary Gregory">StrBuilder.readFrom(Readable) exposes stale internal buffer to Readable parameter (#741).</action>
       <action type="fix" dev="ggregory" due-to="Omkhar Arasaratnam, Gary Gregory">StrBuilder.deleteImpl(int, int, int) doesn't clear its unused bytes (#742).</action>
       <action type="fix" dev="ggregory" due-to="Omkhar Arasaratnam, Gary Gregory">FormattableUtils.append re-parses literal output as format string (#743).</action>
+      <action type="fix" dev="ggregory" due-to="Omkhar Arasaratnam, Gary Gregory">StrBuilder.replaceImpl() shrink-branch leaves residual chars in buffer tail.</action>
+      <action type="fix" dev="ggregory" due-to="Omkhar Arasaratnam, Gary Gregory">StrBuilder.setLength() shrink-branch leaves residual chars in buffer tail.</action>
       <!-- ADD -->
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 93 to 100.</action>
