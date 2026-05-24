@@ -17,7 +17,9 @@
 
 package org.apache.commons.text;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -25,6 +27,7 @@ import java.io.ObjectInputStream;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 
+import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.junit.jupiter.api.Test;
 
@@ -135,6 +138,48 @@ public class StrBuilderClearTest {
             sb.readFrom(spy);
             // Post-patch: stale chars must NOT be visible to the Reader
             assertFalse(spy.observedStaleChars("_DATA_SHOULD_NOT_LEAK"));
+        }
+    }
+
+    @Test
+    void testReplaceImplLeavesResidue() throws Exception {
+        final String string = "SECRET_PASSWORD_DATA";
+        final StrBuilder sb = new StrBuilder(string);
+        assertEquals(20, sb.length());
+        // Shrink: replace [0,20) with "X" => removeLen=20, insertLen=1, newSize=1.
+        sb.replace(0, 20, "X");
+        assertEquals(1, sb.length());
+        assertEquals("X", sb.toString());
+        final char[] buf = sb.getBuffer();
+        assertTrue(buf.length >= 20);
+        // Tail [1..20) should be cleared but isn't on baseline => residue persists.
+        // Probe offset 5: original was '_' (underscore from "SECRET_..."). After
+        // arraycopy(buf, endIndex=20, buf, startIndex+insertLen=1, size-endIndex=0)
+        // the shift is a no-op, so buf[5] retains the original 'T' from "SECRET_".
+        // Either way it is non-NUL.
+        assertEquals(CharUtils.NUL, buf[5]);
+        // Dump the visible residue at the logical-unused tail.
+        for (int i = 1; i < 20; i++) {
+            assertEquals(CharUtils.NUL, buf[i]);
+        }
+    }
+
+    @Test
+    void testSetLengthShrinkLeavesResidue() throws Exception {
+        final String string = "CONFIDENTIAL_TOKEN_VALUE";
+        final int len = string.length();
+        final StrBuilder sb = new StrBuilder(string);
+        assertEquals(len, sb.length());
+        // setLength(5) shrinks: size = 5, but [5..24) is NOT cleared.
+        sb.setLength(5);
+        assertEquals(5, sb.length());
+        assertEquals("CONFI", sb.toString());
+        final char[] buf = sb.getBuffer();
+        assertTrue(buf.length >= len);
+        // Probe offset 10: original was 'L' (CONFIDENTIA*L*_TOKEN_VALUE).
+        assertEquals(CharUtils.NUL, buf[10]);
+        for (int i = 5; i < len; i++) {
+            assertEquals(CharUtils.NUL, buf[i]);
         }
     }
 
