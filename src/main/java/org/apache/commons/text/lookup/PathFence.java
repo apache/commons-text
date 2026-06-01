@@ -82,7 +82,7 @@ final class PathFence {
      * @param builder A builder.
      */
     private PathFence(final Builder builder) {
-        this.roots = Arrays.stream(builder.roots).map(Path::toAbsolutePath).collect(Collectors.toList());
+        this.roots = Arrays.stream(builder.roots).map(p -> p.toAbsolutePath().normalize()).collect(Collectors.toList());
     }
 
     /**
@@ -97,7 +97,7 @@ final class PathFence {
         if (roots.isEmpty()) {
             return path;
         }
-        final Path pathAbs = path.normalize().toAbsolutePath();
+        final Path pathAbs = path.toAbsolutePath().normalize();
         final Optional<Path> first = roots.stream().filter(pathAbs::startsWith).findFirst();
         if (first.isPresent()) {
             return path;

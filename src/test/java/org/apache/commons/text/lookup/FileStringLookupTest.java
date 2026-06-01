@@ -31,6 +31,7 @@ import java.nio.file.Paths;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests {@link FileStringLookup}.
@@ -116,6 +117,28 @@ public class FileStringLookupTest {
         final String expectedString = readDocumentFixtureString();
         final FileStringLookup fileStringLookup = new FileStringLookup(Paths.get("target"), CURRENT_PATH);
         testFence(expectedString, fileStringLookup);
+    }
+
+    @Test
+    void testFenceRelativeParentTraversal(@TempDir final Path tempDir) throws Exception {
+        // A real, readable file that lives outside the fence but is reachable from the working
+        // directory through leading ".." segments. The fence must reject it; if the leading ".."
+        // survives unresolved, the prefix check passes and the file is read, escaping the fence.
+        final Path secret = Files.write(tempDir.resolve("secret.txt"), "secret".getBytes(StandardCharsets.UTF_8));
+        final Path relativeEscape = CURRENT_PATH.toAbsolutePath().relativize(secret);
+        final FileStringLookup fileStringLookup = new FileStringLookup(CURRENT_PATH);
+        assertThrows(IllegalArgumentException.class, () -> fileStringLookup.apply("UTF-8:" + relativeEscape));
+    }
+
+    @Test
+    void testFenceRootWithParentSegment() throws Exception {
+        // A fence root that itself carries an unresolved ".." segment must be normalized when the
+        // fence is built. Otherwise the component-wise prefix check never matches and a file that
+        // really is inside the fence is wrongly rejected. Here "target/.." resolves to the working
+        // directory, so the in-fence document must still be readable.
+        final String expectedString = readDocumentFixtureString();
+        final FileStringLookup fileStringLookup = new FileStringLookup(Paths.get("target/.."));
+        assertEquals(expectedString, fileStringLookup.apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
     }
 
     @Test
