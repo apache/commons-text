@@ -82,7 +82,7 @@ final class PathFence {
      * @param builder A builder.
      */
     private PathFence(final Builder builder) {
-        this.roots = Arrays.stream(builder.roots).map(p -> p.toAbsolutePath().normalize()).collect(Collectors.toList());
+        this.roots = Arrays.stream(builder.roots).map(this::normalize).collect(Collectors.toList());
     }
 
     /**
@@ -97,12 +97,16 @@ final class PathFence {
         if (roots.isEmpty()) {
             return path;
         }
-        final Path pathAbs = path.toAbsolutePath().normalize();
+        final Path pathAbs = normalize(path);
         final Optional<Path> first = roots.stream().filter(pathAbs::startsWith).findFirst();
         if (first.isPresent()) {
             return path;
         }
         throw new IllegalArgumentException(String.format("[%s] -> [%s] not in the fence %s", fileName, pathAbs, roots));
+    }
+
+    private Path normalize(final Path path) {
+        return path.toAbsolutePath().normalize();
     }
 
 }
