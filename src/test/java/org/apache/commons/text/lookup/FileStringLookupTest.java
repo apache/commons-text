@@ -131,6 +131,17 @@ public class FileStringLookupTest {
     }
 
     @Test
+    void testFenceRootWithParentSegment() throws Exception {
+        // A fence root that itself carries an unresolved ".." segment must be normalized when the
+        // fence is built. Otherwise the component-wise prefix check never matches and a file that
+        // really is inside the fence is wrongly rejected. Here "target/.." resolves to the working
+        // directory, so the in-fence document must still be readable.
+        final String expectedString = readDocumentFixtureString();
+        final FileStringLookup fileStringLookup = new FileStringLookup(Paths.get("target/.."));
+        assertEquals(expectedString, fileStringLookup.apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
+    }
+
+    @Test
     void testFenceEmptyOne() throws Exception {
         final String expectedString = readDocumentFixtureString();
         assertEquals(expectedString, new FileStringLookup().apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
