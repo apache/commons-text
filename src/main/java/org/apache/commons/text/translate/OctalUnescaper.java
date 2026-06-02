@@ -61,17 +61,14 @@ public class OctalUnescaper extends CharSequenceTranslator {
             final int next = index + 1;
             final int next2 = index + 2;
             final int next3 = index + 3;
-
             // we know this is good as we checked it in the if block above
             builder.append(input.charAt(next));
-
             if (remaining > 1 && CharUtils.isOctal(input.charAt(next2))) {
                 builder.append(input.charAt(next2));
                 if (remaining > 2 && isZeroToThree(input.charAt(next)) && CharUtils.isOctal(input.charAt(next3))) {
                     builder.append(input.charAt(next3));
                 }
             }
-
             writer.write(Integer.parseInt(builder.toString(), 8));
             return 1 + builder.length();
         }
