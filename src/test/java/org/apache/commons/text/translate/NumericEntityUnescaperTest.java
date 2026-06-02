@@ -25,28 +25,25 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link NumericEntityUnescaper}.
  */
-class NumericEntityUnescaperTest  {
+class NumericEntityUnescaperTest {
 
     @Test
     void testCreatesNumericEntityUnescaperOne() {
         final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = {};
-        final NumericEntityUnescaper numericEntityUnescaper =
-                new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
+        final NumericEntityUnescaper numericEntityUnescaper = new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
         assertEquals("2|y|O7y`&#uVWj", numericEntityUnescaper.translate("2|y|O7y`&#uVWj"));
     }
 
     @Test
     void testCreatesNumericEntityUnescaperTwo() {
         final NumericEntityUnescaper.OPTION[] numericEntityUnescaperOPTIONArray = {};
-        final NumericEntityUnescaper numericEntityUnescaper =
-                new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
+        final NumericEntityUnescaper numericEntityUnescaper = new NumericEntityUnescaper(numericEntityUnescaperOPTIONArray);
         assertEquals("Ws2v8|O=7NR&#cB", numericEntityUnescaper.translate("Ws2v8|O=7NR&#cB"));
     }
 
     @Test
     void testOutOfBounds() {
         final NumericEntityUnescaper neu = new NumericEntityUnescaper();
-
         assertEquals("Test &", neu.translate("Test &"), "Failed to ignore when last character is &");
         assertEquals("Test &#", neu.translate("Test &#"), "Failed to ignore when last character is &");
         assertEquals("Test &#x", neu.translate("Test &#x"), "Failed to ignore when last character is &");
@@ -56,7 +53,6 @@ class NumericEntityUnescaperTest  {
     @Test
     void testOutOfRangeCodePoint() {
         final NumericEntityUnescaper neu = new NumericEntityUnescaper();
-
         assertEquals("&#x110000;", neu.translate("&#x110000;"), "Failed to ignore code point above 0x10FFFF");
         assertEquals("&#1114112;", neu.translate("&#1114112;"), "Failed to ignore code point above 0x10FFFF");
         assertEquals("&#x7FFFFFFF;", neu.translate("&#x7FFFFFFF;"), "Failed to ignore code point above 0x10FFFF");
@@ -67,7 +63,6 @@ class NumericEntityUnescaperTest  {
         final NumericEntityUnescaper neu = new NumericEntityUnescaper();
         final String input = "&#68642;";
         final String expected = "\uD803\uDC22";
-
         final String result = neu.translate(input);
         assertEquals(expected, result, "Failed to unescape numeric entities supplementary characters");
     }
@@ -78,22 +73,17 @@ class NumericEntityUnescaperTest  {
         NumericEntityUnescaper neu = new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.semiColonOptional);
         String input = "Test &#x30 not test";
         String expected = "Test \u0030 not test";
-
         String result = neu.translate(input);
         assertEquals(expected, result, "Failed to support unfinished entities (i.e. missing semicolon)");
-
         // ignore it
         neu = new NumericEntityUnescaper();
         input = "Test &#x30 not test";
         expected = input;
-
         result = neu.translate(input);
         assertEquals(expected, result, "Failed to ignore unfinished entities (i.e. missing semicolon)");
-
         // fail it
         neu = new NumericEntityUnescaper(NumericEntityUnescaper.OPTION.errorIfNoSemiColon);
         input = "Test &#x30 not test";
-
         try {
             result = neu.translate(input);
             fail("IllegalArgumentException expected");
@@ -101,5 +91,4 @@ class NumericEntityUnescaperTest  {
             // expected
         }
     }
-
 }
