@@ -57,20 +57,6 @@ public class TextStringBuilderClearTest {
     }
 
     @Test
-    public void testDeserializedBuilderHasNoStaleBufferContent() throws Exception {
-        final TextStringBuilder sb = new TextStringBuilder("secret_password_xyzzy");
-        sb.clear();
-        sb.append("safe");
-        final byte[] serialized = SerializationUtils.serialize(sb);
-        final TextStringBuilder sb2;
-        try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(serialized))) {
-            sb2 = (TextStringBuilder) ois.readObject();
-        }
-        final String bufContent = new String(sb2.getBuffer());
-        assertFalse(bufContent.contains("secret_password"), "Deserialized buffer must not contain stale chars: " + bufContent);
-    }
-
-    @Test
     void testDeleteShrinkLeavesNoResidue() {
         final String string = "SECRET_PASSWORD_DATA";
         final int len = string.length();
@@ -83,6 +69,20 @@ public class TextStringBuilderClearTest {
         for (int i = 6; i < len; i++) {
             assertEquals(CharUtils.NUL, buf[i]);
         }
+    }
+
+    @Test
+    public void testDeserializedBuilderHasNoStaleBufferContent() throws Exception {
+        final TextStringBuilder sb = new TextStringBuilder("secret_password_xyzzy");
+        sb.clear();
+        sb.append("safe");
+        final byte[] serialized = SerializationUtils.serialize(sb);
+        final TextStringBuilder sb2;
+        try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(serialized))) {
+            sb2 = (TextStringBuilder) ois.readObject();
+        }
+        final String bufContent = new String(sb2.getBuffer());
+        assertFalse(bufContent.contains("secret_password"), "Deserialized buffer must not contain stale chars: " + bufContent);
     }
 
     @Test

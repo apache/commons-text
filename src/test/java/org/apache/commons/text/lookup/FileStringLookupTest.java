@@ -120,6 +120,19 @@ public class FileStringLookupTest {
     }
 
     @Test
+    void testFenceEmptyOne() throws Exception {
+        final String expectedString = readDocumentFixtureString();
+        assertEquals(expectedString, new FileStringLookup().apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
+    }
+
+    @Test
+    void testFenceNullOne() throws Exception {
+        final String expectedString = readDocumentFixtureString();
+        assertEquals(expectedString,
+                new FileStringLookup((Path[]) null).apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
+    }
+
+    @Test
     void testFenceRelativeParentTraversal(@TempDir final Path tempDir) throws Exception {
         // A real, readable file that lives outside the fence but is reachable from the working
         // directory through leading ".." segments. The fence must reject it; if the leading ".."
@@ -139,19 +152,6 @@ public class FileStringLookupTest {
         final String expectedString = readDocumentFixtureString();
         final FileStringLookup fileStringLookup = new FileStringLookup(Paths.get("target/.."));
         assertEquals(expectedString, fileStringLookup.apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
-    }
-
-    @Test
-    void testFenceEmptyOne() throws Exception {
-        final String expectedString = readDocumentFixtureString();
-        assertEquals(expectedString, new FileStringLookup().apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
-    }
-
-    @Test
-    void testFenceNullOne() throws Exception {
-        final String expectedString = readDocumentFixtureString();
-        assertEquals(expectedString,
-                new FileStringLookup((Path[]) null).apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
     }
 
     @Test
