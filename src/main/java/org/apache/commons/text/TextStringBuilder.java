@@ -1568,6 +1568,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder clear() {
         size = 0;
+        Arrays.fill(buffer, '\0');
         return this;
     }
 
@@ -1756,6 +1757,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     private void deleteImpl(final int startIndex, final int endIndex, final int len) {
         System.arraycopy(buffer, endIndex, buffer, startIndex, size - endIndex);
         size -= len;
+        Arrays.fill(buffer, size, size + len, '\0');
     }
 
     /**
@@ -2820,6 +2822,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         if (insertLen != removeLen) {
             ensureCapacityInternal(newSize);
             System.arraycopy(buffer, endIndex, buffer, startIndex + insertLen, size - endIndex);
+            if (size > newSize) {
+                Arrays.fill(buffer, newSize, size, '\0');
+            }
             size = newSize;
         }
         if (insertLen > 0) {
@@ -2962,6 +2967,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             throw new StringIndexOutOfBoundsException(length);
         }
         if (length < size) {
+            Arrays.fill(buffer, length, size, '\0');
             size = length;
         } else if (length > size) {
             ensureCapacityInternal(length);
