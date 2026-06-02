@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.lang3.CharUtils;
@@ -46,51 +45,6 @@ import org.junit.jupiter.api.Test;
  */
 @SuppressWarnings("deprecation")
 public class StrBuilderClearTest {
-
-    /**
-     * A Reader that, upon reading, inspects the char array it has been given access to (positions beyond offset+len that may contain stale data), records them,
-     * then supplies its normal data.
-     */
-    static class SpyReader extends Reader {
-
-        private boolean done;
-        private char[] observedExtra;
-        private final char[] supply;
-
-        SpyReader(final String supply) {
-            this.supply = supply.toCharArray();
-        }
-
-        @Override
-        public void close() {
-            // empty
-        }
-
-        boolean observedStaleChars(final String marker) {
-            if (observedExtra == null) {
-                return false;
-            }
-            return new String(observedExtra).contains(marker);
-        }
-
-        @Override
-        public int read(final char[] cbuf, final int off, final int len) {
-            if (done) {
-                return -1;
-            }
-            done = true;
-            // Record chars in the buffer beyond where we will write
-            final int toWrite = Math.min(supply.length, len);
-            final int staleStart = off + toWrite;
-            final int staleLen = cbuf.length - staleStart;
-            if (staleLen > 0) {
-                observedExtra = new char[staleLen];
-                System.arraycopy(cbuf, staleStart, observedExtra, 0, staleLen);
-            }
-            System.arraycopy(supply, 0, cbuf, off, toWrite);
-            return toWrite;
-        }
-    }
 
     /** Search for a string encoded as UTF-16BE (2 bytes per char) in a byte array. */
     private static boolean containsUtf16Be(final byte[] haystack, final String needle) throws IOException {
