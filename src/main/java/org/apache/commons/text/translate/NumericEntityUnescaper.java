@@ -35,7 +35,9 @@ import org.apache.commons.lang3.CharUtils;
  */
 public class NumericEntityUnescaper extends CharSequenceTranslator {
 
-    /** Enumerates NumericEntityUnescaper options for unescaping. */
+    /**
+     * Enumerates NumericEntityUnescaper options for unescaping.
+     */
     public enum OPTION {
 
         /**
@@ -147,9 +149,9 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
                 return 0;
             }
             if (entityValue > 0xFFFF) {
-                final char[] chrs = Character.toChars(entityValue);
-                writer.write(chrs[0]);
-                writer.write(chrs[1]);
+                final char[] chars = Character.toChars(entityValue);
+                writer.write(chars[0]);
+                writer.write(chars[1]);
             } else {
                 writer.write(entityValue);
             }
