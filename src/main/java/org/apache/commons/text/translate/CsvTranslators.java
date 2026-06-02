@@ -74,8 +74,8 @@ public final class CsvTranslators {
 
         @Override
         void translateWhole(final CharSequence input, final Writer writer) throws IOException {
-            // is input not quoted?
-            if (input.charAt(0) != CSV_QUOTE || input.charAt(input.length() - 1) != CSV_QUOTE) {
+            // Is input not quoted? A single character cannot be wrapped in a leading and trailing quote.
+            if (input.length() < 2 || input.charAt(0) != CSV_QUOTE || input.charAt(input.length() - 1) != CSV_QUOTE) {
                 writer.write(input.toString());
                 return;
             }

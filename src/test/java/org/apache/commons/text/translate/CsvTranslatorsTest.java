@@ -78,6 +78,16 @@ class CsvTranslatorsTest {
     }
 
     @Test
+    void testCsvUnEscaperSingleQuoteTest() throws IOException {
+        final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
+        final Writer writer = new StringWriter();
+        final String input = "\"";
+        escaper.translateWhole(input, writer);
+        final String data = writer.toString();
+        assertEquals(input, data);
+    }
+
+    @Test
     void testCsvUnEscaperPlaneTextTest() throws IOException {
         final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
         final Writer writer = new StringWriter();
