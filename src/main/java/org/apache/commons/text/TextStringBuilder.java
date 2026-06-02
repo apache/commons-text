@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.matcher.StringMatcher;
 
@@ -1568,7 +1569,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      */
     public TextStringBuilder clear() {
         size = 0;
-        Arrays.fill(buffer, '\0');
+        Arrays.fill(buffer, CharUtils.NUL);
         return this;
     }
 
@@ -1757,7 +1758,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
     private void deleteImpl(final int startIndex, final int endIndex, final int len) {
         System.arraycopy(buffer, endIndex, buffer, startIndex, size - endIndex);
         size -= len;
-        Arrays.fill(buffer, size, size + len, '\0');
+        Arrays.fill(buffer, size, size + len, CharUtils.NUL);
     }
 
     /**
@@ -2823,7 +2824,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             ensureCapacityInternal(newSize);
             System.arraycopy(buffer, endIndex, buffer, startIndex + insertLen, size - endIndex);
             if (size > newSize) {
-                Arrays.fill(buffer, newSize, size, '\0');
+                Arrays.fill(buffer, newSize, size, CharUtils.NUL);
             }
             size = newSize;
         }
@@ -2967,13 +2968,13 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
             throw new StringIndexOutOfBoundsException(length);
         }
         if (length < size) {
-            Arrays.fill(buffer, length, size, '\0');
+            Arrays.fill(buffer, length, size, CharUtils.NUL);
             size = length;
         } else if (length > size) {
             ensureCapacityInternal(length);
             final int oldEnd = size;
             size = length;
-            Arrays.fill(buffer, oldEnd, length, '\0');
+            Arrays.fill(buffer, oldEnd, length, CharUtils.NUL);
         }
         return this;
     }
