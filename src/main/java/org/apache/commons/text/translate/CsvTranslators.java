@@ -79,10 +79,8 @@ public final class CsvTranslators {
                 writer.write(input.toString());
                 return;
             }
-
             // strip quotes
             final String quoteless = input.subSequence(1, input.length() - 1).toString();
-
             if (StringUtils.containsAny(quoteless, CSV_SEARCH_CHARS)) {
                 // deal with escaped quotes; ie) ""
                 writer.write(Strings.CS.replace(quoteless, CSV_ESCAPED_QUOTE_STR, CSV_QUOTE_STR));
