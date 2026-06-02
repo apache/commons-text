@@ -78,20 +78,20 @@ class CsvTranslatorsTest {
     }
 
     @Test
-    void testCsvUnEscaperSingleQuoteTest() throws IOException {
+    void testCsvUnEscaperPlaneTextTest() throws IOException {
         final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
         final Writer writer = new StringWriter();
-        final String input = "\"";
+        final String input = "hi,this,is,unescape,test";
         escaper.translateWhole(input, writer);
         final String data = writer.toString();
         assertEquals(input, data);
     }
 
     @Test
-    void testCsvUnEscaperPlaneTextTest() throws IOException {
+    void testCsvUnEscaperSingleQuoteTest() throws IOException {
         final CsvTranslators.CsvUnescaper escaper = new CsvTranslators.CsvUnescaper();
         final Writer writer = new StringWriter();
-        final String input = "hi,this,is,unescape,test";
+        final String input = "\"";
         escaper.translateWhole(input, writer);
         final String data = writer.toString();
         assertEquals(input, data);
