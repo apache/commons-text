@@ -151,6 +151,9 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
                 return 0;
             }
 
+            if (!Character.isValidCodePoint(entityValue)) {
+                return 0;
+            }
             if (entityValue > 0xFFFF) {
                 final char[] chrs = Character.toChars(entityValue);
                 writer.write(chrs[0]);
