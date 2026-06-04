@@ -475,6 +475,11 @@ class ExtendedMessageFormatTest {
     }
 
     @Test
+    void testArgumentIndexTrailingWhitespaceAtEnd() {
+        assertThrowsExactly(IllegalArgumentException.class, () -> new ExtendedMessageFormat("{0 ", new HashMap<>()));
+    }
+
+    @Test
     void testOverriddenBuiltinFormat() {
         final Calendar cal = Calendar.getInstance();
         cal.set(2007, Calendar.JANUARY, 23);
