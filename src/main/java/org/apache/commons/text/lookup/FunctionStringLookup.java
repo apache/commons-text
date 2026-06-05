@@ -87,8 +87,8 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
         try {
             obj = function.apply(key);
         } catch (final SecurityException | NullPointerException | IllegalArgumentException e) {
-            // Squelched. All lookup(String) will return null.
-            // Could be a ConcurrentHashMap and a null key request
+            // All lookup(String) will return null.
+            // NullPointerException: Could be a ConcurrentHashMap and a null key request.
             return null;
         }
         return Objects.toString(obj, null);

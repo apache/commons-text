@@ -20,11 +20,13 @@ package org.apache.commons.text.lookup;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
 
@@ -58,9 +60,43 @@ class FunctionStringLookupTest {
     }
 
     @Test
+    void testThrowsError() {
+        assertThrows(Error.class, () -> FunctionStringLookup.on(k -> throwError(Error::new)).apply("key"));
+    }
+
+    @Test
+    void testThrowsIllegalStateException() {
+        assertThrows(IllegalStateException.class, () -> FunctionStringLookup.on(k -> throwRuntimeException(IllegalStateException::new)).apply("key"));
+    }
+
+    @Test
+    void testThrowsNullPointerException() {
+        assertNull(FunctionStringLookup.on(k -> throwRuntimeException(NullPointerException::new)).apply("key"));
+    }
+
+    @Test
+    void testThrowsRuntimeException() {
+        assertThrows(RuntimeException.class, () -> FunctionStringLookup.on(k -> throwRuntimeException(RuntimeException::new)).apply("key"));
+    }
+
+    @Test
+    void testThrowsSecurityException() {
+        assertNull(FunctionStringLookup.on(k -> {
+            throw new SecurityException("test");
+        }).apply("key"));
+    }
+
+    @Test
     void testToString() {
         // does not blow up and gives some kind of string.
         assertFalse(FunctionStringLookup.on(new HashMap<>()).toString().isEmpty());
     }
 
+    <T extends Error> Object throwError(final Supplier<T> t) throws T {
+        throw t.get();
+    }
+
+    <T extends RuntimeException> Object throwRuntimeException(final Supplier<T> t) throws T {
+        throw t.get();
+    }
 }
