@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.text.translate;
 
 import java.io.IOException;
@@ -25,9 +26,8 @@ import java.util.Locale;
 import org.apache.commons.lang3.Validate;
 
 /**
- * An API for translating text.
- * Its core use is to escape and unescape text. Because escaping and unescaping
- * is completely contextual, the API does not present two separate signatures.
+ * An API for translating text. Its core use is to escape and unescape text. Because escaping and unescaping is completely contextual, the API does not present
+ * two separate signatures.
  *
  * @since 1.0
  */
@@ -39,8 +39,7 @@ public abstract class CharSequenceTranslator {
     static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
     /**
-     * Returns an upper case hexadecimal {@code String} for the given
-     * character.
+     * Returns an upper case hexadecimal {@code String} for the given character.
      *
      * @param codePoint The code point to convert.
      * @return An upper case hexadecimal {@code String}
@@ -57,7 +56,7 @@ public abstract class CharSequenceTranslator {
     }
 
     /**
-     * Helper for non-Writer usage.
+     * Translates an input. This is intentionally final as its algorithm is tightly coupled with the abstract method of this class.
      *
      * @param input CharSequence to be translated.
      * @return String output of translation.
@@ -77,13 +76,12 @@ public abstract class CharSequenceTranslator {
     }
 
     /**
-     * Translate a set of code points, represented by an int index into a CharSequence,
-     * into another set of code points. The number of code points consumed must be returned,
-     * and the only IOExceptions thrown must be from interacting with the Writer so that
-     * the top level API may reliably ignore StringWriter IOExceptions.
+     * Translates a set of code points, represented by an int index into a CharSequence, into another set of code points. The number of code points consumed
+     * must be returned, and the only IOExceptions thrown must be from interacting with the Writer so that the top level API may reliably ignore StringWriter
+     * IOExceptions.
      *
-     * @param input CharSequence that is being translated.
-     * @param index int representing the current point of translation.
+     * @param input  CharSequence that is being translated.
+     * @param index  int representing the current point of translation.
      * @param writer Writer to translate the text to.
      * @return int count of code points consumed.
      * @throws IOException if and only if the Writer produces an IOException.
@@ -91,10 +89,9 @@ public abstract class CharSequenceTranslator {
     public abstract int translate(CharSequence input, int index, Writer writer) throws IOException;
 
     /**
-     * Translate an input onto a Writer. This is intentionally final as its algorithm is
-     * tightly coupled with the abstract method of this class.
+     * Translates an input onto a Writer. This is intentionally final as its algorithm is tightly coupled with the abstract method of this class.
      *
-     * @param input CharSequence that is being translated.
+     * @param input  CharSequence that is being translated.
      * @param writer Writer to translate the text to.
      * @throws IOException if and only if the Writer produces an IOException.
      */
@@ -116,8 +113,8 @@ public abstract class CharSequenceTranslator {
                 if (Character.isHighSurrogate(c1) && pos < len) {
                     final char c2 = input.charAt(pos);
                     if (Character.isLowSurrogate(c2)) {
-                      writer.write(c2);
-                      pos++;
+                        writer.write(c2);
+                        pos++;
                     }
                 }
                 continue;
@@ -131,8 +128,7 @@ public abstract class CharSequenceTranslator {
     }
 
     /**
-     * Helper method to create a merger of this translator with another set of
-     * translators. Useful in customizing the standard functionality.
+     * Creates a merger of this translator with another set of translators. Useful in customizing the standard functionality.
      *
      * @param translators CharSequenceTranslator array of translators to merge with this one.
      * @return CharSequenceTranslator merging this translator with the others.
@@ -143,5 +139,4 @@ public abstract class CharSequenceTranslator {
         System.arraycopy(translators, 0, newArray, 1, translators.length);
         return new AggregateTranslator(newArray);
     }
-
 }

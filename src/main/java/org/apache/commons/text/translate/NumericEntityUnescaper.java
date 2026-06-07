@@ -64,7 +64,7 @@ public class NumericEntityUnescaper extends CharSequenceTranslator {
     private final EnumSet<OPTION> options;
 
     /**
-     * Creates a UnicodeUnescaper.
+     * Constructs a new instance.
      *
      * The constructor takes a list of options, only one type of which is currently available (whether to allow, error or ignore the semicolon on the end of a
      * numeric entity to being missing).

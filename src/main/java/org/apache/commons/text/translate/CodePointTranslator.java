@@ -28,7 +28,7 @@ import java.io.Writer;
 public abstract class CodePointTranslator extends CharSequenceTranslator {
 
     /**
-     * Construct a new instance.
+     * Constructs a new instance.
      */
     public CodePointTranslator() {
         // empty

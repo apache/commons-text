@@ -40,7 +40,7 @@ public final class CsvTranslators {
     public static class CsvEscaper extends SinglePassTranslator {
 
         /**
-         * Construct a new instance.
+         * Constructs a new instance.
          */
         public CsvEscaper() {
             // empty
@@ -66,7 +66,7 @@ public final class CsvTranslators {
     public static class CsvUnescaper extends SinglePassTranslator {
 
         /**
-         * Construct a new instance.
+         * Constructs a new instance.
          */
         public CsvUnescaper() {
             // empty

@@ -37,7 +37,7 @@ public class AggregateTranslator extends CharSequenceTranslator {
     private final List<CharSequenceTranslator> translators = new ArrayList<>();
 
     /**
-     * Specify the translators to be used at creation time.
+     * Constructs a new instance with translators to be used at creation time.
      *
      * @param translators CharSequenceTranslator array to aggregate.
      */

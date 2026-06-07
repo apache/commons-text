@@ -34,7 +34,7 @@ import org.apache.commons.lang3.CharUtils;
 public class OctalUnescaper extends CharSequenceTranslator {
 
     /**
-     * Creates a new instance.
+     * Constructs a new instance.
      */
     public OctalUnescaper() {
         // empty
