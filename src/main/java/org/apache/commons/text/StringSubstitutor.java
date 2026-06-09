@@ -1455,13 +1455,22 @@ public class StringSubstitutor {
                         // found variable end marker
                         if (nestedVarCount == 0) {
                             if (escPos >= 0) {
+                                final boolean escapedVariableStartsWithNestedPrefix =
+                                        prefixMatcher.isMatch(builder, startPos + startMatchLen, offset, bufEnd) != 0;
+
+                                final boolean hasOuterSuffix =
+                                        hasLaterSuffix(builder, pos + endMatchLen, offset, bufEnd, suffixMatcher);
+
+                                pos = escapedVariableStartsWithNestedPrefix && !hasOuterSuffix
+                                        ? escPos
+                                        : startPos + 1;
+
                                 // delete escape
                                 builder.deleteCharAt(escPos);
                                 escPos = -1;
                                 lengthChange--;
                                 altered = true;
                                 bufEnd--;
-                                pos = startPos + 1;
                                 startPos--;
                                 continue outer;
                             }
@@ -1544,6 +1553,33 @@ public class StringSubstitutor {
             }
         }
         return new Result(altered, lengthChange);
+    }
+
+    /**
+     * Checks whether the specified buffer contains a variable suffix after the given position.
+     *
+     * @param builder the string builder to check, not null.
+     * @param pos the position to start checking from.
+     * @param offset the start offset within the builder, must be valid.
+     * @param bufEnd the end offset within the builder, must be valid.
+     * @param suffixMatcher the suffix matcher to use, not null.
+     * @return true if a suffix is found after the given position.
+     */
+    private boolean hasLaterSuffix(
+            final TextStringBuilder builder,
+            int pos,
+            final int offset,
+            final int bufEnd,
+            final StringMatcher suffixMatcher
+    ) {
+        while (pos < bufEnd) {
+            final int suffixLen = suffixMatcher.isMatch(builder, pos, offset, bufEnd);
+            if (suffixLen != 0) {
+                return true;
+            }
+            pos++;
+        }
+        return false;
     }
 
     /**
