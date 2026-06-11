@@ -1390,19 +1390,18 @@ public class StringSubstitutor {
     }
 
     /**
-     * Recursive handler for multiple levels of interpolation. This is the main interpolation method, which resolves the
-     * values of all variable references contained in the passed in text.
+     * Recursive handler for multiple levels of interpolation. This is the main interpolation method, which resolves the values of all variable references
+     * contained in the passed in text.
      *
-     * @param builder the string builder to substitute into, not null.
-     * @param offset the start offset within the builder, must be valid.
-     * @param length the length within the builder to be processed, must be valid.
+     * @param builder        the string builder to substitute into, not null.
+     * @param offset         the start offset within the builder, must be valid.
+     * @param length         the length within the builder to be processed, must be valid.
      * @param priorVariables the stack keeping track of the replaced variables, may be null.
      * @return The result.
      * @throws IllegalArgumentException if variable is not found and <code>isEnableUndefinedVariableException() == true</code>.
      * @since 1.9
      */
-    private Result substitute(final TextStringBuilder builder, final int offset, final int length,
-        List<String> priorVariables) {
+    private Result substitute(final TextStringBuilder builder, final int offset, final int length, List<String> priorVariables) {
         Objects.requireNonNull(builder, "builder");
         final StringMatcher prefixMatcher = getVariablePrefixMatcher();
         final StringMatcher suffixMatcher = getVariableSuffixMatcher();
@@ -1412,7 +1411,6 @@ public class StringSubstitutor {
         final boolean substitutionInValuesDisabled = isDisableSubstitutionInValues();
         final boolean undefinedVariableException = isEnableUndefinedVariableException();
         final boolean preserveEscapes = isPreserveEscapes();
-
         boolean altered = false;
         int lengthChange = 0;
         int bufEnd = offset + length;
@@ -1447,7 +1445,6 @@ public class StringSubstitutor {
                         pos += endMatchLen;
                         continue;
                     }
-
                     endMatchLen = suffixMatcher.isMatch(builder, pos, offset, bufEnd);
                     if (endMatchLen == 0) {
                         pos++;
@@ -1455,19 +1452,21 @@ public class StringSubstitutor {
                         // found variable end marker
                         if (nestedVarCount == 0) {
                             if (escPos >= 0) {
+                                final boolean escapedVariableStartsWithNestedPrefix = prefixMatcher.isMatch(builder, startPos + startMatchLen, offset,
+                                        bufEnd) != 0;
+                                final boolean hasOuterSuffix = hasLaterSuffix(builder, pos + endMatchLen, offset, bufEnd, suffixMatcher);
+                                pos = escapedVariableStartsWithNestedPrefix && !hasOuterSuffix ? escPos : startPos + 1;
                                 // delete escape
                                 builder.deleteCharAt(escPos);
                                 escPos = -1;
                                 lengthChange--;
                                 altered = true;
                                 bufEnd--;
-                                pos = startPos + 1;
                                 startPos--;
                                 continue outer;
                             }
                             // get var name
-                            String varNameExpr = builder.midString(startPos + startMatchLen,
-                                pos - startPos - startMatchLen);
+                            String varNameExpr = builder.midString(startPos + startMatchLen, pos - startPos - startMatchLen);
                             if (substitutionInVariablesEnabled) {
                                 final TextStringBuilder bufName = new TextStringBuilder(varNameExpr);
                                 substitute(bufName, 0, bufName.length());
@@ -1475,41 +1474,33 @@ public class StringSubstitutor {
                             }
                             pos += endMatchLen;
                             final int endPos = pos;
-
                             String varName = varNameExpr;
                             String varDefaultValue = null;
-
                             if (valueDelimMatcher != null) {
                                 final char[] varNameExprChars = varNameExpr.toCharArray();
                                 int valueDelimiterMatchLen = 0;
                                 for (int i = 0; i < varNameExprChars.length; i++) {
                                     // if there's any nested variable when nested variable substitution disabled,
                                     // then stop resolving name and default value.
-                                    if (!substitutionInVariablesEnabled && prefixMatcher.isMatch(varNameExprChars, i, i,
-                                        varNameExprChars.length) != 0) {
+                                    if (!substitutionInVariablesEnabled && prefixMatcher.isMatch(varNameExprChars, i, i, varNameExprChars.length) != 0) {
                                         break;
                                     }
-                                    if (valueDelimMatcher.isMatch(varNameExprChars, i, 0,
-                                        varNameExprChars.length) != 0) {
-                                        valueDelimiterMatchLen = valueDelimMatcher.isMatch(varNameExprChars, i, 0,
-                                            varNameExprChars.length);
+                                    if (valueDelimMatcher.isMatch(varNameExprChars, i, 0, varNameExprChars.length) != 0) {
+                                        valueDelimiterMatchLen = valueDelimMatcher.isMatch(varNameExprChars, i, 0, varNameExprChars.length);
                                         varName = varNameExpr.substring(0, i);
                                         varDefaultValue = varNameExpr.substring(i + valueDelimiterMatchLen);
                                         break;
                                     }
                                 }
                             }
-
                             // on the first call initialize priorVariables
                             if (priorVariables == null) {
                                 priorVariables = new ArrayList<>();
                                 priorVariables.add(builder.midString(offset, length));
                             }
-
                             // handle cyclic substitution
                             checkCyclicSubstitution(varName, priorVariables);
                             priorVariables.add(varName);
-
                             // resolve the variable
                             String varValue = resolveVariable(varName, builder, startPos, endPos);
                             if (varValue == null) {
@@ -1528,11 +1519,9 @@ public class StringSubstitutor {
                                 bufEnd += change;
                                 lengthChange += change;
                             } else if (undefinedVariableException) {
-                                throw new IllegalArgumentException(
-                                    String.format("Cannot resolve variable '%s' (enableSubstitutionInVariables=%s).",
-                                        varName, substitutionInVariablesEnabled));
+                                throw new IllegalArgumentException(String.format("Cannot resolve variable '%s' (enableSubstitutionInVariables=%s).", varName,
+                                        substitutionInVariablesEnabled));
                             }
-
                             // remove variable from the cyclic stack
                             priorVariables.remove(priorVariables.size() - 1);
                             break;
@@ -1544,6 +1533,26 @@ public class StringSubstitutor {
             }
         }
         return new Result(altered, lengthChange);
+    }
+
+    /**
+     * Checks whether the specified buffer contains a variable suffix after the given position.
+     *
+     * @param builder       the string builder to check, not null.
+     * @param pos           the position to start checking from.
+     * @param offset        the start offset within the builder, must be valid.
+     * @param bufEnd        the end offset within the builder, must be valid.
+     * @param suffixMatcher the suffix matcher to use, not null.
+     * @return true if a suffix is found after the given position.
+     */
+    private boolean hasLaterSuffix(final TextStringBuilder builder, int pos, final int offset, final int bufEnd, final StringMatcher suffixMatcher) {
+        while (pos < bufEnd) {
+            if (suffixMatcher.isMatch(builder, pos, offset, bufEnd) != 0) {
+                return true;
+            }
+            pos++;
+        }
+        return false;
     }
 
     /**
