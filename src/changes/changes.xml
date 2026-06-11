@@ -56,6 +56,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Javid Khan, Gary Gregory">Clear residual buffer chars in TextStringBuilder shrink and clear paths #746.</action>
       <action type="fix" dev="ggregory" due-to="Javid Khan, Gary Gregory">Validate code point range in NumericEntityUnescaper.translate() #747.</action>
       <action type="fix" dev="ggregory" due-to="Javid Khan, Gary Gregory">Fix StringIndexOutOfBoundsException in CsvUnescaper on lone quote (#748).</action>
+      <action type="fix" dev="ggregory" issue="TEXT-179" due-to="Gary Gregory, LeandroAntunes39">[TEXT-179] StringSubstitutor incorrectly removes the escape character in "$${${a}".</action>
       <!-- ADD -->
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 93 to 101.</action>
