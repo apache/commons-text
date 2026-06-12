@@ -442,6 +442,9 @@ public class ExtendedMessageFormat extends MessageFormat {
             char c = pattern.charAt(pos.getIndex());
             if (Character.isWhitespace(c)) {
                 seekNonWs(pattern, pos);
+                if (pos.getIndex() >= pattern.length()) {
+                    break;
+                }
                 c = pattern.charAt(pos.getIndex());
                 if (c != START_FMT && c != END_FE) {
                     error = true;
