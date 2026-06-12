@@ -77,4 +77,62 @@ class CaseUtilsTest {
         assertEquals("\uD800\uDF00\uD800\uDF01\uD800\uDF02\uD800\uDF03",
                 CaseUtils.toCamelCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", true, '\uD800', '\uDF14'));
     }
+
+    @Test
+    public void testToSnakeCase() {
+        assertThat(CaseUtils.toSnakeCase(null, null)).isNull();
+        assertThat(CaseUtils.toSnakeCase("", null)).isEqualTo("");
+        assertThat(CaseUtils.toSnakeCase("  ", null)).isEqualTo("");
+        assertThat(CaseUtils.toSnakeCase("a  b  c  @def", null)).isEqualTo("a_b_c_@def");
+        assertThat(CaseUtils.toSnakeCase("a b c @def")).isEqualTo("a_b_c_@def");
+        assertThat(CaseUtils.toSnakeCase("a b c @def", '_')).isEqualTo("a_b_c_@def");
+        assertThat(CaseUtils.toSnakeCase("a_b_c_@def", '_')).isEqualTo("a_b_c_@def");
+        assertThat(CaseUtils.toSnakeCase("_a___b__c_@def", '_')).isEqualTo("a_b_c_@def");
+
+        final char[] chars = {'-', '+', ' ', '@'};
+        assertThat(CaseUtils.toSnakeCase("-+@ ", chars)).isEqualTo("");
+        assertThat(CaseUtils.toSnakeCase("   to-SNAKE-cASE", chars)).isEqualTo("to_snake_case");
+        assertThat(CaseUtils.toSnakeCase("@@@@   to+SNAKE@cASE ", chars)).isEqualTo("to_snake_case");
+        assertThat(CaseUtils.toSnakeCase("To+SN+AK E@cASE", chars)).isEqualTo("to_sn_ak_e_case");
+
+        assertThat(CaseUtils.toSnakeCase("To.Snake.Case", '.')).isEqualTo("to_snake_case");
+        assertThat(CaseUtils.toSnakeCase("To.Snake-Case", '-', '.')).isEqualTo("to_snake_case");
+        assertThat(CaseUtils.toSnakeCase(" to @ Snake case", '-', '@')).isEqualTo("to_snake_case");
+        assertThat(CaseUtils.toSnakeCase(" @to @ Snake case", '-', '@')).isEqualTo("to_snake_case");
+
+        assertThat(CaseUtils.toSnakeCase("tosnakecase")).isEqualTo("tosnakecase");
+
+        assertThat(CaseUtils.toSnakeCase("\uD800\uDF00 \uD800\uDF02")).isEqualTo("\uD800\uDF00_\uD800\uDF02");
+        assertThat(CaseUtils.toSnakeCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", '\uD800',
+            '\uDF14')).isEqualTo("\uD800\uDF00\uD800\uDF01_\uD800\uDF02\uD800\uDF03");
+    }
+
+    @Test
+    public void testToKebabCase() {
+        assertThat(CaseUtils.toKebabCase(null, null)).isNull();
+        assertThat(CaseUtils.toKebabCase("", null)).isEqualTo("");
+        assertThat(CaseUtils.toKebabCase("  ", null)).isEqualTo("");
+        assertThat(CaseUtils.toKebabCase("a  b  c  @def", null)).isEqualTo("a-b-c-@def");
+        assertThat(CaseUtils.toKebabCase("a b c @def")).isEqualTo("a-b-c-@def");
+        assertThat(CaseUtils.toKebabCase("a b c @def", '-')).isEqualTo("a-b-c-@def");
+        assertThat(CaseUtils.toKebabCase("a-b-c-@def", '-')).isEqualTo("a-b-c-@def");
+        assertThat(CaseUtils.toKebabCase("-a---b--c-@def", '-')).isEqualTo("a-b-c-@def");
+
+        final char[] chars = {'-', '+', ' ', '@'};
+        assertThat(CaseUtils.toKebabCase("-+@ ", chars)).isEqualTo("");
+        assertThat(CaseUtils.toKebabCase("   to-KEBAB-cASE", chars)).isEqualTo("to-kebab-case");
+        assertThat(CaseUtils.toKebabCase("@@@@   to+KEBAB@cASE ", chars)).isEqualTo("to-kebab-case");
+        assertThat(CaseUtils.toKebabCase("To+KE+BA B@cASE", chars)).isEqualTo("to-ke-ba-b-case");
+
+        assertThat(CaseUtils.toKebabCase("To.Kebab.Case", '.')).isEqualTo("to-kebab-case");
+        assertThat(CaseUtils.toKebabCase("To.Kebab-Case", '-', '.')).isEqualTo("to-kebab-case");
+        assertThat(CaseUtils.toKebabCase(" to @ Kebab case", '-', '@')).isEqualTo("to-kebab-case");
+        assertThat(CaseUtils.toKebabCase(" @to @ Kebab case", '-', '@')).isEqualTo("to-kebab-case");
+
+        assertThat(CaseUtils.toKebabCase("tokebabcase")).isEqualTo("tokebabcase");
+
+        assertThat(CaseUtils.toKebabCase("\uD800\uDF00 \uD800\uDF02")).isEqualTo("\uD800\uDF00-\uD800\uDF02");
+        assertThat(CaseUtils.toKebabCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", '\uD800',
+            '\uDF14')).isEqualTo("\uD800\uDF00\uD800\uDF01-\uD800\uDF02\uD800\uDF03");
+    }
 }
