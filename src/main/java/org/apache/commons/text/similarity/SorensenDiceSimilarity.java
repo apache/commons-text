@@ -27,20 +27,20 @@ import org.apache.commons.lang3.StringUtils;
  * A similarity algorithm indicating the percentage of matched characters
  * between two character sequences.
  *
- * <p>The Sørensen-Dice coefficient is a statistic used for comparing the
+ * <p>The SÃ¸rensen-Dice coefficient is a statistic used for comparing the
  * similarity of two samples. It was independently developed by the botanists
- * Thorvald Sørensen and Lee Raymond Dice, who published in 1948 and 1945
+ * Thorvald SÃ¸rensen and Lee Raymond Dice, who published in 1948 and 1945
  * respectively. The index is known by several other names, especially
- * Sørensen-Dice index, Sørensen index and Dice's coefficient. Other
+ * SÃ¸rensen-Dice index, SÃ¸rensen index and Dice's coefficient. Other
  * variations include the "similarity coefficient" or "index", such as Dice
  * similarity coefficient (DSC).</p>
  *
- * <p>This implementation is based on the Sørensen-Dice similarity algorithm
+ * <p>This implementation is based on the SÃ¸rensen-Dice similarity algorithm
  * from <a href=
  * "https://en.wikipedia.org/wiki/Dice-S%C3%B8rensen_coefficient">
  * https://en.wikipedia.org/wiki/Dice-S%C3%B8rensen_coefficient</a>.</p>
  *
- * @since 1.13
+ * @since 1.16.0
  */
 public class SorensenDiceSimilarity implements SimilarityScore<Double> {
 
@@ -95,25 +95,19 @@ public class SorensenDiceSimilarity implements SimilarityScore<Double> {
      */
     @Override
     public Double apply(final CharSequence left, final CharSequence right) {
-
         if (left == null || right == null) {
             throw new IllegalArgumentException("CharSequences must not be null");
         }
-
         if (StringUtils.equals(left, right)) {
             return 1d;
         }
-
         // if bigram is not formed out of any given string, clearly both are not similar.
         if (left.length() < 2 || right.length() < 2) {
             return 0d;
         }
-
         IntersectionResult overlap = similarity.apply(left, right);
-
         final int total = overlap.getSizeA() + overlap.getSizeB();
         final long intersection = overlap.getIntersection();
-
         return (2.0d * intersection) / total;
     }
 
