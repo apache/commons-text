@@ -55,6 +55,12 @@ class UrlDecoderStringLookupTest {
     }
 
     @Test
+    void testMalformedEscapeReturnsNull() {
+        assertNull(UrlDecoderStringLookup.INSTANCE.apply("%"));
+        assertNull(UrlDecoderStringLookup.INSTANCE.apply("%E0%"));
+    }
+
+    @Test
     void testNull() {
         assertNull(UrlDecoderStringLookup.INSTANCE.apply(null));
     }
