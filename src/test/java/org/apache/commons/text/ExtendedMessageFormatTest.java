@@ -231,6 +231,11 @@ class ExtendedMessageFormatTest {
         registry.put("upper", UpperCaseFormat.FACTORY);
     }
 
+    @Test
+    void testArgumentIndexTrailingWhitespaceAtEnd() {
+        assertThrowsExactly(IllegalArgumentException.class, () -> new ExtendedMessageFormat("{0 ", new HashMap<>()));
+    }
+
     /**
      * Test the built in choice format.
      */
@@ -472,11 +477,6 @@ class ExtendedMessageFormatTest {
     @Test
     void testFailsToCreateExtendedMessageFormatTakingTwoArgumentsThrowsIllegalArgumentExceptionTwo() {
         assertThrowsExactly(IllegalArgumentException.class, () -> new ExtendedMessageFormat("a5XdkR;T1{9 ,LzXf?", new HashMap<>()));
-    }
-
-    @Test
-    void testArgumentIndexTrailingWhitespaceAtEnd() {
-        assertThrowsExactly(IllegalArgumentException.class, () -> new ExtendedMessageFormat("{0 ", new HashMap<>()));
     }
 
     @Test

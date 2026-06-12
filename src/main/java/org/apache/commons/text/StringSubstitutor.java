@@ -732,6 +732,26 @@ public class StringSubstitutor {
     }
 
     /**
+     * Checks whether the specified buffer contains a variable suffix after the given position.
+     *
+     * @param builder       the string builder to check, not null.
+     * @param pos           the position to start checking from.
+     * @param offset        the start offset within the builder, must be valid.
+     * @param bufEnd        the end offset within the builder, must be valid.
+     * @param suffixMatcher the suffix matcher to use, not null.
+     * @return true if a suffix is found after the given position.
+     */
+    private boolean hasLaterSuffix(final TextStringBuilder builder, int pos, final int offset, final int bufEnd, final StringMatcher suffixMatcher) {
+        while (pos < bufEnd) {
+            if (suffixMatcher.isMatch(builder, pos, offset, bufEnd) != 0) {
+                return true;
+            }
+            pos++;
+        }
+        return false;
+    }
+
+    /**
      * Returns a flag whether substitution is disabled in variable values.If set to <strong>true</strong>, the values of variables
      * can contain other variables will not be processed and substituted original variable is evaluated, e.g.
      *
@@ -1533,26 +1553,6 @@ public class StringSubstitutor {
             }
         }
         return new Result(altered, lengthChange);
-    }
-
-    /**
-     * Checks whether the specified buffer contains a variable suffix after the given position.
-     *
-     * @param builder       the string builder to check, not null.
-     * @param pos           the position to start checking from.
-     * @param offset        the start offset within the builder, must be valid.
-     * @param bufEnd        the end offset within the builder, must be valid.
-     * @param suffixMatcher the suffix matcher to use, not null.
-     * @return true if a suffix is found after the given position.
-     */
-    private boolean hasLaterSuffix(final TextStringBuilder builder, int pos, final int offset, final int bufEnd, final StringMatcher suffixMatcher) {
-        while (pos < bufEnd) {
-            if (suffixMatcher.isMatch(builder, pos, offset, bufEnd) != 0) {
-                return true;
-            }
-            pos++;
-        }
-        return false;
     }
 
     /**
