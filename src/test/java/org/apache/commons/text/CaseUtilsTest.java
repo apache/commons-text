@@ -24,9 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
-import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.DefaultLocale;
 
 /**
  * Tests {@link CaseUtils} class.
@@ -80,15 +80,10 @@ class CaseUtilsTest {
     }
 
     @Test
+    @DefaultLocale(language = "tr", country = "TR")
     void testToCamelCaseLocaleIndependent() {
-        final Locale dflt = Locale.getDefault();
-        try {
-            // Turkish lower-cases 'I' (U+0049) to dotless 'i' (U+0131), which would otherwise leak into the result.
-            Locale.setDefault(new Locale("tr", "TR"));
-            assertEquals("TipTop", CaseUtils.toCamelCase("TIP.TOP", true, '.'));
-            assertEquals("toCamelCase", CaseUtils.toCamelCase("TO CAMEL CASE", false, null));
-        } finally {
-            Locale.setDefault(dflt);
-        }
+        // Turkish lower-cases 'I' (U+0049) to dotless 'i' (U+0131), which would otherwise leak into the result.
+        assertEquals("TipTop", CaseUtils.toCamelCase("TIP.TOP", true, '.'));
+        assertEquals("toCamelCase", CaseUtils.toCamelCase("TO CAMEL CASE", false, null));
     }
 }
