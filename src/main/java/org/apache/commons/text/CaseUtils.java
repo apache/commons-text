@@ -17,6 +17,7 @@
 package org.apache.commons.text;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -70,7 +71,7 @@ public class CaseUtils {
         if (StringUtils.isEmpty(str)) {
             return str;
         }
-        str = str.toLowerCase();
+        str = str.toLowerCase(Locale.ROOT);
         final int strLen = str.length();
         final int[] newCodePoints = new int[strLen];
         int outOffset = 0;

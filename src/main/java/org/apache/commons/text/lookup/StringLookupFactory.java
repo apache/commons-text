@@ -328,7 +328,7 @@ public final class StringLookupFactory {
             try {
                 for (final String lookupName : str.split("[\\s,]+")) {
                     if (!lookupName.isEmpty()) {
-                        addLookup(DefaultStringLookup.valueOf(lookupName.toUpperCase()), lookupMap);
+                        addLookup(DefaultStringLookup.valueOf(lookupName.toUpperCase(Locale.ROOT)), lookupMap);
                     }
                 }
             } catch (final IllegalArgumentException exc) {
