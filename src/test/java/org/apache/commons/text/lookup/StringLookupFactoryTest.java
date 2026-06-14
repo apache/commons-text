@@ -32,6 +32,7 @@ import java.util.Set;
 import javax.xml.XMLConstants;
 
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.DefaultLocale;
 import org.junitpioneer.jupiter.SetSystemProperty;
 
 /**
@@ -171,6 +172,16 @@ class StringLookupFactoryTest {
         final Properties props = new Properties();
         props.setProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY, "base64_encoder");
         checkDefaultStringLookupsHolder(props, "base64", StringLookupFactory.KEY_BASE64_ENCODER);
+    }
+
+    @Test
+    @DefaultLocale(language = "tr", country = "TR")
+    void testDefaultStringLookupsHolder_givenSingleLookup_localeIndependent() {
+        // Turkish upper-cases 'i' (U+0069) to dotted 'İ' (U+0130), so "file" would fold to "FİLE"
+        // and fail to resolve against the DefaultStringLookup enum without Locale.ROOT.
+        final Properties props = new Properties();
+        props.setProperty(StringLookupFactory.DEFAULT_STRING_LOOKUPS_PROPERTY, "file");
+        checkDefaultStringLookupsHolder(props, StringLookupFactory.KEY_FILE);
     }
 
     @Test
