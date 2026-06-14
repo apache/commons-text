@@ -35,6 +35,11 @@ import org.apache.commons.lang3.StringUtils;
 public class CaseUtils {
 
     /**
+     * The code point for the space character ({@value}).
+     */
+    private static final int CODE_POINT_SPACE = 32;
+
+    /**
      * Converts all the delimiter separated words in a String into camelCase,
      * that is each word is made up of a title case character and then a series of
      * lowercase characters.
@@ -79,7 +84,6 @@ public class CaseUtils {
         boolean capitalizeNext = capitalizeFirstLetter;
         for (int index = 0; index < strLen;) {
             final int codePoint = str.codePointAt(index);
-
             if (delimiterSet.contains(codePoint)) {
                 capitalizeNext = outOffset != 0;
                 index += Character.charCount(codePoint);
@@ -93,7 +97,6 @@ public class CaseUtils {
                 index += Character.charCount(codePoint);
             }
         }
-
         return new String(newCodePoints, 0, outOffset);
     }
 
@@ -106,11 +109,10 @@ public class CaseUtils {
      */
     private static Set<Integer> toDelimiterSet(final char[] delimiters) {
         final Set<Integer> delimiterHashSet = new HashSet<>();
-        delimiterHashSet.add(Character.codePointAt(new char[]{' '}, 0));
+        delimiterHashSet.add(CODE_POINT_SPACE);
         if (ArrayUtils.isEmpty(delimiters)) {
             return delimiterHashSet;
         }
-
         for (int index = 0; index < delimiters.length; index++) {
             delimiterHashSet.add(Character.codePointAt(delimiters, index));
         }
