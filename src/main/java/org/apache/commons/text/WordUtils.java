@@ -247,12 +247,8 @@ public class WordUtils {
      * @param delimiters  set of characters to determine capitalization, null means whitespace.
      * @return capitalized String, {@code null} if null String input.
      */
-    public static String capitalizeFully(String str, final char... delimiters) {
-        if (StringUtils.isEmpty(str)) {
-            return str;
-        }
-        str = str.toLowerCase(Locale.ROOT);
-        return capitalize(str, delimiters);
+    public static String capitalizeFully(final String str, final char... delimiters) {
+        return StringUtils.isEmpty(str) ? str : capitalize(str.toLowerCase(Locale.ROOT), delimiters);
     }
 
     /**
