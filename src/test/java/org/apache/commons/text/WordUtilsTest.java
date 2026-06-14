@@ -106,6 +106,14 @@ class WordUtilsTest {
     }
 
     @Test
+    @DefaultLocale(language = "tr", country = "TR")
+    void testCapitalizeFully_LocaleIndependent() {
+        // Turkish lower-cases 'I' (U+0049) to dotless 'i' (U+0131), which would otherwise leak into the result.
+        assertEquals("Heli World", WordUtils.capitalizeFully("HELI WORLD"));
+        assertEquals("I Am Here 123", WordUtils.capitalizeFully("I AM HERE 123"));
+    }
+
+    @Test
     void testCapitalizeFully_String() {
         assertNull(WordUtils.capitalizeFully(null));
         assertEquals("", WordUtils.capitalizeFully(""));
@@ -123,14 +131,6 @@ class WordUtilsTest {
         assertEquals(WHITESPACE, WordUtils.capitalizeFully(WHITESPACE));
         assertEquals("A" + WHITESPACE + "B", WordUtils.capitalizeFully("a" + WHITESPACE + "b"));
 
-    }
-
-    @Test
-    @DefaultLocale(language = "tr", country = "TR")
-    void testCapitalizeFully_LocaleIndependent() {
-        // Turkish lower-cases 'I' (U+0049) to dotless 'i' (U+0131), which would otherwise leak into the result.
-        assertEquals("Heli World", WordUtils.capitalizeFully("HELI WORLD"));
-        assertEquals("I Am Here 123", WordUtils.capitalizeFully("I AM HERE 123"));
     }
 
     @Test
