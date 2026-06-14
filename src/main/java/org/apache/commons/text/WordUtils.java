@@ -17,6 +17,7 @@
 package org.apache.commons.text;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -250,7 +251,7 @@ public class WordUtils {
         if (StringUtils.isEmpty(str)) {
             return str;
         }
-        str = str.toLowerCase();
+        str = str.toLowerCase(Locale.ROOT);
         return capitalize(str, delimiters);
     }
 

@@ -32,6 +32,7 @@ import java.util.stream.IntStream;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.DefaultLocale;
 
 /**
  * Tests {@link WordUtils}.
@@ -122,6 +123,14 @@ class WordUtilsTest {
         assertEquals(WHITESPACE, WordUtils.capitalizeFully(WHITESPACE));
         assertEquals("A" + WHITESPACE + "B", WordUtils.capitalizeFully("a" + WHITESPACE + "b"));
 
+    }
+
+    @Test
+    @DefaultLocale(language = "tr", country = "TR")
+    void testCapitalizeFully_LocaleIndependent() {
+        // Turkish lower-cases 'I' (U+0049) to dotless 'i' (U+0131), which would otherwise leak into the result.
+        assertEquals("Heli World", WordUtils.capitalizeFully("HELI WORLD"));
+        assertEquals("I Am Here 123", WordUtils.capitalizeFully("I AM HERE 123"));
     }
 
     @Test

@@ -26,6 +26,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.DefaultLocale;
 
 /**
  * Tests {@link CaseUtils} class.
@@ -76,5 +77,13 @@ class CaseUtilsTest {
         assertEquals("\uD800\uDF00\uD800\uDF02", CaseUtils.toCamelCase("\uD800\uDF00 \uD800\uDF02", true));
         assertEquals("\uD800\uDF00\uD800\uDF01\uD800\uDF02\uD800\uDF03",
                 CaseUtils.toCamelCase("\uD800\uDF00\uD800\uDF01\uD800\uDF14\uD800\uDF02\uD800\uDF03", true, '\uD800', '\uDF14'));
+    }
+
+    @Test
+    @DefaultLocale(language = "tr", country = "TR")
+    void testToCamelCaseLocaleIndependent() {
+        // Turkish lower-cases 'I' (U+0049) to dotless 'i' (U+0131), which would otherwise leak into the result.
+        assertEquals("TipTop", CaseUtils.toCamelCase("TIP.TOP", true, '.'));
+        assertEquals("toCamelCase", CaseUtils.toCamelCase("TO CAMEL CASE", false, null));
     }
 }
