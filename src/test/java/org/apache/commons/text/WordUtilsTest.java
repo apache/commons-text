@@ -213,6 +213,14 @@ class WordUtilsTest {
     }
 
     @Test
+    void testContainsAllWordsWithNewline() {
+        assertTrue(WordUtils.containsAllWords("foo\nbar", "bar"));
+        assertTrue(WordUtils.containsAllWords("foo\nbar", "foo"));
+        assertTrue(WordUtils.containsAllWords("lorem ipsum\ndolor sit\namet", "ipsum", "amet", "lorem"));
+        assertFalse(WordUtils.containsAllWords("foo\nbar", "baz"));
+    }
+
+    @Test
     void testContainsAllWordsWithNull() {
         assertFalse(WordUtils.containsAllWords("M", (CharSequence) null));
     }
