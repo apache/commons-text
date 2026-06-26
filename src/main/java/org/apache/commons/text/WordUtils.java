@@ -843,10 +843,14 @@ public class WordUtils {
                 if (matcherSize == 0) {
                     offset--;
                 }
-                // wrap really long word one line at a time
-                wrappedLine.append(str, offset, wrapLength + offset);
+                // wrap really long word one line at a time, but keep a surrogate pair whole
+                int wrapAt = wrapLength + offset;
+                if (Character.isHighSurrogate(str.charAt(wrapAt - 1)) && Character.isLowSurrogate(str.charAt(wrapAt))) {
+                    wrapAt++;
+                }
+                wrappedLine.append(str, offset, wrapAt);
                 wrappedLine.append(newLineStr);
-                offset += wrapLength;
+                offset = wrapAt;
                 matcherSize = -1;
             } else {
                 // do not wrap really long word, just extend beyond limit
