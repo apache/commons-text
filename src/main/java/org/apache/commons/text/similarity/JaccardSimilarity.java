@@ -78,17 +78,26 @@ public class JaccardSimilarity implements SimilarityScore<Double> {
         if (leftLength == 0 || rightLength == 0) {
             return 0d;
         }
-        final Set<E> leftSet = new HashSet<>();
+        final Set<E> leftSet = new HashSet<>(leftLength);
         for (int i = 0; i < leftLength; i++) {
             leftSet.add(left.at(i));
         }
-        final Set<E> rightSet = new HashSet<>();
+        final Set<E> rightSet = new HashSet<>(rightLength);
         for (int i = 0; i < rightLength; i++) {
             rightSet.add(right.at(i));
         }
-        final Set<E> unionSet = new HashSet<>(leftSet);
-        unionSet.addAll(rightSet);
-        final int intersectionSize = leftSet.size() + rightSet.size() - unionSet.size();
-        return 1.0d * intersectionSize / unionSet.size();
+        // |union| = |left| + |right| - |intersection|, so the intersection size is
+        // enough; counting it by probing the smaller set against the larger avoids
+        // building a third (union) set.
+        final Set<E> smallerSet = leftSet.size() <= rightSet.size() ? leftSet : rightSet;
+        final Set<E> largerSet = smallerSet == leftSet ? rightSet : leftSet;
+        int intersectionSize = 0;
+        for (final E element : smallerSet) {
+            if (largerSet.contains(element)) {
+                intersectionSize++;
+            }
+        }
+        final int unionSize = leftSet.size() + rightSet.size() - intersectionSize;
+        return 1.0d * intersectionSize / unionSize;
     }
 }
