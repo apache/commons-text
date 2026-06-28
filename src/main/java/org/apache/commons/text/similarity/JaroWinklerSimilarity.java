@@ -16,7 +16,6 @@
  */
 package org.apache.commons.text.similarity;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -74,39 +73,32 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
             min = first;
         }
         final int range = Math.max(max.length() / 2 - 1, 0);
-        final int[] matchIndexes = new int[min.length()];
-        Arrays.fill(matchIndexes, -1);
+        final boolean[] minMatches = new boolean[min.length()];
         final boolean[] matchFlags = new boolean[max.length()];
         int matches = 0;
         for (int mi = 0; mi < min.length(); mi++) {
             final E c1 = min.at(mi);
             for (int xi = Math.max(mi - range, 0), xn = Math.min(mi + range + 1, max.length()); xi < xn; xi++) {
                 if (!matchFlags[xi] && c1.equals(max.at(xi))) {
-                    matchIndexes[mi] = xi;
+                    minMatches[mi] = true;
                     matchFlags[xi] = true;
                     matches++;
                     break;
                 }
             }
         }
-        final Object[] ms1 = new Object[matches];
-        final Object[] ms2 = new Object[matches];
-        for (int i = 0, si = 0; i < min.length(); i++) {
-            if (matchIndexes[i] != -1) {
-                ms1[si] = min.at(i);
-                si++;
-            }
-        }
-        for (int i = 0, si = 0; i < max.length(); i++) {
-            if (matchFlags[i]) {
-                ms2[si] = max.at(i);
-                si++;
-            }
-        }
+        // Count transpositions by walking the matched characters of each input in
+        // lockstep (min order vs. max order), without materializing them into arrays.
         int halfTranspositions = 0;
-        for (int mi = 0; mi < ms1.length; mi++) {
-            if (!ms1[mi].equals(ms2[mi])) {
-                halfTranspositions++;
+        for (int i = 0, j = 0; i < min.length(); i++) {
+            if (minMatches[i]) {
+                while (!matchFlags[j]) {
+                    j++;
+                }
+                if (!min.at(i).equals(max.at(j))) {
+                    halfTranspositions++;
+                }
+                j++;
             }
         }
         int prefix = 0;
