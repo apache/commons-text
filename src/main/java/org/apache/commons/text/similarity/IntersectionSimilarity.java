@@ -30,7 +30,7 @@ import java.util.function.Function;
  * within a {@link Set} or {@link HashMap}. Ideally the type is immutable and implements
  * {@link Object#equals(Object)} and {@link Object#hashCode()}.</p>
  *
- * @param <T> the type of the elements extracted from the character sequence
+ * @param <T> The type of the elements extracted from the character sequence
  * @since 1.7
  * @see Set
  * @see HashMap
@@ -122,7 +122,7 @@ public class IntersectionSimilarity<T> implements SimilarityScore<IntersectionRe
      * Computes the intersection between two sets. This is the count of all the elements
      * that are within both sets.
      *
-     * @param <T> the type of the elements in the set.
+     * @param <T> The type of the elements in the set.
      * @param setA the set A.
      * @param setB the set B.
      * @return The intersection of A and B.

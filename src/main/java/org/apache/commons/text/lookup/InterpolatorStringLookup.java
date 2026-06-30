@@ -82,7 +82,7 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
      * Uses the {@link StringLookupFactory default lookups}.
      * </p>
      *
-     * @param <V> the map's value type.
+     * @param <V> The map's value type.
      * @param defaultMap the default map for string lookups.
      */
     <V> InterpolatorStringLookup(final Map<String, V> defaultMap) {

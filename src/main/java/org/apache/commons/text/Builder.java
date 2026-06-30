@@ -77,7 +77,7 @@ import java.util.function.Supplier;
  * </pre>
  *
  *
- * @param <T> the type of object that the builder will construct or compute.
+ * @param <T> The type of object that the builder will construct or compute.
  * @since 1.0
  * @see Supplier
  * @deprecated Use {@link Supplier}.

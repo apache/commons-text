@@ -39,7 +39,7 @@ import org.apache.commons.text.lookup.StringLookupFactory;
  * on demand from the database
  * </p>
  *
- * @param <V> the type of the values supported by the lookup
+ * @param <V> The type of the values supported by the lookup
  * @since 1.0
  * @deprecated Deprecated as of 1.3, use {@link StringLookupFactory} instead. This class will be removed in 2.0.
  */
@@ -49,7 +49,7 @@ public abstract class StrLookup<V> implements StringLookup {
     /**
      * Lookup implementation that uses a Map.
      *
-     * @param <V> the type of the values supported by the lookup
+     * @param <V> The type of the values supported by the lookup
      */
     private static final class MapStrLookup<V> extends StrLookup<V> {
 
@@ -162,7 +162,7 @@ public abstract class StrLookup<V> implements StringLookup {
      * using toString().
      * </p>
      *
-     * @param <V> the type of the values supported by the lookup.
+     * @param <V> The type of the values supported by the lookup.
      * @param map the map of keys to values, may be null.
      * @return a lookup using the map, not null.
      */

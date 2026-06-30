@@ -36,7 +36,7 @@ final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
     /**
      * Creates a new instance backed by a Function.
      *
-     * @param <T> the function's input type
+     * @param <T> The function's input type
      * @param biFunction the function, may be null.
      * @return a new instance backed by the given function.
      */
@@ -47,7 +47,7 @@ final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
     /**
      * Creates a new instance backed by a Map. Used by the default lookup.
      *
-     * @param <T> the map's value type.
+     * @param <T> The map's value type.
      * @param map the map of keys to values, may be null.
      * @return a new instance backed by the given map.
      */

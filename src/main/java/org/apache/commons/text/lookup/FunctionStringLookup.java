@@ -35,7 +35,7 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
     /**
      * Creates a new instance backed by a Function.
      *
-     * @param <R> the function's input type
+     * @param <R> The function's input type
      * @param function the function, may be null.
      * @return a new instance backed by the given function.
      */
@@ -46,7 +46,7 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
     /**
      * Creates a new instance backed by a Map. Used by the default lookup.
      *
-     * @param <V> the map's value type.
+     * @param <V> The map's value type.
      * @param map the map of keys to values, may be null.
      * @return a new instance backed by the given map.
      */

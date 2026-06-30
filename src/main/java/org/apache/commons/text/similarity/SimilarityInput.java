@@ -25,7 +25,7 @@ import java.util.Objects;
  * You can implement a SimilarityInput on a domain object instead of CharSequence where implementing CharSequence does not make sense.
  * </p>
  *
- * @param <E> the type of elements in this input.
+ * @param <E> The type of elements in this input.
  * @since 1.13.0
  */
 public interface SimilarityInput<E> {

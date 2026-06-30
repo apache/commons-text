@@ -629,8 +629,8 @@ public final class StringLookupFactory {
     /**
      * Returns the given map if the input is non-null or an empty immutable map if the input is null.
      *
-     * @param <K> the class of the map keys
-     * @param <V> the class of the map values
+     * @param <K> The class of the map keys
+     * @param <V> The class of the map values
      * @param map The map to test
      * @return the given map if the input is non-null or an empty immutable map if the input is null.
      */
@@ -1054,7 +1054,7 @@ public final class StringLookupFactory {
      * Returns a new InterpolatorStringLookup using the given key-value pairs and the configured {@link #addDefaultStringLookups(Map) default lookups} to
      * resolve variables. (See the class documentation for details on how default lookups are configured.)
      *
-     * @param <V> the value type the default string lookup's map.
+     * @param <V> The value type the default string lookup's map.
      * @param map the default map for string lookups.
      * @return a new InterpolatorStringLookup.
      */
@@ -1178,7 +1178,7 @@ public final class StringLookupFactory {
     /**
      * Returns a new map-based lookup where the request for a lookup is answered with the value for that key.
      *
-     * @param <V> the map value type.
+     * @param <V> The map value type.
      * @param map the map.
      * @return a new MapStringLookup.
      */
