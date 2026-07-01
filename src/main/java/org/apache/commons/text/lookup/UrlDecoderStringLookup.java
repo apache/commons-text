@@ -58,6 +58,9 @@ final class UrlDecoderStringLookup extends AbstractStringLookup {
         final String enc = StandardCharsets.UTF_8.name();
         try {
             return decode(key, enc);
+        } catch (final IllegalArgumentException e) {
+            // Malformed input such as an incomplete "%" escape; squelch and return null like the other lookups.
+            return null;
         } catch (final UnsupportedEncodingException e) {
             // Can't happen since UTF-8 is required by the Java specification.
             throw IllegalArgumentExceptions.format(e, "%s: source=%s, encoding=%s", e, key, enc);
