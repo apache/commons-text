@@ -137,11 +137,15 @@ public class FileStringLookupTest {
         // A real, readable file that lives outside the fence but is reachable from the working
         // directory through leading ".." segments. The fence must reject it; if the leading ".."
         // survives unresolved, the prefix check passes and the file is read, escaping the fence.
-        final Path tempDir = Paths.get("target/tempDir");
+        final Path tempDir = Paths.get("target/tempDir").toAbsolutePath();
         Files.createDirectories(tempDir);
         final Path secret = Files.write(tempDir.resolve("secret.txt"), "secret".getBytes(StandardCharsets.UTF_8));
-        final Path relativeEscape = CURRENT_PATH.toAbsolutePath().relativize(secret.toAbsolutePath());
-        final FileStringLookup fileStringLookup = new FileStringLookup(CURRENT_PATH);
+        
+        final Path fenceDir = Paths.get("target/fence").toAbsolutePath();
+        Files.createDirectories(fenceDir);
+        
+        final Path relativeEscape = fenceDir.relativize(secret);
+        final FileStringLookup fileStringLookup = new FileStringLookup(fenceDir);
         assertThrows(IllegalArgumentException.class, () -> fileStringLookup.apply("UTF-8:" + relativeEscape));
     }
 
