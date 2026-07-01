@@ -31,7 +31,7 @@ import java.nio.file.Paths;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+
 
 /**
  * Tests {@link FileStringLookup}.
@@ -133,12 +133,14 @@ public class FileStringLookupTest {
     }
 
     @Test
-    void testFenceRelativeParentTraversal(@TempDir final Path tempDir) throws Exception {
+    void testFenceRelativeParentTraversal() throws Exception {
         // A real, readable file that lives outside the fence but is reachable from the working
         // directory through leading ".." segments. The fence must reject it; if the leading ".."
         // survives unresolved, the prefix check passes and the file is read, escaping the fence.
+        final Path tempDir = Paths.get("target/tempDir");
+        Files.createDirectories(tempDir);
         final Path secret = Files.write(tempDir.resolve("secret.txt"), "secret".getBytes(StandardCharsets.UTF_8));
-        final Path relativeEscape = CURRENT_PATH.toAbsolutePath().relativize(secret);
+        final Path relativeEscape = CURRENT_PATH.toAbsolutePath().relativize(secret.toAbsolutePath());
         final FileStringLookup fileStringLookup = new FileStringLookup(CURRENT_PATH);
         assertThrows(IllegalArgumentException.class, () -> fileStringLookup.apply("UTF-8:" + relativeEscape));
     }
