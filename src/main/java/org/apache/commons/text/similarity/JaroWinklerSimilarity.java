@@ -44,6 +44,16 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
     static final JaroWinklerSimilarity INSTANCE = new JaroWinklerSimilarity();
 
     /**
+     * The maximum length of the common prefix that is evaluated.
+     */
+    private static final int MAX_PREFIX_LENGTH = 4;
+
+    /**
+     * The default Winkler threshold.
+     */
+    private static final double DEFAULT_WINKLER_THRESHOLD = 0.7d;
+
+    /**
      * Computes the Jaro-Winkler string matches, half transpositions, prefix array.
      *
      * @param first  the first input to be matched.
@@ -110,7 +120,7 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
             }
         }
         int prefix = 0;
-        for (int mi = 0; mi < Math.min(4, min.length()); mi++) {
+        for (int mi = 0; mi < Math.min(MAX_PREFIX_LENGTH, min.length()); mi++) {
             if (!first.at(mi).equals(second.at(mi))) {
                 break;
             }
@@ -211,7 +221,7 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
             return 0d;
         }
         final double j = (m / left.length() + m / right.length() + (m - (double) mtp[1] / 2) / m) / 3;
-        return j < 0.7d ? j : j + defaultScalingFactor * mtp[2] * (1d - j);
+        return j < DEFAULT_WINKLER_THRESHOLD ? j : j + defaultScalingFactor * mtp[2] * (1d - j);
     }
 
 }
