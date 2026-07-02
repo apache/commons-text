@@ -197,6 +197,7 @@ public class ExtendedMessageFormat extends MessageFormat {
      * Applies the specified pattern.
      *
      * @param pattern String.
+     * @throws IllegalArgumentException in case of a bad pattern.
      */
     @Override
     public final void applyPattern(final String pattern) {
