@@ -63,6 +63,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="alhuda, Gary Gregory">Keep WordUtils.wrap from splitting a surrogate pair (#755).</action>
       <action type="fix" dev="ggregory" due-to="alhuda, Gary Gregory">Fix WordUtils.containsAllWords missing words across line breaks (#754).</action>
       <action type="fix" dev="ggregory" due-to="alhuda, Gary Gregory">Keep TextStringBuilder.reverse from splitting surrogate pairs (#756).</action>
+      <action type="fix" dev="ggregory" due-to="Javid Khan, Gary Gregory">Stop ExtendedMessageFormat seekNonWs reading past the pattern end (#759).</action>
       <!-- ADD -->
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 93 to 102.</action>

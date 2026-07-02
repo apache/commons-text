@@ -238,6 +238,10 @@ class ExtendedMessageFormatTest {
 
     @Test
     void testTruncatedFormatElementWithRegistry() {
+        // Sanity check to match JRE
+        assertThrowsExactly(IllegalArgumentException.class, () -> new MessageFormat("{"));
+        assertThrowsExactly(IllegalArgumentException.class, () -> new MessageFormat("{0,"));
+        assertThrowsExactly(IllegalArgumentException.class, () -> new MessageFormat("{0}extra{"));
         // A format element left unterminated at the end of the pattern used to make the
         // registry-based constructor seek one past the buffer and throw
         // ArrayIndexOutOfBoundsException; it should report the documented
