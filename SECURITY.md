@@ -17,4 +17,4 @@
 # Apache Commons Parent Security Policy
 Read the [Apache Commons Security Page](https://commons.apache.org/security.html).
 
-Read the [Apache Commons XML threat model](https://github.com/apache/commons-xml/blob/main/src/site/markdown/threat_model.md).
+Read the [Apache Commons XML threat model](https://github.com/apache/commons-parent/blob/main/src/site/markdown/threat_model.md).
