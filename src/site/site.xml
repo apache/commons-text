@@ -31,7 +31,10 @@
       <item name="Issue Tracking" href="/issue-management.html" />
       <item name="Dependency Management" href="/dependency-info.html" />
       <item name="Sources" href="/scm.html" />
-      <item name="Security" href="security.html" />
+      <item name="Security">
+      	<item name="Security" href="security.html" />
+        <item name="Threat Model" href="threat_model.html" />
+      </item>
       <item name="License" href="https://www.apache.org/licenses/LICENSE-2.0" />
       <item name="Code of Conduct" href="https://www.apache.org/foundation/policies/conduct.html" />
       <item name="Download" href="https://commons.apache.org/proper/commons-text/download_text.cgi" />
