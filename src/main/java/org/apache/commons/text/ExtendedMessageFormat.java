@@ -235,11 +235,13 @@ public class ExtendedMessageFormat extends MessageFormat {
                 }
                 foundFormats.add(format);
                 foundDescriptions.add(format == null ? null : formatDescription);
-                if (foundFormats.size() != fmtCount) {
-                    throw new IllegalArgumentException("The validated expression is false");
+                final int foundFormatsSize = foundFormats.size();
+                if (foundFormatsSize != fmtCount) {
+                    throw new IllegalArgumentException("Format elements do not match format count: " + foundFormatsSize + " != " + fmtCount);
                 }
-                if (foundDescriptions.size() != fmtCount) {
-                    throw new IllegalArgumentException("The validated expression is false");
+                final int foundDescriptionsSize = foundDescriptions.size();
+                if (foundDescriptionsSize != fmtCount) {
+                    throw new IllegalArgumentException("Format descriptions do not match format count: " + foundDescriptionsSize + " != " + fmtCount);
                 }
                 if (c[pos.getIndex()] != END_FE) {
                     throw new IllegalArgumentException("Unreadable format element at position " + start);
