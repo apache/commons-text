@@ -29,7 +29,9 @@ import java.util.Map;
 import org.apache.commons.text.lookup.DefaultStringLookup;
 import org.apache.commons.text.lookup.StringLookup;
 import org.apache.commons.text.lookup.StringLookupFactory;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.SetEnvironmentVariable;
 
 class StringSubstitutorWithInterpolatorStringLookupTest {
 
@@ -254,6 +256,19 @@ class StringSubstitutorWithInterpolatorStringLookupTest {
         assertEquals(System.getProperty(spKey), strSubst.replace("${sys:" + spKey + "}"));
     }
 
+    /**
+     * In our POM. the module {@code java.base} must open "opens java.lang" for the {@link SetEnvironmentVariable} annotation to work. Otherwise, the test will
+     * fail with an IllegalAccessException.
+     */
+    @Disabled("Needs java.base to open 'opens java.lang' for SetEnvironmentVariable.")
+    @Test
+    @SetEnvironmentVariable(key = "testSystemPropertyDefaultDefault", value = "123456789")
+    void testSystemPropertyDefaultDefaultEnv() {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        assertEquals("123456789", strSubst
+                .replace("${env:testSystemPropertyDefaultDefault:-${sys:unknownkey1:-${sys:unknownkey2:-${sys:unknownkey3:-${sys:unknownkey4:-foo}}}}}"));
+    }
+
     @Test
     void testSystemPropertyDefaultDefault() {
         final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
@@ -265,8 +280,11 @@ class StringSubstitutorWithInterpolatorStringLookupTest {
         assertEquals(actual, strSubst.replace(spLookupStr));
         // test "sys" with default value
         assertEquals("foo", strSubst.replace("${sys:unknownkey1:-foo}"));
-        assertEquals(actual, strSubst.replace("${sys:unknownkey1:-" + spLookupStr + "}"));
         assertEquals("foo", strSubst.replace("${sys:unknownkey1:-${sys:unknownkey2:-foo}}"));
+        assertEquals("foo", strSubst.replace("${sys:unknownkey1:-${sys:unknownkey2:-${sys:unknownkey3:-foo}}}"));
+        assertEquals("foo", strSubst.replace("${sys:unknownkey1:-${sys:unknownkey2:-${sys:unknownkey3:-${sys:unknownkey4:-foo}}}}"));
+        assertEquals("foo", strSubst.replace("${env:UNKNOWN_KEY:-${sys:unknownkey1:-${sys:unknownkey2:-${sys:unknownkey3:-${sys:unknownkey4:-foo}}}}}"));
+        assertEquals(actual, strSubst.replace("${sys:unknownkey1:-" + spLookupStr + "}"));
         assertEquals(actual, strSubst.replace("${sys:unknownkey1:-${sys:unknownkey2:-" + spLookupStr + "}}"));
     }
 
