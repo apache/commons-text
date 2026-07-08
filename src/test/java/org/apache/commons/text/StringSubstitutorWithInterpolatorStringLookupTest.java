@@ -255,6 +255,22 @@ class StringSubstitutorWithInterpolatorStringLookupTest {
     }
 
     @Test
+    void testSystemPropertyDefaultDefault() {
+        final StringSubstitutor strSubst = StringSubstitutor.createInterpolator();
+        strSubst.setEnableSubstitutionInVariables(true);
+        final String spKey = "user.name";
+        // check that "sys" works
+        final String spLookupStr = "${sys:" + spKey + "}";
+        final String actual = System.getProperty(spKey);
+        assertEquals(actual, strSubst.replace(spLookupStr));
+        // test "sys" with default value
+        assertEquals("foo", strSubst.replace("${sys:unknownkey1:-foo}"));
+        assertEquals(actual, strSubst.replace("${sys:unknownkey1:-" + spLookupStr + "}"));
+        assertEquals("foo", strSubst.replace("${sys:unknownkey1:-${sys:unknownkey2:-foo}}"));
+        assertEquals(actual, strSubst.replace("${sys:unknownkey1:-${sys:unknownkey2:-" + spLookupStr + "}}"));
+    }
+
+    @Test
     void testSystemPropertyDefaultStringLookup() {
         final StringSubstitutor strSubst = new StringSubstitutor(
             StringLookupFactory.INSTANCE.interpolatorStringLookup(StringLookupFactory.INSTANCE.systemPropertyStringLookup()));
