@@ -19,6 +19,7 @@ package org.apache.commons.text;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.function.IntUnaryOperator;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -115,6 +116,47 @@ public class WordUtils {
     }
 
     /**
+     * Applies a function to the first character of each word in a String.
+     * <p>
+     * This is used by {@link #capitalize(String, char...)} and {@link #uncapitalize(String, char...)}. The {@code transform} function is applied to the first
+     * code point of each word; all other code points are passed through unchanged.
+     * </p>
+     *
+     * @param str        The String to transform, may be null.
+     * @param delimiters The set of characters to determine word boundaries, null means whitespace.
+     * @param transform  The casing function to apply to the first code point of each word (e.g., {@code Character::toTitleCase} or
+     *                   {@code Character::toLowerCase}).
+     * @return The transformed String, or {@code null}/{@code ""} if the input is null/empty.
+     */
+    private static String applyWordCaseTransform(final String str, final char[] delimiters, final IntUnaryOperator transform) {
+        if (StringUtils.isEmpty(str)) {
+            return str;
+        }
+        final Predicate<Integer> isDelimiter = generateIsDelimiterFunction(delimiters);
+        final int strLen = str.length();
+        final int[] newCodePoints = new int[strLen];
+        int outOffset = 0;
+        boolean transformNext = true;
+        for (int index = 0; index < strLen;) {
+            final int codePoint = str.codePointAt(index);
+            if (isDelimiter.test(codePoint)) {
+                transformNext = true;
+                newCodePoints[outOffset++] = codePoint;
+                index += Character.charCount(codePoint);
+            } else if (transformNext) {
+                final int transformed = transform.applyAsInt(codePoint);
+                newCodePoints[outOffset++] = transformed;
+                index += Character.charCount(transformed);
+                transformNext = false;
+            } else {
+                newCodePoints[outOffset++] = codePoint;
+                index += Character.charCount(codePoint);
+            }
+        }
+        return new String(newCodePoints, 0, outOffset);
+    }
+
+    /**
      * Capitalizes all the whitespace separated words in a String.
      * Only the first character of each word is changed. To convert the
      * rest of each word to lowercase at the same time,
@@ -170,33 +212,7 @@ public class WordUtils {
      * @see #capitalizeFully(String)
      */
     public static String capitalize(final String str, final char... delimiters) {
-        if (StringUtils.isEmpty(str)) {
-            return str;
-        }
-        final Predicate<Integer> isDelimiter = generateIsDelimiterFunction(delimiters);
-        final int strLen = str.length();
-        final int[] newCodePoints = new int[strLen];
-        int outOffset = 0;
-
-        boolean capitalizeNext = true;
-        for (int index = 0; index < strLen;) {
-            final int codePoint = str.codePointAt(index);
-
-            if (isDelimiter.test(codePoint)) {
-                capitalizeNext = true;
-                newCodePoints[outOffset++] = codePoint;
-                index += Character.charCount(codePoint);
-            } else if (capitalizeNext) {
-                final int titleCaseCodePoint = Character.toTitleCase(codePoint);
-                newCodePoints[outOffset++] = titleCaseCodePoint;
-                index += Character.charCount(titleCaseCodePoint);
-                capitalizeNext = false;
-            } else {
-                newCodePoints[outOffset++] = codePoint;
-                index += Character.charCount(codePoint);
-            }
-        }
-        return new String(newCodePoints, 0, outOffset);
+        return applyWordCaseTransform(str, delimiters, Character::toTitleCase);
     }
 
     /**
@@ -530,33 +546,7 @@ public class WordUtils {
      * @see #capitalize(String)
      */
     public static String uncapitalize(final String str, final char... delimiters) {
-        if (StringUtils.isEmpty(str)) {
-            return str;
-        }
-        final Predicate<Integer> isDelimiter = generateIsDelimiterFunction(delimiters);
-        final int strLen = str.length();
-        final int[] newCodePoints = new int[strLen];
-        int outOffset = 0;
-
-        boolean uncapitalizeNext = true;
-        for (int index = 0; index < strLen;) {
-            final int codePoint = str.codePointAt(index);
-
-            if (isDelimiter.test(codePoint)) {
-                uncapitalizeNext = true;
-                newCodePoints[outOffset++] = codePoint;
-                index += Character.charCount(codePoint);
-            } else if (uncapitalizeNext) {
-                final int titleCaseCodePoint = Character.toLowerCase(codePoint);
-                newCodePoints[outOffset++] = titleCaseCodePoint;
-                index += Character.charCount(titleCaseCodePoint);
-                uncapitalizeNext = false;
-            } else {
-                newCodePoints[outOffset++] = codePoint;
-                index += Character.charCount(codePoint);
-            }
-        }
-        return new String(newCodePoints, 0, outOffset);
+        return applyWordCaseTransform(str, delimiters, Character::toLowerCase);
     }
 
     /**
