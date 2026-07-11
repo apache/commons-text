@@ -1822,7 +1822,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     /**
      * Gets the internal buffer for testing.
      *
-     * @return the internal buffer.
+     * @return The internal buffer.
      */
     char[] getBuffer() {
         return buffer;

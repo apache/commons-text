@@ -466,7 +466,7 @@ final class ParsedDecimal {
      * Gets the exponent that would be used when representing this number in scientific notation (i.e., with a single non-zero digit in front of the decimal
      * point).
      *
-     * @return the exponent that would be used when representing this number in scientific notation.
+     * @return The exponent that would be used when representing this number in scientific notation.
      */
     public int getScientificExponent() {
         return digitCount + exponent - 1;

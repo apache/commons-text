@@ -294,7 +294,7 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * can be allocated.
      *
      * @param minCapacity the minimum capacity
-     * @return the capacity
+     * @return The capacity
      * @throws OutOfMemoryError if the {@code minCapacity} is negative
      */
     private static int createPositiveCapacity(final int minCapacity) {

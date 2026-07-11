@@ -42,7 +42,7 @@ class JaroWinklerSimilarityTest {
      * equality will fail.
      *
      * @param string the string
-     * @return the char sequence
+     * @return The char sequence
      */
     private static CharSequence wrap(final String string) {
         return new CharSequence() {

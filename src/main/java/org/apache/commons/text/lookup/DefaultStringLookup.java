@@ -216,7 +216,7 @@ public enum DefaultStringLookup {
     /**
      * Gets the standard prefix for the lookup object of this kind.
      *
-     * @return the prefix
+     * @return The prefix
      */
     public String getKey() {
         return key;
@@ -225,7 +225,7 @@ public enum DefaultStringLookup {
     /**
      * Gets the standard {@link StringLookup} instance of this kind.
      *
-     * @return the associated {@link StringLookup} object
+     * @return The associated {@link StringLookup} object
      */
     public StringLookup getStringLookup() {
         return lookup;

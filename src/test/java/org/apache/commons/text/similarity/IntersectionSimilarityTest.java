@@ -47,7 +47,7 @@ class IntersectionSimilarityTest {
      * Convert the {@link CharSequence} to a {@link List} of bigrams (pairs of characters). These are represented using 2 16-bit chars packed into a 32-bit int.
      *
      * @param sequence the sequence
-     * @return the list
+     * @return The list
      */
     private static List<Integer> toBigramList(final CharSequence sequence) {
         final int length = sequence.length();
@@ -67,7 +67,7 @@ class IntersectionSimilarityTest {
      * Convert the {@link CharSequence} to a {@link Set} of bigrams (pairs of characters). These are represented using 2 16-bit chars packed into a 32-bit int.
      *
      * @param sequence the sequence
-     * @return the set
+     * @return The set
      */
     private static Set<Integer> toBigramSet(final CharSequence sequence) {
         final int length = sequence.length();
@@ -87,7 +87,7 @@ class IntersectionSimilarityTest {
      * Convert the {@link CharSequence} to a {@link List} of {@link Character}s.
      *
      * @param sequence the sequence
-     * @return the list
+     * @return The list
      */
     private static List<Character> toCharacterList(final CharSequence sequence) {
         final int length = sequence.length();
@@ -102,7 +102,7 @@ class IntersectionSimilarityTest {
      * Convert the {@link CharSequence} to a {@link Set} of {@link Character}s.
      *
      * @param sequence the sequence
-     * @return the set
+     * @return The set
      */
     private static Set<Character> toCharacterSet(final CharSequence sequence) {
         final int length = sequence.length();

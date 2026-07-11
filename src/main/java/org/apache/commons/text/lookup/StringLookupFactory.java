@@ -632,7 +632,7 @@ public final class StringLookupFactory {
      * @param <K> The class of the map keys
      * @param <V> The class of the map values
      * @param map The map to test
-     * @return the given map if the input is non-null or an empty immutable map if the input is null.
+     * @return The given map if the input is non-null or an empty immutable map if the input is null.
      */
     static <K, V> Map<K, V> toMap(final Map<K, V> map) {
         return map == null ? Collections.emptyMap() : map;
@@ -866,7 +866,7 @@ public final class StringLookupFactory {
      * The examples above convert {@code "address|apache.org"} to the IP address of {@code apache.org}.
      * </p>
      *
-     * @return the DnsStringLookup singleton instance.
+     * @return The DnsStringLookup singleton instance.
      * @since 1.8
      */
     public StringLookup dnsStringLookup() {
@@ -1027,7 +1027,7 @@ public final class StringLookupFactory {
      * The examples above convert {@code "${sys:os.name}, ${env:USER}"} to the OS name and Linux user name.
      * </p>
      *
-     * @return the default {@link InterpolatorStringLookup}.
+     * @return The default {@link InterpolatorStringLookup}.
      */
     public StringLookup interpolatorStringLookup() {
         return InterpolatorStringLookup.INSTANCE;

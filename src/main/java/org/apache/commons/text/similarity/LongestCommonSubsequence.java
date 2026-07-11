@@ -104,7 +104,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      *
      * @param left first input sequence.
      * @param right second input sequence.
-     * @return the LCS of {@code left} and {@code right}.
+     * @return The LCS of {@code left} and {@code right}.
      * @since 1.10.0
      */
     private static String algorithmC(final CharSequence left, final CharSequence right) {
@@ -215,7 +215,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      *
      * @param left first character sequence.
      * @param right second character sequence.
-     * @return the longest common subsequence found.
+     * @return The longest common subsequence found.
      * @throws IllegalArgumentException if either String input {@code null}.
      * @deprecated Deprecated as of 1.2 due to a typo in the method name.
      * Use {@link #longestCommonSubsequence(CharSequence, CharSequence)} instead.
@@ -251,7 +251,7 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      *
      * @param left first character sequence.
      * @param right second character sequence.
-     * @return the longest common subsequence found.
+     * @return The longest common subsequence found.
      * @throws IllegalArgumentException if either String input {@code null}.
      * @since 1.2
      */

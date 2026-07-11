@@ -63,14 +63,14 @@ public interface SimilarityInput<E> {
      * Gets the element in the input at the given 0-based index.
      *
      * @param index a 0-based index.
-     * @return the element in the input at the given 0-based index.
+     * @return The element in the input at the given 0-based index.
      */
     E at(int index);
 
     /**
      * Gets the length of the input.
      *
-     * @return the length of the input.
+     * @return The length of the input.
      */
     int length();
 
