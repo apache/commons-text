@@ -116,9 +116,9 @@ public final class AlphabetConverter {
      * Duplicate letters in either original or encoding will be ignored.
      * </p>
      *
-     * @param original    an array of ints representing the original alphabet in code points.
-     * @param encoding    an array of ints representing the alphabet to be used for encoding, in code points.
-     * @param doNotEncode an array of ints representing the chars to be encoded using the original alphabet - every char here must appear in both the previous
+     * @param original    An array of ints representing the original alphabet in code points.
+     * @param encoding    An array of ints representing the alphabet to be used for encoding, in code points.
+     * @param doNotEncode An array of ints representing the chars to be encoded using the original alphabet - every char here must appear in both the previous
      *                    params.
      * @return The AlphabetConverter.
      * @throws IllegalArgumentException if an AlphabetConverter cannot be constructed.
@@ -225,10 +225,10 @@ public final class AlphabetConverter {
      *
      * <p>Duplicate letters in either original or encoding will be ignored.</p>
      *
-     * @param original an array of chars representing the original alphabet
-     * @param encoding an array of chars representing the alphabet to be used
+     * @param original An array of chars representing the original alphabet
+     * @param encoding An array of chars representing the alphabet to be used
      *                 for encoding
-     * @param doNotEncode an array of chars to be encoded using the original
+     * @param doNotEncode An array of chars to be encoded using the original
      *                    alphabet - every char here must appear in
      *                    both the previous params
      * @return The AlphabetConverter
@@ -248,7 +248,7 @@ public final class AlphabetConverter {
     /**
      * Creates a new converter from a map.
      *
-     * @param originalToEncoded a map returned from getOriginalToEncoded().
+     * @param originalToEncoded A map returned from getOriginalToEncoded().
      * @return The reconstructed AlphabetConverter.
      * @see AlphabetConverter#getOriginalToEncoded()
      */
@@ -360,7 +360,7 @@ public final class AlphabetConverter {
     /**
      * Decodes a given string.
      *
-     * @param encoded a string that has been encoded using this AlphabetConverter.
+     * @param encoded A string that has been encoded using this AlphabetConverter.
      * @return The decoded string, {@code null} if the given string is null.
      * @throws UnsupportedEncodingException if unexpected characters that cannot be handled are encountered.
      */
@@ -404,7 +404,7 @@ public final class AlphabetConverter {
     /**
      * Encodes a given string.
      *
-     * @param original the string to be encoded.
+     * @param original The string to be encoded.
      * @return The encoded string, {@code null} if the given string is null.
      * @throws UnsupportedEncodingException if chars that are not supported are encountered.
      */

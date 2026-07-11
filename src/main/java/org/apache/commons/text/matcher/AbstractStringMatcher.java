@@ -114,7 +114,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Constructs a matcher from a String.
          *
-         * @param chars the string to match, must not be null
+         * @param chars The string to match, must not be null
          */
         CharArrayMatcher(final char... chars) {
             this.string = String.valueOf(chars);
@@ -124,10 +124,10 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns the number of matching characters, {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change.
-         * @param start the starting position for the match, valid for buffer.
+         * @param buffer The text content to match against, do not change.
+         * @param start The starting position for the match, valid for buffer.
          * @param bufferStart unused.
-         * @param bufferEnd the end index of the active buffer, valid for buffer.
+         * @param bufferEnd The end index of the active buffer, valid for buffer.
          * @return The number of matching characters, zero for no match.
          */
         @Override
@@ -148,10 +148,10 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns the number of matching characters, {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change.
-         * @param start the starting position for the match, valid for buffer.
+         * @param buffer The text content to match against, do not change.
+         * @param start The starting position for the match, valid for buffer.
          * @param bufferStart unused.
-         * @param bufferEnd the end index of the active buffer, valid for buffer.
+         * @param bufferEnd The end index of the active buffer, valid for buffer.
          * @return The number of matching characters, zero for no match.
          */
         @Override
@@ -200,7 +200,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Constructs a matcher for a single character.
          *
-         * @param ch the character to match
+         * @param ch The character to match
          */
         CharMatcher(final char ch) {
             this.ch = ch;
@@ -209,8 +209,8 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change.
-         * @param start the starting position for the match, valid for buffer.
+         * @param buffer The text content to match against, do not change.
+         * @param start The starting position for the match, valid for buffer.
          * @param bufferStart unused.
          * @param bufferEnd unused.
          * @return The number of matching characters, zero for no match.
@@ -223,8 +223,8 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change.
-         * @param start the starting position for the match, valid for buffer.
+         * @param buffer The text content to match against, do not change.
+         * @param start The starting position for the match, valid for buffer.
          * @param bufferStart unused.
          * @param bufferEnd unused.
          * @return The number of matching characters, zero for no match.
@@ -264,7 +264,7 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Constructs a matcher from a character array.
          *
-         * @param chars the characters to match, must not be null.
+         * @param chars The characters to match, must not be null.
          */
         CharSetMatcher(final char[] chars) {
             this.chars = chars.clone();
@@ -274,8 +274,8 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change.
-         * @param start the starting position for the match, valid for buffer.
+         * @param buffer The text content to match against, do not change.
+         * @param start The starting position for the match, valid for buffer.
          * @param bufferStart unused.
          * @param bufferEnd unused.
          * @return The number of matching characters, zero for no match.
@@ -288,8 +288,8 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change.
-         * @param start the starting position for the match, valid for buffer.
+         * @param buffer The text content to match against, do not change.
+         * @param start The starting position for the match, valid for buffer.
          * @param bufferStart unused.
          * @param bufferEnd unused.
          * @return The number of matching characters, zero for no match.
@@ -392,8 +392,8 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change.
-         * @param start the starting position for the match, valid for buffer.
+         * @param buffer The text content to match against, do not change.
+         * @param start The starting position for the match, valid for buffer.
          * @param bufferStart unused.
          * @param bufferEnd unused.
          * @return The number of matching characters, zero for no match.
@@ -406,8 +406,8 @@ abstract class AbstractStringMatcher implements StringMatcher {
         /**
          * Returns {@code 1} if there is a match, or {@code 0} if there is no match.
          *
-         * @param buffer the text content to match against, do not change.
-         * @param start the starting position for the match, valid for buffer.
+         * @param buffer The text content to match against, do not change.
+         * @param start The starting position for the match, valid for buffer.
          * @param bufferStart unused.
          * @param bufferEnd unused.
          * @return The number of matching characters, zero for no match.
@@ -437,9 +437,9 @@ abstract class AbstractStringMatcher implements StringMatcher {
 //    /**
 //     * Validates indices for {@code bufferStart <= start < bufferEnd}.
 //     *
-//     * @param start the starting position for the match, valid in {@code buffer}.
-//     * @param bufferStart the first active index in the buffer, valid in {@code buffer}.
-//     * @param bufferEnd the end index (exclusive) of the active buffer, valid in {@code buffer}.
+//     * @param start The starting position for the match, valid in {@code buffer}.
+//     * @param bufferStart The first active index in the buffer, valid in {@code buffer}.
+//     * @param bufferEnd The end index (exclusive) of the active buffer, valid in {@code buffer}.
 //     */
 //    void validate(final int start, final int bufferStart, final int bufferEnd) {
 //        if (((bufferStart > start) || (start >= bufferEnd))) {

@@ -63,8 +63,8 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
     /**
      * Constructs a fully customized instance.
      *
-     * @param stringLookupMap the map of string lookups.
-     * @param defaultStringLookup the default string lookup.
+     * @param stringLookupMap The map of string lookups.
+     * @param defaultStringLookup The default string lookup.
      * @param addDefaultLookups whether the default lookups should be used.
      */
     InterpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup,
@@ -83,7 +83,7 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
      * </p>
      *
      * @param <V> The map's value type.
-     * @param defaultMap the default map for string lookups.
+     * @param defaultMap The default map for string lookups.
      */
     <V> InterpolatorStringLookup(final Map<String, V> defaultMap) {
         this(StringLookupFactory.INSTANCE.mapStringLookup(defaultMap));
@@ -92,7 +92,7 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
     /**
      * Constructs an instance with the given lookup.
      *
-     * @param defaultStringLookup the default lookup.
+     * @param defaultStringLookup The default lookup.
      */
     InterpolatorStringLookup(final StringLookup defaultStringLookup) {
         this(Collections.emptyMap(), defaultStringLookup, true);
@@ -113,7 +113,7 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
      * the prefix stripped to the lookup object registered for this prefix. If no prefix can be found or if the
      * associated lookup object cannot resolve this variable, the default lookup object will be used.
      *
-     * @param key the name of the variable whose value is to be looked up.
+     * @param key The name of the variable whose value is to be looked up.
      * @return The value of this variable or {@code null} if it cannot be resolved.
      */
     @Override

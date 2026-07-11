@@ -46,7 +46,7 @@ class IntersectionSimilarityTest {
     /**
      * Convert the {@link CharSequence} to a {@link List} of bigrams (pairs of characters). These are represented using 2 16-bit chars packed into a 32-bit int.
      *
-     * @param sequence the sequence
+     * @param sequence The sequence
      * @return The list
      */
     private static List<Integer> toBigramList(final CharSequence sequence) {
@@ -66,7 +66,7 @@ class IntersectionSimilarityTest {
     /**
      * Convert the {@link CharSequence} to a {@link Set} of bigrams (pairs of characters). These are represented using 2 16-bit chars packed into a 32-bit int.
      *
-     * @param sequence the sequence
+     * @param sequence The sequence
      * @return The set
      */
     private static Set<Integer> toBigramSet(final CharSequence sequence) {
@@ -86,7 +86,7 @@ class IntersectionSimilarityTest {
     /**
      * Convert the {@link CharSequence} to a {@link List} of {@link Character}s.
      *
-     * @param sequence the sequence
+     * @param sequence The sequence
      * @return The list
      */
     private static List<Character> toCharacterList(final CharSequence sequence) {
@@ -101,7 +101,7 @@ class IntersectionSimilarityTest {
     /**
      * Convert the {@link CharSequence} to a {@link Set} of {@link Character}s.
      *
-     * @param sequence the sequence
+     * @param sequence The sequence
      * @return The set
      */
     private static Set<Character> toCharacterSet(final CharSequence sequence) {

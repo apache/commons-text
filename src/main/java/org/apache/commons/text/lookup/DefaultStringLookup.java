@@ -205,8 +205,8 @@ public enum DefaultStringLookup {
     /**
      * Constructs a new instance of {@link DefaultStringLookup} and sets the key and the associated lookup instance.
      *
-     * @param prefix the prefix
-     * @param lookup the {@link StringLookup} instance
+     * @param prefix The prefix
+     * @param lookup The {@link StringLookup} instance
      */
     DefaultStringLookup(final String prefix, final StringLookup lookup) {
         this.key = prefix;

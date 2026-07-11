@@ -41,7 +41,7 @@ abstract class AbstractPathFencedLookup extends AbstractStringLookup {
     /**
      * Gets a Path for the given file name checking that it resolves within our fence.
      *
-     * @param fileName the file name to resolve.
+     * @param fileName The file name to resolve.
      * @return A fenced Path.
      * @throws IllegalArgumentException if the file name is not without our fence.
      */

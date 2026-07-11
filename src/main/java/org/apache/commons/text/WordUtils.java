@@ -517,7 +517,7 @@ public class WordUtils {
      * WordUtils.uncapitalize("I am fine", new char[]{}) = "i am fine"
      * </pre>
      *
-     * @param str        the String to uncapitalize, may be null.
+     * @param str        The String to uncapitalize, may be null.
      * @param delimiters set of characters to determine uncapitalization, null means whitespace.
      * @return uncapitalized String, or {@code null} if null String input.
      * @see #capitalize(String)

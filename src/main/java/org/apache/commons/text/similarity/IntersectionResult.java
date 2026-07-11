@@ -49,9 +49,9 @@ public class IntersectionResult {
     /**
      * Constructs the results for an intersection between two sets.
      *
-     * @param sizeA        the size of set A ({@code |A|}).
-     * @param sizeB        the size of set B ({@code |B|}).
-     * @param intersection the size of the intersection of A and B ({@code |A &#8745; B|}).
+     * @param sizeA        The size of set A ({@code |A|}).
+     * @param sizeB        The size of set B ({@code |B|}).
+     * @param intersection The size of the intersection of A and B ({@code |A &#8745; B|}).
      * @throws IllegalArgumentException if the sizes are negative or the intersection is greater than the minimum of the two set sizes.
      */
     public IntersectionResult(final int sizeA, final int sizeB, final int intersection) {

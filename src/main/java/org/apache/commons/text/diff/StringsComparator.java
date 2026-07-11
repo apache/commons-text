@@ -150,11 +150,11 @@ public class StringsComparator {
     /**
      * Builds an edit script.
      *
-     * @param start1 the begin of the first sequence to be compared.
-     * @param end1   the end of the first sequence to be compared.
-     * @param start2 the begin of the second sequence to be compared.
-     * @param end2   the end of the second sequence to be compared.
-     * @param script the edited script.
+     * @param start1 The begin of the first sequence to be compared.
+     * @param end1   The end of the first sequence to be compared.
+     * @param start2 The begin of the second sequence to be compared.
+     * @param end2   The end of the second sequence to be compared.
+     * @param script The edited script.
      */
     private void buildScript(final int start1, final int end1, final int start2, final int end2,
             final EditScript<Character> script) {
@@ -197,10 +197,10 @@ public class StringsComparator {
     /**
      * Builds a snake.
      *
-     * @param start the value of the start of the snake.
-     * @param diag  the value of the diagonal of the snake.
-     * @param end1  the value of the end of the first sequence to be compared.
-     * @param end2  the value of the end of the second sequence to be compared.
+     * @param start The value of the start of the snake.
+     * @param diag  The value of the diagonal of the snake.
+     * @param end1  The value of the end of the first sequence to be compared.
+     * @param end2  The value of the end of the second sequence to be compared.
      * @return The snake built.
      */
     private Snake buildSnake(final int start, final int diag, final int end1, final int end2) {
@@ -220,10 +220,10 @@ public class StringsComparator {
      * Myers article: <a href="https://www.cs.arizona.edu/people/gene/PAPERS/diff.ps"> An O(ND) Difference Algorithm and Its Variations</a>.
      * </p>
      *
-     * @param start1 the begin of the first sequence to be compared.
-     * @param end1   the end of the first sequence to be compared.
-     * @param start2 the begin of the second sequence to be compared.
-     * @param end2   the end of the second sequence to be compared.
+     * @param start1 The begin of the first sequence to be compared.
+     * @param end1   The end of the first sequence to be compared.
+     * @param start2 The begin of the second sequence to be compared.
+     * @param end2   The end of the second sequence to be compared.
      * @return The middle snake.
      */
     private Snake getMiddleSnake(final int start1, final int end1, final int start2, final int end2) {

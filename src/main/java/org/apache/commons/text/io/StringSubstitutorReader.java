@@ -65,7 +65,7 @@ public class StringSubstitutorReader extends FilterReader {
     /**
      * Constructs a new instance.
      *
-     * @param reader the underlying reader containing the template text known to the given {@code StringSubstitutor}.
+     * @param reader The underlying reader containing the template text known to the given {@code StringSubstitutor}.
      * @param stringSubstitutor How to replace as we read.
      * @throws NullPointerException if {@code reader} is {@code null}.
      * @throws NullPointerException if {@code stringSubstitutor} is {@code null}.

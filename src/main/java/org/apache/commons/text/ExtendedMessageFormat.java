@@ -118,7 +118,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Constructs a new ExtendedMessageFormat for the default locale.
      *
-     * @param pattern  the pattern to use, not null.
+     * @param pattern  The pattern to use, not null.
      * @throws IllegalArgumentException in case of a bad pattern.
      */
     public ExtendedMessageFormat(final String pattern) {
@@ -128,8 +128,8 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Constructs a new ExtendedMessageFormat.
      *
-     * @param pattern  the pattern to use, not null.
-     * @param locale  the locale to use, not null.
+     * @param pattern  The pattern to use, not null.
+     * @param locale  The locale to use, not null.
      * @throws IllegalArgumentException in case of a bad pattern.
      */
     public ExtendedMessageFormat(final String pattern, final Locale locale) {
@@ -139,9 +139,9 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Constructs a new ExtendedMessageFormat.
      *
-     * @param pattern  the pattern to use, not null.
-     * @param locale   the locale to use, not null.
-     * @param registry the registry of format factories, may be null.
+     * @param pattern  The pattern to use, not null.
+     * @param locale   The locale to use, not null.
+     * @param registry The registry of format factories, may be null.
      * @throws IllegalArgumentException in case of a bad pattern.
      */
     public ExtendedMessageFormat(final String pattern, final Locale locale, final Map<String, ? extends FormatFactory> registry) {
@@ -154,8 +154,8 @@ public class ExtendedMessageFormat extends MessageFormat {
     /**
      * Constructs a new ExtendedMessageFormat for the default locale.
      *
-     * @param pattern  the pattern to use, not null.
-     * @param registry the registry of format factories, may be null.
+     * @param pattern  The pattern to use, not null.
+     * @param registry The registry of format factories, may be null.
      * @throws IllegalArgumentException in case of a bad pattern.
      */
     public ExtendedMessageFormat(final String pattern, final Map<String, ? extends FormatFactory> registry) {
@@ -495,7 +495,7 @@ public class ExtendedMessageFormat extends MessageFormat {
      * Throws UnsupportedOperationException, see class Javadoc for details.
      *
      * @param formatElementIndex format element index.
-     * @param newFormat          the new format.
+     * @param newFormat          The new format.
      * @throws UnsupportedOperationException always thrown since this isn't supported by {@link ExtendedMessageFormat}.
      */
     @Override
@@ -507,7 +507,7 @@ public class ExtendedMessageFormat extends MessageFormat {
      * Throws UnsupportedOperationException, see class Javadoc for details.
      *
      * @param argumentIndex argument index.
-     * @param newFormat     the new format.
+     * @param newFormat     The new format.
      * @throws UnsupportedOperationException always thrown since this isn't supported by {@link ExtendedMessageFormat}.
      */
     @Override

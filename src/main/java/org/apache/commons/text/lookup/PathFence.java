@@ -53,7 +53,7 @@ final class PathFence {
         /**
          * Sets the paths that delineate this fence.
          *
-         * @param paths the paths that delineate this fence.
+         * @param paths The paths that delineate this fence.
          * @return {@code this} instance.
          */
         Builder setRoots(final Path... paths) {
@@ -88,7 +88,7 @@ final class PathFence {
     /**
      * Gets a Path for the given file name checking that it resolves within our fence.
      *
-     * @param fileName the file name to resolve.
+     * @param fileName The file name to resolve.
      * @return A fenced Path.
      * @throws IllegalArgumentException if the file name is not without our fence.
      */

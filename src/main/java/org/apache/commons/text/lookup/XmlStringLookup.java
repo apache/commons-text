@@ -113,7 +113,7 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
      * Secure processing is enabled by default and can be overridden with {@link StringLookupFactory#xmlStringLookup(Map, Path...)}.
      * </p>
      *
-     * @param key the key to be looked up, may be null.
+     * @param key The key to be looked up, may be null.
      * @return The value associated with the key.
      */
     @Override

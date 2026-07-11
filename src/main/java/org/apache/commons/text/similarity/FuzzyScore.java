@@ -69,8 +69,8 @@ public class FuzzyScore {
      * score.fuzzyScore("Apache Software Foundation", "asf") = 3
      * </pre>
      *
-     * @param term  a full term that should be matched against, must not be null.
-     * @param query the query that will be matched against a term, must not be null.
+     * @param term  A full term that should be matched against, must not be null.
+     * @param query The query that will be matched against a term, must not be null.
      * @return result score.
      * @throws IllegalArgumentException if the term or query is {@code null}.
      */

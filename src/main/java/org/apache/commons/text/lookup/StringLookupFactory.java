@@ -665,7 +665,7 @@ public final class StringLookupFactory {
      * The format of the property string is a comma-separated list of names from the {@link DefaultStringLookup} enum.
      * </p>
      *
-     * @param stringLookupMap the map of string lookups to edit.
+     * @param stringLookupMap The map of string lookups to edit.
      * @since 1.5
      */
     public void addDefaultStringLookups(final Map<String, StringLookup> stringLookupMap) {
@@ -762,7 +762,7 @@ public final class StringLookupFactory {
      *
      * @param <R>        the function return type.
      * @param <U>        the function's second parameter type.
-     * @param biFunction the function.
+     * @param biFunction The function.
      * @return A new MapStringLookup.
      * @since 1.9
      */
@@ -998,7 +998,7 @@ public final class StringLookupFactory {
      * Returns a new function-based lookup where the request for a lookup is answered by applying the function with a lookup key.
      *
      * @param <R>      the function return type.
-     * @param function the function.
+     * @param function The function.
      * @return A new MapStringLookup.
      * @since 1.9
      */
@@ -1038,8 +1038,8 @@ public final class StringLookupFactory {
      * lookups} are included in addition to the ones provided in {@code stringLookupMap}. (See the class documentation for details on how default lookups are
      * configured.)
      *
-     * @param stringLookupMap     the map of string lookups.
-     * @param defaultStringLookup the default string lookup; this lookup is used when a variable cannot be resolved using the lookups in {@code stringLookupMap}
+     * @param stringLookupMap     The map of string lookups.
+     * @param defaultStringLookup The default string lookup; this lookup is used when a variable cannot be resolved using the lookups in {@code stringLookupMap}
      *                            or the configured default lookups (if enabled)
      * @param addDefaultLookups   whether to use default lookups as described above.
      * @return A new InterpolatorStringLookup.
@@ -1055,7 +1055,7 @@ public final class StringLookupFactory {
      * resolve variables. (See the class documentation for details on how default lookups are configured.)
      *
      * @param <V> The value type the default string lookup's map.
-     * @param map the default map for string lookups.
+     * @param map The default map for string lookups.
      * @return A new InterpolatorStringLookup.
      */
     public <V> StringLookup interpolatorStringLookup(final Map<String, V> map) {
@@ -1066,7 +1066,7 @@ public final class StringLookupFactory {
      * Returns a new InterpolatorStringLookup using the given lookup and the configured {@link #addDefaultStringLookups(Map) default lookups} to resolve
      * variables. (See the class documentation for details on how default lookups are configured.)
      *
-     * @param defaultStringLookup the default string lookup.
+     * @param defaultStringLookup The default string lookup.
      * @return A new InterpolatorStringLookup.
      */
     public StringLookup interpolatorStringLookup(final StringLookup defaultStringLookup) {
@@ -1179,7 +1179,7 @@ public final class StringLookupFactory {
      * Returns a new map-based lookup where the request for a lookup is answered with the value for that key.
      *
      * @param <V> The map value type.
-     * @param map the map.
+     * @param map The map.
      * @return A new MapStringLookup.
      */
     public <V> StringLookup mapStringLookup(final Map<String, V> map) {

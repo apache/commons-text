@@ -159,7 +159,7 @@ public final class RandomStringGenerator {
          * will replace the previously stored predicates.
          * </p>
          *
-         * @param predicates the predicates, may be {@code null} or empty.
+         * @param predicates The predicates, may be {@code null} or empty.
          * @return {@code this} instance.
          */
         public Builder filteredBy(final CharacterPredicate... predicates) {
@@ -261,7 +261,7 @@ public final class RandomStringGenerator {
          * Passing {@code null} to this method will revert to the default source of randomness.
          * </p>
          *
-         * @param random the source of randomness, may be {@code null}.
+         * @param random The source of randomness, may be {@code null}.
          * @return {@code this} instance.
          * @since 1.14.0
          */
@@ -292,7 +292,7 @@ public final class RandomStringGenerator {
          * Passing {@code null} to this method will revert to the default source of randomness.
          * </p>
          *
-         * @param random the source of randomness, may be {@code null}.
+         * @param random The source of randomness, may be {@code null}.
          * @return {@code this} instance.
          */
         public Builder usingRandom(final TextRandomProvider random) {
@@ -337,8 +337,8 @@ public final class RandomStringGenerator {
         /**
          * Sets the minimum and maximum code points allowed in the generated string.
          *
-         * @param minimumCodePoint the smallest code point allowed (inclusive).
-         * @param maximumCodePoint the largest code point allowed (inclusive).
+         * @param minimumCodePoint The smallest code point allowed (inclusive).
+         * @param maximumCodePoint The largest code point allowed (inclusive).
          * @return {@code this} instance.
          * @throws IllegalArgumentException if {@code maximumCodePoint >} {@link Character#MAX_CODE_POINT}.
          * @throws IllegalArgumentException if {@code minimumCodePoint < 0}.
@@ -419,7 +419,7 @@ public final class RandomStringGenerator {
      * {@link Character} documentation to understand how Java stores Unicode values.
      * </p>
      *
-     * @param length the number of code points to generate.
+     * @param length The number of code points to generate.
      * @return The generated string.
      * @throws IllegalArgumentException if {@code length < 0}.
      */
@@ -465,8 +465,8 @@ public final class RandomStringGenerator {
     /**
      * Generates a random string, containing between the minimum (inclusive) and the maximum (inclusive) number of code points.
      *
-     * @param minLengthInclusive the minimum (inclusive) number of code points to generate.
-     * @param maxLengthInclusive the maximum (inclusive) number of code points to generate.
+     * @param minLengthInclusive The minimum (inclusive) number of code points to generate.
+     * @param maxLengthInclusive The maximum (inclusive) number of code points to generate.
      * @return The generated string.
      * @throws IllegalArgumentException if {@code minLengthInclusive < 0}, or {@code maxLengthInclusive < minLengthInclusive}.
      * @see RandomStringGenerator#generate(int)
@@ -482,8 +482,8 @@ public final class RandomStringGenerator {
     /**
      * Generates a random number within a range, using a {@link ThreadLocalRandom} instance or the user-supplied source of randomness.
      *
-     * @param minInclusive the minimum value allowed.
-     * @param maxInclusive the maximum value allowed.
+     * @param minInclusive The minimum value allowed.
+     * @param maxInclusive The maximum value allowed.
      * @return The random number.
      */
     private int generateRandomNumber(final int minInclusive, final int maxInclusive) {

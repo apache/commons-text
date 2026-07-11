@@ -40,7 +40,7 @@ final class IllegalArgumentExceptions {
      * Creates an {@link IllegalArgumentException} with a message
      * formatted with {@link String#format(String,Object...)}.
      *
-     * @param t the throwable cause.
+     * @param t The throwable cause.
      * @param format See {@link String#format(String,Object...)}.
      * @param args See {@link String#format(String,Object...)}.
      * @return An {@link IllegalArgumentException} with a message formatted with {@link String#format(String,Object...)}.

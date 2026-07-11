@@ -59,7 +59,7 @@ public abstract class StrLookup<V> implements StringLookup {
         /**
          * Creates a new instance backed by a Map.
          *
-         * @param map the map of keys to values, may be null
+         * @param map The map of keys to values, may be null
          */
         private MapStrLookup(final Map<String, V> map) {
             this.map = map != null ? map : Collections.emptyMap();
@@ -71,7 +71,7 @@ public abstract class StrLookup<V> implements StringLookup {
          * If the map is null, then null is returned. The map result object is converted to a string using toString().
          * </p>
          *
-         * @param key the key to be looked up, may be null
+         * @param key The key to be looked up, may be null
          * @return The matching value, null if no match
          */
         @Override
@@ -96,7 +96,7 @@ public abstract class StrLookup<V> implements StringLookup {
         /**
          * Creates a new instance backed by a ResourceBundle.
          *
-         * @param resourceBundle the ResourceBundle of keys to values, may be null.
+         * @param resourceBundle The ResourceBundle of keys to values, may be null.
          */
         private ResourceBundleLookup(final ResourceBundle resourceBundle) {
             this.resourceBundle = resourceBundle;
@@ -163,7 +163,7 @@ public abstract class StrLookup<V> implements StringLookup {
      * </p>
      *
      * @param <V> The type of the values supported by the lookup.
-     * @param map the map of keys to values, may be null.
+     * @param map The map of keys to values, may be null.
      * @return A lookup using the map, not null.
      */
     public static <V> StrLookup<V> mapLookup(final Map<String, V> map) {
@@ -186,7 +186,7 @@ public abstract class StrLookup<V> implements StringLookup {
      * to a string using toString().
      * </p>
      *
-     * @param resourceBundle the map of keys to values, may be null.
+     * @param resourceBundle The map of keys to values, may be null.
      * @return A lookup using the map, not null.
      * @see StringLookupFactory#resourceBundleStringLookup(String)
      */

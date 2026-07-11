@@ -57,7 +57,7 @@ public interface StringLookup extends UnaryOperator<String> {
      * assertEquals("2", StringLookupFactory.mapStringLookup(map).lookup("number"));
      * </pre>
      *
-     * @param key the key to look up, may be null.
+     * @param key The key to look up, may be null.
      * @return The matching value, null if no match.
      * @since 1.14.0
      */
@@ -88,7 +88,7 @@ public interface StringLookup extends UnaryOperator<String> {
      * assertEquals("2", StringLookupFactory.mapStringLookup(map).lookup("number"));
      * </pre>
      *
-     * @param key the key to look up, may be null.
+     * @param key The key to look up, may be null.
      * @return The matching value, null if no match.
      * @deprecated Use {@link #apply(String)}.
      */

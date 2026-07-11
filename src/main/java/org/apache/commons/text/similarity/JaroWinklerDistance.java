@@ -33,8 +33,8 @@ public class JaroWinklerDistance implements EditDistance<Double> {
     /**
      * Computes the Jaro-Winkler string matches, half transpositions, prefix array.
      *
-     * @param first  the first string to be matched.
-     * @param second the second string to be matched.
+     * @param first  The first string to be matched.
+     * @param second The second string to be matched.
      * @return array containing: matches, half transpositions, and prefix
      * @deprecated Deprecated as of 1.7, use {@link JaroWinklerSimilarity#matches(CharSequence, CharSequence)}. This method will be removed in 2.0. TODO see
      *             TEXT-104.
@@ -78,8 +78,8 @@ public class JaroWinklerDistance implements EditDistance<Double> {
      * distance.apply("PENNSYLVANIA", "PENNCISYLVNIA") = 0.12
      * </pre>
      *
-     * @param left the first input, must not be null.
-     * @param right the second input, must not be null.
+     * @param left The first input, must not be null.
+     * @param right The second input, must not be null.
      * @return result distance.
      * @throws IllegalArgumentException if either CharSequence input is {@code null}.
      */
@@ -116,8 +116,8 @@ public class JaroWinklerDistance implements EditDistance<Double> {
      * </pre>
      *
      * @param <E> The type of similarity score unit.
-     * @param left the first input, must not be null.
-     * @param right the second input, must not be null.
+     * @param left The first input, must not be null.
+     * @param right The second input, must not be null.
      * @return result distance.
      * @throws IllegalArgumentException if either CharSequence input is {@code null}.
      * @since 1.13.0

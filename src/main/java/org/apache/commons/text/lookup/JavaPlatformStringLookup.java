@@ -88,7 +88,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
     /**
      * The main method for running the JavaPlatformStringLookup.
      *
-     * @param args the standard Java main method parameter which is unused for our running of this class.
+     * @param args The standard Java main method parameter which is unused for our running of this class.
      */
     public static void main(final String[] args) {
         System.out.println(JavaPlatformStringLookup.class);
@@ -151,7 +151,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
     /**
      * Gets the given system property.
      *
-     * @param name a system property name.
+     * @param name A system property name.
      * @return A system property value.
      */
     private String getSystemProperty(final String name) {
@@ -161,8 +161,8 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
     /**
      * Gets the given system property.
      *
-     * @param prefix the prefix to use for the result string.
-     * @param name a system property name.
+     * @param prefix The prefix to use for the result string.
+     * @param name A system property name.
      * @return The prefix + a system property value.
      */
     private String getSystemProperty(final String prefix, final String name) {
@@ -197,7 +197,7 @@ final class JavaPlatformStringLookup extends AbstractStringLookup {
      * <li><strong>locale</strong>: "default locale: en_US, platform encoding: iso-8859-1"</li>
      * </ul>
      *
-     * @param key the key to be looked up, may be null.
+     * @param key The key to be looked up, may be null.
      * @return The value of the environment variable.
      */
     @Override

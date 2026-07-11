@@ -47,8 +47,8 @@ public interface SimilarityScore<R> extends ObjectSimilarityScore<CharSequence, 
     /**
      * Compares two CharSequences.
      *
-     * @param left  the "left" or "first" input.
-     * @param right the "right" or "second" input.
+     * @param left  The "left" or "first" input.
+     * @param right The "right" or "second" input.
      * @return The similarity score between two CharSequences.
      */
     @Override

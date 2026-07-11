@@ -63,7 +63,7 @@ public interface BiStringLookup<U> extends StringLookup {
      * assertEquals("2", StringLookupFactory.biFunctionStringLookup(map).lookup("number", "A context object"));
      * </pre>
      *
-     * @param key the key to look up, may be null.
+     * @param key The key to look up, may be null.
      * @param object ignored by default.
      * @return The matching value, null if no match.
      */

@@ -36,7 +36,7 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
      * Creates a new instance backed by a Function.
      *
      * @param <R> The function's input type
-     * @param function the function, may be null.
+     * @param function The function, may be null.
      * @return A new instance backed by the given function.
      */
     static <R> FunctionStringLookup<R> on(final Function<String, R> function) {
@@ -47,7 +47,7 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
      * Creates a new instance backed by a Map. Used by the default lookup.
      *
      * @param <V> The map's value type.
-     * @param map the map of keys to values, may be null.
+     * @param map The map of keys to values, may be null.
      * @return A new instance backed by the given map.
      */
     static <V> FunctionStringLookup<V> on(final Map<String, V> map) {
@@ -62,7 +62,7 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
     /**
      * Creates a new instance backed by a Function.
      *
-     * @param function the function, may be null.
+     * @param function The function, may be null.
      */
     private FunctionStringLookup(final Function<String, V> function) {
         this.function = function;
@@ -75,7 +75,7 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
      * toString().
      * </p>
      *
-     * @param key the key to be looked up, may be null.
+     * @param key The key to be looked up, may be null.
      * @return The function result as a string, may be null.
      */
     @Override

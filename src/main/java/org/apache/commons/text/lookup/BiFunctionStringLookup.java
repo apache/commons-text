@@ -37,7 +37,7 @@ final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
      * Creates a new instance backed by a Function.
      *
      * @param <T> The function's input type
-     * @param biFunction the function, may be null.
+     * @param biFunction The function, may be null.
      * @return A new instance backed by the given function.
      */
     static <U, T> BiFunctionStringLookup<U, T> on(final BiFunction<String, U, T> biFunction) {
@@ -48,7 +48,7 @@ final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
      * Creates a new instance backed by a Map. Used by the default lookup.
      *
      * @param <T> The map's value type.
-     * @param map the map of keys to values, may be null.
+     * @param map The map of keys to values, may be null.
      * @return A new instance backed by the given map.
      */
     static <U, T> BiFunctionStringLookup<U, T> on(final Map<String, T> map) {
@@ -63,7 +63,7 @@ final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
     /**
      * Creates a new instance backed by a Function.
      *
-     * @param biFunction the function, may be null.
+     * @param biFunction The function, may be null.
      */
     private BiFunctionStringLookup(final BiFunction<String, P, R> biFunction) {
         this.biFunction = biFunction;
@@ -81,7 +81,7 @@ final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
      * toString().
      * </p>
      *
-     * @param key the key to be looked up, may be null.
+     * @param key The key to be looked up, may be null.
      * @return The function result as a string, may be null.
      */
     @Override

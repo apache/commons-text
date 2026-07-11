@@ -134,7 +134,7 @@ class ConstantStringLookupTest {
     /**
      * Generates the name of a variable for a lookup operation based on the given field name of this class.
      *
-     * @param field the field name
+     * @param field The field name
      * @return The variable for looking up this field
      */
     private String variable(final String field) {

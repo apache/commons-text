@@ -72,9 +72,9 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * limitedCompare("hippo", "elephant", 6) = -1
      * </pre>
      *
-     * @param left      the first SimilarityInput, must not be null.
-     * @param right     the second SimilarityInput, must not be null.
-     * @param threshold the target threshold, must not be negative.
+     * @param left      The first SimilarityInput, must not be null.
+     * @param right     The second SimilarityInput, must not be null.
+     * @param threshold The target threshold, must not be negative.
      * @return result distance, or -1
      */
     private static <E> int limitedCompare(SimilarityInput<E> left, SimilarityInput<E> right, final int threshold) { // NOPMD
@@ -221,8 +221,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * unlimitedCompare("hello", "hallo")    = 1
      * </pre>
      *
-     * @param left  the first CharSequence, must not be null.
-     * @param right the second CharSequence, must not be null.
+     * @param left  The first CharSequence, must not be null.
+     * @param right The second CharSequence, must not be null.
      * @return result distance, or -1.
      * @throws IllegalArgumentException if either CharSequence input is {@code null}.
      */
@@ -332,8 +332,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * distance.apply("hello", "hallo")    = 1
      * </pre>
      *
-     * @param left  the first input, must not be null.
-     * @param right the second input, must not be null.
+     * @param left  The first input, must not be null.
+     * @param right The second input, must not be null.
      * @return result distance, or -1.
      * @throws IllegalArgumentException if either String input {@code null}.
      */
@@ -364,8 +364,8 @@ public class LevenshteinDistance implements EditDistance<Integer> {
      * </pre>
      *
      * @param <E>   The type of similarity score unit.
-     * @param left  the first input, must not be null.
-     * @param right the second input, must not be null.
+     * @param left  The first input, must not be null.
+     * @param right The second input, must not be null.
      * @return result distance, or -1.
      * @throws IllegalArgumentException if either String input {@code null}.
      * @since 1.13.0

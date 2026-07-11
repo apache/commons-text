@@ -91,7 +91,7 @@ public final class StringMatcherFactory {
     /**
      * Creates a matcher that matches all of the given matchers in order.
      *
-     * @param stringMatchers the matcher.
+     * @param stringMatchers The matcher.
      * @return A matcher that matches all of the given matchers in order.
      * @since 1.9
      */
@@ -109,7 +109,7 @@ public final class StringMatcherFactory {
     /**
      * Constructor that creates a matcher from a character.
      *
-     * @param ch the character to match, must not be null.
+     * @param ch The character to match, must not be null.
      * @return A new Matcher for the given char.
      */
     public StringMatcher charMatcher(final char ch) {
@@ -119,7 +119,7 @@ public final class StringMatcherFactory {
     /**
      * Constructor that creates a matcher from a set of characters.
      *
-     * @param chars the characters to match, null or empty matches nothing.
+     * @param chars The characters to match, null or empty matches nothing.
      * @return A new matcher for the given char[].
      */
     public StringMatcher charSetMatcher(final char... chars) {
@@ -136,7 +136,7 @@ public final class StringMatcherFactory {
     /**
      * Creates a matcher from a string representing a set of characters.
      *
-     * @param chars the characters to match, null or empty matches nothing.
+     * @param chars The characters to match, null or empty matches nothing.
      * @return A new Matcher for the given characters.
      */
     public StringMatcher charSetMatcher(final String chars) {
@@ -216,7 +216,7 @@ public final class StringMatcherFactory {
     /**
      * Creates a matcher from a string.
      *
-     * @param chars the string to match, null or empty matches nothing.
+     * @param chars The string to match, null or empty matches nothing.
      * @return A new Matcher for the given String.
      * @since 1.9
      */
@@ -230,7 +230,7 @@ public final class StringMatcherFactory {
     /**
      * Creates a matcher from a string.
      *
-     * @param str the string to match, null or empty matches nothing.
+     * @param str The string to match, null or empty matches nothing.
      * @return A new Matcher for the given String.
      */
     public StringMatcher stringMatcher(final String str) {

@@ -58,7 +58,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
     /**
      * Constructs an instance that only works for the given bundle.
      *
-     * @param bundleName the name of the resource bundle from which we will look keys up.
+     * @param bundleName The name of the resource bundle from which we will look keys up.
      * @since 1.5
      */
     ResourceBundleStringLookup(final String bundleName) {
@@ -79,7 +79,7 @@ final class ResourceBundleStringLookup extends AbstractStringLookup {
      *
      * For example: "com.domain.messages:MyKey".
      *
-     * @param key the key to be looked up, may be null.
+     * @param key The key to be looked up, may be null.
      * @return The value associated with the key.
      * @see ResourceBundle
      * @see ResourceBundle#getBundle(String)

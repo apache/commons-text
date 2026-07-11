@@ -66,9 +66,9 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
     /**
      * Finds the Damerau-Levenshtein distance between two CharSequences if it's less than or equal to a given threshold.
      *
-     * @param left      the first SimilarityInput, must not be null.
-     * @param right     the second SimilarityInput, must not be null.
-     * @param threshold the target threshold, must not be negative.
+     * @param left      The first SimilarityInput, must not be null.
+     * @param right     The second SimilarityInput, must not be null.
+     * @param threshold The target threshold, must not be negative.
      * @return result distance, or -1 if distance exceeds threshold.
      */
     private static <E> int limitedCompare(SimilarityInput<E> left, SimilarityInput<E> right, final int threshold) {
@@ -159,8 +159,8 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
     /**
      * Finds the Damerau-Levenshtein distance between two inputs using optimal string alignment.
      *
-     * @param left  the first CharSequence, must not be null.
-     * @param right the second CharSequence, must not be null.
+     * @param left  The first CharSequence, must not be null.
+     * @param right The second CharSequence, must not be null.
      * @return result distance.
      * @throws IllegalArgumentException if either CharSequence input is {@code null}.
      */
@@ -266,8 +266,8 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
      * A higher score indicates a greater distance.
      * </p>
      *
-     * @param left  the first input, must not be null.
-     * @param right the second input, must not be null.
+     * @param left  The first input, must not be null.
+     * @param right The second input, must not be null.
      * @return result distance, or -1 if threshold is exceeded.
      * @throws IllegalArgumentException if either String input {@code null}.
      */
@@ -284,8 +284,8 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
      * </p>
      *
      * @param <E>   The type of similarity score unit.
-     * @param left  the first input, must not be null.
-     * @param right the second input, must not be null.
+     * @param left  The first input, must not be null.
+     * @param right The second input, must not be null.
      * @return result distance, or -1 if threshold is exceeded.
      * @throws IllegalArgumentException if either String input {@code null}.
      * @since 1.13.0

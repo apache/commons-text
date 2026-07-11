@@ -77,7 +77,7 @@ final class DnsStringLookup extends AbstractStringLookup {
     /**
      * Looks up the DNS value of the key.
      *
-     * @param key the key to be looked up, may be null
+     * @param key The key to be looked up, may be null
      * @return The DNS value.
      */
     @Override

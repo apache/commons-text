@@ -67,7 +67,7 @@ public class CaseUtils {
      * CaseUtils.toCamelCase(" @", false, new char[]{'@'})                = ""
      * </pre>
      *
-     * @param str  the String to be converted to camelCase, may be null
+     * @param str  The String to be converted to camelCase, may be null
      * @param capitalizeFirstLetter boolean that determines if the first character of first word should be title case.
      * @param delimiters  set of characters to determine capitalization, null and/or empty array means whitespace
      * @return camelCase of String, {@code null} if null String input

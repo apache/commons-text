@@ -54,8 +54,8 @@ public class HammingDistance implements EditDistance<Integer> {
      * distance.apply("karolin", "kerstin"  = 3
      * </pre>
      *
-     * @param left  the first input, must not be null.
-     * @param right the second input, must not be null.
+     * @param left  The first input, must not be null.
+     * @param right The second input, must not be null.
      * @return distance.
      * @throws IllegalArgumentException if either input is {@code null} or if they do not have the same length.
      */
@@ -84,8 +84,8 @@ public class HammingDistance implements EditDistance<Integer> {
      * </pre>
      *
      * @param <E> The type of similarity score unit.
-     * @param left  the first input, must not be null.
-     * @param right the second input, must not be null.
+     * @param left  The first input, must not be null.
+     * @param right The second input, must not be null.
      * @return distance.
      * @throws IllegalArgumentException if either input is {@code null} or if they do not have the same length.
      * @since 1.13.0

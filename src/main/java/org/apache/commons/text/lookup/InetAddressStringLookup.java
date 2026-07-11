@@ -74,7 +74,7 @@ final class InetAddressStringLookup extends AbstractStringLookup {
     /**
      * Looks up the value of a local host key.
      *
-     * @param key the key to be looked up, may be null.
+     * @param key The key to be looked up, may be null.
      * @return The value of the environment variable.
      */
     @Override

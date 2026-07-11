@@ -79,8 +79,8 @@ class TextStringBuilderTest {
     /**
      * Clear the string builder and fill up to the specified length.
      *
-     * @param sb     the string builder
-     * @param length the length
+     * @param sb     The string builder
+     * @param length The length
      */
     private static void fill(final TextStringBuilder sb, final int length) {
         sb.clear();

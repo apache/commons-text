@@ -47,8 +47,8 @@ public interface ObjectSimilarityScore<T, R> extends BiFunction<T, T, R> {
     /**
      * Compares two Objects.
      *
-     * @param left  the "left" or "first" input.
-     * @param right the "right" or "second" input.
+     * @param left  The "left" or "first" input.
+     * @param right The "right" or "second" input.
      * @return The similarity score between two Objects.
      */
     @Override

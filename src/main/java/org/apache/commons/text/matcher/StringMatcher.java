@@ -29,7 +29,7 @@ public interface StringMatcher {
     /**
      * Returns a matcher that matches this matcher followed by the given matcher.
      *
-     * @param stringMatcher the next matcher.
+     * @param stringMatcher The next matcher.
      * @return A matcher that matches this matcher followed by the given matcher.
      * @since 1.9
      */
@@ -53,8 +53,8 @@ public interface StringMatcher {
      * characters that matched.
      * </p>
      *
-     * @param buffer the text content to match against, do not change.
-     * @param pos the starting position for the match, valid for buffer.
+     * @param buffer The text content to match against, do not change.
+     * @param pos The starting position for the match, valid for buffer.
      * @return The number of matching characters, zero for no match.
      * @since 1.9
      */
@@ -82,10 +82,10 @@ public interface StringMatcher {
      * characters that matched.
      * </p>
      *
-     * @param buffer the source text to search, do not change.
-     * @param start the starting position for the match, valid in {@code buffer}.
-     * @param bufferStart the first active index in the buffer, valid in {@code buffer}.
-     * @param bufferEnd the end index (exclusive) of the active buffer, valid in {@code buffer}.
+     * @param buffer The source text to search, do not change.
+     * @param start The starting position for the match, valid in {@code buffer}.
+     * @param bufferStart The first active index in the buffer, valid in {@code buffer}.
+     * @param bufferEnd The end index (exclusive) of the active buffer, valid in {@code buffer}.
      * @return The number of matching characters, zero if there is no match.
      */
     int isMatch(char[] buffer, int start, int bufferStart, int bufferEnd);
@@ -106,8 +106,8 @@ public interface StringMatcher {
      * characters that matched.
      * </p>
      *
-     * @param buffer the text content to match against, do not change.
-     * @param pos the starting position for the match, valid for buffer.
+     * @param buffer The text content to match against, do not change.
+     * @param pos The starting position for the match, valid for buffer.
      * @return The number of matching characters, zero for no match.
      * @since 1.9
      */
@@ -135,10 +135,10 @@ public interface StringMatcher {
      * characters that matched.
      * </p>
      *
-     * @param buffer the source text to search, do not change.
-     * @param start the starting position for the match, valid in {@code buffer}.
-     * @param bufferStart the first active index in the buffer, valid in {@code buffer}.
-     * @param bufferEnd the end index (exclusive) of the active buffer, valid in {@code buffer}.
+     * @param buffer The source text to search, do not change.
+     * @param start The starting position for the match, valid in {@code buffer}.
+     * @param bufferStart The first active index in the buffer, valid in {@code buffer}.
+     * @param bufferEnd The end index (exclusive) of the active buffer, valid in {@code buffer}.
      * @return The number of matching characters, zero if there is no match.
      * @since 1.9
      */

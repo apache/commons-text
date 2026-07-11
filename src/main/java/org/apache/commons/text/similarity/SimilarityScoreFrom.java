@@ -77,7 +77,7 @@ public class SimilarityScoreFrom<R> {
     /**
      * Compares "left" field against the "right" parameter using the "similarity score" implementation.
      *
-     * @param right the second CharSequence.
+     * @param right The second CharSequence.
      * @return The similarity score between two CharSequences.
      */
     public R apply(final CharSequence right) {

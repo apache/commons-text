@@ -45,7 +45,7 @@ class CosineDistanceTest {
     /**
      * Rounds up a value.
      *
-     * @param value a value
+     * @param value A value
      * @return rounded up value
      */
     private Double roundValue(final Double value) {

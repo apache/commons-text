@@ -46,8 +46,8 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
     /**
      * Computes the Jaro-Winkler string matches, half transpositions, prefix array.
      *
-     * @param first  the first input to be matched.
-     * @param second the second input to be matched.
+     * @param first  The first input to be matched.
+     * @param second The second input to be matched.
      * @return mtp array containing: matches, half transpositions, and prefix.
      */
     protected static int[] matches(final CharSequence first, final CharSequence second) {
@@ -58,8 +58,8 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
      * Computes the Jaro-Winkler string matches, half transpositions, prefix array.
      *
      * @param <E> The type of similarity score unit.
-     * @param first  the first input to be matched.
-     * @param second the second input to be matched.
+     * @param first  The first input to be matched.
+     * @param second The second input to be matched.
      * @return mtp array containing: matches, half transpositions, and prefix.
      * @since 1.13.0
      */
@@ -153,8 +153,8 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
      * sim.apply("PENNSYLVANIA", "PENNCISYLVNIA") = 0.88
      * </pre>
      *
-     * @param left  the first input, must not be null.
-     * @param right the second input, must not be null.
+     * @param left  The first input, must not be null.
+     * @param right The second input, must not be null.
      * @return result similarity.
      * @throws IllegalArgumentException if either CharSequence input is {@code null}.
      */
@@ -191,8 +191,8 @@ public class JaroWinklerSimilarity implements SimilarityScore<Double> {
      * </pre>
      *
      * @param <E> The type of similarity score unit.
-     * @param left  the first input, must not be null.
-     * @param right the second input, must not be null.
+     * @param left  The first input, must not be null.
+     * @param right The second input, must not be null.
      * @return result similarity.
      * @throws IllegalArgumentException if either CharSequence input is {@code null}.
      * @since 1.13.0

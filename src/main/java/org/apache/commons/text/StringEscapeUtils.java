@@ -83,7 +83,7 @@ public class StringEscapeUtils {
         /**
          * Builder constructor.
          *
-         * @param translator a CharSequenceTranslator.
+         * @param translator A CharSequenceTranslator.
          */
         private Builder(final CharSequenceTranslator translator) {
             this.sb = new StringBuilder();
@@ -93,7 +93,7 @@ public class StringEscapeUtils {
         /**
          * Literal append, no escaping being done.
          *
-         * @param input the String to append
+         * @param input The String to append
          * @return {@code this}, to enable chaining
          */
         public Builder append(final String input) {
@@ -104,7 +104,7 @@ public class StringEscapeUtils {
         /**
          * Escape {@code input} according to the given {@link CharSequenceTranslator}.
          *
-         * @param input the String to escape
+         * @param input The String to escape
          * @return {@code this}, to enable chaining
          */
         public Builder escape(final String input) {
@@ -479,7 +479,7 @@ public class StringEscapeUtils {
     /**
      * Gets a {@link Builder}.
      *
-     * @param translator the text translator.
+     * @param translator The text translator.
      * @return {@link Builder}
      */
     public static StringEscapeUtils.Builder builder(final CharSequenceTranslator translator) {
@@ -504,7 +504,7 @@ public class StringEscapeUtils {
      * See <a href="https://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia</a> and <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
      * </p>
      *
-     * @param input the input CSV column String, may be null.
+     * @param input The input CSV column String, may be null.
      * @return The input String, enclosed in double quotes if the value contains a comma, newline or double quote, {@code null} if null string input.
      */
     public static String escapeCsv(final String input) {
@@ -557,7 +557,7 @@ public class StringEscapeUtils {
      *
      * <p>Supports only the HTML 3.0 entities.</p>
      *
-     * @param input  the {@code String} to escape, may be null.
+     * @param input  The {@code String} to escape, may be null.
      * @return A new escaped {@code String}, {@code null} if null string input.
      */
     public static String escapeHtml3(final String input) {
@@ -580,7 +580,7 @@ public class StringEscapeUtils {
      * Note that the commonly used apostrophe escape character (&amp;apos;)
      * is not a legal entity and so is not supported).</p>
      *
-     * @param input  the {@code String} to escape, may be null.
+     * @param input  The {@code String} to escape, may be null.
      * @return A new escaped {@code String}, {@code null} if null string input.
      * @see <a href="https://hotwired.lycos.com/webmonkey/reference/special_characters/">ISO Entities</a>
      * @see <a href="https://www.w3.org/TR/REC-html32#latin1">HTML 3.2 Character Entities for ISO Latin-1</a>
@@ -687,7 +687,7 @@ public class StringEscapeUtils {
      * {@link #escapeXml11(String)}.
      * </p>
      *
-     * @param input the {@code String} to escape, may be null.
+     * @param input The {@code String} to escape, may be null.
      * @return A new escaped {@code String}, {@code null} if null string input.
      * @see #unescapeXml(String)
      */
@@ -723,7 +723,7 @@ public class StringEscapeUtils {
      * The returned string can be inserted into a valid XML 1.1 document. Do not use it for XML 1.0 documents.
      * </p>
      *
-     * @param input the {@code String} to escape, may be null.
+     * @param input The {@code String} to escape, may be null.
      * @return A new escaped {@code String}, {@code null} if null string input.
      * @see #unescapeXml(String)
      */
@@ -773,7 +773,7 @@ public class StringEscapeUtils {
      *
      * see <a href="https://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia</a> and <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>.
      *
-     * @param input the input CSV column String, may be null.
+     * @param input The input CSV column String, may be null.
      * @return The input String, with enclosing double quotes removed and embedded double quotes unescaped, {@code null} if null string input.
      */
     public static String unescapeCsv(final String input) {
@@ -787,7 +787,7 @@ public class StringEscapeUtils {
      * For example, it will turn a sequence of {@code '\'} and {@code 'n'} into a newline character, unless the {@code '\'} is preceded by another {@code '\'}.
      * </p>
      *
-     * @param input the {@code String} to unescape, may be null.
+     * @param input The {@code String} to unescape, may be null.
      * @return A new unescaped {@code String}, {@code null} if null string input.
      * @see #unescapeJava(String)
      */
@@ -799,7 +799,7 @@ public class StringEscapeUtils {
      * Unescapes a string containing entity escapes to a string containing the actual Unicode characters corresponding to the escapes. Supports only HTML 3.0
      * entities.
      *
-     * @param input the {@code String} to unescape, may be null.
+     * @param input The {@code String} to unescape, may be null.
      * @return A new unescaped {@code String}, {@code null} if null string input.
      */
     public static String unescapeHtml3(final String input) {
@@ -818,7 +818,7 @@ public class StringEscapeUtils {
      * If an entity is unrecognized, it is left alone, and inserted verbatim into the result string. e.g. {@code "&gt;&zzzz;x"} will become {@code ">&zzzz;x"}.
      * </p>
      *
-     * @param input the {@code String} to unescape, may be null.
+     * @param input The {@code String} to unescape, may be null.
      * @return A new unescaped {@code String}, {@code null} if null string input.
      */
     public static String unescapeHtml4(final String input) {
@@ -829,7 +829,7 @@ public class StringEscapeUtils {
      * Unescapes any Java literals found in the {@code String}. For example, it will turn a sequence of {@code '\'} and {@code 'n'} into a newline character,
      * unless the {@code '\'} is preceded by another {@code '\'}.
      *
-     * @param input the {@code String} to unescape, may be null.
+     * @param input The {@code String} to unescape, may be null.
      * @return A new unescaped {@code String}, {@code null} if null string input.
      */
     public static String unescapeJava(final String input) {
@@ -843,7 +843,7 @@ public class StringEscapeUtils {
      * For example, it will turn a sequence of {@code '\'} and {@code 'n'} into a newline character, unless the {@code '\'} is preceded by another {@code '\'}.
      * </p>
      *
-     * @param input the {@code String} to unescape, may be null.
+     * @param input The {@code String} to unescape, may be null.
      * @return A new unescaped {@code String}, {@code null} if null string input.
      * @see #unescapeJava(String)
      */
@@ -862,7 +862,7 @@ public class StringEscapeUtils {
      * Note that numerical \\u Unicode codes are unescaped to their respective Unicode characters. This may change in future releases.
      * </p>
      *
-     * @param input the {@code String} to unescape, may be null.
+     * @param input The {@code String} to unescape, may be null.
      * @return A new unescaped {@code String}, {@code null} if null string input.
      * @see #escapeXml10(String)
      * @see #escapeXml11(String)
@@ -874,7 +874,7 @@ public class StringEscapeUtils {
     /**
      * Unescapes the characters in a {@code String} using XSI rules.
      *
-     * @param input the {@code String} to unescape, may be null.
+     * @param input The {@code String} to unescape, may be null.
      * @return A new unescaped {@code String}, {@code null} if null string input.
      * @see StringEscapeUtils#escapeXSI(String)
      */

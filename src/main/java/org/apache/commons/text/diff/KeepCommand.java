@@ -36,7 +36,7 @@ public class KeepCommand<T> extends EditCommand<T> {
     /**
      * Constructs a new instance of KeepCommand.
      *
-     * @param object the object belonging to both sequences (the object is a reference to the instance in the first sequence which is known to be equal to an
+     * @param object The object belonging to both sequences (the object is a reference to the instance in the first sequence which is known to be equal to an
      *               instance in the second sequence)
      */
     public KeepCommand(final T object) {
@@ -46,7 +46,7 @@ public class KeepCommand<T> extends EditCommand<T> {
     /**
      * Accepts a visitor. When a {@code KeepCommand} accepts a visitor, it calls its {@link CommandVisitor#visitKeepCommand visitKeepCommand} method.
      *
-     * @param visitor the visitor to be accepted.
+     * @param visitor The visitor to be accepted.
      */
     @Override
     public void accept(final CommandVisitor<T> visitor) {

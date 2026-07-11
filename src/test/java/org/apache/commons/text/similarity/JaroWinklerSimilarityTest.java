@@ -41,7 +41,7 @@ class JaroWinklerSimilarityTest {
      * Wraps the string in a custom {@link CharSequence}. This ensures that using the {@link Object#equals(Object)} method on the input CharSequence to test for
      * equality will fail.
      *
-     * @param string the string
+     * @param string The string
      * @return The char sequence
      */
     private static CharSequence wrap(final String string) {
