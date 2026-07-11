@@ -558,7 +558,7 @@ public class StringEscapeUtils {
      * <p>Supports only the HTML 3.0 entities.</p>
      *
      * @param input  the {@code String} to escape, may be null.
-     * @return a new escaped {@code String}, {@code null} if null string input.
+     * @return A new escaped {@code String}, {@code null} if null string input.
      */
     public static String escapeHtml3(final String input) {
         return ESCAPE_HTML3.translate(input);
@@ -581,7 +581,7 @@ public class StringEscapeUtils {
      * is not a legal entity and so is not supported).</p>
      *
      * @param input  the {@code String} to escape, may be null.
-     * @return a new escaped {@code String}, {@code null} if null string input.
+     * @return A new escaped {@code String}, {@code null} if null string input.
      * @see <a href="https://hotwired.lycos.com/webmonkey/reference/special_characters/">ISO Entities</a>
      * @see <a href="https://www.w3.org/TR/REC-html32#latin1">HTML 3.2 Character Entities for ISO Latin-1</a>
      * @see <a href="https://www.w3.org/TR/REC-html40/sgml/entities.html">HTML 4.0 Character entity references</a>
@@ -688,7 +688,7 @@ public class StringEscapeUtils {
      * </p>
      *
      * @param input the {@code String} to escape, may be null.
-     * @return a new escaped {@code String}, {@code null} if null string input.
+     * @return A new escaped {@code String}, {@code null} if null string input.
      * @see #unescapeXml(String)
      */
     public static String escapeXml10(final String input) {
@@ -724,7 +724,7 @@ public class StringEscapeUtils {
      * </p>
      *
      * @param input the {@code String} to escape, may be null.
-     * @return a new escaped {@code String}, {@code null} if null string input.
+     * @return A new escaped {@code String}, {@code null} if null string input.
      * @see #unescapeXml(String)
      */
     public static String escapeXml11(final String input) {
@@ -800,7 +800,7 @@ public class StringEscapeUtils {
      * entities.
      *
      * @param input the {@code String} to unescape, may be null.
-     * @return a new unescaped {@code String}, {@code null} if null string input.
+     * @return A new unescaped {@code String}, {@code null} if null string input.
      */
     public static String unescapeHtml3(final String input) {
         return UNESCAPE_HTML3.translate(input);
@@ -819,7 +819,7 @@ public class StringEscapeUtils {
      * </p>
      *
      * @param input the {@code String} to unescape, may be null.
-     * @return a new unescaped {@code String}, {@code null} if null string input.
+     * @return A new unescaped {@code String}, {@code null} if null string input.
      */
     public static String unescapeHtml4(final String input) {
         return UNESCAPE_HTML4.translate(input);
@@ -830,7 +830,7 @@ public class StringEscapeUtils {
      * unless the {@code '\'} is preceded by another {@code '\'}.
      *
      * @param input the {@code String} to unescape, may be null.
-     * @return a new unescaped {@code String}, {@code null} if null string input.
+     * @return A new unescaped {@code String}, {@code null} if null string input.
      */
     public static String unescapeJava(final String input) {
         return UNESCAPE_JAVA.translate(input);
@@ -863,7 +863,7 @@ public class StringEscapeUtils {
      * </p>
      *
      * @param input the {@code String} to unescape, may be null.
-     * @return a new unescaped {@code String}, {@code null} if null string input.
+     * @return A new unescaped {@code String}, {@code null} if null string input.
      * @see #escapeXml10(String)
      * @see #escapeXml11(String)
      */
@@ -875,7 +875,7 @@ public class StringEscapeUtils {
      * Unescapes the characters in a {@code String} using XSI rules.
      *
      * @param input the {@code String} to unescape, may be null.
-     * @return a new unescaped {@code String}, {@code null} if null string input.
+     * @return A new unescaped {@code String}, {@code null} if null string input.
      * @see StringEscapeUtils#escapeXSI(String)
      */
     public static String unescapeXSI(final String input) {

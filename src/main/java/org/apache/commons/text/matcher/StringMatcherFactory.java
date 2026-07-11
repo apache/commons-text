@@ -92,7 +92,7 @@ public final class StringMatcherFactory {
      * Creates a matcher that matches all of the given matchers in order.
      *
      * @param stringMatchers the matcher.
-     * @return a matcher that matches all of the given matchers in order.
+     * @return A matcher that matches all of the given matchers in order.
      * @since 1.9
      */
     public StringMatcher andMatcher(final StringMatcher... stringMatchers) {
@@ -110,7 +110,7 @@ public final class StringMatcherFactory {
      * Constructor that creates a matcher from a character.
      *
      * @param ch the character to match, must not be null.
-     * @return a new Matcher for the given char.
+     * @return A new Matcher for the given char.
      */
     public StringMatcher charMatcher(final char ch) {
         return new AbstractStringMatcher.CharMatcher(ch);
@@ -120,7 +120,7 @@ public final class StringMatcherFactory {
      * Constructor that creates a matcher from a set of characters.
      *
      * @param chars the characters to match, null or empty matches nothing.
-     * @return a new matcher for the given char[].
+     * @return A new matcher for the given char[].
      */
     public StringMatcher charSetMatcher(final char... chars) {
         final int len = ArrayUtils.getLength(chars);
@@ -137,7 +137,7 @@ public final class StringMatcherFactory {
      * Creates a matcher from a string representing a set of characters.
      *
      * @param chars the characters to match, null or empty matches nothing.
-     * @return a new Matcher for the given characters.
+     * @return A new Matcher for the given characters.
      */
     public StringMatcher charSetMatcher(final String chars) {
         final int len = StringUtils.length(chars);
@@ -153,7 +153,7 @@ public final class StringMatcherFactory {
     /**
      * Returns a matcher which matches the comma character.
      *
-     * @return a matcher for a comma.
+     * @return A matcher for a comma.
      */
     public StringMatcher commaMatcher() {
         return COMMA_MATCHER;
@@ -162,7 +162,7 @@ public final class StringMatcherFactory {
     /**
      * Returns a matcher which matches the double quote character.
      *
-     * @return a matcher for a double quote.
+     * @return A matcher for a double quote.
      */
     public StringMatcher doubleQuoteMatcher() {
         return DOUBLE_QUOTE_MATCHER;
@@ -171,7 +171,7 @@ public final class StringMatcherFactory {
     /**
      * Matches no characters.
      *
-     * @return a matcher that matches nothing.
+     * @return A matcher that matches nothing.
      */
     public StringMatcher noneMatcher() {
         return NONE_MATCHER;
@@ -180,7 +180,7 @@ public final class StringMatcherFactory {
     /**
      * Returns a matcher which matches the single or double quote character.
      *
-     * @return a matcher for a single or double quote.
+     * @return A matcher for a single or double quote.
      */
     public StringMatcher quoteMatcher() {
         return QUOTE_MATCHER;
@@ -189,7 +189,7 @@ public final class StringMatcherFactory {
     /**
      * Returns a matcher which matches the single quote character.
      *
-     * @return a matcher for a single quote.
+     * @return A matcher for a single quote.
      */
     public StringMatcher singleQuoteMatcher() {
         return SINGLE_QUOTE_MATCHER;
@@ -198,7 +198,7 @@ public final class StringMatcherFactory {
     /**
      * Returns a matcher which matches the space character.
      *
-     * @return a matcher for a space.
+     * @return A matcher for a space.
      */
     public StringMatcher spaceMatcher() {
         return SPACE_MATCHER;
@@ -217,7 +217,7 @@ public final class StringMatcherFactory {
      * Creates a matcher from a string.
      *
      * @param chars the string to match, null or empty matches nothing.
-     * @return a new Matcher for the given String.
+     * @return A new Matcher for the given String.
      * @since 1.9
      */
     public StringMatcher stringMatcher(final char... chars) {
@@ -231,7 +231,7 @@ public final class StringMatcherFactory {
      * Creates a matcher from a string.
      *
      * @param str the string to match, null or empty matches nothing.
-     * @return a new Matcher for the given String.
+     * @return A new Matcher for the given String.
      */
     public StringMatcher stringMatcher(final String str) {
         return StringUtils.isEmpty(str) ? NONE_MATCHER : stringMatcher(str.toCharArray());
@@ -240,7 +240,7 @@ public final class StringMatcherFactory {
     /**
      * Returns a matcher which matches the tab character.
      *
-     * @return a matcher for a tab.
+     * @return A matcher for a tab.
      */
     public StringMatcher tabMatcher() {
         return TAB_MATCHER;

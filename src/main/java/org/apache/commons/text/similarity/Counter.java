@@ -38,7 +38,7 @@ final class Counter {
      * returns a map with the element as key and the count as value.
      *
      * @param tokens array of tokens.
-     * @return a map, where the elements are key, and the count the value.
+     * @return A map, where the elements are key, and the count the value.
      */
     public static Map<CharSequence, Integer> of(final CharSequence[] tokens) {
         final Map<CharSequence, Integer> map = new HashMap<>();

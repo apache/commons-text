@@ -144,7 +144,7 @@ public class StringSubstitutorReader extends FilterReader {
     /**
      * Reads a single character.
      *
-     * @return a character as an {@code int} or {@code -1} for end-of-stream.
+     * @return A character as an {@code int} or {@code -1} for end-of-stream.
      * @throws IOException If an I/O error occurs.
      */
     @Override

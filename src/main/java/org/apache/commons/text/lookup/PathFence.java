@@ -65,7 +65,7 @@ final class PathFence {
     /**
      * Creates a new builder.
      *
-     * @return a new builder.
+     * @return A new builder.
      */
     static Builder builder() {
         return new Builder();
@@ -89,7 +89,7 @@ final class PathFence {
      * Gets a Path for the given file name checking that it resolves within our fence.
      *
      * @param fileName the file name to resolve.
-     * @return a fenced Path.
+     * @return A fenced Path.
      * @throws IllegalArgumentException if the file name is not without our fence.
      */
     Path apply(final String fileName) {

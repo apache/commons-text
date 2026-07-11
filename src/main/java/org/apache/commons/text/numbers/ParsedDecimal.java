@@ -145,7 +145,7 @@ final class ParsedDecimal {
      * Constructs a new instance from the given double value.
      *
      * @param d double value.
-     * @return a new instance containing the parsed components of the given double value.
+     * @return A new instance containing the parsed components of the given double value.
      * @throws IllegalArgumentException if {@code d} is {@code NaN} or infinite.
      */
     public static ParsedDecimal from(final double d) {

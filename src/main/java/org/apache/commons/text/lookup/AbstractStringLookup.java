@@ -55,7 +55,7 @@ abstract class AbstractStringLookup implements StringLookup {
      *
      * @param value The source string.
      * @param ch The character to search.
-     * @return a new string.
+     * @return A new string.
      * @deprecated Use {@link StringUtils#substringAfter(String, int)}.
      */
     @Deprecated
@@ -68,7 +68,7 @@ abstract class AbstractStringLookup implements StringLookup {
      *
      * @param value The source string.
      * @param str The string to search.
-     * @return a new string.
+     * @return A new string.
      * @deprecated Use {@link StringUtils#substringAfter(String, String)}.
      */
     @Deprecated
@@ -81,7 +81,7 @@ abstract class AbstractStringLookup implements StringLookup {
      *
      * @param value The source string.
      * @param ch The character to search.
-     * @return a new string.
+     * @return A new string.
      * @deprecated Use {@link StringUtils#substringAfterLast(String, int)}.
      */
     @Deprecated

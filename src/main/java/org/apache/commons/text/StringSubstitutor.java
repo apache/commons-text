@@ -382,7 +382,7 @@ public class StringSubstitutor {
      * </tr>
      * </table>
      *
-     * @return a new instance using the interpolator string lookup.
+     * @return A new instance using the interpolator string lookup.
      * @see StringLookupFactory#interpolatorStringLookup()
      * @since 1.8
      */
@@ -1558,7 +1558,7 @@ public class StringSubstitutor {
     /**
      * Returns a string representation of the object.
      *
-     * @return a string representation of the object.
+     * @return A string representation of the object.
      * @since 1.11.0
      */
     @Override

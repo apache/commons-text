@@ -48,7 +48,7 @@ public interface TextRandomProvider extends IntUnaryOperator {
      * Generates an int value between 0 (inclusive) and the specified value (exclusive).
      *
      * @param max Bound on the random number to be returned. Must be positive.
-     * @return a random int value between 0 (inclusive) and max (exclusive).
+     * @return A random int value between 0 (inclusive) and max (exclusive).
      * @since 1.14.0
      */
     @Override
@@ -60,7 +60,7 @@ public interface TextRandomProvider extends IntUnaryOperator {
      * Generates an int value between 0 (inclusive) and the specified value (exclusive).
      *
      * @param max Bound on the random number to be returned. Must be positive.
-     * @return a random int value between 0 (inclusive) and max (exclusive).
+     * @return A random int value between 0 (inclusive) and max (exclusive).
      * @deprecated Use {@link #applyAsInt(int)}.
      */
     @Deprecated

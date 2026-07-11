@@ -111,7 +111,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
     /**
      * Returns a clone of {@code CSV_TOKENIZER_PROTOTYPE}.
      *
-     * @return a clone of {@code CSV_TOKENIZER_PROTOTYPE}.
+     * @return A clone of {@code CSV_TOKENIZER_PROTOTYPE}.
      */
     private static StrTokenizer getCSVClone() {
         return (StrTokenizer) CSV_TOKENIZER_PROTOTYPE.clone();
@@ -124,7 +124,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      * You must call a "reset" method to set the string which you want to parse.
      * </p>
      *
-     * @return a new tokenizer instance which parses Comma Separated Value strings.
+     * @return A new tokenizer instance which parses Comma Separated Value strings.
      */
     public static StrTokenizer getCSVInstance() {
         return getCSVClone();
@@ -135,7 +135,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      * trim whitespace from both ends (which can be overridden with the setTrimmer method).
      *
      * @param input the text to parse.
-     * @return a new tokenizer instance which parses Comma Separated Value strings.
+     * @return A new tokenizer instance which parses Comma Separated Value strings.
      */
     public static StrTokenizer getCSVInstance(final char[] input) {
         final StrTokenizer tok = getCSVClone();
@@ -148,7 +148,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      * trim whitespace from both ends (which can be overridden with the setTrimmer method).
      *
      * @param input the text to parse.
-     * @return a new tokenizer instance which parses Comma Separated Value strings.
+     * @return A new tokenizer instance which parses Comma Separated Value strings.
      */
     public static StrTokenizer getCSVInstance(final String input) {
         final StrTokenizer tok = getCSVClone();
@@ -159,7 +159,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
     /**
      * Returns a clone of {@code TSV_TOKENIZER_PROTOTYPE}.
      *
-     * @return a clone of {@code TSV_TOKENIZER_PROTOTYPE}.
+     * @return A clone of {@code TSV_TOKENIZER_PROTOTYPE}.
      */
     private static StrTokenizer getTSVClone() {
         return (StrTokenizer) TSV_TOKENIZER_PROTOTYPE.clone();
@@ -172,7 +172,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      * You must call a "reset" method to set the string which you want to parse.
      * </p>
      *
-     * @return a new tokenizer instance which parses Tab Separated Value strings.
+     * @return A new tokenizer instance which parses Tab Separated Value strings.
      */
     public static StrTokenizer getTSVInstance() {
         return getTSVClone();
@@ -183,7 +183,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      * be overridden with the setTrimmer method).
      *
      * @param input the string to parse.
-     * @return a new tokenizer instance which parses Tab Separated Value strings.
+     * @return A new tokenizer instance which parses Tab Separated Value strings.
      */
     public static StrTokenizer getTSVInstance(final char[] input) {
         final StrTokenizer tok = getTSVClone();
@@ -196,7 +196,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      * be overridden with the setTrimmer method).
      *
      * @param input the string to parse.
-     * @return a new tokenizer instance which parses Tab Separated Value strings.
+     * @return A new tokenizer instance which parses Tab Separated Value strings.
      */
     public static StrTokenizer getTSVInstance(final String input) {
         final StrTokenizer tok = getTSVClone();
@@ -436,7 +436,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      * Creates a new instance of this Tokenizer. The new instance is reset so that it will be at the start of the token list. If a
      * {@link CloneNotSupportedException} is caught, return {@code null}.
      *
-     * @return a new instance of this Tokenizer which has been reset.
+     * @return A new instance of this Tokenizer which has been reset.
      */
     @Override
     public Object clone() {
@@ -450,7 +450,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
     /**
      * Creates a new instance of this Tokenizer. The new instance is reset so that it will be at the start of the token list.
      *
-     * @return a new instance of this Tokenizer which has been reset.
+     * @return A new instance of this Tokenizer which has been reset.
      * @throws CloneNotSupportedException if there is a problem cloning.
      */
     Object cloneReset() throws CloneNotSupportedException {

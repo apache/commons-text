@@ -34,7 +34,7 @@ public interface SimilarityInput<E> {
      * Creates a new input for a {@link CharSequence}.
      *
      * @param cs input character sequence.
-     * @return a new input.
+     * @return A new input.
      */
     static SimilarityInput<Character> input(final CharSequence cs) {
         return new SimilarityCharacterInput(cs);
@@ -45,7 +45,7 @@ public interface SimilarityInput<E> {
      *
      * @param <T> The type of similarity score unit.
      * @param input character sequence or similarity input.
-     * @return a new input.
+     * @return A new input.
      * @throws IllegalArgumentException when the input type is neither {@link CharSequence} or {@link SimilarityInput}.
      */
     @SuppressWarnings("unchecked")

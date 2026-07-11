@@ -30,7 +30,7 @@ public interface StringMatcher {
      * Returns a matcher that matches this matcher followed by the given matcher.
      *
      * @param stringMatcher the next matcher.
-     * @return a matcher that matches this matcher followed by the given matcher.
+     * @return A matcher that matches this matcher followed by the given matcher.
      * @since 1.9
      */
     default StringMatcher andThen(final StringMatcher stringMatcher) {

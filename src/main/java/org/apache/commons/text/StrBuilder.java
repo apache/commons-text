@@ -1393,7 +1393,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * The returned reader supports marking, and ignores the flush method.
      * </p>
      *
-     * @return a reader that reads from this builder.
+     * @return A reader that reads from this builder.
      */
     public Reader asReader() {
         return new StrBuilderReader();
@@ -1429,7 +1429,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * Calling {@link StrTokenizer#reset(String)} or {@link StrTokenizer#reset(char[])} with a non-null value will break the link with the builder.
      * </p>
      *
-     * @return a tokenizer that is linked to this builder.
+     * @return A tokenizer that is linked to this builder.
      */
     public StrTokenizer asTokenizer() {
         return new StrBuilderTokenizer();
@@ -1453,7 +1453,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * The returned writer ignores the close and flush methods.
      * </p>
      *
-     * @return a writer that populates this builder.
+     * @return A writer that populates this builder.
      */
     public Writer asWriter() {
         return new StrBuilderWriter();
@@ -1887,7 +1887,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     /**
      * Gets a suitable hash code for this builder.
      *
-     * @return a hash code.
+     * @return A hash code.
      */
     @Override
     public int hashCode() {
@@ -2853,7 +2853,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
     /**
      * Copies the builder's character array into a new character array.
      *
-     * @return a new array that represents the contents of the builder.
+     * @return A new array that represents the contents of the builder.
      */
     public char[] toCharArray() {
         return size == 0 ? ArrayUtils.EMPTY_CHAR_ARRAY : Arrays.copyOf(buffer, size);
@@ -2864,7 +2864,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      *
      * @param startIndex the start index, inclusive, must be valid.
      * @param endIndex   the end index, exclusive, must be valid except that if too large it is treated as end of string.
-     * @return a new array that holds part of the contents of the builder.
+     * @return A new array that holds part of the contents of the builder.
      * @throws IndexOutOfBoundsException if startIndex is invalid, or if endIndex is invalid (but endIndex greater than size is valid).
      */
     public char[] toCharArray(final int startIndex, int endIndex) {

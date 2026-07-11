@@ -164,7 +164,7 @@ public abstract class StrLookup<V> implements StringLookup {
      *
      * @param <V> The type of the values supported by the lookup.
      * @param map the map of keys to values, may be null.
-     * @return a lookup using the map, not null.
+     * @return A lookup using the map, not null.
      */
     public static <V> StrLookup<V> mapLookup(final Map<String, V> map) {
         return new MapStrLookup<>(map);
@@ -173,7 +173,7 @@ public abstract class StrLookup<V> implements StringLookup {
     /**
      * Returns a lookup which always returns null.
      *
-     * @return a lookup that always returns null, not null.
+     * @return A lookup that always returns null, not null.
      */
     public static StrLookup<?> noneLookup() {
         return NONE_LOOKUP;
@@ -187,7 +187,7 @@ public abstract class StrLookup<V> implements StringLookup {
      * </p>
      *
      * @param resourceBundle the map of keys to values, may be null.
-     * @return a lookup using the map, not null.
+     * @return A lookup using the map, not null.
      * @see StringLookupFactory#resourceBundleStringLookup(String)
      */
     public static StrLookup<String> resourceBundleLookup(final ResourceBundle resourceBundle) {
@@ -203,7 +203,7 @@ public abstract class StrLookup<V> implements StringLookup {
      * If a null key is used, this lookup will throw a NullPointerException.
      * </p>
      *
-     * @return a lookup using system properties, not null.
+     * @return A lookup using system properties, not null.
      */
     public static StrLookup<String> systemPropertiesLookup() {
         return SYSTEM_PROPERTIES_LOOKUP;

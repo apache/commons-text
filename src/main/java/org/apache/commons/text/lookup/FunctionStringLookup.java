@@ -37,7 +37,7 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
      *
      * @param <R> The function's input type
      * @param function the function, may be null.
-     * @return a new instance backed by the given function.
+     * @return A new instance backed by the given function.
      */
     static <R> FunctionStringLookup<R> on(final Function<String, R> function) {
         return new FunctionStringLookup<>(function);
@@ -48,7 +48,7 @@ final class FunctionStringLookup<V> extends AbstractStringLookup {
      *
      * @param <V> The map's value type.
      * @param map the map of keys to values, may be null.
-     * @return a new instance backed by the given map.
+     * @return A new instance backed by the given map.
      */
     static <V> FunctionStringLookup<V> on(final Map<String, V> map) {
         return on(StringLookupFactory.toMap(map)::get);

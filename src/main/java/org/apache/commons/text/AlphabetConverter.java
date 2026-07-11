@@ -83,7 +83,7 @@ public final class AlphabetConverter {
      * Creates new String that contains just the given code point.
      *
      * @param i code point.
-     * @return a new string with the new code point.
+     * @return A new string with the new code point.
      * @see "http://www.oracle.com/us/technologies/java/supplementary-142654.html"
      */
     private static String codePointToString(final int i) {
@@ -97,7 +97,7 @@ public final class AlphabetConverter {
      * Converts characters to integers.
      *
      * @param chars array of characters.
-     * @return an equivalent array of integers.
+     * @return An equivalent array of integers.
      */
     private static Integer[] convertCharsToIntegers(final Character[] chars) {
         if (ArrayUtils.isEmpty(chars)) {

@@ -249,7 +249,7 @@ public abstract class StrMatcher {
      * Creates a matcher from a character.
      *
      * @param ch  the character to match, must not be null.
-     * @return a new Matcher for the given char.
+     * @return A new Matcher for the given char.
      */
     public static StrMatcher charMatcher(final char ch) {
         return new CharMatcher(ch);
@@ -259,7 +259,7 @@ public abstract class StrMatcher {
      * Creates a matcher from a set of characters.
      *
      * @param chars  the characters to match, null or empty matches nothing.
-     * @return a new matcher for the given char[].
+     * @return A new matcher for the given char[].
      */
     public static StrMatcher charSetMatcher(final char... chars) {
         if (ArrayUtils.isEmpty(chars)) {
@@ -275,7 +275,7 @@ public abstract class StrMatcher {
      * Creates a matcher from a string representing a set of characters.
      *
      * @param chars  the characters to match, null or empty matches nothing.
-     * @return a new Matcher for the given characters.
+     * @return A new Matcher for the given characters.
      */
     public static StrMatcher charSetMatcher(final String chars) {
         if (chars == null || chars.isEmpty()) {
@@ -290,7 +290,7 @@ public abstract class StrMatcher {
     /**
      * Returns a matcher which matches the comma character.
      *
-     * @return a matcher for a comma.
+     * @return A matcher for a comma.
      */
     public static StrMatcher commaMatcher() {
         return COMMA_MATCHER;
@@ -299,7 +299,7 @@ public abstract class StrMatcher {
     /**
      * Returns a matcher which matches the double quote character.
      *
-     * @return a matcher for a double quote.
+     * @return A matcher for a double quote.
      */
     public static StrMatcher doubleQuoteMatcher() {
         return DOUBLE_QUOTE_MATCHER;
@@ -308,7 +308,7 @@ public abstract class StrMatcher {
     /**
      * Matches no characters.
      *
-     * @return a matcher that matches nothing.
+     * @return A matcher that matches nothing.
      */
     public static StrMatcher noneMatcher() {
         return NONE_MATCHER;
@@ -317,7 +317,7 @@ public abstract class StrMatcher {
     /**
      * Returns a matcher which matches the single or double quote character.
      *
-     * @return a matcher for a single or double quote.
+     * @return A matcher for a single or double quote.
      */
     public static StrMatcher quoteMatcher() {
         return QUOTE_MATCHER;
@@ -326,7 +326,7 @@ public abstract class StrMatcher {
     /**
      * Returns a matcher which matches the single quote character.
      *
-     * @return a matcher for a single quote.
+     * @return A matcher for a single quote.
      */
     public static StrMatcher singleQuoteMatcher() {
         return SINGLE_QUOTE_MATCHER;
@@ -335,7 +335,7 @@ public abstract class StrMatcher {
     /**
      * Returns a matcher which matches the space character.
      *
-     * @return a matcher for a space.
+     * @return A matcher for a space.
      */
     public static StrMatcher spaceMatcher() {
         return SPACE_MATCHER;
@@ -355,7 +355,7 @@ public abstract class StrMatcher {
      * Creates a matcher from a string.
      *
      * @param str  the string to match, null or empty matches nothing
-     * @return a new Matcher for the given String
+     * @return A new Matcher for the given String
      */
     public static StrMatcher stringMatcher(final String str) {
         if (str == null || str.isEmpty()) {
@@ -367,7 +367,7 @@ public abstract class StrMatcher {
     /**
      * Returns a matcher which matches the tab character.
      *
-     * @return a matcher for a tab.
+     * @return A matcher for a tab.
      */
     public static StrMatcher tabMatcher() {
         return TAB_MATCHER;

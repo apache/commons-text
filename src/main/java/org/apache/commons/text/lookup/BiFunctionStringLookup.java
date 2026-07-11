@@ -38,7 +38,7 @@ final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
      *
      * @param <T> The function's input type
      * @param biFunction the function, may be null.
-     * @return a new instance backed by the given function.
+     * @return A new instance backed by the given function.
      */
     static <U, T> BiFunctionStringLookup<U, T> on(final BiFunction<String, U, T> biFunction) {
         return new BiFunctionStringLookup<>(biFunction);
@@ -49,7 +49,7 @@ final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
      *
      * @param <T> The map's value type.
      * @param map the map of keys to values, may be null.
-     * @return a new instance backed by the given map.
+     * @return A new instance backed by the given map.
      */
     static <U, T> BiFunctionStringLookup<U, T> on(final Map<String, T> map) {
         return on((key, u) -> map.get(key));

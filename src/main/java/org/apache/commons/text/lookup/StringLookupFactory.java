@@ -600,7 +600,7 @@ public final class StringLookupFactory {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}
+     * @return A new {@link Builder}
      * @since 1.12.0
      */
     public static Builder builder() {
@@ -763,7 +763,7 @@ public final class StringLookupFactory {
      * @param <R>        the function return type.
      * @param <U>        the function's second parameter type.
      * @param biFunction the function.
-     * @return a new MapStringLookup.
+     * @return A new MapStringLookup.
      * @since 1.9
      */
     public <R, U> BiStringLookup<U> biFunctionStringLookup(final BiFunction<String, U, R> biFunction) {
@@ -956,7 +956,7 @@ public final class StringLookupFactory {
      * The examples above convert {@code "UTF-8:com/domain/document.txt"} to the contents of the file.
      * </p>
      *
-     * @return a file StringLookup instance.
+     * @return A file StringLookup instance.
      * @since 1.5
      */
     public StringLookup fileStringLookup() {
@@ -987,7 +987,7 @@ public final class StringLookupFactory {
      * </p>
      *
      * @param fences The fences guarding Path resolution.
-     * @return a file StringLookup instance.
+     * @return A file StringLookup instance.
      * @since 1.12.0
      */
     public StringLookup fileStringLookup(final Path... fences) {
@@ -999,7 +999,7 @@ public final class StringLookupFactory {
      *
      * @param <R>      the function return type.
      * @param function the function.
-     * @return a new MapStringLookup.
+     * @return A new MapStringLookup.
      * @since 1.9
      */
     public <R> StringLookup functionStringLookup(final Function<String, R> function) {
@@ -1042,7 +1042,7 @@ public final class StringLookupFactory {
      * @param defaultStringLookup the default string lookup; this lookup is used when a variable cannot be resolved using the lookups in {@code stringLookupMap}
      *                            or the configured default lookups (if enabled)
      * @param addDefaultLookups   whether to use default lookups as described above.
-     * @return a new InterpolatorStringLookup.
+     * @return A new InterpolatorStringLookup.
      * @since 1.4
      */
     public StringLookup interpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup,
@@ -1056,7 +1056,7 @@ public final class StringLookupFactory {
      *
      * @param <V> The value type the default string lookup's map.
      * @param map the default map for string lookups.
-     * @return a new InterpolatorStringLookup.
+     * @return A new InterpolatorStringLookup.
      */
     public <V> StringLookup interpolatorStringLookup(final Map<String, V> map) {
         return new InterpolatorStringLookup(map);
@@ -1067,7 +1067,7 @@ public final class StringLookupFactory {
      * variables. (See the class documentation for details on how default lookups are configured.)
      *
      * @param defaultStringLookup the default string lookup.
-     * @return a new InterpolatorStringLookup.
+     * @return A new InterpolatorStringLookup.
      */
     public StringLookup interpolatorStringLookup(final StringLookup defaultStringLookup) {
         return new InterpolatorStringLookup(defaultStringLookup);
@@ -1180,7 +1180,7 @@ public final class StringLookupFactory {
      *
      * @param <V> The map value type.
      * @param map the map.
-     * @return a new MapStringLookup.
+     * @return A new MapStringLookup.
      */
     public <V> StringLookup mapStringLookup(final Map<String, V> map) {
         return FunctionStringLookup.on(map);
@@ -1262,7 +1262,7 @@ public final class StringLookupFactory {
      * {@code "com/domain/document.properties"}.
      * </p>
      *
-     * @return a Properties StringLookup instance.
+     * @return A Properties StringLookup instance.
      * @since 1.5
      */
     public StringLookup propertiesStringLookup() {
@@ -1303,7 +1303,7 @@ public final class StringLookupFactory {
      * </p>
      *
      * @param fences The fences guarding Path resolution.
-     * @return a Properties StringLookup instance.
+     * @return A Properties StringLookup instance.
      * @since 1.12.0
      */
     public StringLookup propertiesStringLookup(final Path... fences) {
@@ -1362,7 +1362,7 @@ public final class StringLookupFactory {
      * </p>
      *
      * @param bundleName Only lookup in this bundle.
-     * @return a ResourceBundleStringLookup instance for the given bundle name.
+     * @return A ResourceBundleStringLookup instance for the given bundle name.
      * @since 1.5
      */
     public StringLookup resourceBundleStringLookup(final String bundleName) {

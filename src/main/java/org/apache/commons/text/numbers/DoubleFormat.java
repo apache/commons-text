@@ -269,7 +269,7 @@ public enum DoubleFormat {
          * Returns a formatted representation of the given rounded decimal value to {@code dst}.
          *
          * @param val value to format.
-         * @return a formatted representation of the given rounded decimal value to {@code dst}.
+         * @return A formatted representation of the given rounded decimal value to {@code dst}.
          */
         protected abstract String applyFiniteInternal(ParsedDecimal val);
 
@@ -526,7 +526,7 @@ public enum DoubleFormat {
         /**
          * Builds a new double format function.
          *
-         * @return a new double format function.
+         * @return A new double format function.
          */
         @Override
         public DoubleFunction<String> get() {
