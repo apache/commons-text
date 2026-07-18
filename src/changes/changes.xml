@@ -66,6 +66,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Javid Khan, Gary Gregory">Stop ExtendedMessageFormat seekNonWs reading past the pattern end (#759).</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory, Anik1459">Better exception messages in ExtendedMessageFormat.applyPattern(String) (#758).</action>
       <action type="fix" dev="ggregory" due-to="alhuda, Gary Gregory">Match String case folding in TextStringBuilder.equalsIgnoreCase (#762).</action>
+      <action type="fix" dev="ggregory" due-to="Javid Khan, Gary Gregory">Return null for malformed input in UrlDecoderStringLookup (#749).</action>
       <!-- ADD -->
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 93 to 102.</action>
