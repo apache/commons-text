@@ -74,7 +74,7 @@ final class FileStringLookup extends AbstractPathFencedLookup {
      * For example: "UTF-8:com/domain/document.properties".
      * </p>
      *
-     * @param key The key to be looked up, may be null
+     * @param key The key to be looked up, may be null.
      * @return The value associated with the key.
      */
     @Override
