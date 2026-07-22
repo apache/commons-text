@@ -115,9 +115,10 @@ public class LongestCommonSubsequencePerformance {
         @Setup(Level.Trial)
         public void setup() throws IOException {
             final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            final String name = "org/apache/commons/text/lcs-perf-analysis-inputs.csv";
             CSVFormat.DEFAULT.builder().setCommentMarker('#').setTrim(true).get()
                     .parse(new InputStreamReader(
-                            Objects.requireNonNull(classLoader.getResourceAsStream("org/apache/commons/text/lcs-perf-analysis-inputs.csv"))))
+                            Objects.requireNonNull(classLoader.getResourceAsStream(name), name)))
                     .forEach(record -> {
                         final String line = record.get(0);
                         final int indexOfComma = line.indexOf(',');

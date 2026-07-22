@@ -36,7 +36,7 @@ public class SimilarityInputTest {
         private final CharSequence value;
 
         public SimilarityInputFixture(final String value) {
-            this.value = Objects.requireNonNull(value);
+            this.value = Objects.requireNonNull(value, "value");
         }
 
         @Override
