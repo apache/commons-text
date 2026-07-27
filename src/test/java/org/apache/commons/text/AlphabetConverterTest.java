@@ -205,7 +205,7 @@ class AlphabetConverterTest {
         characterArray[1] = character;
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
 
-        assertTrue(alphabetConverter.equals(alphabetConverter));
+        assertEquals(alphabetConverter, alphabetConverter);
     }
 
     @Test

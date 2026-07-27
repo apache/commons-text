@@ -931,9 +931,9 @@ class TextStringBuilderTest {
     void testEquals() {
         final TextStringBuilder sb1 = new TextStringBuilder(50);
         final TextStringBuilder sb2 = new TextStringBuilder(100);
-        assertTrue(sb1.equals(sb2));
-        assertTrue(sb1.equals(sb1));
-        assertTrue(sb2.equals(sb2));
+        assertEquals(sb1, sb2);
+        assertEquals(sb1, sb1);
+        assertEquals(sb2, sb2);
         assertEquals(sb1, sb2);
 
         sb1.append("abc");
@@ -945,7 +945,7 @@ class TextStringBuilderTest {
         assertNotEquals(sb1, sb2);
 
         sb2.set("abc");
-        assertTrue(sb1.equals(sb2));
+        assertEquals(sb1, sb2);
         assertEquals(sb1, sb2);
 
         assertNotEquals(sb1, Integer.valueOf(1));

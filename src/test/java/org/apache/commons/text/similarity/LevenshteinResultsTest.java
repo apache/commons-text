@@ -16,9 +16,9 @@
  */
 package org.apache.commons.text.similarity;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -54,7 +54,7 @@ class LevenshteinResultsTest {
     void testEqualsSameObject() {
         final Integer integer = 1662;
         final LevenshteinResults levenshteinResults = new LevenshteinResults(integer, integer, integer, null);
-        assertTrue(levenshteinResults.equals(levenshteinResults));
+        assertEquals(levenshteinResults, levenshteinResults);
     }
 
     @Test
