@@ -18,6 +18,7 @@ package org.apache.commons.text;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -121,7 +122,7 @@ class AlphabetConverterTest {
         characterArray[1] = characterArray[0];
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromChars(characterArray, characterArray, characterArray);
 
-        assertFalse(alphabetConverter.equals(charOne));
+        assertNotEquals(alphabetConverter, charOne);
     }
 
     @Test
@@ -150,7 +151,7 @@ class AlphabetConverterTest {
         final AlphabetConverter alphabetConverter = AlphabetConverter.createConverterFromMap(hashMap);
         hashMap.put(0, "CtDs");
         final AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(hashMap);
-        assertFalse(alphabetConverter.equals(alphabetConverterTwo));
+        assertNotEquals(alphabetConverter, alphabetConverterTwo);
         assertEquals(1, alphabetConverter.getEncodedCharLength());
     }
 
@@ -185,7 +186,7 @@ class AlphabetConverterTest {
         final AlphabetConverter alphabetConverterTwo = AlphabetConverter.createConverterFromMap(map);
 
         assertEquals(1, alphabetConverterTwo.getEncodedCharLength());
-        assertFalse(alphabetConverter.equals(alphabetConverterTwo));
+        assertNotEquals(alphabetConverter, alphabetConverterTwo);
     }
 
     @Test

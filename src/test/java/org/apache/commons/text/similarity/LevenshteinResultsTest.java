@@ -17,6 +17,7 @@
 package org.apache.commons.text.similarity;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ class LevenshteinResultsTest {
         final Integer integer = 1662;
         final LevenshteinResults levenshteinResults = new LevenshteinResults(integer, integer, integer, integer);
         final LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(integer, integer, integer, null);
-        assertFalse(levenshteinResults.equals(levenshteinResultsTwo));
+        assertNotEquals(levenshteinResults, levenshteinResultsTwo);
     }
 
     @Test
@@ -37,7 +38,7 @@ class LevenshteinResultsTest {
         final Integer integerTwo = 1164;
         final LevenshteinResults levenshteinResults = new LevenshteinResults(integerOne, integerOne, integerOne, integerOne);
         final LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(integerTwo, integerOne, integerOne, integerOne);
-        assertFalse(levenshteinResults.equals(levenshteinResultsTwo));
+        assertNotEquals(levenshteinResults, levenshteinResultsTwo);
     }
 
     @Test
@@ -46,7 +47,7 @@ class LevenshteinResultsTest {
         final Integer integerTwo = 1164;
         final LevenshteinResults levenshteinResults = new LevenshteinResults(integerOne, integerOne, integerOne, integerOne);
         final LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(integerOne, integerOne, integerTwo, integerTwo);
-        assertFalse(levenshteinResults.equals(levenshteinResultsTwo));
+        assertNotEquals(levenshteinResults, levenshteinResultsTwo);
     }
 
     @Test
@@ -68,7 +69,7 @@ class LevenshteinResultsTest {
         final Integer integer = 1;
         final LevenshteinResults levenshteinResults = new LevenshteinResults(null, integer, integer, null);
         final LevenshteinResults levenshteinResultsTwo = new LevenshteinResults(null, null, null, null);
-        assertFalse(levenshteinResults.equals(levenshteinResultsTwo));
+        assertNotEquals(levenshteinResults, levenshteinResultsTwo);
     }
 
     @Test

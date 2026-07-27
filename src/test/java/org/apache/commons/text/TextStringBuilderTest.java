@@ -102,7 +102,7 @@ class TextStringBuilderTest {
     void test_LANG_1131_EqualsWithNullTextStringBuilder() throws Exception {
         final TextStringBuilder sb = new TextStringBuilder();
         final TextStringBuilder other = null;
-        assertFalse(sb.equals(other));
+        assertNotEquals(sb, other);
     }
 
     @Test
@@ -937,11 +937,11 @@ class TextStringBuilderTest {
         assertEquals(sb1, sb2);
 
         sb1.append("abc");
-        assertFalse(sb1.equals(sb2));
+        assertNotEquals(sb1, sb2);
         assertNotEquals(sb1, sb2);
 
         sb2.append("ABC");
-        assertFalse(sb1.equals(sb2));
+        assertNotEquals(sb1, sb2);
         assertNotEquals(sb1, sb2);
 
         sb2.set("abc");
