@@ -2289,7 +2289,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * @return The last index of the string, or -1 if not found.
      */
     public int lastIndexOf(final String str, int startIndex) {
-        startIndex = startIndex >= size ? size : startIndex;
+        startIndex = Math.min(startIndex, size);
         if (str == null || startIndex < 0) {
             return StringUtils.INDEX_NOT_FOUND;
         }
