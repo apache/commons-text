@@ -45,6 +45,7 @@ import org.junit.jupiter.api.Test;
  *
  * @deprecated This class will be removed in 2.0.
  */
+@Deprecated
 class StrBuilderTest {
 
     private static final class MockReadable implements Readable {
@@ -1219,6 +1220,9 @@ class StrBuilderTest {
         assertEquals(-1, sb.lastIndexOf("z"));
 
         assertEquals(-1, sb.lastIndexOf((String) null));
+
+        assertEquals(4, sb.lastIndexOf(""));
+        assertEquals("".lastIndexOf(""), new StringBuilder().lastIndexOf(""));
     }
 
     @Test

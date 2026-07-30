@@ -1394,6 +1394,9 @@ class TextStringBuilderTest {
         assertEquals(-1, sb.lastIndexOf("z"));
 
         assertEquals(-1, sb.lastIndexOf((String) null));
+
+        assertEquals(4, sb.lastIndexOf(""));
+        assertEquals("".lastIndexOf(""), new StringBuilder().lastIndexOf(""));
     }
 
     @Test
