@@ -1303,7 +1303,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      * </p>
      *
      * @param appendable The appendable to append data to.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @see #readFrom(Readable)
      */
     public void appendTo(final Appendable appendable) throws IOException {
@@ -2430,7 +2430,7 @@ public class StrBuilder implements CharSequence, Appendable, Serializable, Build
      *
      * @param readable object to read from.
      * @return The number of characters read.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @see #appendTo(Appendable)
      */
     public int readFrom(final Readable readable) throws IOException {

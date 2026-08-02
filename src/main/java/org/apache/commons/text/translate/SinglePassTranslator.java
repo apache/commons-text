@@ -57,7 +57,7 @@ abstract class SinglePassTranslator extends CharSequenceTranslator {
      *
      * @param input CharSequence that is being translated.
      * @param writer Writer to translate the text to.
-     * @throws IOException if and only if the Writer produces an IOException.
+     * @throws IOException Thrown if and only if the Writer produces an IOException.
      */
     abstract void translateWhole(CharSequence input, Writer writer) throws IOException;
 }
