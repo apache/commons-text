@@ -240,6 +240,22 @@ class StringSubstitutorFilterReaderTest extends StringSubstitutorTest {
         }
     }
 
+    @Test
+    void testReadSubstituteVariablesWithSuffixLongerThanTwoCharacters() throws IOException {
+        final StringSubstitutor substitutor = new StringSubstitutor(values);
+        final String template = "[[aaa]]>";
+        substitutor.setVariablePrefix("[[");
+        substitutor.setVariableSuffix("]]>");
+
+        try (Reader reader = createReader(substitutor, template)) {
+            final int endIndex = template.length() - 1;
+            final char[] cbuf = new char[endIndex];
+            final int readCount = reader.read(cbuf);
+            final String result = new String(cbuf, 0, readCount);
+            assertEquals("111", result);
+        }
+    }
+
     private Reader toReader(final String expectedResult) {
         return expectedResult != null ? new StringReader(expectedResult) : new NullReader();
     }
