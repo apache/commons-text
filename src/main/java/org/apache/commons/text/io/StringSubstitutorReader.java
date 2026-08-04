@@ -273,7 +273,7 @@ public class StringSubstitutorReader extends FilterReader {
         while (true) {
             if (isBufferMatchAt(suffixMatcher, pos)) {
                 balance--;
-                pos++;
+                pos += suffixMatcher.size();
                 if (balance == 0) {
                     break;
                 }
