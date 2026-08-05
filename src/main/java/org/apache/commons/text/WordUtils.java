@@ -93,13 +93,21 @@ public class WordUtils {
         final StringBuilder result = new StringBuilder();
         final int index = Strings.CS.indexOf(str, " ", lower);
         if (index == -1) {
-            result.append(str, 0, upper);
+            int end = upper;
+            if (splitsSurrogatePair(str, end)) {
+                end--;
+            }
+            result.append(str, 0, end);
             // only if abbreviation has occurred do we append the appendToEnd value
             if (upper != str.length()) {
                 result.append(StringUtils.defaultString(appendToEnd));
             }
         } else {
-            result.append(str, 0, Math.min(index, upper));
+            int end = Math.min(index, upper);
+            if (splitsSurrogatePair(str, end)) {
+                end--;
+            }
+            result.append(str, 0, end);
             result.append(StringUtils.defaultString(appendToEnd));
         }
         return result.toString();
@@ -424,6 +432,17 @@ public class WordUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * Tests whether the given index splits a surrogate pair, that is, whether it falls between a high surrogate and its trailing low surrogate.
+     *
+     * @param str   The String to check.
+     * @param index The index to test.
+     * @return Whether cutting {@code str} at {@code index} would split a surrogate pair.
+     */
+    private static boolean splitsSurrogatePair(final String str, final int index) {
+        return index > 0 && index < str.length() && Character.isHighSurrogate(str.charAt(index - 1)) && Character.isLowSurrogate(str.charAt(index));
     }
 
     /**
