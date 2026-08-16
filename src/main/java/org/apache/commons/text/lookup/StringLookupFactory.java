@@ -903,7 +903,7 @@ public final class StringLookupFactory {
      * Returns a file StringLookup instance.
      * <p>
      * If this factory was built using {@link Builder#setFences(Path...)}, then the string lookup is fenced and will throw an {@link IllegalArgumentException}
-     * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
+     * if a lookup causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <em>Using a fenced StringLookup</em>
      * <p>
@@ -1199,7 +1199,7 @@ public final class StringLookupFactory {
      * Returns a Properties StringLookup instance.
      * <p>
      * If this factory was built using {@link Builder#setFences(Path...)}, then the string lookup is fenced and will throw an {@link IllegalArgumentException}
-     * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
+     * if a lookup causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <p>
      * We looks up a value for the key in the format {@code "DocumentPath::MyKey"}.
@@ -1615,7 +1615,7 @@ public final class StringLookupFactory {
      * Returns an XML StringLookup instance.
      * <p>
      * If this factory was built using {@link Builder#setFences(Path...)}, then the string lookup is fenced and will throw an {@link IllegalArgumentException}
-     * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
+     * if a lookup causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <p>
      * We looks up values in an XML document in the format {@code "DocumentPath:XPath"}.
@@ -1659,7 +1659,7 @@ public final class StringLookupFactory {
      * Returns an XML StringLookup instance.
      * <p>
      * If this factory was built using {@link Builder#setFences(Path...)}, then the string lookup is fenced and will throw an {@link IllegalArgumentException}
-     * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
+     * if a lookup causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <p>
      * We looks up values in an XML document in the format {@code "]DocumentPath:XPath"}.
@@ -1706,7 +1706,7 @@ public final class StringLookupFactory {
      * Returns a fenced XML StringLookup instance.
      * <p>
      * If this factory was built using {@link Builder#setFences(Path...)}, then the string lookup is fenced and will throw an {@link IllegalArgumentException}
-     * if a lookup causes causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
+     * if a lookup causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
      * </p>
      * <p>
      * We looks up values in an XML document in the format {@code "DocumentPath:XPath"}.
