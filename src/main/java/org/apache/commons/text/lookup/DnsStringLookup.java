@@ -87,6 +87,9 @@ final class DnsStringLookup extends AbstractStringLookup {
         }
         final String[] keys = key.trim().split("\\|");
         final int keyLen = keys.length;
+        if (keyLen == 0) {
+            return null;
+        }
         final String subKey = keys[0].trim();
         final String subValue = keyLen < 2 ? key : keys[1].trim();
         try {

@@ -74,6 +74,14 @@ class DnsStringLookupTest {
     }
 
     @Test
+    void testDelimiterOnlyKey() {
+        // A key that is only delimiter/whitespace splits to an empty array; must not throw.
+        assertNull(DnsStringLookup.INSTANCE.apply("|"));
+        assertNull(DnsStringLookup.INSTANCE.apply("||"));
+        assertNull(DnsStringLookup.INSTANCE.apply("  |  "));
+    }
+
+    @Test
     void testNull() {
         assertNull(DnsStringLookup.INSTANCE.apply(null));
     }
