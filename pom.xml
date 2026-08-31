@@ -87,6 +87,11 @@
       <artifactId>commons-lang3</artifactId>
       <version>${commons.lang3.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-secure-xml</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
     <!-- testing -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>

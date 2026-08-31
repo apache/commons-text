@@ -29,6 +29,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import javax.xml.XMLConstants;
 
@@ -50,6 +51,19 @@ class XmlStringLookupTest {
     private static final String DOC_RELATIVE = DOC_DIR + "document.xml";
     private static final String DOC_ROOT = "/document.xml";
 
+    /**
+     * Asserts the secure contract for an external reference: the parser either rejects the document or parses it
+     * with the reference resolved to empty content, but the external content never appears in the result.
+     */
+    static void assertBlocksOrDoesNotLeak(final Supplier<String> lookup, final String external) {
+        try {
+            final String result = lookup.get();
+            assertFalse(result != null && result.contains(external), () -> "external content leaked: " + result);
+        } catch (final IllegalArgumentException e) {
+            // the parser rejected the external reference outright
+        }
+    }
+
     static void assertLookup(final StringLookup xmlStringLookup) {
         assertNotNull(xmlStringLookup);
         assertInstanceOf(XmlStringLookup.class, xmlStringLookup);
@@ -64,8 +78,8 @@ class XmlStringLookupTest {
 
     @Test
     void testExternalEntityOff() {
-        assertThrows(IllegalArgumentException.class,
-                () -> new XmlStringLookup(XmlStringLookup.DEFAULT_XML_FEATURES, EMPTY_MAP).apply(DOC_DIR + "document-entity-ref.xml:/document/content"));
+        assertBlocksOrDoesNotLeak(
+                () -> new XmlStringLookup(XmlStringLookup.DEFAULT_XML_FEATURES, EMPTY_MAP).apply(DOC_DIR + "document-entity-ref.xml:/document/content"), DATA);
     }
 
     @Test
@@ -78,7 +92,8 @@ class XmlStringLookupTest {
     @Test
     void testInterpolatorExternalDtdOff() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
-        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-external-dtd.xml:/document/content}"));
+        assertBlocksOrDoesNotLeak(() -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-external-dtd.xml:/document/content}"),
+                "This is an external entity.");
     }
 
     @Test
@@ -91,7 +106,7 @@ class XmlStringLookupTest {
     @Test
     void testInterpolatorExternalEntityOff() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
-        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-entity-ref.xml:/document/content}"));
+        assertBlocksOrDoesNotLeak(() -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-entity-ref.xml:/document/content}"), DATA);
     }
 
     @Test
@@ -104,13 +119,13 @@ class XmlStringLookupTest {
     @Test
     void testInterpolatorExternalEntityOn() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
-        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-entity-ref.xml:/document/content}"));
+        assertBlocksOrDoesNotLeak(() -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-entity-ref.xml:/document/content}"), DATA);
     }
 
     @Test
     void testInterpolatorExternalEntityOnOverride() {
         final StringSubstitutor stringSubstitutor = StringSubstitutor.createInterpolator();
-        assertThrows(IllegalArgumentException.class, () -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-entity-ref.xml:/document/content}"));
+        assertBlocksOrDoesNotLeak(() -> stringSubstitutor.replace("${xml:" + DOC_DIR + "document-entity-ref.xml:/document/content}"), DATA);
     }
 
     @Test

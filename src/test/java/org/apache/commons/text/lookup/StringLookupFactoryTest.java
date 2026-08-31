@@ -293,8 +293,9 @@ class StringLookupFactoryTest {
 
     @Test
     void testXmlStringLookupExternalEntityOff() {
-        assertThrows(IllegalArgumentException.class,
-                () -> StringLookupFactory.INSTANCE.xmlStringLookup().apply(XmlStringLookupTest.DOC_DIR + "document-entity-ref.xml:/document/content"));
+        XmlStringLookupTest.assertBlocksOrDoesNotLeak(
+                () -> StringLookupFactory.INSTANCE.xmlStringLookup().apply(XmlStringLookupTest.DOC_DIR + "document-entity-ref.xml:/document/content"),
+                XmlStringLookupTest.DATA);
     }
 
     @Test

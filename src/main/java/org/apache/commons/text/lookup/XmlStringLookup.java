@@ -30,6 +30,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
+import org.apache.commons.xml.secure.SecureXPathFactory;
 import org.w3c.dom.Document;
 
 /**
@@ -128,14 +130,21 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
         }
         final String documentPath = keys[0];
         final String xpath = StringUtils.substringAfterLast(key, SPLIT_CH);
-        final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        // The secure factory installs a non-removable resolver floor that ignores the JAXP access properties,
+        // so the documented opt-outs keep a plain factory: a feature map without secure processing, or the
+        // standard javax.xml.accessExternalDTD system property re-allowing external access.
+        final boolean secure = Boolean.TRUE.equals(xmlFactoryFeatures.get(XMLConstants.FEATURE_SECURE_PROCESSING))
+                && StringUtils.isEmpty(System.getProperty("javax.xml.accessExternalDTD"));
+        final DocumentBuilderFactory dbFactory = secure ? SecureDocumentBuilderFactory.newInstance() : DocumentBuilderFactory.newInstance();
         try {
             for (final Entry<String, Boolean> p : xmlFactoryFeatures.entrySet()) {
                 dbFactory.setFeature(p.getKey(), p.getValue());
             }
             try (InputStream inputStream = Files.newInputStream(getPath(documentPath))) {
                 final Document doc = dbFactory.newDocumentBuilder().parse(inputStream);
-                final XPathFactory xpFactory = XPathFactory.newInstance();
+                final XPathFactory xpFactory = Boolean.TRUE.equals(xPathFactoryFeatures.get(XMLConstants.FEATURE_SECURE_PROCESSING))
+                        ? SecureXPathFactory.newInstance()
+                        : XPathFactory.newInstance();
                 for (final Entry<String, Boolean> p : xPathFactoryFeatures.entrySet()) {
                     xpFactory.setFeature(p.getKey(), p.getValue());
                 }
