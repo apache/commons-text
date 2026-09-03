@@ -77,7 +77,14 @@ public class DamerauLevenshteinDistanceTest {
                 Arguments.of("xyxyxyxyxy", "yxyxyxyxyx", 4, 2),
                 Arguments.of("aaaaabbbbbccccc", "cccccbbbbbaaaaa", 5, -1),
                 Arguments.of("thequickbrownfoxjumpsoverthelazydog", "thequickbrownfoxjumpsovrethelazydog", 1, 1),
-                Arguments.of("antidisestablishmentarianism", "antidisestablishmentarianisn", 3, 1)
+                Arguments.of("antidisestablishmentarianism", "antidisestablishmentarianisn", 3, 1),
+                // Non-ASCII characters are outside the Character.valueOf cache, so identical inputs must still measure zero.
+                Arguments.of("caf\u00e9", "caf\u00e9", 1, 0),
+                Arguments.of("\u4f60\u597d", "\u4f60\u597d", 1, 0),
+                Arguments.of("na\u00efve", "na\u00efve", 1, 0),
+                // Transposing two adjacent non-ASCII characters costs one edit, exactly as it does for ASCII.
+                Arguments.of("caf\u00e9\u00e8", "caf\u00e8\u00e9", 1, 1),
+                Arguments.of("\u4f60\u597d", "\u597d\u4f60", 1, 1)
         );
     }
 
@@ -123,7 +130,16 @@ public class DamerauLevenshteinDistanceTest {
                 Arguments.of("xyxyxyxyxy", "yxyxyxyxyx", 2),
                 Arguments.of("aaaaabbbbbccccc", "cccccbbbbbaaaaa", 10),
                 Arguments.of("thequickbrownfoxjumpsoverthelazydog", "thequickbrownfoxjumpsovrethelazydog", 1),
-                Arguments.of("antidisestablishmentarianism", "antidisestablishmentarianisn", 1)
+                Arguments.of("antidisestablishmentarianism", "antidisestablishmentarianisn", 1),
+                // Non-ASCII characters are outside the Character.valueOf cache, so identical inputs must still measure zero.
+                Arguments.of("caf\u00e9", "caf\u00e9", 0),
+                Arguments.of("\u4f60\u597d", "\u4f60\u597d", 0),
+                Arguments.of("na\u00efve", "na\u00efve", 0),
+                Arguments.of("\ud83d\ude00", "\ud83d\ude00", 0),
+                // Transposing two adjacent non-ASCII characters costs one edit, exactly as it does for ASCII.
+                Arguments.of("caf\u00e9\u00e8", "caf\u00e8\u00e9", 1),
+                Arguments.of("\u4f60\u597d", "\u597d\u4f60", 1),
+                Arguments.of("\u00e9x", "x\u00e9", 1)
         );
     }
 
