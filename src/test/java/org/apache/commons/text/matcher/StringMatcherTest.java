@@ -77,11 +77,19 @@ public class StringMatcherTest {
     }
 
     @Test
+    public void testIsMatchCharSequenceStartDelegatesThroughTheCorrectedOverload() {
+        assertEquals(2, new RecordingMatcher("ab").isMatch("xabz", 1));
+        assertEquals(0, new RecordingMatcher("ab").isMatch("xabz", 2));
+    }
+
+    @Test
     public void testIsMatchOverloadsAgreeOnTheSameWindow() {
-        assertEquals(new RecordingMatcher("ab").isMatch("xabz".toCharArray(), 1, 0, 4),
-                new RecordingMatcher("ab").isMatch("xabz", 1, 0, 4));
-        assertEquals(new RecordingMatcher("ab").isMatch("xabz".toCharArray(), 1, 2, 4),
-                new RecordingMatcher("ab").isMatch("xabz", 1, 2, 4));
+        // The window covers the whole pattern.
+        assertEquals(2, new RecordingMatcher("ab").isMatch("xabz".toCharArray(), 1, 0, 4));
+        assertEquals(2, new RecordingMatcher("ab").isMatch("xabz", 1, 0, 4));
+        // A valid window that ends before the pattern is complete.
+        assertEquals(0, new RecordingMatcher("ab").isMatch("xabz".toCharArray(), 1, 0, 2));
+        assertEquals(0, new RecordingMatcher("ab").isMatch("xabz", 1, 0, 2));
     }
 
     /**
