@@ -31,9 +31,9 @@ import java.util.Set;
 
 import javax.xml.XMLConstants;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.DefaultLocale;
-import org.junitpioneer.jupiter.SetSystemProperty;
 
 /**
  * Tests {@link StringLookupFactory}.
@@ -293,13 +293,13 @@ class StringLookupFactoryTest {
 
     @Test
     void testXmlStringLookupExternalEntityOff() {
-        XmlStringLookupTest.assertBlocksOrDoesNotLeak(
+        XmlStringLookupTest.assertDoesNotLeak(
                 () -> StringLookupFactory.INSTANCE.xmlStringLookup().apply(XmlStringLookupTest.DOC_DIR + "document-entity-ref.xml:/document/content"),
                 XmlStringLookupTest.DATA);
     }
 
     @Test
-    @SetSystemProperty(key = "XmlStringLookup.secure", value = "false")
+    @Disabled("External entities are blocked by Commons Secure XML through an entity resolver and can no longer be re-enabled.")
     void testXmlStringLookupExternalEntityOn() {
         final String key = XmlStringLookupTest.DOC_DIR + "document-entity-ref.xml:/document/content";
         assertEquals(XmlStringLookupTest.DATA, StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP).apply(key).trim());

@@ -20,7 +20,7 @@ package org.apache.commons.text.lookup;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -43,8 +43,17 @@ import org.w3c.dom.Document;
  * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
  * </ul>
  * <p>
- * Secure processing is enabled by default and can be overridden with {@link StringLookupFactory#xmlStringLookup(Map, Path...)}.
+ * DOM parser and XPath factory features can be set with {@link StringLookupFactory#xmlStringLookup(Map)}.
  * </p>
+ * <p>
+ * Documents are parsed through Apache Commons Secure XML, which secures two separate aspects:
+ * </p>
+ * <ul>
+ * <li>Processing limits, such as the number of entity expansions, come from {@link XMLConstants#FEATURE_SECURE_PROCESSING}. That feature is enabled by
+ * default, and the feature maps above can turn it off.</li>
+ * <li>External resource fetching, that is external DTD subsets and external entities, is blocked by an entity resolver rather than by a feature. Neither a
+ * feature nor a JAXP {@code javax.xml.accessExternal*} property can re-enable it.</li>
+ * </ul>
  *
  * @since 1.5
  */
@@ -56,28 +65,12 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
     private static final int KEY_PARTS_LEN = 2;
 
     /**
-     * Defines default XPath factory features.
-     */
-    static final Map<String, Boolean> DEFAULT_XPATH_FEATURES;
-
-    /**
-     * Defines default XML factory features.
-     */
-    static final Map<String, Boolean> DEFAULT_XML_FEATURES;
-    static {
-        DEFAULT_XPATH_FEATURES = new HashMap<>(1);
-        DEFAULT_XPATH_FEATURES.put(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-        DEFAULT_XML_FEATURES = new HashMap<>(1);
-        DEFAULT_XML_FEATURES.put(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-    }
-
-    /**
-     * Defines the singleton for this class with secure processing enabled by default.
+     * Defines the singleton for this class, which sets no parser or XPath factory feature.
      * <p>
-     * Secure processing is enabled by default and can be overridden with {@link StringLookupFactory#xmlStringLookup(Map, Path...)}.
+     * Use {@link StringLookupFactory#xmlStringLookup(Map, Path...)} to set features; external resource resolution is off anyway.
      * </p>
      */
-    static final XmlStringLookup INSTANCE = new XmlStringLookup(DEFAULT_XML_FEATURES, DEFAULT_XPATH_FEATURES, (Path[]) null);
+    static final XmlStringLookup INSTANCE = new XmlStringLookup(Collections.emptyMap(), Collections.emptyMap(), (Path[]) null);
 
     /**
      * Defines XPath factory features.
@@ -100,7 +93,7 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
     XmlStringLookup(final Map<String, Boolean> xmlFactoryFeatures, final Map<String, Boolean> xPathFactoryFeatures, final Path... fences) {
         super(fences);
         this.xmlFactoryFeatures = Objects.requireNonNull(xmlFactoryFeatures, "xmlFactoryFeatures");
-        this.xPathFactoryFeatures = Objects.requireNonNull(xPathFactoryFeatures, "xPathFfactoryFeatures");
+        this.xPathFactoryFeatures = Objects.requireNonNull(xPathFactoryFeatures, "xPathFactoryFeatures");
     }
 
     /**
@@ -112,7 +105,8 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
      * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
      * </ul>
      * <p>
-     * Secure processing is enabled by default and can be overridden with {@link StringLookupFactory#xmlStringLookup(Map, Path...)}.
+     * The document is parsed through Apache Commons Secure XML: processing limits are governed by {@link XMLConstants#FEATURE_SECURE_PROCESSING}, which is
+     * enabled by default, while external DTD subsets and external entities are blocked outright and cannot be re-enabled.
      * </p>
      *
      * @param key The key to be looked up, may be null.
@@ -130,21 +124,14 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
         }
         final String documentPath = keys[0];
         final String xpath = StringUtils.substringAfterLast(key, SPLIT_CH);
-        // The secure factory installs a non-removable resolver floor that ignores the JAXP access properties,
-        // so the documented opt-outs keep a plain factory: a feature map without secure processing, or the
-        // standard javax.xml.accessExternalDTD system property re-allowing external access.
-        final boolean secure = Boolean.TRUE.equals(xmlFactoryFeatures.get(XMLConstants.FEATURE_SECURE_PROCESSING))
-                && StringUtils.isEmpty(System.getProperty("javax.xml.accessExternalDTD"));
-        final DocumentBuilderFactory dbFactory = secure ? SecureDocumentBuilderFactory.newInstance() : DocumentBuilderFactory.newInstance();
+        final DocumentBuilderFactory dbFactory = SecureDocumentBuilderFactory.newInstance();
         try {
             for (final Entry<String, Boolean> p : xmlFactoryFeatures.entrySet()) {
                 dbFactory.setFeature(p.getKey(), p.getValue());
             }
             try (InputStream inputStream = Files.newInputStream(getPath(documentPath))) {
                 final Document doc = dbFactory.newDocumentBuilder().parse(inputStream);
-                final XPathFactory xpFactory = Boolean.TRUE.equals(xPathFactoryFeatures.get(XMLConstants.FEATURE_SECURE_PROCESSING))
-                        ? SecureXPathFactory.newInstance()
-                        : XPathFactory.newInstance();
+                final XPathFactory xpFactory = SecureXPathFactory.newInstance();
                 for (final Entry<String, Boolean> p : xPathFactoryFeatures.entrySet()) {
                     xpFactory.setFeature(p.getKey(), p.getValue());
                 }

@@ -1627,8 +1627,10 @@ public final class StringLookupFactory {
      * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
      * </ul>
      * <p>
-     * Secure processing is enabled by default and can be overridden with the system property {@code "XmlStringLookup.secure"} set to {@code false}. The secure
-     * boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}.
+     * Documents are parsed through Apache Commons Secure XML, which secures two separate aspects. Processing limits, such as the number of entity expansions,
+     * come from {@link javax.xml.XMLConstants#FEATURE_SECURE_PROCESSING}, which is enabled by default and can be turned off through the factory features.
+     * External DTD subsets and external entities are blocked by an entity resolver rather than by a feature, so neither a feature nor a JAXP
+     * {@code javax.xml.accessExternal*} property can re-enable them.
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
@@ -1652,7 +1654,7 @@ public final class StringLookupFactory {
      * @since 1.5
      */
     public StringLookup xmlStringLookup() {
-        return fences != null ? xmlStringLookup(XmlStringLookup.DEFAULT_XPATH_FEATURES, fences) : XmlStringLookup.INSTANCE;
+        return fences != null ? xmlStringLookup(Collections.emptyMap(), fences) : XmlStringLookup.INSTANCE;
     }
 
     /**
@@ -1671,8 +1673,10 @@ public final class StringLookupFactory {
      * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
      * </ul>
      * <p>
-     * Secure processing is enabled by default and can be overridden with the system property {@code "XmlStringLookup.secure"} set to {@code false}. The secure
-     * boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}.
+     * Documents are parsed through Apache Commons Secure XML, which secures two separate aspects. Processing limits, such as the number of entity expansions,
+     * come from {@link javax.xml.XMLConstants#FEATURE_SECURE_PROCESSING}, which is enabled by default and can be turned off through the factory features.
+     * External DTD subsets and external entities are blocked by an entity resolver rather than by a feature, so neither a feature nor a JAXP
+     * {@code javax.xml.accessExternal*} property can re-enable them.
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
@@ -1718,7 +1722,10 @@ public final class StringLookupFactory {
      * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
      * </ul>
      * <p>
-     * Secure processing is enabled by default and can be overridden with this constructor.
+     * Documents are parsed through Apache Commons Secure XML, which secures two separate aspects. Processing limits, such as the number of entity expansions,
+     * come from {@link javax.xml.XMLConstants#FEATURE_SECURE_PROCESSING}, which is enabled by default and can be turned off through the factory features.
+     * External DTD subsets and external entities are blocked by an entity resolver rather than by a feature, so neither a feature nor a JAXP
+     * {@code javax.xml.accessExternal*} property can re-enable them.
      * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory} fenced by the current directory ({@code Paths.get("")}):
