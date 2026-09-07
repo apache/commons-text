@@ -74,7 +74,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Jeff Lenamon, Gary Gregory">StringMatcher.isMatch(CharSequence, int, int, int) forwards bufferEnd as bufferStart (#768).</action>
       <!-- ADD -->
       <!-- UPDATE -->
-      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 93 to 104.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 93 to 105.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump the level of test coverage checks.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io:commons-io from 2.21.0 to 2.22.0.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">[test] Bump commons.bytebuddy.version from 1.18.2 to 1.18.13 #734.</action>
