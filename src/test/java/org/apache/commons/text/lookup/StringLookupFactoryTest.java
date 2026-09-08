@@ -22,6 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -292,6 +295,11 @@ class StringLookupFactoryTest {
     }
 
     @Test
+    void testXmlStringLookupEmptyPaths() {
+        XmlStringLookupTest.assertLookup(StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP, new Path[0]));
+    }
+
+    @Test
     void testXmlStringLookupExternalEntityOff() {
         XmlStringLookupTest.assertDoesNotLeak(
                 () -> StringLookupFactory.INSTANCE.xmlStringLookup().apply(XmlStringLookupTest.DOC_DIR + "document-entity-ref.xml:/document/content"),
@@ -304,4 +312,36 @@ class StringLookupFactoryTest {
         final String key = XmlStringLookupTest.DOC_DIR + "document-entity-ref.xml:/document/content";
         assertEquals(XmlStringLookupTest.DATA, StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP).apply(key).trim());
     }
+    @Test
+    void testXmlStringLookupMultiplePaths() {
+        final Path documentPath = Paths.get(XmlStringLookupTest.DOC_DIR);
+        final Path otherPath = Paths.get("src/main");
+        XmlStringLookupTest.assertLookup(StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP, otherPath, documentPath));
+        XmlStringLookupTest.assertLookup(StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP, documentPath, otherPath));
+    }
+
+    @Test
+    void testXmlStringLookupNullFeatures() {
+        assertThrows(NullPointerException.class, () -> StringLookupFactory.INSTANCE.xmlStringLookup(null, Paths.get(XmlStringLookupTest.DOC_DIR)));
+    }
+
+    @Test
+    void testXmlStringLookupNullPaths() {
+        XmlStringLookupTest.assertLookup(StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP, (Path[]) null));
+    }
+
+    @Test
+    void testXmlStringLookupOutsidePaths() {
+        final StringLookup lookup = StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP, Paths.get("src/main"));
+        assertThrows(IllegalArgumentException.class, () -> lookup.apply(XmlStringLookupTest.DOC_DIR + "document.xml:/root/path/to/node"));
+    }
+
+    @Test
+    void testXmlStringLookupPaths() {
+        final Path documentPath = Paths.get(XmlStringLookupTest.DOC_DIR);
+        final Map<String, Boolean> features = Collections.singletonMap(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+        XmlStringLookupTest.assertLookup(StringLookupFactory.INSTANCE.xmlStringLookup(features, documentPath));
+        XmlStringLookupTest.assertLookup(StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP, documentPath));
+    }
+
 }
