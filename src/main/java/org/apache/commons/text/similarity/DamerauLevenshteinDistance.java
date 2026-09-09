@@ -16,6 +16,8 @@
  */
 package org.apache.commons.text.similarity;
 
+import java.util.Objects;
+
 /**
  * An algorithm for measuring the difference between two character sequences using the
  * <a href="https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance">Damerau-Levenshtein Distance</a>.
@@ -32,7 +34,7 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
 
     private static <E> int calculateCost(final SimilarityInput<E> left, final SimilarityInput<E> right, final int leftIndex, final int rightIndex,
             final int[] curr, final int[] prev, final int[] prevPrev) {
-        final int cost = left.at(leftIndex - 1) == right.at(rightIndex - 1) ? 0 : 1;
+        final int cost = Objects.equals(left.at(leftIndex - 1), right.at(rightIndex - 1)) ? 0 : 1;
         // Select cheapest operation
         int value = Math.min(
                 Math.min(
@@ -44,8 +46,8 @@ public class DamerauLevenshteinDistance implements EditDistance<Integer> {
         // Check if adjacent characters are the same -> transpose if cheaper
         if (leftIndex > 1
                 && rightIndex > 1
-                && left.at(leftIndex - 1) == right.at(rightIndex - 2)
-                && left.at(leftIndex - 2) == right.at(rightIndex - 1)) {
+                && Objects.equals(left.at(leftIndex - 1), right.at(rightIndex - 2))
+                && Objects.equals(left.at(leftIndex - 2), right.at(rightIndex - 1))) {
             // Use cost here, to properly handle two subsequent equal letters
             value = Math.min(value, prevPrev[rightIndex - 2] + cost);
         }

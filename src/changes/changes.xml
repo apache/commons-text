@@ -70,19 +70,22 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" issue="TEXT-241" due-to="Javid Khan, Gary Gregory">TextStringBuilder.lastIndexOf("") and StrBuilder.lastIndexOf("") return incorrect index for empty string (size - 1 instead of size) (#763).</action>
       <action type="fix" dev="ggregory" issue="TEXT-242" due-to="Maksym Korshun">StringSubstitutorReader can now substitute variables with a suffix longer than one characters (#764).</action>
       <action type="fix" dev="ggregory" due-to="Javid Khan, Gary Gregory">Fix ArrayIndexOutOfBoundsException in DnsStringLookup for '|' key (#765).</action>
+      <action type="fix" dev="ggregory" due-to="Weiki, Gary Gregory">Compare characters by value in DamerauLevenshteinDistance (#770).</action>
+      <action type="fix" dev="ggregory" due-to="Jeff Lenamon, Gary Gregory">StringMatcher.isMatch(CharSequence, int, int, int) forwards bufferEnd as bufferStart (#768).</action>
       <action type="fix" dev="pkarwasz" due-to="Piotr P. Karwasz, Gary Gregory">XmlStringLookup resolves relative system identifiers against the XML document, instead of the current working directory.</action>
       <!-- ADD -->
       <action type="add" dev="pkarwasz" due-to="Piotr P. Karwasz, Gary Gregory">XmlStringLookup creates its XML parser and XPath factories through Commons Secure XML.</action>
       <action type="add" dev="pkarwasz" due-to="Piotr P. Karwasz, Gary Gregory">XmlStringLookup resolves external DTD subsets and entities from its Path fences.</action>
       <!-- UPDATE -->
-      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 93 to 104.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 93 to 105.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump the level of test coverage checks.</action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump commons.bytebuddy.version from 1.18.2 to 1.18.10 #734.</action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons.bytebuddy.version from 1.18.4 to 1.18.7.</action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump graalvm.version from 25.0.1 to 25.0.2 #738.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io:commons-io from 2.21.0 to 2.22.0.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">[test] Bump commons.bytebuddy.version from 1.18.2 to 1.18.13 #734.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">[test] Bump commons.bytebuddy.version from 1.18.4 to 1.18.7.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">[test] Bump graalvm.version from 25.0.1 to 25.0.2 #738.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">[test] Bump org.apache.commons:commons-rng-simple from 1.6 to 1.7.</action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory">[test] Bump graalvm.version from 25.0.2 to 25.1.3 on Java 22 and up.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">[test] Bump org.graalvm.js:js from 25.0.2 to 25.3.4.1 on Java 22 and up.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">[test] Bump org.graalvm.js:js-scriptengine from 25.0.2 to 25.3.4.1 on Java 22 and up.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">[test] Bump org.apache.commons:commons-collections4 from 4.5.0 to 4.6.0.</action>
     </release>
     <release version="1.15.0" date="2025-12-04" description="Release 1.15.0. This is a feature and maintenance release. Java 8 or later is required.">
