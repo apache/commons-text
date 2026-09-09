@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -105,6 +106,13 @@ class PathFenceResolverTest {
     }
 
     @Test
+    void testMalformedSystemIdIsRefused(@TempDir final Path tempDir) {
+        // An unencoded space is illegal in a URI, so the identifier never becomes a path.
+        final SAXException e = assertThrows(SAXException.class, () -> resolver(tempDir).resolveEntity(null, "file:/a b/entity.txt"));
+        assertInstanceOf(URISyntaxException.class, e.getCause());
+    }
+
+    @Test
     void testNullFence() {
         assertThrows(NullPointerException.class, () -> new PathFenceResolver(null));
     }
@@ -143,5 +151,14 @@ class PathFenceResolverTest {
         final Path target = write(tempDir.resolve("entity.txt"), DATA);
         final String systemId = target.toUri().toString();
         assertEquals(systemId, resolver(tempDir).resolveEntity(null, systemId).getSystemId());
+    }
+
+    @Test
+    void testUnconvertibleFileUrlIsRefused(@TempDir final Path tempDir) {
+        // A well-formed 'file:' URI that names no path: opaque, and carrying a fragment.
+        final SAXException opaque = assertThrows(SAXException.class, () -> resolver(tempDir).resolveEntity(null, "file:entity.txt"));
+        assertInstanceOf(IllegalArgumentException.class, opaque.getCause());
+        final SAXException fragment = assertThrows(SAXException.class, () -> resolver(tempDir).resolveEntity(null, "file:/entity.txt#frag"));
+        assertInstanceOf(IllegalArgumentException.class, fragment.getCause());
     }
 }
