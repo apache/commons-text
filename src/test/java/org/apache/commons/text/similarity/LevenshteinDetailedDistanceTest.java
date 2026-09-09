@@ -19,6 +19,10 @@ package org.apache.commons.text.similarity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import org.apache.commons.text.TextStringBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -477,6 +481,35 @@ class LevenshteinDetailedDistanceTest {
         actualResult = classBeingTested.apply("", "a");
         expectedResult = new LevenshteinResults(1, 1, 0, 0);
         assertEquals(expectedResult.toString(), actualResult.toString());
+    }
+
+    /**
+     * The detailed distance must equal {@link LevenshteinDistance} for the same pair, and the edit counts must sum to it.
+     */
+    @Test
+    void testDistanceAgreesWithLevenshteinDistance() {
+        final LevenshteinDistance plain = LevenshteinDistance.getDefaultInstance();
+        assertEquals(2, plain.apply("aba", "bab"));
+        assertEquals(2, UNLIMITED_DISTANCE.apply("aba", "bab").getDistance());
+        final List<String> corpus = new ArrayList<>();
+        final Random random = new Random(20260902L);
+        for (int i = 0; i < 120; i++) {
+            final StringBuilder builder = new StringBuilder();
+            final int length = random.nextInt(9);
+            for (int j = 0; j < length; j++) {
+                builder.append((char) ('a' + random.nextInt(3)));
+            }
+            corpus.add(builder.toString());
+        }
+        for (final String left : corpus) {
+            for (final String right : corpus) {
+                final LevenshteinResults results = UNLIMITED_DISTANCE.apply(left, right);
+                assertEquals(plain.apply(left, right), results.getDistance(), () -> "distance for [" + left + "] -> [" + right + "]");
+                assertEquals(results.getDistance().intValue(),
+                        results.getInsertCount() + results.getDeleteCount() + results.getSubstituteCount(),
+                        () -> "edit counts must sum to the distance for [" + left + "] -> [" + right + "]");
+            }
+        }
     }
 
 }
