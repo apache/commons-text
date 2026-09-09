@@ -20,7 +20,6 @@ package org.apache.commons.text.lookup;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -60,7 +59,7 @@ final class PathFenceResolver implements EntityResolver {
                         -1);
             }
             return Paths.get(uri);
-        } catch (final URISyntaxException | IllegalArgumentException | FileSystemNotFoundException e) {
+        } catch (final URISyntaxException | IllegalArgumentException e) {
             throw new SAXParseException("Failed to read external document '" + systemId + "'.", null, systemId, -1, -1, e);
         }
     }
