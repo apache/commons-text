@@ -16,11 +16,11 @@
      limitations under the License.
   -->
 <!DOCTYPE document [
-  <!ENTITY ext SYSTEM "src/test/resources/org/apache/commons/text/xml-entity.txt">
+  <!ENTITY ext SYSTEM "../xml-entity.txt">
 ]>
 <document>
-  <title>Example of an External Entity</title>
+  <title>External entity in the parent directory</title>
   <content>
-    &ext; 
+    &ext;
   </content>
 </document>

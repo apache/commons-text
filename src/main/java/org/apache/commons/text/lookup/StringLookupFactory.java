@@ -30,6 +30,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathFactory;
 
@@ -1614,8 +1615,19 @@ public final class StringLookupFactory {
     /**
      * Returns an XML StringLookup instance.
      * <p>
-     * If this factory was built using {@link Builder#setFences(Path...)}, then the string lookup is fenced and will throw an {@link IllegalArgumentException}
-     * if a lookup causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
+     * XML files are parsed using Commons Secure XML, which enables the {@link XMLConstants#FEATURE_SECURE_PROCESSING} processing limits and ignores external
+     * DTD subsets and entities by default.
+     * </p>
+     * <p>
+     * If this factory was built using {@link Builder#setFences}, then the string lookup is <strong>fenced</strong> and additional features are available:
+     * </p>
+     * <ul>
+     * <li>External DTD subsets and entities are enabled.</li>
+     * <li>The document and any external DTD subset or entity it references are read from within those fences, and a path resolving outside them throws an
+     * {@link IllegalArgumentException}.</li>
+     * </ul>
+     * <p>
+     * Every resource inside the fences is considered trusted, so fence only directories whose contents you control.
      * </p>
      * <p>
      * We looks up values in an XML document in the format {@code "DocumentPath:XPath"}.
@@ -1626,10 +1638,6 @@ public final class StringLookupFactory {
      * <ul>
      * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
      * </ul>
-     * <p>
-     * Secure processing is enabled by default and can be overridden with the system property {@code "XmlStringLookup.secure"} set to {@code false}. The secure
-     * boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}.
-     * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
@@ -1652,14 +1660,25 @@ public final class StringLookupFactory {
      * @since 1.5
      */
     public StringLookup xmlStringLookup() {
-        return fences != null ? xmlStringLookup(XmlStringLookup.DEFAULT_XPATH_FEATURES, fences) : XmlStringLookup.INSTANCE;
+        return fences != null ? xmlStringLookup(Collections.emptyMap(), fences) : XmlStringLookup.INSTANCE;
     }
 
     /**
      * Returns an XML StringLookup instance.
      * <p>
-     * If this factory was built using {@link Builder#setFences(Path...)}, then the string lookup is fenced and will throw an {@link IllegalArgumentException}
-     * if a lookup causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
+     * XML files are parsed using Commons Secure XML, which enables the {@link XMLConstants#FEATURE_SECURE_PROCESSING} processing limits, which
+     * {@code factoryFeatures} can turn back off, and ignores external DTD subsets and entities by default.
+     * </p>
+     * <p>
+     * If this factory was built using {@link Builder#setFences}, then the string lookup is <strong>fenced</strong> and additional features are available:
+     * </p>
+     * <ul>
+     * <li>External DTD subsets and entities are enabled.</li>
+     * <li>The document and any external DTD subset or entity it references are read from within those fences, and a path resolving outside them throws an
+     * {@link IllegalArgumentException}.</li>
+     * </ul>
+     * <p>
+     * Every resource inside the fences is considered trusted, so fence only directories whose contents you control.
      * </p>
      * <p>
      * We looks up values in an XML document in the format {@code "]DocumentPath:XPath"}.
@@ -1670,10 +1689,6 @@ public final class StringLookupFactory {
      * <ul>
      * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
      * </ul>
-     * <p>
-     * Secure processing is enabled by default and can be overridden with the system property {@code "XmlStringLookup.secure"} set to {@code false}. The secure
-     * boolean String parsing follows the syntax defined by {@link Boolean#parseBoolean(String)}.
-     * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory}:
      * </p>
@@ -1705,8 +1720,19 @@ public final class StringLookupFactory {
     /**
      * Returns a fenced XML StringLookup instance.
      * <p>
-     * If this factory was built using {@link Builder#setFences(Path...)}, then the string lookup is fenced and will throw an {@link IllegalArgumentException}
-     * if a lookup causes a path to resolve outside of these fences. Otherwise, the result is unfenced to preserved behavior from previous versions.
+     * XML files are parsed using Commons Secure XML, which enables the {@link XMLConstants#FEATURE_SECURE_PROCESSING} processing limits, which
+     * {@code factoryFeatures} can turn back off, and ignores external DTD subsets and entities by default.
+     * </p>
+     * <p>
+     * If the {@code fences} argument is not empty, then the string lookup is <strong>fenced</strong> and additional features are available:
+     * </p>
+     * <ul>
+     * <li>External DTD subsets and entities are enabled.</li>
+     * <li>The document and any external DTD subset or entity it references are read from within those fences, and a path resolving outside them throws an
+     * {@link IllegalArgumentException}.</li>
+     * </ul>
+     * <p>
+     * Every resource inside the fences is considered trusted, so fence only directories whose contents you control.
      * </p>
      * <p>
      * We looks up values in an XML document in the format {@code "DocumentPath:XPath"}.
@@ -1717,9 +1743,6 @@ public final class StringLookupFactory {
      * <ul>
      * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
      * </ul>
-     * <p>
-     * Secure processing is enabled by default and can be overridden with this constructor.
-     * </p>
      * <p>
      * Using a {@link StringLookup} from the {@link StringLookupFactory} fenced by the current directory ({@code Paths.get("")}):
      * </p>

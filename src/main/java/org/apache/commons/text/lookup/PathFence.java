@@ -94,7 +94,7 @@ final class PathFence {
      */
     Path apply(final String fileName) {
         final Path path = Paths.get(fileName);
-        if (roots.isEmpty()) {
+        if (isEmpty()) {
             return path;
         }
         final Path pathAbs = normalize(path);
@@ -103,6 +103,15 @@ final class PathFence {
             return path;
         }
         throw new IllegalArgumentException(String.format("[%s] -> [%s] not in the fence %s", fileName, pathAbs, roots));
+    }
+
+    /**
+     * Tests whether this fence has no roots, in which case {@link #apply(String)} lets every path through.
+     *
+     * @return whether this fence has no roots.
+     */
+    boolean isEmpty() {
+        return roots.isEmpty();
     }
 
     private Path normalize(final Path path) {
