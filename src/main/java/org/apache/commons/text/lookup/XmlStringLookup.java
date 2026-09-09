@@ -26,6 +26,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 
 import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathFactory;
 
@@ -51,9 +52,12 @@ import org.w3c.dom.Document;
  * <ul>
  * <li>Processing limits, such as the number of entity expansions, come from {@link XMLConstants#FEATURE_SECURE_PROCESSING}. That feature is enabled by
  * default, and the feature maps above can turn it off.</li>
- * <li>External resource fetching, that is external DTD subsets and external entities, is blocked by an entity resolver rather than by a feature. Neither a
- * feature nor a JAXP {@code javax.xml.accessExternal*} property can re-enable it.</li>
+ * <li>External resource fetching, that is external DTD subsets and external entities, is ignored by default and can <strong>not</strong> be enabled via the
+ * feature map. To enable external resource fetching, provide a non-empty list of <strong>fences</strong>.</li>
  * </ul>
+ * <p>
+ * Every resource inside the fences is considered trusted, so fence only directories whose contents you control.
+ * </p>
  *
  * @since 1.5
  */
@@ -65,9 +69,9 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
     private static final int KEY_PARTS_LEN = 2;
 
     /**
-     * Defines the singleton for this class, which sets no parser or XPath factory feature.
+     * Defines the singleton for this class, which sets no parser or XPath factory feature and has no fence.
      * <p>
-     * Use {@link StringLookupFactory#xmlStringLookup(Map, Path...)} to set features; external resource resolution is off anyway.
+     * Use {@link StringLookupFactory#xmlStringLookup(Map, Path...)} to set features and fences; without any fence, external resources are ignored.
      * </p>
      */
     static final XmlStringLookup INSTANCE = new XmlStringLookup(Collections.emptyMap(), Collections.emptyMap(), (Path[]) null);
@@ -105,8 +109,14 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
      * <li>{@code "com/domain/document.xml:/path/to/node"}</li>
      * </ul>
      * <p>
-     * The document is parsed through Apache Commons Secure XML: processing limits are governed by {@link XMLConstants#FEATURE_SECURE_PROCESSING}, which is
-     * enabled by default, while external DTD subsets and external entities are blocked outright and cannot be re-enabled.
+     * The document is parsed through Apache Commons Secure XML:
+     * </p>
+     * <ul>
+     * <li>Processing limits are governed by {@link XMLConstants#FEATURE_SECURE_PROCESSING}, which is enabled by default.</li>
+     * <li>External DTD subsets and external entities are resolved only from the fences guarding this lookup if these are not empty.</li>
+     * </ul>
+     * <p>
+     * Every resource inside the fences is considered trusted, so fence only directories whose contents you control.
      * </p>
      *
      * @param key The key to be looked up, may be null.
@@ -129,8 +139,15 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
             for (final Entry<String, Boolean> p : xmlFactoryFeatures.entrySet()) {
                 dbFactory.setFeature(p.getKey(), p.getValue());
             }
-            try (InputStream inputStream = Files.newInputStream(getPath(documentPath))) {
-                final Document doc = dbFactory.newDocumentBuilder().parse(inputStream);
+            final Path documentFile = getPath(documentPath);
+            try (InputStream inputStream = Files.newInputStream(documentFile)) {
+                final DocumentBuilder documentBuilder = dbFactory.newDocumentBuilder();
+                // If the fence is not empty, opt-in follow-up resources fetched from the fence.
+                if (!fence.isEmpty()) {
+                    documentBuilder.setEntityResolver(new PathFenceResolver(fence));
+                }
+                // Parsing with the document's own URI gives relative system identifiers a base URI to resolve against, as XML requires.
+                final Document doc = documentBuilder.parse(inputStream, documentFile.toUri().toString());
                 final XPathFactory xpFactory = SecureXPathFactory.newInstance();
                 for (final Entry<String, Boolean> p : xPathFactoryFeatures.entrySet()) {
                     xpFactory.setFeature(p.getKey(), p.getValue());

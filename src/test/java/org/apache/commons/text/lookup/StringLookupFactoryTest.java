@@ -34,7 +34,6 @@ import java.util.Set;
 
 import javax.xml.XMLConstants;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.DefaultLocale;
 
@@ -302,16 +301,18 @@ class StringLookupFactoryTest {
     @Test
     void testXmlStringLookupExternalEntityOff() {
         XmlStringLookupTest.assertDoesNotLeak(
-                () -> StringLookupFactory.INSTANCE.xmlStringLookup().apply(XmlStringLookupTest.DOC_DIR + "document-entity-ref.xml:/document/content"),
+                () -> StringLookupFactory.INSTANCE.xmlStringLookup().apply(XmlStringLookupTest.FENCE_DOCS + "document-entity-ref.xml:/document/content"),
                 XmlStringLookupTest.DATA);
     }
 
     @Test
-    @Disabled("External entities are blocked by Commons Secure XML through an entity resolver and can no longer be re-enabled.")
     void testXmlStringLookupExternalEntityOn() {
-        final String key = XmlStringLookupTest.DOC_DIR + "document-entity-ref.xml:/document/content";
-        assertEquals(XmlStringLookupTest.DATA, StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP).apply(key).trim());
+        // A fence opts the external entity in: it resolves inside the fence, one directory above the document.
+        final String key = XmlStringLookupTest.FENCE_DOCS + "document-entity-ref.xml:/document/content";
+        final StringLookup lookup = StringLookupFactory.INSTANCE.xmlStringLookup(XmlStringLookupTest.EMPTY_MAP, XmlStringLookupTest.FENCE_ROOT);
+        assertEquals(XmlStringLookupTest.DATA, lookup.apply(key).trim());
     }
+
     @Test
     void testXmlStringLookupMultiplePaths() {
         final Path documentPath = Paths.get(XmlStringLookupTest.DOC_DIR);

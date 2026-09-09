@@ -45,7 +45,6 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="1.15.1" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
-      <action type="fix" dev="pkarwasz" due-to="Piotr P. Karwasz, Gary Gregory">XmlStringLookup creates its XML parser and XPath factories through Commons Secure XML; external DTD subsets and entities are no longer resolved and cannot be re-enabled.</action>
       <action type="fix" dev="ggregory" due-to="Dominik Stadler, Gary Gregory">Improve test coverage #732.</action>
       <action type="fix" dev="ggregory" issue="TEXT-239" due-to="Dominik Stadler, Gary Gregory">TextStringBuilder.append(char[], int, int) uses wrong variable in exception message #735.</action>
       <action type="fix" dev="ggregory" due-to="Omkhar Arasaratnam, Gary Gregory">StrBuilder.readFrom(Readable) exposes stale internal buffer to Readable parameter (#741).</action>
@@ -72,6 +71,8 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" issue="TEXT-242" due-to="Maksym Korshun">StringSubstitutorReader can now substitute variables with a suffix longer than one characters (#764).</action>
       <action type="fix" dev="ggregory" due-to="Javid Khan, Gary Gregory">Fix ArrayIndexOutOfBoundsException in DnsStringLookup for '|' key (#765).</action>
       <!-- ADD -->
+      <action type="add" dev="pkarwasz" due-to="Piotr P. Karwasz, Gary Gregory">XmlStringLookup creates its XML parser and XPath factories through Commons Secure XML.</action>
+      <action type="add" dev="pkarwasz" due-to="Piotr P. Karwasz, Gary Gregory">XmlStringLookup resolves external DTD subsets and entities from its Path fences.</action>
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 93 to 104.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump the level of test coverage checks.</action>

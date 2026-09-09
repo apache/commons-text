@@ -15,9 +15,9 @@
      See the License for the specific language governing permissions and
      limitations under the License.
   -->
-<!DOCTYPE document SYSTEM "src/test/resources/org/apache/commons/text/document-external-dtd.dtd">
+<!DOCTYPE document SYSTEM "../document.dtd">
 <document>
-  <title>Example of an External Entity</title>
+  <title>External DTD subset in the parent directory</title>
   <content>
     &externalEntity;
   </content>
