@@ -1,0 +1,15 @@
+name: PPCH Cognitive Complexity Guard
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  ppch-guard:
+    runs-on: self-hosted
+    steps:
+      - uses: Manditha77/ppch-framework@main
+        with:
+          post-comment: "true"
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          sonar-host-url: "http://localhost:9000"
