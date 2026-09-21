@@ -7,6 +7,9 @@ on:
 jobs:
   ppch-guard:
     runs-on: self-hosted
+    permissions:
+      pull-requests: write
+      contents: read
     steps:
       - uses: Manditha77/ppch-framework@main
         with:
