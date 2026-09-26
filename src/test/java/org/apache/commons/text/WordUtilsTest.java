@@ -87,6 +87,17 @@ class WordUtilsTest {
     }
 
     @Test
+    void testAbbreviateSurrogatePairs() {
+        // an upper limit landing inside a surrogate pair must not leave a lone surrogate behind
+        assertEquals("\uD83D\uDE00", WordUtils.abbreviate("\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00", 0, 3, ""));
+        assertEquals("\uD83D\uDE00-", WordUtils.abbreviate("\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00", 0, 3, "-"));
+        // the same applies when the abbreviation stops short of a space
+        assertEquals("\uD83D\uDE00-", WordUtils.abbreviate("\uD83D\uDE00\uD83D\uDE00 0", 0, 3, "-"));
+        // an upper limit falling between two pairs is already whole and must be left alone
+        assertEquals("\uD83D\uDE00\uD83D\uDE00", WordUtils.abbreviate("\uD83D\uDE00\uD83D\uDE00\uD83D\uDE00", 0, 4, ""));
+    }
+
+    @Test
     void testAbbreviateUpperLessThanLowerValues() {
         assertThrows(IllegalArgumentException.class, () -> WordUtils.abbreviate("0123456789", 5, 2, ""));
     }
