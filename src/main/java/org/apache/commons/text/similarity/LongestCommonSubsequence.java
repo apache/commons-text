@@ -284,12 +284,16 @@ public class LongestCommonSubsequence implements SimilarityScore<Integer> {
      * @param left first character sequence.
      * @param right second character sequence.
      * @return longest common substring length array.
+     * @throws IllegalArgumentException if either String input {@code null}.
      * @deprecated Deprecated as of 1.10. A more efficient implementation for calculating LCS is now available.
      * Use {@link #longestCommonSubsequence(CharSequence, CharSequence)} instead to directly calculate the LCS.
      * This method will be removed in 2.0.
      */
     @Deprecated
     public int[][] longestCommonSubstringLengthArray(final CharSequence left, final CharSequence right) {
+        if (left == null || right == null) {
+            throw new IllegalArgumentException("Inputs must not be null");
+        }
         final int[][] lcsLengthArray = new int[left.length() + 1][right.length() + 1];
         for (int i = 0; i < left.length(); i++) {
             for (int j = 0; j < right.length(); j++) {
