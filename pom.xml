@@ -515,7 +515,7 @@
 		<jdk>[25,)</jdk>
 	  </activation>
       <properties>
-        <graalvm.version>25.3.4.1</graalvm.version>
+        <graalvm.version>25.4.4.1.1</graalvm.version>
         <commons.mockito.version>5.2.0</commons.mockito.version>
       </properties>
       <build>
