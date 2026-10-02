@@ -80,7 +80,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 93 to 105.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump the level of test coverage checks.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io:commons-io from 2.21.0 to 2.22.0.</action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">[test] Bump commons.bytebuddy.version from 1.18.2 to 1.18.13 #734.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">[test] Bump commons.bytebuddy.version from 1.18.2 to 1.18.14 #734, #776.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">[test] Bump commons.bytebuddy.version from 1.18.4 to 1.18.7.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">[test] Bump org.apache.commons:commons-rng-simple from 1.6 to 1.7.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">[test] Bump graalvm.version from 25.0.1 to 25.0.2 #738.</action>
