@@ -24,8 +24,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class CosineSimilarityTest {
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, Integer.MAX_VALUE, Integer.MIN_VALUE})
+    void testCosineSimilarityOfIdenticalVectors(final int value) {
+        final Map<CharSequence, Integer> vector = new HashMap<>();
+        vector.put("a", value);
+        vector.put("b", value);
+        vector.put("c", value);
+        assertEquals(1.0, CosineSimilarity.INSTANCE.cosineSimilarity(vector, vector), 1e-12);
+    }
 
     @Test
     void testCosineSimilarityReturningDoubleWhereByteValueIsZero() {
