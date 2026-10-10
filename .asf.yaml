@@ -16,6 +16,8 @@
 github:
   description: "Apache Commons Text"
   homepage: https://commons.apache.org/text/
+  autolink_jira:
+    - TEXT
   
   pull_requests:
     # allow auto-merge
