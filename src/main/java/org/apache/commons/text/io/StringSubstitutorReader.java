@@ -44,8 +44,14 @@ public class StringSubstitutorReader extends FilterReader {
     /** The end-of-stream character marker. */
     private static final int EOS = -1;
 
+    /** Maximum size of the buffer used to skip substituted characters. */
+    private static final int MAX_SKIP_BUFFER_SIZE = 2048;
+
     /** Our internal buffer. */
     private final TextStringBuilder buffer = new TextStringBuilder();
+
+    /** Whether this reader has been closed. */
+    private boolean closed;
 
     /** End-of-Stream flag. */
     private boolean eos;
@@ -75,6 +81,15 @@ public class StringSubstitutorReader extends FilterReader {
         this.stringSubstitutor = new StringSubstitutor(stringSubstitutor);
         this.prefixEscapeMatcher = StringMatcherFactory.INSTANCE.charMatcher(stringSubstitutor.getEscapeChar())
             .andThen(stringSubstitutor.getVariablePrefixMatcher());
+    }
+
+    @Override
+    public void close() throws IOException {
+        try {
+            super.close();
+        } finally {
+            closed = true;
+        }
     }
 
     /**
@@ -310,6 +325,34 @@ public class StringSubstitutorReader extends FilterReader {
     private int readCount(final int count, final int pos) {
         final int avail = buffer.size() - pos;
         return avail >= count ? 0 : count - avail;
+    }
+
+    /**
+     * Skips characters in the substituted output.
+     *
+     * @param count The number of characters to skip.
+     * @return The number of characters actually skipped.
+     * @throws IllegalArgumentException if {@code count} is negative.
+     * @throws IOException If an I/O error occurs.
+     */
+    @Override
+    public long skip(final long count) throws IOException {
+        if (count < 0) {
+            throw new IllegalArgumentException("Skip count must not be negative");
+        }
+        if (closed) {
+            throw new IOException("Stream closed");
+        }
+        final char[] skipBuffer = new char[(int) Math.min(count, MAX_SKIP_BUFFER_SIZE)];
+        long remaining = count;
+        while (remaining > 0) {
+            final int readCount = read(skipBuffer, 0, (int) Math.min(remaining, skipBuffer.length));
+            if (readCount == EOS) {
+                break;
+            }
+            remaining -= readCount;
+        }
+        return count - remaining;
     }
 
 }
