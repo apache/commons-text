@@ -19,6 +19,8 @@ package org.apache.commons.text.translate;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.apache.commons.lang3.CharUtils;
+
 /**
  * Translates escaped Unicode values of the form \\u+\d\d\d\d back to
  * Unicode. It supports multiple 'u' characters and will work with or
@@ -54,7 +56,12 @@ public class UnicodeUnescaper extends CharSequenceTranslator {
             if (index + i + 4 <= input.length()) {
                 // Get 4 hex digits
                 final CharSequence unicode = input.subSequence(index + i, index + i + 4);
-
+                // Integer.parseInt also accepts a leading sign, which is not a hex digit
+                for (int j = 0; j < unicode.length(); j++) {
+                    if (!CharUtils.isHex(unicode.charAt(j))) {
+                        throw new IllegalArgumentException("Unable to parse unicode value: " + unicode);
+                    }
+                }
                 try {
                     final int value = Integer.parseInt(unicode.toString(), 16);
                     writer.write((char) value);
