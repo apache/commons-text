@@ -285,6 +285,12 @@ public class StringSubstitutor {
     public static final StringMatcher DEFAULT_VALUE_DELIMITER = StringMatcherFactory.INSTANCE
         .stringMatcher(DEFAULT_VAR_DEFAULT);
 
+    /** Maximum variable-interpolation nesting depth; bounds deep nesting the cycle check does not. */
+    private static final int MAX_SUBSTITUTION_DEPTH = 256;
+
+    /** Maximum characters variable replacement may emit per top-level substitution; bounds acyclic fan-out. */
+    private static final int MAX_SUBSTITUTION_LENGTH = 16 * 1024 * 1024;
+
     /**
      * Creates a new instance using the interpolator string lookup
      * {@link StringLookupFactory#interpolatorStringLookup()}.
@@ -488,6 +494,12 @@ public class StringSubstitutor {
      * Stores the default variable value delimiter.
      */
     private StringMatcher valueDelimiterMatcher;
+
+    /** Current interpolation recursion depth. */
+    private int substitutionDepth;
+
+    /** Characters emitted by variable replacement in the current top-level substitution. */
+    private long substitutionLength;
 
     /**
      * Variable resolution is delegated to an implementor of {@link StringLookup}.
@@ -1419,9 +1431,37 @@ public class StringSubstitutor {
      * @param priorVariables The stack keeping track of the replaced variables, may be null.
      * @return The result.
      * @throws IllegalArgumentException if variable is not found and <code>isEnableUndefinedVariableException() == true</code>.
+     * @throws IllegalStateException    if interpolation exceeds {@value #MAX_SUBSTITUTION_DEPTH} nesting levels or emits
+     *                                  more than {@value #MAX_SUBSTITUTION_LENGTH} characters.
      * @since 1.9
      */
-    private Result substitute(final TextStringBuilder builder, final int offset, final int length, List<String> priorVariables) {
+    private Result substitute(final TextStringBuilder builder, final int offset, final int length, final List<String> priorVariables) {
+        if (substitutionDepth == 0) {
+            substitutionLength = 0;
+        }
+        if (substitutionDepth >= MAX_SUBSTITUTION_DEPTH) {
+            throw new IllegalStateException(
+                    "Maximum interpolation depth (" + MAX_SUBSTITUTION_DEPTH + ") exceeded in variable substitution");
+        }
+        substitutionDepth++;
+        try {
+            return substituteRecursive(builder, offset, length, priorVariables);
+        } finally {
+            substitutionDepth--;
+        }
+    }
+
+    /**
+     * Recursive body of {@link #substitute(TextStringBuilder, int, int, List)}.
+     *
+     * @param builder        The string builder to substitute into, not null.
+     * @param offset         The start offset within the builder, must be valid.
+     * @param length         The length within the builder to be processed, must be valid.
+     * @param priorVariables The stack keeping track of the replaced variables, may be null.
+     * @return The result.
+     * @throws IllegalArgumentException if variable is not found and <code>isEnableUndefinedVariableException() == true</code>.
+     */
+    private Result substituteRecursive(final TextStringBuilder builder, final int offset, final int length, List<String> priorVariables) {
         Objects.requireNonNull(builder, "builder");
         final StringMatcher prefixMatcher = getVariablePrefixMatcher();
         final StringMatcher suffixMatcher = getVariableSuffixMatcher();
@@ -1530,6 +1570,11 @@ public class StringSubstitutor {
                                 final int varLen = varValue.length();
                                 builder.replace(startPos, endPos, varValue);
                                 altered = true;
+                                substitutionLength += varLen;
+                                if (substitutionLength > MAX_SUBSTITUTION_LENGTH) {
+                                    throw new IllegalStateException("Maximum interpolation size (" + MAX_SUBSTITUTION_LENGTH
+                                            + " characters) exceeded in variable substitution");
+                                }
                                 int change = 0;
                                 if (!substitutionInValuesDisabled) { // recursive replace
                                     change = substitute(builder, startPos, varLen, priorVariables).lengthChange;
