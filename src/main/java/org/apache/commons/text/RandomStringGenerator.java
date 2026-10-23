@@ -393,11 +393,7 @@ public final class RandomStringGenerator {
     /**
      * Constructs the generator.
      *
-     * @param minimumCodePoint    smallest allowed code point (inclusive).
-     * @param maximumCodePoint    largest allowed code point (inclusive).
-     * @param inclusivePredicates filters for code points.
-     * @param random              source of randomness.
-     * @param characterSet       list of predefined set of characters.
+     * @param builder The builder.
      */
     private RandomStringGenerator(final Builder builder) {
         this.minimumCodePoint = builder.minimumCodePoint;
