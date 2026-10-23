@@ -53,69 +53,34 @@ public class LevenshteinDetailedDistance implements EditDistance<LevenshteinResu
         int subCount = 0;
         int rowIndex = right.length();
         int columnIndex = left.length();
-        int dataAtLeft = 0;
-        int dataAtTop = 0;
-        int dataAtDiagonal = 0;
-        int data = 0;
-        boolean deleted = false;
-        boolean added = false;
-        while (rowIndex >= 0 && columnIndex >= 0) {
-            if (columnIndex == 0) {
-                dataAtLeft = -1;
-            } else {
-                dataAtLeft = matrix[rowIndex][columnIndex - 1];
-            }
-            if (rowIndex == 0) {
-                dataAtTop = -1;
-            } else {
-                dataAtTop = matrix[rowIndex - 1][columnIndex];
-            }
-            if (rowIndex > 0 && columnIndex > 0) {
-                dataAtDiagonal = matrix[rowIndex - 1][columnIndex - 1];
-            } else {
-                dataAtDiagonal = -1;
-            }
-            if (dataAtLeft == -1 && dataAtTop == -1 && dataAtDiagonal == -1) {
-                break;
-            }
-            data = matrix[rowIndex][columnIndex];
-            // case in which the character at left and right are the same,
-            // in this case none of the counters will be incremented.
-            if (columnIndex > 0 && rowIndex > 0 && left.at(columnIndex - 1).equals(right.at(rowIndex - 1))) {
-                columnIndex--;
+        // Walk back from the last cell, taking only steps whose predecessor holds this cell's value less the step cost.
+        while (rowIndex > 0 || columnIndex > 0) {
+            final int data = matrix[rowIndex][columnIndex];
+            if (rowIndex > 0 && columnIndex > 0 && matrix[rowIndex - 1][columnIndex - 1] == data
+                    && left.at(columnIndex - 1).equals(right.at(rowIndex - 1))) {
                 rowIndex--;
-                continue;
-            }
-            // handling insert and delete cases.
-            deleted = false;
-            added = false;
-            if (data - 1 == dataAtLeft && data <= dataAtDiagonal && data <= dataAtTop || dataAtDiagonal == -1 && dataAtTop == -1) { // NOPMD
+                columnIndex--;
+            } else if (columnIndex > 0 && matrix[rowIndex][columnIndex - 1] == data - 1) {
                 columnIndex--;
                 if (swapped) {
                     addCount++;
-                    added = true;
                 } else {
                     delCount++;
-                    deleted = true;
                 }
-            } else if (data - 1 == dataAtTop && data <= dataAtDiagonal && data <= dataAtLeft || dataAtDiagonal == -1 && dataAtLeft == -1) { // NOPMD
+            } else if (rowIndex > 0 && matrix[rowIndex - 1][columnIndex] == data - 1) {
                 rowIndex--;
                 if (swapped) {
                     delCount++;
-                    deleted = true;
                 } else {
                     addCount++;
-                    added = true;
                 }
-            }
-            // substituted case
-            if (!added && !deleted) {
+            } else {
                 subCount++;
-                columnIndex--;
                 rowIndex--;
+                columnIndex--;
             }
         }
-        return new LevenshteinResults(addCount + delCount + subCount, addCount, delCount, subCount);
+        return new LevenshteinResults(matrix[right.length()][left.length()], addCount, delCount, subCount);
     }
 
     /**
