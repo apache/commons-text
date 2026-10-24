@@ -71,19 +71,19 @@ class LongestCommonSubsequenceTest {
     @Test
     @SuppressWarnings("deprecation")
     void testGettingLongestCommonSubstringLengthArrayNullNull() {
-        assertThrows(IllegalArgumentException.class, () -> subject.longestCommonSubstringLengthArray(null, null));
+        assertThrows(NullPointerException.class, () -> subject.longestCommonSubstringLengthArray(null, null));
     }
 
     @Test
     @SuppressWarnings("deprecation")
     void testGettingLongestCommonSubstringLengthArrayNullString() {
-        assertThrows(IllegalArgumentException.class, () -> subject.longestCommonSubstringLengthArray(null, "right"));
+        assertThrows(NullPointerException.class, () -> subject.longestCommonSubstringLengthArray(null, "right"));
     }
 
     @Test
     @SuppressWarnings("deprecation")
     void testGettingLongestCommonSubstringLengthArrayStringNull() {
-        assertThrows(IllegalArgumentException.class, () -> subject.longestCommonSubstringLengthArray(" ", null));
+        assertThrows(NullPointerException.class, () -> subject.longestCommonSubstringLengthArray(" ", null));
     }
 
     @Test
