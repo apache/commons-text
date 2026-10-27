@@ -107,6 +107,26 @@ class StringLookupFactoryTest {
     }
 
     @Test
+    void testFencedInterpolatorStringLookup() {
+        final StringLookupFactory stringLookupFactory = StringLookupFactory.builder().setFences(XmlStringLookupTest.FENCE_ROOT).get();
+        final String fileKey = "file:UTF-8:" + XmlStringLookupTest.DOC_DIR + "document.properties";
+        final String propertiesKey = "properties:" + XmlStringLookupTest.DOC_DIR + "document.properties::mykey";
+        final String xmlKey = "xml:" + XmlStringLookupTest.DOC_DIR + "document.xml:/root/path/to/node";
+        // Unfenced, the documents outside the fence resolve.
+        assertEquals("Hello World!", StringLookupFactory.INSTANCE.interpolatorStringLookup().apply(propertiesKey));
+        assertEquals("Hello World!", StringLookupFactory.INSTANCE.interpolatorStringLookup().apply(xmlKey));
+        // Fenced, the default lookups of every interpolator must reject them.
+        for (final StringLookup stringLookup : new StringLookup[] { stringLookupFactory.interpolatorStringLookup(),
+                stringLookupFactory.interpolatorStringLookup(Collections.emptyMap()),
+                stringLookupFactory.interpolatorStringLookup(StringLookupFactory.INSTANCE.nullStringLookup()),
+                stringLookupFactory.interpolatorStringLookup(Collections.emptyMap(), null, true) }) {
+            assertThrows(IllegalArgumentException.class, () -> stringLookup.apply(fileKey));
+            assertThrows(IllegalArgumentException.class, () -> stringLookup.apply(propertiesKey));
+            assertThrows(IllegalArgumentException.class, () -> stringLookup.apply(xmlKey));
+        }
+    }
+
+    @Test
     void testClear() {
         // this will clear out the global cache in ConstantStringLookup
         StringLookupFactory.clear();
