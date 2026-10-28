@@ -377,6 +377,7 @@ class StringEscapeUtilsTest {
         assertEquals("He\\ didn\\'t\\ say,\\ \\\"Stop!\\\"", escapeXSI("He didn't say, \"Stop!\""));
         assertEquals("\\\\", escapeXSI("\\"));
         assertEquals("", escapeXSI("\n"));
+        assertEquals("\\{report.txt,-delete}", escapeXSI("{report.txt,-delete}"));
     }
 
     @Test
@@ -605,5 +606,6 @@ class StringEscapeUtilsTest {
         assertEquals("He didn't say, \"Stop!\"", unescapeXSI("He\\ didn\\'t\\ say,\\ \\\"Stop!\\\""));
         assertEquals("\\", unescapeXSI("\\\\"));
         assertEquals("", unescapeXSI("\\"));
+        assertEquals("{report.txt,-delete}", unescapeXSI(escapeXSI("{report.txt,-delete}")));
     }
 }
