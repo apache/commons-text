@@ -835,6 +835,69 @@ public class StringSubstitutorTest {
     }
 
     /**
+     * Tests that an escape character at the end of a substituted value does not escape the next variable.
+     */
+    @Test
+    void testReplaceValueEndingWithEscape() throws IOException {
+        values.put("price", "5$");
+        doReplace("The price is 5$lazy dog.", "The price is ${price}${target}.", true);
+        values.put("animal", "$");
+        doReplace("The $lazy dog jumps over the $${target}.", "The ${animal}${target} jumps over the ${animal}$${target}.", true);
+    }
+
+    @Test
+    void testReplaceValueEndingWithEscapeCustomDelimiters() throws IOException {
+        values.put("price", "5!");
+        final StringSubstitutor sub = new StringSubstitutor(values, "<", ">", '!');
+        assertEquals("5!lazy dog", replace(sub, "<price><target>"));
+        assertEquals("5!<target>", replace(sub, "<price>!<target>"));
+    }
+
+    @Test
+    void testReplaceValueEndingWithEscapeDefaultValue() throws IOException {
+        doReplace("The price is 5$lazy dog.", "The price is ${price:-5$}${target}.", true);
+    }
+
+    @Test
+    void testReplaceValueEndingWithEscapeEmptyValue() throws IOException {
+        values.put("price", "5$");
+        values.put("empty", "");
+        doReplace("The price is 5$lazy dog.", "The price is ${price}${empty}${target}.", true);
+    }
+
+    @Test
+    void testReplaceValueEndingWithEscapeInVariableName() throws IOException {
+        values.put("prefix", "animal$");
+        values.put("suffix", "name");
+        values.put("animal$name", "fox");
+        final StringSubstitutor sub = new StringSubstitutor(values);
+        sub.setEnableSubstitutionInVariables(true);
+        assertEquals("fox", replace(sub, "${${prefix}${suffix}}"));
+    }
+
+    @Test
+    void testReplaceValueEndingWithEscapePreserved() throws IOException {
+        values.put("price", "5$");
+        values.put("escaped", "$${target}");
+        final StringSubstitutor sub = new StringSubstitutor(values);
+        sub.setPreserveEscapes(true);
+        assertEquals("5$lazy dog", replace(sub, "${price}${target}"));
+        assertEquals("5$$${target}", replace(sub, "${price}$${target}"));
+        assertEquals("$${target}lazy dog", replace(sub, "${escaped}${target}"));
+    }
+
+    @Test
+    void testReplaceValueEndingWithEscapeRecursive() throws IOException {
+        values.put("price", "5$");
+        values.put("recursive", "${price}");
+        values.put("inside", "${price}${target}");
+        values.put("escaped", "$${target}");
+        doReplace("The price is 5$lazy dog.", "The price is ${recursive}${target}.", true);
+        doReplace("The price is 5$lazy dog.", "The price is ${inside}.", true);
+        doReplace("The ${target}lazy dog.", "The ${escaped}${target}.", true);
+    }
+
+    /**
      * Tests simple key replace.
      */
     @Test
