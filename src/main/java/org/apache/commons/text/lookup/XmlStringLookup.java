@@ -91,6 +91,7 @@ final class XmlStringLookup extends AbstractPathFencedLookup {
      *
      * @param xmlFactoryFeatures   The {@link DocumentBuilderFactory} features to set.
      * @param xPathFactoryFeatures The {@link XPathFactory} features to set.
+     * @param fences               The path fences to allow external resource fetching.
      * @see DocumentBuilderFactory#setFeature(String, boolean)
      * @see XPathFactory#setFeature(String, boolean)
      */
