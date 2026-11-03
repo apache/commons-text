@@ -86,7 +86,7 @@ public class CosineSimilarity {
      * @return The dot product.
      */
     private double dot(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector, final Set<CharSequence> intersection) {
-        long dotProduct = 0;
+        double dotProduct = 0;
         for (final CharSequence key : intersection) {
             dotProduct += leftVector.get(key) * (long) rightVector.get(key);
         }
