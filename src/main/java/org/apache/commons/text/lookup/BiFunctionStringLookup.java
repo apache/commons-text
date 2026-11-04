@@ -81,7 +81,8 @@ final class BiFunctionStringLookup<P, R> implements BiStringLookup<P> {
      * toString().
      * </p>
      *
-     * @param key The key to be looked up, may be null.
+     * @param key    The key to be looked up, may be null.
+     * @param object The second argument passed to the function, may be null.
      * @return The function result as a string, may be null.
      */
     @Override
