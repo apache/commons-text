@@ -17,12 +17,15 @@
 package org.apache.commons.text.similarity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Tests {@link CosineSimilarity}.
@@ -63,6 +66,39 @@ class CosineDistanceTest {
         assertEquals(Double.valueOf(0.08d), roundValue(cosineDistance.apply(
                 "the boy was from tamana shi, kumamoto ken, and the girl was from rio de janeiro, rio",
                 "the boy was from tamana shi, kumamoto, and the boy was from rio de janeiro, rio de janeiro")));
+    }
+
+    /**
+     * Tests that the cosine distance stays within [0.0, 1.0].
+     */
+    @Test
+    void testCosineDistanceIsInRange() {
+        final String[] words = { "a", "b", "c", "d", "e", "f", "g" };
+        for (int leftSize = 1; leftSize <= 30; leftSize++) {
+            for (int shift = 0; shift < words.length; shift++) {
+                final StringBuilder left = new StringBuilder();
+                final StringBuilder right = new StringBuilder();
+                for (int i = 0; i < leftSize; i++) {
+                    left.append(words[i % words.length]).append(' ');
+                    right.append(words[(i * 3 + shift) % words.length]).append(' ');
+                }
+                final double identical = cosineDistance.apply(left, left.toString());
+                final double other = cosineDistance.apply(left, right);
+                assertTrue(identical >= 0.0 && identical <= 1.0, () -> "identical: " + identical + " for " + left);
+                assertTrue(other >= 0.0 && other <= 1.0, () -> "other: " + other + " for " + left + "/" + right);
+            }
+        }
+    }
+
+    /**
+     * Tests that identical inputs have a cosine distance of exactly 0.0.
+     *
+     * @param input the input compared to itself.
+     */
+    @ParameterizedTest
+    @ValueSource(strings = { "a", "a b", "a b c", "a b c d", "a b c d e f", "a b c d e f g h i j k l" })
+    void testCosineDistanceOfIdenticalInputsIsZero(final String input) {
+        assertEquals(0.0, cosineDistance.apply(input, input));
     }
 
 }

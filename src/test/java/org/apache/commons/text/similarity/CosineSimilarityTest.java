@@ -19,13 +19,49 @@ package org.apache.commons.text.similarity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class CosineSimilarityTest {
+
+    private static Map<CharSequence, Integer> vector(final int size, final int seed) {
+        final Map<CharSequence, Integer> map = new HashMap<>();
+        for (int i = 0; i < size; i++) {
+            map.put("t" + (i + seed), 1 + (i * 7 + seed) % 5);
+        }
+        return map;
+    }
+
+    @Test
+    void testCosineSimilarityIsInRange() {
+        for (int leftSize = 1; leftSize <= 20; leftSize++) {
+            for (int rightSize = 1; rightSize <= 20; rightSize++) {
+                for (int seed = 0; seed < 5; seed++) {
+                    final Map<CharSequence, Integer> left = vector(leftSize, seed);
+                    final double identical = CosineSimilarity.INSTANCE.cosineSimilarity(left, new HashMap<>(left));
+                    final double overlapping = CosineSimilarity.INSTANCE.cosineSimilarity(left, vector(rightSize, seed + 1));
+                    assertTrue(identical >= 0.0 && identical <= 1.0, () -> "identical: " + identical + " for " + left);
+                    assertTrue(overlapping >= 0.0 && overlapping <= 1.0, () -> "overlapping: " + overlapping + " for " + left);
+                }
+            }
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = { 1, 2, 3, 6, 12 })
+    void testCosineSimilarityOfIdenticalVectorsIsOne(final int size) {
+        final Map<CharSequence, Integer> map = new HashMap<>();
+        for (int i = 0; i < size; i++) {
+            map.put("t" + i, 1);
+        }
+        assertEquals(1.0, CosineSimilarity.INSTANCE.cosineSimilarity(map, new HashMap<>(map)));
+    }
 
     @Test
     void testCosineSimilarityReturningDoubleWhereByteValueIsZero() {
