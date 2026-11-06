@@ -363,6 +363,7 @@ public class StringEscapeUtils {
         escapeXsiMap.put("*", "\\*");
         escapeXsiMap.put("?", "\\?");
         escapeXsiMap.put("[", "\\[");
+        escapeXsiMap.put("{", "\\{");
         escapeXsiMap.put("#", "\\#");
         escapeXsiMap.put("~", "\\~");
         escapeXsiMap.put("=", "\\=");
