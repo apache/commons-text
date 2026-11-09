@@ -234,6 +234,35 @@ public class StringSubstitutorTest {
         assertThrows(IllegalStateException.class, () -> StringSubstitutor.replace("Hi <name>.", map, "<", ">"));
     }
 
+    @Test
+    void testDetectsDeepNesting() {
+        final Map<String, String> map = new HashMap<>();
+        for (int i = 0; i < 400; i++) {
+            map.put("v" + i, "${v" + (i + 1) + "}");
+        }
+        map.put("v400", "x");
+        final StringSubstitutor sub = new StringSubstitutor(map);
+        assertThrows(IllegalStateException.class, () -> sub.replace("${v0}"));
+        // Shallow nesting still resolves after the failure; the counters reset per call.
+        assertEquals("x", sub.replace("${v398}"));
+    }
+
+    @Test
+    void testDetectsExponentialFanOut() {
+        // Acyclic fan-out: no variable repeats on the stack, so the cycle check never fires.
+        // Full expansion would be 10^6 leaves * 8 KiB = ~8 GiB.
+        final Map<String, String> map = new HashMap<>();
+        map.put("a6", StringUtils.repeat("x", 8192));
+        for (int level = 5; level >= 0; level--) {
+            final StringBuilder value = new StringBuilder();
+            for (int i = 0; i < 10; i++) {
+                value.append("${a").append(level + 1).append("}");
+            }
+            map.put("a" + level, value.toString());
+        }
+        assertThrows(IllegalStateException.class, () -> new StringSubstitutor(map).replace("${a0}"));
+    }
+
     /**
      * Tests get set.
      */
