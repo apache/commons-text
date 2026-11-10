@@ -38,8 +38,27 @@ class CosineSimilarityTest {
         return map;
     }
 
+    private static Map<CharSequence, Integer> negate(final Map<CharSequence, Integer> vector) {
+        final Map<CharSequence, Integer> map = new HashMap<>();
+        vector.forEach((key, value) -> map.put(key, -value));
+        return map;
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = { 1, 2, 3, 6, 12 })
+    void testCosineSimilarityOfIdenticalVectorsIsOne(final int size) {
+        final Map<CharSequence, Integer> map = new HashMap<>();
+        for (int i = 0; i < size; i++) {
+            map.put("t" + i, 1);
+        }
+        assertEquals(1.0, CosineSimilarity.INSTANCE.cosineSimilarity(map, new HashMap<>(map)));
+    }
+
+    /**
+     * Tests that non-negative vectors, such as the token counts built by {@link CosineDistance}, have a similarity within [0.0, 1.0].
+     */
     @Test
-    void testCosineSimilarityIsInRange() {
+    void testCosineSimilarityOfNonNegativeVectorsIsInRange() {
         for (int leftSize = 1; leftSize <= 20; leftSize++) {
             for (int rightSize = 1; rightSize <= 20; rightSize++) {
                 for (int seed = 0; seed < 5; seed++) {
@@ -53,14 +72,25 @@ class CosineSimilarityTest {
         }
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = { 1, 2, 3, 6, 12 })
-    void testCosineSimilarityOfIdenticalVectorsIsOne(final int size) {
-        final Map<CharSequence, Integer> map = new HashMap<>();
-        for (int i = 0; i < size; i++) {
-            map.put("t" + i, 1);
+    /**
+     * Tests that signed vectors keep negative similarities, within [-1.0, 1.0].
+     */
+    @Test
+    void testCosineSimilarityOfSignedVectors() {
+        final Map<CharSequence, Integer> positive = new HashMap<>();
+        positive.put("x", 1);
+        assertEquals(-1.0, CosineSimilarity.INSTANCE.cosineSimilarity(positive, negate(positive)));
+        for (int leftSize = 1; leftSize <= 20; leftSize++) {
+            for (int rightSize = 1; rightSize <= 20; rightSize++) {
+                for (int seed = 0; seed < 5; seed++) {
+                    final Map<CharSequence, Integer> left = vector(leftSize, seed);
+                    final Map<CharSequence, Integer> right = negate(vector(rightSize, seed + 1));
+                    assertEquals(-1.0, CosineSimilarity.INSTANCE.cosineSimilarity(left, negate(left)), () -> "negated: " + left);
+                    final double opposite = CosineSimilarity.INSTANCE.cosineSimilarity(left, right);
+                    assertTrue(opposite >= -1.0 && opposite <= 0.0, () -> "opposite: " + opposite + " for " + left + "/" + right);
+                }
+            }
         }
-        assertEquals(1.0, CosineSimilarity.INSTANCE.cosineSimilarity(map, new HashMap<>(map)));
     }
 
     @Test
