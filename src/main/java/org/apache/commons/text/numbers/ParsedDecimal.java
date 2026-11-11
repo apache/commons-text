@@ -632,7 +632,7 @@ final class ParsedDecimal {
         final int digitAfterLast = digits[count];
 
         return digitAfterLast > ROUND_CENTER || digitAfterLast == ROUND_CENTER
-                && (count < digitCount - 1 || digits[count - 1] % 2 != 0);
+                && (count < digitCount - 1 || (count > 0 && digits[count - 1] % 2 != 0));
     }
 
     /**
