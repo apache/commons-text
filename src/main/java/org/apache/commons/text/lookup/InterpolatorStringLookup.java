@@ -69,10 +69,23 @@ final class InterpolatorStringLookup extends AbstractStringLookup {
      */
     InterpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup,
             final boolean addDefaultLookups) {
+        this(stringLookupMap, defaultStringLookup, addDefaultLookups, StringLookupFactory.INSTANCE);
+    }
+
+    /**
+     * Constructs a fully customized instance.
+     *
+     * @param stringLookupMap The map of string lookups.
+     * @param defaultStringLookup The default string lookup.
+     * @param addDefaultLookups whether the default lookups should be used.
+     * @param factory The factory providing the default lookups, and their Path fences.
+     */
+    InterpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup,
+            final boolean addDefaultLookups, final StringLookupFactory factory) {
         this.defaultStringLookup = defaultStringLookup;
         this.stringLookupMap = stringLookupMap.entrySet().stream().collect(Collectors.toMap(e -> StringLookupFactory.toKey(e.getKey()), Entry::getValue));
         if (addDefaultLookups) {
-            StringLookupFactory.INSTANCE.addDefaultStringLookups(this.stringLookupMap);
+            factory.addDefaultStringLookups(this.stringLookupMap);
         }
     }
 
