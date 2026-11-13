@@ -402,7 +402,7 @@ public final class RandomStringGenerator {
     private RandomStringGenerator(final Builder builder) {
         this.minimumCodePoint = builder.minimumCodePoint;
         this.maximumCodePoint = builder.maximumCodePoint;
-        this.inclusivePredicates = builder.inclusivePredicates;
+        this.inclusivePredicates = builder.inclusivePredicates != null ? new HashSet<>(builder.inclusivePredicates) : null;
         this.random = builder.random;
         this.characterList = new ArrayList<>(builder.characterSet);
     }
