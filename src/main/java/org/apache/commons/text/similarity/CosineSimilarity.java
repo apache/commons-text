@@ -70,7 +70,8 @@ public class CosineSimilarity {
         if (d1 <= 0.0 || d2 <= 0.0) {
             cosineSimilarity = 0.0;
         } else {
-            cosineSimilarity = dotProduct / (Math.sqrt(d1) * Math.sqrt(d2));
+            // A single sqrt is exact for identical vectors; the clamp absorbs remaining rounding error.
+            cosineSimilarity = Math.min(1.0, dotProduct / Math.sqrt(d1 * d2));
         }
         return cosineSimilarity;
     }
