@@ -1434,6 +1434,9 @@ public class StringSubstitutor {
         boolean altered = false;
         int lengthChange = 0;
         int bufEnd = offset + length;
+        // An escape character is honored when it lies in the range being substituted, or immediately before it: the character just before the range is the
+        // one that prefixes the first position of the range, so dropping it there would substitute a variable the caller escaped.
+        final int escStart = offset > 0 ? offset - 1 : offset;
         int pos = offset;
         int escPos = -1;
         outer: while (pos < bufEnd) {
@@ -1442,7 +1445,7 @@ public class StringSubstitutor {
                 pos++;
             } else {
                 // found variable start marker
-                if (pos > offset && builder.charAt(pos - 1) == escapeCh) {
+                if (pos > escStart && builder.charAt(pos - 1) == escapeCh) {
                     // escape detected
                     if (preserveEscapes) {
                         // keep escape
