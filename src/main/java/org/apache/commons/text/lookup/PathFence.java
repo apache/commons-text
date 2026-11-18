@@ -17,6 +17,8 @@
 
 package org.apache.commons.text.lookup;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -27,6 +29,10 @@ import java.util.stream.Collectors;
 
 /**
  * A Path fence guards against using paths outside of a "fence" of made of root paths.
+ *
+ * <p>
+ * Roots and the path under test are resolved to their real locations, so a symbolic link inside a fence cannot escape it.
+ * </p>
  *
  * Keep package-private.
  */
@@ -114,8 +120,28 @@ final class PathFence {
         return roots.isEmpty();
     }
 
+    /**
+     * Resolves the deepest existing ancestor with {@link Path#toRealPath(java.nio.file.LinkOption...)} and re-attaches the remaining segments.
+     *
+     * @param path The path to resolve.
+     * @return The real path, absolute and normalized.
+     * @throws IllegalArgumentException if the path exists but cannot be resolved.
+     */
     private Path normalize(final Path path) {
-        return path.toAbsolutePath().normalize();
+        final Path absolute = path.toAbsolutePath().normalize();
+        Path existing = absolute;
+        while (existing != null && !Files.exists(existing)) {
+            existing = existing.getParent();
+        }
+        if (existing == null) {
+            return absolute;
+        }
+        try {
+            final Path real = existing.toRealPath();
+            return existing.equals(absolute) ? real : real.resolve(existing.relativize(absolute)).normalize();
+        } catch (final IOException e) {
+            throw new IllegalArgumentException(String.format("[%s] cannot be resolved to a real path", path), e);
+        }
     }
 
 }
