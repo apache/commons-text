@@ -672,6 +672,12 @@ public final class StringLookupFactory {
     public void addDefaultStringLookups(final Map<String, StringLookup> stringLookupMap) {
         if (stringLookupMap != null) {
             stringLookupMap.putAll(DefaultStringLookupsHolder.INSTANCE.getDefaultStringLookups());
+            if (fences != null) {
+                // The defaults are unfenced singletons, replace them with lookups guarded by our fences.
+                stringLookupMap.replace(toKey(KEY_FILE), DefaultStringLookup.FILE.getStringLookup(), fileStringLookup(fences));
+                stringLookupMap.replace(toKey(KEY_PROPERTIES), DefaultStringLookup.PROPERTIES.getStringLookup(), propertiesStringLookup(fences));
+                stringLookupMap.replace(toKey(KEY_XML), DefaultStringLookup.XML.getStringLookup(), xmlStringLookup(Collections.emptyMap(), fences));
+            }
         }
     }
 
@@ -1031,7 +1037,7 @@ public final class StringLookupFactory {
      * @return The default {@link InterpolatorStringLookup}.
      */
     public StringLookup interpolatorStringLookup() {
-        return InterpolatorStringLookup.INSTANCE;
+        return fences != null ? interpolatorStringLookup(Collections.emptyMap(), mapStringLookup(null), true) : InterpolatorStringLookup.INSTANCE;
     }
 
     /**
@@ -1048,7 +1054,7 @@ public final class StringLookupFactory {
      */
     public StringLookup interpolatorStringLookup(final Map<String, StringLookup> stringLookupMap, final StringLookup defaultStringLookup,
             final boolean addDefaultLookups) {
-        return new InterpolatorStringLookup(stringLookupMap, defaultStringLookup, addDefaultLookups);
+        return new InterpolatorStringLookup(stringLookupMap, defaultStringLookup, addDefaultLookups, this);
     }
 
     /**
@@ -1060,7 +1066,7 @@ public final class StringLookupFactory {
      * @return A new InterpolatorStringLookup.
      */
     public <V> StringLookup interpolatorStringLookup(final Map<String, V> map) {
-        return new InterpolatorStringLookup(map);
+        return interpolatorStringLookup(mapStringLookup(map));
     }
 
     /**
@@ -1071,7 +1077,7 @@ public final class StringLookupFactory {
      * @return A new InterpolatorStringLookup.
      */
     public StringLookup interpolatorStringLookup(final StringLookup defaultStringLookup) {
-        return new InterpolatorStringLookup(defaultStringLookup);
+        return interpolatorStringLookup(Collections.emptyMap(), defaultStringLookup, true);
     }
 
     /**
