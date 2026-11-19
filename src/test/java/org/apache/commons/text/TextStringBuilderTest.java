@@ -1437,6 +1437,50 @@ class TextStringBuilderTest {
     }
 
     @Test
+    void testLastIndexOf_String_int_MatchStartingAtStartIndex() {
+        assertEquals(2, new TextStringBuilder("abab").lastIndexOf("ab", 2));
+        assertEquals(4, new TextStringBuilder("bbbaaaaa").lastIndexOf("aa", 4));
+        assertEquals(2, new TextStringBuilder("a,b,c").lastIndexOf("b,c", 2));
+        assertEquals(9, new TextStringBuilder("key=value=x").lastIndexOf("=x", 9));
+
+        final TextStringBuilder sb = new TextStringBuilder("abab");
+        assertEquals(1, sb.lastIndexOf("ba", 1));
+        assertEquals(2, sb.lastIndexOf("ab", 3));
+        assertEquals(2, sb.lastIndexOf("ab", 5));
+        assertEquals(2, sb.lastIndexOf("ab", sb.length()));
+        assertEquals(0, sb.lastIndexOf("ab", 0));
+        assertEquals(-1, sb.lastIndexOf("ba", 0));
+        assertEquals(-1, sb.lastIndexOf("ab", -1));
+
+        assertEquals(4, sb.lastIndexOf("", 5));
+        assertEquals(4, sb.lastIndexOf("", sb.length()));
+        assertEquals(2, sb.lastIndexOf("", 2));
+        assertEquals(0, sb.lastIndexOf("", 0));
+        assertEquals(-1, sb.lastIndexOf("", -1));
+
+        assertEquals(-1, sb.lastIndexOf("ababa", 4));
+        assertEquals(-1, sb.lastIndexOf("ababa", 10));
+        assertEquals(-1, sb.lastIndexOf((String) null, 10));
+        assertEquals(-1, sb.lastIndexOf((String) null, -1));
+    }
+
+    @Test
+    void testLastIndexOf_String_int_MatchesJdk() {
+        final String[] samples = {"", "a", "abab", "aaaa", "bbbaaaaa", "a,b,c", "key=value=x", "abcabcab"};
+        final String[] searches = {"", "a", "b", "ab", "aa", "ba", "b,c", "=x", "abc", "cab", "zz", "abcabcabc"};
+        for (final String s : samples) {
+            final TextStringBuilder sb = new TextStringBuilder(s);
+            for (final String x : searches) {
+                for (int i = -1; i <= s.length() + 1; i++) {
+                    final int startIndex = i;
+                    assertEquals(s.lastIndexOf(x, startIndex), sb.lastIndexOf(x, startIndex),
+                        () -> "\"" + s + "\".lastIndexOf(\"" + x + "\", " + startIndex + ")");
+                }
+            }
+        }
+    }
+
+    @Test
     void testLastIndexOf_StringMatcher() {
         final TextStringBuilder sb = new TextStringBuilder();
         assertEquals(-1, sb.lastIndexOf((StringMatcher) null));

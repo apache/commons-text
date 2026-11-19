@@ -29,6 +29,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.text.matcher.StringMatcher;
 
 /**
@@ -2402,34 +2403,8 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
      * @param startIndex The index to start at, invalid index rounded to edge.
      * @return The last index of the string, or -1 if not found.
      */
-    public int lastIndexOf(final String str, int startIndex) {
-        startIndex = Math.min(startIndex, size);
-        if (str == null || startIndex < 0) {
-            return StringUtils.INDEX_NOT_FOUND;
-        }
-        final int strLen = str.length();
-        if (strLen == 0) {
-            return startIndex;
-        }
-        if (startIndex >= size) {
-            startIndex = size - 1;
-        }
-        if (strLen > size) {
-            return StringUtils.INDEX_NOT_FOUND;
-        }
-        if (strLen == 1) {
-            return lastIndexOf(str.charAt(0), startIndex);
-        }
-        for (int i = startIndex - strLen + 1; i >= 0; i--) {
-            boolean found = true;
-            for (int j = 0; j < strLen && found; j++) {
-                found = str.charAt(j) == buffer[i + j];
-            }
-            if (found) {
-                return i;
-            }
-        }
-        return StringUtils.INDEX_NOT_FOUND;
+    public int lastIndexOf(final String str, final int startIndex) {
+        return Strings.CS.lastIndexOf(this, str, startIndex);
     }
 
     /**
