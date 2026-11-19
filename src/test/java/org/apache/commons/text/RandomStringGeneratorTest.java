@@ -78,6 +78,17 @@ class RandomStringGeneratorTest {
     }
 
     @Test
+    void testChangeOfFilterAfterGet() {
+        final RandomStringGenerator.Builder builder = RandomStringGenerator.builder().withinRange('a', 'z');
+        final RandomStringGenerator generator = builder.filteredBy(A_FILTER).get();
+        builder.filteredBy(B_FILTER).get();
+        final String str = generator.generate(100);
+        for (final char c : str.toCharArray()) {
+            assertEquals('a', c);
+        }
+    }
+
+    @Test
     void testGenerateMinMaxLength() {
         final int minLength = 0;
         final int maxLength = 3;
