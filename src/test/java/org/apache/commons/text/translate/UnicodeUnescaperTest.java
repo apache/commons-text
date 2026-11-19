@@ -35,6 +35,14 @@ class UnicodeUnescaperTest {
     }
 
     @Test
+    void testSignNotHexDigit() {
+        final UnicodeUnescaper escaper = new UnicodeUnescaper();
+        assertThrows(IllegalArgumentException.class, () -> escaper.translate("\\u-03C"));
+        assertThrows(IllegalArgumentException.class, () -> escaper.translate("\\u++03C"));
+        assertThrows(IllegalArgumentException.class, () -> escaper.translate("\\u+-03C"));
+    }
+
+    @Test
     void testTooShort() {
         assertThrows(IllegalArgumentException.class, () -> new UnicodeUnescaper().translate("\\u"));
     }
