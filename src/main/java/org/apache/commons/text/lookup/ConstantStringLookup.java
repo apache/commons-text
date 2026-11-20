@@ -17,6 +17,8 @@
 
 package org.apache.commons.text.lookup;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -96,7 +98,7 @@ class ConstantStringLookup extends AbstractStringLookup {
      * @throws ClassNotFoundException if the class cannot be loaded.
      */
     protected Class<?> fetchClass(final String className) throws ClassNotFoundException {
-        return ClassUtils.getClass(className);
+        return ClassUtils.getClass(className, false);
     }
 
     /**
@@ -143,7 +145,7 @@ class ConstantStringLookup extends AbstractStringLookup {
      *
      * @param className The name of the class.
      * @param fieldName The name of the member field of that class to read.
-     * @return The field's value.
+     * @return The field's value, or null if the field is not static final.
      * @throws ReflectiveOperationException if an error occurs.
      */
     protected Object resolveField(final String className, final String fieldName) throws ReflectiveOperationException {
@@ -151,6 +153,11 @@ class ConstantStringLookup extends AbstractStringLookup {
         if (clazz == null) {
             return null;
         }
-        return clazz.getField(fieldName).get(null);
+        final Field field = clazz.getField(fieldName);
+        final int modifiers = field.getModifiers();
+        if (!Modifier.isStatic(modifiers) || !Modifier.isFinal(modifiers)) {
+            return null;
+        }
+        return field.get(null);
     }
 }
