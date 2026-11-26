@@ -1083,6 +1083,43 @@ public class StringSubstitutorTest {
         assertEqualsCharSeq("value $${escaped}", replace(sub, org));
     }
 
+    /**
+     * An escape character that directly precedes the first position of the range being substituted must still escape the variable, whether the range starts
+     * at the beginning of the builder or not.
+     */
+    @Test
+    void testSubstituteEscapeAtStartOfRange() {
+        final Map<String, String> map = new HashMap<>();
+        map.put("user", "fred");
+        map.put("a", "A");
+        final StringSubstitutor sub = new StringSubstitutor(map, "${", "}", '~');
+
+        // The whole builder.
+        final TextStringBuilder whole = new TextStringBuilder("~${user}");
+        assertTrue(sub.replaceIn(whole));
+        assertEqualsCharSeq("${user}", whole.toString());
+
+        // Only the escaped variable, so the escape character sits immediately before the substituted range.
+        final TextStringBuilder range = new TextStringBuilder("~${user}");
+        assertTrue(sub.replaceIn(range, 1, range.length() - 1));
+        assertEqualsCharSeq("${user}", range.toString());
+
+        // Same text, same result, when the escaped variable is followed by an unescaped one.
+        final TextStringBuilder rangeWithTail = new TextStringBuilder("~${a} and ${a}");
+        assertTrue(sub.replaceIn(rangeWithTail, 1, rangeWithTail.length() - 1));
+        assertEqualsCharSeq("${a} and A", rangeWithTail.toString());
+
+        // An escape character inside the range keeps working as before.
+        final TextStringBuilder inside = new TextStringBuilder("x~${user}");
+        assertTrue(sub.replaceIn(inside, 1, inside.length() - 1));
+        assertEqualsCharSeq("x${user}", inside.toString());
+
+        // An escape character before the range that is not the variable's own escape is left alone.
+        final TextStringBuilder unrelated = new TextStringBuilder("x~y${user}");
+        assertTrue(sub.replaceIn(unrelated, 2, unrelated.length() - 2));
+        assertEqualsCharSeq("x~yfred", unrelated.toString());
+    }
+
     @Test
     void testToString() {
         final StringSubstitutor s = new StringSubstitutor(null, "prefix", "suffix");
