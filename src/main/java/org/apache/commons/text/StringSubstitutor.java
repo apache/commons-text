@@ -198,6 +198,12 @@ import org.apache.commons.text.matcher.StringMatcherFactory;
  * "The variable $${${name}} must be used."
  * </pre>
  * <p>
+ * An escape character at the end of a substituted value does not escape a following variable reference in the containing text.
+ * For example, if {@code price} is {@code 5$} and {@code item} is {@code X}, then {@code ${price}${item}} becomes {@code 5$X}.
+ * This also applies to default values and recursive substitutions. Escape characters before variable references within a value
+ * are processed when that value is recursively substituted.
+ * </p>
+ * <p>
  * In some complex scenarios you might even want to perform substitution in the names of variables, for instance
  * </p>
  *
@@ -1436,13 +1442,15 @@ public class StringSubstitutor {
         int bufEnd = offset + length;
         int pos = offset;
         int escPos = -1;
+        // an escape character must come from the text being scanned, not from the end of a substituted value
+        int escapeStart = offset;
         outer: while (pos < bufEnd) {
             final int startMatchLen = prefixMatcher.isMatch(builder, pos, offset, bufEnd);
             if (startMatchLen == 0) {
                 pos++;
             } else {
                 // found variable start marker
-                if (pos > offset && builder.charAt(pos - 1) == escapeCh) {
+                if (pos > escapeStart && builder.charAt(pos - 1) == escapeCh) {
                     // escape detected
                     if (preserveEscapes) {
                         // keep escape
@@ -1536,6 +1544,7 @@ public class StringSubstitutor {
                                 }
                                 change = change + varLen - (endPos - startPos);
                                 pos += change;
+                                escapeStart = pos;
                                 bufEnd += change;
                                 lengthChange += change;
                             } else if (undefinedVariableException) {
