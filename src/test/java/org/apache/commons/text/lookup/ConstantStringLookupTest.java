@@ -17,6 +17,7 @@
 package org.apache.commons.text.lookup;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.awt.event.KeyEvent;
@@ -32,6 +33,22 @@ import org.junit.jupiter.api.Test;
  * </p>
  */
 class ConstantStringLookupTest {
+
+    /**
+     * A class whose static initializer records that it ran.
+     */
+    public static class InitializerFixture {
+
+        static {
+            initializerRan = true;
+        }
+    }
+
+    /** Whether {@link InitializerFixture} has been initialized. */
+    static boolean initializerRan;
+
+    /** A public static field that is not final, so not a constant. */
+    public static String nonFinalField = "Non final field";
 
     /** A public field that can be read by the lookup. */
     public static final String FIELD = "Field that can be read";
@@ -103,6 +120,23 @@ class ConstantStringLookupTest {
         final String expected = Integer.toString(KeyEvent.VK_ESCAPE);
         assertEquals(expected, stringLookup.apply(ref), "Wrong result of first lookup");
         assertEquals(expected, stringLookup.apply(ref), "Wrong result of 2nd lookup");
+    }
+
+    /**
+     * Tests that a missing field does not initialize the class.
+     */
+    @Test
+    void testLookupNonExistingDoesNotInitializeClass() {
+        assertNull(stringLookup.apply(InitializerFixture.class.getName() + ".NO_FIELD"), "Non null return value for non existing constant");
+        assertFalse(initializerRan, "Class initialized for a non existing constant");
+    }
+
+    /**
+     * Tests resolving a static field that is not final. Because the lookup only reads constants this should yield null.
+     */
+    @Test
+    void testLookupNonFinal() {
+        assertNull(stringLookup.apply(variable("nonFinalField")), "Non null return value for non final field");
     }
 
     /**
