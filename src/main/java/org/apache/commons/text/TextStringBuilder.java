@@ -1774,9 +1774,9 @@ public class TextStringBuilder implements CharSequence, Appendable, Serializable
         if (isEmpty() || length == 0 || target.length == 0) {
             return 0;
         }
-        final int actualLen = Math.min(Math.min(size, length), target.length - targetIndex);
-        getChars(startIndex, actualLen, target, targetIndex);
-        delete(startIndex, actualLen);
+        final int actualLen = Math.min(Math.min(size - startIndex, length), target.length - targetIndex);
+        getChars(startIndex, startIndex + actualLen, target, targetIndex);
+        delete(startIndex, startIndex + actualLen);
         return actualLen;
     }
 

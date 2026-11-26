@@ -884,6 +884,36 @@ class TextStringBuilderTest {
     }
 
     @Test
+    void testDrainCharsIntIntCharArrayIntNonZeroStartIndex() {
+        final String data = "junit";
+        final TextStringBuilder sb = new TextStringBuilder(data);
+        final char[] array = new char[data.length()];
+        Arrays.fill(array, '-');
+        // drain a range that does not start at index 0
+        assertEquals(2, sb.drainChars(2, 4, array, 0));
+        assertArrayEquals("ni---".toCharArray(), array);
+        assertEquals("jut", sb.toString());
+        // drain a range that runs to the end
+        sb.set(data);
+        Arrays.fill(array, '-');
+        assertEquals(2, sb.drainChars(3, 5, array, 1));
+        assertArrayEquals("-it--".toCharArray(), array);
+        assertEquals("jun", sb.toString());
+        // drain more than there is after the start index
+        sb.set(data);
+        Arrays.fill(array, '-');
+        assertEquals(3, sb.drainChars(2, sb.length() + 10, array, 0));
+        assertArrayEquals("nit--".toCharArray(), array);
+        assertEquals("ju", sb.toString());
+        // drain more than can fit after the target index
+        sb.set(data);
+        Arrays.fill(array, '-');
+        assertEquals(2, sb.drainChars(1, 5, array, 3));
+        assertArrayEquals("---un".toCharArray(), array);
+        assertEquals("jit", sb.toString());
+    }
+
+    @Test
     void testEndsWith() {
         final TextStringBuilder sb = new TextStringBuilder();
         assertFalse(sb.endsWith("a"));
