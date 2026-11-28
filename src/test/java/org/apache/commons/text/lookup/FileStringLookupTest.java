@@ -31,6 +31,8 @@ import java.nio.file.Paths;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.io.TempDir;
 
 /**
@@ -152,6 +154,19 @@ public class FileStringLookupTest {
         final String expectedString = readDocumentFixtureString();
         final FileStringLookup fileStringLookup = new FileStringLookup(Paths.get("target/.."));
         assertEquals(expectedString, fileStringLookup.apply("UTF-8:src/test/resources/org/apache/commons/text/document.properties"));
+    }
+
+    @Test
+    @DisabledOnOs(OS.WINDOWS)
+    void testFenceSymbolicLinkParentTraversal(@TempDir final Path tempDir) throws Exception {
+        // POSIX resolves ".." after following a symbolic link, while the fence normalizes ".." lexically. With an in-fence link to the fence root,
+        // "fence/a/b/link/../secret.txt" is checked as "fence/a/b/secret.txt" but, unless the checked path is the one opened, reads "secret.txt" outside.
+        final Path fence = Files.createDirectories(tempDir.resolve("fence"));
+        Files.write(tempDir.resolve("secret.txt"), "secret".getBytes(StandardCharsets.UTF_8));
+        final Path dir = Files.createDirectories(fence.resolve("a/b"));
+        Files.createSymbolicLink(dir.resolve("link"), fence);
+        final FileStringLookup fileStringLookup = new FileStringLookup(fence);
+        assertThrows(IllegalArgumentException.class, () -> fileStringLookup.apply("UTF-8:" + dir.resolve("link/../secret.txt")));
     }
 
     @Test

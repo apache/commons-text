@@ -89,7 +89,7 @@ final class PathFence {
      * Gets a Path for the given file name checking that it resolves within our fence.
      *
      * @param fileName The file name to resolve.
-     * @return A fenced Path.
+     * @return A fenced Path, absolute and normalized if this fence is not empty.
      * @throws IllegalArgumentException if the file name is not without our fence.
      */
     Path apply(final String fileName) {
@@ -100,7 +100,8 @@ final class PathFence {
         final Path pathAbs = normalize(path);
         final Optional<Path> first = roots.stream().filter(pathAbs::startsWith).findFirst();
         if (first.isPresent()) {
-            return path;
+            // Return the path that was checked: the OS resolves ".." after following symbolic links, so the original path can escape the fence.
+            return pathAbs;
         }
         throw new IllegalArgumentException(String.format("[%s] -> [%s] not in the fence %s", fileName, pathAbs, roots));
     }
