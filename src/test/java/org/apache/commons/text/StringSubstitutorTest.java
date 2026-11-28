@@ -596,6 +596,22 @@ public class StringSubstitutorTest {
     }
 
     /**
+     * Tests that an escaped variable is not substituted when substitution in variable names is enabled.
+     */
+    @Test
+    void testReplaceInVariableEscaped() throws IOException {
+        values.put("1", "one");
+        values.put("12", "twelve");
+        final StringSubstitutor sub = new StringSubstitutor(values);
+        sub.setEnableSubstitutionInVariables(true);
+        assertEqualsCharSeq("${1}", replace(sub, "$${${a}}"));
+        assertEqualsCharSeq("${1} 1", replace(sub, "$${${a}} ${a}"));
+        assertEqualsCharSeq("${12}", replace(sub, "$${${a}${b}}"));
+        assertEqualsCharSeq("${1:-x}", replace(sub, "$${${a}:-x}"));
+        assertEqualsCharSeq("The ${1} jumps over the lazy dog.", replace(sub, "The $${${a}} jumps over the ${target}."));
+    }
+
+    /**
      * Tests when no variable name.
      */
     @Test

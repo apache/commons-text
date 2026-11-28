@@ -1475,7 +1475,9 @@ public class StringSubstitutor {
                                 final boolean escapedVariableStartsWithNestedPrefix = prefixMatcher.isMatch(builder, startPos + startMatchLen, offset,
                                         bufEnd) != 0;
                                 final boolean hasOuterSuffix = hasLaterSuffix(builder, pos + endMatchLen, offset, bufEnd, suffixMatcher);
-                                pos = escapedVariableStartsWithNestedPrefix && !hasOuterSuffix ? escPos : startPos + 1;
+                                // With substitution in variables enabled, the suffix found is already the balanced one, so rescanning
+                                // from the escape would substitute the escaped variable itself.
+                                pos = !substitutionInVariablesEnabled && escapedVariableStartsWithNestedPrefix && !hasOuterSuffix ? escPos : startPos + 1;
                                 // delete escape
                                 builder.deleteCharAt(escPos);
                                 escPos = -1;
